@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易無視防禦計算機</title>
+    <style>
+        body {
+            font-family: "微軟正黑體", "Helvetica Neue", sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 850px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        h1 {
+            width: 100%;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        .hint {
+            width: 100%;
+            font-size: 13px;
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        /* 左側：自訂輸入區 (雙排) */
+        .left-panel {
+            flex: 2;
+            min-width: 350px;
+            background-color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e1e4e8;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 20px;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .input-group label {
+            font-size: 14px;
+            color: #333;
+        }
+        .input-group input {
+            width: 70px;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        /* 右側：套裝與計算區 */
+        .right-panel {
+            flex: 1;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .set-box {
+            background-color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e1e4e8;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .radio-group label {
+            cursor: pointer;
+        }
+        .calc-btn {
+            background-color: #0052cc;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .calc-btn:hover {
+            background-color: #003d99;
+        }
+        .result-box {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0052cc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>簡易無視防禦計算機</h1>
+    <div class="hint">雙排無視請先自行加總，HEXA屬性有BUG會有些一點誤差可自行驗證 (PRO遊戲</div>
+
+    <div class="left-panel">
+        <div class="section-title">自訂數值輸入區</div>
+        <div class="grid-container" id="equip-grid">
+            </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="set-box">
+            <div class="section-title">航海師套組 (單選)</div>
+            <div class="radio-group">
+                <label><input type="radio" name="absolab" value="0" checked> 無</label>
+                <label><input type="radio" name="absolab" value="3"> 4set (3%)</label>
+                <label><input type="radio" name="absolab" value="6"> 6set (6%)</label>
+                <label><input type="radio" name="absolab" value="10"> 7set (10%)</label>
+            </div>
+        </div>
+
+        <div class="set-box">
+            <div class="section-title">神秘冥界幽靈套組 (單選)</div>
+            <div class="radio-group">
+                <label><input type="radio" name="arcane" value="0" checked> 無</label>
+                <label><input type="radio" name="arcane" value="4"> 1set (4%)</label>
+                <label><input type="radio" name="arcane" value="8"> 2set (8%)</label>
+                <label><input type="radio" name="arcane" value="12"> 4set (12%)</label>
+            </div>
+        </div>
+
+        <button class="calc-btn" onclick="calculate()">計算總無視防禦</button>
+        <div class="result-box" id="result-display">總無視防禦：0.00%</div>
+    </div>
+</div>
+
+<script>
+    // 18 個裝備清單 (與你的 Python 版完全一致)
+    const equipments = [
+        "帽子", "套服", "手套", "鞋子", "護肩", "腰帶", "披風", "副武", "三武",
+        "苦痛的根源", "支配者墜飾", "巨大的恐怖", "被詛咒的魔島書", "HEXA屬性", "活動", "預留1", "預留2", "預留3"
+    ];
+
+    // 動態生成左側雙排輸入框
+    const grid = document.getElementById('equip-grid');
+    equipments.forEach(equip => {
+        const group = document.createElement('div');
+        group.className = 'input-group';
+        
+        const label = document.createElement('label');
+        label.textContent = equip + " :";
+        
+        const input = document.createElement('input');
+        input.type = 'text'; 
+        input.id = 'input-' + equip;
+        
+        group.appendChild(label);
+        group.appendChild(input);
+        grid.appendChild(group);
+    });
+
+    // 核心計算函數
+    function calculate() {
+        let values = [];
+
+        // 1. 處理左側：自訂輸入的裝備數值
+        equipments.forEach(equip => {
+            const inputVal = document.getElementById('input-' + equip).value.trim();
+            if (inputVal) {
+                // 將全形逗號、頓號替換為半形逗號，並用逗號切割
+                let parts = inputVal.replace(/[，、]/g, ',').split(',');
+                
+                parts.forEach(p => {
+                    // 濾除所有非數字和小數點的字元 (完美解決中文輸入法干擾問題)
+                    let cleanP = p.replace(/[^\d.]/g, ''); 
+                    if (cleanP !== "" && !isNaN(cleanP)) {
+                        values.push(parseFloat(cleanP));
+                    }
+                });
+            }
+        });
+
+        // 2 & 3. 處理套裝：航海師與神秘冥界幽靈 (先相加)
+        const absolabVal = parseFloat(document.querySelector('input[name="absolab"]:checked').value);
+        const arcaneVal = parseFloat(document.querySelector('input[name="arcane"]:checked').value);
+        
+        const setEffectSum = absolabVal + arcaneVal;
+        
+        // 把套裝的「總和」當作一個獨立來源加入計算
+        if (setEffectSum > 0) {
+            values.push(setEffectSum);
+        }
+
+        // 4. 套用無視防禦公式計算: 1 - (1 - A) * (1 - B) * ...
+        let multiplier = 1.0;
+        values.forEach(v => {
+            multiplier *= (1.0 - (v / 100.0));
+        });
+
+        let totalIgnore = (1.0 - multiplier) * 100.0;
+
+        // 顯示最終結果
+        document.getElementById('result-display').innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+    }
+</script>
+
+</body>
+</html>
