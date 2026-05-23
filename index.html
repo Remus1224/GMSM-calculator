@@ -233,16 +233,16 @@
         <div class="panel">
             <div class="section-title">目前屬性狀態 (剩餘 10 次機會)</div>
             <div class="hexa-inputs">
-                <div><label>主屬性 (A)</label><input type="number" id="reset-a" min="0" max="10" value="0"></div>
-                <div><label>附屬性 (B)</label><input type="number" id="reset-b" min="0" max="10" value="0"></div>
-                <div><label>附屬性 (C)</label><input type="number" id="reset-c" min="0" max="10" value="0"></div>
+                <div><label>主屬性 (A)</label><input type="number" id="reset-a" min="0" max="10" value=""></div>
+                <div><label>附屬性 (B)</label><input type="number" id="reset-b" min="0" max="10" value=""></div>
+                <div><label>附屬性 (C)</label><input type="number" id="reset-c" min="0" max="10" value=""></div>
             </div>
             
             <div class="target-divider"></div>
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
-                <div><label>目標主屬 >=</label><input type="number" id="reset-target-a" min="0" max="10" value="8"></div>
-                <div><label>目標附屬 >=</label><input type="number" id="reset-target-sub" min="0" max="10" value="10"></div>
+                <div><label>目標主屬 >=</label><input type="number" id="reset-target-a" min="0" max="10" value=""></div>
+                <div><label>目標附屬 >=</label><input type="number" id="reset-target-sub" min="0" max="10" value=""></div>
             </div>
 
             <div class="btn-group">
@@ -264,18 +264,18 @@
             
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">📍 目前狀態</div>
             <div class="hexa-inputs">
-                <div><label>主屬 (A)</label><input type="number" id="sim-a" min="0" max="10" value="0"></div>
-                <div><label>附屬 (B)</label><input type="number" id="sim-b" min="0" max="10" value="0"></div>
-                <div><label>附屬 (C)</label><input type="number" id="sim-c" min="0" max="10" value="0"></div>
-                <div><label>剩餘次數</label><input type="number" id="sim-rolls" min="1" max="20" value="20"></div>
+                <div><label>主屬 (A)</label><input type="number" id="sim-a" min="0" max="10" value=""></div>
+                <div><label>附屬 (B)</label><input type="number" id="sim-b" min="0" max="10" value=""></div>
+                <div><label>附屬 (C)</label><input type="number" id="sim-c" min="0" max="10" value=""></div>
+                <div><label>剩餘次數</label><input type="number" id="sim-rolls" min="1" max="20" value=""></div>
             </div>
 
             <div class="target-divider"></div>
             
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
-                <div><label>目標主屬 >=</label><input type="number" id="target-a" min="0" max="10" value="8"></div>
-                <div><label>目標附屬 >=</label><input type="number" id="target-sub" min="0" max="10" value="10"></div>
+                <div><label>目標主屬 >=</label><input type="number" id="target-a" min="0" max="10" value=""></div>
+                <div><label>目標附屬 >=</label><input type="number" id="target-sub" min="0" max="10" value=""></div>
             </div>
 
             <label class="checkbox-label" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
@@ -311,21 +311,21 @@
     }
 
     function clearReset() {
-        document.getElementById('reset-a').value = '0';
-        document.getElementById('reset-b').value = '0';
-        document.getElementById('reset-c').value = '0';
-        document.getElementById('reset-target-a').value = '8';
-        document.getElementById('reset-target-sub').value = '10';
+        document.getElementById('reset-a').value = '';
+        document.getElementById('reset-b').value = '';
+        document.getElementById('reset-c').value = '';
+        document.getElementById('reset-target-a').value = '';
+        document.getElementById('reset-target-sub').value = '';
         document.getElementById('result-hexa-reset-container').style.display = 'none';
     }
 
     function clearSim() {
-        document.getElementById('sim-a').value = '0';
-        document.getElementById('sim-b').value = '0';
-        document.getElementById('sim-c').value = '0';
-        document.getElementById('sim-rolls').value = '20';
-        document.getElementById('target-a').value = '8';
-        document.getElementById('target-sub').value = '10';
+        document.getElementById('sim-a').value = '';
+        document.getElementById('sim-b').value = '';
+        document.getElementById('sim-c').value = '';
+        document.getElementById('sim-rolls').value = '';
+        document.getElementById('target-a').value = '';
+        document.getElementById('target-sub').value = '';
         document.getElementById('sim-stoploss').checked = true;
         document.getElementById('result-hexa-sim').style.display = 'none';
     }
