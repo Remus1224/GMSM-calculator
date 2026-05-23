@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易無視防禦計算機</title>
+    <title>楓之谷 工具整合平台</title>
     <style>
         body {
             font-family: "微軟正黑體", "Helvetica Neue", sans-serif;
@@ -36,95 +36,109 @@
             font-size: 13px;
             color: #7f8c8d;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
+        
+        /* 分頁導覽列樣式 */
+        .tab-menu {
+            width: 100%;
+            display: flex;
+            border-bottom: 2px solid #e1e4e8;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .tab-menu button {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .tab-menu button:hover {
+            color: #3498db;
+        }
+        .tab-menu button.active {
+            color: #0052cc;
+            border-bottom: 3px solid #0052cc;
+            margin-bottom: -2px;
+        }
+        .tab-content {
+            display: none;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* 共用區塊樣式 */
         .section-title {
             font-weight: bold;
             color: #444;
             margin-bottom: 15px;
             border-bottom: 2px solid #eee;
             padding-bottom: 5px;
+            width: 100%;
         }
-        /* 左側：自訂輸入區 (雙排) */
-        .left-panel {
-            flex: 2;
-            min-width: 350px;
+        .panel {
             background-color: #fafafa;
             padding: 15px;
             border-radius: 6px;
             border: 1px solid #e1e4e8;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px 20px;
-        }
-        .input-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .input-group label {
-            font-size: 14px;
-            color: #333;
-        }
-        .input-group input {
-            width: 70px;
-            padding: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .input-group input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
-        }
-        /* 右側：套裝與計算區 */
-        .right-panel {
-            flex: 1;
-            min-width: 220px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .set-box {
-            background-color: #fafafa;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid #e1e4e8;
-        }
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            font-size: 14px;
-        }
-        .radio-group label {
-            cursor: pointer;
-        }
-        .calc-btn {
-            background-color: #0052cc;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2;
-            margin-top: 10px;
-        }
-        .calc-btn:hover {
-            background-color: #003d99;
-        }
-        .result-box {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 22px;
-            font-weight: bold;
-            color: #0052cc;
-        }
+        
+        /* 無視防禦區塊樣式 */
+        .left-panel { flex: 2; min-width: 350px; }
+        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
+        .input-group { display: flex; align-items: center; justify-content: space-between; }
+        .input-group label { font-size: 14px; color: #333; }
+        .input-group input { width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .input-group input:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+        .right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
+        .radio-group { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+        .radio-group label { cursor: pointer; }
+        
+        /* 按鈕與結果顯示 */
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
+        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.2s; flex: 1; }
+        .action-btn:hover { background-color: #003d99; }
+        .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
+        .clear-btn:hover { background-color: #7f8c8d; }
+        
+        .result-box { text-align: center; margin-top: 15px; font-size: 18px; font-weight: bold; color: #0052cc; background: #e6f0ff; padding: 15px; border-radius: 6px; white-space: pre-line; line-height: 1.5; }
+        .detail-box { margin-top: 15px; font-size: 15px; color: #333; background: #fff; padding: 15px; border: 1px solid #dcdde1; border-radius: 6px; text-align: left; line-height: 1.6; }
+
+        /* HEXA 區塊專屬樣式 */
+        .hexa-inputs { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 15px; }
+        .hexa-inputs div { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 80px;}
+        .hexa-inputs input { width: 60px; text-align: center; font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        .target-divider { width: 100%; height: 1px; background-color: #e1e4e8; margin: 10px 0; }
+        .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #c0392b; font-weight: bold; margin-top: 10px;}
+        .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
+
+        /* 懶人表格專屬樣式 */
+        .lazy-table-container { width: 100%; overflow-x: auto; }
+        .lazy-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14.5px; text-align: center; }
+        .lazy-table th { background-color: #0052cc; color: white; padding: 10px; border: 1px solid #e1e4e8; }
+        .lazy-table td { padding: 10px; border: 1px solid #e1e4e8; vertical-align: middle; }
+        .lazy-table tr:nth-child(even) { background-color: #f8f9fa; }
+        .lazy-table tr:hover { background-color: #e6f0ff; }
+        .tag { padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; color: #fff; display: inline-block; }
+        .tag-green { background-color: #27ae60; }
+        .tag-yellow { background-color: #f39c12; }
+        .tag-red { background-color: #c0392b; }
+        .loader { font-weight: bold; color: #0052cc; text-align: center; padding: 20px; }
+        
+        /* 告示牌專屬樣式 */
+        .update-list { line-height: 1.8; color: #444; padding-left: 20px; }
+        .update-list li { margin-bottom: 8px; }
+        .disclaimer-box { background: #fff3f3; padding: 18px; border-radius: 8px; border-left: 6px solid #c0392b; line-height: 1.8; color: #444; }
     </style>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
@@ -132,115 +146,542 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-FSW7VLPBYS');
     </script>
 </head>
 <body>
 
 <div class="container">
-    <h1>簡易無視防禦計算機</h1>
-    <div class="hint">雙排無視請先自行加總，HEXA屬性有BUG會有些一點誤差可自行驗證 (PRO遊戲</div>
-
-    <div class="left-panel">
-        <div class="section-title">自訂數值輸入區</div>
-        <div class="grid-container" id="equip-grid">
-            </div>
+    <h1>楓之谷M 也許有用的工具</h1>
+    
+    <div class="tab-menu">
+        <button id="btn-notice" class="active" onclick="switchTab('notice')">📢 告示牌</button>
+        <button id="btn-ignore" onclick="switchTab('ignore')">無視防禦計算</button>
+        <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
+        <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
+        <button id="btn-hexa-sim" onclick="switchTab('hexa-sim')">HEXA 目標機率模擬</button>
     </div>
 
-    <div class="right-panel">
-        <div class="set-box">
-            <div class="section-title">航海師套組 (單選)</div>
-            <div class="radio-group">
-                <label><input type="radio" name="absolab" value="0" checked> 無</label>
-                <label><input type="radio" name="absolab" value="3"> 4set (3%)</label>
-                <label><input type="radio" name="absolab" value="6"> 6set (6%)</label>
-                <label><input type="radio" name="absolab" value="10"> 7set (10%)</label>
+    <div id="tab-notice" class="tab-content active">
+        <div class="panel" style="width: 100%;">
+            <div class="section-title">✨ 版本更新？？</div>
+            <ul class="update-list">
+                <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，希望能幫大家少走一點 HEXA 屬性的冤枉路 (ง๑ •̀_•́)ง</li>
+                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
+            </ul>
+            
+            <div class="target-divider" style="margin: 25px 0;"></div>
+            
+            <div class="section-title" style="color: #c0392b; border-bottom: 2px solid #fadbd8;">🐒 絕對不負責聲明 </div>
+            <div class="disclaimer-box">
+                <p style="margin-top: 0;">本工具專為《楓之谷M》(GMSM) 使用（未來可能會長出其他奇怪功能）。</p>
+                <p>這裡面 <strong>99.9% 的程式碼都是 AI (如 Gemini / ChatGPT) 寫出來的</strong>！我只是一個「出一張嘴」的非本科小白，主要負責通靈需求、提供公式、還有在旁邊喊加油。</p>
+                <p>把這些東西一點一滴拼湊成網頁，對我來說挺有趣的。但如果哪天你發現程式碼寫得不夠優雅，或是算出來的機率害你非到懷疑人生......<br>
+                <strong>👉 請深呼吸，放下鍵盤，並在心裡默念：「Pro遊戲」</strong> </p>
+                <p style="margin-bottom: 0; font-weight: bold; color: #2c3e50;">祝大家超越隨便超，製作隨便過！</p>
             </div>
         </div>
-
-        <div class="set-box">
-            <div class="section-title">神秘冥界幽靈套組 (單選)</div>
-            <div class="radio-group">
-                <label><input type="radio" name="arcane" value="0" checked> 無</label>
-                <label><input type="radio" name="arcane" value="4"> 1set (4%)</label>
-                <label><input type="radio" name="arcane" value="8"> 2set (8%)</label>
-                <label><input type="radio" name="arcane" value="12"> 4set (12%)</label>
-            </div>
-        </div>
-
-        <button class="calc-btn" onclick="calculate()">計算總無視防禦</button>
-        <div class="result-box" id="result-display">總無視防禦：0.00%</div>
     </div>
+
+    <div id="tab-ignore" class="tab-content">
+        <div class="hint">雙排無視請先自行加總，HEXA屬性有BUG會有些一點誤差可自行驗證</div>
+        <div class="left-panel panel">
+            <div class="section-title">自訂數值輸入區</div>
+            <div class="grid-container" id="equip-grid"></div>
+        </div>
+
+        <div class="right-panel">
+            <div class="panel">
+                <div class="section-title">航海師套組 (單選)</div>
+                <div class="radio-group">
+                    <label><input type="radio" name="absolab" value="0" checked> 無</label>
+                    <label><input type="radio" name="absolab" value="3"> 4set (3%)</label>
+                    <label><input type="radio" name="absolab" value="6"> 6set (6%)</label>
+                    <label><input type="radio" name="absolab" value="10"> 7set (10%)</label>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="section-title">神秘冥界幽靈套組 (單選)</div>
+                <div class="radio-group">
+                    <label><input type="radio" name="arcane" value="0" checked> 無</label>
+                    <label><input type="radio" name="arcane" value="4"> 1set (4%)</label>
+                    <label><input type="radio" name="arcane" value="8"> 2set (8%)</label>
+                    <label><input type="radio" name="arcane" value="12"> 4set (12%)</label>
+                </div>
+            </div>
+
+            <button class="action-btn" onclick="calculateIgnore()">計算總無視防禦</button>
+            <div class="result-box" id="result-ignore">總無視防禦：0.00%</div>
+        </div>
+    </div>
+
+    <div id="tab-hexa-lazy" class="tab-content">
+        <div class="hint">目標【主屬性 8 或 任一附屬 10】。點完前 10 次後，請直接對照下方表格，判斷是否該繼續點，主屬9以上決策請使用HEXA重製決策模擬。</div>
+        <div class="panel" style="width: 100%; padding: 10px;">
+            <div id="lazy-table-wrapper" class="lazy-table-container">
+                <div class="loader" id="lazy-loader">正在由系統為您生成十萬次深度運算決策表，請稍候...</div>
+            </div>
+            <div style="font-size: 12px; color: #7f8c8d; text-align: center; margin-top: 10px;">
+                💡 表格已隱藏極端罕見 (發生率 < 0.05%) 及無法達成主屬性8和附屬性10的組合，保持版面乾淨。
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-hexa-reset" class="tab-content">
+        <div class="hint">請輸入「點完 10 次後」的核心等級狀態與你的畢業目標，系統將即時推算剩餘勝率與未來可能性。</div>
+        <div class="panel">
+            <div class="section-title">目前屬性狀態 (剩餘 10 次機會)</div>
+            <div class="hexa-inputs">
+                <div><label>主屬性 (A)</label><input type="number" id="reset-a" min="0" max="10" value="0"></div>
+                <div><label>附屬性 (B)</label><input type="number" id="reset-b" min="0" max="10" value="0"></div>
+                <div><label>附屬性 (C)</label><input type="number" id="reset-c" min="0" max="10" value="0"></div>
+            </div>
+            
+            <div class="target-divider"></div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div class="hexa-inputs">
+                <div><label>目標主屬 >=</label><input type="number" id="reset-target-a" min="0" max="10" value="8"></div>
+                <div><label>目標附屬 >=</label><input type="number" id="reset-target-sub" min="0" max="10" value="10"></div>
+            </div>
+
+            <div class="btn-group">
+                <button class="action-btn" onclick="checkHexaReset()">分析重置決策</button>
+                <button class="action-btn clear-btn" onclick="clearReset()">清除</button>
+            </div>
+            
+            <div id="result-hexa-reset-container" style="display: none; width: 100%;">
+                <div class="result-box" id="result-hexa-reset-main"></div>
+                <div class="detail-box" id="result-hexa-reset-details" style="display: flex; gap: 20px; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-hexa-sim" class="tab-content">
+        <div class="hint">自訂你的起點與畢業目標，系統將進行 100,000 次深度模擬，計算達成機率與需要的碎片預估。</div>
+        <div class="panel">
+            <div class="section-title">設定模擬條件</div>
+            
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">📍 目前狀態</div>
+            <div class="hexa-inputs">
+                <div><label>主屬 (A)</label><input type="number" id="sim-a" min="0" max="10" value="0"></div>
+                <div><label>附屬 (B)</label><input type="number" id="sim-b" min="0" max="10" value="0"></div>
+                <div><label>附屬 (C)</label><input type="number" id="sim-c" min="0" max="10" value="0"></div>
+                <div><label>剩餘次數</label><input type="number" id="sim-rolls" min="1" max="20" value="20"></div>
+            </div>
+
+            <div class="target-divider"></div>
+            
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div class="hexa-inputs">
+                <div><label>目標主屬 >=</label><input type="number" id="target-a" min="0" max="10" value="8"></div>
+                <div><label>目標附屬 >=</label><input type="number" id="target-sub" min="0" max="10" value="10"></div>
+            </div>
+
+            <label class="checkbox-label" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
+                <input type="checkbox" id="sim-stoploss" checked> 啟用停損策略 (若絕無可能達成目標，提早放棄)
+            </label>
+
+            <div class="btn-group">
+                <button class="action-btn" onclick="runHexaSimulation()">啟動 10 萬次目標模擬</button>
+                <button class="action-btn clear-btn" onclick="clearSim()">清除</button>
+            </div>
+            <div class="detail-box" id="result-hexa-sim" style="display: none;"></div>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    // 18 個裝備清單 (與你的 Python 版完全一致)
+    // --- 介面切換與清除邏輯 ---
+    let lazyTableGenerated = false;
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        
+        document.getElementById('btn-' + tabId).classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        // 當首次切換到懶人表時，觸發生成 (不卡頓首頁載入)
+        if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
+            setTimeout(generateLazyTable, 50); // 微小延遲確保過場動畫順暢
+            lazyTableGenerated = true;
+        }
+    }
+
+    function clearReset() {
+        document.getElementById('reset-a').value = '0';
+        document.getElementById('reset-b').value = '0';
+        document.getElementById('reset-c').value = '0';
+        document.getElementById('reset-target-a').value = '8';
+        document.getElementById('reset-target-sub').value = '10';
+        document.getElementById('result-hexa-reset-container').style.display = 'none';
+    }
+
+    function clearSim() {
+        document.getElementById('sim-a').value = '0';
+        document.getElementById('sim-b').value = '0';
+        document.getElementById('sim-c').value = '0';
+        document.getElementById('sim-rolls').value = '20';
+        document.getElementById('target-a').value = '8';
+        document.getElementById('target-sub').value = '10';
+        document.getElementById('sim-stoploss').checked = true;
+        document.getElementById('result-hexa-sim').style.display = 'none';
+    }
+
+    // ==========================================
+    // 1. 無視防禦計算邏輯
+    // ==========================================
     const equipments = [
         "帽子", "套服", "手套", "鞋子", "護肩", "腰帶", "披風", "副武", "三武",
         "苦痛的根源", "支配者墜飾", "巨大的恐怖", "被詛咒的魔島書", "HEXA屬性", "活動", "預留1", "預留2", "預留3"
     ];
 
-    // 動態生成左側雙排輸入框
     const grid = document.getElementById('equip-grid');
     equipments.forEach(equip => {
         const group = document.createElement('div');
         group.className = 'input-group';
-        
-        const label = document.createElement('label');
-        label.textContent = equip + " :";
-        
-        const input = document.createElement('input');
-        input.type = 'text'; 
-        input.id = 'input-' + equip;
-        
-        group.appendChild(label);
-        group.appendChild(input);
+        group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
         grid.appendChild(group);
     });
 
-    // 核心計算函數
-    function calculate() {
+    function calculateIgnore() {
         let values = [];
-
-        // 1. 處理左側：自訂輸入的裝備數值
         equipments.forEach(equip => {
             const inputVal = document.getElementById('input-' + equip).value.trim();
             if (inputVal) {
-                // 將全形逗號、頓號替換為半形逗號，並用逗號切割
                 let parts = inputVal.replace(/[，、]/g, ',').split(',');
-                
                 parts.forEach(p => {
-                    // 濾除所有非數字和小數點的字元 (完美解決中文輸入法干擾問題)
                     let cleanP = p.replace(/[^\d.]/g, ''); 
-                    if (cleanP !== "" && !isNaN(cleanP)) {
-                        values.push(parseFloat(cleanP));
-                    }
+                    if (cleanP !== "" && !isNaN(cleanP)) values.push(parseFloat(cleanP));
                 });
             }
         });
 
-        // 2 & 3. 處理套裝：航海師與神秘冥界幽靈 (先相加)
         const absolabVal = parseFloat(document.querySelector('input[name="absolab"]:checked').value);
         const arcaneVal = parseFloat(document.querySelector('input[name="arcane"]:checked').value);
-        
         const setEffectSum = absolabVal + arcaneVal;
         
-        // 把套裝的「總和」當作一個獨立來源加入計算
-        if (setEffectSum > 0) {
-            values.push(setEffectSum);
-        }
+        if (setEffectSum > 0) values.push(setEffectSum);
 
-        // 4. 套用無視防禦公式計算: 1 - (1 - A) * (1 - B) * ...
         let multiplier = 1.0;
-        values.forEach(v => {
-            multiplier *= (1.0 - (v / 100.0));
-        });
-
+        values.forEach(v => { multiplier *= (1.0 - (v / 100.0)); });
         let totalIgnore = (1.0 - multiplier) * 100.0;
 
-        // 顯示最終結果
-        document.getElementById('result-display').innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+        document.getElementById('result-ignore').innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+    }
+
+    // ==========================================
+    // HEXA 共用機率邏輯
+    // ==========================================
+    function getHexaProb(level) {
+        if (level <= 2) return 0.35;
+        if (level <= 5) return 0.20;
+        if (level == 6) return 0.20;
+        if (level == 7) return 0.15;
+        if (level == 8) return 0.10;
+        if (level == 9) return 0.05;
+        return 0.0;
+    }
+    
+    function getHexaCost(level) {
+        if (level <= 2) return 10;
+        if (level <= 5) return 20;
+        if (level == 6) return 30;
+        if (level == 7) return 30;
+        if (level == 8) return 30;
+        if (level == 9) return 50;
+        return 50;
+    }
+
+    // ==========================================
+    // 2. HEXA 懶人決策表生成邏輯
+    // ==========================================
+    function generateLazyTable() {
+        const trialsOccur = 100000;
+        let occurrences = {};
+
+        for (let i = 0; i < trialsOccur; i++) {
+            let a = 0, b = 0, c = 0;
+            for (let r = 0; r < 10; r++) {
+                if (Math.random() < getHexaProb(a) && a < 10) a++;
+                else {
+                    if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                    else { if (c < 10) c++; else b++; }
+                }
+            }
+            let maxSub = Math.max(b, c);
+            let minSub = Math.min(b, c);
+            let key = `${a}_${maxSub}_${minSub}`;
+            occurrences[key] = (occurrences[key] || 0) + 1;
+        }
+
+        let results = [];
+        const trialsWin = 15000; 
+
+        for (let key in occurrences) {
+            let occProb = (occurrences[key] / trialsOccur) * 100;
+            if (occProb > 0.05) { 
+                let parts = key.split('_');
+                let startA = parseInt(parts[0]);
+                let startB = parseInt(parts[1]);
+                let startC = parseInt(parts[2]);
+                
+                let success = 0;
+                for (let i = 0; i < trialsWin; i++) {
+                    let a = startA, b = startB, c = startC;
+                    for (let r = 0; r < 10; r++) {
+                        if (Math.random() < getHexaProb(a) && a < 10) a++;
+                        else {
+                            if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                            else { if (c < 10) c++; else b++; }
+                        }
+                    }
+                    if (a >= 8 || b === 10 || c === 10) success++;
+                }
+                
+                let winRate = (success / trialsWin) * 100;
+                if (winRate > 5.0) {
+                    results.push({ a: startA, maxSub: startB, minSub: startC, winRate: winRate, occProb: occProb });
+                }
+            }
+        }
+
+        results.sort((x, y) => y.winRate - x.winRate);
+        
+        let html = `
+            <table class="lazy-table">
+                <thead>
+                    <tr>
+                        <th>主屬性</th>
+                        <th>較高附屬</th>
+                        <th>較低附屬</th>
+                        <th>發生機率</th>
+                        <th>畢業機率</th>
+                        <th>建議決策</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        results.forEach(r => {
+            let tagHtml = "";
+            if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳 (保留)</span>`;
+            else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通 (保留)</span>`;
+            else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱 (建議重置)</span>`;
+            else tagHtml = `<span class="tag tag-red">無法達成 (立刻重置)</span>`;
+
+            html += `
+                <tr>
+                    <td><strong>${r.a}</strong></td>
+                    <td>${r.maxSub}</td>
+                    <td>${r.minSub}</td>
+                    <td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td>
+                    <td><strong>${r.winRate.toFixed(1)}%</strong></td>
+                    <td>${tagHtml}</td>
+                </tr>
+            `;
+        });
+
+        html += `</tbody></table>`;
+        document.getElementById('lazy-table-wrapper').innerHTML = html;
+    }
+
+    // ==========================================
+    // 3. HEXA 重置決策邏輯 (動態基準 PK 系統)
+    // ==========================================
+    function checkHexaReset() {
+        let a = parseInt(document.getElementById('reset-a').value) || 0;
+        let b = parseInt(document.getElementById('reset-b').value) || 0;
+        let c = parseInt(document.getElementById('reset-c').value) || 0;
+        
+        let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
+        let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+
+        let container = document.getElementById('result-hexa-reset-container');
+        let mainBox = document.getElementById('result-hexa-reset-main');
+        let detailBox = document.getElementById('result-hexa-reset-details');
+
+        if (a + b + c !== 10) {
+            container.style.display = 'block';
+            mainBox.innerText = "⚠️ 錯誤：前 10 次點完，A+B+C 的總和應該要是 10 喔！\n請確認輸入數字是否正確。";
+            detailBox.innerHTML = "";
+            return;
+        }
+
+        if (targetA === 0 && targetSub === 0) {
+            container.style.display = 'block';
+            mainBox.innerText = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！";
+            detailBox.innerHTML = "";
+            return;
+        }
+
+        const trials = 30000;
+        let gradSuccess = 0; 
+        let baseSuccess = 0; 
+        
+        let countA = new Array(11).fill(0);
+        let countB = new Array(11).fill(0);
+        let countC = new Array(11).fill(0);
+
+        for (let i = 0; i < trials; i++) {
+            let simA = a, simB = b, simC = c;
+            for (let roll = 0; roll < 10; roll++) {
+                if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+                else {
+                    if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
+                    else { if (simC < 10) simC++; else simB++; }
+                }
+            }
+            
+            let maxSub = Math.max(simB, simC);
+            let passedA = (targetA > 0 && simA >= targetA);
+            let passedSub = (targetSub > 0 && maxSub >= targetSub);
+            if (passedA || passedSub) gradSuccess++;
+            
+            countA[simA]++; countB[simB]++; countC[simC]++;
+        }
+
+        for (let i = 0; i < trials; i++) {
+            let simA = 0, simB = 0, simC = 0;
+            for (let roll = 0; roll < 20; roll++) {
+                if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+                else {
+                    if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
+                    else { if (simC < 10) simC++; else simB++; }
+                }
+            }
+            let maxSub = Math.max(simB, simC);
+            let passedA = (targetA > 0 && simA >= targetA);
+            let passedSub = (targetSub > 0 && maxSub >= targetSub);
+            if (passedA || passedSub) baseSuccess++;
+        }
+
+        let winRate = (gradSuccess / trials) * 100;
+        let baseWinRate = (baseSuccess / trials) * 100;
+        let suggestion = "";
+        
+        if (winRate === 0) suggestion = "💀 無法達成 (機率為 0%)，請立刻重置。";
+        else if (winRate >= baseWinRate * 3) suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新核心 ${baseWinRate.toFixed(2)}%，衝！)`;
+        else if (winRate >= baseWinRate) suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新核心 ${baseWinRate.toFixed(2)}%，建議繼續)`;
+        else if (winRate >= baseWinRate * 0.5) suggestion = `⚠️ 狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新核心 ${baseWinRate.toFixed(2)}%，建議考慮重置)`;
+        else suggestion = `❌ 狀態極差 (機率遠低於從頭來過，強烈建議立刻重置)`;
+
+        let targetText = [];
+        if (targetA > 0) targetText.push(`主${targetA}`);
+        if (targetSub > 0) targetText.push(`附${targetSub}`);
+        let targetStr = targetText.join(" 或 ");
+
+        container.style.display = 'block';
+        mainBox.innerText = `📊 依自訂目標 (${targetStr}) 預估畢業勝率：${winRate.toFixed(2)}%\n${suggestion}`;
+        
+        let htmlA = `<div style="flex: 1; min-width: 150px;"><div style="color:#0052cc; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【主屬性 (A)】</div>`;
+        for(let i = Math.max(0, a); i <= 10; i++) htmlA += `• 停在 ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%<br>`;
+        htmlA += `</div>`;
+
+        let htmlB = `<div style="flex: 1; min-width: 150px;"><div style="color:#c0392b; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (B)】</div>`;
+        for(let i = Math.max(0, b); i <= 10; i++) htmlB += `• 停在 ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%<br>`;
+        htmlB += `</div>`;
+
+        let htmlC = `<div style="flex: 1; min-width: 150px;"><div style="color:#e67e22; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (C)】</div>`;
+        for(let i = Math.max(0, c); i <= 10; i++) htmlC += `• 停在 ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%<br>`;
+        htmlC += `</div>`;
+
+        detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完剩下 10 次後，未來可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成此目標的機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
+    }
+
+    // ==========================================
+    // 4. HEXA 目標機率模擬邏輯 (含碎片花費估算)
+    // ==========================================
+    function runHexaSimulation() {
+        let startA = parseInt(document.getElementById('sim-a').value) || 0;
+        let startB = parseInt(document.getElementById('sim-b').value) || 0;
+        let startC = parseInt(document.getElementById('sim-c').value) || 0;
+        let rolls = parseInt(document.getElementById('sim-rolls').value) || 20;
+        
+        let targetA = parseInt(document.getElementById('target-a').value) || 0;
+        let targetSub = parseInt(document.getElementById('target-sub').value) || 0;
+        let useStopLoss = document.getElementById('sim-stoploss').checked;
+
+        let resultBox = document.getElementById('result-hexa-sim');
+
+        if (targetA === 0 && targetSub === 0) {
+            resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; return;
+        }
+        if (startA > 10 || startB > 10 || startC > 10) {
+            resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：任何單一屬性等級皆不會超過 10。"; return;
+        }
+        if (startA + startB + startC + rolls > 20) {
+            resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：起始等級的總和加上剩餘次數不會超過 20。"; return;
+        }
+
+        const trials = 100000;
+        let countHitA = 0, countHitSub = 0, countHitEither = 0, countHitBoth = 0;
+        let totalFragments = 0; // 紀錄總花費碎片
+
+        for (let i = 0; i < trials; i++) {
+            let a = startA, b = startB, c = startC;
+            let fragments = 0;
+
+            for (let r = 0; r < rolls; r++) {
+                let remainingRolls = rolls - r;
+                if (useStopLoss) {
+                    let canHitA = (targetA > 0) ? (a + remainingRolls >= targetA) : false;
+                    let canHitSub = (targetSub > 0) ? (Math.max(b, c) + remainingRolls >= targetSub) : false;
+                    let isPossible = false;
+                    if (targetA > 0 && targetSub > 0) isPossible = (canHitA || canHitSub);
+                    else if (targetA > 0) isPossible = canHitA;
+                    else if (targetSub > 0) isPossible = canHitSub;
+                    if (!isPossible) break; 
+                }
+
+                fragments += getHexaCost(a); // 紀錄本次點擊花費
+
+                if (Math.random() < getHexaProb(a) && a < 10) a++;
+                else {
+                    if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                    else { if (c < 10) c++; else b++; }
+                }
+            }
+            
+            totalFragments += fragments; // 結算此顆核心總花費
+            
+            let maxSub = Math.max(b, c);
+            let passedA = (targetA > 0 && a >= targetA);
+            let passedSub = (targetSub > 0 && maxSub >= targetSub);
+            
+            if (passedA) countHitA++;
+            if (passedSub) countHitSub++;
+            if (passedA || passedSub) countHitEither++;
+            if (passedA && passedSub) countHitBoth++;
+        }
+
+        // 計算期望值
+        let expectedCostEither = countHitEither > 0 ? (totalFragments / countHitEither) : 0;
+
+        let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong>`;
+        if(useStopLoss) htmlOutput += `<span style="color:#c0392b; font-size:13px; margin-left:10px;">(已套用停損機制，提早放棄省下無法達成的碎片)</span>`;
+        htmlOutput += `<br><br>`;
+        
+        if (targetA > 0) htmlOutput += `• 單純達成 [主屬性 ${targetA} 級] 的機率：<strong style="color:#0052cc;">${((countHitA / trials) * 100).toFixed(2)} %</strong><br>`;
+        if (targetSub > 0) htmlOutput += `• 單純達成 [任一附屬 ${targetSub} 級] 的機率：<strong style="color:#c0392b;">${((countHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
+        
+        if (targetA > 0 && targetSub > 0) {
+            htmlOutput += `• 達成任一條件 (畢業) 的機率：<strong style="color:#27ae60;">${((countHitEither / trials) * 100).toFixed(2)} %</strong><br>`;
+            htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong>${((countHitBoth / trials) * 100).toFixed(2)} %</strong><br>`;
+        }
+        
+        htmlOutput += `<br><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
+        
+        if (countHitEither > 0) {
+            htmlOutput += `💰 碎片需求(估算)：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(expectedCostEither).toLocaleString()}</strong> 個碎片能達成目標`;
+        } else {
+            htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標。`;
+        }
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = htmlOutput;
     }
 </script>
 
