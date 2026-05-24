@@ -2,15 +2,19 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>楓之谷M 也許有用的工具</title>
     
     <meta property="og:title" content="楓之谷M 也許有用的工具" />
     <meta property="og:description" content="裡面有一點可能用不到但又用的到的東西" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/" />
-    </head>
+    
     <style>
+        /* 基礎全域設定 */
+        html { box-sizing: border-box; }
+        *, *:before, *:after { box-sizing: inherit; }
+
         body {
             font-family: "微軟正黑體", "Helvetica Neue", sans-serif;
             background-color: #f0f2f5;
@@ -18,7 +22,19 @@
             display: flex;
             justify-content: center;
             padding: 20px;
+            user-select: none; 
+            -webkit-user-select: none;
+            margin: 0;
         }
+
+        button {
+            touch-action: manipulation; 
+            -webkit-tap-highlight-color: transparent; 
+            user-select: none;
+            -webkit-user-select: none;
+            outline: none;
+        }
+
         .container {
             background: #fff;
             padding: 20px 30px;
@@ -30,81 +46,27 @@
             flex-wrap: wrap;
             gap: 20px;
         }
-        h1 {
-            width: 100%;
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-        .hint {
-            width: 100%;
-            font-size: 13px;
-            color: #7f8c8d;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
+        .hint { width: 100%; font-size: 13px; color: #7f8c8d; text-align: center; margin-bottom: 10px; }
         
         /* 分頁導覽列樣式 */
-        .tab-menu {
-            width: 100%;
-            display: flex;
-            border-bottom: 2px solid #e1e4e8;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-        .tab-menu button {
-            background: none;
-            border: none;
-            padding: 10px 15px;
-            font-size: 15px;
-            font-weight: bold;
-            color: #7f8c8d;
-            cursor: pointer;
-            transition: color 0.3;
-        }
-        .tab-menu button:hover {
-            color: #3498db;
-        }
-        .tab-menu button.active {
-            color: #0052cc;
-            border-bottom: 3px solid #0052cc;
-            margin-bottom: -2px;
-        }
-        .tab-content {
-            display: none;
-            width: 100%;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .tab-content.active {
-            display: flex;
-        }
+        .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
+        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; cursor: pointer; transition: color 0.3; }
+        .tab-menu button:hover { color: #3498db; }
+        .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
+        .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
+        .tab-content.active { display: flex; }
 
         /* 共用區塊樣式 */
-        .section-title {
-            font-weight: bold;
-            color: #444;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
-            width: 100%;
-        }
-        .panel {
-            background-color: #fafafa;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid #e1e4e8;
-            width: 100%;
-            box-sizing: border-box;
-        }
+        .section-title { font-weight: bold; color: #444; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; width: 100%; }
+        .panel { background-color: #fafafa; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; width: 100%; }
         
         /* 無視防禦區塊樣式 */
-        .left-panel { flex: 2; min-width: 350px; }
+        .left-panel { flex: 2; min-width: 300px; }
         .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
         .input-group { display: flex; align-items: center; justify-content: space-between; }
         .input-group label { font-size: 14px; color: #333; }
-        .input-group input { width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .input-group input { user-select: auto; -webkit-user-select: auto; width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         .input-group input:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
         .right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
         .radio-group { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
@@ -116,14 +78,13 @@
         .action-btn:hover { background-color: #003d99; }
         .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
         .clear-btn:hover { background-color: #7f8c8d; }
-        
         .result-box { text-align: center; margin-top: 15px; font-size: 18px; font-weight: bold; color: #0052cc; background: #e6f0ff; padding: 15px; border-radius: 6px; white-space: pre-line; line-height: 1.5; }
         .detail-box { margin-top: 15px; font-size: 15px; color: #333; background: #fff; padding: 15px; border: 1px solid #dcdde1; border-radius: 6px; text-align: left; line-height: 1.6; }
 
-        /* HEXA 區塊專屬樣式 */
+        /* HEXA 表單專屬樣式 */
         .hexa-inputs { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 15px; }
         .hexa-inputs div { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 80px;}
-        .hexa-inputs input { width: 60px; text-align: center; font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        .hexa-inputs input { user-select: auto; -webkit-user-select: auto; width: 60px; text-align: center; font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; }
         .target-divider { width: 100%; height: 1px; background-color: #e1e4e8; margin: 10px 0; }
         .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #c0392b; font-weight: bold; margin-top: 10px;}
         .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
@@ -145,6 +106,101 @@
         .update-list { line-height: 1.8; color: #444; padding-left: 20px; }
         .update-list li { margin-bottom: 8px; }
         .disclaimer-box { background: #fff3f3; padding: 18px; border-radius: 8px; border-left: 6px solid #c0392b; line-height: 1.8; color: #444; }
+
+        /* 電腦版/通用：切換斷行的隱藏設定 */
+        .mobile-br { display: none; }
+        .desktop-space { display: inline; }
+
+        /* ================= HEXA 屬性模擬器 (視覺化打鐵機) 專屬樣式 ================= */
+        .visual-container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #171b2f; padding: 25px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); color: white; }
+        .visual-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
+        .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
+        .v-top-controls { display: flex; gap: 8px; }
+        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: 0.2; font-weight: bold; }
+        .v-btn-top:hover { background-color: #4b6584; }
+        .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
+        .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
+        .visual-box { background: linear-gradient(180deg, #2b3e75 0%, #1e2a55 100%); border: 1.5px solid #5a7ec2; border-radius: 8px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3); margin-bottom: 15px; }
+        .hexa-img { width: 55px; height: 55px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
+        .v-content { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
+        .v-header-row { display: flex; justify-content: space-between; align-items: flex-end; }
+        .v-title-main { color: #d094ff; font-weight: bold; font-size: 15px; } 
+        .v-title-sub { color: #8cb6ff; font-weight: bold; font-size: 15px; }  
+        .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
+        .v-prob { color: #b3c2d1; font-size: 14px; }
+        .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
+        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
+        .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
+        .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
+        .visual-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2, background 0.3; }
+        .v-btn:hover { filter: brightness(1.2); }
+        .v-btn:active { transform: scale(0.95); }
+        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2, background 0.3; }
+        .v-btn-reset:active { transform: scale(0.95); }
+        .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
+        .v-btn-reset.highlight:hover { filter: brightness(1.2); }
+
+        /* ================= 手機版 RWD 排版優化 (終極空間榨取) ================= */
+        @media (max-width: 500px) {
+            body { padding: 5px; } /* 盡可能釋放外圍空白 */
+            .container { padding: 12px 6px; } /* 將左右內距從 30px 壓到 6px */
+            .panel { padding: 12px 6px; } /* Panel 內的留白也縮減 */
+            
+            .visual-container { padding: 20px 12px; }
+            
+            /* 頂部：維持左右排列，但縮小間距與字體，避免擠壓 */
+            .visual-header-top { 
+                flex-direction: row;       
+                align-items: center;       
+                gap: 5px; 
+            }
+            .v-fragment-text { 
+                font-size: 11px;           /* 再稍微縮小一點點，確保塞得下 */
+                white-space: nowrap;       /* 強制文字不換行 */
+            }
+            .v-top-controls { 
+                display: flex; 
+                flex-direction: row;       /* 強制維持左右排列 */
+                gap: 4px;                  /* 把間距縮得非常小 */
+            }
+            .v-btn-top {
+                padding: 4px 6px;          /* 按鈕內距縮小，把空間讓給文字 */
+                font-size: 11px;
+            }
+            
+            /* 屬性框微調 */
+            .visual-box { padding: 12px 8px; gap: 8px; }
+            .hexa-img { width: 40px; height: 40px; }
+            .v-stat-name { font-size: 13px; }
+            .v-title-main, .v-title-sub { font-size: 12px; }
+            .v-prob { font-size: 12px; white-space: nowrap; margin-left: auto; }
+            
+            .visual-controls { padding: 12px 10px; }
+            .v-btn, .v-btn-reset { padding: 10px 20px; font-size: 15px; }
+
+            /* 懶人表格防擠壓與字體縮放 */
+            .lazy-table th { 
+                white-space: nowrap; 
+                font-size: clamp(10px, 3.2vw, 14px); /* 螢幕小字體就縮小 */
+                padding: 8px 2px; /* 盡量壓縮格距 */
+            }
+            .lazy-table td { 
+                font-size: clamp(10px, 3.2vw, 14px); 
+                padding: 8px 2px; 
+            }
+            
+            /* 切換標籤斷行邏輯 (手機專屬) */
+            .mobile-br { display: block; }
+            .desktop-space { display: none; }
+            
+            .tag { 
+                font-size: 11px; 
+                padding: 4px; 
+                line-height: 1.3; 
+            }
+        }
     </style>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
@@ -161,17 +217,19 @@
     <h1>楓之谷M 也許有用的工具</h1>
     
     <div class="tab-menu">
-        <button id="btn-notice" class="active" onclick="switchTab('notice')">📢 告示牌</button>
+        <button id="btn-notice" class="active" onclick="switchTab('notice')">🪧 告示牌</button>
         <button id="btn-ignore" onclick="switchTab('ignore')">無視防禦計算</button>
+        <button id="btn-hexa-visual" onclick="switchTab('hexa-visual')">HEXA屬性模擬器</button>
         <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
         <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
         <button id="btn-hexa-sim" onclick="switchTab('hexa-sim')">HEXA 目標機率模擬</button>
     </div>
 
     <div id="tab-notice" class="tab-content active">
-        <div class="panel" style="width: 100%;">
+        <div class="panel">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list">
+                <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路 (ง๑ •̀_•́)ง</li>
                 <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
             </ul>
@@ -222,9 +280,74 @@
         </div>
     </div>
 
+    <div id="tab-hexa-visual" class="tab-content">
+        
+        <div class="visual-container">
+            <div class="visual-header-top">
+                <div class="v-fragment-text">
+                    <img src="assets/icon-Sol Erda Fragment.png" class="frag-icon" alt="碎片"> 
+                    累積使用靈魂艾爾達碎片：<span id="v-fragments">0</span>
+                </div>
+                <div class="v-top-controls">
+                    <button class="v-btn-top" id="btn-mute-v" onclick="toggleMute()">🔊 聲音：開</button>
+                    <button class="v-btn-top" onclick="resetFragments()">重置碎片</button>
+                </div>
+            </div>
+
+            <div class="v-core-title">屬性核心I (<span id="v-clicks">0</span>/20)</div>
+
+            <div class="visual-box">
+                <img src="assets/icon-purple HEXA Matrix logo.png" class="hexa-img" alt="主屬性">
+                <div class="v-content">
+                    <div class="v-header-row">
+                        <div>
+                            <div class="v-title-main">主要屬性</div>
+                            <div class="v-stat-name">最大傷害增加</div>
+                        </div>
+                        <div class="v-prob" id="vprob-a">強化機率：35%</div>
+                    </div>
+                    <div class="v-bar" id="vbar-a"></div>
+                </div>
+            </div>
+
+            <div class="visual-box">
+                <img src="assets/icon-blue HEXA Matrix logo.png" class="hexa-img" alt="附屬性">
+                <div class="v-content">
+                    <div class="v-header-row">
+                        <div>
+                            <div class="v-title-sub">附加屬性</div>
+                            <div class="v-stat-name">無視防禦率(%)增加</div>
+                        </div>
+                        <div class="v-prob" id="vprob-b">強化機率：32.5%</div>
+                    </div>
+                    <div class="v-bar" id="vbar-b"></div>
+                </div>
+            </div>
+
+            <div class="visual-box">
+                <img src="assets/icon-blue HEXA Matrix logo.png" class="hexa-img" alt="附屬性">
+                <div class="v-content">
+                    <div class="v-header-row">
+                        <div>
+                            <div class="v-title-sub">附加屬性</div>
+                            <div class="v-stat-name">最終傷害(%)增加</div>
+                        </div>
+                        <div class="v-prob" id="vprob-c">強化機率：32.5%</div>
+                    </div>
+                    <div class="v-bar" id="vbar-c"></div>
+                </div>
+            </div>
+
+            <div class="visual-controls">
+                <button class="v-btn-reset" id="btn-reset-v" onclick="resetVisual()">重置</button>
+                <button class="v-btn" onclick="clickVisualEnhance()">強化</button>
+            </div>
+        </div>
+    </div>
+
     <div id="tab-hexa-lazy" class="tab-content">
         <div class="hint">目標【主屬性 8 或 任一附屬 10】。點完前 10 次後，請直接對照下方表格，判斷是否該繼續點，主屬9以上決策請使用HEXA重製決策模擬。</div>
-        <div class="panel" style="width: 100%; padding: 10px;">
+        <div class="panel">
             <div id="lazy-table-wrapper" class="lazy-table-container">
                 <div class="loader" id="lazy-loader">正在由系統為您生成十萬次深度運算決策表，請稍候...</div>
             </div>
@@ -301,6 +424,7 @@
 <script>
     // --- 介面切換與清除邏輯 ---
     let lazyTableGenerated = false;
+    let visualInitialized = false;
 
     function switchTab(tabId) {
         document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
@@ -309,10 +433,16 @@
         document.getElementById('btn-' + tabId).classList.add('active');
         document.getElementById('tab-' + tabId).classList.add('active');
 
-        // 當首次切換到懶人表時，觸發生成 (不卡頓首頁載入)
+        // 當首次切換到懶人表時，觸發生成
         if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
-            setTimeout(generateLazyTable, 50); // 微小延遲確保過場動畫順暢
+            setTimeout(generateLazyTable, 50); 
             lazyTableGenerated = true;
+        }
+
+        // 當首次切換到屬性模擬器(打鐵機)時，初始化格子
+        if (tabId === 'hexa-visual' && !visualInitialized) {
+            initVisualBars();
+            visualInitialized = true;
         }
     }
 
@@ -402,6 +532,129 @@
     }
 
     // ==========================================
+    // 1.5 沉浸式強化打鐵機邏輯 (HEXA屬性模擬器)
+    // ==========================================
+    let vA = 0, vB = 0, vC = 0, vClicks = 0;
+    let totalFragmentsUsed = 0; 
+    let isMuted = false;
+
+    const enhanceSound = new Audio('assets/HexaCoreEnforcement.mp3');
+
+    function initVisualBars() {
+        ['a', 'b', 'c'].forEach(type => {
+            const container = document.getElementById('vbar-' + type);
+            container.innerHTML = ''; 
+            for(let i=0; i<10; i++) {
+                let segment = document.createElement('div');
+                segment.className = 'v-segment';
+                container.appendChild(segment);
+            }
+        });
+        updateVisualUI();
+    }
+
+    function formatProb(p) {
+        let pct = p * 100;
+        return Number.isInteger(pct) ? pct + '%' : pct.toFixed(1) + '%';
+    }
+
+    function updateVisualUI() {
+        let levels = { 'a': vA, 'b': vB, 'c': vC };
+        
+        ['a', 'b', 'c'].forEach(type => {
+            const container = document.getElementById('vbar-' + type);
+            const segments = container.children;
+            const activeClass = (type === 'a') ? 'active-main' : 'active-sub';
+
+            for(let i=0; i<10; i++) {
+                if(i < levels[type]) segments[i].classList.add(activeClass);
+                else segments[i].classList.remove(activeClass);
+            }
+        });
+
+        let probA = getHexaProb(vA);
+        let probB = 0, probC = 0;
+        
+        if (vA === 10) probA = 0;
+        
+        let remProb = 1.0 - probA;
+        if (vB === 10 && vC === 10) {
+            probB = 0; probC = 0;
+        } else if (vB === 10) {
+            probB = 0; probC = remProb;
+        } else if (vC === 10) {
+            probC = 0; probB = remProb;
+        } else {
+            probB = remProb / 2;
+            probC = remProb / 2;
+        }
+
+        document.getElementById('vprob-a').innerText = '強化機率：' + (vA < 10 ? formatProb(probA) : 'MAX');
+        document.getElementById('vprob-b').innerText = '強化機率：' + (vB < 10 ? formatProb(probB) : 'MAX');
+        document.getElementById('vprob-c').innerText = '強化機率：' + (vC < 10 ? formatProb(probC) : 'MAX');
+
+        document.getElementById('v-clicks').innerText = vClicks;
+
+        let resetBtn = document.getElementById('btn-reset-v');
+        if (vClicks >= 10) {
+            resetBtn.classList.add('highlight');
+        } else {
+            resetBtn.classList.remove('highlight');
+        }
+    }
+
+    function toggleMute() {
+        isMuted = !isMuted;
+        const muteBtn = document.getElementById('btn-mute-v');
+        if (isMuted) {
+            muteBtn.innerText = '🔇 聲音：關';
+            muteBtn.classList.add('muted-active');
+        } else {
+            muteBtn.innerText = '🔊 聲音：開';
+            muteBtn.classList.remove('muted-active');
+        }
+    }
+
+    function clickVisualEnhance() {
+        if (vClicks >= 20) return;
+
+        if (!isMuted) {
+            enhanceSound.currentTime = 0;
+            enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+        }
+
+        let cost = getHexaCost(vA);
+        totalFragmentsUsed += cost;
+        document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+
+        let probA = getHexaProb(vA);
+
+        if (vA < 10 && Math.random() < probA) {
+            vA++;
+        } else {
+            if (vB < 10 && vC < 10) {
+                if (Math.random() < 0.5) vB++; else vC++;
+            } else if (vB < 10) {
+                vB++; 
+            } else if (vC < 10) {
+                vC++; 
+            }
+        }
+        vClicks++;
+        updateVisualUI();
+    }
+
+    function resetVisual() {
+        vA = 0; vB = 0; vC = 0; vClicks = 0;
+        updateVisualUI();
+    }
+
+    function resetFragments() {
+        totalFragmentsUsed = 0;
+        document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+    }
+
+    // ==========================================
     // 2. HEXA 懶人決策表生成邏輯
     // ==========================================
     function generateLazyTable() {
@@ -473,10 +726,11 @@
 
         results.forEach(r => {
             let tagHtml = "";
-            if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳 (保留)</span>`;
-            else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通 (保留)</span>`;
-            else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱 (建議重置)</span>`;
-            else tagHtml = `<span class="tag tag-red">無法達成 (立刻重置)</span>`;
+            // 這裡使用了特別的 class 來控制電腦版跟手機版的折行顯示
+            if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
+            else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
+            else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱<span class="desktop-space"> </span><br class="mobile-br">(建議重置)</span>`;
+            else tagHtml = `<span class="tag tag-red">無法達成<span class="desktop-space"> </span><br class="mobile-br">(立刻重置)</span>`;
 
             html += `
                 <tr>
@@ -501,7 +755,6 @@
         let a = parseInt(document.getElementById('reset-a').value) || 0;
         let b = parseInt(document.getElementById('reset-b').value) || 0;
         let c = parseInt(document.getElementById('reset-c').value) || 0;
-        
         let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
         let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
 
@@ -624,7 +877,7 @@
 
         const trials = 100000;
         let countHitA = 0, countHitSub = 0, countHitEither = 0, countHitBoth = 0;
-        let totalFragments = 0; // 紀錄總花費碎片
+        let totalFragments = 0;
 
         for (let i = 0; i < trials; i++) {
             let a = startA, b = startB, c = startC;
@@ -642,7 +895,7 @@
                     if (!isPossible) break; 
                 }
 
-                fragments += getHexaCost(a); // 紀錄本次點擊花費
+                fragments += getHexaCost(a);
 
                 if (Math.random() < getHexaProb(a) && a < 10) a++;
                 else {
@@ -651,7 +904,7 @@
                 }
             }
             
-            totalFragments += fragments; // 結算此顆核心總花費
+            totalFragments += fragments; 
             
             let maxSub = Math.max(b, c);
             let passedA = (targetA > 0 && a >= targetA);
@@ -663,7 +916,6 @@
             if (passedA && passedSub) countHitBoth++;
         }
 
-        // 計算期望值
         let expectedCostEither = countHitEither > 0 ? (totalFragments / countHitEither) : 0;
 
         let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong>`;
