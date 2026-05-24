@@ -51,7 +51,7 @@
         
         /* 分頁導覽列樣式 */
         .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; cursor: pointer; transition: color 0.3; }
+        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; cursor: pointer; transition: color 0.3s; }
         .tab-menu button:hover { color: #3498db; }
         .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
         .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
@@ -74,7 +74,7 @@
         
         /* 按鈕與結果顯示 */
         .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.2; flex: 1; }
+        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.2s; flex: 1; }
         .action-btn:hover { background-color: #003d99; }
         .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
         .clear-btn:hover { background-color: #7f8c8d; }
@@ -117,7 +117,7 @@
         .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
         .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
         .v-top-controls { display: flex; gap: 8px; }
-        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: 0.2; font-weight: bold; }
+        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: 0.2s; font-weight: bold; }
         .v-btn-top:hover { background-color: #4b6584; }
         .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
         .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
@@ -130,14 +130,14 @@
         .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
         .v-prob { color: #b3c2d1; font-size: 14px; }
         .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
-        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
+        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
         .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
         .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
         .visual-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2, background 0.3; }
+        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1s, filter 0.2s, background 0.3s; }
         .v-btn:hover { filter: brightness(1.2); }
         .v-btn:active { transform: scale(0.95); }
-        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2, background 0.3; }
+        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1s, filter 0.2s, background 0.3s; }
         .v-btn-reset:active { transform: scale(0.95); }
         .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
         .v-btn-reset.highlight:hover { filter: brightness(1.2); }
@@ -657,10 +657,14 @@
     // ==========================================
     // 2. HEXA 懶人決策表生成邏輯
     // ==========================================
+// 用來記錄目前是按照哪一列排序，以及排序方式
+    let currentSort = { col: 'winRate', asc: false }; // 預設畢業機率由高到低
+
     function generateLazyTable() {
         const trialsOccur = 100000;
         let occurrences = {};
 
+        // (原本的運算邏輯保持不變)
         for (let i = 0; i < trialsOccur; i++) {
             let a = 0, b = 0, c = 0;
             for (let r = 0; r < 10; r++) {
@@ -686,7 +690,6 @@
                 let startA = parseInt(parts[0]);
                 let startB = parseInt(parts[1]);
                 let startC = parseInt(parts[2]);
-                
                 let success = 0;
                 for (let i = 0; i < trialsWin; i++) {
                     let a = startA, b = startB, c = startC;
@@ -699,7 +702,6 @@
                     }
                     if (a >= 8 || b === 10 || c === 10) success++;
                 }
-                
                 let winRate = (success / trialsWin) * 100;
                 if (winRate > 5.0) {
                     results.push({ a: startA, maxSub: startB, minSub: startC, winRate: winRate, occProb: occProb });
@@ -707,17 +709,26 @@
             }
         }
 
-        results.sort((x, y) => y.winRate - x.winRate);
+        // 根據目前的設定進行排序
+        results.sort((x, y) => {
+            let diff = x[currentSort.col] - y[currentSort.col];
+            return currentSort.asc ? diff : -diff;
+        });
         
+        renderTable(results);
+    }
+
+    function renderTable(results) {
+        let arrow = currentSort.asc ? " ▲" : " ▼";
         let html = `
             <table class="lazy-table">
                 <thead>
                     <tr>
-                        <th>主屬性</th>
+                        <th onclick="sortTable('a')">主屬性${currentSort.col==='a'?arrow:''}</th>
                         <th>較高附屬</th>
                         <th>較低附屬</th>
-                        <th>發生機率</th>
-                        <th>畢業機率</th>
+                        <th onclick="sortTable('occProb')">發生機率${currentSort.col==='occProb'?arrow:''}</th>
+                        <th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col==='winRate'?arrow:''}</th>
                         <th>建議決策</th>
                     </tr>
                 </thead>
@@ -726,26 +737,34 @@
 
         results.forEach(r => {
             let tagHtml = "";
-            // 這裡使用了特別的 class 來控制電腦版跟手機版的折行顯示
             if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
             else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
             else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱<span class="desktop-space"> </span><br class="mobile-br">(建議重置)</span>`;
             else tagHtml = `<span class="tag tag-red">無法達成<span class="desktop-space"> </span><br class="mobile-br">(立刻重置)</span>`;
 
-            html += `
-                <tr>
-                    <td><strong>${r.a}</strong></td>
-                    <td>${r.maxSub}</td>
-                    <td>${r.minSub}</td>
-                    <td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td>
-                    <td><strong>${r.winRate.toFixed(1)}%</strong></td>
-                    <td>${tagHtml}</td>
-                </tr>
-            `;
+            html += `<tr>
+                <td><strong>${r.a}</strong></td>
+                <td>${r.maxSub}</td>
+                <td>${r.minSub}</td>
+                <td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td>
+                <td><strong>${r.winRate.toFixed(1)}%</strong></td>
+                <td>${tagHtml}</td>
+            </tr>`;
         });
-
         html += `</tbody></table>`;
         document.getElementById('lazy-table-wrapper').innerHTML = html;
+    }
+
+    // 切換排序的函數
+    function sortTable(col) {
+        if (currentSort.col === col) {
+            currentSort.asc = !currentSort.asc; // 切換順序
+        } else {
+            currentSort.col = col;
+            currentSort.asc = false; // 新列預設降序
+        }
+        // 重新執行生成邏輯以排序
+        generateLazyTable(); 
     }
 
     // ==========================================
