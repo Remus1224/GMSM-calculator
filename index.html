@@ -870,7 +870,7 @@
     }
 
     // ==========================================
-    // 4. HEXA 目標機率模擬邏輯 (含碎片花費估算)
+    // 4. HEXA 目標機率模擬邏輯 (完美真實停損版)
     // ==========================================
     function runHexaSimulation() {
         let startA = parseInt(document.getElementById('sim-a').value) || 0;
@@ -901,21 +901,37 @@
         for (let i = 0; i < trials; i++) {
             let a = startA, b = startB, c = startC;
             let fragments = 0;
+            let gaveUp = false; // 紀錄這顆核心是否已經被判死刑
 
             for (let r = 0; r < rolls; r++) {
                 let remainingRolls = rolls - r;
-                if (useStopLoss) {
+                let currentTotalRolls = startA + startB + startC + r; // 計算目前這顆核心總共點了幾下
+
+                // 停損策略判定
+                if (useStopLoss && !gaveUp) {
                     let canHitA = (targetA > 0) ? (a + remainingRolls >= targetA) : false;
                     let canHitSub = (targetSub > 0) ? (Math.max(b, c) + remainingRolls >= targetSub) : false;
+                    
                     let isPossible = false;
                     if (targetA > 0 && targetSub > 0) isPossible = (canHitA || canHitSub);
                     else if (targetA > 0) isPossible = canHitA;
                     else if (targetSub > 0) isPossible = canHitSub;
-                    if (!isPossible) break; 
+                    
+                    if (!isPossible) {
+                        gaveUp = true; // 確定沒救了，放棄治療
+                    }
                 }
 
-                fragments += getHexaCost(a);
+                // 真實遊戲規則防呆：如果放棄治療，但還沒點滿 10 下，必須強制盲點！
+                if (gaveUp) {
+                    if (currentTotalRolls >= 10) {
+                        break; // 已經點滿(或超過)10下，可以合法重置，直接中斷省碎片！
+                    }
+                    // 如果 < 10 下，什麼都不做，讓迴圈繼續跑(繼續花碎片)直到滿 10 下為止
+                }
 
+                // 扣除碎片與機率跳動
+                fragments += getHexaCost(a);
                 if (Math.random() < getHexaProb(a) && a < 10) a++;
                 else {
                     if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
@@ -925,20 +941,23 @@
             
             totalFragments += fragments; 
             
-            let maxSub = Math.max(b, c);
-            let passedA = (targetA > 0 && a >= targetA);
-            let passedSub = (targetSub > 0 && maxSub >= targetSub);
-            
-            if (passedA) countHitA++;
-            if (passedSub) countHitSub++;
-            if (passedA || passedSub) countHitEither++;
-            if (passedA && passedSub) countHitBoth++;
+            // 只有在「沒有放棄」的情況下，才需要結算是否過關
+            if (!gaveUp) {
+                let maxSub = Math.max(b, c);
+                let passedA = (targetA > 0 && a >= targetA);
+                let passedSub = (targetSub > 0 && maxSub >= targetSub);
+                
+                if (passedA) countHitA++;
+                if (passedSub) countHitSub++;
+                if (passedA || passedSub) countHitEither++;
+                if (passedA && passedSub) countHitBoth++;
+            }
         }
 
         let expectedCostEither = countHitEither > 0 ? (totalFragments / countHitEither) : 0;
 
         let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong>`;
-        if(useStopLoss) htmlOutput += `<span style="color:#c0392b; font-size:13px; margin-left:10px;">(已套用停損機制，提早放棄省下無法達成的碎片)</span>`;
+        if(useStopLoss) htmlOutput += `<br><span style="color:#c0392b; font-size:13px;">(已套用真實停損機制：絕無可能達成目標時，若已滿10次直接重置；未滿10次將盲點至滿後重置，確保碎片估算準確)</span>`;
         htmlOutput += `<br><br>`;
         
         if (targetA > 0) htmlOutput += `• 單純達成 [主屬性 ${targetA} 級] 的機率：<strong style="color:#0052cc;">${((countHitA / trials) * 100).toFixed(2)} %</strong><br>`;
