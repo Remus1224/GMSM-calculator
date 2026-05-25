@@ -51,7 +51,7 @@
         
         /* 分頁導覽列樣式 */
         .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; cursor: pointer; transition: color 0.3s; }
+        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; cursor: pointer; transition: color 0.3; }
         .tab-menu button:hover { color: #3498db; }
         .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
         .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
@@ -74,7 +74,7 @@
         
         /* 按鈕與結果顯示 */
         .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.2s; flex: 1; }
+        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.2; flex: 1; }
         .action-btn:hover { background-color: #003d99; }
         .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
         .clear-btn:hover { background-color: #7f8c8d; }
@@ -117,7 +117,7 @@
         .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
         .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
         .v-top-controls { display: flex; gap: 8px; }
-        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: 0.2; font-weight: bold; }
         .v-btn-top:hover { background-color: #4b6584; }
         .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
         .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
@@ -130,14 +130,24 @@
         .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
         .v-prob { color: #b3c2d1; font-size: 14px; }
         .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
-        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
+        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
         .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
         .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
-        .visual-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1s, filter 0.2s, background 0.3s; }
+        
+        /* 控制區排版 */
+        .visual-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); gap: 15px;}
+        .v-control-group { display: flex; align-items: center; gap: 12px; }
+        .v-reset-tracker { font-size: 14px; color: #bdc3c7; }
+        
+        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2; }
         .v-btn:hover { filter: brightness(1.2); }
         .v-btn:active { transform: scale(0.95); }
-        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 30px; font-size: 18px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1s, filter 0.2s, background 0.3s; }
+        
+        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2; }
+        .v-btn-10x:hover { filter: brightness(1.2); }
+        .v-btn-10x:active { transform: scale(0.95); }
+
+        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2, background 0.3; }
         .v-btn-reset:active { transform: scale(0.95); }
         .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
         .v-btn-reset.highlight:hover { filter: brightness(1.2); }
@@ -151,24 +161,10 @@
             .visual-container { padding: 20px 12px; }
             
             /* 頂部：維持左右排列，但縮小間距與字體，避免擠壓 */
-            .visual-header-top { 
-                flex-direction: row;       
-                align-items: center;       
-                gap: 5px; 
-            }
-            .v-fragment-text { 
-                font-size: 11px;           /* 再稍微縮小一點點，確保塞得下 */
-                white-space: nowrap;       /* 強制文字不換行 */
-            }
-            .v-top-controls { 
-                display: flex; 
-                flex-direction: row;       /* 強制維持左右排列 */
-                gap: 4px;                  /* 把間距縮得非常小 */
-            }
-            .v-btn-top {
-                padding: 4px 6px;          /* 按鈕內距縮小，把空間讓給文字 */
-                font-size: 11px;
-            }
+            .visual-header-top { flex-direction: row; align-items: center; gap: 5px; }
+            .v-fragment-text { font-size: 11px; white-space: nowrap; }
+            .v-top-controls { display: flex; flex-direction: row; gap: 4px; }
+            .v-btn-top { padding: 4px 6px; font-size: 11px; }
             
             /* 屬性框微調 */
             .visual-box { padding: 12px 8px; gap: 8px; }
@@ -177,29 +173,19 @@
             .v-title-main, .v-title-sub { font-size: 12px; }
             .v-prob { font-size: 12px; white-space: nowrap; margin-left: auto; }
             
-            .visual-controls { padding: 12px 10px; }
-            .v-btn, .v-btn-reset { padding: 10px 20px; font-size: 15px; }
+            /* 底部按鈕排版微調 */
+            .visual-controls { flex-direction: column; align-items: stretch; padding: 15px 12px; gap: 15px; }
+            .v-control-group { width: 100%; justify-content: space-between; }
+            .v-btn-10x, .v-btn { flex: 1; padding: 12px 10px; font-size: 15px; text-align: center; }
 
             /* 懶人表格防擠壓與字體縮放 */
-            .lazy-table th { 
-                white-space: nowrap; 
-                font-size: clamp(10px, 3.2vw, 14px); /* 螢幕小字體就縮小 */
-                padding: 8px 2px; /* 盡量壓縮格距 */
-            }
-            .lazy-table td { 
-                font-size: clamp(10px, 3.2vw, 14px); 
-                padding: 8px 2px; 
-            }
+            .lazy-table th { white-space: nowrap; font-size: clamp(10px, 3.2vw, 14px); padding: 8px 2px; }
+            .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 8px 2px; }
             
             /* 切換標籤斷行邏輯 (手機專屬) */
             .mobile-br { display: block; }
             .desktop-space { display: none; }
-            
-            .tag { 
-                font-size: 11px; 
-                padding: 4px; 
-                line-height: 1.3; 
-            }
+            .tag { font-size: 11px; padding: 4px; line-height: 1.3; }
         }
     </style>
 
@@ -222,7 +208,7 @@
         <button id="btn-hexa-visual" onclick="switchTab('hexa-visual')">HEXA屬性模擬器</button>
         <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
         <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
-        <button id="btn-hexa-sim" onclick="switchTab('hexa-sim')">HEXA 目標機率模擬</button>
+        <button id="btn-hexa-sim" onclick="switchTab('hexa-sim')">HEXA 目標屬性模擬</button>
     </div>
 
     <div id="tab-notice" class="tab-content active">
@@ -232,6 +218,14 @@
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路 (ง๑ •̀_•́)ง</li>
                 <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
+            </ul>
+
+            <div class="target-divider" style="margin: 25px 0;"></div>
+            
+            <div class="section-title">🛠️ 微調與優化</div>
+            <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更準確。<br>HEXA屬性模擬器新增直接強化10次與重置次數統計的功能。</li>
+                <li><strong>2026/05/24</strong><br>懶人決策表增加主屬性、發生機率、畢業機率可以排序。</li>
             </ul>
             
             <div class="target-divider" style="margin: 25px 0;"></div>
@@ -281,7 +275,6 @@
     </div>
 
     <div id="tab-hexa-visual" class="tab-content">
-        
         <div class="visual-container">
             <div class="visual-header-top">
                 <div class="v-fragment-text">
@@ -290,7 +283,7 @@
                 </div>
                 <div class="v-top-controls">
                     <button class="v-btn-top" id="btn-mute-v" onclick="toggleMute()">🔊 聲音：開</button>
-                    <button class="v-btn-top" onclick="resetFragments()">重置碎片</button>
+                    <button class="v-btn-top" onclick="resetFragments()">清空碎片</button>
                 </div>
             </div>
 
@@ -339,8 +332,14 @@
             </div>
 
             <div class="visual-controls">
-                <button class="v-btn-reset" id="btn-reset-v" onclick="resetVisual()">重置</button>
-                <button class="v-btn" onclick="clickVisualEnhance()">強化</button>
+                <div class="v-control-group">
+                    <button class="v-btn-reset" id="btn-reset-v" onclick="resetVisual()" disabled style="opacity: 0.5; cursor: not-allowed;">重置</button>
+                    <span class="v-reset-tracker">重製次數：<span id="v-reset-count" style="font-weight:bold; color:#f1c40f; font-size:16px;">0</span></span>
+                </div>
+                <div class="v-control-group">
+                    <button class="v-btn-10x" id="btn-enhance-10x" onclick="clickVisualEnhance10x()">強化10次</button>
+                    <button class="v-btn" id="btn-enhance-1" onclick="clickVisualEnhance()">強化</button>
+                </div>
             </div>
         </div>
     </div>
@@ -374,6 +373,15 @@
                 <div><label>目標附屬 >=</label><input type="number" id="reset-target-sub" min="0" max="10" value=""></div>
             </div>
 
+            <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
+                <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start;" title="將運算次數從 3 萬提升至 100 萬次，適合極端目標">
+                    <input type="checkbox" id="sim-million-reset"> ⚠️ 啟用極限運算 (100萬次模擬，按下後可能卡頓 1~3 秒)
+                </label>
+                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
+                    💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的數據。
+                </div>
+            </div>
+
             <div class="btn-group">
                 <button class="action-btn" onclick="checkHexaReset()">分析重置決策</button>
                 <button class="action-btn clear-btn" onclick="clearReset()">清除</button>
@@ -387,7 +395,7 @@
     </div>
 
     <div id="tab-hexa-sim" class="tab-content">
-        <div class="hint">自訂你的起點與畢業目標，系統將進行 100,000 次深度模擬，計算達成機率與需要的碎片預估。</div>
+        <div class="hint">自訂你的起點與畢業目標，系統將進行深度模擬，計算達成機率與需要的碎片預估。</div>
         <div class="panel">
             <div class="section-title">設定模擬條件</div>
             
@@ -407,12 +415,20 @@
                 <div><label>目標附屬 >=</label><input type="number" id="target-sub" min="0" max="10" value=""></div>
             </div>
 
-            <label class="checkbox-label" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
-                <input type="checkbox" id="sim-stoploss" checked> 啟用停損策略 (若絕無可能達成目標，提早放棄)
-            </label>
+            <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
+                <label class="checkbox-label" style="justify-content: flex-start;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
+                    <input type="checkbox" id="sim-stoploss" checked> 啟用停損策略 (若絕無可能達成目標，提早放棄)
+                </label>
+                <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start;" title="將運算次數從 10 萬提升至 100 萬次，適合極端目標">
+                    <input type="checkbox" id="sim-million"> ⚠️ 啟用極限運算 (100萬次模擬，按下後可能卡頓 1~3 秒)
+                </label>
+                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
+                    💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的數據。
+                </div>
+            </div>
 
             <div class="btn-group">
-                <button class="action-btn" onclick="runHexaSimulation()">啟動 10 萬次目標模擬</button>
+                <button class="action-btn" onclick="runHexaSimulation()">啟動目標模擬</button>
                 <button class="action-btn clear-btn" onclick="clearSim()">清除</button>
             </div>
             <div class="detail-box" id="result-hexa-sim" style="display: none;"></div>
@@ -433,13 +449,11 @@
         document.getElementById('btn-' + tabId).classList.add('active');
         document.getElementById('tab-' + tabId).classList.add('active');
 
-        // 當首次切換到懶人表時，觸發生成
         if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
             setTimeout(generateLazyTable, 50); 
             lazyTableGenerated = true;
         }
 
-        // 當首次切換到屬性模擬器(打鐵機)時，初始化格子
         if (tabId === 'hexa-visual' && !visualInitialized) {
             initVisualBars();
             visualInitialized = true;
@@ -452,6 +466,10 @@
         document.getElementById('reset-c').value = '';
         document.getElementById('reset-target-a').value = '';
         document.getElementById('reset-target-sub').value = '';
+        
+        let millionCb = document.getElementById('sim-million-reset');
+        if(millionCb) millionCb.checked = false;
+        
         document.getElementById('result-hexa-reset-container').style.display = 'none';
     }
 
@@ -463,6 +481,10 @@
         document.getElementById('target-a').value = '';
         document.getElementById('target-sub').value = '';
         document.getElementById('sim-stoploss').checked = true;
+        
+        let millionCb = document.getElementById('sim-million');
+        if(millionCb) millionCb.checked = false;
+        
         document.getElementById('result-hexa-sim').style.display = 'none';
     }
 
@@ -537,6 +559,7 @@
     let vA = 0, vB = 0, vC = 0, vClicks = 0;
     let totalFragmentsUsed = 0; 
     let isMuted = false;
+    let resetCountTracker = 0;
 
     const enhanceSound = new Audio('assets/HexaCoreEnforcement.mp3');
 
@@ -598,8 +621,24 @@
         let resetBtn = document.getElementById('btn-reset-v');
         if (vClicks >= 10) {
             resetBtn.classList.add('highlight');
+            resetBtn.disabled = false;
+            resetBtn.style.opacity = '1';
+            resetBtn.style.cursor = 'pointer';
         } else {
             resetBtn.classList.remove('highlight');
+            resetBtn.disabled = true;
+            resetBtn.style.opacity = '0.5';
+            resetBtn.style.cursor = 'not-allowed';
+        }
+        
+        let enhance10xBtn = document.getElementById('btn-enhance-10x');
+        let enhance1Btn = document.getElementById('btn-enhance-1');
+        if (vClicks >= 20) {
+            enhance10xBtn.style.opacity = '0.5'; enhance10xBtn.style.cursor = 'not-allowed';
+            enhance1Btn.style.opacity = '0.5'; enhance1Btn.style.cursor = 'not-allowed';
+        } else {
+            enhance10xBtn.style.opacity = '1'; enhance10xBtn.style.cursor = 'pointer';
+            enhance1Btn.style.opacity = '1'; enhance1Btn.style.cursor = 'pointer';
         }
     }
 
@@ -643,28 +682,67 @@
         vClicks++;
         updateVisualUI();
     }
+    
+    function clickVisualEnhance10x() {
+        if (vClicks >= 20) return;
+
+        let rolls = Math.min(10, 20 - vClicks);
+
+        if (!isMuted) {
+            enhanceSound.currentTime = 0;
+            enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+        }
+
+        for (let i = 0; i < rolls; i++) {
+            let cost = getHexaCost(vA);
+            totalFragmentsUsed += cost;
+            let probA = getHexaProb(vA);
+
+            if (vA < 10 && Math.random() < probA) {
+                vA++;
+            } else {
+                if (vB < 10 && vC < 10) {
+                    if (Math.random() < 0.5) vB++; else vC++;
+                } else if (vB < 10) {
+                    vB++; 
+                } else if (vC < 10) {
+                    vC++; 
+                }
+            }
+            vClicks++;
+        }
+        
+        document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+        updateVisualUI();
+    }
 
     function resetVisual() {
+        if (vClicks < 10) {
+            alert("⚠️ 依據真實遊戲設定，必須點滿 10 次才能重置喔！");
+            return;
+        }
+        resetCountTracker++;
+        document.getElementById('v-reset-count').innerText = resetCountTracker;
         vA = 0; vB = 0; vC = 0; vClicks = 0;
         updateVisualUI();
     }
 
     function resetFragments() {
         totalFragmentsUsed = 0;
+        resetCountTracker = 0;
         document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+        document.getElementById('v-reset-count').innerText = resetCountTracker;
     }
 
     // ==========================================
     // 2. HEXA 懶人決策表生成邏輯
     // ==========================================
-// 用來記錄目前是按照哪一列排序，以及排序方式
-    let currentSort = { col: 'winRate', asc: false }; // 預設畢業機率由高到低
+    let currentSort = { col: 'winRate', asc: false }; 
 
     function generateLazyTable() {
         const trialsOccur = 100000;
         let occurrences = {};
 
-        // (原本的運算邏輯保持不變)
         for (let i = 0; i < trialsOccur; i++) {
             let a = 0, b = 0, c = 0;
             for (let r = 0; r < 10; r++) {
@@ -709,7 +787,6 @@
             }
         }
 
-        // 根據目前的設定進行排序
         results.sort((x, y) => {
             let diff = x[currentSort.col] - y[currentSort.col];
             return currentSort.asc ? diff : -diff;
@@ -724,10 +801,10 @@
             <table class="lazy-table">
                 <thead>
                     <tr>
-                        <th onclick="sortTable('a')">主屬性${currentSort.col==='a'?arrow:''}</th>
+                        <th onclick="sortTable('a')" style="cursor:pointer; background-color:#003d99;">主屬性${currentSort.col==='a'?arrow:''}</th>
                         <th>較高附屬</th>
                         <th>較低附屬</th>
-                        <th onclick="sortTable('occProb')">發生機率${currentSort.col==='occProb'?arrow:''}</th>
+                        <th onclick="sortTable('occProb')" style="cursor:pointer; background-color:#003d99;">發生機率${currentSort.col==='occProb'?arrow:''}</th>
                         <th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col==='winRate'?arrow:''}</th>
                         <th>建議決策</th>
                     </tr>
@@ -755,15 +832,13 @@
         document.getElementById('lazy-table-wrapper').innerHTML = html;
     }
 
-    // 切換排序的函數
     function sortTable(col) {
         if (currentSort.col === col) {
-            currentSort.asc = !currentSort.asc; // 切換順序
+            currentSort.asc = !currentSort.asc;
         } else {
             currentSort.col = col;
-            currentSort.asc = false; // 新列預設降序
+            currentSort.asc = false;
         }
-        // 重新執行生成邏輯以排序
         generateLazyTable(); 
     }
 
@@ -776,6 +851,8 @@
         let c = parseInt(document.getElementById('reset-c').value) || 0;
         let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
         let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+        
+        let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
 
         let container = document.getElementById('result-hexa-reset-container');
         let mainBox = document.getElementById('result-hexa-reset-main');
@@ -795,7 +872,7 @@
             return;
         }
 
-        const trials = 30000;
+        const trials = useMillionReset ? 1000000 : 30000;
         let gradSuccess = 0; 
         let baseSuccess = 0; 
         
@@ -870,7 +947,7 @@
     }
 
     // ==========================================
-    // 4. HEXA 目標機率模擬邏輯 (完美真實停損版)
+    // 4. HEXA 目標屬性模擬邏輯 (完美真實停損版)
     // ==========================================
     function runHexaSimulation() {
         let startA = parseInt(document.getElementById('sim-a').value) || 0;
@@ -881,6 +958,7 @@
         let targetA = parseInt(document.getElementById('target-a').value) || 0;
         let targetSub = parseInt(document.getElementById('target-sub').value) || 0;
         let useStopLoss = document.getElementById('sim-stoploss').checked;
+        let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
 
         let resultBox = document.getElementById('result-hexa-sim');
 
@@ -894,20 +972,19 @@
             resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：起始等級的總和加上剩餘次數不會超過 20。"; return;
         }
 
-        const trials = 100000;
+        const trials = useMillion ? 1000000 : 100000;
         let countHitA = 0, countHitSub = 0, countHitEither = 0, countHitBoth = 0;
         let totalFragments = 0;
 
         for (let i = 0; i < trials; i++) {
             let a = startA, b = startB, c = startC;
             let fragments = 0;
-            let gaveUp = false; // 紀錄這顆核心是否已經被判死刑
+            let gaveUp = false; 
 
             for (let r = 0; r < rolls; r++) {
                 let remainingRolls = rolls - r;
-                let currentTotalRolls = startA + startB + startC + r; // 計算目前這顆核心總共點了幾下
+                let currentTotalRolls = startA + startB + startC + r; 
 
-                // 停損策略判定
                 if (useStopLoss && !gaveUp) {
                     let canHitA = (targetA > 0) ? (a + remainingRolls >= targetA) : false;
                     let canHitSub = (targetSub > 0) ? (Math.max(b, c) + remainingRolls >= targetSub) : false;
@@ -918,19 +995,16 @@
                     else if (targetSub > 0) isPossible = canHitSub;
                     
                     if (!isPossible) {
-                        gaveUp = true; // 確定沒救了，放棄治療
+                        gaveUp = true; 
                     }
                 }
 
-                // 真實遊戲規則防呆：如果放棄治療，但還沒點滿 10 下，必須強制盲點！
                 if (gaveUp) {
                     if (currentTotalRolls >= 10) {
-                        break; // 已經點滿(或超過)10下，可以合法重置，直接中斷省碎片！
+                        break; 
                     }
-                    // 如果 < 10 下，什麼都不做，讓迴圈繼續跑(繼續花碎片)直到滿 10 下為止
                 }
 
-                // 扣除碎片與機率跳動
                 fragments += getHexaCost(a);
                 if (Math.random() < getHexaProb(a) && a < 10) a++;
                 else {
@@ -941,7 +1015,6 @@
             
             totalFragments += fragments; 
             
-            // 只有在「沒有放棄」的情況下，才需要結算是否過關
             if (!gaveUp) {
                 let maxSub = Math.max(b, c);
                 let passedA = (targetA > 0 && a >= targetA);
