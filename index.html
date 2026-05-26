@@ -214,21 +214,22 @@
     <div id="tab-notice" class="tab-content active">
         <div class="panel">
             <div class="section-title">✨ 版本更新？？</div>
-            <ul class="update-list">
+            <ul class="update-list" style="font-size: 14.5px;">
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路 (ง๑ •̀_•́)ง</li>
                 <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
             </ul>
 
-            <div class="target-divider" style="margin: 25px 0;"></div>
+            <div class="target-divider" style="margin: 10px 0;"></div>
             
             <div class="section-title">🛠️ 微調與優化</div>
             <ul class="update-list" style="font-size: 14.5px;">
-                <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更準確。<br>HEXA屬性模擬器新增直接強化10次與重置次數統計的功能。</li>
+                <li><strong>2026/05/26</strong><br>優化目標屬性模擬的策略模式，極端目標更精準。</li>
+                <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更精準。<br>HEXA屬性模擬器新增強化10次與重置次數統計的功能。</li>
                 <li><strong>2026/05/24</strong><br>懶人決策表增加主屬性、發生機率、畢業機率可以排序。</li>
             </ul>
             
-            <div class="target-divider" style="margin: 25px 0;"></div>
+            <div class="target-divider" style="margin: 10px 0;"></div>
             
             <div class="section-title" style="color: #c0392b; border-bottom: 2px solid #fadbd8;">🐒 絕對不負責聲明 </div>
             <div class="disclaimer-box">
@@ -416,14 +417,21 @@
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
-                <label class="checkbox-label" style="justify-content: flex-start;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
-                    <input type="checkbox" id="sim-stoploss" checked> 啟用停損策略 (若絕無可能達成目標，提早放棄)
+                <label class="checkbox-label" style="justify-content: flex-start; color:#3498db;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
+                    <input type="checkbox" id="sim-stoploss" checked> ☑️ 啟用策略模式 (含停損與重置決策)
                 </label>
-                <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start;" title="將運算次數從 10 萬提升至 100 萬次，適合極端目標">
-                    <input type="checkbox" id="sim-million"> ⚠️ 啟用極限運算 (100萬次模擬，按下後可能卡頓 1~3 秒)
+                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px; line-height: 1.6;">
+                    💡 <strong>提早停損</strong>：當剩餘次數「絕對不可能」達成目標時，提早放棄以省下碎片。<br>
+                    💡 <strong>重置決策</strong>：僅針對難度最高的單一目標 [主9] 與 [主10] 生效。<br>
+                      🎯 拚主 10：前 10 次若主屬性未達 5 級，果斷重置。<br>
+                      🎯 拚主 9：前 10 次若主屬性未達 4 級，果斷重置。
+                </div>
+
+                <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start; margin-top: 10px;">
+                    <input type="checkbox" id="sim-million"> ⚠️ 啟用極限運算 (100萬次模擬，計算可能需1~2秒)
                 </label>
                 <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
-                    💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的數據。
+                    💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的期望值。
                 </div>
             </div>
 
@@ -946,8 +954,8 @@
         detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完剩下 10 次後，未來可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成此目標的機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
     }
 
-    // ==========================================
-    // 4. HEXA 目標屬性模擬邏輯 (完美真實停損版)
+// ==========================================
+    // 4. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
     // ==========================================
     function runHexaSimulation() {
         let startA = parseInt(document.getElementById('sim-a').value) || 0;
@@ -965,94 +973,120 @@
         if (targetA === 0 && targetSub === 0) {
             resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; return;
         }
-        if (startA > 10 || startB > 10 || startC > 10) {
-            resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：任何單一屬性等級皆不會超過 10。"; return;
-        }
-        if (startA + startB + startC + rolls > 20) {
-            resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：起始等級的總和加上剩餘次數不會超過 20。"; return;
+
+        // 判斷是否觸發「黃金鐵律」
+        let isGoldenRule = false;
+        if (useStopLoss && targetSub === 0) {
+            if (targetA === 10 || targetA === 9) isGoldenRule = true;
         }
 
         const trials = useMillion ? 1000000 : 100000;
-        let countHitA = 0, countHitSub = 0, countHitEither = 0, countHitBoth = 0;
-        let totalFragments = 0;
+        let countSuccess = 0, countHitA = 0, countHitSub = 0, countHitBoth = 0;
+        let totalFragmentsAll = 0; 
 
         for (let i = 0; i < trials; i++) {
             let a = startA, b = startB, c = startC;
-            let fragments = 0;
-            let gaveUp = false; 
+            let attemptFragments = 0;
+            let success = false;
 
-            for (let r = 0; r < rolls; r++) {
-                let remainingRolls = rolls - r;
-                let currentTotalRolls = startA + startB + startC + r; 
+            // 檢查是否初始狀態就已達標
+            if ((targetA > 0 && a >= targetA) || (targetSub > 0 && Math.max(b, c) >= targetSub)) {
+                success = true;
+            }
 
-                if (useStopLoss && !gaveUp) {
+            for (let r = 0; r < rolls && !success; r++) {
+                let currentMaxSub = Math.max(b, c);
+                let currentTotalRolls = startA + startB + startC + r;
+
+                if (useStopLoss) {
+                    // 1. 數學絕對停損 (每一步都檢查：如果剩下次數絕對點不到，直接放棄)
+                    let remainingRolls = rolls - r;
                     let canHitA = (targetA > 0) ? (a + remainingRolls >= targetA) : false;
-                    let canHitSub = (targetSub > 0) ? (Math.max(b, c) + remainingRolls >= targetSub) : false;
+                    let canHitSub = (targetSub > 0) ? (currentMaxSub + remainingRolls >= targetSub) : false;
+                    let possible = (targetA > 0 && targetSub > 0) ? (canHitA || canHitSub) : (targetA > 0 ? canHitA : canHitSub);
                     
-                    let isPossible = false;
-                    if (targetA > 0 && targetSub > 0) isPossible = (canHitA || canHitSub);
-                    else if (targetA > 0) isPossible = canHitA;
-                    else if (targetSub > 0) isPossible = canHitSub;
-                    
-                    if (!isPossible) {
-                        gaveUp = true; 
+                    if (!possible) break; 
+
+                    // 2. 黃金鐵律策略停損 (僅在第 10 次健康檢查)
+                    if (currentTotalRolls === 10) {
+                        if (targetA === 10 && targetSub === 0 && a < 5) break; // 主10沒5直接丟
+                        if (targetA === 9 && targetSub === 0 && a < 4) break;  // 主9沒4直接丟
                     }
                 }
 
-                if (gaveUp) {
-                    if (currentTotalRolls >= 10) {
-                        break; 
-                    }
-                }
-
-                fragments += getHexaCost(a);
-                if (Math.random() < getHexaProb(a) && a < 10) a++;
-                else {
-                    if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                // 扣除碎片並強化
+                attemptFragments += getHexaCost(a);
+                if (Math.random() < getHexaProb(a) && a < 10) {
+                    a++;
+                } else {
+                    if (Math.random() < 0.5) { if (b < 10) b++; else c++; }
                     else { if (c < 10) c++; else b++; }
                 }
+
+                // 強化後檢查是否達標
+                currentMaxSub = Math.max(b, c);
+                if ((targetA > 0 && a >= targetA) || (targetSub > 0 && currentMaxSub >= targetSub)) {
+                    success = true;
+                }
             }
-            
-            totalFragments += fragments; 
-            
-            if (!gaveUp) {
-                let maxSub = Math.max(b, c);
-                let passedA = (targetA > 0 && a >= targetA);
-                let passedSub = (targetSub > 0 && maxSub >= targetSub);
-                
-                if (passedA) countHitA++;
-                if (passedSub) countHitSub++;
-                if (passedA || passedSub) countHitEither++;
-                if (passedA && passedSub) countHitBoth++;
+
+            // 統計結算：無論這顆核心是成功還是被丟掉，花掉的碎片都算進成本
+            totalFragmentsAll += attemptFragments;
+
+            if (success) {
+                countSuccess++;
+                let finalMaxSub = Math.max(b, c);
+                let passA = (targetA > 0 && a >= targetA);
+                let passSub = (targetSub > 0 && finalMaxSub >= targetSub);
+                if (passA) countHitA++;
+                if (passSub) countHitSub++;
+                if (passA && passSub) countHitBoth++;
             }
         }
 
-        let expectedCostEither = countHitEither > 0 ? (totalFragments / countHitEither) : 0;
-
-        let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong>`;
-        if(useStopLoss) htmlOutput += `<br><span style="color:#c0392b; font-size:13px;">(已套用真實停損機制：絕無可能達成目標時，若已滿10次直接重置；未滿10次將盲點至滿後重置，確保碎片估算準確)</span>`;
-        htmlOutput += `<br><br>`;
+        // 期望值公式：總花費 ÷ 成功次數 = 真實平均碎片成本
+        let prob = (countSuccess / trials) * 100;
+        let avgCost = countSuccess > 0 ? (totalFragmentsAll / countSuccess) : 0;
         
-        if (targetA > 0) htmlOutput += `• 單純達成 [主屬性 ${targetA} 級] 的機率：<strong style="color:#0052cc;">${((countHitA / trials) * 100).toFixed(2)} %</strong><br>`;
-        if (targetSub > 0) htmlOutput += `• 單純達成 [任一附屬 ${targetSub} 級] 的機率：<strong style="color:#c0392b;">${((countHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
+        // 輸出畫面
+        let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong><br>`;
+        
+        if (useStopLoss) {
+            htmlOutput += `<span style="color:${isGoldenRule ? '#27ae60' : '#7f8c8d'}; font-size:13px;">`;
+            
+            // 依照使用者需求，動態改變提示文字
+            if (targetA === 10 && targetSub === 0) {
+                htmlOutput += `(套用提早停損及重置決策：前十次未達主屬5時直接重置)`;
+            } else if (targetA === 9 && targetSub === 0) {
+                htmlOutput += `(套用提早停損及重置決策：前十次未達主屬4時直接重置)`;
+            } else {
+                htmlOutput += `(僅套用提早停損)`;
+            }
+            
+            htmlOutput += `</span><br><br>`;
+        } else {
+            htmlOutput += `<br><br>`;
+        }
+        
+        if (targetA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${targetA} 級] 的機率：<strong style="color:#0052cc;">${((countHitA / trials) * 100).toFixed(2)} %</strong><br>`;
+        if (targetSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${targetSub} 級] 的機率：<strong style="color:#c0392b;">${((countHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
         
         if (targetA > 0 && targetSub > 0) {
-            htmlOutput += `• 達成任一條件 (畢業) 的機率：<strong style="color:#27ae60;">${((countHitEither / trials) * 100).toFixed(2)} %</strong><br>`;
+            htmlOutput += `• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#27ae60;">${prob.toFixed(2)} %</strong><br>`;
             htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong>${((countHitBoth / trials) * 100).toFixed(2)} %</strong><br>`;
         }
         
         htmlOutput += `<br><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
         
-        if (countHitEither > 0) {
-            htmlOutput += `💰 碎片需求(估算)：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(expectedCostEither).toLocaleString()}</strong> 個碎片能達成目標`;
+        if (countSuccess > 0) {
+            htmlOutput += `💰 預估碎片需求：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標`;
         } else {
-            htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標。`;
+            htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。`;
         }
 
         resultBox.style.display = 'block';
         resultBox.innerHTML = htmlOutput;
     }
 </script>
-
 </body>
 </html>
