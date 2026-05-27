@@ -9,7 +9,7 @@
     <meta property="og:description" content="裡面有一點可能用不到但又用的到的東西" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/" />
-     
+    
     <style>
         /* 基礎全域設定 */
         html { box-sizing: border-box; }
@@ -224,6 +224,7 @@
             
             <div class="section-title">🛠️ 微調與優化</div>
             <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/05/26</strong><br>優化重置決策模擬，原先只能模擬核心LV10改為LV10~19。</li>
                 <li><strong>2026/05/26</strong><br>優化目標屬性模擬的策略模式，極端目標更精準。</li>
                 <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更精準。<br>HEXA屬性模擬器新增強化10次與重置次數統計的功能。</li>
                 <li><strong>2026/05/24</strong><br>懶人決策表增加主屬性、發生機率、畢業機率可以排序。</li>
@@ -358,13 +359,14 @@
     </div>
 
     <div id="tab-hexa-reset" class="tab-content">
-        <div class="hint">請輸入「點完 10 次後」的核心等級狀態與你的畢業目標，系統將即時推算剩餘勝率與未來可能性。</div>
+        <div class="hint">請輸入目前的核心等級狀態、剩餘強化次數與你的畢業目標，系統將即時推算剩餘勝率與全新核心進行決策 PK。</div>
         <div class="panel">
-            <div class="section-title">目前屬性狀態 (剩餘 10 次機會)</div>
+            <div class="section-title">目前核心狀態</div>
             <div class="hexa-inputs">
                 <div><label>主屬性 (A)</label><input type="number" id="reset-a" min="0" max="10" value=""></div>
                 <div><label>附屬性 (B)</label><input type="number" id="reset-b" min="0" max="10" value=""></div>
                 <div><label>附屬性 (C)</label><input type="number" id="reset-c" min="0" max="10" value=""></div>
+                <div><label>剩餘次數</label><input type="number" id="reset-rolls" min="1" max="20" value="10"></div>
             </div>
             
             <div class="target-divider"></div>
@@ -472,6 +474,7 @@
         document.getElementById('reset-a').value = '';
         document.getElementById('reset-b').value = '';
         document.getElementById('reset-c').value = '';
+        document.getElementById('reset-rolls').value = '10'; // 預設恢復為10次
         document.getElementById('reset-target-a').value = '';
         document.getElementById('reset-target-sub').value = '';
         
@@ -853,10 +856,11 @@
     // ==========================================
     // 3. HEXA 重置決策邏輯 (動態基準 PK 系統)
     // ==========================================
-    function checkHexaReset() {
+function checkHexaReset() {
         let a = parseInt(document.getElementById('reset-a').value) || 0;
         let b = parseInt(document.getElementById('reset-b').value) || 0;
         let c = parseInt(document.getElementById('reset-c').value) || 0;
+        let rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
         let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
         let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
         
@@ -866,9 +870,10 @@
         let mainBox = document.getElementById('result-hexa-reset-main');
         let detailBox = document.getElementById('result-hexa-reset-details');
 
-        if (a + b + c !== 10) {
+        // 新的防呆邏輯：目前屬性總和 + 剩餘次數 必須等於 20
+        if (a + b + c + rolls !== 20) {
             container.style.display = 'block';
-            mainBox.innerText = "⚠️ 錯誤：前 10 次點完，A+B+C 的總和應該要是 10 喔！\n請確認輸入數字是否正確。";
+            mainBox.innerText = `⚠️ 錯誤：目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 應該要等於 20 喔！\n請確認輸入數字是否正確。`;
             detailBox.innerHTML = "";
             return;
         }
@@ -888,9 +893,10 @@
         let countB = new Array(11).fill(0);
         let countC = new Array(11).fill(0);
 
+        // 模擬當前核心點完「剩餘次數」後的結果
         for (let i = 0; i < trials; i++) {
             let simA = a, simB = b, simC = c;
-            for (let roll = 0; roll < 10; roll++) {
+            for (let roll = 0; roll < rolls; roll++) { // 動態跑剩下的次數
                 if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
                 else {
                     if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
@@ -906,6 +912,7 @@
             countA[simA]++; countB[simB]++; countC[simC]++;
         }
 
+        // 模擬「全新核心點滿 20 次」作為對照組基準
         for (let i = 0; i < trials; i++) {
             let simA = 0, simB = 0, simC = 0;
             for (let roll = 0; roll < 20; roll++) {
@@ -951,7 +958,8 @@
         for(let i = Math.max(0, c); i <= 10; i++) htmlC += `• 停在 ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%<br>`;
         htmlC += `</div>`;
 
-        detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完剩下 10 次後，未來可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成此目標的機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
+        // 修改此處的文字，將原本固定的 10 次改為動態顯示的 ${rolls}
+        detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完剩下 ${rolls} 次後，未來可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成此目標的機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
     }
 
 // ==========================================
