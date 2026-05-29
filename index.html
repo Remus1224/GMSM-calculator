@@ -11,77 +11,49 @@
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/" />
     
     <style>
+        /* ========================================== */
         /* 基礎全域設定 */
+        /* ========================================== */
         html { box-sizing: border-box; }
         *, *:before, *:after { box-sizing: inherit; }
 
-        body {
-            font-family: "微軟正黑體", "Helvetica Neue", sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            user-select: none; 
-            -webkit-user-select: none;
-            margin: 0;
-        }
-
-        button {
-            touch-action: manipulation; 
-            -webkit-tap-highlight-color: transparent; 
-            user-select: none;
-            -webkit-user-select: none;
-            outline: none;
-        }
-
-        .container {
-            background: #fff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            max-width: 850px;
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+        body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0; }
+        button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; outline: none; cursor: pointer;}
+        
+        .container { background: #fff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 850px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; align-content: flex-start; }
         h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
         .hint { width: 100%; font-size: 13px; color: #7f8c8d; text-align: center; margin-bottom: 10px; }
         
-        /* 分頁導覽列樣式 */
+        /* 導覽列 */
         .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; cursor: pointer; transition: color 0.3; }
+        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3s; }
         .tab-menu button:hover { color: #3498db; }
         .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
         .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
         .tab-content.active { display: flex; }
 
-        /* 共用區塊樣式 */
+        /* 工具箱共用區塊 */
         .section-title { font-weight: bold; color: #444; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; width: 100%; }
         .panel { background-color: #fafafa; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; width: 100%; }
-        
-        /* 無視防禦區塊樣式 */
         .left-panel { flex: 2; min-width: 300px; }
         .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
         .input-group { display: flex; align-items: center; justify-content: space-between; }
         .input-group label { font-size: 14px; color: #333; }
-        .input-group input { user-select: auto; -webkit-user-select: auto; width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .input-group input { user-select: auto; -webkit-user-select: auto; width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; text-align: center;}
         .input-group input:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
         .right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
         .radio-group { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
         .radio-group label { cursor: pointer; }
         
-        /* 按鈕與結果顯示 */
         .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background 0.2; flex: 1; }
+        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
         .action-btn:hover { background-color: #003d99; }
         .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
         .clear-btn:hover { background-color: #7f8c8d; }
         .result-box { text-align: center; margin-top: 15px; font-size: 18px; font-weight: bold; color: #0052cc; background: #e6f0ff; padding: 15px; border-radius: 6px; white-space: pre-line; line-height: 1.5; }
         .detail-box { margin-top: 15px; font-size: 15px; color: #333; background: #fff; padding: 15px; border: 1px solid #dcdde1; border-radius: 6px; text-align: left; line-height: 1.6; }
 
-        /* HEXA 表單專屬樣式 */
+        /* HEXA 專屬樣式 */
         .hexa-inputs { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 15px; }
         .hexa-inputs div { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 80px;}
         .hexa-inputs input { user-select: auto; -webkit-user-select: auto; width: 60px; text-align: center; font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; }
@@ -89,7 +61,7 @@
         .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #c0392b; font-weight: bold; margin-top: 10px;}
         .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
 
-        /* 懶人表格專屬樣式 */
+        /* 懶人表格 */
         .lazy-table-container { width: 100%; overflow-x: auto; }
         .lazy-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14.5px; text-align: center; }
         .lazy-table th { background-color: #0052cc; color: white; padding: 10px; border: 1px solid #e1e4e8; }
@@ -107,17 +79,16 @@
         .update-list li { margin-bottom: 8px; }
         .disclaimer-box { background: #fff3f3; padding: 18px; border-radius: 8px; border-left: 6px solid #c0392b; line-height: 1.8; color: #444; }
 
-        /* 電腦版/通用：切換斷行的隱藏設定 */
         .mobile-br { display: none; }
         .desktop-space { display: inline; }
 
-        /* ================= HEXA 屬性模擬器 (視覺化打鐵機) 專屬樣式 ================= */
+        /* ================= HEXA 屬性模擬器 (視覺化打鐵機) ================= */
         .visual-container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #171b2f; padding: 25px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); color: white; }
         .visual-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
         .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
         .v-top-controls { display: flex; gap: 8px; }
-        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; cursor: pointer; transition: 0.2; font-weight: bold; }
+        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2s; font-weight: bold; }
         .v-btn-top:hover { background-color: #4b6584; }
         .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
         .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
@@ -130,62 +101,183 @@
         .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
         .v-prob { color: #b3c2d1; font-size: 14px; }
         .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
-        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
+        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
         .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
         .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
         
-        /* 控制區排版 */
         .visual-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); gap: 15px;}
         .v-control-group { display: flex; align-items: center; gap: 12px; }
         .v-reset-tracker { font-size: 14px; color: #bdc3c7; }
         
-        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2; }
+        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
         .v-btn:hover { filter: brightness(1.2); }
         .v-btn:active { transform: scale(0.95); }
-        
-        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2; }
+        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
         .v-btn-10x:hover { filter: brightness(1.2); }
         .v-btn-10x:active { transform: scale(0.95); }
-
-        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: transform 0.1, filter 0.2, background 0.3; }
+        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s, background 0.3s; }
         .v-btn-reset:active { transform: scale(0.95); }
         .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
         .v-btn-reset.highlight:hover { filter: brightness(1.2); }
 
-        /* ================= 手機版 RWD 排版優化 (終極空間榨取) ================= */
+        /* ================= 👑 超越模擬器專屬樣式 ================= */
+        .msm-forge-ui { width: 100%; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; background-color: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; border-radius: 6px; overflow: hidden; }
+        .forge-header { background-color: #455468; color: white; padding: 12px 20px; font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .forge-info-icon { display: inline-flex; justify-content: center; align-items: center; width: 22px; height: 22px; border: 2px solid white; border-radius: 4px; font-size: 14px; transform: rotate(45deg); }
+        .forge-info-icon span { transform: rotate(-45deg); }
+        .forge-body { display: flex; width: 100%; background-color: #f4f5f7; }
+        
+        .forge-sidebar { width: 115px; background-color: #344253; display: flex; flex-direction: column; flex-shrink: 0; }
+        .menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2s;}
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item.active { background-color: #ed7245; color: white; border-bottom: none; }
+        
+        .forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
+
+        .sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px 20px 10px 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s;}
+        .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
+        .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
+        .sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2s;}
+
+        /* 扣除模式隱藏設定 */
+        .scroll-mode-active #ui-level-content { display: none !important; } 
+        .scroll-mode-active .sec-middle { background-color: #ffffff !important; justify-content: center !important; padding: 30px 20px !important; } 
+        .scroll-mode-active #ui-rate-wrapper { display: none !important; } 
+        .scroll-mode-active #ui-divider-line { display: none !important; } 
+        .scroll-mode-active #ui-bonus-row { display: none !important; }    
+        .scroll-mode-active .desc-text { color: #555; font-weight: normal; margin-bottom: 0; }
+        .scroll-mode-active #ui-coin-box { display: none !important; } 
+        .scroll-mode-active .sec-bottom { background-color: #ffffff !important; padding-top: 10px !important; }
+
+        .item-col { display: flex; flex-direction: column; align-items: center; width: 140px; }
+        .img-box { width: 85px; height: 85px; background-color: #e4e6e9; border: 1px solid #dcdde1; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); position: relative; }
+        .img-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
+        .dynamic-lv-overlay { position: absolute; bottom: 3px; right: 3px; background-color: #111111; color: #ffffff; font-size: 11px; font-weight: bold; padding: 1px 5px; border-radius: 10px; border: 1px solid #ffffff; z-index: 10; }
+        .equip-name { font-size: 12px; font-weight: bold; color: #333; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .fail-text { font-size: 12px; color: #888; }
+        .plus-sign { font-size: 40px; font-weight: bold; color: #888; margin-top: 10px; }
+
+        .lv-arrow { color: #f3724c; margin: 0 20px; font-size: 24px; display: inline-block; transform: scaleX(1.5); }
+        .lv-text { font-size: 22px; font-weight: bold; color: #555; }
+        .lv-next { color: #f3724c; }
+
+        .rate-box { width: 100%; text-align: center; margin-bottom: 15px; }
+        .rate-title { font-size: 18px; font-weight: bold; color: #555; margin-bottom: 5px;}
+        .rate-highlight { font-size: 22px; color: #f3724c; margin-left: 5px;}
+        .rate-detail { font-size: 13px; color: #666; margin-bottom: 15px;}
+        .rate-detail span { color: #f3724c; }
+        
+        /* 💡 滿版分隔線修正 */
+        hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0; width: calc(100% + 60px); }
+        
+        .bonus-row { width: 65%; margin: 0 auto 5px auto; display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #555; margin-top: -15px; margin-bottom: 0px; }
+        .desc-text { font-size: 12px; color: #777; text-align: center; line-height: 1.6; font-weight: bold; width: 90%; }
+        
+        .coin-box { background: #ffffff; padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; color: #333; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; font-weight: bold; }
+        .btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1s; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
+        .btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
+        .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
+
+        /* ⚙️ 超越模擬器設定區 */
+        .settings-panel { width: 100%; max-width: 800px; margin: 20px auto 0 auto; background: #ecf0f1; border-radius: 8px; padding: 20px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .settings-title { font-size: 15px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+        .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; color: #333; flex-wrap: wrap; }
+        .setting-row input[type="number"], .setting-row select { padding: 4px; border-radius: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;}
+        .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .stats-text { font-size: 14px; color: #555; text-align: center; margin-top: 15px; font-weight: bold;}
+        .btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; }
+        
+        .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
+        .btn-sound.muted { background: #e74c3c; color: white; border-color: #c0392b; }
+
+        /* 雷擊特效動畫 */
+        .lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
+        .lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
+        .lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
+        @keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
+        @keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
+
+        /* 🪟 結算模態彈窗 */
+        .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-backdrop.active { display: flex; }
+        .modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .modal-header { background: #4a5468; color: #ffffff; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
+        .m-enh-grey-top { background-color: #F0F0F0; padding: 25px 20px 0px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .m-enh-white-mid { background-color: #ffffff; padding: 12px 20px 20px 20px; text-align: center; } 
+        .m-enh-grey-bot { background-color: #e4e6e9; padding: 20px; display: flex; justify-content: center; }
+        .m-scr-white-body { background-color: #ffffff; padding: 35px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .m-scr-grey-box { background-color: #F0F0F0; margin: 20px auto; padding: 14px; border-radius: 4px; width: 85%; font-weight: bold; font-size: 16px; text-align: center; letter-spacing: 0.5px;}
+        .m-scr-text-orange { color: #ed7245; } 
+        .m-scr-text-grey { color: #888888; } 
+        .m-item-name { font-size: 13px; font-weight: bold; color: #333; margin-top: 10px;}
+        .m-fail-text { font-size: 12px; color: #777; margin-top: 3px;}
+        .m-fail-change { color: #777; font-weight: bold; margin-left: 4px; } 
+        .m-status-title { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+        .m-status-sub { font-size: 12px; color: #7f8c8d; margin-bottom: 10px; }
+        .m-bonus-rate { font-size: 22px; color: #f3724c; font-weight: bold; margin-bottom: 5px; }
+        .m-bonus-hint { font-size: 11px; color: #95a5a6; }
+        .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
+        .m-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        /* ================= 手機版 RWD 排版優化 ================= */
         @media (max-width: 500px) {
-            body { padding: 5px; } /* 盡可能釋放外圍空白 */
-            .container { padding: 12px 6px; } /* 將左右內距從 30px 壓到 6px */
-            .panel { padding: 12px 6px; } /* Panel 內的留白也縮減 */
+            body { padding: 5px; } 
+            .container { padding: 12px 6px; } 
+            .panel { padding: 12px 6px; } 
             
+            /* HEXA 模擬器 RWD */
             .visual-container { padding: 20px 12px; }
-            
-            /* 頂部：維持左右排列，但縮小間距與字體，避免擠壓 */
             .visual-header-top { flex-direction: row; align-items: center; gap: 5px; }
             .v-fragment-text { font-size: 11px; white-space: nowrap; }
             .v-top-controls { display: flex; flex-direction: row; gap: 4px; }
             .v-btn-top { padding: 4px 6px; font-size: 11px; }
-            
-            /* 屬性框微調 */
             .visual-box { padding: 12px 8px; gap: 8px; }
             .hexa-img { width: 40px; height: 40px; }
             .v-stat-name { font-size: 13px; }
             .v-title-main, .v-title-sub { font-size: 12px; }
             .v-prob { font-size: 12px; white-space: nowrap; margin-left: auto; }
-            
-            /* 底部按鈕排版微調 */
             .visual-controls { flex-direction: column; align-items: stretch; padding: 15px 12px; gap: 15px; }
             .v-control-group { width: 100%; justify-content: space-between; }
             .v-btn-10x, .v-btn { flex: 1; padding: 12px 10px; font-size: 15px; text-align: center; }
 
-            /* 懶人表格防擠壓與字體縮放 */
-            .lazy-table th { white-space: nowrap; font-size: clamp(10px, 3.2vw, 14px); padding: 8px 2px; }
-            .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 8px 2px; }
-            
-            /* 切換標籤斷行邏輯 (手機專屬) */
+            /* 懶人表 RWD */
+            .lazy-table th, .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 8px 2px; }
+            .lazy-table th { white-space: nowrap; }
             .mobile-br { display: block; }
             .desktop-space { display: none; }
             .tag { font-size: 11px; padding: 4px; line-height: 1.3; }
+
+            /* 👑 超越模擬器 RWD */
+            .forge-sidebar { display: none; }
+            .sec-top { gap: 5px; padding: 15px 5px; }
+            .item-col { width: 115px; }
+            .img-box { width: 75px; height: 75px; } 
+            .plus-sign { font-size: 30px; margin-top: 15px; }
+            
+            .equip-name { width: 100%; font-size: 11px; white-space: normal; overflow: visible; word-break: break-word; line-height: 1.3; margin-top: 5px;} 
+            .desc-text { width: 95%; font-size: 11px; }
+            
+            .sec-white { min-height: 50px; padding: 10px 0; }
+            .sec-grey-mid { padding: 15px 10px; }
+            .scroll-mode-active .sec-middle { padding: 20px 10px !important; }
+            
+            .lv-arrow { margin: 0 10px; font-size: 18px; }
+            .lv-text, .lv-next { font-size: 18px; }
+            .rate-title { font-size: 16px; }
+            .rate-highlight { font-size: 18px; }
+            .rate-detail { font-size: 12px; }
+            .bonus-row { width: 65%; font-size: 13px; }
+            
+            /* 💡 手機滿版分隔線修正 */
+            hr.divider { margin: 10px 0 15px 0; width: calc(100% + 20px); }
+            
+            /* 彈窗寬度適應 */
+            .modal-box { width: 95%; max-width: 340px; }
+            .m-enh-white-mid { padding: 10px; }
+            .m-scr-white-body { padding: 20px 10px; }
+            .m-scr-grey-box { width: 95%; font-size: 14px; padding: 10px; }
         }
     </style>
 
@@ -204,7 +296,8 @@
     
     <div class="tab-menu">
         <button id="btn-notice" class="active" onclick="switchTab('notice')">🪧 告示牌</button>
-        <button id="btn-ignore" onclick="switchTab('ignore')">無視防禦計算</button>
+        <button id="btn-ignore" onclick="switchTab('ignore')">無視計算機</button>
+        <button id="btn-transcend" onclick="switchTab('transcend')">超越模擬器</button>
         <button id="btn-hexa-visual" onclick="switchTab('hexa-visual')">HEXA屬性模擬器</button>
         <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
         <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
@@ -215,6 +308,7 @@
         <div class="panel">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路 (ง๑ •̀_•́)ง</li>
                 <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
@@ -273,6 +367,164 @@
 
             <button class="action-btn" onclick="calculateIgnore()">計算總無視防禦</button>
             <div class="result-box" id="result-ignore">總無視防禦：0.00%</div>
+        </div>
+    </div>
+
+    <div id="tab-transcend" class="tab-content">
+        <div class="msm-forge-ui" id="game-ui-container">
+            <div class="forge-header">
+                鐵匠鋪 <div class="forge-info-icon"><span>i</span></div>
+            </div>
+
+            <div class="forge-body">
+                <div class="forge-sidebar">
+                    <div class="menu-item">附加屬性變更</div>
+                    <div class="menu-item">傳承</div>
+                    <div class="menu-item active" id="menu-enhance" onclick="tr_switchMode('enhance')">超越</div>
+                    <div class="menu-item">紋章</div>
+                    <div class="menu-item">鍊成</div>
+                    <div class="menu-item">輪迴星火</div>
+                    <div class="menu-item" id="menu-scroll" onclick="tr_switchMode('scroll')">卷軸</div>
+                </div>
+
+                <div class="forge-main">
+                    <div class="lightning-overlay" id="ui-lightning">
+                        <img class="lightning-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Lightning_bolt_with_transparent_background.png/1200px-Lightning_bolt_with_transparent_background.png" alt="lightning" onerror="this.style.display='none'">
+                    </div>
+
+                    <div class="sec-top">
+                        <div class="item-col">
+                            <div class="img-box" id="ui-equip-box">
+                                <img src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
+                                <div class="dynamic-lv-overlay">Lv.<span id="ui-overlay-lv">30</span></div>
+                            </div>
+                            <div class="equip-name" title="神秘冥界幽靈天之星光權杖">神秘冥界幽靈天之星光權杖</div>
+                            <div class="fail-text" id="ui-fails">失敗次數 0 / 7</div>
+                        </div>
+                        <div class="plus-sign" id="ui-plus-sign">+</div>
+                        <div class="item-col">
+                            <div class="img-box">
+                                <img id="ui-stone-img" src="超越石.png" alt="stone" onerror="this.style.display='none'">
+                            </div>
+                            <div class="equip-name" id="ui-stone-name" style="font-weight: normal; color: #555;">超越石 50%</div>
+                        </div>
+                    </div>
+
+                    <div class="sec-white" id="ui-sec-white">
+                        <div class="lv-text" id="ui-level-content">
+                            MAX Lv.<span id="ui-lv-curr">30</span> <span class="lv-arrow">»</span> <span class="lv-next">MAX Lv.<span id="ui-lv-next">32</span></span>
+                        </div>
+                    </div>
+
+                    <div class="sec-grey-mid" id="ui-sec-enhance-grey">
+                        <div class="rate-box" id="ui-rate-wrapper">
+                            <div class="rate-title">最終成功率 <span class="rate-highlight" id="ui-total-rate">50%</span></div>
+                            <div class="rate-detail">(材料<span id="ui-base-rate">50%</span> +現在獎勵機率<span id="ui-bonus-rate" style="color:#f3724c;">0%</span>)</div>
+                        </div>
+                        <div class="bonus-row" id="ui-bonus-row">
+                            <span>失敗時追加獎勵機率</span>
+                            <span id="ui-add-rate" style="color: #888;">+10%</span>
+                        </div>
+                        <hr class="divider" id="ui-divider-line">
+                        <div class="desc-text" id="ui-main-desc">
+                            獎勵機率是因超越失敗而增加的機率。<br>
+                            嘗試超越時，使用的超越石成功機率會高，可獲得更高的獎勵機率。<br>
+                            獎勵機率在已嘗試超越的裝備上可累積到50%，成功時會重置。
+                        </div>
+                    </div>
+
+                    <div class="sec-bottom" id="ui-sec-bottom">
+                        <div class="coin-box" id="ui-coin-box">
+                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            1,204
+                        </div>
+                        <button class="btn-action-tr" id="btn-main-action" onclick="tr_execute_action()">超越</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-panel">
+            <div class="settings-title">
+                <span>⚙️ 模擬器設定</span>
+                <button id="btn-sound-toggle" class="btn-sound" onclick="tr_toggleSound()">🔊 音效：開啟</button>
+            </div>
+            <div class="setting-row" style="font-weight: bold; color: #c0392b;">
+                <label><input type="radio" name="sim-mode" value="enhance" checked onchange="tr_updateUI()"> 超越模式</label>
+                <label style="margin-left: 20px;"><input type="radio" name="sim-mode" value="scroll" onchange="tr_updateUI()"> 超越扣除模式</label>
+            </div>
+            <div class="setting-row" style="margin-top: 15px;">
+                <label>裝備等級：</label>
+                <select id="input-equip-lv" onchange="tr_forceStateChange()">
+                    <script>for(let i=30; i<=68; i+=2) document.write(`<option value="${i}">${i}</option>`);</script>
+                </select>
+                <label style="margin-left: 20px;">失敗次數：</label>
+                <select id="input-fail-count" onchange="tr_forceStateChange()">
+                    <script>for(let i=0; i<=7; i++) document.write(`<option value="${i}">${i}</option>`);</script>
+                </select>
+            </div>
+            <div class="setting-row">
+                超越石機率：
+                <label><input type="radio" name="stone-rate" value="80" onchange="tr_updateUI()"> 80%</label>
+                <label><input type="radio" name="stone-rate" value="50" checked onchange="tr_updateUI()"> 50%</label>
+                <label><input type="radio" name="stone-rate" value="30" onchange="tr_updateUI()"> 30%</label>
+                <label><input type="radio" name="stone-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
+                <input type="number" id="custom-stone-rate" value="50" min="1" max="100" style="width:50px;" data-group="stone-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
+            </div>
+            <div class="setting-row">
+                超越扣除卷軸機率：
+                <label><input type="radio" name="scroll-rate" value="27" checked onchange="tr_updateUI()"> 27%</label>
+                <label><input type="radio" name="scroll-rate" value="40" onchange="tr_updateUI()"> 40%</label>
+                <label><input type="radio" name="scroll-rate" value="70" onchange="tr_updateUI()"> 70%</label>
+                <label><input type="radio" name="scroll-rate" value="100" onchange="tr_updateUI()"> 100%</label>
+                <label><input type="radio" name="scroll-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
+                <input type="number" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
+            </div>
+            <div class="stats-text">已消耗：超越石 <strong id="stat-stones" style="color:#d35400;">0</strong> 顆 | 扣除卷軸 <strong id="stat-scrolls" style="color:#2980b9;">0</strong> 張</div>
+            <button class="btn-reset-tr" onclick="tr_action_reset()">🔄 重新模擬 (清除所有狀態)</button>
+        </div>
+
+        <div class="modal-backdrop" id="result-modal">
+            <div class="modal-box" id="modal-box-enhance" style="display: none;">
+                <div class="modal-header" id="m-enh-title">超越成功</div>
+                <div class="m-enh-grey-top">
+                    <div class="img-box" style="margin: 0 auto;">
+                        <img src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
+                        <div class="dynamic-lv-overlay">Lv.<span id="m-enh-item-lv">30</span></div>
+                    </div>
+                    <div class="m-item-name">神秘冥界幽靈天之星光權杖</div>
+                    <div class="m-fail-text" id="m-enh-fail-text-container">
+                        失敗次數 <span id="m-enh-fail-count">0 / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>
+                    </div>
+                    <div class="lv-text" style="margin-top: 3px; margin-bottom: 5px;">
+                        MAX Lv.<span id="m-enh-old-lv">30</span> <span class="lv-arrow">»</span> <span class="lv-next">MAX Lv.<span id="m-enh-new-lv">32</span></span>
+                    </div>
+                </div>
+                <div class="m-enh-white-mid">
+                    <div class="m-status-title" id="m-enh-status-title">超越成功。</div>
+                    <div id="m-enh-bonus-section">
+                        <div class="m-status-sub" id="m-enh-status-sub">追加超越成功機率重置</div>
+                        <div class="m-bonus-rate" id="m-enh-bonus-rate">0%</div>
+                        <div class="m-bonus-hint" id="m-enh-bonus-hint"></div>
+                    </div>
+                </div>
+                <div class="m-enh-grey-bot">
+                    <button class="m-btn" onclick="tr_closeModal()">確認</button>
+                </div>
+            </div>
+
+            <div class="modal-box" id="modal-box-scroll" style="display: none;">
+                <div class="modal-header">道具使用結果</div>
+                <div class="m-scr-white-body">
+                    <div id="m-scr-top-text" style="font-size: 14px; font-weight: bold; color: #555; margin-bottom: 15px;"></div>
+                    <div class="img-box" style="margin: 0 auto;">
+                        <img src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
+                        <div class="dynamic-lv-overlay">Lv.<span id="m-scr-item-lv">30</span></div>
+                    </div>
+                    <div class="m-scr-grey-box" id="m-scr-result-box"></div>
+                    <button class="m-btn" onclick="tr_closeModal()" style="margin-top: 15px;">確認</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -448,7 +700,9 @@
 </div>
 
 <script>
-    // --- 介面切換與清除邏輯 ---
+    // ==========================================
+    // 介面切換與清除邏輯
+    // ==========================================
     let lazyTableGenerated = false;
     let visualInitialized = false;
 
@@ -468,19 +722,20 @@
             initVisualBars();
             visualInitialized = true;
         }
+
+        if (tabId === 'transcend') {
+            tr_updateUI();
+        }
     }
 
     function clearReset() {
         document.getElementById('reset-a').value = '';
         document.getElementById('reset-b').value = '';
         document.getElementById('reset-c').value = '';
-        document.getElementById('reset-rolls').value = '10'; // 預設恢復為10次
+        document.getElementById('reset-rolls').value = '10';
         document.getElementById('reset-target-a').value = '';
         document.getElementById('reset-target-sub').value = '';
-        
-        let millionCb = document.getElementById('sim-million-reset');
-        if(millionCb) millionCb.checked = false;
-        
+        if(document.getElementById('sim-million-reset')) document.getElementById('sim-million-reset').checked = false;
         document.getElementById('result-hexa-reset-container').style.display = 'none';
     }
 
@@ -492,15 +747,12 @@
         document.getElementById('target-a').value = '';
         document.getElementById('target-sub').value = '';
         document.getElementById('sim-stoploss').checked = true;
-        
-        let millionCb = document.getElementById('sim-million');
-        if(millionCb) millionCb.checked = false;
-        
+        if(document.getElementById('sim-million')) document.getElementById('sim-million').checked = false;
         document.getElementById('result-hexa-sim').style.display = 'none';
     }
 
     // ==========================================
-    // 1. 無視防禦計算邏輯
+    // 1. 無視防禦計算機
     // ==========================================
     const equipments = [
         "帽子", "套服", "手套", "鞋子", "護肩", "腰帶", "披風", "副武", "三武",
@@ -542,6 +794,308 @@
     }
 
     // ==========================================
+    // 2. 超越強化模擬器 (完整獨立邏輯)
+    // ==========================================
+    let tr_lv = 30;
+    let tr_fails = 0;
+    let tr_bonus = 0.0;
+    let tr_stonesUsed = 0;
+    let tr_scrollsUsed = 0;
+    let tr_isAnimating = false;
+    let tr_isMuted = false; 
+
+    const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
+    const tr_sfxFail = new Audio('assets/AugmentFail.wav');
+
+    function tr_toggleSound() {
+        tr_isMuted = !tr_isMuted;
+        const soundBtn = document.getElementById('btn-sound-toggle');
+        if (tr_isMuted) {
+            soundBtn.innerText = "🔇 音效：關閉";
+            soundBtn.classList.add('muted');
+        } else {
+            soundBtn.innerText = "🔊 音效：開啟";
+            soundBtn.classList.remove('muted');
+        }
+    }
+
+    function tr_playSound(isSuccess) {
+        if (tr_isMuted) return;
+        if (isSuccess) {
+            try { tr_sfxSuccess.currentTime = 0; tr_sfxSuccess.play(); } catch(e){}
+        } else {
+            try { tr_sfxFail.currentTime = 0; tr_sfxFail.play(); } catch(e){}
+        }
+    }
+
+    // 💡 改良：輸入框打字時允許暫時空白，但不低於1%，失去焦點時防呆
+    function tr_validateCustomRate(inputElem) {
+        document.querySelector(`input[name="${inputElem.dataset.group}"][value="custom"]`).checked = true;
+        if (inputElem.value !== "") {
+            let val = parseInt(inputElem.value);
+            if (val > 100) inputElem.value = 100;
+        }
+        tr_updateUI();
+    }
+    function tr_onBlurCustomRate(inputElem) {
+        let val = parseInt(inputElem.value);
+        if (isNaN(val) || val < 1 || inputElem.value === "") {
+            inputElem.value = 1;
+        }
+        tr_updateUI();
+    }
+
+    function tr_getSelectedRate(groupName, customInputId) {
+        let radios = document.getElementsByName(groupName);
+        let val = Array.from(radios).find(r => r.checked).value;
+        if (val === 'custom') {
+            let customVal = parseInt(document.getElementById(customInputId).value);
+            return (isNaN(customVal) || customVal < 1) ? 1 : customVal;
+        }
+        return parseFloat(val);
+    }
+
+    function tr_forceStateChange() {
+        if(tr_isAnimating) return;
+        
+        let newLv = parseInt(document.getElementById('input-equip-lv').value);
+        
+            if (newLv !== tr_lv) {
+            tr_bonus = 0.0; 
+        }
+        
+        tr_lv = newLv;
+        tr_fails = parseInt(document.getElementById('input-fail-count').value);
+        
+        tr_updateUI();
+    }
+
+    function tr_switchMode(mode) {
+        if (tr_isAnimating) return;
+        let enhanceRadio = document.querySelector('input[name="sim-mode"][value="enhance"]');
+        let scrollRadio = document.querySelector('input[name="sim-mode"][value="scroll"]');
+        if (mode === 'enhance') enhanceRadio.checked = true;
+        else if (mode === 'scroll') scrollRadio.checked = true;
+        tr_updateUI();
+    }
+
+    function tr_updateUI() {
+        let modeElem = document.querySelector('input[name="sim-mode"]:checked');
+        if (!modeElem) return;
+        let mode = modeElem.value;
+        let container = document.getElementById('game-ui-container');
+        if (!container) return;
+
+        document.getElementById('input-equip-lv').value = tr_lv;
+        document.getElementById('input-fail-count').value = tr_fails;
+        document.getElementById('ui-lv-curr').innerText = tr_lv;
+        document.getElementById('ui-overlay-lv').innerText = tr_lv;
+        document.getElementById('ui-lv-next').innerText = (tr_lv >= 70) ? "MAX" : tr_lv + 2;
+
+        let failTextDOM = document.getElementById('ui-fails');
+        failTextDOM.innerText = `失敗次數 ${tr_fails} / 7`;
+        failTextDOM.style.color = (tr_fails >= 7) ? "#e74c3c" : "#888";
+
+        let stoneImg = document.getElementById('ui-stone-img');
+        let stoneNameDOM = document.getElementById('ui-stone-name');
+        let btnMain = document.getElementById('btn-main-action');
+
+        if (mode === 'enhance') {
+            document.getElementById('menu-enhance').classList.add('active');
+            document.getElementById('menu-scroll').classList.remove('active');
+            container.classList.remove('scroll-mode-active');
+            
+            document.getElementById('ui-coin-box').style.display = 'flex';
+
+            let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+            let totalRate = baseRate + tr_bonus;
+            let stoneName = "超越石"; let imgSrc = "assets/超越石.png";
+            
+            if (tr_lv >= 40 && tr_lv < 50) { stoneName = "發光超越石"; imgSrc = "assets/發光超越石.png"; }
+            if (tr_lv >= 50 && tr_lv <= 70) { stoneName = "混沌超越石"; imgSrc = "assets/混沌超越石.png"; }
+            
+            stoneNameDOM.innerText = `${stoneName} ${baseRate}%`;
+            stoneImg.src = imgSrc;
+
+            document.getElementById('ui-total-rate').innerText = `${totalRate.toFixed(0)}%`;
+            document.getElementById('ui-base-rate').innerText = `${baseRate}%`;
+            document.getElementById('ui-bonus-rate').innerText = `${tr_bonus.toFixed(0)}%`;
+            document.getElementById('ui-add-rate').innerText = `+${(baseRate * 0.2).toFixed(0)}%`;
+            document.getElementById('ui-main-desc').innerHTML = "獎勵機率是因超越失敗而增加的機率。<br>嘗試超越時，使用的超越石成功機率會高，可獲得更高的獎勵機率。<br>獎勵機率在已嘗試超越的裝備上可累積到50%，成功時會重置。";
+
+            btnMain.innerText = "超越";
+            btnMain.disabled = (tr_lv >= 70 || tr_fails >= 7 || tr_isAnimating);
+
+        } else {
+            document.getElementById('menu-enhance').classList.remove('active');
+            document.getElementById('menu-scroll').classList.add('active');
+            container.classList.add('scroll-mode-active');
+            
+            document.getElementById('ui-coin-box').style.display = 'none';
+            
+            let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+            let imgSrc = (scrollRate < 70) ? "assets/超越失敗扣除卷軸A.png" : "assets/超越失敗扣除卷軸B.png";
+            
+            stoneNameDOM.innerText = `超越失敗扣除卷軸 ${scrollRate}%`;
+            stoneImg.src = imgSrc;
+
+            document.getElementById('ui-main-desc').innerHTML = `對已套用超越失敗次數的道具使用，以${scrollRate}%的機率扣除失敗次數。<br>對超越成功次數沒有影響，只扣除1次的超越失敗次數。`;
+
+            btnMain.innerText = "套用";
+            btnMain.disabled = (tr_fails <= 0 || tr_isAnimating);
+        }
+
+        document.getElementById('stat-stones').innerText = tr_stonesUsed;
+        document.getElementById('stat-scrolls').innerText = tr_scrollsUsed;
+    }
+
+    function tr_execute_action() {
+        if (tr_isAnimating) return;
+        let mode = document.querySelector('input[name="sim-mode"]:checked').value;
+        if (mode === 'enhance') tr_action_transcend();
+        else tr_action_scroll();
+    }
+
+    function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFails, newFails) {
+        document.getElementById('result-modal').classList.add('active');
+        
+        if (type === 'enhance') {
+            document.getElementById('modal-box-enhance').style.display = 'flex';
+            document.getElementById('modal-box-scroll').style.display = 'none';
+            
+            document.getElementById('m-enh-item-lv').innerText = newLv; 
+            document.getElementById('m-enh-old-lv').innerText = oldLv;
+            document.getElementById('m-enh-new-lv').innerText = newLv;
+            
+            let header = document.getElementById('m-enh-title');
+            let failContainer = document.getElementById('m-enh-fail-text-container');
+            let statusTitle = document.getElementById('m-enh-status-title');
+            let bonusSection = document.getElementById('m-enh-bonus-section');
+
+            if (isSuccess) {
+                header.innerText = "超越成功";
+                failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>`;
+                failContainer.style.color = "#777";
+                failContainer.style.fontWeight = "normal";
+
+                statusTitle.innerText = "超越成功。"; 
+                
+                bonusSection.style.display = 'block';
+                document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率重置";
+                document.getElementById('m-enh-bonus-rate').innerText = "0%"; document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
+                document.getElementById('m-enh-bonus-hint').innerText = "";
+            } else {
+                header.innerText = "超越失敗";
+                
+                if (oldFails === 6 && newFails >= 7) {
+                    failContainer.innerHTML = `已達最大超越次數。`;
+                    failContainer.style.color = "#e74c3c";
+                    failContainer.style.fontWeight = "bold";
+                } else {
+                    failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change">(+1)</span>`;
+                    failContainer.style.color = "#777";
+                    failContainer.style.fontWeight = "normal";
+                }
+
+                statusTitle.innerText = "超越失敗。"; 
+                
+                if (newBonus === 0 || oldBonus === newBonus) {
+                    bonusSection.style.display = 'none';
+                } else {
+                    bonusSection.style.display = 'block';
+                    document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率獲得";
+                    document.getElementById('m-enh-bonus-rate').innerText = `獎勵機率 ${oldBonus.toFixed(0)}% > ${newBonus.toFixed(0)}%`; 
+                    document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
+                    document.getElementById('m-enh-bonus-hint').innerText = "獎勵機率最高可累積至50%。";
+                }
+            }
+        } else {
+            document.getElementById('modal-box-enhance').style.display = 'none';
+            document.getElementById('modal-box-scroll').style.display = 'flex';
+            
+            document.getElementById('m-scr-item-lv').innerText = oldLv;
+
+            let topText = document.getElementById('m-scr-top-text');
+            let resultBox = document.getElementById('m-scr-result-box');
+
+            if (isSuccess) {
+                topText.innerText = "該裝備的超越失敗次數已扣除1。";
+                resultBox.innerText = "失敗次數扣除成功！";
+                resultBox.className = "m-scr-grey-box m-scr-text-orange";
+            } else {
+                topText.innerText = "該裝備的超越失敗次數未扣除。";
+                resultBox.innerText = "失敗次數扣除失敗";
+                resultBox.className = "m-scr-grey-box m-scr-text-grey";
+            }
+        }
+    }
+
+    function tr_closeModal() {
+        document.getElementById('result-modal').classList.remove('active');
+        tr_isAnimating = false; // 💡 確保視窗關閉後才能進行下一次點擊
+        tr_updateUI(); 
+    }
+
+    function tr_action_transcend() {
+        if (tr_isAnimating || tr_lv >= 70 || tr_fails >= 7) return;
+
+        tr_isAnimating = true;  // 💡 鎖定按鈕，防止狂點
+        tr_stonesUsed++;
+        tr_updateUI();
+
+        let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+        let totalRate = baseRate + tr_bonus;
+        let roll = Math.random() * 100;
+        let isSuccess = roll < totalRate;
+
+        let oldLv = tr_lv, oldBonus = tr_bonus, oldFails = tr_fails;
+
+        tr_playSound(isSuccess);
+        document.getElementById('ui-lightning').classList.add('active'); 
+
+        setTimeout(() => {
+            document.getElementById('ui-lightning').classList.remove('active');
+
+            if (isSuccess) {
+                tr_lv += 2; tr_bonus = 0.0; 
+            } else {
+                tr_fails++;
+                tr_bonus = Math.min(50, tr_bonus + (baseRate * 0.2)); 
+            }
+            
+            tr_showModal('enhance', isSuccess, oldLv, tr_lv, oldBonus, tr_bonus, oldFails, tr_fails);
+        }, 200); 
+    }
+
+    function tr_action_scroll() {
+        if (tr_isAnimating || tr_fails <= 0) return;
+
+        tr_isAnimating = true;  // 💡 鎖定按鈕
+        tr_scrollsUsed++;
+        tr_updateUI();
+
+        let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+        let roll = Math.random() * 100;
+        let isSuccess = roll < scrollRate;
+
+        let oldLv = tr_lv, oldFails = tr_fails;
+
+        tr_playSound(isSuccess);
+
+        setTimeout(() => {
+            if (isSuccess) tr_fails--;
+            tr_showModal('scroll', isSuccess, oldLv, oldLv, 0, 0, oldFails, tr_fails);
+        }, 200); 
+    }
+
+    function tr_action_reset() {
+        if (tr_isAnimating) return;
+        tr_lv = 30; tr_fails = 0; tr_bonus = 0.0; tr_stonesUsed = 0; tr_scrollsUsed = 0;
+        document.querySelector('input[name="sim-mode"][value="enhance"]').checked = true;
+        tr_updateUI();
+    }
+
+    // ==========================================
     // HEXA 共用機率邏輯
     // ==========================================
     function getHexaProb(level) {
@@ -565,7 +1119,7 @@
     }
 
     // ==========================================
-    // 1.5 沉浸式強化打鐵機邏輯 (HEXA屬性模擬器)
+    // 3. 沉浸式強化打鐵機邏輯 (HEXA屬性模擬器)
     // ==========================================
     let vA = 0, vB = 0, vC = 0, vClicks = 0;
     let totalFragmentsUsed = 0; 
@@ -746,7 +1300,7 @@
     }
 
     // ==========================================
-    // 2. HEXA 懶人決策表生成邏輯
+    // 4. HEXA 懶人決策表生成邏輯
     // ==========================================
     let currentSort = { col: 'winRate', asc: false }; 
 
@@ -854,9 +1408,9 @@
     }
 
     // ==========================================
-    // 3. HEXA 重置決策邏輯 (動態基準 PK 系統)
+    // 5. HEXA 重置決策邏輯 (動態基準 PK 系統)
     // ==========================================
-function checkHexaReset() {
+    function checkHexaReset() {
         let a = parseInt(document.getElementById('reset-a').value) || 0;
         let b = parseInt(document.getElementById('reset-b').value) || 0;
         let c = parseInt(document.getElementById('reset-c').value) || 0;
@@ -870,7 +1424,6 @@ function checkHexaReset() {
         let mainBox = document.getElementById('result-hexa-reset-main');
         let detailBox = document.getElementById('result-hexa-reset-details');
 
-        // 新的防呆邏輯：目前屬性總和 + 剩餘次數 必須等於 20
         if (a + b + c + rolls !== 20) {
             container.style.display = 'block';
             mainBox.innerText = `⚠️ 錯誤：目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 應該要等於 20 喔！\n請確認輸入數字是否正確。`;
@@ -893,10 +1446,9 @@ function checkHexaReset() {
         let countB = new Array(11).fill(0);
         let countC = new Array(11).fill(0);
 
-        // 模擬當前核心點完「剩餘次數」後的結果
         for (let i = 0; i < trials; i++) {
             let simA = a, simB = b, simC = c;
-            for (let roll = 0; roll < rolls; roll++) { // 動態跑剩下的次數
+            for (let roll = 0; roll < rolls; roll++) { 
                 if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
                 else {
                     if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
@@ -912,7 +1464,6 @@ function checkHexaReset() {
             countA[simA]++; countB[simB]++; countC[simC]++;
         }
 
-        // 模擬「全新核心點滿 20 次」作為對照組基準
         for (let i = 0; i < trials; i++) {
             let simA = 0, simB = 0, simC = 0;
             for (let roll = 0; roll < 20; roll++) {
@@ -958,12 +1509,11 @@ function checkHexaReset() {
         for(let i = Math.max(0, c); i <= 10; i++) htmlC += `• 停在 ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%<br>`;
         htmlC += `</div>`;
 
-        // 修改此處的文字，將原本固定的 10 次改為動態顯示的 ${rolls}
         detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完剩下 ${rolls} 次後，未來可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成此目標的機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
     }
 
-// ==========================================
-    // 4. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
+    // ==========================================
+    // 6. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
     // ==========================================
     function runHexaSimulation() {
         let startA = parseInt(document.getElementById('sim-a').value) || 0;
@@ -982,7 +1532,6 @@ function checkHexaReset() {
             resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; return;
         }
 
-        // 判斷是否觸發「黃金鐵律」
         let isGoldenRule = false;
         if (useStopLoss && targetSub === 0) {
             if (targetA === 10 || targetA === 9) isGoldenRule = true;
@@ -997,7 +1546,6 @@ function checkHexaReset() {
             let attemptFragments = 0;
             let success = false;
 
-            // 檢查是否初始狀態就已達標
             if ((targetA > 0 && a >= targetA) || (targetSub > 0 && Math.max(b, c) >= targetSub)) {
                 success = true;
             }
@@ -1007,7 +1555,6 @@ function checkHexaReset() {
                 let currentTotalRolls = startA + startB + startC + r;
 
                 if (useStopLoss) {
-                    // 1. 數學絕對停損 (每一步都檢查：如果剩下次數絕對點不到，直接放棄)
                     let remainingRolls = rolls - r;
                     let canHitA = (targetA > 0) ? (a + remainingRolls >= targetA) : false;
                     let canHitSub = (targetSub > 0) ? (currentMaxSub + remainingRolls >= targetSub) : false;
@@ -1015,14 +1562,12 @@ function checkHexaReset() {
                     
                     if (!possible) break; 
 
-                    // 2. 黃金鐵律策略停損 (僅在第 10 次健康檢查)
                     if (currentTotalRolls === 10) {
-                        if (targetA === 10 && targetSub === 0 && a < 5) break; // 主10沒5直接丟
-                        if (targetA === 9 && targetSub === 0 && a < 4) break;  // 主9沒4直接丟
+                        if (targetA === 10 && targetSub === 0 && a < 5) break; 
+                        if (targetA === 9 && targetSub === 0 && a < 4) break;  
                     }
                 }
 
-                // 扣除碎片並強化
                 attemptFragments += getHexaCost(a);
                 if (Math.random() < getHexaProb(a) && a < 10) {
                     a++;
@@ -1031,14 +1576,12 @@ function checkHexaReset() {
                     else { if (c < 10) c++; else b++; }
                 }
 
-                // 強化後檢查是否達標
                 currentMaxSub = Math.max(b, c);
                 if ((targetA > 0 && a >= targetA) || (targetSub > 0 && currentMaxSub >= targetSub)) {
                     success = true;
                 }
             }
 
-            // 統計結算：無論這顆核心是成功還是被丟掉，花掉的碎片都算進成本
             totalFragmentsAll += attemptFragments;
 
             if (success) {
@@ -1052,17 +1595,14 @@ function checkHexaReset() {
             }
         }
 
-        // 期望值公式：總花費 ÷ 成功次數 = 真實平均碎片成本
         let prob = (countSuccess / trials) * 100;
         let avgCost = countSuccess > 0 ? (totalFragmentsAll / countSuccess) : 0;
         
-        // 輸出畫面
         let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong><br>`;
         
         if (useStopLoss) {
             htmlOutput += `<span style="color:${isGoldenRule ? '#27ae60' : '#7f8c8d'}; font-size:13px;">`;
             
-            // 依照使用者需求，動態改變提示文字
             if (targetA === 10 && targetSub === 0) {
                 htmlOutput += `(套用提早停損及重置決策：前十次未達主屬5時直接重置)`;
             } else if (targetA === 9 && targetSub === 0) {
@@ -1095,6 +1635,9 @@ function checkHexaReset() {
         resultBox.style.display = 'block';
         resultBox.innerHTML = htmlOutput;
     }
+
+    // 初始化模擬器
+    tr_updateUI();
 </script>
 </body>
 </html>
