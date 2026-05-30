@@ -26,7 +26,7 @@
         
         /* 導覽列 */
         .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3; }
+        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3s; }
         .tab-menu button:hover { color: #3498db; }
         .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
         .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
@@ -46,7 +46,7 @@
         .radio-group label { cursor: pointer; }
         
         .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2; flex: 1; }
+        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
         .action-btn:hover { background-color: #003d99; }
         .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
         .clear-btn:hover { background-color: #7f8c8d; }
@@ -88,7 +88,7 @@
         .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
         .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
         .v-top-controls { display: flex; gap: 8px; }
-        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2; font-weight: bold; }
+        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2s; font-weight: bold; }
         .v-btn-top:hover { background-color: #4b6584; }
         .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
         .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
@@ -101,7 +101,7 @@
         .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
         .v-prob { color: #b3c2d1; font-size: 14px; }
         .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
-        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
+        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
         .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
         .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
         
@@ -109,13 +109,13 @@
         .v-control-group { display: flex; align-items: center; gap: 12px; }
         .v-reset-tracker { font-size: 14px; color: #bdc3c7; }
         
-        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2; }
+        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
         .v-btn:hover { filter: brightness(1.2); }
         .v-btn:active { transform: scale(0.95); }
-        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2; }
+        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
         .v-btn-10x:hover { filter: brightness(1.2); }
         .v-btn-10x:active { transform: scale(0.95); }
-        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2, background 0.3; }
+        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s, background 0.3s; }
         .v-btn-reset:active { transform: scale(0.95); }
         .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
         .v-btn-reset.highlight:hover { filter: brightness(1.2); }
@@ -128,16 +128,16 @@
         .forge-body { display: flex; width: 100%; background-color: #f4f5f7; }
         
         .forge-sidebar { width: 115px; background-color: #344253; display: flex; flex-direction: column; flex-shrink: 0; }
-        .menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2;}
+        .menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2s;}
         .menu-item:last-child { border-bottom: none; }
         .menu-item.active { background-color: #ed7245; color: white; border-bottom: none; }
         
         .forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
 
-        .sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px 20px 10px 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2;}
-        .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2;}
-        .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2;}
-        .sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2;}
+        .sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px 20px 10px 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s;}
+        .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
+        .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
+        .sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2s;}
 
         /* 扣除模式隱藏設定 */
         .scroll-mode-active #ui-level-content { display: none !important; } 
@@ -174,7 +174,7 @@
         .desc-text { font-size: 12px; color: #777; text-align: center; line-height: 1.6; font-weight: bold; width: 90%; }
         
         .coin-box { background: #ffffff; padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; color: #333; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; font-weight: bold; }
-        .btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
+        .btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1s; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
         .btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
         .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
 
@@ -184,23 +184,25 @@
         .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; color: #333; flex-wrap: wrap; }
         .setting-row input[type="number"], .setting-row select { padding: 4px; border-radius: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;}
         .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .stats-text { font-size: 14px; color: #555; text-align: center; margin-top: 15px; font-weight: bold;}
-        .btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; }
         
-        .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2; font-weight: bold; color: #2c3e50;}
+        .stats-text { font-size: 14px; color: #555; text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;}
+        .btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; transition: 0.2s; }
+        .btn-reset-tr:hover { background: #95a5a6; }
+        
+        .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
         .btn-sound.muted { background: #e74c3c; color: white; border-color: #c0392b; }
 
         /* 雷擊特效動畫 */
         .lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
-        .lightning-overlay.active { display: flex; animation: flash-bang 1 ease-out forwards; }
-        .lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6 infinite alternate; }
+        .lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
+        .lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
         @keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
         @keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
 
         /* 🪟 結算模態彈窗 */
         .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 2000; justify-content: center; align-items: center; }
         .modal-backdrop.active { display: flex; }
-        .modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3 cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         .modal-header { background: #4a5468; color: #ffffff; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
@@ -218,7 +220,7 @@
         .m-status-sub { font-size: 12px; color: #7f8c8d; margin-bottom: 10px; }
         .m-bonus-rate { font-size: 22px; color: #f3724c; font-weight: bold; margin-bottom: 5px; }
         .m-bonus-hint { font-size: 11px; color: #95a5a6; }
-        .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1; }
+        .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
         .m-btn:active { transform: translateY(4px); box-shadow: none; }
 
         /* ================= 手機版 RWD 排版優化 ================= */
@@ -318,6 +320,7 @@
             
             <div class="section-title">🛠️ 微調與優化</div>
             <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/05/30</strong><br>超越模擬器加入「期望值與實際消耗」即時追蹤系統，並修正獎勵機率計算（最低保底5%，小數點捨去）。</li>
                 <li><strong>2026/05/28</strong><br>優化重置決策模擬，原先只能模擬核心LV10改為LV10~19。</li>
                 <li><strong>2026/05/26</strong><br>優化目標屬性模擬的策略模式，極端目標更精準。</li>
                 <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更精準。<br>HEXA屬性模擬器新增強化10次與重置次數統計的功能。</li>
@@ -411,7 +414,7 @@
                         <div class="plus-sign" id="ui-plus-sign">+</div>
                         <div class="item-col">
                             <div class="img-box">
-                                <img id="ui-stone-img" src="超越石.png" alt="stone" onerror="this.style.display='none'">
+                                <img id="ui-stone-img" src="assets/超越石.png" alt="stone" onerror="this.style.display='none'">
                             </div>
                             <div class="equip-name" id="ui-stone-name" style="font-weight: normal; color: #555;">超越石 50%</div>
                         </div>
@@ -487,7 +490,32 @@
                 <label><input type="radio" name="scroll-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
                 <input type="number" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
             </div>
-            <div class="stats-text">已消耗：超越石 <strong id="stat-stones" style="color:#d35400;">0</strong> 顆 | 扣除卷軸 <strong id="stat-scrolls" style="color:#2980b9;">0</strong> 張</div>
+
+            <div class="stats-text" style="text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;">
+                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
+                <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
+                    <div style="flex: 1; min-width: 140px;">
+                        <strong style="color:#d35400;">【超越石消耗】</strong><br>
+                        一般超越：<span id="stat-stone-normal">0</span> 顆<br>
+                        發光超越：<span id="stat-stone-radiant">0</span> 顆<br>
+                        混沌超越：<span id="stat-stone-chaos">0</span> 顆<br>
+                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
+                            實際總消耗：<strong id="stat-stones-total" style="color:#c0392b; font-size:14px;">0</strong> 顆<br>
+                            理論期望值：<strong id="stat-stones-ev" style="color:#2980b9; font-size:14px;">0.00</strong> 顆
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 140px;">
+                        <strong style="color:#2980b9;">【扣除卷軸消耗】</strong><br>
+                        失敗扣除卷：<span id="stat-scrolls-total">0</span> 張<br>
+                        <br><br>
+                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
+                            實際總消耗：<strong id="stat-scrolls-total-bottom" style="color:#c0392b; font-size:14px;">0</strong> 張<br>
+                            理論期望值：<strong id="stat-scrolls-ev" style="color:#2980b9; font-size:14px;">0.00</strong> 張
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn-reset-tr" onclick="tr_action_reset()">🔄 重新模擬 (清除所有狀態)</button>
         </div>
 
@@ -801,18 +829,48 @@
     }
 
     // ==========================================
-    // 2. 超越強化模擬器 (完整獨立邏輯)
+    // 2. 超越強化模擬器 (加入機率期望值系統)
     // ==========================================
     let tr_lv = 30;
     let tr_fails = 0;
     let tr_bonus = 0.0;
-    let tr_stonesUsed = 0;
-    let tr_scrollsUsed = 0;
+    
+    // 統計數據
+    let tr_stat_normal = 0;
+    let tr_stat_radiant = 0;
+    let tr_stat_chaos = 0;
+    let tr_stat_scrolls = 0;
+    
+    // 期望值數據
+    let tr_ev_stones_achieved = 0;
+    let tr_ev_scrolls_achieved = 0;
+    let tr_current_level_stones = 0; 
+    let tr_current_fail_scrolls = 0;
+
     let tr_isAnimating = false;
     let tr_isMuted = false; 
 
     const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
     const tr_sfxFail = new Audio('assets/AugmentFail.wav');
+
+    // 計算超越單階的理論期望值 (蒙地卡羅概念的精算模型)
+    function tr_getStoneEV(baseRate) {
+        let expected = 0;
+        let cumulativeFailProb = 1.0;
+        let currentBonus = 0;
+        // 保底5%，小數點捨去
+        let bonusStep = Math.max(5, Math.floor(baseRate * 0.2)); 
+        
+        for (let attempts = 1; attempts <= 40; attempts++) {
+            let rate = Math.min(100, baseRate + currentBonus) / 100.0;
+            let probSuccess = cumulativeFailProb * rate;
+            expected += attempts * probSuccess;
+            cumulativeFailProb *= (1 - rate);
+            currentBonus = Math.min(50, currentBonus + bonusStep);
+            if (cumulativeFailProb < 0.0001) break;
+        }
+        return expected;
+    }
 
     function tr_toggleSound() {
         tr_isMuted = !tr_isMuted;
@@ -835,7 +893,6 @@
         }
     }
 
-    // 💡 改良：輸入框打字時允許暫時空白，但不低於1%，失去焦點時防呆
     function tr_validateCustomRate(inputElem) {
         document.querySelector(`input[name="${inputElem.dataset.group}"][value="custom"]`).checked = true;
         if (inputElem.value !== "") {
@@ -864,16 +921,13 @@
 
     function tr_forceStateChange() {
         if(tr_isAnimating) return;
-        
         let newLv = parseInt(document.getElementById('input-equip-lv').value);
-        
-            if (newLv !== tr_lv) {
-            tr_bonus = 0.0; 
-        }
-        
+        if (newLv !== tr_lv) { tr_bonus = 0.0; }
         tr_lv = newLv;
         tr_fails = parseInt(document.getElementById('input-fail-count').value);
         
+        // 切換等級時，重置當前尚未成功的 EV 累加
+        tr_current_level_stones = 0;
         tr_updateUI();
     }
 
@@ -907,14 +961,15 @@
         let stoneNameDOM = document.getElementById('ui-stone-name');
         let btnMain = document.getElementById('btn-main-action');
 
+        let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+        let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
+
         if (mode === 'enhance') {
             document.getElementById('menu-enhance').classList.add('active');
             document.getElementById('menu-scroll').classList.remove('active');
             container.classList.remove('scroll-mode-active');
-            
             document.getElementById('ui-coin-box').style.display = 'flex';
 
-            let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
             let totalRate = baseRate + tr_bonus;
             let stoneName = "超越石"; let imgSrc = "assets/超越石.png";
             
@@ -927,8 +982,7 @@
             document.getElementById('ui-total-rate').innerText = `${totalRate.toFixed(0)}%`;
             document.getElementById('ui-base-rate').innerText = `${baseRate}%`;
             document.getElementById('ui-bonus-rate').innerText = `${tr_bonus.toFixed(0)}%`;
-            document.getElementById('ui-add-rate').innerText = `+${(baseRate * 0.2).toFixed(0)}%`;
-            document.getElementById('ui-main-desc').innerHTML = "獎勵機率是因超越失敗而增加的機率。<br>嘗試超越時，使用的超越石成功機率會高，可獲得更高的獎勵機率。<br>獎勵機率在已嘗試超越的裝備上可累積到50%，成功時會重置。";
+            document.getElementById('ui-add-rate').innerText = `+${bonusStep}%`;
 
             btnMain.innerText = "超越";
             btnMain.disabled = (tr_lv >= 70 || tr_fails >= 7 || tr_isAnimating);
@@ -937,7 +991,6 @@
             document.getElementById('menu-enhance').classList.remove('active');
             document.getElementById('menu-scroll').classList.add('active');
             container.classList.add('scroll-mode-active');
-            
             document.getElementById('ui-coin-box').style.display = 'none';
             
             let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
@@ -946,14 +999,26 @@
             stoneNameDOM.innerText = `超越失敗扣除卷軸 ${scrollRate}%`;
             stoneImg.src = imgSrc;
 
-            document.getElementById('ui-main-desc').innerHTML = `對已套用超越失敗次數的道具使用，以${scrollRate}%的機率扣除失敗次數。<br>對超越成功次數沒有影響，只扣除1次的超越失敗次數。`;
-
             btnMain.innerText = "套用";
             btnMain.disabled = (tr_fails <= 0 || tr_isAnimating);
         }
 
-        document.getElementById('stat-stones').innerText = tr_stonesUsed;
-        document.getElementById('stat-scrolls').innerText = tr_scrollsUsed;
+        // --- 📊 更新期望值面板 ---
+        document.getElementById('stat-stone-normal').innerText = tr_stat_normal;
+        document.getElementById('stat-stone-radiant').innerText = tr_stat_radiant;
+        document.getElementById('stat-stone-chaos').innerText = tr_stat_chaos;
+        let totalStones = tr_stat_normal + tr_stat_radiant + tr_stat_chaos;
+        document.getElementById('stat-stones-total').innerText = totalStones;
+        
+        let current_stone_ev = tr_current_level_stones > 0 ? tr_getStoneEV(baseRate) : 0;
+        document.getElementById('stat-stones-ev').innerText = (tr_ev_stones_achieved + current_stone_ev).toFixed(2);
+
+        document.getElementById('stat-scrolls-total').innerText = tr_stat_scrolls;
+        document.getElementById('stat-scrolls-total-bottom').innerText = tr_stat_scrolls;
+        
+        let sRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+        let current_scroll_ev = (tr_current_fail_scrolls > 0 && sRate > 0) ? (100 / sRate) : 0;
+        document.getElementById('stat-scrolls-ev').innerText = (tr_ev_scrolls_achieved + current_scroll_ev).toFixed(2);
     }
 
     function tr_execute_action() {
@@ -965,47 +1030,35 @@
 
     function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFails, newFails) {
         document.getElementById('result-modal').classList.add('active');
-        
         if (type === 'enhance') {
             document.getElementById('modal-box-enhance').style.display = 'flex';
             document.getElementById('modal-box-scroll').style.display = 'none';
-            
             document.getElementById('m-enh-item-lv').innerText = newLv; 
             document.getElementById('m-enh-old-lv').innerText = oldLv;
             document.getElementById('m-enh-new-lv').innerText = newLv;
             
-            let header = document.getElementById('m-enh-title');
             let failContainer = document.getElementById('m-enh-fail-text-container');
-            let statusTitle = document.getElementById('m-enh-status-title');
             let bonusSection = document.getElementById('m-enh-bonus-section');
 
             if (isSuccess) {
-                header.innerText = "超越成功";
-                failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>`;
-                failContainer.style.color = "#777";
-                failContainer.style.fontWeight = "normal";
-
-                statusTitle.innerText = "超越成功。"; 
-                
+                document.getElementById('m-enh-title').innerText = "超越成功";
+                failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span class="m-fail-change"></span>`;
+                failContainer.style.color = "#777"; failContainer.style.fontWeight = "normal";
+                document.getElementById('m-enh-status-title').innerText = "超越成功。"; 
                 bonusSection.style.display = 'block';
                 document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率重置";
                 document.getElementById('m-enh-bonus-rate').innerText = "0%"; document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
                 document.getElementById('m-enh-bonus-hint').innerText = "";
             } else {
-                header.innerText = "超越失敗";
-                
+                document.getElementById('m-enh-title').innerText = "超越失敗";
                 if (oldFails === 6 && newFails >= 7) {
                     failContainer.innerHTML = `已達最大超越次數。`;
-                    failContainer.style.color = "#e74c3c";
-                    failContainer.style.fontWeight = "bold";
+                    failContainer.style.color = "#e74c3c"; failContainer.style.fontWeight = "bold";
                 } else {
-                    failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change">(+1)</span>`;
-                    failContainer.style.color = "#777";
-                    failContainer.style.fontWeight = "normal";
+                    failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span class="m-fail-change">(+1)</span>`;
+                    failContainer.style.color = "#777"; failContainer.style.fontWeight = "normal";
                 }
-
-                statusTitle.innerText = "超越失敗。"; 
-                
+                document.getElementById('m-enh-status-title').innerText = "超越失敗。"; 
                 if (newBonus === 0 || oldBonus === newBonus) {
                     bonusSection.style.display = 'none';
                 } else {
@@ -1019,40 +1072,42 @@
         } else {
             document.getElementById('modal-box-enhance').style.display = 'none';
             document.getElementById('modal-box-scroll').style.display = 'flex';
-            
             document.getElementById('m-scr-item-lv').innerText = oldLv;
 
-            let topText = document.getElementById('m-scr-top-text');
-            let resultBox = document.getElementById('m-scr-result-box');
-
             if (isSuccess) {
-                topText.innerText = "該裝備的超越失敗次數已扣除1。";
-                resultBox.innerText = "失敗次數扣除成功！";
-                resultBox.className = "m-scr-grey-box m-scr-text-orange";
+                document.getElementById('m-scr-top-text').innerText = "該裝備的超越失敗次數已扣除1。";
+                document.getElementById('m-scr-result-box').innerText = "失敗次數扣除成功！";
+                document.getElementById('m-scr-result-box').className = "m-scr-grey-box m-scr-text-orange";
             } else {
-                topText.innerText = "該裝備的超越失敗次數未扣除。";
-                resultBox.innerText = "失敗次數扣除失敗";
-                resultBox.className = "m-scr-grey-box m-scr-text-grey";
+                document.getElementById('m-scr-top-text').innerText = "該裝備的超越失敗次數未扣除。";
+                document.getElementById('m-scr-result-box').innerText = "失敗次數扣除失敗";
+                document.getElementById('m-scr-result-box').className = "m-scr-grey-box m-scr-text-grey";
             }
         }
     }
 
     function tr_closeModal() {
         document.getElementById('result-modal').classList.remove('active');
-        tr_isAnimating = false; // 💡 確保視窗關閉後才能進行下一次點擊
+        tr_isAnimating = false; 
         tr_updateUI(); 
     }
 
     function tr_action_transcend() {
         if (tr_isAnimating || tr_lv >= 70 || tr_fails >= 7) return;
 
-        tr_isAnimating = true;  // 💡 鎖定按鈕，防止狂點
-        tr_stonesUsed++;
+        tr_isAnimating = true;  
+        
+        // 紀錄當下這顆是什麼石頭
+        tr_current_level_stones++;
+        if (tr_lv < 40) tr_stat_normal++;
+        else if (tr_lv < 50) tr_stat_radiant++;
+        else tr_stat_chaos++;
+        
         tr_updateUI();
 
         let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
         let totalRate = baseRate + tr_bonus;
-        let roll = Math.random() * 100;
+        let roll = Math.random() * 100; 
         let isSuccess = roll < totalRate;
 
         let oldLv = tr_lv, oldBonus = tr_bonus, oldFails = tr_fails;
@@ -1064,12 +1119,16 @@
             document.getElementById('ui-lightning').classList.remove('active');
 
             if (isSuccess) {
-                tr_lv += 2; tr_bonus = 0.0; 
+                tr_lv += 2; 
+                tr_bonus = 0.0; 
+                tr_ev_stones_achieved += tr_getStoneEV(baseRate); // 將這階的期望值寫入成就紀錄
+                tr_current_level_stones = 0; // 重置下一階的嘗試次數
             } else {
                 tr_fails++;
-                tr_bonus = Math.min(50, tr_bonus + (baseRate * 0.2)); 
+                // 獎勵機率：保底5%，無條件捨去小數點
+                let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
+                tr_bonus = Math.min(50, tr_bonus + bonusStep); 
             }
-            
             tr_showModal('enhance', isSuccess, oldLv, tr_lv, oldBonus, tr_bonus, oldFails, tr_fails);
         }, 200); 
     }
@@ -1077,8 +1136,9 @@
     function tr_action_scroll() {
         if (tr_isAnimating || tr_fails <= 0) return;
 
-        tr_isAnimating = true;  // 💡 鎖定按鈕
-        tr_scrollsUsed++;
+        tr_isAnimating = true;  
+        tr_stat_scrolls++;
+        tr_current_fail_scrolls++;
         tr_updateUI();
 
         let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
@@ -1090,14 +1150,22 @@
         tr_playSound(isSuccess);
 
         setTimeout(() => {
-            if (isSuccess) tr_fails--;
+            if (isSuccess) {
+                tr_fails--;
+                tr_ev_scrolls_achieved += (100 / scrollRate);
+                tr_current_fail_scrolls = 0;
+            }
             tr_showModal('scroll', isSuccess, oldLv, oldLv, 0, 0, oldFails, tr_fails);
         }, 200); 
     }
 
     function tr_action_reset() {
         if (tr_isAnimating) return;
-        tr_lv = 30; tr_fails = 0; tr_bonus = 0.0; tr_stonesUsed = 0; tr_scrollsUsed = 0;
+        tr_lv = 30; tr_fails = 0; tr_bonus = 0.0; 
+        tr_stat_normal = 0; tr_stat_radiant = 0; tr_stat_chaos = 0; tr_stat_scrolls = 0;
+        tr_ev_stones_achieved = 0; tr_ev_scrolls_achieved = 0;
+        tr_current_level_stones = 0; tr_current_fail_scrolls = 0;
+        
         document.querySelector('input[name="sim-mode"][value="enhance"]').checked = true;
         tr_updateUI();
     }
@@ -1128,11 +1196,7 @@
     // ==========================================
     // 3. 沉浸式強化打鐵機邏輯 (HEXA屬性模擬器)
     // ==========================================
-    let vA = 0, vB = 0, vC = 0, vClicks = 0;
-    let totalFragmentsUsed = 0; 
-    let isMuted = false;
-    let resetCountTracker = 0;
-
+    let vA = 0, vB = 0, vC = 0, vClicks = 0, totalFragmentsUsed = 0, isMuted = false, resetCountTracker = 0;
     const enhanceSound = new Audio('assets/HexaCoreEnforcement.mp3');
 
     function initVisualBars() {
@@ -1147,61 +1211,34 @@
         });
         updateVisualUI();
     }
-
-    function formatProb(p) {
-        let pct = p * 100;
-        return Number.isInteger(pct) ? pct + '%' : pct.toFixed(1) + '%';
-    }
-
+    function formatProb(p) { let pct = p * 100; return Number.isInteger(pct) ? pct + '%' : pct.toFixed(1) + '%'; }
     function updateVisualUI() {
         let levels = { 'a': vA, 'b': vB, 'c': vC };
-        
         ['a', 'b', 'c'].forEach(type => {
             const container = document.getElementById('vbar-' + type);
             const segments = container.children;
             const activeClass = (type === 'a') ? 'active-main' : 'active-sub';
-
             for(let i=0; i<10; i++) {
                 if(i < levels[type]) segments[i].classList.add(activeClass);
                 else segments[i].classList.remove(activeClass);
             }
         });
-
-        let probA = getHexaProb(vA);
-        let probB = 0, probC = 0;
-        
+        let probA = getHexaProb(vA), probB = 0, probC = 0;
         if (vA === 10) probA = 0;
-        
         let remProb = 1.0 - probA;
-        if (vB === 10 && vC === 10) {
-            probB = 0; probC = 0;
-        } else if (vB === 10) {
-            probB = 0; probC = remProb;
-        } else if (vC === 10) {
-            probC = 0; probB = remProb;
-        } else {
-            probB = remProb / 2;
-            probC = remProb / 2;
-        }
+        if (vB === 10 && vC === 10) { probB = 0; probC = 0; } 
+        else if (vB === 10) { probB = 0; probC = remProb; } 
+        else if (vC === 10) { probC = 0; probB = remProb; } 
+        else { probB = remProb / 2; probC = remProb / 2; }
 
         document.getElementById('vprob-a').innerText = '強化機率：' + (vA < 10 ? formatProb(probA) : 'MAX');
         document.getElementById('vprob-b').innerText = '強化機率：' + (vB < 10 ? formatProb(probB) : 'MAX');
         document.getElementById('vprob-c').innerText = '強化機率：' + (vC < 10 ? formatProb(probC) : 'MAX');
-
         document.getElementById('v-clicks').innerText = vClicks;
 
         let resetBtn = document.getElementById('btn-reset-v');
-        if (vClicks >= 10) {
-            resetBtn.classList.add('highlight');
-            resetBtn.disabled = false;
-            resetBtn.style.opacity = '1';
-            resetBtn.style.cursor = 'pointer';
-        } else {
-            resetBtn.classList.remove('highlight');
-            resetBtn.disabled = true;
-            resetBtn.style.opacity = '0.5';
-            resetBtn.style.cursor = 'not-allowed';
-        }
+        if (vClicks >= 10) { resetBtn.classList.add('highlight'); resetBtn.disabled = false; resetBtn.style.opacity = '1'; resetBtn.style.cursor = 'pointer'; } 
+        else { resetBtn.classList.remove('highlight'); resetBtn.disabled = true; resetBtn.style.opacity = '0.5'; resetBtn.style.cursor = 'not-allowed'; }
         
         let enhance10xBtn = document.getElementById('btn-enhance-10x');
         let enhance1Btn = document.getElementById('btn-enhance-1');
@@ -1213,434 +1250,270 @@
             enhance1Btn.style.opacity = '1'; enhance1Btn.style.cursor = 'pointer';
         }
     }
-
     function toggleMute() {
         isMuted = !isMuted;
         const muteBtn = document.getElementById('btn-mute-v');
-        if (isMuted) {
-            muteBtn.innerText = '🔇 聲音：關';
-            muteBtn.classList.add('muted-active');
-        } else {
-            muteBtn.innerText = '🔊 聲音：開';
-            muteBtn.classList.remove('muted-active');
-        }
+        if (isMuted) { muteBtn.innerText = '🔇 聲音：關'; muteBtn.classList.add('muted-active'); } 
+        else { muteBtn.innerText = '🔊 聲音：開'; muteBtn.classList.remove('muted-active'); }
     }
-
     function clickVisualEnhance() {
         if (vClicks >= 20) return;
-
-        if (!isMuted) {
-            enhanceSound.currentTime = 0;
-            enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+        if (!isMuted) { enhanceSound.currentTime = 0; enhanceSound.play().catch(e => {}); }
+        totalFragmentsUsed += getHexaCost(vA); document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+        if (vA < 10 && Math.random() < getHexaProb(vA)) vA++;
+        else {
+            if (vB < 10 && vC < 10) { if (Math.random() < 0.5) vB++; else vC++; }
+            else if (vB < 10) vB++; 
+            else if (vC < 10) vC++;
         }
-
-        let cost = getHexaCost(vA);
-        totalFragmentsUsed += cost;
-        document.getElementById('v-fragments').innerText = totalFragmentsUsed;
-
-        let probA = getHexaProb(vA);
-
-        if (vA < 10 && Math.random() < probA) {
-            vA++;
-        } else {
-            if (vB < 10 && vC < 10) {
-                if (Math.random() < 0.5) vB++; else vC++;
-            } else if (vB < 10) {
-                vB++; 
-            } else if (vC < 10) {
-                vC++; 
-            }
-        }
-        vClicks++;
-        updateVisualUI();
+        vClicks++; updateVisualUI();
     }
-    
     function clickVisualEnhance10x() {
         if (vClicks >= 20) return;
-
         let rolls = Math.min(10, 20 - vClicks);
-
-        if (!isMuted) {
-            enhanceSound.currentTime = 0;
-            enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
-        }
-
+        if (!isMuted) { enhanceSound.currentTime = 0; enhanceSound.play().catch(e => {}); }
         for (let i = 0; i < rolls; i++) {
-            let cost = getHexaCost(vA);
-            totalFragmentsUsed += cost;
-            let probA = getHexaProb(vA);
-
-            if (vA < 10 && Math.random() < probA) {
-                vA++;
-            } else {
-                if (vB < 10 && vC < 10) {
-                    if (Math.random() < 0.5) vB++; else vC++;
-                } else if (vB < 10) {
-                    vB++; 
-                } else if (vC < 10) {
-                    vC++; 
-                }
+            totalFragmentsUsed += getHexaCost(vA);
+            if (vA < 10 && Math.random() < getHexaProb(vA)) vA++;
+            else {
+                if (vB < 10 && vC < 10) { if (Math.random() < 0.5) vB++; else vC++; }
+                else if (vB < 10) vB++; 
+                else if (vC < 10) vC++;
             }
             vClicks++;
         }
-        
-        document.getElementById('v-fragments').innerText = totalFragmentsUsed;
-        updateVisualUI();
+        document.getElementById('v-fragments').innerText = totalFragmentsUsed; updateVisualUI();
     }
-
     function resetVisual() {
-        if (vClicks < 10) {
-            alert("⚠️ 依據真實遊戲設定，必須點滿 10 次才能重置喔！");
-            return;
-        }
-        resetCountTracker++;
-        document.getElementById('v-reset-count').innerText = resetCountTracker;
-        vA = 0; vB = 0; vC = 0; vClicks = 0;
-        updateVisualUI();
+        if (vClicks < 10) { alert("⚠️ 依據真實遊戲設定，必須點滿 10 次才能重置喔！"); return; }
+        resetCountTracker++; document.getElementById('v-reset-count').innerText = resetCountTracker;
+        vA = 0; vB = 0; vC = 0; vClicks = 0; updateVisualUI();
     }
-
     function resetFragments() {
-        totalFragmentsUsed = 0;
-        resetCountTracker = 0;
+        totalFragmentsUsed = 0; resetCountTracker = 0;
         document.getElementById('v-fragments').innerText = totalFragmentsUsed;
         document.getElementById('v-reset-count').innerText = resetCountTracker;
     }
 
-    // ==========================================
-    // 4. HEXA 懶人決策表生成邏輯
-    // ==========================================
     let currentSort = { col: 'winRate', asc: false }; 
-
     function generateLazyTable() {
-        const trialsOccur = 100000;
-        let occurrences = {};
-
+        const trialsOccur = 100000; let occurrences = {};
         for (let i = 0; i < trialsOccur; i++) {
             let a = 0, b = 0, c = 0;
             for (let r = 0; r < 10; r++) {
                 if (Math.random() < getHexaProb(a) && a < 10) a++;
-                else {
-                    if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
-                    else { if (c < 10) c++; else b++; }
-                }
+                else { if (Math.random() < 0.5) { if (b < 10) b++; else c++; } else { if (c < 10) c++; else b++; } }
             }
-            let maxSub = Math.max(b, c);
-            let minSub = Math.min(b, c);
-            let key = `${a}_${maxSub}_${minSub}`;
+            let key = `${a}_${Math.max(b, c)}_${Math.min(b, c)}`;
             occurrences[key] = (occurrences[key] || 0) + 1;
         }
-
-        let results = [];
-        const trialsWin = 15000; 
-
+        let results = []; const trialsWin = 15000; 
         for (let key in occurrences) {
             let occProb = (occurrences[key] / trialsOccur) * 100;
             if (occProb > 0.05) { 
-                let parts = key.split('_');
-                let startA = parseInt(parts[0]);
-                let startB = parseInt(parts[1]);
-                let startC = parseInt(parts[2]);
+                let p = key.split('_'); let startA = parseInt(p[0]), startB = parseInt(p[1]), startC = parseInt(p[2]);
                 let success = 0;
                 for (let i = 0; i < trialsWin; i++) {
                     let a = startA, b = startB, c = startC;
                     for (let r = 0; r < 10; r++) {
                         if (Math.random() < getHexaProb(a) && a < 10) a++;
-                        else {
-                            if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
-                            else { if (c < 10) c++; else b++; }
-                        }
+                        else { if (Math.random() < 0.5) { if (b < 10) b++; else c++; } else { if (c < 10) c++; else b++; } }
                     }
                     if (a >= 8 || b === 10 || c === 10) success++;
                 }
                 let winRate = (success / trialsWin) * 100;
-                if (winRate > 5.0) {
-                    results.push({ a: startA, maxSub: startB, minSub: startC, winRate: winRate, occProb: occProb });
-                }
+                if (winRate > 5.0) results.push({ a: startA, maxSub: startB, minSub: startC, winRate: winRate, occProb: occProb });
             }
         }
-
-        results.sort((x, y) => {
-            let diff = x[currentSort.col] - y[currentSort.col];
-            return currentSort.asc ? diff : -diff;
-        });
-        
+        results.sort((x, y) => currentSort.asc ? x[currentSort.col] - y[currentSort.col] : y[currentSort.col] - x[currentSort.col]);
         renderTable(results);
     }
-
     function renderTable(results) {
         let arrow = currentSort.asc ? " ▲" : " ▼";
-        let html = `
-            <table class="lazy-table">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable('a')" style="cursor:pointer; background-color:#003d99;">主屬性${currentSort.col==='a'?arrow:''}</th>
-                        <th>較高附屬</th>
-                        <th>較低附屬</th>
-                        <th onclick="sortTable('occProb')" style="cursor:pointer; background-color:#003d99;">發生機率${currentSort.col==='occProb'?arrow:''}</th>
-                        <th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col==='winRate'?arrow:''}</th>
-                        <th>建議決策</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-
+        let html = `<table class="lazy-table"><thead><tr><th onclick="sortTable('a')" style="cursor:pointer; background-color:#003d99;">主屬性${currentSort.col==='a'?arrow:''}</th><th>較高附屬</th><th>較低附屬</th><th onclick="sortTable('occProb')" style="cursor:pointer; background-color:#003d99;">發生機率${currentSort.col==='occProb'?arrow:''}</th><th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col==='winRate'?arrow:''}</th><th>建議決策</th></tr></thead><tbody>`;
         results.forEach(r => {
             let tagHtml = "";
-            if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
-            else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
-            else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱<span class="desktop-space"> </span><br class="mobile-br">(建議重置)</span>`;
-            else tagHtml = `<span class="tag tag-red">無法達成<span class="desktop-space"> </span><br class="mobile-br">(立刻重置)</span>`;
-
-            html += `<tr>
-                <td><strong>${r.a}</strong></td>
-                <td>${r.maxSub}</td>
-                <td>${r.minSub}</td>
-                <td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td>
-                <td><strong>${r.winRate.toFixed(1)}%</strong></td>
-                <td>${tagHtml}</td>
-            </tr>`;
+            if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳<br class="mobile-br">(保留)</span>`;
+            else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通<br class="mobile-br">(保留)</span>`;
+            else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱<br class="mobile-br">(建議重置)</span>`;
+            else tagHtml = `<span class="tag tag-red">無法達成<br class="mobile-br">(立刻重置)</span>`;
+            html += `<tr><td><strong>${r.a}</strong></td><td>${r.maxSub}</td><td>${r.minSub}</td><td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td><td><strong>${r.winRate.toFixed(1)}%</strong></td><td>${tagHtml}</td></tr>`;
         });
-        html += `</tbody></table>`;
-        document.getElementById('lazy-table-wrapper').innerHTML = html;
+        document.getElementById('lazy-table-wrapper').innerHTML = html + `</tbody></table>`;
     }
+    function sortTable(col) { currentSort.asc = (currentSort.col === col) ? !currentSort.asc : false; currentSort.col = col; generateLazyTable(); }
 
-    function sortTable(col) {
-        if (currentSort.col === col) {
-            currentSort.asc = !currentSort.asc;
-        } else {
-            currentSort.col = col;
-            currentSort.asc = false;
-        }
-        generateLazyTable(); 
-    }
-
-    // ==========================================
-    // 5. HEXA 重置決策邏輯 (動態基準 PK 系統)
-    // ==========================================
     function checkHexaReset() {
-        let a = parseInt(document.getElementById('reset-a').value) || 0;
-        let b = parseInt(document.getElementById('reset-b').value) || 0;
-        let c = parseInt(document.getElementById('reset-c').value) || 0;
-        let rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
-        let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
-        let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
-        
-        let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
+        let a = parseInt(document.getElementById('reset-a').value) || 0, b = parseInt(document.getElementById('reset-b').value) || 0, c = parseInt(document.getElementById('reset-c').value) || 0, rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
+        let targetA = parseInt(document.getElementById('reset-target-a').value) || 0, targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+        let useMillion = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
+        let container = document.getElementById('result-hexa-reset-container'), mainBox = document.getElementById('result-hexa-reset-main'), detailBox = document.getElementById('result-hexa-reset-details');
 
-        let container = document.getElementById('result-hexa-reset-container');
-        let mainBox = document.getElementById('result-hexa-reset-main');
-        let detailBox = document.getElementById('result-hexa-reset-details');
+        if (a + b + c + rolls !== 20) { container.style.display = 'block'; mainBox.innerText = `⚠️ 錯誤：目前總和與剩餘次數不等於20！`; detailBox.innerHTML = ""; return; }
+        if (targetA === 0 && targetSub === 0) { container.style.display = 'block'; mainBox.innerText = "⚠️ 錯誤：請至少設定一項目標！"; detailBox.innerHTML = ""; return; }
 
-        if (a + b + c + rolls !== 20) {
-            container.style.display = 'block';
-            mainBox.innerText = `⚠️ 錯誤：目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 應該要等於 20 喔！\n請確認輸入數字是否正確。`;
-            detailBox.innerHTML = "";
-            return;
-        }
-
-        if (targetA === 0 && targetSub === 0) {
-            container.style.display = 'block';
-            mainBox.innerText = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！";
-            detailBox.innerHTML = "";
-            return;
-        }
-
-        const trials = useMillionReset ? 1000000 : 30000;
-        let gradSuccess = 0; 
-        let baseSuccess = 0; 
-        
-        let countA = new Array(11).fill(0);
-        let countB = new Array(11).fill(0);
-        let countC = new Array(11).fill(0);
+        const trials = useMillion ? 1000000 : 30000; let gradSuccess = 0, baseSuccess = 0; 
+        let countA = new Array(11).fill(0), countB = new Array(11).fill(0), countC = new Array(11).fill(0);
 
         for (let i = 0; i < trials; i++) {
-            let simA = a, simB = b, simC = c;
-            for (let roll = 0; roll < rolls; roll++) { 
-                if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
-                else {
-                    if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
-                    else { if (simC < 10) simC++; else simB++; }
-                }
+            let sA = a, sB = b, sC = c;
+            for (let r = 0; r < rolls; r++) { 
+                if (Math.random() < getHexaProb(sA) && sA < 10) sA++;
+                else { if (Math.random() < 0.5) { if (sB < 10) sB++; else sC++; } else { if (sC < 10) sC++; else sB++; } }
             }
-            
-            let maxSub = Math.max(simB, simC);
-            let passedA = (targetA > 0 && simA >= targetA);
-            let passedSub = (targetSub > 0 && maxSub >= targetSub);
-            if (passedA || passedSub) gradSuccess++;
-            
-            countA[simA]++; countB[simB]++; countC[simC]++;
+            if ((targetA > 0 && sA >= targetA) || (targetSub > 0 && Math.max(sB, sC) >= targetSub)) gradSuccess++;
+            countA[sA]++; countB[sB]++; countC[sC]++;
         }
-
         for (let i = 0; i < trials; i++) {
-            let simA = 0, simB = 0, simC = 0;
-            for (let roll = 0; roll < 20; roll++) {
-                if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
-                else {
-                    if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
-                    else { if (simC < 10) simC++; else simB++; }
-                }
+            let sA = 0, sB = 0, sC = 0;
+            for (let r = 0; r < 20; r++) {
+                if (Math.random() < getHexaProb(sA) && sA < 10) sA++;
+                else { if (Math.random() < 0.5) { if (sB < 10) sB++; else sC++; } else { if (sC < 10) sC++; else sB++; } }
             }
-            let maxSub = Math.max(simB, simC);
-            let passedA = (targetA > 0 && simA >= targetA);
-            let passedSub = (targetSub > 0 && maxSub >= targetSub);
-            if (passedA || passedSub) baseSuccess++;
+            if ((targetA > 0 && sA >= targetA) || (targetSub > 0 && Math.max(sB, sC) >= targetSub)) baseSuccess++;
         }
 
-        let winRate = (gradSuccess / trials) * 100;
-        let baseWinRate = (baseSuccess / trials) * 100;
-        let suggestion = "";
-        
+        let winRate = (gradSuccess / trials) * 100, baseWinRate = (baseSuccess / trials) * 100, suggestion = "";
         if (winRate === 0) suggestion = "💀 無法達成 (機率為 0%)，請立刻重置。";
-        else if (winRate >= baseWinRate * 3) suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新核心 ${baseWinRate.toFixed(2)}%，衝！)`;
-        else if (winRate >= baseWinRate) suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新核心 ${baseWinRate.toFixed(2)}%，建議繼續)`;
-        else if (winRate >= baseWinRate * 0.5) suggestion = `⚠️ 狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新核心 ${baseWinRate.toFixed(2)}%，建議考慮重置)`;
-        else suggestion = `❌ 狀態極差 (機率遠低於從頭來過，強烈建議立刻重置)`;
+        else if (winRate >= baseWinRate * 3) suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
+        else if (winRate >= baseWinRate) suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+        else if (winRate >= baseWinRate * 0.5) suggestion = `⚠️ 狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
+        else suggestion = `❌ 狀態極差 (機率遠低於從頭來過，立刻重置)`;
 
-        let targetText = [];
-        if (targetA > 0) targetText.push(`主${targetA}`);
-        if (targetSub > 0) targetText.push(`附${targetSub}`);
-        let targetStr = targetText.join(" 或 ");
-
-        container.style.display = 'block';
-        mainBox.innerText = `📊 依自訂目標 (${targetStr}) 預估畢業勝率：${winRate.toFixed(2)}%\n${suggestion}`;
-        
-        let htmlA = `<div style="flex: 1; min-width: 150px;"><div style="color:#0052cc; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【主屬性 (A)】</div>`;
-        for(let i = Math.max(0, a); i <= 10; i++) htmlA += `• 停在 ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%<br>`;
-        htmlA += `</div>`;
-
-        let htmlB = `<div style="flex: 1; min-width: 150px;"><div style="color:#c0392b; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (B)】</div>`;
-        for(let i = Math.max(0, b); i <= 10; i++) htmlB += `• 停在 ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%<br>`;
-        htmlB += `</div>`;
-
-        let htmlC = `<div style="flex: 1; min-width: 150px;"><div style="color:#e67e22; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (C)】</div>`;
-        for(let i = Math.max(0, c); i <= 10; i++) htmlC += `• 停在 ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%<br>`;
-        htmlC += `</div>`;
-
-        detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完剩下 ${rolls} 次後，未來可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成此目標的機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
+        container.style.display = 'block'; mainBox.innerText = `📊 預估畢業勝率：${winRate.toFixed(2)}%\n${suggestion}`;
+        let renderCol = (title, countArr, color) => {
+            let html = `<div style="flex: 1; min-width: 150px;"><div style="color:${color}; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">${title}</div>`;
+            for(let i = countArr.findIndex(x=>x>0); i <= 10; i++) if(countArr[i]>0) html += `• ${i} 級：${((countArr[i]/trials)*100).toFixed(3)}%<br>`;
+            return html + `</div>`;
+        };
+        detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完後可能的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span></div>` + renderCol('【主屬性 (A)】', countA, '#0052cc') + renderCol('【附屬性 (B)】', countB, '#c0392b') + renderCol('【附屬性 (C)】', countC, '#e67e22');
     }
 
     // ==========================================
-    // 6. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
+    // 6. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版) - 已修復 Bug
     // ==========================================
     function runHexaSimulation() {
-        let startA = parseInt(document.getElementById('sim-a').value) || 0;
-        let startB = parseInt(document.getElementById('sim-b').value) || 0;
-        let startC = parseInt(document.getElementById('sim-c').value) || 0;
-        let rolls = parseInt(document.getElementById('sim-rolls').value) || 20;
-        
-        let targetA = parseInt(document.getElementById('target-a').value) || 0;
-        let targetSub = parseInt(document.getElementById('target-sub').value) || 0;
+        let valA = document.getElementById('sim-a').value;
+        let valB = document.getElementById('sim-b').value;
+        let valC = document.getElementById('sim-c').value;
+        let valRolls = document.getElementById('sim-rolls').value;
+
+        let sA = valA === "" ? 0 : parseInt(valA);
+        let sB = valB === "" ? 0 : parseInt(valB);
+        let sC = valC === "" ? 0 : parseInt(valC);
+        let rolls = valRolls === "" ? 20 : parseInt(valRolls);
+
+        let valTa = document.getElementById('target-a').value;
+        let valTsub = document.getElementById('target-sub').value;
+        let tA = valTa === "" ? 0 : parseInt(valTa);
+        let tSub = valTsub === "" ? 0 : parseInt(valTsub);
+
         let useStopLoss = document.getElementById('sim-stoploss').checked;
         let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
 
-        let resultBox = document.getElementById('result-hexa-sim');
+        let resBox = document.getElementById('result-hexa-sim');
 
-        if (targetA === 0 && targetSub === 0) {
-            resultBox.style.display = 'block'; resultBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; return;
+        // 👇👇👇 這是為你新增的 20 次防呆機制 👇👇👇
+        if (sA + sB + sC + rolls !== 20) {
+            resBox.style.display = 'block'; 
+            resBox.innerHTML = `⚠️ 錯誤：目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。`; 
+            return;
         }
+        // 👆👆👆 新增防呆結束 👆👆👆
 
-        let isGoldenRule = false;
-        if (useStopLoss && targetSub === 0) {
-            if (targetA === 10 || targetA === 9) isGoldenRule = true;
+        // 防呆：如果完全沒設定目標
+        if (tA === 0 && tSub === 0) {
+            resBox.style.display = 'block'; 
+            resBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; 
+            return;
         }
 
         const trials = useMillion ? 1000000 : 100000;
-        let countSuccess = 0, countHitA = 0, countHitSub = 0, countHitBoth = 0;
-        let totalFragmentsAll = 0; 
+        let cSuccess = 0, cHitA = 0, cHitSub = 0, cHitBoth = 0, tFrag = 0; 
+        let isGolden = (useStopLoss && tSub === 0 && (tA === 10 || tA === 9));
 
         for (let i = 0; i < trials; i++) {
-            let a = startA, b = startB, c = startC;
-            let attemptFragments = 0;
-            let success = false;
-
-            if ((targetA > 0 && a >= targetA) || (targetSub > 0 && Math.max(b, c) >= targetSub)) {
+            let a = sA, b = sB, c = sC, attFrag = 0, success = false;
+            
+            if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
                 success = true;
             }
 
             for (let r = 0; r < rolls && !success; r++) {
-                let currentMaxSub = Math.max(b, c);
-                let currentTotalRolls = startA + startB + startC + r;
+                let currMax = Math.max(b, c);
+                let currentTotalRolls = sA + sB + sC + r; 
 
                 if (useStopLoss) {
-                    let remainingRolls = rolls - r;
-                    let canHitA = (targetA > 0) ? (a + remainingRolls >= targetA) : false;
-                    let canHitSub = (targetSub > 0) ? (currentMaxSub + remainingRolls >= targetSub) : false;
-                    let possible = (targetA > 0 && targetSub > 0) ? (canHitA || canHitSub) : (targetA > 0 ? canHitA : canHitSub);
+                    let rem = rolls - r;
+                    let canHitA = (tA > 0) ? (a + rem >= tA) : false;
+                    let canHitSub = (tSub > 0) ? (currMax + rem >= tSub) : false;
                     
+                    let possible = false;
+                    if (tA > 0 && tSub > 0) possible = (canHitA || canHitSub);
+                    else if (tA > 0) possible = canHitA;
+                    else if (tSub > 0) possible = canHitSub;
+
                     if (!possible) break; 
 
-                    if (currentTotalRolls === 10) {
-                        if (targetA === 10 && targetSub === 0 && a < 5) break; 
-                        if (targetA === 9 && targetSub === 0 && a < 4) break;  
+                    if (currentTotalRolls === 10 && tSub === 0) {
+                        if (tA === 10 && a < 5) break; 
+                        if (tA === 9 && a < 4) break;  
                     }
                 }
 
-                attemptFragments += getHexaCost(a);
+                attFrag += getHexaCost(a);
                 if (Math.random() < getHexaProb(a) && a < 10) {
                     a++;
                 } else {
-                    if (Math.random() < 0.5) { if (b < 10) b++; else c++; }
-                    else { if (c < 10) c++; else b++; }
+                    if (Math.random() < 0.5) { 
+                        if (b < 10) b++; else c++; 
+                    } else { 
+                        if (c < 10) c++; else b++; 
+                    }
                 }
 
-                currentMaxSub = Math.max(b, c);
-                if ((targetA > 0 && a >= targetA) || (targetSub > 0 && currentMaxSub >= targetSub)) {
+                if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
                     success = true;
                 }
             }
-
-            totalFragmentsAll += attemptFragments;
-
+            tFrag += attFrag;
             if (success) {
-                countSuccess++;
+                cSuccess++;
                 let finalMaxSub = Math.max(b, c);
-                let passA = (targetA > 0 && a >= targetA);
-                let passSub = (targetSub > 0 && finalMaxSub >= targetSub);
-                if (passA) countHitA++;
-                if (passSub) countHitSub++;
-                if (passA && passSub) countHitBoth++;
+                let passA = (tA > 0 && a >= tA);
+                let passSub = (tSub > 0 && finalMaxSub >= tSub);
+                if (passA) cHitA++;
+                if (passSub) cHitSub++;
+                if (passA && passSub) cHitBoth++;
             }
         }
-
-        let prob = (countSuccess / trials) * 100;
-        let avgCost = countSuccess > 0 ? (totalFragmentsAll / countSuccess) : 0;
+        
+        let prob = (cSuccess / trials) * 100;
+        let avgCost = cSuccess > 0 ? (tFrag / cSuccess) : 0;
         
         let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong><br>`;
         
         if (useStopLoss) {
-            htmlOutput += `<span style="color:${isGoldenRule ? '#27ae60' : '#7f8c8d'}; font-size:13px;">`;
-            
-            if (targetA === 10 && targetSub === 0) {
-                htmlOutput += `(套用提早停損及重置決策：前十次未達主屬5時直接重置)`;
-            } else if (targetA === 9 && targetSub === 0) {
-                htmlOutput += `(套用提早停損及重置決策：前十次未達主屬4時直接重置)`;
-            } else {
-                htmlOutput += `(僅套用提早停損)`;
-            }
-            
+            htmlOutput += `<span style="color:${isGolden ? '#27ae60' : '#7f8c8d'}; font-size:13px;">`;
+            if (isGolden) htmlOutput += `(套用提早停損及重置決策：前十次未達主屬${tA===10?'5':'4'}時直接重置)`;
+            else htmlOutput += `(僅套用提早停損)`;
             htmlOutput += `</span><br><br>`;
-        } else {
-            htmlOutput += `<br><br>`;
-        }
+        } else htmlOutput += `<br><br>`;
         
-        if (targetA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${targetA} 級] 的機率：<strong style="color:#0052cc;">${((countHitA / trials) * 100).toFixed(2)} %</strong><br>`;
-        if (targetSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${targetSub} 級] 的機率：<strong style="color:#c0392b;">${((countHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
+        if (tA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#0052cc;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
+        if (tSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#c0392b;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
         
-        if (targetA > 0 && targetSub > 0) {
+        if (tA > 0 && tSub > 0) {
             htmlOutput += `• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#27ae60;">${prob.toFixed(2)} %</strong><br>`;
-            htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong>${((countHitBoth / trials) * 100).toFixed(2)} %</strong><br>`;
+            htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong>${((cHitBoth / trials) * 100).toFixed(2)} %</strong><br>`;
         }
         
         htmlOutput += `<br><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
-        
-        if (countSuccess > 0) {
-            htmlOutput += `💰 預估碎片需求：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標`;
-        } else {
-            htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。`;
-        }
+        if (cSuccess > 0) htmlOutput += `💰 預估碎片需求：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標`;
+        else htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。`;
 
-        resultBox.style.display = 'block';
-        resultBox.innerHTML = htmlOutput;
+        resBox.style.display = 'block';
+        resBox.innerHTML = htmlOutput;
     }
 
     // 初始化模擬器
