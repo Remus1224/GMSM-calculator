@@ -167,7 +167,6 @@
         .rate-detail { font-size: 13px; color: #666; margin-bottom: 15px;}
         .rate-detail span { color: #f3724c; }
         
-        /* 💡 滿版分隔線修正 */
         hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0; width: calc(100% + 60px); }
         
         .bonus-row { width: 65%; margin: 0 auto 5px auto; display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #555; margin-top: -15px; margin-bottom: 0px; }
@@ -222,6 +221,28 @@
         .m-bonus-hint { font-size: 11px; color: #95a5a6; }
         .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
         .m-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        /* ================= 六轉進度計算機專屬樣式 ================= */
+        .core-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+        .prog-item { border-radius: 6px; padding: 12px 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .prog-item select { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold; font-size: 14px; background: #fff; color: #333; }
+        .prog-item select:disabled { background-color: #f1f2f6; color: #a4b0be; }
+        .inv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+        .inv-item { display: flex; flex-direction: column; gap: 5px; }
+        .inv-item label { font-size: 13px; font-weight: bold; color: #555; display: flex; align-items: center; }
+        .inv-item input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 14px; font-weight: bold; }
+        
+        .res-icon { width: 18px; height: 18px; object-fit: contain; margin-right: 6px; }
+
+        .prog-bar-wrap { margin-top: 15px; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; }
+        .prog-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #333; margin-bottom: 5px; align-items: center; }
+        .prog-header span { color: #7f8c8d; font-size: 13px; }
+        .prog-bar-bg { width: 100%; height: 20px; background-color: #ecf0f1; border-radius: 10px; overflow: hidden; margin-bottom: 10px; position: relative; }
+        .prog-bar-fill { height: 100%; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: bold; color: white; }
+        .prog-fill-frag { background: linear-gradient(90deg, #3498db, #2980b9); }
+        .prog-fill-sol { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
+
+        .time-box { background: #f8f9fa; border-left: 4px solid #34495e; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 15px; line-height: 1.6; color: #2c3e50; }
 
         /* ================= 手機版 RWD 排版優化 ================= */
         @media (max-width: 500px) {
@@ -280,6 +301,9 @@
             .m-enh-white-mid { padding: 10px; }
             .m-scr-white-body { padding: 20px 10px; }
             .m-scr-grey-box { width: 95%; font-size: 14px; padding: 10px; }
+
+            /* 六轉計算機 RWD */
+            .core-row { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 
@@ -300,6 +324,7 @@
         <button id="btn-notice" class="active" onclick="switchTab('notice')">🪧 告示牌</button>
         <button id="btn-ignore" onclick="switchTab('ignore')">無視計算機</button>
         <button id="btn-transcend" onclick="switchTab('transcend')">超越模擬器</button>
+        <button id="btn-hexa-prog" onclick="switchTab('hexa-prog')">六轉進度計算機</button>
         <button id="btn-hexa-visual" onclick="switchTab('hexa-visual')">HEXA屬性模擬器</button>
         <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
         <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
@@ -310,9 +335,9 @@
         <div class="panel">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/05/31</strong>：來點實用的工具六轉進度計算機。</li>
                 <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
-                <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路 (ง๑ •̀_•́)ง</li>
                 <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
             </ul>
 
@@ -339,7 +364,6 @@
             </div>
 
             <div class="target-divider" style="margin: 15px 0;"></div>
-
             <div class="section-title" style="color: #7f8c8d; border-bottom: 2px solid #e1e4e8;">⚖️ 版權聲明 </div>
             <div class="disclaimer-box" style="background: #f8f9fa; border-left: 6px solid #7f8c8d;">
                 <p style="margin: 0; color: #555; font-size: 14px;">本網站為玩家自製的非營利實用工具，僅供社群交流與學習使用。網站內所使用的所有遊戲圖像、圖示、名稱與相關素材，其著作權與商標權皆歸原遊戲公司 (Nexon) 所有。本站並無任何營利行為，若有侵權疑慮，請來信告知，將立即移除相關內容。</p>
@@ -347,6 +371,110 @@
         </div>
     </div>
 
+    <div id="tab-hexa-prog" class="tab-content">
+        <div class="panel">
+            <div class="section-title" style="margin-bottom: 5px;">📊 第一步：設定目前核心等級</div>
+            <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 15px;">💡 提示：共通核心尚未開放，暫時採用韓服（Kmsm）需求。</div>
+            <div id="prog-cores-container"></div>
+        </div>
+
+        <div class="panel">
+            <div class="section-title">🎒 第二步：背包剩餘庫存 (選填，直接抵扣需求)</div>
+            <div class="inv-grid">
+                <div class="inv-item">
+                    <label><img src="assets/靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯</label>
+                    <input type="number" id="inv-big" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息 (1=500)</label>
+                    <input type="number" id="inv-conc" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 (1=200)</label>
+                    <input type="number" id="inv-nrg" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 (1=10)</label>
+                    <input type="number" id="inv-weak" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片</label>
+                    <input type="number" id="inv-frag" min="0" value="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="section-title">⏳ 第三步：資源獲取速度 (用於推算畢業時間)</div>
+            
+            <div style="font-weight:bold; color:#444; margin-bottom: 10px;">每日掛機獲取</div>
+            <div class="inv-grid" style="margin-bottom: 15px;">
+                <div class="inv-item" style="border-right: 2px solid #eee; padding-right: 15px;">
+                    <label style="color:#2980b9;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
+                    <input type="number" id="farm-hours" min="0" max="24" value="6">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label>
+                    <input type="number" id="farm-frag-hr" min="0" value="5">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 / 小時</label>
+                    <input type="number" id="farm-nrg-hr" min="0" value="10">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label>
+                    <input type="number" id="farm-weak-hr" min="0" value="0">
+                </div>
+            </div>
+
+            <div style="font-weight:bold; color:#e67e22; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
+            <div class="inv-grid">
+                <div class="inv-item">
+                    <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label>
+                    <input type="number" id="farm-frag-wk" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label>
+                    <input type="number" id="farm-conc-wk" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息</label>
+                    <input type="number" id="farm-nrg-wk" min="0" value="0">
+                </div>
+                <div class="inv-item">
+                    <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息</label>
+                    <input type="number" id="farm-weak-wk" min="0" value="0">
+                </div>
+            </div>
+        </div>
+
+        <button class="action-btn" onclick="calcHexaProg()">計算六轉畢業進度</button>
+
+        <div id="result-hexa-prog" style="display:none; width: 100%;">
+            <div class="prog-bar-wrap">
+                <div class="prog-header">
+                    <div style="display: flex; align-items: center;"><img src="assets/靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯 進度</div>
+                    <div id="prog-txt-sol">0 / 0 (剩餘 0)</div>
+                </div>
+                <div class="prog-bar-bg">
+                    <div class="prog-bar-fill prog-fill-sol" id="prog-bar-sol" style="width: 0%;">0%</div>
+                </div>
+
+                <div class="prog-header" style="margin-top: 15px;">
+                    <div style="display: flex; align-items: center;"><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片 進度</div>
+                    <div id="prog-txt-frag">0 / 0 (剩餘 0)</div>
+                </div>
+                <div class="prog-bar-bg">
+                    <div class="prog-bar-fill prog-fill-frag" id="prog-bar-frag" style="width: 0%;">0%</div>
+                </div>
+                
+                <div style="font-size: 12px; color: #888; text-align: right; margin-top: 5px;">*計算靈魂艾爾達斯時已自動將庫存的所有氣息換算為最高單位。</div>
+            </div>
+
+            <div class="time-box" id="prog-time-result"></div>
+        </div>
+    </div>
+    
     <div id="tab-ignore" class="tab-content">
         <div class="hint">雙排無視請先自行加總，HEXA屬性有BUG會有些一點誤差可自行驗證</div>
         <div class="left-panel panel">
@@ -736,33 +864,8 @@
 
 <script>
     // ==========================================
-    // 介面切換與清除邏輯
+    // 全域清除邏輯 (已修復作用域問題)
     // ==========================================
-    let lazyTableGenerated = false;
-    let visualInitialized = false;
-
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        
-        document.getElementById('btn-' + tabId).classList.add('active');
-        document.getElementById('tab-' + tabId).classList.add('active');
-
-        if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
-            setTimeout(generateLazyTable, 50); 
-            lazyTableGenerated = true;
-        }
-
-        if (tabId === 'hexa-visual' && !visualInitialized) {
-            initVisualBars();
-            visualInitialized = true;
-        }
-
-        if (tabId === 'transcend') {
-            tr_updateUI();
-        }
-    }
-
     function clearReset() {
         document.getElementById('reset-a').value = '';
         document.getElementById('reset-b').value = '';
@@ -787,6 +890,225 @@
     }
 
     // ==========================================
+    // 介面切換邏輯
+    // ==========================================
+    let lazyTableGenerated = false;
+    let visualInitialized = false;
+    let progInitialized = false;
+    let ignoreInitialized = false;
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        
+        document.getElementById('btn-' + tabId).classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
+            setTimeout(generateLazyTable, 50); 
+            lazyTableGenerated = true;
+        }
+        if (tabId === 'hexa-visual' && !visualInitialized) {
+            initVisualBars();
+            visualInitialized = true;
+        }
+        if (tabId === 'transcend') {
+            tr_updateUI();
+        }
+        if (tabId === 'hexa-prog' && !progInitialized) {
+            initHexaProg();
+            progInitialized = true;
+        }
+        if (tabId === 'ignore' && !ignoreInitialized) {
+            initIgnoreGrid();
+            ignoreInitialized = true;
+        }
+    }
+
+    // ==========================================
+    // 💥 0. 六轉進度計算機 (重構優化版)
+    // ==========================================
+    const reqData = {
+        skill: {
+            big: [0,0,2,3,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,15],
+            small:[0,0,40,50,60,70,80,90,100,110,125,140,155,170,185,200,215,230,245,260,280,300,320,340,360,380,400,420,440,460,500]
+        },
+        mastery: {
+            big: [0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,8,8,8,8,9,9,9,10],
+            small:[0,10,20,25,30,35,40,45,50,55,62,69,76,83,90,97,104,111,118,125,135,145,155,165,175,185,195,205,215,225,240]
+        },
+        enhance: {
+            big: [0,1,2,2,2,2,2,2,2,2,5,5,5,5,5,5,5,5,5,5,10,10,10,10,10,10,10,10,10,10,15],
+            small:[0,20,30,35,40,45,50,55,60,65,75,85,95,105,115,125,135,145,155,165,180,195,210,225,240,255,270,285,300,315,335]
+        },
+        common: {
+            big: [0, 10, 4, 4, 5, 5, 6, 6, 7, 7, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 17, 17, 17, 18, 18, 18, 19, 19, 19, 19, 20],
+            small: [0, 200, 55, 69, 83, 97, 110, 124, 138, 152, 173, 193, 214, 235, 255, 276, 297, 317, 338, 359, 386, 414, 442, 469, 497, 525, 552, 580, 607, 635, 670]
+        }
+    };
+
+    const coreConfig = [
+        { id: 'sk1', label: '啟源技能', type: 'skill', mandatory: true, default: true, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+        { id: 'sk2', label: '技能核心 2', type: 'skill', mandatory: false, default: false, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+        { id: 'ma1', label: '精通核心 1', type: 'mastery', mandatory: false, default: true, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+        { id: 'ma2', label: '精通核心 2', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+        { id: 'ma3', label: '精通核心 3', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+        { id: 'ma4', label: '精通核心 4', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+        { id: 'en1', label: '強化核心 1', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+        { id: 'en2', label: '強化核心 2', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+        { id: 'en3', label: '強化核心 3', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+        { id: 'en4', label: '強化核心 4', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+        { id: 'co1', label: '共通核心 1', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+        { id: 'co2', label: '共通核心 2', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+        { id: 'co3', label: '共通核心 3', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+        { id: 'co4', label: '共通核心 4', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' }
+    ];
+
+    function getCumul(arr, lv) {
+        let sum = 0;
+        for(let i=1; i<=lv; i++) sum += arr[i] || 0;
+        return sum;
+    }
+
+    function initHexaProg() {
+        const container = document.getElementById('prog-cores-container');
+        let html = '';
+        let selectOptions = '';
+        for(let i=0; i<=30; i++) selectOptions += `<option value="${i}">Lv. ${i}</option>`;
+
+        const categories = [
+            { type: 'skill' },
+            { type: 'mastery' },
+            { type: 'enhance' },
+            { type: 'common' }
+        ];
+
+        categories.forEach(cat => {
+            let cores = coreConfig.filter(c => c.type === cat.type);
+            html += `<div class="core-row">`;
+            cores.forEach(core => {
+                let isChecked = core.default ? 'checked' : '';
+                let cbHtml = core.mandatory ? 
+                    `<span style="font-weight:bold; color:#333; font-size: 14px;">${core.label}</span>` : 
+                    `<label style="cursor:pointer; display:flex; align-items:center; color:#333; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
+                
+                html += `
+                    <div class="prog-item" id="item-${core.id}" style="background-color: ${core.bg}; border-left: 5px solid ${core.border}; ${(!core.mandatory && !core.default) ? 'opacity: 0.5;' : ''}">
+                        <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 8px; height: 24px;">
+                            ${cbHtml}
+                        </div>
+                        <select id="sel-${core.id}" ${(!core.mandatory && !core.default) ? 'disabled' : ''}>${selectOptions}</select>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function toggleCoreProg(id) {
+        let isChecked = document.getElementById('cb-' + id).checked;
+        let sel = document.getElementById('sel-' + id);
+        let item = document.getElementById('item-' + id);
+        sel.disabled = !isChecked;
+        item.style.opacity = isChecked ? '1' : '0.5';
+        if(!isChecked) sel.value = '0';
+    }
+
+    function calcHexaProg() {
+        let totalBigNeeded = 0, totalSmallNeeded = 0;
+        let investedBig = 0, investedSmall = 0;
+
+        coreConfig.forEach(core => {
+            let isActive = core.mandatory || document.getElementById('cb-' + core.id).checked;
+            if (isActive) {
+                let lv = parseInt(document.getElementById('sel-' + core.id).value);
+                let bigArr = reqData[core.type].big;
+                let smallArr = reqData[core.type].small;
+
+                totalBigNeeded += getCumul(bigArr, 30);
+                totalSmallNeeded += getCumul(smallArr, 30);
+                investedBig += getCumul(bigArr, lv);
+                investedSmall += getCumul(smallArr, lv);
+            }
+        });
+
+        let invBig = parseInt(document.getElementById('inv-big').value) || 0;
+        let invFrag = parseInt(document.getElementById('inv-frag').value) || 0;
+        let invConc = parseInt(document.getElementById('inv-conc').value) || 0;
+        let invNrg = parseInt(document.getElementById('inv-nrg').value) || 0;
+        let invWeak = parseInt(document.getElementById('inv-weak').value) || 0;
+
+        let currentBagEnergy = (invBig * 1000) + (invConc * 500) + (invNrg * 200) + (invWeak * 10);
+        let remainingFrag = Math.max(0, totalSmallNeeded - investedSmall);
+        let remainingEnergy = Math.max(0, (totalBigNeeded - investedBig) * 1000);
+        
+        let shortfallFrag = Math.max(0, remainingFrag - invFrag);
+        let shortfallEnergy = Math.max(0, remainingEnergy - currentBagEnergy);
+
+        let hrsPerDay = parseFloat(document.getElementById('farm-hours').value) || 0;
+        let farmFragHr = parseFloat(document.getElementById('farm-frag-hr').value) || 0;
+        let farmNrgHr = parseFloat(document.getElementById('farm-nrg-hr').value) || 0;
+        let farmWeakHr = parseFloat(document.getElementById('farm-weak-hr').value) || 0;
+        
+        let farmFragWk = parseFloat(document.getElementById('farm-frag-wk').value) || 0;
+        let farmConcWk = parseFloat(document.getElementById('farm-conc-wk').value) || 0;
+        let farmNrgWk = parseFloat(document.getElementById('farm-nrg-wk').value) || 0;
+        let farmWeakWk = parseFloat(document.getElementById('farm-weak-wk').value) || 0;
+
+        let dailyFrag = (farmFragHr * hrsPerDay) + (farmFragWk / 7);
+        let daysFrag = dailyFrag > 0 ? shortfallFrag / dailyFrag : (shortfallFrag > 0 ? Infinity : 0);
+        let grindHoursFrag = daysFrag * hrsPerDay;
+
+        let dailyEnergy = ((farmNrgHr * 200) + (farmWeakHr * 10)) * hrsPerDay + ((farmConcWk * 500) + (farmNrgWk * 200) + (farmWeakWk * 10)) / 7;
+        let daysEnergy = dailyEnergy > 0 ? shortfallEnergy / dailyEnergy : (shortfallEnergy > 0 ? Infinity : 0);
+        let grindHoursEnergy = daysEnergy * hrsPerDay;
+
+        document.getElementById('result-hexa-prog').style.display = 'block';
+
+        let fragPct = totalSmallNeeded > 0 ? ((investedSmall + Math.min(invFrag, remainingFrag)) / totalSmallNeeded) * 100 : 100;
+        let energyTotalNeeded = totalBigNeeded * 1000;
+        let energyInvested = investedBig * 1000;
+        let solPct = energyTotalNeeded > 0 ? ((energyInvested + Math.min(currentBagEnergy, remainingEnergy)) / energyTotalNeeded) * 100 : 100;
+
+        document.getElementById('prog-bar-frag').style.width = fragPct.toFixed(1) + '%';
+        document.getElementById('prog-bar-frag').innerText = fragPct.toFixed(1) + '%';
+        document.getElementById('prog-txt-frag').innerText = `${(investedSmall).toLocaleString()} / ${totalSmallNeeded.toLocaleString()} (短缺: ${shortfallFrag.toLocaleString()})`;
+
+        document.getElementById('prog-bar-sol').style.width = solPct.toFixed(1) + '%';
+        document.getElementById('prog-bar-sol').innerText = solPct.toFixed(1) + '%';
+        document.getElementById('prog-txt-sol').innerText = `${investedBig.toLocaleString()} / ${totalBigNeeded.toLocaleString()} (氣息短缺: ${shortfallEnergy.toLocaleString()})`;
+
+        let timeBox = document.getElementById('prog-time-result');
+        
+        function formatTime(days, hours) {
+            if (days === Infinity) return "無限期 (請填寫獲取速度)";
+            if (days <= 0) return "✅ 庫存已可畢業";
+            
+            let gradDate = new Date();
+            gradDate.setDate(gradDate.getDate() + Math.ceil(days));
+            let m = gradDate.getMonth() + 1;
+            let d = gradDate.getDate();
+            let dateString = `${gradDate.getFullYear()}/${m.toString().padStart(2, '0')}/${d.toString().padStart(2, '0')}`;
+
+            return `約 ${Math.ceil(days)} 天 (共需掛機 ${Math.ceil(hours).toLocaleString()} 小時) - 預計 ${dateString}`;
+        }
+
+        if (totalBigNeeded === 0 && totalSmallNeeded === 0) {
+            timeBox.innerHTML = `⚠️ 請先在上方勾選要養成的核心。`;
+        } else {
+            timeBox.innerHTML = `
+                <div style="font-weight: bold; margin-bottom: 10px; color: #444;">預估畢業時間</div>
+                <div style="display:flex; flex-direction:column; gap:8px; font-size: 15px;">
+                    <div><strong style="display:inline-flex; align-items:center;"><img src="assets/靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
+                    <div><strong style="display:inline-flex; align-items:center;"><img src="assets/icon-Sol Erda Fragment.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
+                </div>
+            `;
+        }
+    }
+
+    // ==========================================
     // 1. 無視防禦計算機
     // ==========================================
     const equipments = [
@@ -794,37 +1116,42 @@
         "苦痛的根源", "支配者墜飾", "巨大的恐怖", "被詛咒的魔島書", "HEXA屬性", "活動", "預留1", "預留2", "預留3"
     ];
 
-    const grid = document.getElementById('equip-grid');
-    equipments.forEach(equip => {
-        const group = document.createElement('div');
-        group.className = 'input-group';
-        group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
-        grid.appendChild(group);
-    });
+    function initIgnoreGrid() {
+        const grid = document.getElementById('equip-grid');
+        if (grid) {
+            grid.innerHTML = ''; 
+            equipments.forEach(equip => {
+                const group = document.createElement('div');
+                group.className = 'input-group';
+                group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
+                grid.appendChild(group);
+            });
+        }
+    }
 
     function calculateIgnore() {
         let values = [];
         equipments.forEach(equip => {
-            const inputVal = document.getElementById('input-' + equip).value.trim();
-            if (inputVal) {
-                let parts = inputVal.replace(/[，、]/g, ',').split(',');
-                parts.forEach(p => {
-                    let cleanP = p.replace(/[^\d.]/g, ''); 
-                    if (cleanP !== "" && !isNaN(cleanP)) values.push(parseFloat(cleanP));
-                });
+            let inputElem = document.getElementById('input-' + equip);
+            if(inputElem) {
+                const inputVal = inputElem.value.trim();
+                if (inputVal) {
+                    let parts = inputVal.replace(/[，、]/g, ',').split(',');
+                    parts.forEach(p => {
+                        let cleanP = p.replace(/[^\d.]/g, ''); 
+                        if (cleanP !== "" && !isNaN(cleanP)) values.push(parseFloat(cleanP));
+                    });
+                }
             }
         });
-
         const absolabVal = parseFloat(document.querySelector('input[name="absolab"]:checked').value);
         const arcaneVal = parseFloat(document.querySelector('input[name="arcane"]:checked').value);
         const setEffectSum = absolabVal + arcaneVal;
-        
         if (setEffectSum > 0) values.push(setEffectSum);
 
         let multiplier = 1.0;
         values.forEach(v => { multiplier *= (1.0 - (v / 100.0)); });
         let totalIgnore = (1.0 - multiplier) * 100.0;
-
         document.getElementById('result-ignore').innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
     }
 
@@ -1390,7 +1717,7 @@
     }
 
     // ==========================================
-    // 6. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版) - 已修復 Bug
+    // 6. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
     // ==========================================
     function runHexaSimulation() {
         let valA = document.getElementById('sim-a').value;
@@ -1410,16 +1737,14 @@
 
         let useStopLoss = document.getElementById('sim-stoploss').checked;
         let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
-
         let resBox = document.getElementById('result-hexa-sim');
 
-        // 👇👇👇 這是為你新增的 20 次防呆機制 👇👇👇
+        // 👇👇👇 20 次防呆機制 👇👇👇
         if (sA + sB + sC + rolls !== 20) {
             resBox.style.display = 'block'; 
             resBox.innerHTML = `⚠️ 錯誤：目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。`; 
             return;
         }
-        // 👆👆👆 新增防呆結束 👆👆👆
 
         // 防呆：如果完全沒設定目標
         if (tA === 0 && tSub === 0) {
