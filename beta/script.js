@@ -1,0 +1,1209 @@
+// ==========================================
+// 核心全域清除邏輯
+// ==========================================
+function clearReset() {
+    document.getElementById('reset-a').value = '';
+    document.getElementById('reset-b').value = '';
+    document.getElementById('reset-c').value = '';
+    document.getElementById('reset-rolls').value = '10';
+    document.getElementById('reset-target-a').value = '';
+    document.getElementById('reset-target-sub').value = '';
+    if(document.getElementById('sim-million-reset')) document.getElementById('sim-million-reset').checked = false;
+    document.getElementById('result-hexa-reset-container').style.display = 'none';
+}
+
+function clearSim() {
+    document.getElementById('sim-a').value = '';
+    document.getElementById('sim-b').value = '';
+    document.getElementById('sim-c').value = '';
+    document.getElementById('sim-rolls').value = '';
+    document.getElementById('target-a').value = '';
+    document.getElementById('target-sub').value = '';
+    document.getElementById('sim-stoploss').checked = true;
+    if(document.getElementById('sim-million')) document.getElementById('sim-million').checked = false;
+    document.getElementById('result-hexa-sim').style.display = 'none';
+}
+
+// ==========================================
+// 頁籤切換邏輯
+// ==========================================
+let lazyTableGenerated = false;
+let visualInitialized = false;
+let progInitialized = false;
+let ignoreInitialized = false;
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    
+    document.getElementById('btn-' + tabId).classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+
+    if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
+        setTimeout(generateLazyTable, 50); 
+        lazyTableGenerated = true;
+    }
+    if (tabId === 'hexa-visual' && !visualInitialized) {
+        initVisualBars();
+        visualInitialized = true;
+    }
+    if (tabId === 'transcend') {
+        tr_updateUI();
+    }
+    if (tabId === 'hexa-prog' && !progInitialized) {
+        initHexaProg();
+        progInitialized = true;
+    }
+    if (tabId === 'ignore' && !ignoreInitialized) {
+        initIgnoreGrid();
+        ignoreInitialized = true;
+    }
+}
+
+// ==========================================
+// 💥 1. 六轉進度計算機引擎 (Kmsm標準核心配置)
+// ==========================================
+const reqData = {
+    skill: {
+        big: [0,0,2,3,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,15],
+        small:[0,0,40,50,60,70,80,90,100,110,125,140,155,170,185,200,215,230,245,260,280,300,320,340,360,380,400,420,440,460,500]
+    },
+    mastery: {
+        big: [0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,8,8,8,8,9,9,9,10],
+        small:[0,10,20,25,30,35,40,45,50,55,62,69,76,83,90,97,104,111,118,125,135,145,155,165,175,185,195,205,215,225,240]
+    },
+    enhance: {
+        big: [0,1,2,2,2,2,2,2,2,2,5,5,5,5,5,5,5,5,5,5,10,10,10,10,10,10,10,10,10,10,15],
+        small:[0,20,30,35,40,45,50,55,60,65,75,85,95,105,115,125,135,145,155,165,180,195,210,225,240,255,270,285,300,315,335]
+    },
+    common: {
+        big: [0, 10, 4, 4, 5, 5, 6, 6, 7, 7, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 17, 17, 17, 18, 18, 18, 19, 19, 19, 19, 20],
+        small: [0, 200, 55, 69, 83, 97, 110, 124, 138, 152, 173, 193, 214, 235, 255, 276, 297, 317, 338, 359, 386, 414, 442, 469, 497, 525, 552, 580, 607, 635, 670]
+    }
+};
+
+const coreConfig = [
+    { id: 'sk1', label: '啟源技能', type: 'skill', mandatory: true, default: true, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+    { id: 'sk2', label: '技能核心 2', type: 'skill', mandatory: false, default: false, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+    { id: 'ma1', label: '精通核心 1', type: 'mastery', mandatory: false, default: true, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma2', label: '精通核心 2', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma3', label: '精通核心 3', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma4', label: '精通核心 4', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'en1', label: '強化核心 1', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'en2', label: '強化核心 2', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'en3', label: '強化核心 3', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'en4', label: '強化核心 4', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'co1', label: '共通核心 1', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co2', label: '共通核心 2', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co3', label: '共通核心 3', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co4', label: '共通核心 4', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' }
+];
+
+function getCumul(arr, lv) {
+    let sum = 0;
+    for(let i=1; i<=lv; i++) sum += arr[i] || 0;
+    return sum;
+}
+
+function initHexaProg() {
+    const container = document.getElementById('prog-cores-container');
+    if (!container) return;
+    let html = '';
+    let selectOptions = '';
+    for(let i=0; i<=30; i++) selectOptions += `<option value="${i}">Lv. ${i}</option>`;
+
+    const categories = [{ type: 'skill' }, { type: 'mastery' }, { type: 'enhance' }, { type: 'common' }];
+    categories.forEach(cat => {
+        let cores = coreConfig.filter(c => c.type === cat.type);
+        html += `<div class="core-row">`;
+        cores.forEach(core => {
+            let isChecked = core.default ? 'checked' : '';
+            let cbHtml = core.mandatory ? 
+                `<span style="font-weight:bold; color:#333; font-size: 14px;">${core.label}</span>` : 
+                `<label style="cursor:pointer; display:flex; align-items:center; color:#333; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
+            
+            html += `
+                <div class="prog-item" id="item-${core.id}" style="background-color: ${core.bg}; border-left: 5px solid ${core.border}; ${(!core.mandatory && !core.default) ? 'opacity: 0.5;' : ''}">
+                    <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 8px; height: 24px;">
+                        ${cbHtml}
+                    </div>
+                    <select id="sel-${core.id}" ${(!core.mandatory && !core.default) ? 'disabled' : ''}>${selectOptions}</select>
+                </div>
+            `;
+        });
+        html += `</div>`;
+    });
+    container.innerHTML = html;
+}
+
+function toggleCoreProg(id) {
+    let isChecked = document.getElementById('cb-' + id).checked;
+    let sel = document.getElementById('sel-' + id);
+    let item = document.getElementById('item-' + id);
+    sel.disabled = !isChecked;
+    item.style.opacity = isChecked ? '1' : '0.5';
+    if(!isChecked) sel.value = '0';
+}
+
+function calcHexaProg() {
+    let totalBigNeeded = 0, totalSmallNeeded = 0;
+    let investedBig = 0, investedSmall = 0;
+
+    coreConfig.forEach(core => {
+        let isActive = core.mandatory || document.getElementById('cb-' + core.id).checked;
+        if (isActive) {
+            let lv = parseInt(document.getElementById('sel-' + core.id).value);
+            totalBigNeeded += getCumul(reqData[core.type].big, 30);
+            totalSmallNeeded += getCumul(reqData[core.type].small, 30);
+            investedBig += getCumul(reqData[core.type].big, lv);
+            investedSmall += getCumul(reqData[core.type].small, lv);
+        }
+    });
+
+    let invBig = parseInt(document.getElementById('inv-big').value) || 0;
+    let invFrag = parseInt(document.getElementById('inv-frag').value) || 0;
+    let invConc = parseInt(document.getElementById('inv-conc').value) || 0;
+    let invNrg = parseInt(document.getElementById('inv-nrg').value) || 0;
+    let invWeak = parseInt(document.getElementById('inv-weak').value) || 0;
+
+    let currentBagEnergy = (invBig * 1000) + (invConc * 500) + (invNrg * 200) + (invWeak * 10);
+    let remainingFrag = Math.max(0, totalSmallNeeded - investedSmall);
+    let remainingEnergy = Math.max(0, (totalBigNeeded - investedBig) * 1000);
+    
+    let shortfallFrag = Math.max(0, remainingFrag - invFrag);
+    let shortfallEnergy = Math.max(0, remainingEnergy - currentBagEnergy);
+
+    let hrsPerDay = parseFloat(document.getElementById('farm-hours').value) || 0;
+    let farmFragHr = parseFloat(document.getElementById('farm-frag-hr').value) || 0;
+    let farmNrgHr = parseFloat(document.getElementById('farm-nrg-hr').value) || 0;
+    let farmWeakHr = parseFloat(document.getElementById('farm-weak-hr').value) || 0;
+    
+    let farmFragWk = parseFloat(document.getElementById('farm-frag-wk').value) || 0;
+    let farmConcWk = parseFloat(document.getElementById('farm-conc-wk').value) || 0;
+    let farmNrgWk = parseFloat(document.getElementById('farm-nrg-wk').value) || 0;
+    let farmWeakWk = parseFloat(document.getElementById('farm-weak-wk').value) || 0;
+
+    let dailyFrag = (farmFragHr * hrsPerDay) + (farmFragWk / 7);
+    let daysFrag = dailyFrag > 0 ? shortfallFrag / dailyFrag : (shortfallFrag > 0 ? Infinity : 0);
+    let grindHoursFrag = daysFrag * hrsPerDay;
+
+    let dailyEnergy = ((farmNrgHr * 200) + (farmWeakHr * 10)) * hrsPerDay + ((farmConcWk * 500) + (farmNrgWk * 200) + (farmWeakWk * 10)) / 7;
+    let daysEnergy = dailyEnergy > 0 ? shortfallEnergy / dailyEnergy : (shortfallEnergy > 0 ? Infinity : 0);
+    let grindHoursEnergy = daysEnergy * hrsPerDay;
+
+    document.getElementById('result-hexa-prog').style.display = 'block';
+
+    let fragPct = totalSmallNeeded > 0 ? ((investedSmall + Math.min(invFrag, remainingFrag)) / totalSmallNeeded) * 100 : 100;
+    let energyTotalNeeded = totalBigNeeded * 1000;
+    let energyInvested = investedBig * 1000;
+    let solPct = energyTotalNeeded > 0 ? ((energyInvested + Math.min(currentBagEnergy, remainingEnergy)) / energyTotalNeeded) * 100 : 100;
+
+    document.getElementById('prog-bar-frag').style.width = fragPct.toFixed(1) + '%';
+    document.getElementById('prog-bar-frag').innerText = fragPct.toFixed(1) + '%';
+    document.getElementById('prog-txt-frag').innerText = `${(investedSmall).toLocaleString()} / ${totalSmallNeeded.toLocaleString()} (短缺: ${shortfallFrag.toLocaleString()})`;
+
+    document.getElementById('prog-bar-sol').style.width = solPct.toFixed(1) + '%';
+    document.getElementById('prog-bar-sol').innerText = solPct.toFixed(1) + '%';
+    document.getElementById('prog-txt-sol').innerText = `${investedBig.toLocaleString()} / ${totalBigNeeded.toLocaleString()} (氣息短缺: ${shortfallEnergy.toLocaleString()})`;
+
+    let timeBox = document.getElementById('prog-time-result');
+    
+    function formatTime(days, hours) {
+        if (days === Infinity) return "無限期 (請填寫獲取速度)";
+        if (days <= 0) return "✅ 庫存已可畢業";
+        
+        let gradDate = new Date();
+        gradDate.setDate(gradDate.getDate() + Math.ceil(days));
+        let m = gradDate.getMonth() + 1;
+        let d = gradDate.getDate();
+        let dateString = `${gradDate.getFullYear()}/${m.toString().padStart(2, '0')}/${d.toString().padStart(2, '0')}`;
+
+        return `約 ${Math.ceil(days)} 天 (共需掛機 ${Math.ceil(hours).toLocaleString()} 小時) - 預計 ${dateString}`;
+    }
+
+    if (totalBigNeeded === 0 && totalSmallNeeded === 0) {
+        timeBox.innerHTML = `⚠️ 請先在上方勾選要養成的核心。`;
+    } else {
+        timeBox.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 10px; color: #444;">預估畢業時間</div>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size: 15px;">
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/icon-Sol Erda Fragment.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
+            </div>
+        `;
+    }
+}
+
+// ==========================================
+// ⚡ 2. 無視防禦計算機邏輯
+// ==========================================
+const equipments = ["帽子", "套服", "手套", "鞋子", "護肩", "腰帶", "披風", "副武", "三武", "苦痛的根源", "支配者墜飾", "巨大的恐怖", "被詛咒的魔島書", "HEXA屬性", "活動", "預留1", "預留2", "預留3"];
+
+function initIgnoreGrid() {
+    const grid = document.getElementById('equip-grid');
+    if (!grid) return;
+    grid.innerHTML = ''; 
+    equipments.forEach(equip => {
+        const group = document.createElement('div');
+        group.className = 'input-group';
+        group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
+        grid.appendChild(group);
+    });
+}
+
+function calculateIgnore() {
+    let values = [];
+    equipments.forEach(equip => {
+        let inputElem = document.getElementById('input-' + equip);
+        if(inputElem) {
+            const inputVal = inputElem.value.trim();
+            if (inputVal) {
+                let parts = inputVal.replace(/[，、]/g, ',').split(',');
+                parts.forEach(p => {
+                    let cleanP = p.replace(/[^\d.]/g, ''); 
+                    if (cleanP !== "" && !isNaN(cleanP)) values.push(parseFloat(cleanP));
+                });
+            }
+        }
+    });
+
+    const absolabVal = parseFloat(document.querySelector('input[name="absolab"]:checked').value);
+    const arcaneVal = parseFloat(document.querySelector('input[name="arcane"]:checked').value);
+    const setEffectSum = absolabVal + arcaneVal;
+    
+    if (setEffectSum > 0) values.push(setEffectSum);
+
+    let multiplier = 1.0;
+    values.forEach(v => { multiplier *= (1.0 - (v / 100.0)); });
+    let totalIgnore = (1.0 - multiplier) * 100.0;
+
+    document.getElementById('result-ignore').innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+}
+
+// ==========================================
+// 👑 3. 超越強化模擬器邏輯 (動態期望值分析系統)
+// ==========================================
+let tr_lv = 30;
+let tr_fails = 0;
+let tr_bonus = 0.0;
+
+// 統計數據
+let tr_stat_normal = 0;
+let tr_stat_radiant = 0;
+let tr_stat_chaos = 0;
+let tr_stat_scrolls = 0;
+
+// 期望值數據
+let tr_ev_stones_achieved = 0;
+let tr_ev_scrolls_achieved = 0;
+let tr_current_level_stones = 0; 
+let tr_current_fail_scrolls = 0;
+
+let tr_isAnimating = false;
+let tr_isMuted = false; 
+
+const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
+const tr_sfxFail = new Audio('assets/AugmentFail.wav');
+
+// 計算超越單階的理論期望值 (蒙地卡羅概念的精算模型)
+function tr_getStoneEV(baseRate) {
+    let expected = 0;
+    let cumulativeFailProb = 1.0;
+    let currentBonus = 0;
+    let bonusStep = Math.max(5, Math.floor(baseRate * 0.2)); 
+    
+    for (let attempts = 1; attempts <= 40; attempts++) {
+        let rate = Math.min(100, baseRate + currentBonus) / 100.0;
+        let probSuccess = cumulativeFailProb * rate;
+        expected += attempts * probSuccess;
+        cumulativeFailProb *= (1 - rate);
+        currentBonus = Math.min(50, currentBonus + bonusStep);
+        if (cumulativeFailProb < 0.0001) break;
+    }
+    return expected;
+}
+
+function tr_toggleSound() {
+    tr_isMuted = !tr_isMuted;
+    const soundBtn = document.getElementById('btn-sound-toggle');
+    if (tr_isMuted) {
+        soundBtn.innerText = "🔇 音效：關閉";
+        soundBtn.classList.add('muted');
+    } else {
+        soundBtn.innerText = "🔊 音效：開啟";
+        soundBtn.classList.remove('muted');
+    }
+}
+
+function tr_playSound(isSuccess) {
+    if (tr_isMuted) return;
+    if (isSuccess) {
+        try { tr_sfxSuccess.currentTime = 0; tr_sfxSuccess.play(); } catch(e){}
+    } else {
+        try { tr_sfxFail.currentTime = 0; tr_sfxFail.play(); } catch(e){}
+    }
+}
+
+function tr_validateCustomRate(inputElem) {
+    document.querySelector(`input[name="${inputElem.dataset.group}"][value="custom"]`).checked = true;
+    if (inputElem.value !== "") {
+        let val = parseInt(inputElem.value);
+        if (val > 100) inputElem.value = 100;
+    }
+    tr_updateUI();
+}
+
+function tr_onBlurCustomRate(inputElem) {
+    let val = parseInt(inputElem.value);
+    if (isNaN(val) || val < 1 || inputElem.value === "") {
+        inputElem.value = 1;
+    }
+    tr_updateUI();
+}
+
+function tr_getSelectedRate(groupName, customInputId) {
+    let radios = document.getElementsByName(groupName);
+    let val = Array.from(radios).find(r => r.checked).value;
+    if (val === 'custom') {
+        let customVal = parseInt(document.getElementById(customInputId).value);
+        return (isNaN(customVal) || customVal < 1) ? 1 : customVal;
+    }
+    return parseFloat(val);
+}
+
+function tr_forceStateChange() {
+    if(tr_isAnimating) return;
+    
+    let newLv = parseInt(document.getElementById('input-equip-lv').value);
+    
+    if (newLv !== tr_lv) {
+        tr_bonus = 0.0; 
+    }
+    
+    tr_lv = newLv;
+    tr_fails = parseInt(document.getElementById('input-fail-count').value);
+    
+    tr_current_level_stones = 0;
+    tr_updateUI();
+}
+
+function tr_switchMode(mode) {
+    if (tr_isAnimating) return;
+    let enhanceRadio = document.querySelector('input[name="sim-mode"][value="enhance"]');
+    let scrollRadio = document.querySelector('input[name="sim-mode"][value="scroll"]');
+    if (mode === 'enhance') enhanceRadio.checked = true;
+    else if (mode === 'scroll') scrollRadio.checked = true;
+    tr_updateUI();
+}
+
+function tr_updateUI() {
+    let modeElem = document.querySelector('input[name="sim-mode"]:checked');
+    if (!modeElem) return;
+    let mode = modeElem.value;
+    let container = document.getElementById('game-ui-container');
+    if (!container) return;
+
+    document.getElementById('input-equip-lv').value = tr_lv;
+    document.getElementById('input-fail-count').value = tr_fails;
+    document.getElementById('ui-lv-curr').innerText = tr_lv;
+    document.getElementById('ui-overlay-lv').innerText = tr_lv;
+    document.getElementById('ui-lv-next').innerText = (tr_lv >= 70) ? "MAX" : tr_lv + 2;
+
+    let failTextDOM = document.getElementById('ui-fails');
+    failTextDOM.innerText = `失敗次數 ${tr_fails} / 7`;
+    failTextDOM.style.color = (tr_fails >= 7) ? "#e74c3c" : "#888";
+
+    let stoneImg = document.getElementById('ui-stone-img');
+    let stoneNameDOM = document.getElementById('ui-stone-name');
+    let btnMain = document.getElementById('btn-main-action');
+
+    let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+    let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
+
+    if (mode === 'enhance') {
+        document.getElementById('menu-enhance').classList.add('active');
+        document.getElementById('menu-scroll').classList.remove('active');
+        container.classList.remove('scroll-mode-active');
+        
+        document.getElementById('ui-coin-box').style.display = 'flex';
+
+        let totalRate = baseRate + tr_bonus;
+        let stoneName = "超越石"; let imgSrc = "assets/超越石.png";
+        
+        if (tr_lv >= 40 && tr_lv < 50) { stoneName = "發光超越石"; imgSrc = "assets/發光超越石.png"; }
+        if (tr_lv >= 50 && tr_lv <= 70) { stoneName = "混沌超越石"; imgSrc = "assets/混沌超越石.png"; }
+        
+        stoneNameDOM.innerText = `${stoneName} ${baseRate}%`;
+        stoneImg.src = imgSrc;
+
+        document.getElementById('ui-total-rate').innerText = `${totalRate.toFixed(0)}%`;
+        document.getElementById('ui-base-rate').innerText = `${baseRate}%`;
+        document.getElementById('ui-bonus-rate').innerText = `${tr_bonus.toFixed(0)}%`;
+        document.getElementById('ui-add-rate').innerText = `+${bonusStep}%`;
+
+        btnMain.innerText = "超越";
+        btnMain.disabled = (tr_lv >= 70 || tr_fails >= 7 || tr_isAnimating);
+
+    } else {
+        document.getElementById('menu-enhance').classList.remove('active');
+        document.getElementById('menu-scroll').classList.add('active');
+        container.classList.add('scroll-mode-active');
+        
+        document.getElementById('ui-coin-box').style.display = 'none';
+        
+        let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+        let imgSrc = (scrollRate < 70) ? "assets/超越失敗扣除卷軸A.png" : "assets/超越失敗扣除卷軸B.png";
+        
+        stoneNameDOM.innerText = `超越失敗扣除卷軸 ${scrollRate}%`;
+        stoneImg.src = imgSrc;
+
+        btnMain.innerText = "套用";
+        btnMain.disabled = (tr_fails <= 0 || tr_isAnimating);
+    }
+
+    // --- 📊 更新期望值面板 ---
+    document.getElementById('stat-stone-normal').innerText = tr_stat_normal;
+    document.getElementById('stat-stone-radiant').innerText = tr_stat_radiant;
+    document.getElementById('stat-stone-chaos').innerText = tr_stat_chaos;
+    let totalStones = tr_stat_normal + tr_stat_radiant + tr_stat_chaos;
+    document.getElementById('stat-stones-total').innerText = totalStones;
+    
+    let current_stone_ev = tr_current_level_stones > 0 ? tr_getStoneEV(baseRate) : 0;
+    document.getElementById('stat-stones-ev').innerText = (tr_ev_stones_achieved + current_stone_ev).toFixed(2);
+
+    document.getElementById('stat-scrolls-total').innerText = tr_stat_scrolls;
+    document.getElementById('stat-scrolls-total-bottom').innerText = tr_stat_scrolls;
+    
+    let sRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+    let current_scroll_ev = (tr_current_fail_scrolls > 0 && sRate > 0) ? (100 / sRate) : 0;
+    document.getElementById('stat-scrolls-ev').innerText = (tr_ev_scrolls_achieved + current_scroll_ev).toFixed(2);
+}
+
+function tr_execute_action() {
+    if (tr_isAnimating) return;
+    let mode = document.querySelector('input[name="sim-mode"]:checked').value;
+    if (mode === 'enhance') tr_action_transcend();
+    else tr_action_scroll();
+}
+
+function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFails, newFails) {
+    document.getElementById('result-modal').classList.add('active');
+    
+    if (type === 'enhance') {
+        document.getElementById('modal-box-enhance').style.display = 'flex';
+        document.getElementById('modal-box-scroll').style.display = 'none';
+        
+        document.getElementById('m-enh-item-lv').innerText = newLv; 
+        document.getElementById('m-enh-old-lv').innerText = oldLv;
+        document.getElementById('m-enh-new-lv').innerText = newLv;
+        
+        let header = document.getElementById('m-enh-title');
+        let failContainer = document.getElementById('m-enh-fail-text-container');
+        let statusTitle = document.getElementById('m-enh-status-title');
+        let bonusSection = document.getElementById('m-enh-bonus-section');
+
+        if (isSuccess) {
+            header.innerText = "超越成功";
+            failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>`;
+            failContainer.style.color = "#777";
+            failContainer.style.fontWeight = "normal";
+
+            statusTitle.innerText = "超越成功。"; 
+            
+            bonusSection.style.display = 'block';
+            document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率重置";
+            document.getElementById('m-enh-bonus-rate').innerText = "0%"; 
+            document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
+            document.getElementById('m-enh-bonus-hint').innerText = "";
+        } else {
+            header.innerText = "超越失敗";
+            
+            if (oldFails === 6 && newFails >= 7) {
+                failContainer.innerHTML = `已達最大超越次數。`;
+                failContainer.style.color = "#e74c3c";
+                failContainer.style.fontWeight = "bold";
+            } else {
+                failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change">(+1)</span>`;
+                failContainer.style.color = "#777";
+                failContainer.style.fontWeight = "normal";
+            }
+
+            statusTitle.innerText = "超越失敗。"; 
+            
+            if (newBonus === 0 || oldBonus === newBonus) {
+                bonusSection.style.display = 'none';
+            } else {
+                bonusSection.style.display = 'block';
+                document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率獲得";
+                document.getElementById('m-enh-bonus-rate').innerText = `獎勵機率 ${oldBonus.toFixed(0)}% > ${newBonus.toFixed(0)}%`; 
+                document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
+                document.getElementById('m-enh-bonus-hint').innerText = "獎勵機率最高可累積至50%。";
+            }
+        }
+    } else {
+        document.getElementById('modal-box-enhance').style.display = 'none';
+        document.getElementById('modal-box-scroll').style.display = 'flex';
+        
+        document.getElementById('m-scr-item-lv').innerText = oldLv;
+
+        let topText = document.getElementById('m-scr-top-text');
+        let resultBox = document.getElementById('m-scr-result-box');
+
+        if (isSuccess) {
+            topText.innerText = "該裝備的超越失敗次數已扣除1。";
+            resultBox.innerText = "失敗次數扣除成功！";
+            resultBox.className = "m-scr-grey-box m-scr-text-orange";
+        } else {
+            topText.innerText = "該裝備的超越失敗次數未扣除。";
+            resultBox.innerText = "失敗次數扣除失敗";
+            resultBox.className = "m-scr-grey-box m-scr-text-grey";
+        }
+    }
+}
+
+function tr_closeModal() {
+    document.getElementById('result-modal').classList.remove('active');
+    tr_isAnimating = false; 
+    tr_updateUI(); 
+}
+
+function tr_action_transcend() {
+    if (tr_isAnimating || tr_lv >= 70 || tr_fails >= 7) return;
+
+    tr_isAnimating = true;  
+    
+    // 紀錄當下這顆是什麼石頭
+    tr_current_level_stones++;
+    if (tr_lv < 40) tr_stat_normal++;
+    else if (tr_lv < 50) tr_stat_radiant++;
+    else tr_stat_chaos++;
+    
+    tr_updateUI();
+
+    let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+    let totalRate = baseRate + tr_bonus;
+    let roll = Math.random() * 100; 
+    let isSuccess = roll < totalRate;
+
+    let oldLv = tr_lv, oldBonus = tr_bonus, oldFails = tr_fails;
+
+    tr_playSound(isSuccess);
+    document.getElementById('ui-lightning').classList.add('active'); 
+
+    setTimeout(() => {
+        document.getElementById('ui-lightning').classList.remove('active');
+
+        if (isSuccess) {
+            tr_lv += 2; 
+            tr_bonus = 0.0; 
+            tr_ev_stones_achieved += tr_getStoneEV(baseRate); // 將這階的期望值寫入成就紀錄
+            tr_current_level_stones = 0; // 重置下一階的嘗試次數
+        } else {
+            tr_fails++;
+            // 獎勵機率：保底5%，無條件捨去小數點
+            let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
+            tr_bonus = Math.min(50, tr_bonus + bonusStep); 
+        }
+        tr_showModal('enhance', isSuccess, oldLv, tr_lv, oldBonus, tr_bonus, oldFails, tr_fails);
+    }, 200); 
+}
+
+function tr_action_scroll() {
+    if (tr_isAnimating || tr_fails <= 0) return;
+
+    tr_isAnimating = true;  
+    tr_stat_scrolls++;
+    tr_current_fail_scrolls++;
+    tr_updateUI();
+
+    let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+    let roll = Math.random() * 100;
+    let isSuccess = roll < scrollRate;
+
+    let oldLv = tr_lv, oldFails = tr_fails;
+
+    tr_playSound(isSuccess);
+
+    setTimeout(() => {
+        if (isSuccess) {
+            tr_fails--;
+            tr_ev_scrolls_achieved += (100 / scrollRate);
+            tr_current_fail_scrolls = 0;
+        }
+        tr_showModal('scroll', isSuccess, oldLv, oldLv, 0, 0, oldFails, tr_fails);
+    }, 200); 
+}
+
+function tr_action_reset() {
+    if (tr_isAnimating) return;
+    tr_lv = 30; 
+    tr_fails = 0; 
+    tr_bonus = 0.0; 
+    tr_stat_normal = 0; 
+    tr_stat_radiant = 0; 
+    tr_stat_chaos = 0; 
+    tr_stat_scrolls = 0;
+    tr_ev_stones_achieved = 0; 
+    tr_ev_scrolls_achieved = 0;
+    tr_current_level_stones = 0; 
+    tr_current_fail_scrolls = 0;
+    
+    document.querySelector('input[name="sim-mode"][value="enhance"]').checked = true;
+    tr_updateUI();
+}
+
+// ==========================================
+// 🛠️ 4. HEXA 公用數值與打鐵機邏輯
+// ==========================================
+function getHexaProb(level) {
+    if (level <= 2) return 0.35;
+    if (level <= 5) return 0.20;
+    if (level == 6) return 0.20;
+    if (level == 7) return 0.15;
+    if (level == 8) return 0.10;
+    if (level == 9) return 0.05;
+    return 0.0;
+}
+
+function getHexaCost(level) {
+    if (level <= 2) return 10;
+    if (level <= 5) return 20;
+    if (level == 6) return 30;
+    if (level == 7) return 30;
+    if (level == 8) return 30;
+    if (level == 9) return 50;
+    return 50;
+}
+
+// 視覺化打鐵機狀態變數
+let vA = 0, vB = 0, vC = 0, vClicks = 0;
+let totalFragmentsUsed = 0; 
+let isMuted = false;
+let resetCountTracker = 0;
+const enhanceSound = new Audio('assets/HexaCoreEnforcement.mp3');
+
+function initVisualBars() {
+    ['a', 'b', 'c'].forEach(type => {
+        const container = document.getElementById('vbar-' + type);
+        if(!container) return;
+        container.innerHTML = ''; 
+        for(let i=0; i<10; i++) {
+            let segment = document.createElement('div');
+            segment.className = 'v-segment';
+            container.appendChild(segment);
+        }
+    });
+    updateVisualUI();
+}
+
+function formatProb(p) {
+    let pct = p * 100;
+    return Number.isInteger(pct) ? pct + '%' : pct.toFixed(1) + '%';
+}
+
+function updateVisualUI() {
+    let levels = { 'a': vA, 'b': vB, 'c': vC };
+    
+    ['a', 'b', 'c'].forEach(type => {
+        const container = document.getElementById('vbar-' + type);
+        if(!container) return;
+        const segments = container.children;
+        const activeClass = (type === 'a') ? 'active-main' : 'active-sub';
+
+        for(let i=0; i<10; i++) {
+            if(i < levels[type]) segments[i].classList.add(activeClass);
+            else segments[i].classList.remove(activeClass);
+        }
+    });
+
+    let probA = getHexaProb(vA);
+    let probB = 0, probC = 0;
+    
+    if (vA === 10) probA = 0;
+    
+    let remProb = 1.0 - probA;
+    if (vB === 10 && vC === 10) {
+        probB = 0; probC = 0;
+    } else if (vB === 10) {
+        probB = 0; probC = remProb;
+    } else if (vC === 10) {
+        probC = 0; probB = remProb;
+    } else {
+        probB = remProb / 2;
+        probC = remProb / 2;
+    }
+
+    document.getElementById('vprob-a').innerText = '強化機率：' + (vA < 10 ? formatProb(probA) : 'MAX');
+    document.getElementById('vprob-b').innerText = '強化機率：' + (vB < 10 ? formatProb(probB) : 'MAX');
+    document.getElementById('vprob-c').innerText = '強化機率：' + (vC < 10 ? formatProb(probC) : 'MAX');
+
+    document.getElementById('v-clicks').innerText = vClicks;
+
+    let resetBtn = document.getElementById('btn-reset-v');
+    if (vClicks >= 10) {
+        resetBtn.classList.add('highlight');
+        resetBtn.disabled = false;
+        resetBtn.style.opacity = '1';
+        resetBtn.style.cursor = 'pointer';
+    } else {
+        resetBtn.classList.remove('highlight');
+        resetBtn.disabled = true;
+        resetBtn.style.opacity = '0.5';
+        resetBtn.style.cursor = 'not-allowed';
+    }
+    
+    let enhance10xBtn = document.getElementById('btn-enhance-10x');
+    let enhance1Btn = document.getElementById('btn-enhance-1');
+    if (vClicks >= 20) {
+        enhance10xBtn.style.opacity = '0.5'; enhance10xBtn.style.cursor = 'not-allowed';
+        enhance1Btn.style.opacity = '0.5'; enhance1Btn.style.cursor = 'not-allowed';
+    } else {
+        enhance10xBtn.style.opacity = '1'; enhance10xBtn.style.cursor = 'pointer';
+        enhance1Btn.style.opacity = '1'; enhance1Btn.style.cursor = 'pointer';
+    }
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    const muteBtn = document.getElementById('btn-mute-v');
+    if (isMuted) {
+        muteBtn.innerText = '🔇 聲音：關';
+        muteBtn.classList.add('muted-active');
+    } else {
+        muteBtn.innerText = '🔊 聲音：開';
+        muteBtn.classList.remove('muted-active');
+    }
+}
+
+function clickVisualEnhance() {
+    if (vClicks >= 20) return;
+
+    if (!isMuted) {
+        enhanceSound.currentTime = 0;
+        enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+    }
+
+    let cost = getHexaCost(vA);
+    totalFragmentsUsed += cost;
+    document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+
+    let probA = getHexaProb(vA);
+
+    if (vA < 10 && Math.random() < probA) {
+        vA++;
+    } else {
+        if (vB < 10 && vC < 10) {
+            if (Math.random() < 0.5) vB++; else vC++;
+        } else if (vB < 10) {
+            vB++; 
+        } else if (vC < 10) {
+            vC++; 
+        }
+    }
+    vClicks++;
+    updateVisualUI();
+}
+
+function clickVisualEnhance10x() {
+    if (vClicks >= 20) return;
+
+    let rolls = Math.min(10, 20 - vClicks);
+
+    if (!isMuted) {
+        enhanceSound.currentTime = 0;
+        enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+    }
+
+    for (let i = 0; i < rolls; i++) {
+        let cost = getHexaCost(vA);
+        totalFragmentsUsed += cost;
+        let probA = getHexaProb(vA);
+
+        if (vA < 10 && Math.random() < probA) {
+            vA++;
+        } else {
+            if (vB < 10 && vC < 10) {
+                if (Math.random() < 0.5) vB++; else vC++;
+            } else if (vB < 10) {
+                vB++; 
+            } else if (vC < 10) {
+                vC++; 
+            }
+        }
+        vClicks++;
+    }
+    
+    document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+    updateVisualUI();
+}
+
+function resetVisual() {
+    if (vClicks < 10) {
+        alert("⚠️ 依據真實遊戲設定，必須點滿 10 次才能重置喔！");
+        return;
+    }
+    resetCountTracker++;
+    document.getElementById('v-reset-count').innerText = resetCountTracker;
+    vA = 0; vB = 0; vC = 0; vClicks = 0;
+    updateVisualUI();
+}
+
+function resetFragments() {
+    totalFragmentsUsed = 0;
+    resetCountTracker = 0;
+    document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+    document.getElementById('v-reset-count').innerText = resetCountTracker;
+}
+
+// ==========================================
+// 📊 5. HEXA 懶人決策表生成邏輯
+// ==========================================
+let currentSort = { col: 'winRate', asc: false }; 
+
+function generateLazyTable() {
+    const trialsOccur = 100000;
+    let occurrences = {};
+
+    for (let i = 0; i < trialsOccur; i++) {
+        let a = 0, b = 0, c = 0;
+        for (let r = 0; r < 10; r++) {
+            if (Math.random() < getHexaProb(a) && a < 10) a++;
+            else {
+                if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                else { if (c < 10) c++; else b++; }
+            }
+        }
+        let maxSub = Math.max(b, c);
+        let minSub = Math.min(b, c);
+        let key = `${a}_${maxSub}_${minSub}`;
+        occurrences[key] = (occurrences[key] || 0) + 1;
+    }
+
+    let results = [];
+    const trialsWin = 15000; 
+
+    for (let key in occurrences) {
+        let occProb = (occurrences[key] / trialsOccur) * 100;
+        if (occProb > 0.05) { 
+            let parts = key.split('_');
+            let startA = parseInt(parts[0]);
+            let startB = parseInt(parts[1]);
+            let startC = parseInt(parts[2]);
+            let success = 0;
+            for (let i = 0; i < trialsWin; i++) {
+                let a = startA, b = startB, c = startC;
+                for (let r = 0; r < 10; r++) {
+                    if (Math.random() < getHexaProb(a) && a < 10) a++;
+                    else {
+                        if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                        else { if (c < 10) c++; else b++; }
+                    }
+                }
+                if (a >= 8 || b === 10 || c === 10) success++;
+            }
+            let winRate = (success / trialsWin) * 100;
+            if (winRate > 5.0) {
+                results.push({ a: startA, maxSub: startB, minSub: startC, winRate: winRate, occProb: occProb });
+            }
+        }
+    }
+
+    results.sort((x, y) => {
+        let diff = x[currentSort.col] - y[currentSort.col];
+        return currentSort.asc ? diff : -diff;
+    });
+    
+    renderTable(results);
+}
+
+function renderTable(results) {
+    let arrow = currentSort.asc ? " ▲" : " ▼";
+    let html = `
+        <table class="lazy-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('a')" style="cursor:pointer; background-color:#003d99;">主屬性${currentSort.col==='a'?arrow:''}</th>
+                    <th>較高附屬</th>
+                    <th>較低附屬</th>
+                    <th onclick="sortTable('occProb')" style="cursor:pointer; background-color:#003d99;">發生機率${currentSort.col==='occProb'?arrow:''}</th>
+                    <th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col==='winRate'?arrow:''}</th>
+                    <th>建議決策</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    results.forEach(r => {
+        let tagHtml = "";
+        if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
+        else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
+        else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱<span class="desktop-space"> </span><br class="mobile-br">(建議重置)</span>`;
+        else tagHtml = `<span class="tag tag-red">無法達成<span class="desktop-space"> </span><br class="mobile-br">(立刻重置)</span>`;
+
+        html += `<tr>
+            <td><strong>${r.a}</strong></td>
+            <td>${r.maxSub}</td>
+            <td>${r.minSub}</td>
+            <td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td>
+            <td><strong>${r.winRate.toFixed(1)}%</strong></td>
+            <td>${tagHtml}</td>
+        </tr>`;
+    });
+    html += `</tbody></table>`;
+    document.getElementById('lazy-table-wrapper').innerHTML = html;
+}
+
+function sortTable(col) {
+    if (currentSort.col === col) {
+        currentSort.asc = !currentSort.asc;
+    } else {
+        currentSort.col = col;
+        currentSort.asc = false;
+    }
+    generateLazyTable(); 
+}
+
+// ==========================================
+// 🎯 6. HEXA 重置決策邏輯 (動態基準 PK 系統)
+// ==========================================
+function checkHexaReset() {
+    let a = parseInt(document.getElementById('reset-a').value) || 0;
+    let b = parseInt(document.getElementById('reset-b').value) || 0;
+    let c = parseInt(document.getElementById('reset-c').value) || 0;
+    let rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
+    let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
+    let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+    
+    let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
+
+    let container = document.getElementById('result-hexa-reset-container');
+    let mainBox = document.getElementById('result-hexa-reset-main');
+    let detailBox = document.getElementById('result-hexa-reset-details');
+
+    if (a + b + c + rolls !== 20) {
+        container.style.display = 'block';
+        mainBox.innerText = `⚠️ 錯誤：目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 應該要等於 20 喔！\n請確認輸入數字是否正確。`;
+        detailBox.innerHTML = "";
+        return;
+    }
+
+    if (targetA === 0 && targetSub === 0) {
+        container.style.display = 'block';
+        mainBox.innerText = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！";
+        detailBox.innerHTML = "";
+        return;
+    }
+
+    const trials = useMillionReset ? 1000000 : 30000;
+    let gradSuccess = 0; 
+    let baseSuccess = 0; 
+    
+    let countA = new Array(11).fill(0);
+    let countB = new Array(11).fill(0);
+    let countC = new Array(11).fill(0);
+
+    for (let i = 0; i < trials; i++) {
+        let simA = a, simB = b, simC = c;
+        for (let roll = 0; roll < rolls; roll++) { 
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else {
+                if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
+                else { if (simC < 10) simC++; else simB++; }
+            }
+        }
+        
+        let maxSub = Math.max(simB, simC);
+        let passedA = (targetA > 0 && simA >= targetA);
+        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        if (passedA || passedSub) gradSuccess++;
+        
+        countA[simA]++; countB[simB]++; countC[simC]++;
+    }
+
+    for (let i = 0; i < trials; i++) {
+        let simA = 0, simB = 0, simC = 0;
+        for (let roll = 0; roll < 20; roll++) {
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else {
+                if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
+                else { if (simC < 10) simC++; else simB++; }
+            }
+        }
+        let maxSub = Math.max(simB, simC);
+        let passedA = (targetA > 0 && simA >= targetA);
+        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        if (passedA || passedSub) baseSuccess++;
+    }
+
+    let winRate = (gradSuccess / trials) * 100;
+    let baseWinRate = (baseSuccess / trials) * 100;
+    let suggestion = "";
+    
+    if (winRate === 0) {
+        suggestion = "💀 無法達成 (機率為 0%)，請立刻重置。";
+    } else if (winRate >= baseWinRate * 3) {
+        suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+    } else if (winRate >= baseWinRate) {
+        suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+    } else if (winRate >= baseWinRate * 0.5) {
+        suggestion = `⚠️ 狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
+    } else {
+        suggestion = `❌ 狀態極差 (機率遠低於從頭來過，立刻重置)`;
+    }
+
+    // 針對歐洲人的特殊覆寫
+    if (winRate > baseWinRate && winRate >= baseWinRate * 3) {
+        suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
+    }
+
+    container.style.display = 'block';
+    mainBox.innerHTML = `📊 預估畢業勝率：${winRate.toFixed(2)}%<br><span style="font-size: 15px; color: ${winRate >= baseWinRate ? '#27ae60' : '#c0392b'};">${suggestion}</span>`;
+    
+    let htmlA = `<div style="flex: 1; min-width: 150px;"><div style="color:#0052cc; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【主屬性 (A)】</div>`;
+    for(let i = Math.max(0, a); i <= 10; i++) htmlA += `• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%<br>`;
+    htmlA += `</div>`;
+
+    let htmlB = `<div style="flex: 1; min-width: 150px;"><div style="color:#c0392b; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (B)】</div>`;
+    for(let i = Math.max(0, b); i <= 10; i++) htmlB += `• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%<br>`;
+    htmlB += `</div>`;
+
+    let htmlC = `<div style="flex: 1; min-width: 150px;"><div style="color:#e67e22; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (C)】</div>`;
+    for(let i = Math.max(0, c); i <= 10; i++) htmlC += `• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%<br>`;
+    htmlC += `</div>`;
+
+    detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完後可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
+}
+
+// ==========================================
+// 🚀 7. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
+// ==========================================
+function runHexaSimulation() {
+    let valA = document.getElementById('sim-a').value;
+    let valB = document.getElementById('sim-b').value;
+    let valC = document.getElementById('sim-c').value;
+    let valRolls = document.getElementById('sim-rolls').value;
+
+    let sA = valA === "" ? 0 : parseInt(valA);
+    let sB = valB === "" ? 0 : parseInt(valB);
+    let sC = valC === "" ? 0 : parseInt(valC);
+    let rolls = valRolls === "" ? 20 : parseInt(valRolls);
+
+    let valTa = document.getElementById('target-a').value;
+    let valTsub = document.getElementById('target-sub').value;
+    let tA = valTa === "" ? 0 : parseInt(valTa);
+    let tSub = valTsub === "" ? 0 : parseInt(valTsub);
+
+    let useStopLoss = document.getElementById('sim-stoploss').checked;
+    let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
+    let resBox = document.getElementById('result-hexa-sim');
+
+    // 20 次防呆機制
+    if (sA + sB + sC + rolls !== 20) {
+        resBox.style.display = 'block'; 
+        resBox.innerHTML = `⚠️ 錯誤：目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。`; 
+        return;
+    }
+
+    // 防呆：如果完全沒設定目標
+    if (tA === 0 && tSub === 0) {
+        resBox.style.display = 'block'; 
+        resBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; 
+        return;
+    }
+
+    const trials = useMillion ? 1000000 : 100000;
+    let cSuccess = 0, cHitA = 0, cHitSub = 0, cHitBoth = 0, tFrag = 0; 
+    let isGolden = (useStopLoss && tSub === 0 && (tA === 10 || tA === 9));
+
+    for (let i = 0; i < trials; i++) {
+        let a = sA, b = sB, c = sC, attFrag = 0, success = false;
+        
+        if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
+            success = true;
+        }
+
+        for (let r = 0; r < rolls && !success; r++) {
+            let currMax = Math.max(b, c);
+            let currentTotalRolls = sA + sB + sC + r; 
+
+            if (useStopLoss) {
+                let rem = rolls - r;
+                let canHitA = (tA > 0) ? (a + rem >= tA) : false;
+                let canHitSub = (tSub > 0) ? (currMax + rem >= tSub) : false;
+                
+                let possible = false;
+                if (tA > 0 && tSub > 0) possible = (canHitA || canHitSub);
+                else if (tA > 0) possible = canHitA;
+                else if (tSub > 0) possible = canHitSub;
+
+                if (!possible) break; 
+
+                if (currentTotalRolls === 10 && tSub === 0) {
+                    if (tA === 10 && a < 5) break; 
+                    if (tA === 9 && a < 4) break;  
+                }
+            }
+
+            attFrag += getHexaCost(a);
+            if (Math.random() < getHexaProb(a) && a < 10) {
+                a++;
+            } else {
+                if (Math.random() < 0.5) { 
+                    if (b < 10) b++; else c++; 
+                } else { 
+                    if (c < 10) c++; else b++; 
+                }
+            }
+
+            if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
+                success = true;
+            }
+        }
+        tFrag += attFrag;
+        if (success) {
+            cSuccess++;
+            let finalMaxSub = Math.max(b, c);
+            let passA = (tA > 0 && a >= tA);
+            let passSub = (tSub > 0 && finalMaxSub >= tSub);
+            if (passA) cHitA++;
+            if (passSub) cHitSub++;
+            if (passA && passSub) cHitBoth++;
+        }
+    }
+    
+    let prob = (cSuccess / trials) * 100;
+    let avgCost = cSuccess > 0 ? (tFrag / cSuccess) : 0;
+    
+    let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong><br>`;
+    
+    if (useStopLoss) {
+        htmlOutput += `<span style="color:${isGolden ? '#27ae60' : '#7f8c8d'}; font-size:13px;">`;
+        if (isGolden) htmlOutput += `(套用提早停損及重置決策：前十次未達主屬${tA===10?'5':'4'}時直接重置)`;
+        else htmlOutput += `(僅套用提早停損)`;
+        htmlOutput += `</span><br><br>`;
+    } else {
+        htmlOutput += `<br><br>`;
+    }
+    
+    if (tA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#0052cc;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
+    if (tSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#c0392b;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
+    
+    if (tA > 0 && tSub > 0) {
+        htmlOutput += `• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#27ae60;">${prob.toFixed(2)} %</strong><br>`;
+        htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong>${((cHitBoth / trials) * 100).toFixed(2)} %</strong><br>`;
+    }
+    
+    htmlOutput += `<br><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
+    
+    if (cSuccess > 0) {
+        htmlOutput += `💰 預估碎片需求：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標`;
+    } else {
+        htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。`;
+    }
+
+    resBox.style.display = 'block';
+    resBox.innerHTML = htmlOutput;
+}
+
+// 首次載入初始化
+tr_updateUI();
