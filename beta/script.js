@@ -50,6 +50,9 @@ function switchTab(tabId) {
     if (tabId === 'transcend') {
         tr_updateUI();
     }
+    if (tabId === 'craft') {
+        cr_updateUI();
+    }
     if (tabId === 'hexa-prog' && !progInitialized) {
         initHexaProg();
         progInitialized = true;
@@ -119,8 +122,8 @@ function initHexaProg() {
         cores.forEach(core => {
             let isChecked = core.default ? 'checked' : '';
             let cbHtml = core.mandatory ? 
-                `<span style="font-weight:bold; color:#333; font-size: 14px;">${core.label}</span>` : 
-                `<label style="cursor:pointer; display:flex; align-items:center; color:#333; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
+                `<span style="font-weight:bold; color:#fff; font-size: 14px;">${core.label}</span>` : 
+                `<label style="cursor:pointer; display:flex; align-items:center; color:#fff; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
             
             html += `
                 <div class="prog-item" id="item-${core.id}" style="background-color: ${core.bg}; border-left: 5px solid ${core.border}; ${(!core.mandatory && !core.default) ? 'opacity: 0.5;' : ''}">
@@ -137,9 +140,12 @@ function initHexaProg() {
 }
 
 function toggleCoreProg(id) {
-    let isChecked = document.getElementById('cb-' + id).checked;
+    let cb = document.getElementById('cb-' + id);
     let sel = document.getElementById('sel-' + id);
     let item = document.getElementById('item-' + id);
+    if (!cb || !sel || !item) return;
+
+    let isChecked = cb.checked;
     sel.disabled = !isChecked;
     item.style.opacity = isChecked ? '1' : '0.5';
     if(!isChecked) sel.value = '0';
@@ -150,13 +156,26 @@ function calcHexaProg() {
     let investedBig = 0, investedSmall = 0;
 
     coreConfig.forEach(core => {
-        let isActive = core.mandatory || document.getElementById('cb-' + core.id).checked;
+        let isActive = false;
+        if (core.mandatory) {
+            isActive = true;
+        } else {
+            let cb = document.getElementById('cb-' + core.id);
+            isActive = cb ? cb.checked : false;
+        }
+
         if (isActive) {
-            let lv = parseInt(document.getElementById('sel-' + core.id).value);
-            totalBigNeeded += getCumul(reqData[core.type].big, 30);
-            totalSmallNeeded += getCumul(reqData[core.type].small, 30);
-            investedBig += getCumul(reqData[core.type].big, lv);
-            investedSmall += getCumul(reqData[core.type].small, lv);
+            let sel = document.getElementById('sel-' + core.id);
+            let lv = sel ? parseInt(sel.value) : 0;
+            if (isNaN(lv)) lv = 0;
+
+            let bigArr = reqData[core.type].big;
+            let smallArr = reqData[core.type].small;
+
+            totalBigNeeded += getCumul(bigArr, 30);
+            totalSmallNeeded += getCumul(smallArr, 30);
+            investedBig += getCumul(bigArr, lv);
+            investedSmall += getCumul(smallArr, lv);
         }
     });
 
@@ -305,7 +324,7 @@ let tr_isMuted = false;
 const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
 const tr_sfxFail = new Audio('assets/AugmentFail.wav');
 
-// 計算超越單階的理論期望值 (蒙地卡羅概念的精算模型)
+// 計算超越單階的理論期望值
 function tr_getStoneEV(baseRate) {
     let expected = 0;
     let cumulativeFailProb = 1.0;
@@ -1042,18 +1061,13 @@ function checkHexaReset() {
     if (winRate === 0) {
         suggestion = "💀 無法達成 (機率為 0%)，請立刻重置。";
     } else if (winRate >= baseWinRate * 3) {
-        suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+        suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
     } else if (winRate >= baseWinRate) {
         suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
     } else if (winRate >= baseWinRate * 0.5) {
         suggestion = `⚠️ 狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
     } else {
         suggestion = `❌ 狀態極差 (機率遠低於從頭來過，立刻重置)`;
-    }
-
-    // 針對歐洲人的特殊覆寫
-    if (winRate > baseWinRate && winRate >= baseWinRate * 3) {
-        suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
     }
 
     container.style.display = 'block';
@@ -1207,3 +1221,280 @@ function runHexaSimulation() {
 
 // 首次載入初始化
 tr_updateUI();
+
+// ==========================================
+// 🔨 8. 製作模擬器邏輯 (Phase 1 航海升神秘測試版)
+// ==========================================
+let cr_fails = 0;
+let cr_crystals_used = 0;
+let cr_scrolls_used = 0;
+let cr_isAnimating = false;
+let cr_isMuted = false;
+
+// 獨立設定製作音效
+const cr_sfx_success = new Audio('assets/混沌製作成功音效.mp3');
+const cr_sfx_fail = new Audio('assets/混沌製作失敗音效.mp3');
+
+// 資料字典：設定每個階段的數據
+// 👇 替換開始 👇
+const CRAFT_DATA = {
+    necro: {
+        baseRate: 8,
+        fromText: "神話",
+        toText: "死靈",
+        fromColor: "#e74c3c", 
+        toColor: "#45b4d4",   
+        desc: "對選擇的裝備進行<span style='color:#45b4d4;'>死靈轉換</span>製作。",
+        meso: "85,000,000",
+        crystalName: "古代防具結晶",
+        fromImg: "assets/神話帽子.png",   
+        toImg: "assets/死靈帽子.png"
+    },
+    absolab: {
+        baseRate: 12,
+        fromText: "死靈",
+        toText: "航海師",
+        fromColor: "#45b4d4",
+        toColor: "#b274b5",
+        desc: "在<span style='color:#45b4d4;'>死靈</span>裝備上製作<span style='color:#b274b5;'>航海師</span>裝備。",
+        meso: "100,000,000",
+        crystalName: "斯烏結晶(武器)",
+        fromImg: "assets/死靈手杖.png",   
+        toImg: "assets/航海師手杖.png"
+    },
+    arcane: {
+        baseRate: 10,
+        fromText: "航海師",
+        toText: "神秘冥界幽靈",
+        fromColor: "#b274b5",
+        toColor: "#d874cc",
+        desc: "在<span style='color:#b274b5;'>航海師</span>裝備上製作<span style='color:#d874cc;'>神秘冥界幽靈</span>裝備。",
+        meso: "1,024", 
+        crystalName: "夏德貝爾結晶(武器)",
+        fromImg: "assets/神秘冥界幽靈天之星光權杖.webp", 
+        toImg: "assets/神秘冥界幽靈天之星光權杖.webp"
+    }
+};
+
+// 💡 注意：一開始讓 UI 鎖定在 arcane (航海升神秘) 來測試
+let cr_stage = 'arcane'; 
+
+function cr_toggleSound() {
+    cr_isMuted = !cr_isMuted;
+    document.getElementById('btn-sound-toggle-cr').innerText = cr_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
+    document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
+}
+
+function cr_getScrollRate() {
+    let scrollElem = document.getElementById('cr-scroll-c1');
+    let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
+    return { rate: v1, count: v1 > 0 ? 1 : 0 };
+}
+
+function cr_forceStageChange() {
+    if(cr_isAnimating) return;
+    
+    let stageRadio = document.querySelector('input[name="cr-stage"]:checked');
+    if(stageRadio) cr_stage = stageRadio.value;
+    
+    cr_fails = 0;
+    cr_crystals_used = 0;
+    cr_scrolls_used = 0;
+    
+    if(cr_stage === 'necro') {
+        let necroDiv = document.getElementById('cr-scroll-necro-div');
+        let chaosDiv = document.getElementById('cr-scroll-chaos-div');
+        if(necroDiv) necroDiv.style.display = 'flex';
+        if(chaosDiv) chaosDiv.style.display = 'none';
+        
+        let n1 = document.getElementById('cr-scroll-n1');
+        let n2 = document.getElementById('cr-scroll-n2');
+        if(n1) n1.value = "0";
+        if(n2) n2.value = "0";
+    } else {
+        let necroDiv = document.getElementById('cr-scroll-necro-div');
+        let chaosDiv = document.getElementById('cr-scroll-chaos-div');
+        if(necroDiv) necroDiv.style.display = 'none';
+        if(chaosDiv) chaosDiv.style.display = 'flex';
+        
+        let c1 = document.getElementById('cr-scroll-c1');
+        if(c1) c1.value = "0";
+    }
+    cr_updateUI();
+}
+
+function cr_updateUI() {
+    let data = CRAFT_DATA[cr_stage];
+    let scrollInfo = cr_getScrollRate();
+    let totalRate = data.baseRate + scrollInfo.rate;
+
+    let descElem = document.getElementById('cr-desc-text');
+    if(descElem) descElem.innerHTML = data.desc;
+
+    let scrollCol = document.getElementById('cr-scroll-col');
+    let scrollName = document.getElementById('cr-scroll-name');
+    let totalRateText = document.getElementById('cr-total-rate');
+    
+    if (scrollCol && scrollName && totalRateText) {
+        if (scrollInfo.rate > 0) {
+            scrollCol.style.opacity = '1';
+            scrollName.style.color = '#333';
+            scrollName.style.fontWeight = 'bold';
+            
+            if(cr_stage === 'necro') {
+                scrollName.innerText = `幸運的製作卷軸`;
+            } else {
+                scrollName.innerText = `幸運的混沌製作卷軸(武器)${scrollInfo.rate}%`;
+            }
+            
+            // 💡 直接將追加機率寫在同一行，完美還原截圖：20(10 + 10) %
+            totalRateText.innerText = `${totalRate}(${data.baseRate} + ${scrollInfo.rate}) %`;
+        } else {
+            scrollCol.style.opacity = '0.3';
+            scrollName.style.color = '#888';
+            scrollName.style.fontWeight = 'normal';
+            scrollName.innerText = `卷軸`;
+            totalRateText.innerText = `${totalRate} %`;
+        }
+    }
+
+    let mesoElem = document.getElementById('cr-meso-cost');
+    if(mesoElem) mesoElem.innerText = data.meso;
+
+    let statFails = document.getElementById('cr-stat-fails');
+    let statCrys = document.getElementById('cr-stat-crystals');
+    let statScr = document.getElementById('cr-stat-scrolls');
+    let statCurRate = document.getElementById('cr-stat-curr-rate');
+    let evAtmpt = document.getElementById('cr-ev-attempts');
+
+    if(statFails) statFails.innerText = cr_fails;
+    if(statCrys) statCrys.innerText = cr_crystals_used;
+    if(statScr) statScr.innerText = cr_scrolls_used;
+    if(statCurRate) statCurRate.innerText = totalRate + "%";
+    if(evAtmpt) evAtmpt.innerText = (100 / totalRate).toFixed(1);
+}
+
+function cr_showConfirm() {
+    if(cr_isAnimating) return;
+    let modal = document.getElementById('cr-confirm-modal');
+    if(modal) modal.classList.add('active');
+}
+
+function cr_cancelConfirm() {
+    let modal = document.getElementById('cr-confirm-modal');
+    if(modal) modal.classList.remove('active');
+}
+
+function cr_executeCraft() {
+    let confirmModal = document.getElementById('cr-confirm-modal');
+    if(confirmModal) confirmModal.classList.remove('active');
+    
+    cr_isAnimating = true;
+
+    try {
+        let data = CRAFT_DATA[cr_stage];
+        let scrollInfo = cr_getScrollRate();
+        let totalRate = data.baseRate + scrollInfo.rate;
+
+        cr_crystals_used++;
+        cr_scrolls_used += scrollInfo.count;
+        cr_updateUI();
+
+        let isSuccess = (Math.random() * 100) < totalRate;
+
+        let animOverlay = document.getElementById('cr-anim-overlay');
+        let animImg = document.getElementById('cr-anim-img');
+        
+        if (animOverlay && animImg) {
+            if (isSuccess) {
+                animImg.src = "assets/混沌製作成功動畫.webp";
+                if (!cr_isMuted) { cr_sfx_success.currentTime = 0; cr_sfx_success.play().catch(()=>{}); }
+            } else {
+                animImg.src = "assets/混沌製作失敗動畫.webp";
+                if (!cr_isMuted) { cr_sfx_fail.currentTime = 0; cr_sfx_fail.play().catch(()=>{}); }
+            }
+
+            animOverlay.classList.add('cr-anim-active'); 
+
+            setTimeout(() => {
+                animOverlay.classList.remove('cr-anim-active');
+                animImg.src = ""; 
+                
+                if (isSuccess) {
+                    cr_showResult(true);
+                } else {
+                    cr_fails++;
+                    cr_showResult(false);
+                }
+            }, 1185); // 💡 動畫時間 1.185 秒
+        }
+        
+    } catch (e) {
+        console.error("製作發生錯誤：", e);
+        cr_isAnimating = false;
+        alert("UI 發生異常！系統已強制解鎖。");
+    }
+}
+
+function cr_showResult(isSuccess) {
+    let modal = document.getElementById('cr-result-modal');
+    if(!modal) return;
+    modal.classList.add('active');
+    
+    let statsBox = document.getElementById('cr-m-stats-box');
+    let lvTag = document.getElementById('cr-m-lv-tag');
+    let lvText = document.getElementById('cr-m-lv');
+    let failCont = document.getElementById('cr-m-fail-text-container');
+    
+    if (isSuccess) {
+        document.getElementById('cr-m-title').innerText = "製作成功";
+        document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp";
+        document.getElementById('cr-m-equip-name').innerText = "神秘冥界幽靈手杖";
+        
+        // 💡 成功時：顯示標籤，並將等級歸零為 1
+        if(lvTag) lvTag.style.display = "block";
+        if(lvText) lvText.innerText = "1"; 
+        
+        if(failCont) failCont.style.display = "none";
+        
+        if(statsBox) {
+            statsBox.innerHTML = `
+                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#e67e22;">1204 <span style="color:#c0392b;">(▼1204)</span></span></div>
+                <div class="cr-stat-row"><span style="color:#c0392b;">最終傷害增加</span><span style="color:#333;">1.204%</span></div>
+                <div class="cr-stat-row"><span style="color:#c0392b;">最終傷害增加</span><span style="color:#333;">1.204%</span></div>
+            `;
+        }
+    } else {
+        document.getElementById('cr-m-title').innerText = "製作失敗";
+        document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp"; // 草稿先共用
+        document.getElementById('cr-m-equip-name').innerText = "航海師法師帽";
+        
+        // 💡 核心修復：失敗時「必須」顯示標籤來當作遮罩，並顯示目前的裝備等級！
+        if(lvTag) lvTag.style.display = "block";
+        if(lvText) lvText.innerText = tr_lv; 
+        
+        if(failCont) failCont.style.display = "block";
+        
+        let failCount = document.getElementById('cr-m-fail-count');
+        if(failCount) failCount.innerText = cr_fails;
+        
+        if(statsBox) {
+            statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px;">能力值沒有變化。</div>`;
+        }
+    }
+}
+
+function cr_closeResult() {
+    let modal = document.getElementById('cr-result-modal');
+    if(modal) modal.classList.remove('active');
+    cr_isAnimating = false; 
+    cr_updateUI();
+}
+
+function cr_action_reset() {
+    if (cr_isAnimating) return;
+    cr_fails = 0;
+    cr_crystals_used = 0;
+    cr_scrolls_used = 0;
+    cr_updateUI();
+}
