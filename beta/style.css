@@ -370,9 +370,9 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
 
 /* ========================================== */
-/* 🎬 製作模擬器：全白背景遮罩 (讓 WEBP 自己表現) */
+/* 🎬 製作模擬器：全黑背景遮罩 (完美融合影片黑底) */
 /* ========================================== */
 .cr-anim-active {
     display: flex !important;
-    background-color: #ffffff !important; /* 💡 直接給一塊純白畫布遮擋所有UI */
+    background-color: #000000 !important; /* 💡 改成黑色，上下的白邊就會完全消失 */
 }
