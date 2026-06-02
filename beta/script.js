@@ -1231,10 +1231,6 @@ let cr_scrolls_used = 0;
 let cr_isAnimating = false;
 let cr_isMuted = false;
 
-// 獨立設定製作音效
-const cr_sfx_success = new Audio('assets/混沌製作成功音效.mp3');
-const cr_sfx_fail = new Audio('assets/混沌製作失敗音效.mp3');
-
 // 資料字典：設定每個階段的數據
 // 👇 替換開始 👇
 const CRAFT_DATA = {
@@ -1406,27 +1402,30 @@ function cr_executeCraft() {
         let animVideo = document.getElementById('cr-anim-video');
         
         if (animOverlay && animVideo) {
-            // 💡 指定 MP4 影片路徑
             if (isSuccess) {
                 animVideo.src = "assets/混沌製作成功動畫.mp4";
-                if (!cr_isMuted) { cr_sfx_success.currentTime = 0; cr_sfx_success.play().catch(()=>{}); }
             } else {
                 animVideo.src = "assets/混沌製作失敗動畫.mp4";
-                if (!cr_isMuted) { cr_sfx_fail.currentTime = 0; cr_sfx_fail.play().catch(()=>{}); }
             }
+            
+            // 💡 核心：讓影片的靜音狀態，跟隨使用者在面板設定的「🔊 音效：開啟/關閉」
+            animVideo.muted = cr_isMuted;
 
-            // 讓遮罩顯示出來
             animOverlay.classList.add('cr-anim-active'); 
             
-            // 載入並開始播放影片
             animVideo.load();
-            animVideo.play().catch(e => console.log("影片播放被阻擋：", e));
+            
+            // 💡 防呆機制：萬一有些嚴格的手機瀏覽器還是阻擋了有聲影片播放
+            // 它會捕捉到錯誤，並強制瞬間跳出結算視窗，避免畫面永遠卡在黑畫面
+            animVideo.play().catch(e => {
+                console.log("影片播放被阻擋：", e);
+                animOverlay.classList.remove('cr-anim-active');
+                if (isSuccess) cr_showResult(true); else { cr_fails++; cr_showResult(false); }
+            });
 
-            // 💡 終極解法：不要再用 setTimeout 猜時間了！
-            // 讓瀏覽器自己告訴我們「影片什麼時候真的播完」
             animVideo.onended = () => {
                 animOverlay.classList.remove('cr-anim-active');
-                animVideo.src = ""; // 清空釋放記憶體
+                animVideo.src = ""; 
                 
                 if (isSuccess) {
                     cr_showResult(true);
