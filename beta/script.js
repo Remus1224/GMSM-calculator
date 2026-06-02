@@ -1235,12 +1235,6 @@ let cr_isMuted = false;
 const cr_sfx_success = new Audio('assets/混沌製作成功音效.mp3');
 const cr_sfx_fail = new Audio('assets/混沌製作失敗音效.mp3');
 
-// 💡 新增：圖片快取預載機制 (解決手機第一次點擊網路卡頓的問題)
-const cr_img_success = new Image();
-cr_img_success.src = 'assets/混沌製作成功動畫.webp';
-const cr_img_fail = new Image();
-cr_img_fail.src = 'assets/混沌製作失敗動畫.webp';
-
 // 資料字典：設定每個階段的數據
 // 👇 替換開始 👇
 const CRAFT_DATA = {
@@ -1409,22 +1403,30 @@ function cr_executeCraft() {
         let isSuccess = (Math.random() * 100) < totalRate;
 
         let animOverlay = document.getElementById('cr-anim-overlay');
-        let animImg = document.getElementById('cr-anim-img');
+        let animVideo = document.getElementById('cr-anim-video');
         
-        if (animOverlay && animImg) {
+        if (animOverlay && animVideo) {
+            // 💡 指定 MP4 影片路徑
             if (isSuccess) {
-                animImg.src = "assets/混沌製作成功動畫.webp";
+                animVideo.src = "assets/混沌製作成功動畫.mp4";
                 if (!cr_isMuted) { cr_sfx_success.currentTime = 0; cr_sfx_success.play().catch(()=>{}); }
             } else {
-                animImg.src = "assets/混沌製作失敗動畫.webp";
+                animVideo.src = "assets/混沌製作失敗動畫.mp4";
                 if (!cr_isMuted) { cr_sfx_fail.currentTime = 0; cr_sfx_fail.play().catch(()=>{}); }
             }
 
+            // 讓遮罩顯示出來
             animOverlay.classList.add('cr-anim-active'); 
+            
+            // 載入並開始播放影片
+            animVideo.load();
+            animVideo.play().catch(e => console.log("影片播放被阻擋：", e));
 
-            setTimeout(() => {
+            // 💡 終極解法：不要再用 setTimeout 猜時間了！
+            // 讓瀏覽器自己告訴我們「影片什麼時候真的播完」
+            animVideo.onended = () => {
                 animOverlay.classList.remove('cr-anim-active');
-                animImg.src = ""; 
+                animVideo.src = ""; // 清空釋放記憶體
                 
                 if (isSuccess) {
                     cr_showResult(true);
@@ -1432,7 +1434,7 @@ function cr_executeCraft() {
                     cr_fails++;
                     cr_showResult(false);
                 }
-            }, 1350); // 💡 動畫時間 1.185 秒
+            };
         }
         
     } catch (e) {
