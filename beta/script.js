@@ -1235,6 +1235,12 @@ let cr_isMuted = false;
 const cr_sfx_success = new Audio('assets/混沌製作成功音效.mp3');
 const cr_sfx_fail = new Audio('assets/混沌製作失敗音效.mp3');
 
+// 💡 新增：圖片快取預載機制 (解決手機第一次點擊網路卡頓的問題)
+const cr_img_success = new Image();
+cr_img_success.src = 'assets/混沌製作成功動畫.webp';
+const cr_img_fail = new Image();
+cr_img_fail.src = 'assets/混沌製作失敗動畫.webp';
+
 // 資料字典：設定每個階段的數據
 // 👇 替換開始 👇
 const CRAFT_DATA = {
@@ -1426,7 +1432,7 @@ function cr_executeCraft() {
                     cr_fails++;
                     cr_showResult(false);
                 }
-            }, 1185); // 💡 動畫時間 1.185 秒
+            }, 1350); // 💡 動畫時間 1.185 秒
         }
         
     } catch (e) {
