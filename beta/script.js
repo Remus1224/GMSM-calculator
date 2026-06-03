@@ -480,7 +480,6 @@ function tr_updateUI() {
         btnMain.disabled = (tr_fails <= 0 || tr_isAnimating);
     }
 
-    // --- 📊 更新期望值面板 ---
     document.getElementById('stat-stone-normal').innerText = tr_stat_normal;
     document.getElementById('stat-stone-radiant').innerText = tr_stat_radiant;
     document.getElementById('stat-stone-chaos').innerText = tr_stat_chaos;
@@ -591,7 +590,6 @@ function tr_action_transcend() {
 
     tr_isAnimating = true;  
     
-    // 紀錄當下這顆是什麼石頭
     tr_current_level_stones++;
     if (tr_lv < 40) tr_stat_normal++;
     else if (tr_lv < 50) tr_stat_radiant++;
@@ -615,11 +613,10 @@ function tr_action_transcend() {
         if (isSuccess) {
             tr_lv += 2; 
             tr_bonus = 0.0; 
-            tr_ev_stones_achieved += tr_getStoneEV(baseRate); // 將這階的期望值寫入成就紀錄
-            tr_current_level_stones = 0; // 重置下一階的嘗試次數
+            tr_ev_stones_achieved += tr_getStoneEV(baseRate); 
+            tr_current_level_stones = 0; 
         } else {
             tr_fails++;
-            // 獎勵機率：保底5%，無條件捨去小數點
             let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
             tr_bonus = Math.min(50, tr_bonus + bonusStep); 
         }
@@ -694,7 +691,6 @@ function getHexaCost(level) {
     return 50;
 }
 
-// 視覺化打鐵機狀態變數
 let vA = 0, vB = 0, vC = 0, vClicks = 0;
 let totalFragmentsUsed = 0; 
 let isMuted = false;
@@ -1111,14 +1107,12 @@ function runHexaSimulation() {
     let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
     let resBox = document.getElementById('result-hexa-sim');
 
-    // 20 次防呆機制
     if (sA + sB + sC + rolls !== 20) {
         resBox.style.display = 'block'; 
         resBox.innerHTML = `⚠️ 錯誤：目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。`; 
         return;
     }
 
-    // 防呆：如果完全沒設定目標
     if (tA === 0 && tSub === 0) {
         resBox.style.display = 'block'; 
         resBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; 
@@ -1226,21 +1220,29 @@ tr_updateUI();
 // 🔨 8. 製作模擬器邏輯 (Phase 1 航海升神秘測試版)
 // ==========================================
 let cr_fails = 0;
+let cr_successes = 0; // 💡 新增成功計數器
 let cr_crystals_used = 0;
 let cr_scrolls_used = 0;
 let cr_isAnimating = false;
 let cr_isMuted = false;
 
-// 資料字典：設定每個階段的數據
-// 👇 替換開始 👇
+// 💡 期望值追蹤變數
+let cr_ev_achieved = 0;
+let cr_current_attempts = 0;
+
+// 💡 獨立設定製作音效
+const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
+const cr_sfx_fail = new Audio('assets/AncientFail.wav');
+
+// 資料字典：設定每個階段的數據 (💡 顏色已全面校正為遊戲中真實的高亮青色與桃紅)
 const CRAFT_DATA = {
     necro: {
         baseRate: 8,
         fromText: "神話",
         toText: "死靈",
         fromColor: "#e74c3c", 
-        toColor: "#45b4d4",   
-        desc: "對選擇的裝備進行<span style='color:#45b4d4;'>死靈轉換</span>製作。",
+        toColor: "#3ba6c3",   // 亮青色
+        desc: "對選擇的裝備進行<span class='txt-sharp' style='color:#3ba6c3;'>死靈轉換</span>製作。",
         meso: "85,000,000",
         crystalName: "古代防具結晶",
         fromImg: "assets/神話帽子.png",   
@@ -1250,9 +1252,9 @@ const CRAFT_DATA = {
         baseRate: 12,
         fromText: "死靈",
         toText: "航海師",
-        fromColor: "#45b4d4",
-        toColor: "#b274b5",
-        desc: "在<span style='color:#45b4d4;'>死靈</span>裝備上製作<span style='color:#b274b5;'>航海師</span>裝備。",
+        fromColor: "#3ba6c3", // 亮青色
+        toColor: "#a66fb3",   // 柔紫色
+        desc: "在<span class='txt-sharp' style='color:#3ba6c3;'>死靈</span>裝備上製作<span class='txt-sharp' style='color:#a66fb3;'>航海師</span>裝備。",
         meso: "100,000,000",
         crystalName: "斯烏結晶(武器)",
         fromImg: "assets/死靈手杖.png",   
@@ -1262,9 +1264,9 @@ const CRAFT_DATA = {
         baseRate: 10,
         fromText: "航海師",
         toText: "神秘冥界幽靈",
-        fromColor: "#b274b5",
-        toColor: "#d874cc",
-        desc: "在<span style='color:#b274b5;'>航海師</span>裝備上製作<span style='color:#d874cc;'>神秘冥界幽靈</span>裝備。",
+        fromColor: "#CC9ED8", // 柔紫色
+        toColor: "#CC9ED8",   // 桃紅色
+        desc: "<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
         meso: "1,024", 
         crystalName: "夏德貝爾結晶(武器)",
         fromImg: "assets/神秘冥界幽靈天之星光權杖.webp", 
@@ -1272,7 +1274,6 @@ const CRAFT_DATA = {
     }
 };
 
-// 💡 注意：一開始讓 UI 鎖定在 arcane (航海升神秘) 來測試
 let cr_stage = 'arcane'; 
 
 function cr_toggleSound() {
@@ -1294,8 +1295,11 @@ function cr_forceStageChange() {
     if(stageRadio) cr_stage = stageRadio.value;
     
     cr_fails = 0;
+    cr_successes = 0;
     cr_crystals_used = 0;
     cr_scrolls_used = 0;
+    cr_ev_achieved = 0;
+    cr_current_attempts = 0;
     
     if(cr_stage === 'necro') {
         let necroDiv = document.getElementById('cr-scroll-necro-div');
@@ -1324,6 +1328,23 @@ function cr_updateUI() {
     let scrollInfo = cr_getScrollRate();
     let totalRate = data.baseRate + scrollInfo.rate;
 
+    // 💡 更新動態顏色與文字
+    let fromTextElem = document.getElementById('cr-stage-from-text');
+    let toTextElem = document.getElementById('cr-stage-to-text');
+    let rateEquipNameElem = document.getElementById('cr-stage-to-name-color');
+
+    if(fromTextElem) {
+        fromTextElem.innerText = data.fromText;
+        fromTextElem.style.color = data.fromColor;
+    }
+    if(toTextElem) {
+        toTextElem.innerText = data.toText;
+        toTextElem.style.color = data.toColor;
+    }
+    if(rateEquipNameElem) {
+        rateEquipNameElem.innerText = data.toText;
+    }
+
     let descElem = document.getElementById('cr-desc-text');
     if(descElem) descElem.innerHTML = data.desc;
 
@@ -1336,15 +1357,8 @@ function cr_updateUI() {
             scrollCol.style.opacity = '1';
             scrollName.style.color = '#333';
             scrollName.style.fontWeight = 'bold';
-            
-            if(cr_stage === 'necro') {
-                scrollName.innerText = `幸運的製作卷軸`;
-            } else {
-                scrollName.innerText = `幸運的混沌製作卷軸(武器)${scrollInfo.rate}%`;
-            }
-            
-            // 💡 直接將追加機率寫在同一行，完美還原截圖：20(10 + 10) %
-            totalRateText.innerText = `${totalRate}(${data.baseRate} + ${scrollInfo.rate}) %`;
+            scrollName.innerText = (cr_stage === 'necro') ? `幸運的製作卷軸` : `幸運的混沌製作卷軸(武器)${scrollInfo.rate}%`;
+            totalRateText.innerText = `${totalRate}(${data.baseRate}+${scrollInfo.rate})%`;
         } else {
             scrollCol.style.opacity = '0.3';
             scrollName.style.color = '#888';
@@ -1357,17 +1371,22 @@ function cr_updateUI() {
     let mesoElem = document.getElementById('cr-meso-cost');
     if(mesoElem) mesoElem.innerText = data.meso;
 
+    // 更新面板
+    let statSuccess = document.getElementById('cr-stat-success');
     let statFails = document.getElementById('cr-stat-fails');
     let statCrys = document.getElementById('cr-stat-crystals');
     let statScr = document.getElementById('cr-stat-scrolls');
-    let statCurRate = document.getElementById('cr-stat-curr-rate');
+    let statTotalUsed = document.getElementById('cr-stat-total-used');
     let evAtmpt = document.getElementById('cr-ev-attempts');
 
+    if(statSuccess) statSuccess.innerText = cr_successes;
     if(statFails) statFails.innerText = cr_fails;
     if(statCrys) statCrys.innerText = cr_crystals_used;
     if(statScr) statScr.innerText = cr_scrolls_used;
-    if(statCurRate) statCurRate.innerText = totalRate + "%";
-    if(evAtmpt) evAtmpt.innerText = (100 / totalRate).toFixed(1);
+    if(statTotalUsed) statTotalUsed.innerText = cr_crystals_used;
+
+    let current_ev = (cr_current_attempts > 0) ? (100 / totalRate) : 0;
+    if(evAtmpt) evAtmpt.innerText = (cr_ev_achieved + current_ev).toFixed(2);
 }
 
 function cr_showConfirm() {
@@ -1392,48 +1411,43 @@ function cr_executeCraft() {
         let scrollInfo = cr_getScrollRate();
         let totalRate = data.baseRate + scrollInfo.rate;
 
+        // 💡 增加嘗試次數
+        cr_current_attempts++;
         cr_crystals_used++;
         cr_scrolls_used += scrollInfo.count;
         cr_updateUI();
 
         let isSuccess = (Math.random() * 100) < totalRate;
-
         let animOverlay = document.getElementById('cr-anim-overlay');
-        let animVideo = document.getElementById('cr-anim-video');
         
-        if (animOverlay && animVideo) {
-            if (isSuccess) {
-                animVideo.src = "assets/混沌製作成功動畫.mp4";
-            } else {
-                animVideo.src = "assets/混沌製作失敗動畫.mp4";
+        if (animOverlay) {
+            // 💡 賦予對應的光影特效 Class
+            animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success' : 'cr-anim-fail');
+            
+            // 播放 1.26 秒的原版音效
+            if (!cr_isMuted) {
+                let sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
+                sfx.currentTime = 0;
+                sfx.play().catch(e => console.log("音效播放被阻擋：", e));
             }
-            
-            // 💡 核心：讓影片的靜音狀態，跟隨使用者在面板設定的「🔊 音效：開啟/關閉」
-            animVideo.muted = cr_isMuted;
 
-            animOverlay.classList.add('cr-anim-active'); 
-            
-            animVideo.load();
-            
-            // 💡 防呆機制：萬一有些嚴格的手機瀏覽器還是阻擋了有聲影片播放
-            // 它會捕捉到錯誤，並強制瞬間跳出結算視窗，避免畫面永遠卡在黑畫面
-            animVideo.play().catch(e => {
-                console.log("影片播放被阻擋：", e);
-                animOverlay.classList.remove('cr-anim-active');
-                if (isSuccess) cr_showResult(true); else { cr_fails++; cr_showResult(false); }
-            });
-
-            animVideo.onended = () => {
-                animOverlay.classList.remove('cr-anim-active');
-                animVideo.src = ""; 
+            // 💡 精準等待 1.26 秒 (1260 毫秒) 後結算
+            setTimeout(() => {
+                animOverlay.className = 'lightning-overlay'; // 移除光影
                 
                 if (isSuccess) {
-                    cr_showResult(true);
+                    cr_successes++; // 💡 總成功次數+1
+                    let attempts_taken = cr_current_attempts; // 💡 紀錄這次成功到底點了幾次
+                    
+                    cr_fails = 0; 
+                    cr_ev_achieved += (100 / totalRate); 
+                    cr_current_attempts = 0; 
+                    cr_showResult(true, attempts_taken); // 💡 將次數傳給結算視窗
                 } else {
                     cr_fails++;
                     cr_showResult(false);
                 }
-            };
+            }, 1260);
         }
         
     } catch (e) {
@@ -1443,7 +1457,7 @@ function cr_executeCraft() {
     }
 }
 
-function cr_showResult(isSuccess) {
+function cr_showResult(isSuccess, attempts_taken = 0) {
     let modal = document.getElementById('cr-result-modal');
     if(!modal) return;
     modal.classList.add('active');
@@ -1458,32 +1472,35 @@ function cr_showResult(isSuccess) {
         document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp";
         document.getElementById('cr-m-equip-name').innerText = "神秘冥界幽靈手杖";
         
-        // 💡 成功時：顯示標籤，並將等級歸零為 1
         if(lvTag) lvTag.style.display = "block";
         if(lvText) lvText.innerText = "1"; 
         
-        if(failCont) failCont.style.display = "none";
+        // 💡 成功時：顯示累積製作 X 次
+        if(failCont) {
+            failCont.style.display = "block";
+            failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`;
+        }
         
         if(statsBox) {
             statsBox.innerHTML = `
-                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#e67e22;">1204 <span style="color:#c0392b;">(▼1204)</span></span></div>
-                <div class="cr-stat-row"><span style="color:#c0392b;">最終傷害增加</span><span style="color:#333;">1.204%</span></div>
-                <div class="cr-stat-row"><span style="color:#c0392b;">最終傷害增加</span><span style="color:#333;">1.204%</span></div>
+                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#EF7F5A;">1204 <span style="color:#E42123;">(▼1204)</span></span></div>
+                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1.204%</span></div>
+                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1.204%</span></div>
             `;
         }
     } else {
         document.getElementById('cr-m-title').innerText = "製作失敗";
-        document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp"; // 草稿先共用
+        document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp"; 
         document.getElementById('cr-m-equip-name').innerText = "航海師法師帽";
         
-        // 💡 核心修復：失敗時「必須」顯示標籤來當作遮罩，並顯示目前的裝備等級！
         if(lvTag) lvTag.style.display = "block";
-        if(lvText) lvText.innerText = tr_lv; 
+        if(lvText) lvText.innerText = "60"; 
         
-        if(failCont) failCont.style.display = "block";
-        
-        let failCount = document.getElementById('cr-m-fail-count');
-        if(failCount) failCount.innerText = cr_fails;
+        // 💡 失敗時：拔除強制的 16px，讓數字跟周圍文字一樣大
+        if(failCont) {
+            failCont.style.display = "block";
+            failCont.innerHTML = `製作失敗次數 <span style="color:#c0392b; font-weight:bold;">${cr_fails}</span> / 5`;
+        }
         
         if(statsBox) {
             statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px;">能力值沒有變化。</div>`;
@@ -1501,7 +1518,10 @@ function cr_closeResult() {
 function cr_action_reset() {
     if (cr_isAnimating) return;
     cr_fails = 0;
+    cr_successes = 0; // 💡 重置成功次數
     cr_crystals_used = 0;
     cr_scrolls_used = 0;
+    cr_ev_achieved = 0;
+    cr_current_attempts = 0;
     cr_updateUI();
 }
