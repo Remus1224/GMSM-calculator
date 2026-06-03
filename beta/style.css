@@ -4,6 +4,23 @@
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
+.txt-sharp {
+    /* 將字重調高，字體自然會變粗，不需要描邊來湊 */
+    font-weight: 800 !important;
+    
+    /* 移除描邊，這是造成影子和重影的主因 */
+    -webkit-text-stroke: 0px transparent !important;
+    
+    /* 恢復抗鋸齒，讓微軟正黑體自動適應螢幕，這樣文字邊緣才會乾淨 */
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    
+    /* 移除陰影 */
+    text-shadow: none !important;
+    
+    letter-spacing: 0.5px;
+}
+
 body { 
     font-family: "微軟正黑體", "Helvetica Neue", sans-serif; 
     background-color: #f0f2f5; 
@@ -27,6 +44,15 @@ body {
     flex-wrap: wrap; 
     gap: 20px; 
     align-content: flex-start; 
+    /* 💡 加上順滑的過渡動畫 */
+    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 💡 終極動態排版魔法：只有當「超越」或「製作」為 active 時，白底外框才會精準收縮到 750px */
+.container:has(#tab-transcend.active),
+.container:has(#tab-craft.active) ,
+.container:has(#tab-hexa-visual.active) {
+    max-width: 650px;
 }
 
 h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
@@ -70,14 +96,12 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .prog-item select { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold; font-size: 14px; background: #fff; color: #333; }
 .prog-item select:disabled { background-color: #f1f2f6; color: #a4b0be; }
 
-/* 多模組數據輸入網格 */
 .inv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
 .inv-item { display: flex; flex-direction: column; gap: 5px; }
 .inv-item label { font-size: 13px; font-weight: bold; color: #555; display: flex; align-items: center; }
 .inv-item input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 14px; font-weight: bold; }
 .res-icon { width: 18px; height: 18px; object-fit: contain; margin-right: 6px; }
 
-/* 進度條渲染 */
 .prog-bar-wrap { margin-top: 15px; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; }
 .prog-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #333; margin-bottom: 5px; align-items: center; }
 .prog-header span { color: #7f8c8d; font-size: 13px; }
@@ -87,7 +111,6 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .prog-fill-sol { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
 .time-box { background: #f8f9fa; border-left: 4px solid #34495e; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 15px; line-height: 1.6; color: #2c3e50; }
 
-/* HEXA 常規控制項輸入 */
 .hexa-inputs { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 15px; }
 .hexa-inputs div { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 80px;}
 .hexa-inputs input { user-select: auto; -webkit-user-select: auto; width: 60px; text-align: center; font-size: 16px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; }
@@ -95,7 +118,6 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #c0392b; font-weight: bold; margin-top: 10px;}
 .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
 
-/* 懶人表格 */
 .lazy-table-container { width: 100%; overflow-x: auto; }
 .lazy-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14.5px; text-align: center; }
 .lazy-table th { background-color: #0052cc; color: white; padding: 10px; border: 1px solid #e1e4e8; }
@@ -108,7 +130,6 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .tag-red { background-color: #c0392b; }
 .loader { font-weight: bold; color: #0052cc; text-align: center; padding: 20px; }
         
-/* 告示牌專屬樣式 */
 .update-list { line-height: 1.8; color: #444; padding-left: 20px; }
 .update-list li { margin-bottom: 8px; }
 .disclaimer-box { background: #fff3f3; padding: 18px; border-radius: 8px; border-left: 6px solid #c0392b; line-height: 1.8; color: #444; }
@@ -156,8 +177,8 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 
 /* ========================================== */
 /* 鐵匠鋪遊戲真實 UI（超越模擬器控制面板） */
-/* ========================================== */
-.msm-forge-ui { width: 100%; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; background-color: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; border-radius: 6px; overflow: hidden; }
+/* ========================================== *//* 💡 將 max-width 縮小為 690px，擠掉左右多餘的空白 */
+.msm-forge-ui { width: 100%; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; background-color: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; border-radius: 6px; overflow: hidden; }
 .forge-header { background-color: #455468; color: white; padding: 12px 20px; font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
 .forge-info-icon { display: inline-flex; justify-content: center; align-items: center; width: 22px; height: 22px; border: 2px solid white; border-radius: 4px; font-size: 14px; transform: rotate(45deg); }
 .forge-info-icon span { transform: rotate(-45deg); }
@@ -167,18 +188,18 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .menu-item:last-child { border-bottom: none; }
 .menu-item.active { background-color: #ed7245; color: white; border-bottom: none; }
 .forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
-.sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px 20px 10px 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s;}
+.sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s}
 .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
 .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
 .sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2s;}
 
-.item-col { display: flex; flex-direction: column; align-items: center; width: 140px; }
+.item-col { display: flex; flex-direction: column; align-items: center; width: 140px;}
 .img-box { width: 85px; height: 85px; background-color: #e4e6e9; border: 1px solid #dcdde1; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); position: relative; }
 .img-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
 .dynamic-lv-overlay { position: absolute; bottom: 3px; right: 3px; background-color: #111111; color: #ffffff; font-size: 11px; font-weight: bold; padding: 1px 5px; border-radius: 10px; border: 1px solid #ffffff; z-index: 10; }
-.equip-name { font-size: 12px; font-weight: bold; color: #333; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.equip-name {  font-size: 12px; font-weight: bold; color: #333; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; }
 .fail-text { font-size: 12px; color: #888; }
-.plus-sign { font-size: 40px; font-weight: bold; color: #888; margin-top: 10px; }
+.plus-sign { font-size: 35px; font-weight: bold; color: #888; margin-top: 20px; }
 .lv-arrow { color: #f3724c; margin: 0 20px; font-size: 24px; display: inline-block; transform: scaleX(1.5); }
 .lv-text { font-size: 22px; font-weight: bold; color: #555; }
 .lv-next { color: #f3724c; }
@@ -209,8 +230,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .scroll-mode-active .sec-bottom { background-color: #ffffff !important; padding-top: 10px !important; }
 
 /* 模擬器設定面板 */
-.settings-panel { width: 100%; max-width: 800px; margin: 20px auto 0 auto; background: #ecf0f1; border-radius: 8px; padding: 20px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.settings-title { font-size: 15px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+.settings-panel { width: 100%; max-width: 600px; margin: 20px auto 0 auto; background: #ecf0f1; border-radius: 8px; padding: 20px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }.settings-title { font-size: 15px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
 .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; color: #333; flex-wrap: wrap; }
 .setting-row input[type="number"], .setting-row select { padding: 4px; border-radius: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;}
 .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
@@ -252,28 +272,112 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .m-btn:active { transform: translateY(4px); box-shadow: none; }
 
 /* ========================================== */
-/* 🔨 製作模擬器專屬樣式 (確認視窗與結算面板) */
+/* 🎬 高級光影渲染特效 (薛丁格欺敵完美版) */
 /* ========================================== */
-.cr-confirm-box { width: 90%; max-width: 400px; background: #fff; border-radius: 8px; overflow: hidden; text-align: center; }
-.cr-confirm-header { background: #455468; color: white; padding: 15px; font-size: 18px; font-weight: bold; }
+@keyframes cr-flash-success {
+    0%   { background-color: rgba(0, 0, 0, 0.85); }       /* 瞬間壓上極暗黑底 */
+    35%  { background-color: rgba(180, 50, 255, 0.5); }   /* 前奏：紫電開始凝聚 */
+    50%  { background-color: rgba(220, 100, 255, 0.8); }  /* ⚡ 關鍵分水嶺：雷擊紫光 (與失敗一模一樣！) */
+    65%  { background-color: rgba(255, 255, 255, 1); }    /* 💥 成功：爆發純白耀眼強光，吞噬畫面 */
+    85%  { background-color: rgba(240, 200, 255, 0.9); }  /* 餘輝：強烈白紫光緩降 */
+    100% { background-color: rgba(0, 0, 0, 0.85); }       /* 結算前瞬間回到極暗黑底 */
+}
+
+@keyframes cr-flash-fail {
+    0%   { background-color: rgba(0, 0, 0, 0.85); }       /* 瞬間壓上極暗黑底 (完全同步) */
+    35%  { background-color: rgba(180, 50, 255, 0.5); }   /* 前奏：紫電開始凝聚 (完全同步) */
+    50%  { background-color: rgba(220, 100, 255, 0.8); }  /* ⚡ 關鍵分水嶺：雷擊紫光 (完全同步，完美欺敵！) */
+    65%  { background-color: rgba(0, 0, 0, 0.75); }       /* 🌑 失敗：瞬間斷電崩碎，跌入無盡死寂的漆黑 */
+    85%  { background-color: rgba(0, 0, 0, 0.65); }       /* 保持死寂的黑 */
+    100% { background-color: rgba(0, 0, 0, 0.85); }       /* 結算前稍微透出一點底層 UI */
+}
+
+.cr-anim-success { 
+    display: block !important; 
+    animation: cr-flash-success 1.26s ease-in-out forwards; 
+    mix-blend-mode: hard-light; 
+}
+.cr-anim-fail { 
+    display: block !important; 
+    animation: cr-flash-fail 1.26s ease-in-out forwards; 
+    mix-blend-mode: hard-light; 
+}
+
+.cr-confirm-box { width: 90%; max-width: 380px; background: #fff; border-radius: 8px; overflow: hidden; text-align: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.cr-confirm-header { background: #455468; color: white; padding: 12px; font-size: 16px; font-weight: bold; letter-spacing: 1px; }
 .cr-confirm-body { padding: 25px 20px; font-size: 14px; line-height: 1.6; color: #333; }
-.cr-confirm-footer { display: flex; gap: 10px; padding: 15px 20px 20px; }
+.cr-confirm-footer { display: flex; gap: 10px; padding: 0px 20px 20px; }
 .cr-btn-cancel { flex: 1; background: #5482a9; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s;}
 .cr-btn-cancel:hover { background: #436a8b; }
 .cr-btn-confirm { flex: 1; background: #ed7245; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
 .cr-btn-confirm:hover { background: #d35400; }
 
-.cr-result-stats { background: #fff; padding: 15px; text-align: left; font-size: 13px; line-height: 1.8; font-weight: bold; margin-top: 10px; border-top: 1px solid #eee; }
-.cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 5px;}
+.cr-result-stats { background: #fff; padding: 10px 15px; text-align: left; font-size: 12px; line-height: 1.1; font-weight: bold; margin-top: 5px; border-top: 1px solid #eee; }
+.cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 0px; padding: 2px 0; }
+.m-enh-grey-top { padding: 15px 20px 0px 20px !important; }
+.m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
+
+/* 縮小等級遮罩，避免擋住武器 */
+.dynamic-lv-overlay { padding: 1px 4px !important; font-size: 10px !important; }
 
 /* ========================================== */
-/* 📱 手機版 RWD 響應式佈局優化 */
+/* 核心對齊：強制 Grid 三等分，徹底解決排版錯位 */
+/* ========================================== */
+#cr-game-ui-container .sec-top { 
+    display: grid !important; 
+    grid-template-columns: 1fr 1fr 1fr !important; /* 💡 強制三等分網格 */
+    align-items: start !important;
+    padding: 20px 0 !important;
+    gap: 0 !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+}
+
+#cr-game-ui-container .item-col { 
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+}
+
+/* 💡 將加號移入一個專屬的虛擬框，讓三個物品格完全對齊綠線 */
+#cr-game-ui-container .plus-sign { 
+    position: absolute !important;
+    top: 35px !important; /* 垂直置中於 85px 圖片 */
+    right: -20px !important; /* 精準控制加號位置 */
+    font-size: 30px !important;
+}
+
+#cr-game-ui-container .img-box { 
+    width: 85px !important; 
+    height: 85px !important; 
+    margin-bottom: 5px !important;
+    flex-shrink: 0;
+}
+
+#cr-game-ui-container .equip-name { 
+    white-space: nowrap !important;     
+    overflow: visible !important; /* 💡 不換行、不截斷，讓文字溢出顯示 */
+    font-size: 11px !important; 
+    text-align: center !important;
+    width: 100% !important;
+}
+/* 💡 針對最後一個欄位，字體變小，確保不擠壓 */
+#cr-game-ui-container .item-col:last-child .equip-name {
+    font-size: 9px !important;
+}
+
+/* ========================================== */
+/* 📱 手機版 RWD 響應式佈局 (包含所有工具的適應) */
 /* ========================================== */
 @media (max-width: 500px) {
-    body { padding: 5px; } 
-    .container { padding: 12px 6px; } 
-    .panel { padding: 12px 6px; } 
-    
+    body { padding: 5px; }
+    .container { padding: 12px 6px; }
+    .panel { padding: 12px 6px; }
+
+    /* HEXA 共用區塊 */
     .visual-container { padding: 20px 12px; }
     .visual-header-top { flex-direction: row; align-items: center; gap: 5px; }
     .v-fragment-text { font-size: 11px; white-space: nowrap; }
@@ -293,21 +397,14 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     .mobile-br { display: block; }
     .desktop-space { display: none; }
     .tag { font-size: 11px; padding: 4px; line-height: 1.3; }
+    .core-row { grid-template-columns: repeat(2, 1fr); }
+    .dynamic-lv-overlay { transform: scale(0.85); transform-origin: bottom right; bottom: 2px; right: 2px; }
 
+    /* 隱藏與細節微調 */
     .forge-sidebar { display: none; }
-    .sec-top { gap: 5px; padding: 15px 5px; }
-    .item-col { width: 115px; }
-    .img-box { width: 75px; height: 75px; } 
-    .plus-sign { font-size: 30px; margin-top: 15px; }
-    
-    /* 💡 保留極端寬度溢出可見特性 */
-    .equip-name { width: 100%; font-size: 11px; white-space: nowrap; overflow: visible; word-break: break-word; line-height: 1.3; margin-top: 5px;} 
-    .desc-text { width: 95%; font-size: 11px; }
-    
     .sec-white { min-height: 50px; padding: 10px 0; }
     .sec-grey-mid { padding: 15px 10px; }
     .scroll-mode-active .sec-middle { padding: 20px 10px !important; }
-    
     .lv-arrow { margin: 0 10px; font-size: 18px; }
     .lv-text, .lv-next { font-size: 18px; }
     .rate-title { font-size: 16px; }
@@ -315,64 +412,34 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     .rate-detail { font-size: 12px; }
     .bonus-row { width: 65%; font-size: 13px; }
     hr.divider { margin: 10px 0 15px 0; width: calc(100% + 20px); }
-    
+    .desc-text { width: 95%; font-size: 11px; }
+
     .modal-box { width: 95%; max-width: 340px; }
     .m-enh-white-mid { padding: 10px; }
     .m-scr-white-body { padding: 20px 10px; }
     .m-scr-grey-box { width: 95%; font-size: 14px; padding: 10px; }
 
-    .core-row { grid-template-columns: repeat(2, 1fr); }
-}
-
-
-```css
-/* 👇 直接貼在 style.css 最底部 👇 */
-/* 強制壓縮製作彈跳視窗的上下高度 */
-.cr-confirm-body { padding: 15px 20px; font-size: 13px; line-height: 1.5; color: #333; }
-.cr-confirm-header { padding: 12px; font-size: 16px; }
-.cr-confirm-footer { padding: 10px 20px 15px; }
-
-.m-enh-grey-top { padding: 15px 20px 0px 20px !important; }
-.cr-result-stats { background: #fff; padding: 10px 15px; text-align: left; font-size: 12px; line-height: 1.6; font-weight: bold; margin-top: 5px; border-top: 1px solid #eee; }
-.cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 2px; }
-.m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
-
-/* ========================================== */
-/* 📱 手機版微調：製作確認視窗文字動態縮放 (不換行) */
-/* ========================================== */
-@media (max-width: 500px) {
-    .cr-confirm-body { 
-        padding: 15px 10px !important; 
-        font-size: clamp(10px, 3.1vw, 13px) !important; 
-        white-space: nowrap !important; 
+    /* ========================================== */
+    /* 🛡️ 基礎保護：超越模擬器手機版 (維持最初完美設定) */
+    /* ========================================== */
+    .sec-top { 
+        padding: 15px 5px; 
+        gap: 10px; 
+        justify-content: center; 
+        align-items: flex-start;
+        flex-wrap: nowrap !important;
     }
-    .cr-confirm-box {
-        min-width: 90% !important;
+    .item-col { width: 110px; }
+    .img-box { width: 70px; height: 70px; margin-bottom: 5px; }
+    .plus-sign { font-size: 30px; margin-top: 15px; }
+    .equip-name { 
+        width: 100%; 
+        font-size: 11px; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        margin-top: 5px; 
     }
-}
 
-/* ========================================== */
-/* 🔨 製作模擬器專屬樣式 (確認視窗與結算面板壓縮) */
-/* ========================================== */
-.cr-confirm-box { width: 90%; max-width: 400px; background: #fff; border-radius: 8px; overflow: hidden; text-align: center; }
-.cr-confirm-header { background: #455468; color: white; padding: 12px; font-size: 16px; font-weight: bold; }
-/* 💡 這裡就是讓電腦版文字縮緊、行距變密的關鍵 */
-.cr-confirm-body { padding: 15px 20px; font-size: 13px; line-height: 1.5; color: #333; }
-.cr-confirm-footer { display: flex; gap: 10px; padding: 10px 20px 15px; }
-.cr-btn-cancel { flex: 1; background: #5482a9; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2;}
-.cr-btn-cancel:hover { background: #436a8b; }
-.cr-btn-confirm { flex: 1; background: #ed7245; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2; }
-.cr-btn-confirm:hover { background: #d35400; }
-
-.cr-result-stats { background: #fff; padding: 10px 15px; text-align: left; font-size: 12px; line-height: 1.6; font-weight: bold; margin-top: 5px; border-top: 1px solid #eee; }
-.cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 2px; }
-.m-enh-grey-top { padding: 15px 20px 0px 20px !important; }
-.m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
-
-/* ========================================== */
-/* 🎬 製作模擬器：全黑背景遮罩 (完美融合影片黑底) */
-/* ========================================== */
-.cr-anim-active {
-    display: flex !important;
-    background-color: #000000 !important; /* 💡 改成黑色，上下的白邊就會完全消失 */
-}
+    
+} /* 💡 手機版 RWD 結束括號 */
