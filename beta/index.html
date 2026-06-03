@@ -289,9 +289,7 @@
     <div id="tab-craft" class="tab-content">
         <div class="msm-forge-ui" id="cr-game-ui-container" style="position: relative;">
             
-            <div class="lightning-overlay" id="cr-anim-overlay" style="background: #000000; z-index: 9999; pointer-events: auto; border-radius: 6px; top: 0; left: 0; right: 0; bottom: 0; width: auto; height: auto;">
-                <video id="cr-anim-video" playsinline style="width: 100%; height: 100%; object-fit: contain;"></video>
-            </div>
+            <div id="cr-anim-overlay" class="lightning-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; pointer-events: auto; border-radius: 6px; display: none;"></div>
 
             <div class="forge-header">
                 鐵匠鋪 <div class="forge-info-icon"><span>i</span></div>
@@ -311,7 +309,7 @@
                 <div class="forge-main">
                     <div class="sec-top">
                         <div class="item-col">
-                            <div class="img-box" style="border: 2px solid #2ecc71;">
+                            <div class="img-box">
                                 <img id="cr-equip-from-img" src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
                                 <div class="dynamic-lv-overlay">Lv.<span id="cr-overlay-lv">60</span></div>
                             </div>
@@ -328,38 +326,38 @@
                             <div class="img-box" style="background-color: #f1f2f6;">
                                 <img id="cr-scroll-img" src="assets/幸運的製作卷軸.png" alt="scroll" onerror="this.style.display='none'">
                             </div>
-                            <div class="equip-name" id="cr-scroll-name" style="font-weight: normal; color: #888;">卷軸</div>
+                            <div class="equip-name" id="cr-scroll-name" style="font-weight: normal; color: #888; font-size: 11px;">卷軸</div>
                         </div>
                     </div>
 
-                    <div style="background-color: #f8f9fa; padding: 10px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; position: relative;">
-                        <div style="font-size: 16px; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                            <span id="cr-stage-from-text" style="color:#b274b5;">航海師</span> 
-                            <span style="color:#eb6b40; font-size: 18px;">»</span> 
-                            <span id="cr-stage-to-text" style="color:#d874cc;">神秘冥界幽靈</span>
+                    <div style="background-color: #ffffff; padding: 6px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #f0f0f0; position: relative;">
+                        <div class="txt-sharp" style="font-size: 17px; display: flex; align-items: center; justify-content: center; gap: 20px;">
+                            <span id="cr-stage-from-text" style="color:#CC9ED8;">航海師</span> 
+                            <span style="color:#eb6b40; font-size: 20px; transform: translateY(-1px);">»</span> 
+                            <span id="cr-stage-to-text" style="color:#CC9ED8;">神秘冥界幽靈</span>
                         </div>
-                        <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; background: #344253; color: #fff; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: help;">?</div>
+                        <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; background: #344253; color: #fff; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: help;">?</div>
                     </div>
 
-                    <div style="background-color: #ffffff; padding: 8px 0; text-align: center; border-bottom: 1px solid #e1e4e8;">
-                        <div style="font-size: 12px; color: #95a5a6; font-weight: bold;" id="cr-desc-text">
-                            </div>
+                    <div style="background-color: #ffffff; padding: 4px 0 8px 0; text-align: center; border-bottom: 1px solid #e1e4e8;">
+                        <div style="font-size: 13px; color: #888; font-weight: bold;" id="cr-desc-text"></div>
                     </div>
 
-                    <div class="sec-grey-mid" style="padding-top: 12px; padding-bottom: 10px; flex: 1;">
-                        <div style="font-size: 12px; color: #333; line-height: 1.4; text-align: center; margin-bottom: 10px; font-weight: bold;">
+                    <div class="sec-grey-mid" style="padding-top: 12px; padding-bottom: 12px; flex: 1; background-color: #f4f5f7;">
+                        <div style="font-size: 13px; color: #333; line-height: 1.4; text-align: center; margin-bottom: 5px; font-weight: bold;">
                             可製作混沌級裝備。<br>詳細資訊請參考說明。
-                            <div style="display: block; text-align: left; line-height: 1.5; font-size: 12px; margin-top: 4px; width: fit-content; margin-left: auto; margin-right: auto;">
-                                <div style="display: flex; align-items: center;"><span style="color:#45b4d4; width: 85px;">古代</span> <span style="color:#eb6b40; margin: 0 10px;">»</span> <span style="color:#ae4f9e;">混沌</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#45b4d4; width: 85px;">古代女皇</span> <span style="color:#eb6b40; margin: 0 10px;">»</span> <span style="color:#ae4f9e;">混沌</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#45b4d4; width: 85px;">死靈</span> <span style="color:#eb6b40; margin: 0 10px;">»</span> <span style="color:#ae4f9e;">混沌航海師</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#ae4f9e; width: 85px;">混沌</span> <span style="color:#eb6b40; margin: 0 10px;">»</span> <span style="color:#ae4f9e;">混沌航海師</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#ae4f9e; width: 85px;">混沌航海師</span> <span style="color:#eb6b40; margin: 0 10px;">»</span> <span style="color:#ae4f9e;">混沌神秘冥界幽靈</span></div>
+                            
+                            <div class="txt-sharp" style="display: block; text-align: left; line-height: 1.35; font-size: 14px; margin-top: 8px; margin-bottom: 8px; width: fit-content; margin-left: auto; margin-right: auto;">
+                                <div style="display: flex; align-items: center;"><span style="color:#5EC3D9; width: 90px;">古代</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#CE68AF;">混沌</span></div>
+                                <div style="display: flex; align-items: center;"><span style="color:#5EC3D9; width: 90px;">古代女皇</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#CE68AF;">混沌</span></div>
+                                <div style="display: flex; align-items: center;"><span style="color:#5EC3D9; width: 90px;">死靈</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#CE68AF;">混沌航海師</span></div>
+                                <div style="display: flex; align-items: center;"><span style="color:#CE68AF; width: 90px;">混沌</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#CE68AF;">混沌航海師</span></div>
+                                <div style="display: flex; align-items: center;"><span style="color:#CE68AF; width: 90px;">混沌航海師</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#CE68AF;">混沌神秘冥界幽靈</span></div>
                             </div>
                         </div>
 
-                        <div class="rate-box" style="margin-bottom: 0;">
-                            <div class="rate-title" style="color: #e74c3c; font-size: 13px; font-weight: bold;">
+                        <div class="rate-box" style="margin-bottom: 0; margin-top: 0px;">
+                            <div class="txt-sharp" style="color: #EF7F5A; font-size: 15px;">
                                 <span id="cr-stage-to-name-color">神秘冥界幽靈</span>製作成功率 : 
                                 <span id="cr-total-rate" style="margin-left: 2px;">10 %</span>
                             </div>
@@ -385,9 +383,9 @@
             
             <div class="setting-row" style="font-weight: bold; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
                 <label>選擇製作階段：</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話 ➔ 死靈 (8%)</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈 ➔ 航海師 (12%)</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師 ➔ 神秘 (10%)</label>
+                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話 ➔ 死靈</label>
+                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈 ➔ 航海師</label>
+                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師 ➔ 神秘</label>
             </div>
 
             <div class="setting-row" id="cr-scroll-necro-div" style="margin-top: 15px; display: none;">
@@ -416,26 +414,31 @@
                 <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
-                        <strong style="color:#d35400;">【材料消耗】</strong><br>
+                        <strong style="color:#d35400;">【結晶消耗】</strong><br>
+                        成功次數：<span id="cr-stat-success" style="color: #27ae60; font-weight: bold;">0</span> 次<br>
                         失敗次數：<span id="cr-stat-fails" style="color: #c0392b; font-weight: bold;">0</span> 次<br>
                         消耗結晶：<span id="cr-stat-crystals">0</span> 顆<br>
                         消耗卷軸：<span id="cr-stat-scrolls">0</span> 張<br>
                     </div>
                     <div style="flex: 1; min-width: 140px;">
-                        <strong style="color:#2980b9;">【動態期望值 (EV)】</strong><br>
-                        依您目前的機率 (<span id="cr-stat-curr-rate">10%</span>)，<br>
-                        平均約需準備 <strong id="cr-ev-attempts" style="color:#2980b9; font-size:14px;">10.0</strong> 份材料<br>
-                        才能成功製作一件裝備。
+                        <div style="margin-bottom: 5px;">
+                           <strong style="color:#2980b9;">【動態期望值 (EV)】</strong>
+                        </div>
+                        <div style="margin-top:auto; padding-top:5px; border-top:1px dashed #ccc;">
+                            實際總消耗：<strong id="cr-stat-total-used" style="color:#c0392b; font-size:14px;">0</strong> 顆<br>
+                            理論期望值：<strong id="cr-ev-attempts" style="color:#2980b9; font-size:14px;">0.00</strong> 顆
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <button class="btn-reset-tr" onclick="cr_action_reset()">🔄 重新計算</button>
         </div>
 
         <div class="modal-backdrop" id="cr-confirm-modal">
-            <div class="cr-confirm-box" style="width: fit-content; min-width: 320px; max-width: 90%;">
+            <div class="cr-confirm-box">
                 <div class="cr-confirm-header">確認說明</div>
-                <div class="cr-confirm-body" style="white-space: nowrap; font-size: clamp(11px, 2.8vw, 14px);">
+                <div class="cr-confirm-body">
                     要製作<span style="color:#e67e22; font-weight:bold;">神秘冥界幽靈</span>道具嗎？<br>
                     裝備等級會重置，能力值可能會顯示下降。<br>
                     原有裝備持有的基本能力值會以相同比例維持。<br><br>
@@ -458,17 +461,14 @@
                     </div>
                     <div class="m-item-name" id="cr-m-equip-name" style="font-size: 15px; margin-top: 15px;">神秘冥界幽靈手杖</div>
                     
-                    <div class="m-fail-text" id="cr-m-fail-text-container" style="display: none; margin-top: 5px;">
-                        製作失敗次數 <span id="cr-m-fail-count">1</span>
-                    </div>
+                    <div class="m-fail-text" id="cr-m-fail-text-container" style="display: none; margin-top: 5px;"></div>
 
                     <div class="lv-text" style="margin-top: 12px; margin-bottom: 10px; font-size: 20px;">
                         <span id="cr-m-stage-from-color" style="color:#b280c4;">混沌</span> <span class="lv-arrow">»</span> <span id="cr-m-stage-to-color" style="color:#b280c4;">混沌</span>
                     </div>
                 </div>
                 
-                <div class="cr-result-stats" id="cr-m-stats-box">
-                </div>
+                <div class="cr-result-stats" id="cr-m-stats-box"></div>
 
                 <div class="m-enh-grey-bot">
                     <button class="m-btn" onclick="cr_closeResult()">確認</button>
