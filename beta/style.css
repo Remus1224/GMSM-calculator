@@ -268,7 +268,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .m-status-sub { font-size: 12px; color: #7f8c8d; margin-bottom: 10px; }
 .m-bonus-rate { font-size: 22px; color: #f3724c; font-weight: bold; margin-bottom: 5px; }
 .m-bonus-hint { font-size: 11px; color: #95a5a6; }
-.m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
+.m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1; }
 .m-btn:active { transform: translateY(4px); box-shadow: none; }
 
 /* ========================================== */
@@ -294,12 +294,12 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 
 .cr-anim-success { 
     display: block !important; 
-    animation: cr-flash-success 1.26s ease-in-out forwards; 
+    animation: cr-flash-success 1.26 ease-in-out forwards; 
     mix-blend-mode: hard-light; 
 }
 .cr-anim-fail { 
     display: block !important; 
-    animation: cr-flash-fail 1.26s ease-in-out forwards; 
+    animation: cr-flash-fail 1.26 ease-in-out forwards; 
     mix-blend-mode: hard-light; 
 }
 
@@ -307,9 +307,9 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .cr-confirm-header { background: #455468; color: white; padding: 12px; font-size: 16px; font-weight: bold; letter-spacing: 1px; }
 .cr-confirm-body { padding: 25px 20px; font-size: 14px; line-height: 1.6; color: #333; }
 .cr-confirm-footer { display: flex; gap: 10px; padding: 0px 20px 20px; }
-.cr-btn-cancel { flex: 1; background: #5482a9; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s;}
+.cr-btn-cancel { flex: 1; background: #5482a9; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2;}
 .cr-btn-cancel:hover { background: #436a8b; }
-.cr-btn-confirm { flex: 1; background: #ed7245; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
+.cr-btn-confirm { flex: 1; background: #ed7245; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2; }
 .cr-btn-confirm:hover { background: #d35400; }
 
 .cr-result-stats { background: #fff; padding: 10px 15px; text-align: left; font-size: 12px; line-height: 1.1; font-weight: bold; margin-top: 5px; border-top: 1px solid #eee; }
@@ -460,7 +460,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     /* ========================================== */
     #cr-game-ui-container .sec-top { 
         /* 👉 參數 1：整體間距。原本是 5px，覺得太擠可以調成 8px 甚至 10px */
-        gap: 5px !important; 
+        gap: 8px !important; 
         padding: 15px 0px 10px 0px !important; 
     } 
     #cr-game-ui-container .item-col { 
