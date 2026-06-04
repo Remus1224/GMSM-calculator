@@ -1217,10 +1217,10 @@ function runHexaSimulation() {
 tr_updateUI();
 
 // ==========================================
-// 🔨 8. 製作模擬器邏輯 (Phase 1 航海升神秘測試版)
+// 🔨 8. 製作模擬器邏輯 (神話雙軌分支完全體)
 // ==========================================
 let cr_fails = 0;
-let cr_successes = 0; // 💡 新增成功計數器
+let cr_successes = 0; 
 let cr_crystals_used = 0;
 let cr_scrolls_used = 0;
 let cr_isAnimating = false;
@@ -1230,65 +1230,166 @@ let cr_isMuted = false;
 let cr_ev_achieved = 0;
 let cr_current_attempts = 0;
 
+// 💡 神話階段的子選項：預設為死靈轉換
+let cr_mythic_type = 'necro'; // 可為 'inherit' 或 'necro'
+
 // 💡 獨立設定製作音效
 const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
 const cr_sfx_fail = new Audio('assets/AncientFail.wav');
 
-// 資料字典：設定每個階段的數據 (💡 顏色已全面校正，並加入裝備名稱與需求數量)
+// 資料字典：完美對應你的嚴格色碼，並把神話拆分為「繼承」與「死靈」兩條路線
 const CRAFT_DATA = {
-    necro: {
-        baseRate: 8,
+    // 🟠 神話 ➔ 古代 (分支一：繼承)
+    mythic_inherit: {
+        baseRate: 30,
+        additionalRate: 0,
         fromText: "神話",
-        toText: "死靈",
-        fromColor: "#e74c3c", 
-        toColor: "#3ba6c3",   // 亮青色
-        desc: "對選擇的裝備進行<span class='txt-sharp' style='color:#3ba6c3;'>死靈轉換</span>製作。",
-        meso: "85,000,000",
-        equipName: "神話手杖",             // 裝備名稱
+        toText: "古代",
+        fromColor: "#E42123", // 神話紅
+        toColor: "#1cd1ed",   // 古代橘
+        desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。", // 實機是青色字
+        meso: "1,204",
+        equipName: "神話手杖",             
+        crystalName: "古代防具結晶",
+        fromImg: "assets/神話帽子.png",   
+        toImg: "assets/古代帽子.png", // ⚠️請替換為古代帽子圖
+        crystalImg: "assets/超越石.png",  
+        crystalReq: 1,                   
+        scrollName: "幸運的古代製作卷軸",
+        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollReq: 2,
+        
+        // 💡 繼承專屬的確認視窗排版 (完美還原實機)
+        confirmCustomHTML: `
+            要進行古代級道具<span style="color:#ED7245; font-weight:bold;">繼承製作</span>嗎？<br>
+            製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
+            並且會顯示為能力下降。<br>
+            原有裝備的基本能力值會以相同比例維持。<br><br>
+            死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
+            繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
+        `,
+        
+        confirmHighlight: "古代",
+        confirmTier: "古代級",
+        confirmTierColor: "#ed7245", 
+        
+        successFromText: "神話",
+        successFromColor: "#E42123",
+        successToText: "古代",
+        successToColor: "#1cd1ed",
+        failFromText: "神話",
+        failFromColor: "#E42123",
+        failToText: "神話",
+        failToColor: "#E42123"
+    },
+    // 🟠 神話 ➔ 古代 (分支二：死靈轉換)
+    mythic_necro: {
+        baseRate: 4,
+        additionalRate: 4, // 💡 實機專屬的追加 4%
+        fromText: "神話",
+        toText: "古代",
+        fromColor: "#E42123", 
+        toColor: "#1cd1ed",   // 實機圖片中這裡的古代是青色
+        desc: "對選擇的裝備進行死靈轉換製作。<br><br>製作成功時可獲得<span class='txt-sharp' style='color:#1cd1ed;'>古代</span>死靈道具。<br>把神話鍊成道具作為基本使用時，製作成功機率會提高。<br>",
+        meso: "1,204",
+        equipName: "神話手杖",             
         crystalName: "古代防具結晶",
         fromImg: "assets/神話帽子.png",   
         toImg: "assets/死靈帽子.png",
-        crystalImg: "assets/超越石.png",  // ⚠️請記得替換為真實古代結晶圖
-        crystalReq: 1,                   // 結晶需求 1 顆
-        scrollName: "幸運的製作卷軸",
+        crystalImg: "assets/超越石.png",  
+        crystalReq: 1,                   
+        scrollName: "幸運的古代製作卷軸",
         scrollImg: "assets/幸運的製作卷軸.png", 
-        scrollReq: 2                     // 💡 神話升死靈需要 2 張！
+        scrollReq: 2,
+        
+        // 💡 死靈轉換專屬的確認視窗排版 (完美還原實機)
+        confirmCustomHTML: `
+            要進行古代級道具<span style="color:#ed7245; font-weight:bold;">死靈轉換製作</span>嗎？<br>
+            製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
+            並且會顯示為能力下降。<br>
+            原有裝備的基本能力值會以相同比例維持。<br><br>
+            死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
+            繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
+        `,
+        
+        confirmHighlight: "死靈",
+        confirmTier: "死靈級",
+        confirmTierColor: "#1cd1ed",
+        
+        successFromText: "神話",
+        successFromColor: "#E42123",
+        successToText: "死靈",
+        successToColor: "#1cd1ed",
+        failFromText: "神話",
+        failFromColor: "#E42123",
+        failToText: "神話",
+        failToColor: "#E42123"
     },
     absolab: {
         baseRate: 12,
+        additionalRate: 0,
         fromText: "死靈",
         toText: "航海師",
-        fromColor: "#3ba6c3", // 亮青色
-        toColor: "#a66fb3",   // 柔紫色
-        desc: "在<span class='txt-sharp' style='color:#3ba6c3;'>死靈</span>裝備上製作<span class='txt-sharp' style='color:#a66fb3;'>航海師</span>裝備。",
-        meso: "100,000,000",
+        fromColor: "#1cd1ed", 
+        toColor: "#CC9ED8",   
+        desc: "以<span class='txt-sharp' style='color:#1cd1ed;'>在死靈裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
+        meso: "1,204",        
         equipName: "死靈法師手杖",
-        crystalName: "斯烏結晶(武器)",
+        crystalName: "烙印武器結晶",       
         fromImg: "assets/死靈手杖.png",   
         toImg: "assets/航海師手杖.png",
-        crystalImg: "assets/超越石.png",  // ⚠️請記得替換為斯烏結晶圖
+        crystalImg: "assets/超越石.png",  
         crystalReq: 1,
         scrollName: "幸運的混沌製作卷軸(武器)",
         scrollImg: "assets/幸運的製作卷軸.png", 
-        scrollReq: 1                     // 💡 死靈升航海需要 1 張！
+        scrollReq: 1,
+
+        confirmHighlight: "航海師",
+        confirmHighlightColor: "#ed7245", // 💡 獨立控制確認視窗的航海師顏色
+        confirmTier: "混沌級",
+        confirmTierColor: "#D02E9D",      // 💡 確保這裡是混沌桃紅
+        
+        successFromText: "古代",
+        successFromColor: "#1cd1ed", 
+        successToText: "混沌",
+        successToColor: "#CC9ED8",   
+        failFromText: "古代",        
+        failFromColor: "#1cd1ed",
+        failToText: "古代",
+        failToColor: "#1cd1ed"
     },
     arcane: {
         baseRate: 10,
+        additionalRate: 0,
         fromText: "航海師",
         toText: "神秘冥界幽靈",
-        fromColor: "#CC9ED8", // 柔紫色
-        toColor: "#CC9ED8",   // 桃紅色
-        desc: "<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
-        meso: "1,024", 
+        fromColor: "#CC9ED8", 
+        toColor: "#CC9ED8",   
+        desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
+        meso: "1,204", 
         equipName: "航海師手杖",
         crystalName: "夏德貝爾結晶(武器)",
         fromImg: "assets/神秘冥界幽靈天之星光權杖.webp", 
         toImg: "assets/神秘冥界幽靈天之星光權杖.webp",
-        crystalImg: "assets/超越石.png", // ⚠️請記得替換為夏德貝爾結晶圖
+        crystalImg: "assets/超越石.png", 
         crystalReq: 1,
         scrollName: "幸運的混沌製作卷軸(武器)",
         scrollImg: "assets/幸運的製作卷軸.png", 
-        scrollReq: 1
+        scrollReq: 1,
+
+        confirmHighlight: "神秘冥界幽靈",
+        confirmHighlightColor: "#ed7245",
+        confirmTier: "混沌級",
+        confirmTierColor: "#D02E9D", 
+        
+        successFromText: "混沌",
+        successFromColor: "#CC9ED8", 
+        successToText: "混沌",
+        successToColor: "#CC9ED8",   
+        failFromText: "混沌",
+        failFromColor: "#CC9ED8",
+        failToText: "混沌",
+        failToColor: "#CC9ED8"
     }
 };
 
@@ -1300,14 +1401,19 @@ function cr_toggleSound() {
     document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
 }
 
-// 💡 更新了讀取卷軸的邏輯：因為神話升死靈可以放兩張卷軸！
+// 💡 動態切換神話子階段 (繼承 / 死靈)
+function cr_changeMythicSub(type) {
+    cr_mythic_type = type;
+    cr_updateUI();
+}
+
 function cr_getScrollRate() {
-    if (cr_stage === 'necro') {
+    if (cr_stage === 'necro') { // HTML 裡的 value="necro" 現在代表整個神話階段
         let n1 = document.getElementById('cr-scroll-n1');
         let n2 = document.getElementById('cr-scroll-n2');
         let v1 = n1 ? parseInt(n1.value) : 0;
         let v2 = n2 ? parseInt(n2.value) : 0;
-        let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0); // 算算看用了幾張
+        let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0); 
         return { rate: (v1 + v2), count: count };
     } else {
         let scrollElem = document.getElementById('cr-scroll-c1');
@@ -1352,29 +1458,42 @@ function cr_forceStageChange() {
 }
 
 function cr_updateUI() {
-    let data = CRAFT_DATA[cr_stage];
+    // 💡 路由控制：如果是神話，就抓取對應的子資料庫
+    let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+    let data = CRAFT_DATA[activeKey];
+    
     let scrollInfo = cr_getScrollRate();
-    let totalRate = data.baseRate + scrollInfo.rate;
+    // 💡 總機率 = 基礎機率 + 追加機率 + 卷軸機率
+    let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
 
-    // 💡 更新裝備圖片與名稱
     let equipImgElem = document.getElementById('cr-equip-from-img');
     let equipNameElem = document.getElementById('cr-equip-from-name');
-    if(equipImgElem) equipImgElem.src = data.fromImg;
-    if(equipNameElem) equipNameElem.innerHTML = data.equipName;
+    let overlayLvElem = document.getElementById('cr-overlay-lv'); 
 
-    // 💡 更新結晶圖片與名稱 + 1/1 動態顯示
+    if(equipImgElem) {
+        equipImgElem.style.display = ''; // 💡 魔法1：解除 onerror 造成的永久隱藏
+        equipImgElem.src = data.fromImg;
+    }
+    if(equipNameElem) equipNameElem.innerHTML = data.equipName;
+    
+    // 💡 動態判斷起始等級：神話30、死靈40、航海60
+    if(overlayLvElem) {
+        let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+        overlayLvElem.innerText = startLv;
+    }
+
     let crystalImgElem = document.getElementById('cr-crystal-img');
     let crystalNameElem = document.getElementById('cr-crystal-name');
-    if(crystalImgElem) crystalImgElem.src = data.crystalImg;
+    if(crystalImgElem) {
+        crystalImgElem.style.display = ''; // 💡 解除隱藏
+        crystalImgElem.src = data.crystalImg;
+    }
     if(crystalNameElem) {
         crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
     }
 
-    // 更新動態顏色與文字
     let fromTextElem = document.getElementById('cr-stage-from-text');
     let toTextElem = document.getElementById('cr-stage-to-text');
-    let rateEquipNameElem = document.getElementById('cr-stage-to-name-color');
-
     if(fromTextElem) {
         fromTextElem.innerText = data.fromText;
         fromTextElem.style.color = data.fromColor;
@@ -1383,47 +1502,141 @@ function cr_updateUI() {
         toTextElem.innerText = data.toText;
         toTextElem.style.color = data.toColor;
     }
-    if(rateEquipNameElem) {
-        rateEquipNameElem.innerText = data.toText;
+
+    // ==========================================
+    // 🎨 外觀魔術：動態切換神話與其他階段的排版
+    // ==========================================
+    let descElem = document.getElementById('cr-desc-text');
+    let descParent = descElem ? descElem.parentElement : null;
+    let midGreySection = document.querySelector('#cr-game-ui-container .sec-grey-mid');
+    
+    // 💡 終極防跳動魔法：抓取整個右側畫布，並直接將高度「鎖死」！
+    let forgeMain = document.querySelector('#cr-game-ui-container .forge-main');
+    if (forgeMain) {
+        forgeMain.style.height = '520px'; // 👈 鎖定高度。如果覺得整體太高或太矮，請直接微調這個數字 (例如 550px 或 580px)
     }
 
-    let descElem = document.getElementById('cr-desc-text');
-    if(descElem) descElem.innerHTML = data.desc;
+    if (cr_stage === 'necro') {
+        // 進入神話：消除邊界，允許灰白底色左右填滿
+        if (descParent) {
+            descParent.style.padding = '0';
+            descParent.style.backgroundColor = '#F0F0F0';
+            descParent.style.borderBottom = 'none';
+        }
+        if (midGreySection) {
+            midGreySection.style.padding = '0';
+        }
+    } else {
+        // 回到航海/神秘：還原原有的置中與白底排版
+        if (descParent) {
+            descParent.style.padding = '8px 0 8px 0';
+            descParent.style.backgroundColor = '#ffffff';
+            descParent.style.borderBottom = '1px solid #e1e4e8';
+        }
+        if (midGreySection) {
+            midGreySection.style.padding = '12px 0';
+        }
+    }
 
-    // 💡 更新卷軸區塊 (包含 1/2 邏輯)
+    // 💡 動態注入：神話專屬的「打勾選項」與「靠左對齊說明」
+    if(descElem) {
+        let descHTML = "";
+        if (cr_stage === 'necro') {
+            descHTML += `
+                <div style="background-color: #FFFFFF; border-bottom: 1px solid #e1e4e8; padding: 4px 0; display: flex; justify-content: center;">
+                    <div style="display: flex; gap: 110px; width: 400px; padding-left: 0px;">
+                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #333;">
+                            <input type="checkbox" ${cr_mythic_type === 'inherit' ? 'checked' : ''} onchange="cr_changeMythicSub('inherit')" style="margin-right: 8px; width: 18px; height: 18px; accent-color: #3498db; cursor: pointer;"> 繼承
+                        </label>
+                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #333;">
+                            <input type="checkbox" ${cr_mythic_type === 'necro' ? 'checked' : ''} onchange="cr_changeMythicSub('necro')" style="margin-right: 8px; width: 18px; height: 18px; accent-color: #3498db; cursor: pointer;"> 死靈轉換
+                        </label>
+                    </div>
+                </div>
+                <div style="background-color: #F0F0F0; padding: 15px 20px; font-size: 13px; color: #333; line-height: 1.6; text-align: center; font-weight: normal;">
+                    ${data.desc}
+                </div>
+            `;
+        } else {
+            descHTML = data.desc;
+        }
+        descElem.innerHTML = descHTML;
+    }
+
+    // 💡 動態隱藏/顯示「可製作混沌級裝備」的階級清單[cite: 5]
+    let chaosTierList = document.getElementById('cr-chaos-tier-list');
+    if (chaosTierList) {
+        if (cr_stage === 'necro') chaosTierList.style.display = 'none';  
+        else chaosTierList.style.display = 'block'; 
+    }
+
     let scrollCol = document.getElementById('cr-scroll-col');
     let scrollName = document.getElementById('cr-scroll-name');
     let scrollImgElem = document.getElementById('cr-scroll-img');
-    let totalRateText = document.getElementById('cr-total-rate');
     
-    if(scrollImgElem) scrollImgElem.src = data.scrollImg;
+    if(scrollImgElem) {
+        scrollImgElem.style.display = ''; // 💡 解除隱藏
+        scrollImgElem.src = data.scrollImg;
+    }
     
-    if (scrollCol && scrollName && totalRateText) {
+    if (scrollCol && scrollName) {
         if (scrollInfo.rate > 0 || scrollInfo.count > 0) {
             scrollCol.style.opacity = '1';
             scrollName.style.color = '#333';
             scrollName.style.fontWeight = 'bold';
             
-            // 死靈不顯示機率在名字上，其他的會顯示 10% 等
             let scrollDisplayName = (cr_stage === 'necro') ? `${data.scrollName}` : `${data.scrollName}${scrollInfo.rate}%`;
-            
-            // 💡 組合卷軸名稱與實際使用張數
             scrollName.innerHTML = `${scrollDisplayName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">${scrollInfo.count}/${data.scrollReq}</span>`;
-            totalRateText.innerText = `${totalRate}(${data.baseRate}+${scrollInfo.rate})%`;
         } else {
             scrollCol.style.opacity = '0.3';
             scrollName.style.color = '#888';
             scrollName.style.fontWeight = 'normal';
-            // 💡 沒放卷軸時顯示 0/1 或 0/2
-            scrollName.innerHTML = `卷軸<br><span style="color:#888; font-weight:normal; font-size:0.85em;">0/${data.scrollReq}</span>`;
-            totalRateText.innerText = `${totalRate} %`;
+            scrollName.innerHTML = `卷軸`; 
+        }
+    }
+
+   // 💡 精準重寫 Rate Box：套用實機的白/灰交錯分層排版
+    let rateBox = document.querySelector('#cr-game-ui-container .rate-box');
+    if (rateBox) {
+        
+        // 💡 終極魔法2：讓系統自己把機率框「推到最底部」，完美填補清單消失的空白
+        rateBox.style.marginTop = 'auto'; 
+        rateBox.style.width = '100%';
+
+        if (cr_stage === 'necro' && cr_mythic_type === 'necro') {
+            rateBox.innerHTML = `
+                <div style="background-color: #ffffff; width: 100%; padding: 6px 0; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8;">
+                    <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">
+                        追加死靈轉換製作成功機率 : ${data.additionalRate}%
+                    </div>
+                </div>
+                <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
+                    <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
+                        死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + ' + ' + scrollInfo.rate + ')%' : data.baseRate + '%'}
+                    </div>
+                </div>
+            `;
+        } else if (cr_stage === 'necro' && cr_mythic_type === 'inherit') {
+            rateBox.innerHTML = `
+                <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;"> <!-- 💡 把你原本加的 40px 改回 10px，因為現在它會自動黏底了 -->
+                    <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
+                        繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + ' + ' + scrollInfo.rate + ')%' : data.baseRate + '%'}
+                    </div>
+                </div>
+            `;
+        } else {
+            rateBox.innerHTML = `
+                <div class="txt-sharp" style="color: #ED7245; font-size: 15px; margin-bottom: 5px;"> <!-- 💡 補個小 margin 讓它不黏底 -->
+                    <span id="cr-stage-to-name-color">${data.toText}</span>製作成功率 : 
+                    <span id="cr-total-rate" style="margin-left: 2px;">${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + ' %'}</span>
+                </div>
+            `;
         }
     }
 
     let mesoElem = document.getElementById('cr-meso-cost');
     if(mesoElem) mesoElem.innerText = data.meso;
 
-    // 更新面板統計
     let statSuccess = document.getElementById('cr-stat-success');
     let statFails = document.getElementById('cr-stat-fails');
     let statCrys = document.getElementById('cr-stat-crystals');
@@ -1441,10 +1654,32 @@ function cr_updateUI() {
     if(evAtmpt) evAtmpt.innerText = (cr_ev_achieved + current_ev).toFixed(2);
 }
 
+// 💡 升級：支援專屬的客製化 HTML (解決神話死靈/繼承的確認視窗排版不同問題)
 function cr_showConfirm() {
     if(cr_isAnimating) return;
     let modal = document.getElementById('cr-confirm-modal');
-    if(modal) modal.classList.add('active');
+    if(modal) {
+        let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+        let data = CRAFT_DATA[activeKey];
+        
+        let confirmBody = modal.querySelector('.cr-confirm-body');
+        if (confirmBody) {
+            // 💡 如果資料庫裡面有客製化的 confirmCustomHTML，就優先載入
+            if (data.confirmCustomHTML) {
+                confirmBody.innerHTML = data.confirmCustomHTML;
+            } else {
+                // 否則載入無顏色的公版 (航海師 / 神秘)
+                let highlightColor = data.confirmHighlightColor || data.toColor; 
+                confirmBody.innerHTML = `
+                    要製作<span style="color:${highlightColor}; font-weight:bold;">${data.confirmHighlight}</span>道具嗎？<br>
+                    裝備等級會重置，能力可能會顯示下降。<br>
+                    原有裝備持有的基本能力會以相同比例維持。<br><br>
+                    ${data.confirmHighlight} 製作：<span style="color:${data.confirmTierColor}; font-weight:bold;">${data.confirmTier}</span>的${data.confirmHighlight}製作
+                `;
+            }
+        }
+        modal.classList.add('active');
+    }
 }
 
 function cr_cancelConfirm() {
@@ -1459,9 +1694,12 @@ function cr_executeCraft() {
     cr_isAnimating = true;
 
     try {
-        let data = CRAFT_DATA[cr_stage];
+        let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+        let data = CRAFT_DATA[activeKey];
         let scrollInfo = cr_getScrollRate();
-        let totalRate = data.baseRate + scrollInfo.rate;
+        
+        // 💡 實際運算的機率：基礎 + 追加 + 卷軸
+        let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
 
         cr_current_attempts++;
         cr_crystals_used++;
@@ -1472,7 +1710,12 @@ function cr_executeCraft() {
         let animOverlay = document.getElementById('cr-anim-overlay');
         
         if (animOverlay) {
-            animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success' : 'cr-anim-fail');
+            // 💡 判斷：如果是神話階段 (necro)，就套用黃金特效；否則套用預設的紫色特效
+            if (cr_stage === 'necro') {
+                animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success-gold' : 'cr-anim-fail-gold');
+            } else {
+                animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success' : 'cr-anim-fail');
+            }
             
             if (!cr_isMuted) {
                 let sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
@@ -1514,12 +1757,33 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
     let lvTag = document.getElementById('cr-m-lv-tag');
     let lvText = document.getElementById('cr-m-lv');
     let failCont = document.getElementById('cr-m-fail-text-container');
-    let data = CRAFT_DATA[cr_stage]; // 抓取當前階段的資料
     
+    let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+    let data = CRAFT_DATA[activeKey]; 
+    
+    let stageFromElem = document.getElementById('cr-m-stage-from-color');
+    let stageToElem = document.getElementById('cr-m-stage-to-color');
+    
+    // 💡 抓取結算視窗的圖片元素
+    let resultImgElem = document.getElementById('cr-m-equip-img');
+
     if (isSuccess) {
+        if (stageFromElem && stageToElem) {
+            stageFromElem.innerText = data.successFromText;
+            stageFromElem.style.color = data.successFromColor;
+            stageToElem.innerText = data.successToText;
+            stageToElem.style.color = data.successToColor;
+        }
+
         document.getElementById('cr-m-title').innerText = "製作成功";
-        document.getElementById('cr-m-equip-img').src = data.toImg; // 成功換成目標圖
-        document.getElementById('cr-m-equip-name').innerText = data.toText + "手杖"; // 暫時寫死手杖，後續可擴充
+        
+        // 💡 魔法：在給予新圖片前，強制解除隱藏狀態！
+        if (resultImgElem) {
+            resultImgElem.style.display = ''; 
+            resultImgElem.src = data.toImg; 
+        }
+        
+        document.getElementById('cr-m-equip-name').innerText = data.toText + "手杖"; 
         
         if(lvTag) lvTag.style.display = "block";
         if(lvText) lvText.innerText = "1"; 
@@ -1531,18 +1795,35 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
         
         if(statsBox) {
             statsBox.innerHTML = `
-                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#EF7F5A;">1204 <span style="color:#E42123;">(▼1204)</span></span></div>
-                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1.204%</span></div>
-                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1.204%</span></div>
+                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#ED7245;">1,204 <span style="color:#02f53b;">(▲1,204)</span></span></div>
+                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1,204</span></div>
+                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1,204</span></div>
             `;
         }
     } else {
+        if (stageFromElem && stageToElem) {
+            stageFromElem.innerText = data.failFromText;
+            stageFromElem.style.color = data.failFromColor;
+            stageToElem.innerText = data.failToText;
+            stageToElem.style.color = data.failToColor;
+        }
+
         document.getElementById('cr-m-title').innerText = "製作失敗";
-        document.getElementById('cr-m-equip-img').src = data.fromImg; // 失敗維持原圖
+        
+        // 💡 魔法：失敗時也要強制解除隱藏狀態！
+        if (resultImgElem) {
+            resultImgElem.style.display = ''; 
+            resultImgElem.src = data.fromImg; 
+        }
+        
         document.getElementById('cr-m-equip-name').innerText = data.equipName;
         
         if(lvTag) lvTag.style.display = "block";
-        if(lvText) lvText.innerText = "60"; 
+        if(lvText) {
+            // 💡 失敗時，顯示該階段對應的原本等級
+            let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+            lvText.innerText = failLv; 
+        }
         
         if(failCont) {
             failCont.style.display = "block";
@@ -1550,7 +1831,7 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
         }
         
         if(statsBox) {
-            statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px;">能力值沒有變化。</div>`;
+            statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px; font-weight:bold;">能力值沒有變化。</div>`;
         }
     }
 }
