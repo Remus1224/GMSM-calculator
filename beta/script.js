@@ -1234,7 +1234,7 @@ let cr_current_attempts = 0;
 const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
 const cr_sfx_fail = new Audio('assets/AncientFail.wav');
 
-// 資料字典：設定每個階段的數據 (💡 顏色已全面校正為遊戲中真實的高亮青色與桃紅)
+// 資料字典：設定每個階段的數據 (💡 顏色已全面校正，並加入裝備名稱與需求數量)
 const CRAFT_DATA = {
     necro: {
         baseRate: 8,
@@ -1244,9 +1244,15 @@ const CRAFT_DATA = {
         toColor: "#3ba6c3",   // 亮青色
         desc: "對選擇的裝備進行<span class='txt-sharp' style='color:#3ba6c3;'>死靈轉換</span>製作。",
         meso: "85,000,000",
+        equipName: "神話手杖",             // 裝備名稱
         crystalName: "古代防具結晶",
         fromImg: "assets/神話帽子.png",   
-        toImg: "assets/死靈帽子.png"
+        toImg: "assets/死靈帽子.png",
+        crystalImg: "assets/超越石.png",  // ⚠️請記得替換為真實古代結晶圖
+        crystalReq: 1,                   // 結晶需求 1 顆
+        scrollName: "幸運的製作卷軸",
+        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollReq: 2                     // 💡 神話升死靈需要 2 張！
     },
     absolab: {
         baseRate: 12,
@@ -1256,9 +1262,15 @@ const CRAFT_DATA = {
         toColor: "#a66fb3",   // 柔紫色
         desc: "在<span class='txt-sharp' style='color:#3ba6c3;'>死靈</span>裝備上製作<span class='txt-sharp' style='color:#a66fb3;'>航海師</span>裝備。",
         meso: "100,000,000",
+        equipName: "死靈法師手杖",
         crystalName: "斯烏結晶(武器)",
         fromImg: "assets/死靈手杖.png",   
-        toImg: "assets/航海師手杖.png"
+        toImg: "assets/航海師手杖.png",
+        crystalImg: "assets/超越石.png",  // ⚠️請記得替換為斯烏結晶圖
+        crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)",
+        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollReq: 1                     // 💡 死靈升航海需要 1 張！
     },
     arcane: {
         baseRate: 10,
@@ -1268,9 +1280,15 @@ const CRAFT_DATA = {
         toColor: "#CC9ED8",   // 桃紅色
         desc: "<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
         meso: "1,024", 
+        equipName: "航海師手杖",
         crystalName: "夏德貝爾結晶(武器)",
         fromImg: "assets/神秘冥界幽靈天之星光權杖.webp", 
-        toImg: "assets/神秘冥界幽靈天之星光權杖.webp"
+        toImg: "assets/神秘冥界幽靈天之星光權杖.webp",
+        crystalImg: "assets/超越石.png", // ⚠️請記得替換為夏德貝爾結晶圖
+        crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)",
+        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollReq: 1
     }
 };
 
@@ -1282,10 +1300,20 @@ function cr_toggleSound() {
     document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
 }
 
+// 💡 更新了讀取卷軸的邏輯：因為神話升死靈可以放兩張卷軸！
 function cr_getScrollRate() {
-    let scrollElem = document.getElementById('cr-scroll-c1');
-    let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
-    return { rate: v1, count: v1 > 0 ? 1 : 0 };
+    if (cr_stage === 'necro') {
+        let n1 = document.getElementById('cr-scroll-n1');
+        let n2 = document.getElementById('cr-scroll-n2');
+        let v1 = n1 ? parseInt(n1.value) : 0;
+        let v2 = n2 ? parseInt(n2.value) : 0;
+        let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0); // 算算看用了幾張
+        return { rate: (v1 + v2), count: count };
+    } else {
+        let scrollElem = document.getElementById('cr-scroll-c1');
+        let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
+        return { rate: v1, count: v1 > 0 ? 1 : 0 };
+    }
 }
 
 function cr_forceStageChange() {
@@ -1328,7 +1356,21 @@ function cr_updateUI() {
     let scrollInfo = cr_getScrollRate();
     let totalRate = data.baseRate + scrollInfo.rate;
 
-    // 💡 更新動態顏色與文字
+    // 💡 更新裝備圖片與名稱
+    let equipImgElem = document.getElementById('cr-equip-from-img');
+    let equipNameElem = document.getElementById('cr-equip-from-name');
+    if(equipImgElem) equipImgElem.src = data.fromImg;
+    if(equipNameElem) equipNameElem.innerHTML = data.equipName;
+
+    // 💡 更新結晶圖片與名稱 + 1/1 動態顯示
+    let crystalImgElem = document.getElementById('cr-crystal-img');
+    let crystalNameElem = document.getElementById('cr-crystal-name');
+    if(crystalImgElem) crystalImgElem.src = data.crystalImg;
+    if(crystalNameElem) {
+        crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
+    }
+
+    // 更新動態顏色與文字
     let fromTextElem = document.getElementById('cr-stage-from-text');
     let toTextElem = document.getElementById('cr-stage-to-text');
     let rateEquipNameElem = document.getElementById('cr-stage-to-name-color');
@@ -1348,22 +1390,32 @@ function cr_updateUI() {
     let descElem = document.getElementById('cr-desc-text');
     if(descElem) descElem.innerHTML = data.desc;
 
+    // 💡 更新卷軸區塊 (包含 1/2 邏輯)
     let scrollCol = document.getElementById('cr-scroll-col');
     let scrollName = document.getElementById('cr-scroll-name');
+    let scrollImgElem = document.getElementById('cr-scroll-img');
     let totalRateText = document.getElementById('cr-total-rate');
     
+    if(scrollImgElem) scrollImgElem.src = data.scrollImg;
+    
     if (scrollCol && scrollName && totalRateText) {
-        if (scrollInfo.rate > 0) {
+        if (scrollInfo.rate > 0 || scrollInfo.count > 0) {
             scrollCol.style.opacity = '1';
             scrollName.style.color = '#333';
             scrollName.style.fontWeight = 'bold';
-            scrollName.innerText = (cr_stage === 'necro') ? `幸運的製作卷軸` : `幸運的混沌製作卷軸(武器)${scrollInfo.rate}%`;
+            
+            // 死靈不顯示機率在名字上，其他的會顯示 10% 等
+            let scrollDisplayName = (cr_stage === 'necro') ? `${data.scrollName}` : `${data.scrollName}${scrollInfo.rate}%`;
+            
+            // 💡 組合卷軸名稱與實際使用張數
+            scrollName.innerHTML = `${scrollDisplayName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">${scrollInfo.count}/${data.scrollReq}</span>`;
             totalRateText.innerText = `${totalRate}(${data.baseRate}+${scrollInfo.rate})%`;
         } else {
             scrollCol.style.opacity = '0.3';
             scrollName.style.color = '#888';
             scrollName.style.fontWeight = 'normal';
-            scrollName.innerText = `卷軸`;
+            // 💡 沒放卷軸時顯示 0/1 或 0/2
+            scrollName.innerHTML = `卷軸<br><span style="color:#888; font-weight:normal; font-size:0.85em;">0/${data.scrollReq}</span>`;
             totalRateText.innerText = `${totalRate} %`;
         }
     }
@@ -1371,7 +1423,7 @@ function cr_updateUI() {
     let mesoElem = document.getElementById('cr-meso-cost');
     if(mesoElem) mesoElem.innerText = data.meso;
 
-    // 更新面板
+    // 更新面板統計
     let statSuccess = document.getElementById('cr-stat-success');
     let statFails = document.getElementById('cr-stat-fails');
     let statCrys = document.getElementById('cr-stat-crystals');
@@ -1411,7 +1463,6 @@ function cr_executeCraft() {
         let scrollInfo = cr_getScrollRate();
         let totalRate = data.baseRate + scrollInfo.rate;
 
-        // 💡 增加嘗試次數
         cr_current_attempts++;
         cr_crystals_used++;
         cr_scrolls_used += scrollInfo.count;
@@ -1421,28 +1472,25 @@ function cr_executeCraft() {
         let animOverlay = document.getElementById('cr-anim-overlay');
         
         if (animOverlay) {
-            // 💡 賦予對應的光影特效 Class
             animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success' : 'cr-anim-fail');
             
-            // 播放 1.26 秒的原版音效
             if (!cr_isMuted) {
                 let sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
                 sfx.currentTime = 0;
                 sfx.play().catch(e => console.log("音效播放被阻擋：", e));
             }
 
-            // 💡 精準等待 1.26 秒 (1260 毫秒) 後結算
             setTimeout(() => {
-                animOverlay.className = 'lightning-overlay'; // 移除光影
+                animOverlay.className = 'lightning-overlay'; 
                 
                 if (isSuccess) {
-                    cr_successes++; // 💡 總成功次數+1
-                    let attempts_taken = cr_current_attempts; // 💡 紀錄這次成功到底點了幾次
+                    cr_successes++; 
+                    let attempts_taken = cr_current_attempts; 
                     
                     cr_fails = 0; 
                     cr_ev_achieved += (100 / totalRate); 
                     cr_current_attempts = 0; 
-                    cr_showResult(true, attempts_taken); // 💡 將次數傳給結算視窗
+                    cr_showResult(true, attempts_taken); 
                 } else {
                     cr_fails++;
                     cr_showResult(false);
@@ -1466,16 +1514,16 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
     let lvTag = document.getElementById('cr-m-lv-tag');
     let lvText = document.getElementById('cr-m-lv');
     let failCont = document.getElementById('cr-m-fail-text-container');
+    let data = CRAFT_DATA[cr_stage]; // 抓取當前階段的資料
     
     if (isSuccess) {
         document.getElementById('cr-m-title').innerText = "製作成功";
-        document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp";
-        document.getElementById('cr-m-equip-name').innerText = "神秘冥界幽靈手杖";
+        document.getElementById('cr-m-equip-img').src = data.toImg; // 成功換成目標圖
+        document.getElementById('cr-m-equip-name').innerText = data.toText + "手杖"; // 暫時寫死手杖，後續可擴充
         
         if(lvTag) lvTag.style.display = "block";
         if(lvText) lvText.innerText = "1"; 
         
-        // 💡 成功時：顯示累積製作 X 次
         if(failCont) {
             failCont.style.display = "block";
             failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`;
@@ -1490,13 +1538,12 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
         }
     } else {
         document.getElementById('cr-m-title').innerText = "製作失敗";
-        document.getElementById('cr-m-equip-img').src = "assets/神秘冥界幽靈天之星光權杖.webp"; 
-        document.getElementById('cr-m-equip-name').innerText = "航海師法師帽";
+        document.getElementById('cr-m-equip-img').src = data.fromImg; // 失敗維持原圖
+        document.getElementById('cr-m-equip-name').innerText = data.equipName;
         
         if(lvTag) lvTag.style.display = "block";
         if(lvText) lvText.innerText = "60"; 
         
-        // 💡 失敗時：拔除強制的 16px，讓數字跟周圍文字一樣大
         if(failCont) {
             failCont.style.display = "block";
             failCont.innerHTML = `製作失敗次數 <span style="color:#c0392b; font-weight:bold;">${cr_fails}</span> / 5`;
@@ -1518,7 +1565,7 @@ function cr_closeResult() {
 function cr_action_reset() {
     if (cr_isAnimating) return;
     cr_fails = 0;
-    cr_successes = 0; // 💡 重置成功次數
+    cr_successes = 0; 
     cr_crystals_used = 0;
     cr_scrolls_used = 0;
     cr_ev_achieved = 0;
