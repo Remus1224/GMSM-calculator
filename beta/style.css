@@ -460,7 +460,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     /* ========================================== */
     #cr-game-ui-container .sec-top { 
         /* 👉 參數 1：整體間距。原本是 5px，覺得太擠可以調成 8px 甚至 10px */
-        gap: 8px !important; 
+        gap: 10px !important; 
         padding: 15px 0px 10px 0px !important; 
     } 
     #cr-game-ui-container .item-col { 
