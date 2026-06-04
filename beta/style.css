@@ -236,21 +236,21 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
 .stats-text { font-size: 14px; color: #555; text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;}
-.btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; transition: 0.2s; }
+.btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; transition: 0.2; }
 .btn-reset-tr:hover { background: #95a5a6; }
-.btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
+.btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2; font-weight: bold; color: #2c3e50;}
 .btn-sound.muted { background: #e74c3c; color: white; border-color: #c0392b; }
 
 /* 動態雷擊與彈窗結算特效樣式 */
 .lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
-.lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
-.lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
+.lightning-overlay.active { display: flex; animation: flash-bang 1 ease-out forwards; }
+.lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6 infinite alternate; }
 @keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
 @keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
 
 .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 2000; justify-content: center; align-items: center; }
 .modal-backdrop.active { display: flex; }
-.modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3 cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
 .modal-header { background: #4a5468; color: #ffffff; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
@@ -460,7 +460,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     /* ========================================== */
     #cr-game-ui-container .sec-top { 
         /* 👉 參數 1：整體間距。原本是 5px，覺得太擠可以調成 8px 甚至 10px */
-        gap: 15px !important; 
+        gap: 10px !important; 
         padding: 15px 0px 10px 0px !important; 
     } 
     #cr-game-ui-container .item-col { 
@@ -496,7 +496,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     }
     #cr-game-ui-container .item-col:nth-child(4) .equip-name {
         /* 👉 參數 5：卷軸專屬的字體大小。字太小可以改回 10px，太大可改 9px */
-        font-size: 11px !important; 
+        font-size: 10px !important; 
         letter-spacing: -0.5px !important; /* 讓字距稍微緊縮，以便塞進手機螢幕 */
         transform: none !important; 
     }
