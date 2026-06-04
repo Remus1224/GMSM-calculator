@@ -1250,7 +1250,7 @@ const CRAFT_DATA = {
         desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。", // 實機是青色字
         meso: "1,204",
         equipName: "神話手杖",             
-        crystalName: "古代防具結晶",
+        crystalName: "古代武器結晶",
         fromImg: "assets/神話帽子.png",   
         toImg: "assets/古代帽子.png", // ⚠️請替換為古代帽子圖
         crystalImg: "assets/超越石.png",  
@@ -1513,8 +1513,10 @@ function cr_updateUI() {
     // 💡 終極防跳動魔法：抓取整個右側畫布，並直接將高度「鎖死」！
     let forgeMain = document.querySelector('#cr-game-ui-container .forge-main');
     if (forgeMain) {
-        forgeMain.style.height = '520px'; // 👈 鎖定高度。如果覺得整體太高或太矮，請直接微調這個數字 (例如 550px 或 580px)
+        
     }
+
+    
 
     if (cr_stage === 'necro') {
         // 進入神話：消除邊界，允許灰白底色左右填滿
@@ -1534,7 +1536,7 @@ function cr_updateUI() {
             descParent.style.borderBottom = '1px solid #e1e4e8';
         }
         if (midGreySection) {
-            midGreySection.style.padding = '12px 0';
+            midGreySection.style.padding = '12px 0 0 0'; // 💡 拔除底部的 12px，跟神話階段統一為 0
         }
     }
 
@@ -1595,7 +1597,7 @@ function cr_updateUI() {
         }
     }
 
-   // 💡 精準重寫 Rate Box：套用實機的白/灰交錯分層排版
+// 💡 精準重寫 Rate Box：套用實機的白/灰交錯分層排版
     let rateBox = document.querySelector('#cr-game-ui-container .rate-box');
     if (rateBox) {
         
@@ -1618,16 +1620,14 @@ function cr_updateUI() {
             `;
         } else if (cr_stage === 'necro' && cr_mythic_type === 'inherit') {
             rateBox.innerHTML = `
-                <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;"> <!-- 💡 把你原本加的 40px 改回 10px，因為現在它會自動黏底了 -->
-                    <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
+                <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;"> <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
                         繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + ' + ' + scrollInfo.rate + ')%' : data.baseRate + '%'}
                     </div>
                 </div>
             `;
         } else {
             rateBox.innerHTML = `
-                <div class="txt-sharp" style="color: #ED7245; font-size: 15px; margin-bottom: 5px;"> <!-- 💡 補個小 margin 讓它不黏底 -->
-                    <span id="cr-stage-to-name-color">${data.toText}</span>製作成功率 : 
+                <div class="txt-sharp" style="color: #ED7245; font-size: 15px; padding-bottom: 10px; margin-bottom: 0;"> <span id="cr-stage-to-name-color">${data.toText}</span>製作成功率 : 
                     <span id="cr-total-rate" style="margin-left: 2px;">${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + ' %'}</span>
                 </div>
             `;
