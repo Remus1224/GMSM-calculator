@@ -45,7 +45,7 @@ body {
     gap: 20px; 
     align-content: flex-start; 
     /* 💡 加上順滑的過渡動畫 */
-    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: max-width 0.4 cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* 💡 終極動態排版魔法：只有當「超越」或「製作」為 active 時，白底外框才會精準收縮到 750px */
@@ -60,7 +60,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 
 /* 導覽頁籤系統 */
 .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
-.tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3s; }
+.tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3; }
 .tab-menu button:hover { color: #3498db; }
 .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
 .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
@@ -81,7 +81,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 
 /* 按鈕與提示框 */
 .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-.action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
+.action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2; flex: 1; }
 .action-btn:hover { background-color: #003d99; }
 .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
 .clear-btn:hover { background-color: #7f8c8d; }
@@ -106,7 +106,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .prog-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #333; margin-bottom: 5px; align-items: center; }
 .prog-header span { color: #7f8c8d; font-size: 13px; }
 .prog-bar-bg { width: 100%; height: 20px; background-color: #ecf0f1; border-radius: 10px; overflow: hidden; margin-bottom: 10px; position: relative; }
-.prog-bar-fill { height: 100%; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: bold; color: white; }
+.prog-bar-fill { height: 100%; transition: width 0.4 ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: bold; color: white; }
 .prog-fill-frag { background: linear-gradient(90deg, #3498db, #2980b9); }
 .prog-fill-sol { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
 .time-box { background: #f8f9fa; border-left: 4px solid #34495e; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 15px; line-height: 1.6; color: #2c3e50; }
@@ -145,7 +145,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
 .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
 .v-top-controls { display: flex; gap: 8px; }
-.v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2s; font-weight: bold; }
+.v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2; font-weight: bold; }
 .v-btn-top:hover { background-color: #4b6584; }
 .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
 .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
@@ -158,19 +158,19 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
 .v-prob { color: #b3c2d1; font-size: 14px; }
 .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
-.v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
+.v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
 .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
 .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
 .visual-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); gap: 15px;}
 .v-control-group { display: flex; align-items: center; gap: 12px; }
 .v-reset-tracker { font-size: 14px; color: #bdc3c7; }
-.v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
+.v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2; }
 .v-btn:hover { filter: brightness(1.2); }
 .v-btn:active { transform: scale(0.95); }
-.v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
+.v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2; }
 .v-btn-10x:hover { filter: brightness(1.2); }
 .v-btn-10x:active { transform: scale(0.95); }
-.v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s, background 0.3s; }
+.v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2, background 0.3; }
 .v-btn-reset:active { transform: scale(0.95); }
 .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
 .v-btn-reset.highlight:hover { filter: brightness(1.2); }
@@ -184,14 +184,14 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .forge-info-icon span { transform: rotate(-45deg); }
 .forge-body { display: flex; width: 100%; background-color: #f4f5f7; }
 .forge-sidebar { width: 115px; background-color: #344253; display: flex; flex-direction: column; flex-shrink: 0; }
-.menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2s;}
+.menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2;}
 .menu-item:last-child { border-bottom: none; }
 .menu-item.active { background-color: #ed7245; color: white; border-bottom: none; }
 .forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
-.sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s}
-.sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
-.sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
-.sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2s;}
+.sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2}
+.sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2;}
+.sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2;}
+.sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2;}
 
 .item-col { display: flex; flex-direction: column; align-items: center; width: 140px;}
 .img-box { width: 85px; height: 85px; background-color: #e4e6e9; border: 1px solid #dcdde1; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); position: relative; }
@@ -215,7 +215,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .bonus-row { width: 65%; margin: 0 auto 5px auto; display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #555; margin-top: -15px; margin-bottom: 0px; }
 .desc-text { font-size: 12px; color: #777; text-align: center; line-height: 1.6; font-weight: bold; width: 90%; }
 .coin-box { background: #ffffff; padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; color: #333; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; font-weight: bold; }
-.btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1s; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
+.btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
 .btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
 .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
 
@@ -460,7 +460,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     /* ========================================== */
     #cr-game-ui-container .sec-top { 
         /* 👉 參數 1：整體間距。原本是 5px，覺得太擠可以調成 8px 甚至 10px */
-        gap: 25px !important; 
+        gap: 15px !important; 
         padding: 15px 0px 10px 0px !important; 
     } 
     #cr-game-ui-container .item-col { 
@@ -486,7 +486,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     /* 👉 參數 3：結晶與卷軸之間的「額外距離」。
        如果覺得卷軸跟結晶太開，就把這裡改小 (例如 5px 或 0px) */
     #cr-game-ui-container .item-col:nth-child(3) { 
-        margin-right:30px !important; 
+        margin-right:40px !important; 
     }
 
     #cr-game-ui-container .equip-name { 
