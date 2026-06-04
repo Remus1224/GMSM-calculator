@@ -18,7 +18,7 @@ html { box-sizing: border-box; }
     /* 移除陰影 */
     text-shadow: none !important;
     
-    letter-spacing: 0.5px;
+
 }
 
 body { 
@@ -303,6 +303,38 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     mix-blend-mode: hard-light; 
 }
 
+/* ========================================== */
+/* 🎬 高級光影渲染特效 (神話專屬：黃金雷電版) */
+/* ========================================== */
+@keyframes cr-flash-success-gold {
+    0%   { background-color: rgba(0, 0, 0, 0.85); }       /* 瞬間壓上極暗黑底 */
+    35%  { background-color: rgba(255, 150, 0, 0.5); }    /* 前奏：橘金光開始凝聚 */
+    50%  { background-color: rgba(255, 200, 50, 0.8); }   /* ⚡ 關鍵分水嶺：雷擊金光 (與失敗一模一樣) */
+    65%  { background-color: rgba(255, 255, 255, 1); }    /* 💥 成功：爆發純白耀眼強光 */
+    85%  { background-color: rgba(255, 240, 180, 0.9); }  /* 餘輝：強烈白金光緩降 */
+    100% { background-color: rgba(0, 0, 0, 0.85); }       /* 結算前瞬間回到極暗黑底 */
+}
+
+@keyframes cr-flash-fail-gold {
+    0%   { background-color: rgba(0, 0, 0, 0.85); }       
+    35%  { background-color: rgba(255, 150, 0, 0.5); }    
+    50%  { background-color: rgba(255, 200, 50, 0.8); }   
+    65%  { background-color: rgba(0, 0, 0, 0.75); }       /* 🌑 失敗：瞬間斷電崩碎 */
+    85%  { background-color: rgba(0, 0, 0, 0.65); }       
+    100% { background-color: rgba(0, 0, 0, 0.85); }       
+}
+
+.cr-anim-success-gold { 
+    display: block !important; 
+    animation: cr-flash-success-gold 1.26s ease-in-out forwards; 
+    mix-blend-mode: hard-light; 
+}
+.cr-anim-fail-gold { 
+    display: block !important; 
+    animation: cr-flash-fail-gold 1.26s ease-in-out forwards; 
+    mix-blend-mode: hard-light; 
+}
+
 .cr-confirm-box { width: 90%; max-width: 380px; background: #fff; border-radius: 8px; overflow: hidden; text-align: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .cr-confirm-header { background: #455468; color: white; padding: 12px; font-size: 16px; font-weight: bold; letter-spacing: 1px; }
 .cr-confirm-body { padding: 25px 20px; font-size: 14px; line-height: 1.6; color: #333; }
@@ -318,9 +350,27 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
 
 /* 縮小等級遮罩，避免擋住武器 */
-.dynamic-lv-overlay { padding: 1px 4px !important; font-size: 10px !important; }
-
-/* ========================================== */
+.dynamic-lv-overlay { 
+    position: absolute; 
+    bottom: 3px; 
+    right: 3px; 
+    background-color: rgba(17, 17, 17, 0.9); 
+    color: #ffffff; 
+    font-family: Arial, Helvetica, sans-serif; /* 💡 鎖定最乾淨的英文無襯線字體 */
+    font-size: 11px; 
+    font-weight: 00; /* 💡 魔法1：將粗度從 bold (700) 降級到半粗體 (600)，解決字太肥的問題 */
+    letter-spacing: -0.1px; /* 💡 魔法2：字體變瘦後，把字距稍微放寬一點點才自然 */
+    line-height: 1; 
+    padding: 2px 4px; 
+    border-radius: 10px; 
+    border: none; 
+    z-index: 10; 
+    min-width: 36px; 
+    text-align: center; 
+    box-sizing: border-box; 
+    -webkit-font-smoothing: antialiased; /* 💡 魔法3：強制開啟抗鋸齒，讓邊緣更銳利 */
+}
+}/* ========================================== */
 /* 🔨 製作模擬器專屬排版 (Flexbox 絕對控制法) */
 /* ========================================== */
 #cr-game-ui-container .sec-top { 
