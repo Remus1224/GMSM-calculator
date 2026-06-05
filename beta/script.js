@@ -265,7 +265,7 @@ function initIgnoreGrid() {
     equipments.forEach(equip => {
         const group = document.createElement('div');
         group.className = 'input-group';
-        group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
+        group.innerHTML = `<label>${equip} :</label><input type="text" inputmode="decimal" id="input-${equip}">`;
         grid.appendChild(group);
     });
 }
