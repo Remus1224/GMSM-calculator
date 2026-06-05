@@ -4,12 +4,17 @@
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
+/* 💡 終極防連點放大魔法：讓瀏覽器知道我們是在瘋狂點按鈕，不是要縮放畫面！ */
+button, input, select, label, .btn-action {
+    touch-action: manipulation;
+}
+
 .txt-sharp {
     /* 將字重調高，字體自然會變粗，不需要描邊來湊 */
-    font-weight: 800 !important;
+    font-weight: 800 !important
     
     /* 移除描邊，這是造成影子和重影的主因 */
-    -webkit-text-stroke: 0px transparent !important;
+ ;   -webkit-text-stroke: 0px transparent !important;
     
     /* 恢復抗鋸齒，讓微軟正黑體自動適應螢幕，這樣文字邊緣才會乾淨 */
     -webkit-font-smoothing: antialiased !important;
