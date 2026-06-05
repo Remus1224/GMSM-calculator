@@ -74,34 +74,41 @@
 
     <div id="tab-ignore" class="tab-content">
         <div class="hint">雙排無視請先自行加總，HEXA屬性有BUG會有些一點誤差可自行驗證</div>
-        <div class="left-panel panel">
-            <div class="section-title">自訂數值輸入區</div>
-            <div class="grid-container" id="equip-grid"></div>
-        </div>
 
-        <div class="right-panel">
-            <div class="panel">
-                <div class="section-title">航海師套組 (單選)</div>
-                <div class="radio-group">
-                    <label><input type="radio" name="absolab" value="0" checked> 無</label>
-                    <label><input type="radio" name="absolab" value="3"> 4set (3%)</label>
-                    <label><input type="radio" name="absolab" value="6"> 6set (6%)</label>
-                    <label><input type="radio" name="absolab" value="10"> 7set (10%)</label>
-                </div>
+        <div class="ignore-layout-wrapper">
+            
+            <div class="left-panel panel ignore-left-panel">
+                <div class="section-title">自訂數值輸入區</div>
+                <div class="grid-container" id="equip-grid" style="flex: 1; margin-top: 10px;"></div>
             </div>
 
-            <div class="panel">
-                <div class="section-title">神秘冥界幽靈套組 (單選)</div>
-                <div class="radio-group">
-                    <label><input type="radio" name="arcane" value="0" checked> 無</label>
-                    <label><input type="radio" name="arcane" value="4"> 1set (4%)</label>
-                    <label><input type="radio" name="arcane" value="8"> 2set (8%)</label>
-                    <label><input type="radio" name="arcane" value="12"> 4set (12%)</label>
+            <div class="right-panel ignore-right-panel">
+                <div class="panel panel-absolab" style="margin: 0;">
+                    <div class="section-title">航海師套組 (單選)</div>
+                    <div class="radio-grid absolab-group">
+                        <label class="radio-label"><input type="radio" name="absolab" value="0" checked onchange="calculateIgnore()"> 無</label>
+                        <label class="radio-label"><input type="radio" name="absolab" value="3" onchange="calculateIgnore()"> 4set (3%)</label>
+                        <label class="radio-label"><input type="radio" name="absolab" value="6" onchange="calculateIgnore()"> 6set (6%)</label>
+                        <label class="radio-label"><input type="radio" name="absolab" value="10" onchange="calculateIgnore()"> 7set (10%)</label>
+                    </div>
                 </div>
-            </div>
 
-            <button class="action-btn" onclick="calculateIgnore()">計算總無視防禦</button>
-            <div class="result-box" id="result-ignore">總無視防禦：0.00%</div>
+                <div class="panel panel-arcane" style="margin: 0;">
+                    <div class="section-title">神秘冥界幽靈套組 (單選)</div>
+                    <div class="radio-grid arcane-group">
+                        <label class="radio-label"><input type="radio" name="arcane" value="0" checked onchange="calculateIgnore()"> 無</label>
+                        <label class="radio-label"><input type="radio" name="arcane" value="4" onchange="calculateIgnore()"> 1set (4%)</label>
+                        <label class="radio-label"><input type="radio" name="arcane" value="8" onchange="calculateIgnore()"> 2set (8%)</label>
+                        <label class="radio-label"><input type="radio" name="arcane" value="12" onchange="calculateIgnore()"> 4set (12%)</label>
+                    </div>
+                </div>
+
+                <div class="result-box result-gradient" id="result-ignore">總無視防禦：0.00%</div>
+
+                <button onclick="clearIgnore()" class="btn-clear">
+                    清除重置
+                </button>
+            </div>
         </div>
     </div>
 
