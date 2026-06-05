@@ -122,8 +122,8 @@ function initHexaProg() {
         cores.forEach(core => {
             let isChecked = core.default ? 'checked' : '';
             let cbHtml = core.mandatory ? 
-                `<span style="font-weight:bold; color:#fff; font-size: 14px;">${core.label}</span>` : 
-                `<label style="cursor:pointer; display:flex; align-items:center; color:#fff; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
+                `<span style="font-weight:bold; color:#333333; font-size: 14px;">${core.label}</span>` : 
+                `<label style="cursor:pointer; display:flex; align-items:center; color:#333333; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
             
             html += `
                 <div class="prog-item" id="item-${core.id}" style="background-color: ${core.bg}; border-left: 5px solid ${core.border}; ${(!core.mandatory && !core.default) ? 'opacity: 0.5;' : ''}">
