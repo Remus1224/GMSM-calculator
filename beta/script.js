@@ -254,19 +254,42 @@ function calcHexaProg() {
 }
 
 // ==========================================
-// ⚡ 2. 無視防禦計算機邏輯
+// ⚡ 2. 無視防禦計算機邏輯 (卡片分類版)
 // ==========================================
-const equipments = ["帽子", "套服", "手套", "鞋子", "護肩", "腰帶", "披風", "副武", "三武", "苦痛的根源", "支配者墜飾", "巨大的恐怖", "被詛咒的魔島書", "HEXA屬性", "活動", "預留1", "預留2", "預留3"];
+
+// 💡 根據色彩心理學定義的五大分類資料
+const equipCategories = [
+    { title: "防具類", type: "armor", items: ["帽子", "手套", "套服", "護肩", "鞋子", "腰帶", "披風"] },
+    { title: "武器類", type: "weapon", items: ["副武", "三武"] },
+    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書"] }, // 支配者即阿卡
+    { title: "能力類", type: "ability", items: ["HEXA屬性"] },
+    { title: "特殊", type: "special", items: ["活動", "預留", "預留", "預留"] }
+];
+
+// 自動攤平陣列，供計算邏輯使用
+const equipments = equipCategories.flatMap(cat => cat.items);
 
 function initIgnoreGrid() {
     const grid = document.getElementById('equip-grid');
     if (!grid) return;
     grid.innerHTML = ''; 
-    equipments.forEach(equip => {
-        const group = document.createElement('div');
-        group.className = 'input-group';
-        group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
-        grid.appendChild(group);
+
+    // 直接將所有分類的裝備卡片，不分段地塞進網格中，由左至右自然排序
+    equipCategories.forEach(category => {
+        category.items.forEach(equip => {
+            const card = document.createElement('div');
+            // 💡 保留顏色的 class (bg-armor 等)，這樣卡片依然有顏色區分！
+            card.className = `equip-card bg-${category.type}`;
+            
+            card.innerHTML = `
+                <div class="card-title">${equip}</div>
+                <div class="card-input-wrapper">
+                    <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="">
+                    <span class="card-percent">%</span>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
     });
 }
 
@@ -309,6 +332,37 @@ function calculateIgnore() {
         resultElem.innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
     }
 }
+
+function clearIgnore() {
+    // 1️⃣ 清空所有手動輸入的裝備數值
+    equipments.forEach(equip => {
+        let inputElem = document.getElementById('input-' + equip);
+        if (inputElem) {
+            inputElem.value = ''; // 把格子裡面的字清空
+        }
+    });
+
+    // 2️⃣ 將航海師套裝重置為「無」
+    let absolabRadios = document.getElementsByName('absolab');
+    absolabRadios.forEach(radio => {
+        if (radio.value === "0") radio.checked = true;
+    });
+
+    // 3️⃣ 將神秘套裝重置為「無」
+    let arcaneRadios = document.getElementsByName('arcane');
+    arcaneRadios.forEach(radio => {
+        if (radio.value === "0") radio.checked = true;
+    });
+
+    // 4️⃣ 呼叫計算機，讓底下的數字瞬間歸零回 0.00%
+    calculateIgnore();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initIgnoreGrid === 'function') {
+        initIgnoreGrid();
+    }
+});
 
 // ==========================================
 // 👑 3. 超越強化模擬器邏輯 (動態期望值分析系統)
