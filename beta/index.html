@@ -202,7 +202,7 @@
                 <label><input type="radio" name="stone-rate" value="50" checked onchange="tr_updateUI()"> 50%</label>
                 <label><input type="radio" name="stone-rate" value="30" onchange="tr_updateUI()"> 30%</label>
                 <label><input type="radio" name="stone-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
-                <input type="number" id="custom-stone-rate" value="50" min="1" max="100" style="width:50px;" data-group="stone-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="custom-stone-rate" value="50" min="1" max="100" style="width:50px;" data-group="stone-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
             </div>
             <div class="setting-row">
                 超越扣除卷軸機率：
@@ -211,7 +211,7 @@
                 <label><input type="radio" name="scroll-rate" value="70" onchange="tr_updateUI()"> 70%</label>
                 <label><input type="radio" name="scroll-rate" value="100" onchange="tr_updateUI()"> 100%</label>
                 <label><input type="radio" name="scroll-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
-                <input type="number" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
             </div>
 
             <div class="stats-text" style="text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;">
@@ -339,7 +339,7 @@
                         <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; background: #344253; color: #fff; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: help;">?</div>
                     </div>
 
-                    <div style="background-color: #ffffff; padding: 4px 0 8px 0; text-align: center; border-bottom: 1px solid #e1e4e8;">
+                    <div style="background-color: #ffffff; padding: 8px 0 8px 0; text-align: center; border-bottom: 1px solid #e1e4e8;">
                         <div style="font-size: 13px; color: #888; font-weight: bold;" id="cr-desc-text"></div>
                     </div>
 
@@ -489,23 +489,23 @@
             <div class="inv-grid">
                 <div class="inv-item">
                     <label><img src="assets/靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯</label>
-                    <input type="number" id="inv-big" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="inv-big" min="0" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息 (1=500)</label>
-                    <input type="number" id="inv-conc" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="inv-conc" min="0" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 (1=200)</label>
-                    <input type="number" id="inv-nrg" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="inv-nrg" min="0" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 (1=10)</label>
-                    <input type="number" id="inv-weak" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="inv-weak" min="0" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片</label>
-                    <input type="number" id="inv-frag" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="inv-frag" min="0" value="">
                 </div>
             </div>
         </div>
@@ -517,19 +517,19 @@
             <div class="inv-grid" style="margin-bottom: 15px;">
                 <div class="inv-item" style="border-right: 2px solid #eee; padding-right: 15px;">
                     <label style="color:#2980b9;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
-                    <input type="number" id="farm-hours" min="0" max="24" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-hours" min="0" max="24" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label>
-                    <input type="number" id="farm-frag-hr" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-frag-hr" min="0" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 / 小時</label>
-                    <input type="number" id="farm-nrg-hr" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-nrg-hr" min="0" value="">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label>
-                    <input type="number" id="farm-weak-hr" min="0" value="">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-weak-hr" min="0" value="">
                 </div>
             </div>
 
@@ -537,19 +537,19 @@
             <div class="inv-grid">
                 <div class="inv-item">
                     <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label>
-                    <input type="number" id="farm-frag-wk" min="0" value="0">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-frag-wk" min="0" value="0">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label>
-                    <input type="number" id="farm-conc-wk" min="0" value="0">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-conc-wk" min="0" value="0">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息</label>
-                    <input type="number" id="farm-nrg-wk" min="0" value="0">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-nrg-wk" min="0" value="0">
                 </div>
                 <div class="inv-item">
                     <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息</label>
-                    <input type="number" id="farm-weak-wk" min="0" value="0">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" id="farm-weak-wk" min="0" value="0">
                 </div>
             </div>
         </div>
@@ -668,17 +668,17 @@
         <div class="panel">
             <div class="section-title">目前核心狀態</div>
             <div class="hexa-inputs">
-                <div><label>主屬性 (A)</label><input type="number" id="reset-a" min="0" max="10" value=""></div>
-                <div><label>附屬性 (B)</label><input type="number" id="reset-b" min="0" max="10" value=""></div>
-                <div><label>附屬性 (C)</label><input type="number" id="reset-c" min="0" max="10" value=""></div>
-                <div><label>剩餘次數</label><input type="number" id="reset-rolls" min="1" max="20" value="10"></div>
+                <div><label>主屬性 (A)</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="reset-a" min="0" max="10" value=""></div>
+                <div><label>附屬性 (B)</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="reset-b" min="0" max="10" value=""></div>
+                <div><label>附屬性 (C)</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="reset-c" min="0" max="10" value=""></div>
+                <div><label>剩餘次數</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="reset-rolls" min="1" max="20" value="10"></div>
             </div>
             
             <div class="target-divider"></div>
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
-                <div><label>目標主屬 >=</label><input type="number" id="reset-target-a" min="0" max="10" value=""></div>
-                <div><label>目標附屬 >=</label><input type="number" id="reset-target-sub" min="0" max="10" value=""></div>
+                <div><label>目標主屬 >=</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="reset-target-a" min="0" max="10" value=""></div>
+                <div><label>目標附屬 >=</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="reset-target-sub" min="0" max="10" value=""></div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
@@ -709,18 +709,18 @@
             
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">📍 目前狀態</div>
             <div class="hexa-inputs">
-                <div><label>主屬 (A)</label><input type="number" id="sim-a" min="0" max="10" value=""></div>
-                <div><label>附屬 (B)</label><input type="number" id="sim-b" min="0" max="10" value=""></div>
-                <div><label>附屬 (C)</label><input type="number" id="sim-c" min="0" max="10" value=""></div>
-                <div><label>剩餘次數</label><input type="number" id="sim-rolls" min="1" max="20" value=""></div>
+                <div><label>主屬 (A)</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="sim-a" min="0" max="10" value=""></div>
+                <div><label>附屬 (B)</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="sim-b" min="0" max="10" value=""></div>
+                <div><label>附屬 (C)</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="sim-c" min="0" max="10" value=""></div>
+                <div><label>剩餘次數</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="sim-rolls" min="1" max="20" value=""></div>
             </div>
 
             <div class="target-divider"></div>
             
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
-                <div><label>目標主屬 >=</label><input type="number" id="target-a" min="0" max="10" value=""></div>
-                <div><label>目標附屬 >=</label><input type="number" id="target-sub" min="0" max="10" value=""></div>
+                <div><label>目標主屬 >=</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="target-a" min="0" max="10" value=""></div>
+                <div><label>目標附屬 >=</label><input type="text" inputmode="numeric" pattern="[0-9]*" id="target-sub" min="0" max="10" value=""></div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
