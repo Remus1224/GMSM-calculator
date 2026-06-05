@@ -265,38 +265,49 @@ function initIgnoreGrid() {
     equipments.forEach(equip => {
         const group = document.createElement('div');
         group.className = 'input-group';
-        group.innerHTML = `<label>${equip} :</label><input type="text" inputmode="decimal" id="input-${equip}">`;
+        group.innerHTML = `<label>${equip} :</label><input type="text" id="input-${equip}">`;
         grid.appendChild(group);
     });
 }
 
 function calculateIgnore() {
     let values = [];
+    
+    // 1️⃣ 抓取所有輸入框的數值
     equipments.forEach(equip => {
         let inputElem = document.getElementById('input-' + equip);
         if(inputElem) {
-            const inputVal = inputElem.value.trim();
-            if (inputVal) {
-                let parts = inputVal.replace(/[，、]/g, ',').split(',');
-                parts.forEach(p => {
-                    let cleanP = p.replace(/[^\d.]/g, ''); 
-                    if (cleanP !== "" && !isNaN(cleanP)) values.push(parseFloat(cleanP));
-                });
+            // 💡 只保留數字和小數點，過濾掉玩家可能誤觸的英文或注音符號
+            let cleanVal = inputElem.value.replace(/[^\d.]/g, ''); 
+            
+            // 如果欄位不是空的，且真的是個數字，就收編進陣列
+            if (cleanVal !== "" && !isNaN(cleanVal)) {
+                values.push(parseFloat(cleanVal));
             }
         }
     });
 
-    const absolabVal = parseFloat(document.querySelector('input[name="absolab"]:checked').value);
-    const arcaneVal = parseFloat(document.querySelector('input[name="arcane"]:checked').value);
-    const setEffectSum = absolabVal + arcaneVal;
+    // 2️⃣ 抓取套裝效果 (加入防呆，避免找不到按鈕時報錯)
+    const absolabElem = document.querySelector('input[name="absolab"]:checked');
+    const arcaneElem = document.querySelector('input[name="arcane"]:checked');
+    const absolabVal = absolabElem ? parseFloat(absolabElem.value) : 0;
+    const arcaneVal = arcaneElem ? parseFloat(arcaneElem.value) : 0;
     
+    const setEffectSum = absolabVal + arcaneVal;
     if (setEffectSum > 0) values.push(setEffectSum);
 
+    // 3️⃣ 套用楓之谷的乘法公式：1 - (1 - v1) * (1 - v2) ...
     let multiplier = 1.0;
-    values.forEach(v => { multiplier *= (1.0 - (v / 100.0)); });
+    values.forEach(v => { 
+        multiplier *= (1.0 - (v / 100.0)); 
+    });
     let totalIgnore = (1.0 - multiplier) * 100.0;
 
-    document.getElementById('result-ignore').innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+    // 4️⃣ 顯示結果
+    let resultElem = document.getElementById('result-ignore');
+    if (resultElem) {
+        resultElem.innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+    }
 }
 
 // ==========================================
@@ -1468,33 +1479,30 @@ function cr_forceStageChange() {
     cr_updateUI();
 }
 
-// 💡 動態取得卷軸圖片的魔法函數 (首張卷軸決定版)
+// 💡 動態取得卷軸圖片的魔法函數 (去 % 符號安全版)
 function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
-    // 1️⃣ 防呆：如果第一張卷軸沒有機率 (0%)，直接回傳預設空框
     if (!firstRate || firstRate === 0) return defaultImg; 
 
     let folder = 'assets/';
 
     // 2️⃣ 神話階段 (古代卷軸)
     if (stage === 'necro') {
-        // 精準對應 1~6% 獨立圖片
         if (firstRate >= 1 && firstRate <= 6) {
-            return `${folder}幸運的古代製作卷軸${firstRate}%.png`; 
+            // 💡 這裡的 % 已經刪除了！現在會組合出 幸運的古代製作卷軸1.png
+            return `${folder}幸運的古代製作卷軸${firstRate}.png`; 
         }
-        // 精準對應 10% 和 15% 共用圖片
         if (firstRate === 10 || firstRate === 15) {
             return `${folder}幸運的古代製作卷軸5_10.png`; 
         }
     } 
     // 3️⃣ 航海/神秘階段 (混沌卷軸)
     else {
-        // 精準對應 3%, 5%, 7% 共用圖片
         if (firstRate === 3 || firstRate === 5 || firstRate === 7) {
             return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
         }
-        // 精準對應 10% 獨立圖片
         if (firstRate === 10) {
-            return `${folder}幸運的混沌製作卷軸(武器)10%.png`;
+            // 💡 這裡的 % 也刪除了！現在會組合出 幸運的混沌製作卷軸(武器)10.png
+            return `${folder}幸運的混沌製作卷軸(武器)10.png`;
         }
     }
 
