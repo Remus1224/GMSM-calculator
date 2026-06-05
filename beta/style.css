@@ -22,8 +22,6 @@ button, input, select, label, .btn-action {
     
     /* 移除陰影 */
     text-shadow: none !important;
-    
-
 }
 
 body { 
@@ -53,11 +51,12 @@ body {
     transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* 💡 終極動態排版魔法：只有當「超越」或「製作」為 active 時，白底外框才會精準收縮到 750px */
+/* 💡 終極動態排版魔法：加入無視防禦面板，讓它精準收縮 */
 .container:has(#tab-transcend.active),
-.container:has(#tab-craft.active) ,
-.container:has(#tab-hexa-visual.active) {
-    max-width: 650px;
+.container:has(#tab-craft.active),
+.container:has(#tab-hexa-visual.active),
+.container:has(#tab-ignore.active) {     /* 👈 加上這一行！ */
+    max-width: 800px;                    /* 建議稍微放寬到 800px 容納雙欄 */
 }
 
 h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
@@ -92,6 +91,265 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .clear-btn:hover { background-color: #7f8c8d; }
 .result-box { text-align: center; margin-top: 15px; font-size: 18px; font-weight: bold; color: #0052cc; background: #e6f0ff; padding: 15px; border-radius: 6px; white-space: pre-line; line-height: 1.5; }
 .detail-box { margin-top: 15px; font-size: 15px; color: #333; background: #fff; padding: 15px; border: 1px solid #dcdde1; border-radius: 6px; text-align: left; line-height: 1.6; }
+
+
+/* 💡 無視防禦格子修復：3x6 排版與文字完美對齊 */
+#equip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 💡 魔法1：強制分成等寬的 3 欄 */
+    gap: 15px 12px;                        /* 上下間距 15px，左右間距 12px */
+}
+
+#equip-grid .input-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px; /* 標籤跟輸入框的微小距離 */
+}
+
+#equip-grid .input-group label {
+    flex: 0 0 65px;               /* 💡 固定標籤寬度，給「支配者」剛好的空間 */
+    text-align: justify;          /* 💡 魔法2：文字左右拉滿的起手式 */
+    text-align-last: justify;     /* 💡 魔法3：強制最後一行也左右拉滿對齊！ */
+    font-size: 13px;              /* 字體稍微縮小一點點，讓 3 欄更精緻 */
+    white-space: nowrap;          /* 絕對不准換行 */
+    margin: 0;
+    color: #333;
+}
+
+#equip-grid .input-group input {
+    flex: 1;                 
+    width: 100%;             
+    min-width: 30px;         /* 💡 允許輸入框縮小，在小螢幕也不會戳破外框 */
+    box-sizing: border-box;
+    padding: 6px;            
+    font-size: 14px;
+    text-align: center;      /* 讓輸入的數字置中，看起來會更像計算機 */
+}
+
+
+/* ==========================================
+   🎨 無視防禦：卡片式分類與色彩心理學設計
+   ========================================== */
+
+/* 1. 定義五大色系的變數 (背景、邊框、文字顏色) */
+:root {
+    --c-armor-bg: #F0F8FF;  --c-armor-border: #BCE0FD;  --c-armor-text: #2980B9; /* 淺晴空藍 */
+    --c-weapon-bg: #FFF5F5; --c-weapon-border: #FCD5D5; --c-weapon-text: #C0392B; /* 柔櫻珊瑚 */
+    --c-acc-bg: #F9F0FF;    --c-acc-border: #E8CCFF;    --c-acc-text: #8E44AD; /* 迷霧薰衣草 */
+    --c-ability-bg: #F0FFF4;--c-ability-border: #C6F6D5;--c-ability-text: #27AE60; /* 薄荷青翠 */
+    --c-special-bg: #FFFAF0;--c-special-border: #FEEBC8;--c-special-text: #D68910; /* 晨曦暖沙 */
+}
+
+/* 2. 佈局與標題 */
+.equip-section { margin-bottom: 20px; }
+.equip-section-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-left: 8px;
+    border-left: 4px solid;
+}
+
+/* 動態套用各類別顏色 */
+.text-armor { color: var(--c-armor-text); border-color: var(--c-armor-text); }
+.text-weapon { color: var(--c-weapon-text); border-color: var(--c-weapon-text); }
+.text-acc { color: var(--c-acc-text); border-color: var(--c-acc-text); }
+.text-ability { color: var(--c-ability-text); border-color: var(--c-ability-text); }
+.text-special { color: var(--c-special-text); border-color: var(--c-special-text); }
+
+/* 3. 卡片網格 (RWD：電腦一排4~5個，手機自動變成2個) */
+.equip-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+/* 4. 卡片本體設計 */
+.equip-card {
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.2s ease;
+}
+.equip-card:focus-within { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+
+/* 動態套用卡片背景 */
+.bg-armor { background: var(--c-armor-bg); border-color: var(--c-armor-border); }
+.bg-weapon { background: var(--c-weapon-bg); border-color: var(--c-weapon-border); }
+.bg-acc { background: var(--c-acc-bg); border-color: var(--c-acc-border); }
+.bg-ability { background: var(--c-ability-bg); border-color: var(--c-ability-border); }
+.bg-special { background: var(--c-special-bg); border-color: var(--c-special-border); }
+
+/* 5. 卡片內的文字與輸入框 */
+.card-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+}
+.card-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 6px;
+    padding: 2px 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+.card-input-wrapper input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    outline: none;
+}
+.card-percent { font-size: 12px; color: #888; margin-left: 2px; }
+
+/* ==========================================
+   ✨ 介面優化：左側排版與右側色彩配置
+   ========================================== */
+
+/* 1. 左側強制變為 3 欄連續網格 */
+#equip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+/* 2. 右側套裝 - 航海師 (晨霧藍) */
+.panel-absolab .section-title { color: #2980B9; }
+.absolab-group .radio-label:has(input:checked) {
+    background-color: #EBF5FB; 
+    border-color: #3498DB; 
+    color: #2980B9; 
+    font-weight: bold;
+}
+
+/* 3. 右側套裝 - 神秘 (幻夢紫) */
+.panel-arcane .section-title { color: #8E44AD; }
+.arcane-group .radio-label:has(input:checked) {
+    background-color: #F5EEF8; 
+    border-color: #9B59B6; 
+    color: #8E44AD; 
+    font-weight: bold;
+}
+
+/* 4. 將單選按鈕改造成「方塊按鈕」並排 (2x2) */
+.radio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 切成兩欄 */
+    gap: 8px;
+}
+.radio-label {
+    background: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 10px 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+.radio-label input[type="radio"] {
+    display: none; /* 💡 徹底隱藏醜醜的原生圓點！ */
+}
+
+/* 5. 總無視防禦框 (琉璃冰藍漸層) */
+.result-gradient {
+    flex: 1; /* 自動填滿剩餘高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    margin: 0;
+    /* 漸層色配置 */
+    background: linear-gradient(135deg, #E1F5FE 0%, #E8EAF6 100%);
+    border: 2px solid #B3E5FC;
+    color: #1565C0;
+    box-shadow: inset 0 0 15px rgba(255,255,255,0.8);
+}
+
+/* 6. 清除按鈕 (柔和珊瑚紅) */
+.btn-clear {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* 柔和紅配置 */
+    background-color: #FDEDEC;
+    color: #E74C3C;
+    border: 1px solid #FADBD8;
+}
+.btn-clear:hover {
+    background-color: #FADBD8;
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   📱 響應式佈局 (RWD)：手機版與電腦版自適應
+   ========================================== */
+
+/* --- 💻 電腦版預設：左右優雅並排 --- */
+.ignore-layout-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+    width: 100%;
+}
+.ignore-left-panel {
+    flex: 1.4;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+.ignore-right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* --- 📱 手機版變身：當螢幕寬度小於 768px 時自動觸發 --- */
+@media (max-width: 768px) {
+    /* 1. 核心修復：把左右並排改成「上下堆疊」 */
+    .ignore-layout-wrapper {
+        flex-direction: column; 
+    }
+    
+    /* 2. 讓左右兩大區塊都解放，撐滿手機 100% 寬度 */
+    .ignore-left-panel,
+    .ignore-right-panel {
+        flex: none; 
+        width: 100%; 
+    }
+    
+    /* 3. 防破版微調：手機上的卡片字體稍微縮小，避免「魔島書」擠出去 */
+    #equip-grid .card-title {
+        font-size: 11px;
+    }
+    
+    /* 4. 手機上的結果框可以稍微矮一點，節省螢幕空間 */
+    .result-gradient {
+        min-height: 60px; 
+        font-size: 20px;
+    }
+}
 
 /* ========================================== */
 /* HEXA 進度計算機與動態卡片樣式 */
