@@ -1249,14 +1249,15 @@ const CRAFT_DATA = {
         toColor: "#1cd1ed",   // 古代橘
         desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。", // 實機是青色字
         meso: "1,204",
-        equipName: "神話手杖",             
+        equipName: "獅子心形克拉",
+        toEquipName: "獅子心形克拉",          
         crystalName: "古代武器結晶",
-        fromImg: "assets/神話帽子.png",   
-        toImg: "assets/古代帽子.png", // ⚠️請替換為古代帽子圖
-        crystalImg: "assets/超越石.png",  
+        fromImg: "assets/獅子心形克拉.png",   
+        toImg: "assets/獅子心形克拉.webp", // ⚠️請替換為古代帽子圖
+        crystalImg: "assets/古代武器結晶.png",  
         crystalReq: 1,                   
         scrollName: "幸運的古代製作卷軸",
-        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollImg: "assets/卷軸空格.png", 
         scrollReq: 2,
         
         // 💡 繼承專屬的確認視窗排版 (完美還原實機)
@@ -1292,14 +1293,15 @@ const CRAFT_DATA = {
         toColor: "#1cd1ed",   // 實機圖片中這裡的古代是青色
         desc: "對選擇的裝備進行死靈轉換製作。<br><br>製作成功時可獲得<span class='txt-sharp' style='color:#1cd1ed;'>古代</span>死靈道具。<br>把神話鍊成道具作為基本使用時，製作成功機率會提高。<br>",
         meso: "1,204",
-        equipName: "神話手杖",             
-        crystalName: "古代防具結晶",
-        fromImg: "assets/神話帽子.png",   
-        toImg: "assets/死靈帽子.png",
-        crystalImg: "assets/超越石.png",  
+        equipName: "獅子心形克拉",
+        toEquipName: "死靈克拉",             
+        crystalName: "古代武器結晶",
+        fromImg: "assets/獅子心形克拉.png",   
+        toImg: "assets/死靈克拉.webp",
+        crystalImg: "assets/古代武器結晶.png",  
         crystalReq: 1,                   
         scrollName: "幸運的古代製作卷軸",
-        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollImg: "assets/卷軸空格.png", 
         scrollReq: 2,
         
         // 💡 死靈轉換專屬的確認視窗排版 (完美還原實機)
@@ -1334,14 +1336,15 @@ const CRAFT_DATA = {
         toColor: "#CC9ED8",   
         desc: "以<span class='txt-sharp' style='color:#1cd1ed;'>在死靈裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
         meso: "1,204",        
-        equipName: "死靈法師手杖",
+        equipName: "死靈克拉",
+        toEquipName: "航海師克拉", 
         crystalName: "烙印武器結晶",       
-        fromImg: "assets/死靈手杖.png",   
-        toImg: "assets/航海師手杖.png",
-        crystalImg: "assets/超越石.png",  
+        fromImg: "assets/死靈克拉.webp",   
+        toImg: "assets/航海師克拉.webp",
+        crystalImg: "assets/烙印武器結晶.png",  
         crystalReq: 1,
         scrollName: "幸運的混沌製作卷軸(武器)",
-        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollImg: "assets/卷軸空格.png", 
         scrollReq: 1,
 
         confirmHighlight: "航海師",
@@ -1367,14 +1370,15 @@ const CRAFT_DATA = {
         toColor: "#CC9ED8",   
         desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
         meso: "1,204", 
-        equipName: "航海師手杖",
+        equipName: "航海師克拉",
+        toEquipName: "神秘冥界幽靈克拉",
         crystalName: "夏德貝爾結晶(武器)",
-        fromImg: "assets/神秘冥界幽靈天之星光權杖.webp", 
-        toImg: "assets/神秘冥界幽靈天之星光權杖.webp",
-        crystalImg: "assets/超越石.png", 
+        fromImg: "assets/航海師克拉.webp", 
+        toImg: "assets/神秘冥界幽靈克拉.webp",
+        crystalImg: "assets/夏德貝爾結晶(武器).png", 
         crystalReq: 1,
         scrollName: "幸運的混沌製作卷軸(武器)",
-        scrollImg: "assets/幸運的製作卷軸.png", 
+        scrollImg: "assets/卷軸空格.png", 
         scrollReq: 1,
 
         confirmHighlight: "神秘冥界幽靈",
@@ -1414,11 +1418,18 @@ function cr_getScrollRate() {
         let v1 = n1 ? parseInt(n1.value) : 0;
         let v2 = n2 ? parseInt(n2.value) : 0;
         let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0); 
-        return { rate: (v1 + v2), count: count };
+        
+        // 💡 關鍵修復：抓取第一張「有被選擇」的卷軸機率
+        let firstRate = (v1 > 0) ? v1 : v2; 
+        
+        // 💡 把 firstRate 一起打包回傳出去給系統！
+        return { rate: (v1 + v2), count: count, firstRate: firstRate };
     } else {
         let scrollElem = document.getElementById('cr-scroll-c1');
         let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
-        return { rate: v1, count: v1 > 0 ? 1 : 0 };
+        
+        // 💡 混沌卷軸只有一張，所以 firstRate 直接就是 v1
+        return { rate: v1, count: v1 > 0 ? 1 : 0, firstRate: v1 };
     }
 }
 
@@ -1455,6 +1466,39 @@ function cr_forceStageChange() {
         if(c1) c1.value = "0";
     }
     cr_updateUI();
+}
+
+// 💡 動態取得卷軸圖片的魔法函數 (首張卷軸決定版)
+function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
+    // 1️⃣ 防呆：如果第一張卷軸沒有機率 (0%)，直接回傳預設空框
+    if (!firstRate || firstRate === 0) return defaultImg; 
+
+    let folder = 'assets/';
+
+    // 2️⃣ 神話階段 (古代卷軸)
+    if (stage === 'necro') {
+        // 精準對應 1~6% 獨立圖片
+        if (firstRate >= 1 && firstRate <= 6) {
+            return `${folder}幸運的古代製作卷軸${firstRate}%.png`; 
+        }
+        // 精準對應 10% 和 15% 共用圖片
+        if (firstRate === 10 || firstRate === 15) {
+            return `${folder}幸運的古代製作卷軸5_10.png`; 
+        }
+    } 
+    // 3️⃣ 航海/神秘階段 (混沌卷軸)
+    else {
+        // 精準對應 3%, 5%, 7% 共用圖片
+        if (firstRate === 3 || firstRate === 5 || firstRate === 7) {
+            return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
+        }
+        // 精準對應 10% 獨立圖片
+        if (firstRate === 10) {
+            return `${folder}幸運的混沌製作卷軸(武器)10%.png`;
+        }
+    }
+
+    return defaultImg; 
 }
 
 function cr_updateUI() {
@@ -1516,7 +1560,7 @@ function cr_updateUI() {
         
     }
 
-    
+
 
     if (cr_stage === 'necro') {
         // 進入神話：消除邊界，允許灰白底色左右填滿
@@ -1577,8 +1621,9 @@ function cr_updateUI() {
     let scrollImgElem = document.getElementById('cr-scroll-img');
     
     if(scrollImgElem) {
-        scrollImgElem.style.display = ''; // 💡 解除隱藏
-        scrollImgElem.src = data.scrollImg;
+        scrollImgElem.style.display = ''; 
+        // 💡 呼叫魔法函數，把目前的階段 (cr_stage)、目前的 % 數 (scrollInfo.rate)、跟預設圖傳進去，讓它自動決定要顯示哪張圖！
+        scrollImgElem.src = cr_getDynamicScrollImg(cr_stage, scrollInfo.firstRate, data.scrollImg);
     }
     
     if (scrollCol && scrollName) {
@@ -1614,14 +1659,14 @@ function cr_updateUI() {
                 </div>
                 <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
                     <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
-                        死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + ' + ' + scrollInfo.rate + ')%' : data.baseRate + '%'}
+                        死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}
                     </div>
                 </div>
             `;
         } else if (cr_stage === 'necro' && cr_mythic_type === 'inherit') {
             rateBox.innerHTML = `
                 <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;"> <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
-                        繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + ' + ' + scrollInfo.rate + ')%' : data.baseRate + '%'}
+                        繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}
                     </div>
                 </div>
             `;
@@ -1783,7 +1828,8 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
             resultImgElem.src = data.toImg; 
         }
         
-        document.getElementById('cr-m-equip-name').innerText = data.toText + "手杖"; 
+        // 💡 直接讀取我們剛剛在資料庫設定好的專屬名稱！
+        document.getElementById('cr-m-equip-name').innerText = data.toEquipName; 
         
         if(lvTag) lvTag.style.display = "block";
         if(lvText) lvText.innerText = "1"; 
