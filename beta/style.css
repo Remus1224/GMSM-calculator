@@ -85,7 +85,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 
 /* 按鈕與提示框 */
 .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-.action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
+.action-btn { background-color: #0052cc; color: #FFF; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
 .action-btn:hover { background-color: #003d99; }
 .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
 .clear-btn:hover { background-color: #7f8c8d; }
