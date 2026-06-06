@@ -1,5 +1,5 @@
 /* ========================================== */
-/* 1. 全域系統與頁籤路由                       */
+/* 1. 全域系統與頁籤路由 (已加入 GA4 追蹤)     */
 /* ========================================== */
 function clearReset() {
     document.getElementById('reset-a').value = '';
@@ -57,6 +57,10 @@ function switchTab(tabId) {
     if (tabId === 'ignore' && !ignoreInitialized) {
         initIgnoreGrid();
         ignoreInitialized = true;
+    }
+    
+    if (typeof gtag === 'function') {
+        gtag('event', 'click_simulator', { 'simulator_name': tabId });
     }
 }
 
@@ -389,6 +393,11 @@ function tr_toggleSound() {
     } else {
         soundBtn.innerText = "🔊 音效：開啟";
         soundBtn.classList.remove('muted');
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', {
+            'simulator': 'transcend',
+            'sound_status': tr_isMuted ? 'off' : 'on'});
     }
 }
 
@@ -800,6 +809,11 @@ function toggleMute() {
     } else {
         muteBtn.innerText = '🔊 聲音：開';
         muteBtn.classList.remove('muted-active');
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', {
+            'simulator': 'hexa-visual',
+            'sound_status': isMuted ? 'off' : 'on'});
     }
 }
 
@@ -1320,6 +1334,11 @@ function cr_toggleSound() {
     cr_isMuted = !cr_isMuted;
     document.getElementById('btn-sound-toggle-cr').innerText = cr_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
     document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', {
+            'simulator': 'craft',
+            'sound_status': cr_isMuted ? 'off' : 'on'});
+    }
 }
 
 function cr_changeMythicSub(type) {
@@ -1575,6 +1594,11 @@ function cr_executeCraft() {
     let confirmModal = document.getElementById('cr-confirm-modal');
     if(confirmModal) confirmModal.classList.remove('active');
     cr_isAnimating = true;
+    
+    if (typeof gtag === 'function') {
+        gtag('event', 'action_craft', {
+            'craft_stage': cr_stage});
+    }
 
     try {
         let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
