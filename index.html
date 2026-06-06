@@ -26,7 +26,7 @@
         
         /* 導覽列 */
         .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
-        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3s; }
+        .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3; }
         .tab-menu button:hover { color: #3498db; }
         .tab-menu button.active { color: #0052cc; border-bottom: 3px solid #0052cc; margin-bottom: -2px; }
         .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
@@ -46,7 +46,7 @@
         .radio-group label { cursor: pointer; }
         
         .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
+        .action-btn { background-color: #0052cc; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2; flex: 1; }
         .action-btn:hover { background-color: #003d99; }
         .clear-btn { background-color: #95a5a6; flex: 0.2; min-width: 80px; }
         .clear-btn:hover { background-color: #7f8c8d; }
@@ -88,7 +88,7 @@
         .v-fragment-text { font-size: 15px; color: #a1c4fd; font-weight: bold; display: flex; align-items: center; }
         .frag-icon { width: 18px; height: 18px; margin-right: 6px; }
         .v-top-controls { display: flex; gap: 8px; }
-        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2s; font-weight: bold; }
+        .v-btn-top { background-color: #34495e; color: white; border: none; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2; font-weight: bold; }
         .v-btn-top:hover { background-color: #4b6584; }
         .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
         .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
@@ -101,7 +101,7 @@
         .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff; letter-spacing: 1px; margin-top: 2px;}
         .v-prob { color: #b3c2d1; font-size: 14px; }
         .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15; border: 2px solid #0a1128; border-radius: 2px; gap: 2px; padding: 1px; }
-        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
+        .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2 ease-in-out; }
         .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
         .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
         
@@ -109,13 +109,13 @@
         .v-control-group { display: flex; align-items: center; gap: 12px; }
         .v-reset-tracker { font-size: 14px; color: #bdc3c7; }
         
-        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
+        .v-btn { background: linear-gradient(135deg, #e67e22, #d35400); color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2; }
         .v-btn:hover { filter: brightness(1.2); }
         .v-btn:active { transform: scale(0.95); }
-        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; }
+        .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2; }
         .v-btn-10x:hover { filter: brightness(1.2); }
         .v-btn-10x:active { transform: scale(0.95); }
-        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s, background 0.3s; }
+        .v-btn-reset { background-color: #7f8c8d; color: white; border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1, filter 0.2, background 0.3; }
         .v-btn-reset:active { transform: scale(0.95); }
         .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
         .v-btn-reset.highlight:hover { filter: brightness(1.2); }
@@ -128,16 +128,16 @@
         .forge-body { display: flex; width: 100%; background-color: #f4f5f7; }
         
         .forge-sidebar { width: 115px; background-color: #344253; display: flex; flex-direction: column; flex-shrink: 0; }
-        .menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2s;}
+        .menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2;}
         .menu-item:last-child { border-bottom: none; }
         .menu-item.active { background-color: #ed7245; color: white; border-bottom: none; }
         
         .forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
 
-        .sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px 20px 10px 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s;}
-        .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
-        .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
-        .sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2s;}
+        .sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px 20px 10px 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2;}
+        .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2;}
+        .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2;}
+        .sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2;}
 
         /* 扣除模式隱藏設定 */
         .scroll-mode-active #ui-level-content { display: none !important; } 
@@ -173,7 +173,7 @@
         .desc-text { font-size: 12px; color: #777; text-align: center; line-height: 1.6; font-weight: bold; width: 90%; }
         
         .coin-box { background: #ffffff; padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; color: #333; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; font-weight: bold; }
-        .btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1s; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
+        .btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
         .btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
         .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
 
@@ -185,23 +185,23 @@
         .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
         
         .stats-text { font-size: 14px; color: #555; text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;}
-        .btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; transition: 0.2s; }
+        .btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; transition: 0.2; }
         .btn-reset-tr:hover { background: #95a5a6; }
         
-        .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
+        .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2; font-weight: bold; color: #2c3e50;}
         .btn-sound.muted { background: #e74c3c; color: white; border-color: #c0392b; }
 
         /* 雷擊特效動畫 */
         .lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
-        .lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
-        .lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
+        .lightning-overlay.active { display: flex; animation: flash-bang 1 ease-out forwards; }
+        .lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6 infinite alternate; }
         @keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
         @keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
 
         /* 🪟 結算模態彈窗 */
         .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 2000; justify-content: center; align-items: center; }
         .modal-backdrop.active { display: flex; }
-        .modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3 cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         .modal-header { background: #4a5468; color: #ffffff; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
@@ -219,7 +219,7 @@
         .m-status-sub { font-size: 12px; color: #7f8c8d; margin-bottom: 10px; }
         .m-bonus-rate { font-size: 22px; color: #f3724c; font-weight: bold; margin-bottom: 5px; }
         .m-bonus-hint { font-size: 11px; color: #95a5a6; }
-        .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
+        .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1; }
         .m-btn:active { transform: translateY(4px); box-shadow: none; }
 
         /* ================= 六轉進度計算機專屬樣式 ================= */
@@ -238,7 +238,7 @@
         .prog-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #333; margin-bottom: 5px; align-items: center; }
         .prog-header span { color: #7f8c8d; font-size: 13px; }
         .prog-bar-bg { width: 100%; height: 20px; background-color: #ecf0f1; border-radius: 10px; overflow: hidden; margin-bottom: 10px; position: relative; }
-        .prog-bar-fill { height: 100%; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: bold; color: white; }
+        .prog-bar-fill { height: 100%; transition: width 0.4 ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: bold; color: white; }
         .prog-fill-frag { background: linear-gradient(90deg, #3498db, #2980b9); }
         .prog-fill-sol { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
 
@@ -338,6 +338,7 @@
                 <li><strong>2026/05/31</strong>：來點實用的工具六轉進度計算機。</li>
                 <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
+                <li><strong>2026/05/23</strong>：加了一點 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路</li>
                 <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
             </ul>
 
