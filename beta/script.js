@@ -1,6 +1,6 @@
-// ==========================================
-// 核心全域清除邏輯
-// ==========================================
+/* ========================================== */
+/* 1. 全域系統與頁籤路由                       */
+/* ========================================== */
 function clearReset() {
     document.getElementById('reset-a').value = '';
     document.getElementById('reset-b').value = '';
@@ -24,9 +24,6 @@ function clearSim() {
     document.getElementById('result-hexa-sim').style.display = 'none';
 }
 
-// ==========================================
-// 頁籤切換邏輯
-// ==========================================
 let lazyTableGenerated = false;
 let visualInitialized = false;
 let progInitialized = false;
@@ -63,9 +60,9 @@ function switchTab(tabId) {
     }
 }
 
-// ==========================================
-// 💥 1. 六轉進度計算機引擎 (Kmsm標準核心配置)
-// ==========================================
+/* ========================================== */
+/* 2. 六轉進度計算機引擎                       */
+/* ========================================== */
 const reqData = {
     skill: {
         big: [0,0,2,3,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,15],
@@ -247,26 +244,23 @@ function calcHexaProg() {
             <div style="font-weight: bold; margin-bottom: 10px; color: #444;">預估畢業時間</div>
             <div style="display:flex; flex-direction:column; gap:8px; font-size: 15px;">
                 <div><strong style="display:inline-flex; align-items:center;"><img src="assets/靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
-                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/icon-Sol Erda Fragment.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/icon-Sol Erda Fragment.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
             </div>
         `;
     }
 }
 
-// ==========================================
-// ⚡ 2. 無視防禦計算機邏輯 (卡片分類版)
-// ==========================================
-
-// 💡 根據色彩心理學定義的五大分類資料
+/* ========================================== */
+/* 3. 無視防禦計算機                           */
+/* ========================================== */
 const equipCategories = [
     { title: "防具類", type: "armor", items: ["帽子", "手套", "套服", "護肩", "鞋子", "腰帶", "披風"] },
     { title: "武器類", type: "weapon", items: ["副武", "三武"] },
-    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書"] }, // 支配者即阿卡
+    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書"] }, 
     { title: "能力類", type: "ability", items: ["HEXA屬性"] },
     { title: "特殊", type: "special", items: ["活動", "預留", "預留", "預留"] }
 ];
 
-// 自動攤平陣列，供計算邏輯使用
 const equipments = equipCategories.flatMap(cat => cat.items);
 
 function initIgnoreGrid() {
@@ -274,11 +268,9 @@ function initIgnoreGrid() {
     if (!grid) return;
     grid.innerHTML = ''; 
 
-    // 直接將所有分類的裝備卡片，不分段地塞進網格中，由左至右自然排序
     equipCategories.forEach(category => {
         category.items.forEach(equip => {
             const card = document.createElement('div');
-            // 💡 保留顏色的 class (bg-armor 等)，這樣卡片依然有顏色區分！
             card.className = `equip-card bg-${category.type}`;
             
             card.innerHTML = `
@@ -296,21 +288,16 @@ function initIgnoreGrid() {
 function calculateIgnore() {
     let values = [];
     
-    // 1️⃣ 抓取所有輸入框的數值
     equipments.forEach(equip => {
         let inputElem = document.getElementById('input-' + equip);
         if(inputElem) {
-            // 💡 只保留數字和小數點，過濾掉玩家可能誤觸的英文或注音符號
             let cleanVal = inputElem.value.replace(/[^\d.]/g, ''); 
-            
-            // 如果欄位不是空的，且真的是個數字，就收編進陣列
             if (cleanVal !== "" && !isNaN(cleanVal)) {
                 values.push(parseFloat(cleanVal));
             }
         }
     });
 
-    // 2️⃣ 抓取套裝效果 (加入防呆，避免找不到按鈕時報錯)
     const absolabElem = document.querySelector('input[name="absolab"]:checked');
     const arcaneElem = document.querySelector('input[name="arcane"]:checked');
     const absolabVal = absolabElem ? parseFloat(absolabElem.value) : 0;
@@ -319,14 +306,12 @@ function calculateIgnore() {
     const setEffectSum = absolabVal + arcaneVal;
     if (setEffectSum > 0) values.push(setEffectSum);
 
-    // 3️⃣ 套用楓之谷的乘法公式：1 - (1 - v1) * (1 - v2) ...
     let multiplier = 1.0;
     values.forEach(v => { 
         multiplier *= (1.0 - (v / 100.0)); 
     });
     let totalIgnore = (1.0 - multiplier) * 100.0;
 
-    // 4️⃣ 顯示結果
     let resultElem = document.getElementById('result-ignore');
     if (resultElem) {
         resultElem.innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
@@ -334,27 +319,21 @@ function calculateIgnore() {
 }
 
 function clearIgnore() {
-    // 1️⃣ 清空所有手動輸入的裝備數值
     equipments.forEach(equip => {
         let inputElem = document.getElementById('input-' + equip);
-        if (inputElem) {
-            inputElem.value = ''; // 把格子裡面的字清空
-        }
+        if (inputElem) inputElem.value = ''; 
     });
 
-    // 2️⃣ 將航海師套裝重置為「無」
     let absolabRadios = document.getElementsByName('absolab');
     absolabRadios.forEach(radio => {
         if (radio.value === "0") radio.checked = true;
     });
 
-    // 3️⃣ 將神秘套裝重置為「無」
     let arcaneRadios = document.getElementsByName('arcane');
     arcaneRadios.forEach(radio => {
         if (radio.value === "0") radio.checked = true;
     });
 
-    // 4️⃣ 呼叫計算機，讓底下的數字瞬間歸零回 0.00%
     calculateIgnore();
 }
 
@@ -364,32 +343,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ==========================================
-// 👑 3. 超越強化模擬器邏輯 (動態期望值分析系統)
-// ==========================================
+/* ========================================== */
+/* 4. 超越強化模擬器                           */
+/* ========================================== */
 let tr_lv = 30;
 let tr_fails = 0;
 let tr_bonus = 0.0;
-
-// 統計數據
 let tr_stat_normal = 0;
 let tr_stat_radiant = 0;
 let tr_stat_chaos = 0;
 let tr_stat_scrolls = 0;
-
-// 期望值數據
 let tr_ev_stones_achieved = 0;
 let tr_ev_scrolls_achieved = 0;
 let tr_current_level_stones = 0; 
 let tr_current_fail_scrolls = 0;
-
 let tr_isAnimating = false;
 let tr_isMuted = false; 
 
 const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
 const tr_sfxFail = new Audio('assets/AugmentFail.wav');
 
-// 計算超越單階的理論期望值
 function tr_getStoneEV(baseRate) {
     let expected = 0;
     let cumulativeFailProb = 1.0;
@@ -457,16 +430,10 @@ function tr_getSelectedRate(groupName, customInputId) {
 
 function tr_forceStateChange() {
     if(tr_isAnimating) return;
-    
     let newLv = parseInt(document.getElementById('input-equip-lv').value);
-    
-    if (newLv !== tr_lv) {
-        tr_bonus = 0.0; 
-    }
-    
+    if (newLv !== tr_lv) tr_bonus = 0.0; 
     tr_lv = newLv;
     tr_fails = parseInt(document.getElementById('input-fail-count').value);
-    
     tr_current_level_stones = 0;
     tr_updateUI();
 }
@@ -508,7 +475,6 @@ function tr_updateUI() {
         document.getElementById('menu-enhance').classList.add('active');
         document.getElementById('menu-scroll').classList.remove('active');
         container.classList.remove('scroll-mode-active');
-        
         document.getElementById('ui-coin-box').style.display = 'flex';
 
         let totalRate = baseRate + tr_bonus;
@@ -532,7 +498,6 @@ function tr_updateUI() {
         document.getElementById('menu-enhance').classList.remove('active');
         document.getElementById('menu-scroll').classList.add('active');
         container.classList.add('scroll-mode-active');
-        
         document.getElementById('ui-coin-box').style.display = 'none';
         
         let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
@@ -575,7 +540,6 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
     if (type === 'enhance') {
         document.getElementById('modal-box-enhance').style.display = 'flex';
         document.getElementById('modal-box-scroll').style.display = 'none';
-        
         document.getElementById('m-enh-item-lv').innerText = newLv; 
         document.getElementById('m-enh-old-lv').innerText = oldLv;
         document.getElementById('m-enh-new-lv').innerText = newLv;
@@ -590,9 +554,7 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
             failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>`;
             failContainer.style.color = "#777";
             failContainer.style.fontWeight = "normal";
-
             statusTitle.innerText = "超越成功。"; 
-            
             bonusSection.style.display = 'block';
             document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率重置";
             document.getElementById('m-enh-bonus-rate').innerText = "0%"; 
@@ -600,7 +562,6 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
             document.getElementById('m-enh-bonus-hint').innerText = "";
         } else {
             header.innerText = "超越失敗";
-            
             if (oldFails === 6 && newFails >= 7) {
                 failContainer.innerHTML = `已達最大超越次數。`;
                 failContainer.style.color = "#e74c3c";
@@ -610,9 +571,7 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
                 failContainer.style.color = "#777";
                 failContainer.style.fontWeight = "normal";
             }
-
             statusTitle.innerText = "超越失敗。"; 
-            
             if (newBonus === 0 || oldBonus === newBonus) {
                 bonusSection.style.display = 'none';
             } else {
@@ -626,7 +585,6 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
     } else {
         document.getElementById('modal-box-enhance').style.display = 'none';
         document.getElementById('modal-box-scroll').style.display = 'flex';
-        
         document.getElementById('m-scr-item-lv').innerText = oldLv;
 
         let topText = document.getElementById('m-scr-top-text');
@@ -654,7 +612,6 @@ function tr_action_transcend() {
     if (tr_isAnimating || tr_lv >= 70 || tr_fails >= 7) return;
 
     tr_isAnimating = true;  
-    
     tr_current_level_stones++;
     if (tr_lv < 40) tr_stat_normal++;
     else if (tr_lv < 50) tr_stat_radiant++;
@@ -702,7 +659,6 @@ function tr_action_scroll() {
     let isSuccess = roll < scrollRate;
 
     let oldLv = tr_lv, oldFails = tr_fails;
-
     tr_playSound(isSuccess);
 
     setTimeout(() => {
@@ -717,25 +673,17 @@ function tr_action_scroll() {
 
 function tr_action_reset() {
     if (tr_isAnimating) return;
-    tr_lv = 30; 
-    tr_fails = 0; 
-    tr_bonus = 0.0; 
-    tr_stat_normal = 0; 
-    tr_stat_radiant = 0; 
-    tr_stat_chaos = 0; 
-    tr_stat_scrolls = 0;
-    tr_ev_stones_achieved = 0; 
-    tr_ev_scrolls_achieved = 0;
-    tr_current_level_stones = 0; 
-    tr_current_fail_scrolls = 0;
-    
+    tr_lv = 30; tr_fails = 0; tr_bonus = 0.0; 
+    tr_stat_normal = 0; tr_stat_radiant = 0; tr_stat_chaos = 0; tr_stat_scrolls = 0;
+    tr_ev_stones_achieved = 0; tr_ev_scrolls_achieved = 0;
+    tr_current_level_stones = 0; tr_current_fail_scrolls = 0;
     document.querySelector('input[name="sim-mode"][value="enhance"]').checked = true;
     tr_updateUI();
 }
 
-// ==========================================
-// 🛠️ 4. HEXA 公用數值與打鐵機邏輯
-// ==========================================
+/* ========================================== */
+/* 5. HEXA 屬性模擬器 (Visual Simulator)         */
+/* ========================================== */
 function getHexaProb(level) {
     if (level <= 2) return 0.35;
     if (level <= 5) return 0.20;
@@ -886,7 +834,6 @@ function clickVisualEnhance() {
 
 function clickVisualEnhance10x() {
     if (vClicks >= 20) return;
-
     let rolls = Math.min(10, 20 - vClicks);
 
     if (!isMuted) {
@@ -935,9 +882,9 @@ function resetFragments() {
     document.getElementById('v-reset-count').innerText = resetCountTracker;
 }
 
-// ==========================================
-// 📊 5. HEXA 懶人決策表生成邏輯
-// ==========================================
+/* ========================================== */
+/* 6. HEXA 懶人決策表                          */
+/* ========================================== */
 let currentSort = { col: 'winRate', asc: false }; 
 
 function generateLazyTable() {
@@ -1043,9 +990,9 @@ function sortTable(col) {
     generateLazyTable(); 
 }
 
-// ==========================================
-// 🎯 6. HEXA 重置決策邏輯 (動態基準 PK 系統)
-// ==========================================
+/* ========================================== */
+/* 7. HEXA 重置決策邏輯 (Reset Decision Sim)    */
+/* ========================================== */
 function checkHexaReset() {
     let a = parseInt(document.getElementById('reset-a').value) || 0;
     let b = parseInt(document.getElementById('reset-b').value) || 0;
@@ -1149,9 +1096,9 @@ function checkHexaReset() {
     detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完後可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
 }
 
-// ==========================================
-// 🚀 7. HEXA 目標屬性模擬邏輯 (黃金鐵律極簡版)
-// ==========================================
+/* ========================================== */
+/* 8. HEXA 目標屬性模擬邏輯 (Target Goal Sim)    */
+/* ========================================== */
 function runHexaSimulation() {
     let valA = document.getElementById('sim-a').value;
     let valB = document.getElementById('sim-b').value;
@@ -1278,54 +1225,34 @@ function runHexaSimulation() {
     resBox.innerHTML = htmlOutput;
 }
 
-// 首次載入初始化
 tr_updateUI();
 
-// ==========================================
-// 🔨 8. 製作模擬器邏輯 (神話雙軌分支完全體)
-// ==========================================
+/* ========================================== */
+/* 9. 製作模擬器邏輯 (Craft Simulator)           */
+/* ========================================== */
 let cr_fails = 0;
 let cr_successes = 0; 
 let cr_crystals_used = 0;
 let cr_scrolls_used = 0;
 let cr_isAnimating = false;
 let cr_isMuted = false;
-
-// 💡 期望值追蹤變數
 let cr_ev_achieved = 0;
 let cr_current_attempts = 0;
+let cr_mythic_type = 'necro'; 
 
-// 💡 神話階段的子選項：預設為死靈轉換
-let cr_mythic_type = 'necro'; // 可為 'inherit' 或 'necro'
-
-// 💡 獨立設定製作音效
 const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
 const cr_sfx_fail = new Audio('assets/AncientFail.wav');
 
-// 資料字典：完美對應你的嚴格色碼，並把神話拆分為「繼承」與「死靈」兩條路線
 const CRAFT_DATA = {
-    // 🟠 神話 ➔ 古代 (分支一：繼承)
     mythic_inherit: {
-        baseRate: 30,
-        additionalRate: 0,
-        fromText: "神話",
-        toText: "古代",
-        fromColor: "#E42123", // 神話紅
-        toColor: "#1cd1ed",   // 古代橘
-        desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。", // 實機是青色字
-        meso: "1,204",
-        equipName: "獅子心形克拉",
-        toEquipName: "獅子心形克拉",          
-        crystalName: "古代武器結晶",
-        fromImg: "assets/獅子心形克拉.png",   
-        toImg: "assets/獅子心形克拉.webp", // ⚠️請替換為古代帽子圖
-        crystalImg: "assets/古代武器結晶.png",  
-        crystalReq: 1,                   
-        scrollName: "幸運的古代製作卷軸",
-        scrollImg: "assets/卷軸空格.png", 
-        scrollReq: 2,
-        
-        // 💡 繼承專屬的確認視窗排版 (完美還原實機)
+        baseRate: 30, additionalRate: 0,
+        fromText: "神話", toText: "古代",
+        fromColor: "#E42123", toColor: "#1cd1ed",
+        desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。",
+        meso: "1,204", equipName: "獅子心形克拉", toEquipName: "獅子心形克拉",          
+        crystalName: "古代武器結晶", fromImg: "assets/獅子心形克拉.png", toImg: "assets/獅子心形克拉.webp", 
+        crystalImg: "assets/古代武器結晶.png", crystalReq: 1,                   
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
         confirmCustomHTML: `
             要進行古代級道具<span style="color:#ED7245; font-weight:bold;">繼承製作</span>嗎？<br>
             製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
@@ -1334,42 +1261,19 @@ const CRAFT_DATA = {
             死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
             繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
         `,
-        
-        confirmHighlight: "古代",
-        confirmTier: "古代級",
-        confirmTierColor: "#ed7245", 
-        
-        successFromText: "神話",
-        successFromColor: "#E42123",
-        successToText: "古代",
-        successToColor: "#1cd1ed",
-        failFromText: "神話",
-        failFromColor: "#E42123",
-        failToText: "神話",
-        failToColor: "#E42123"
+        confirmHighlight: "古代", confirmTier: "古代級", confirmTierColor: "#ed7245", 
+        successFromText: "神話", successFromColor: "#E42123", successToText: "古代", successToColor: "#1cd1ed",
+        failFromText: "神話", failFromColor: "#E42123", failToText: "神話", failToColor: "#E42123"
     },
-    // 🟠 神話 ➔ 古代 (分支二：死靈轉換)
     mythic_necro: {
-        baseRate: 4,
-        additionalRate: 4, // 💡 實機專屬的追加 4%
-        fromText: "神話",
-        toText: "古代",
-        fromColor: "#E42123", 
-        toColor: "#1cd1ed",   // 實機圖片中這裡的古代是青色
+        baseRate: 4, additionalRate: 4,
+        fromText: "神話", toText: "古代",
+        fromColor: "#E42123", toColor: "#1cd1ed",
         desc: "對選擇的裝備進行死靈轉換製作。<br><br>製作成功時可獲得<span class='txt-sharp' style='color:#1cd1ed;'>古代</span>死靈道具。<br>把神話鍊成道具作為基本使用時，製作成功機率會提高。<br>",
-        meso: "1,204",
-        equipName: "獅子心形克拉",
-        toEquipName: "死靈克拉",             
-        crystalName: "古代武器結晶",
-        fromImg: "assets/獅子心形克拉.png",   
-        toImg: "assets/死靈克拉.webp",
-        crystalImg: "assets/古代武器結晶.png",  
-        crystalReq: 1,                   
-        scrollName: "幸運的古代製作卷軸",
-        scrollImg: "assets/卷軸空格.png", 
-        scrollReq: 2,
-        
-        // 💡 死靈轉換專屬的確認視窗排版 (完美還原實機)
+        meso: "1,204", equipName: "獅子心形克拉", toEquipName: "死靈克拉",             
+        crystalName: "古代武器結晶", fromImg: "assets/獅子心形克拉.png", toImg: "assets/死靈克拉.webp",
+        crystalImg: "assets/古代武器結晶.png", crystalReq: 1,                   
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
         confirmCustomHTML: `
             要進行古代級道具<span style="color:#ed7245; font-weight:bold;">死靈轉換製作</span>嗎？<br>
             製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
@@ -1378,87 +1282,35 @@ const CRAFT_DATA = {
             死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
             繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
         `,
-        
-        confirmHighlight: "死靈",
-        confirmTier: "死靈級",
-        confirmTierColor: "#1cd1ed",
-        
-        successFromText: "神話",
-        successFromColor: "#E42123",
-        successToText: "死靈",
-        successToColor: "#1cd1ed",
-        failFromText: "神話",
-        failFromColor: "#E42123",
-        failToText: "神話",
-        failToColor: "#E42123"
+        confirmHighlight: "死靈", confirmTier: "死靈級", confirmTierColor: "#1cd1ed",
+        successFromText: "神話", successFromColor: "#E42123", successToText: "死靈", successToColor: "#1cd1ed",
+        failFromText: "神話", failFromColor: "#E42123", failToText: "神話", failToColor: "#E42123"
     },
     absolab: {
-        baseRate: 12,
-        additionalRate: 0,
-        fromText: "死靈",
-        toText: "航海師",
-        fromColor: "#1cd1ed", 
-        toColor: "#CC9ED8",   
+        baseRate: 12, additionalRate: 0,
+        fromText: "死靈", toText: "航海師",
+        fromColor: "#1cd1ed", toColor: "#CC9ED8",   
         desc: "以<span class='txt-sharp' style='color:#1cd1ed;'>在死靈裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
-        meso: "1,204",        
-        equipName: "死靈克拉",
-        toEquipName: "航海師克拉", 
-        crystalName: "烙印武器結晶",       
-        fromImg: "assets/死靈克拉.webp",   
-        toImg: "assets/航海師克拉.webp",
-        crystalImg: "assets/烙印武器結晶.png",  
-        crystalReq: 1,
-        scrollName: "幸運的混沌製作卷軸(武器)",
-        scrollImg: "assets/卷軸空格.png", 
-        scrollReq: 1,
-
-        confirmHighlight: "航海師",
-        confirmHighlightColor: "#ed7245", // 💡 獨立控制確認視窗的航海師顏色
-        confirmTier: "混沌級",
-        confirmTierColor: "#D02E9D",      // 💡 確保這裡是混沌桃紅
-        
-        successFromText: "古代",
-        successFromColor: "#1cd1ed", 
-        successToText: "混沌",
-        successToColor: "#CC9ED8",   
-        failFromText: "古代",        
-        failFromColor: "#1cd1ed",
-        failToText: "古代",
-        failToColor: "#1cd1ed"
+        meso: "1,204", equipName: "死靈克拉", toEquipName: "航海師克拉", 
+        crystalName: "烙印武器結晶", fromImg: "assets/死靈克拉.webp", toImg: "assets/航海師克拉.webp",
+        crystalImg: "assets/烙印武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",      
+        successFromText: "古代", successFromColor: "#1cd1ed", successToText: "混沌", successToColor: "#CC9ED8",   
+        failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
     },
     arcane: {
-        baseRate: 10,
-        additionalRate: 0,
-        fromText: "航海師",
-        toText: "神秘冥界幽靈",
-        fromColor: "#CC9ED8", 
-        toColor: "#CC9ED8",   
+        baseRate: 10, additionalRate: 0,
+        fromText: "航海師", toText: "神秘冥界幽靈",
+        fromColor: "#CC9ED8", toColor: "#CC9ED8",   
         desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
-        meso: "1,204", 
-        equipName: "航海師克拉",
-        toEquipName: "神秘冥界幽靈克拉",
-        crystalName: "夏德貝爾結晶(武器)",
-        fromImg: "assets/航海師克拉.webp", 
-        toImg: "assets/神秘冥界幽靈克拉.webp",
-        crystalImg: "assets/夏德貝爾結晶(武器).png", 
-        crystalReq: 1,
-        scrollName: "幸運的混沌製作卷軸(武器)",
-        scrollImg: "assets/卷軸空格.png", 
-        scrollReq: 1,
-
-        confirmHighlight: "神秘冥界幽靈",
-        confirmHighlightColor: "#ed7245",
-        confirmTier: "混沌級",
-        confirmTierColor: "#D02E9D", 
-        
-        successFromText: "混沌",
-        successFromColor: "#CC9ED8", 
-        successToText: "混沌",
-        successToColor: "#CC9ED8",   
-        failFromText: "混沌",
-        failFromColor: "#CC9ED8",
-        failToText: "混沌",
-        failToColor: "#CC9ED8"
+        meso: "1,204", equipName: "航海師克拉", toEquipName: "神秘冥界幽靈克拉",
+        crystalName: "夏德貝爾結晶(武器)", fromImg: "assets/航海師克拉.webp", toImg: "assets/神秘冥界幽靈克拉.webp",
+        crystalImg: "assets/夏德貝爾結晶(武器).png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        confirmHighlight: "神秘冥界幽靈", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D", 
+        successFromText: "混沌", successFromColor: "#CC9ED8", successToText: "混沌", successToColor: "#CC9ED8",   
+        failFromText: "混沌", failFromColor: "#CC9ED8", failToText: "混沌", failToColor: "#CC9ED8"
     }
 };
 
@@ -1470,30 +1322,23 @@ function cr_toggleSound() {
     document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
 }
 
-// 💡 動態切換神話子階段 (繼承 / 死靈)
 function cr_changeMythicSub(type) {
     cr_mythic_type = type;
     cr_updateUI();
 }
 
 function cr_getScrollRate() {
-    if (cr_stage === 'necro') { // HTML 裡的 value="necro" 現在代表整個神話階段
+    if (cr_stage === 'necro') { 
         let n1 = document.getElementById('cr-scroll-n1');
         let n2 = document.getElementById('cr-scroll-n2');
         let v1 = n1 ? parseInt(n1.value) : 0;
         let v2 = n2 ? parseInt(n2.value) : 0;
         let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0); 
-        
-        // 💡 關鍵修復：抓取第一張「有被選擇」的卷軸機率
         let firstRate = (v1 > 0) ? v1 : v2; 
-        
-        // 💡 把 firstRate 一起打包回傳出去給系統！
         return { rate: (v1 + v2), count: count, firstRate: firstRate };
     } else {
         let scrollElem = document.getElementById('cr-scroll-c1');
         let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
-        
-        // 💡 混沌卷軸只有一張，所以 firstRate 直接就是 v1
         return { rate: v1, count: v1 > 0 ? 1 : 0, firstRate: v1 };
     }
 }
@@ -1504,12 +1349,8 @@ function cr_forceStageChange() {
     let stageRadio = document.querySelector('input[name="cr-stage"]:checked');
     if(stageRadio) cr_stage = stageRadio.value;
     
-    cr_fails = 0;
-    cr_successes = 0;
-    cr_crystals_used = 0;
-    cr_scrolls_used = 0;
-    cr_ev_achieved = 0;
-    cr_current_attempts = 0;
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0;
+    cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
     
     if(cr_stage === 'necro') {
         let necroDiv = document.getElementById('cr-scroll-necro-div');
@@ -1533,43 +1374,24 @@ function cr_forceStageChange() {
     cr_updateUI();
 }
 
-// 💡 動態取得卷軸圖片的魔法函數 (去 % 符號安全版)
 function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
     if (!firstRate || firstRate === 0) return defaultImg; 
-
     let folder = 'assets/';
 
-    // 2️⃣ 神話階段 (古代卷軸)
     if (stage === 'necro') {
-        if (firstRate >= 1 && firstRate <= 6) {
-            // 💡 這裡的 % 已經刪除了！現在會組合出 幸運的古代製作卷軸1.png
-            return `${folder}幸運的古代製作卷軸${firstRate}.png`; 
-        }
-        if (firstRate === 10 || firstRate === 15) {
-            return `${folder}幸運的古代製作卷軸5_10.png`; 
-        }
-    } 
-    // 3️⃣ 航海/神秘階段 (混沌卷軸)
-    else {
-        if (firstRate === 3 || firstRate === 5 || firstRate === 7) {
-            return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
-        }
-        if (firstRate === 10) {
-            // 💡 這裡的 % 也刪除了！現在會組合出 幸運的混沌製作卷軸(武器)10.png
-            return `${folder}幸運的混沌製作卷軸(武器)10.png`;
-        }
+        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}.png`; 
+        if (firstRate === 10 || firstRate === 15) return `${folder}幸運的古代製作卷軸5_10.png`; 
+    } else {
+        if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
+        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸(武器)10.png`;
     }
-
     return defaultImg; 
 }
 
 function cr_updateUI() {
-    // 💡 路由控制：如果是神話，就抓取對應的子資料庫
     let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
     let data = CRAFT_DATA[activeKey];
-    
     let scrollInfo = cr_getScrollRate();
-    // 💡 總機率 = 基礎機率 + 追加機率 + 卷軸機率
     let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
 
     let equipImgElem = document.getElementById('cr-equip-from-img');
@@ -1577,12 +1399,10 @@ function cr_updateUI() {
     let overlayLvElem = document.getElementById('cr-overlay-lv'); 
 
     if(equipImgElem) {
-        equipImgElem.style.display = ''; // 💡 魔法1：解除 onerror 造成的永久隱藏
+        equipImgElem.style.display = ''; 
         equipImgElem.src = data.fromImg;
     }
     if(equipNameElem) equipNameElem.innerHTML = data.equipName;
-    
-    // 💡 動態判斷起始等級：神話30、死靈40、航海60
     if(overlayLvElem) {
         let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
         overlayLvElem.innerText = startLv;
@@ -1591,62 +1411,28 @@ function cr_updateUI() {
     let crystalImgElem = document.getElementById('cr-crystal-img');
     let crystalNameElem = document.getElementById('cr-crystal-name');
     if(crystalImgElem) {
-        crystalImgElem.style.display = ''; // 💡 解除隱藏
+        crystalImgElem.style.display = ''; 
         crystalImgElem.src = data.crystalImg;
     }
-    if(crystalNameElem) {
-        crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
-    }
+    if(crystalNameElem) crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
 
     let fromTextElem = document.getElementById('cr-stage-from-text');
     let toTextElem = document.getElementById('cr-stage-to-text');
-    if(fromTextElem) {
-        fromTextElem.innerText = data.fromText;
-        fromTextElem.style.color = data.fromColor;
-    }
-    if(toTextElem) {
-        toTextElem.innerText = data.toText;
-        toTextElem.style.color = data.toColor;
-    }
+    if(fromTextElem) { fromTextElem.innerText = data.fromText; fromTextElem.style.color = data.fromColor; }
+    if(toTextElem) { toTextElem.innerText = data.toText; toTextElem.style.color = data.toColor; }
 
-    // ==========================================
-    // 🎨 外觀魔術：動態切換神話與其他階段的排版
-    // ==========================================
     let descElem = document.getElementById('cr-desc-text');
     let descParent = descElem ? descElem.parentElement : null;
     let midGreySection = document.querySelector('#cr-game-ui-container .sec-grey-mid');
-    
-    // 💡 終極防跳動魔法：抓取整個右側畫布，並直接將高度「鎖死」！
-    let forgeMain = document.querySelector('#cr-game-ui-container .forge-main');
-    if (forgeMain) {
-        
-    }
-
-
 
     if (cr_stage === 'necro') {
-        // 進入神話：消除邊界，允許灰白底色左右填滿
-        if (descParent) {
-            descParent.style.padding = '0';
-            descParent.style.backgroundColor = '#F0F0F0';
-            descParent.style.borderBottom = 'none';
-        }
-        if (midGreySection) {
-            midGreySection.style.padding = '0';
-        }
+        if (descParent) { descParent.style.padding = '0'; descParent.style.backgroundColor = '#F0F0F0'; descParent.style.borderBottom = 'none'; }
+        if (midGreySection) midGreySection.style.padding = '0';
     } else {
-        // 回到航海/神秘：還原原有的置中與白底排版
-        if (descParent) {
-            descParent.style.padding = '8px 0 8px 0';
-            descParent.style.backgroundColor = '#ffffff';
-            descParent.style.borderBottom = '1px solid #e1e4e8';
-        }
-        if (midGreySection) {
-            midGreySection.style.padding = '12px 0 0 0'; // 💡 拔除底部的 12px，跟神話階段統一為 0
-        }
+        if (descParent) { descParent.style.padding = '8px 0 8px 0'; descParent.style.backgroundColor = '#ffffff'; descParent.style.borderBottom = '1px solid #e1e4e8'; }
+        if (midGreySection) midGreySection.style.padding = '12px 0 0 0'; 
     }
 
-    // 💡 動態注入：神話專屬的「打勾選項」與「靠左對齊說明」
     if(descElem) {
         let descHTML = "";
         if (cr_stage === 'necro') {
@@ -1671,7 +1457,6 @@ function cr_updateUI() {
         descElem.innerHTML = descHTML;
     }
 
-    // 💡 動態隱藏/顯示「可製作混沌級裝備」的階級清單[cite: 5]
     let chaosTierList = document.getElementById('cr-chaos-tier-list');
     if (chaosTierList) {
         if (cr_stage === 'necro') chaosTierList.style.display = 'none';  
@@ -1684,7 +1469,6 @@ function cr_updateUI() {
     
     if(scrollImgElem) {
         scrollImgElem.style.display = ''; 
-        // 💡 呼叫魔法函數，把目前的階段 (cr_stage)、目前的 % 數 (scrollInfo.rate)、跟預設圖傳進去，讓它自動決定要顯示哪張圖！
         scrollImgElem.src = cr_getDynamicScrollImg(cr_stage, scrollInfo.firstRate, data.scrollImg);
     }
     
@@ -1693,7 +1477,6 @@ function cr_updateUI() {
             scrollCol.style.opacity = '1';
             scrollName.style.color = '#333';
             scrollName.style.fontWeight = 'bold';
-            
             let scrollDisplayName = (cr_stage === 'necro') ? `${data.scrollName}` : `${data.scrollName}${scrollInfo.rate}%`;
             scrollName.innerHTML = `${scrollDisplayName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">${scrollInfo.count}/${data.scrollReq}</span>`;
         } else {
@@ -1704,11 +1487,8 @@ function cr_updateUI() {
         }
     }
 
-// 💡 精準重寫 Rate Box：套用實機的白/灰交錯分層排版
     let rateBox = document.querySelector('#cr-game-ui-container .rate-box');
     if (rateBox) {
-        
-        // 💡 終極魔法2：讓系統自己把機率框「推到最底部」，完美填補清單消失的空白
         rateBox.style.marginTop = 'auto'; 
         rateBox.style.width = '100%';
 
@@ -1761,7 +1541,6 @@ function cr_updateUI() {
     if(evAtmpt) evAtmpt.innerText = (cr_ev_achieved + current_ev).toFixed(2);
 }
 
-// 💡 升級：支援專屬的客製化 HTML (解決神話死靈/繼承的確認視窗排版不同問題)
 function cr_showConfirm() {
     if(cr_isAnimating) return;
     let modal = document.getElementById('cr-confirm-modal');
@@ -1771,11 +1550,9 @@ function cr_showConfirm() {
         
         let confirmBody = modal.querySelector('.cr-confirm-body');
         if (confirmBody) {
-            // 💡 如果資料庫裡面有客製化的 confirmCustomHTML，就優先載入
             if (data.confirmCustomHTML) {
                 confirmBody.innerHTML = data.confirmCustomHTML;
             } else {
-                // 否則載入無顏色的公版 (航海師 / 神秘)
                 let highlightColor = data.confirmHighlightColor || data.toColor; 
                 confirmBody.innerHTML = `
                     要製作<span style="color:${highlightColor}; font-weight:bold;">${data.confirmHighlight}</span>道具嗎？<br>
@@ -1797,27 +1574,21 @@ function cr_cancelConfirm() {
 function cr_executeCraft() {
     let confirmModal = document.getElementById('cr-confirm-modal');
     if(confirmModal) confirmModal.classList.remove('active');
-    
     cr_isAnimating = true;
 
     try {
         let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
         let data = CRAFT_DATA[activeKey];
         let scrollInfo = cr_getScrollRate();
-        
-        // 💡 實際運算的機率：基礎 + 追加 + 卷軸
         let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
 
-        cr_current_attempts++;
-        cr_crystals_used++;
-        cr_scrolls_used += scrollInfo.count;
+        cr_current_attempts++; cr_crystals_used++; cr_scrolls_used += scrollInfo.count;
         cr_updateUI();
 
         let isSuccess = (Math.random() * 100) < totalRate;
         let animOverlay = document.getElementById('cr-anim-overlay');
         
         if (animOverlay) {
-            // 💡 判斷：如果是神話階段 (necro)，就套用黃金特效；否則套用預設的紫色特效
             if (cr_stage === 'necro') {
                 animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success-gold' : 'cr-anim-fail-gold');
             } else {
@@ -1832,14 +1603,10 @@ function cr_executeCraft() {
 
             setTimeout(() => {
                 animOverlay.className = 'lightning-overlay'; 
-                
                 if (isSuccess) {
                     cr_successes++; 
                     let attempts_taken = cr_current_attempts; 
-                    
-                    cr_fails = 0; 
-                    cr_ev_achieved += (100 / totalRate); 
-                    cr_current_attempts = 0; 
+                    cr_fails = 0; cr_ev_achieved += (100 / totalRate); cr_current_attempts = 0; 
                     cr_showResult(true, attempts_taken); 
                 } else {
                     cr_fails++;
@@ -1847,7 +1614,6 @@ function cr_executeCraft() {
                 }
             }, 1260);
         }
-        
     } catch (e) {
         console.error("製作發生錯誤：", e);
         cr_isAnimating = false;
@@ -1870,29 +1636,18 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
     
     let stageFromElem = document.getElementById('cr-m-stage-from-color');
     let stageToElem = document.getElementById('cr-m-stage-to-color');
-    
-    // 💡 抓取結算視窗的圖片元素
     let resultImgElem = document.getElementById('cr-m-equip-img');
 
     if (isSuccess) {
         if (stageFromElem && stageToElem) {
-            stageFromElem.innerText = data.successFromText;
-            stageFromElem.style.color = data.successFromColor;
-            stageToElem.innerText = data.successToText;
-            stageToElem.style.color = data.successToColor;
+            stageFromElem.innerText = data.successFromText; stageFromElem.style.color = data.successFromColor;
+            stageToElem.innerText = data.successToText; stageToElem.style.color = data.successToColor;
         }
 
         document.getElementById('cr-m-title').innerText = "製作成功";
+        if (resultImgElem) { resultImgElem.style.display = ''; resultImgElem.src = data.toImg; }
         
-        // 💡 魔法：在給予新圖片前，強制解除隱藏狀態！
-        if (resultImgElem) {
-            resultImgElem.style.display = ''; 
-            resultImgElem.src = data.toImg; 
-        }
-        
-        // 💡 直接讀取我們剛剛在資料庫設定好的專屬名稱！
         document.getElementById('cr-m-equip-name').innerText = data.toEquipName; 
-        
         if(lvTag) lvTag.style.display = "block";
         if(lvText) lvText.innerText = "1"; 
         
@@ -1900,7 +1655,6 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
             failCont.style.display = "block";
             failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`;
         }
-        
         if(statsBox) {
             statsBox.innerHTML = `
                 <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#ED7245;">1,204 <span style="color:#02f53b;">(▲1,204)</span></span></div>
@@ -1910,25 +1664,16 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
         }
     } else {
         if (stageFromElem && stageToElem) {
-            stageFromElem.innerText = data.failFromText;
-            stageFromElem.style.color = data.failFromColor;
-            stageToElem.innerText = data.failToText;
-            stageToElem.style.color = data.failToColor;
+            stageFromElem.innerText = data.failFromText; stageFromElem.style.color = data.failFromColor;
+            stageToElem.innerText = data.failToText; stageToElem.style.color = data.failToColor;
         }
 
         document.getElementById('cr-m-title').innerText = "製作失敗";
-        
-        // 💡 魔法：失敗時也要強制解除隱藏狀態！
-        if (resultImgElem) {
-            resultImgElem.style.display = ''; 
-            resultImgElem.src = data.fromImg; 
-        }
-        
+        if (resultImgElem) { resultImgElem.style.display = ''; resultImgElem.src = data.fromImg; }
         document.getElementById('cr-m-equip-name').innerText = data.equipName;
         
         if(lvTag) lvTag.style.display = "block";
         if(lvText) {
-            // 💡 失敗時，顯示該階段對應的原本等級
             let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
             lvText.innerText = failLv; 
         }
@@ -1947,17 +1692,12 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
 function cr_closeResult() {
     let modal = document.getElementById('cr-result-modal');
     if(modal) modal.classList.remove('active');
-    cr_isAnimating = false; 
-    cr_updateUI();
+    cr_isAnimating = false; cr_updateUI();
 }
 
 function cr_action_reset() {
     if (cr_isAnimating) return;
-    cr_fails = 0;
-    cr_successes = 0; 
-    cr_crystals_used = 0;
-    cr_scrolls_used = 0;
-    cr_ev_achieved = 0;
-    cr_current_attempts = 0;
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0;
+    cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
     cr_updateUI();
 }
