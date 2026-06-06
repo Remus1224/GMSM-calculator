@@ -1,68 +1,26 @@
 /* ========================================== */
-/* 基礎全域設定與導覽 */
+/* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
-/* 💡 終極防連點放大魔法：讓瀏覽器知道我們是在瘋狂點按鈕，不是要縮放畫面！ */
-button, input, select, label, .btn-action {
-    touch-action: manipulation;
-}
+button, input, select, label, .btn-action { touch-action: manipulation; }
 
 .txt-sharp {
-    /* 將字重調高，字體自然會變粗，不需要描邊來湊 */
-    font-weight: 800 !important
-    
-    /* 移除描邊，這是造成影子和重影的主因 */
- ;   -webkit-text-stroke: 0px transparent !important;
-    
-    /* 恢復抗鋸齒，讓微軟正黑體自動適應螢幕，這樣文字邊緣才會乾淨 */
+    font-weight: 800 !important;
+    -webkit-text-stroke: 0px transparent !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
-    
-    /* 移除陰影 */
     text-shadow: none !important;
 }
 
-body { 
-    font-family: "微軟正黑體", "Helvetica Neue", sans-serif; 
-    background-color: #f0f2f5; 
-    color: #333; 
-    display: flex; 
-    justify-content: center; 
-    padding: 20px; 
-    user-select: none; 
-    -webkit-user-select: none; 
-    margin: 0; 
-}
-
-.container { 
-    background: #fff; 
-    padding: 20px 30px; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-    max-width: 850px; 
-    width: 100%; 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 20px; 
-    align-content: flex-start; 
-    /* 💡 加上順滑的過渡動畫 */
-    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* 💡 終極動態排版魔法：加入無視防禦面板，讓它精準收縮 */
-.container:has(#tab-transcend.active),
-.container:has(#tab-craft.active),
-.container:has(#tab-hexa-visual.active),
-.container:has(#tab-ignore.active) {     /* 👈 加上這一行！ */
-    max-width: 800px;                    /* 建議稍微放寬到 800px 容納雙欄 */
-}
+body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0; }
+.container { background: #fff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 850px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active) { max-width: 800px; }
 
 h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
 .hint { width: 100%; font-size: 13px; color: #7f8c8d; text-align: center; margin-bottom: 10px; }
 
-/* 導覽頁籤系統 */
 .tab-menu { width: 100%; display: flex; border-bottom: 2px solid #e1e4e8; margin-bottom: 10px; flex-wrap: wrap; }
 .tab-menu button { background: none; border: none; padding: 10px 15px; font-size: 15px; font-weight: bold; color: #7f8c8d; transition: color 0.3s; }
 .tab-menu button:hover { color: #3498db; }
@@ -70,7 +28,6 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
 .tab-content.active { display: flex; }
 
-/* 共用面板排版 */
 .section-title { font-weight: bold; color: #444; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; width: 100%; }
 .panel { background-color: #fafafa; padding: 15px; border-radius: 6px; border: 1px solid #e1e4e8; width: 100%; }
 .left-panel { flex: 2; min-width: 300px; }
@@ -80,10 +37,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .input-group input { user-select: auto; -webkit-user-select: auto; width: 70px; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; text-align: center;}
 .input-group input:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
 .right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
-.radio-group { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
-.radio-group label { cursor: pointer; }
 
-/* 按鈕與提示框 */
 .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
 .action-btn { background-color: #0052cc; color: #FFF; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background 0.2s; flex: 1; }
 .action-btn:hover { background-color: #003d99; }
@@ -93,266 +47,62 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .detail-box { margin-top: 15px; font-size: 15px; color: #333; background: #fff; padding: 15px; border: 1px solid #dcdde1; border-radius: 6px; text-align: left; line-height: 1.6; }
 
 
-/* 💡 無視防禦格子修復：3x6 排版與文字完美對齊 */
-#equip-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 💡 魔法1：強制分成等寬的 3 欄 */
-    gap: 15px 12px;                        /* 上下間距 15px，左右間距 12px */
-}
-
-#equip-grid .input-group {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px; /* 標籤跟輸入框的微小距離 */
-}
-
-#equip-grid .input-group label {
-    flex: 0 0 65px;               /* 💡 固定標籤寬度，給「支配者」剛好的空間 */
-    text-align: justify;          /* 💡 魔法2：文字左右拉滿的起手式 */
-    text-align-last: justify;     /* 💡 魔法3：強制最後一行也左右拉滿對齊！ */
-    font-size: 13px;              /* 字體稍微縮小一點點，讓 3 欄更精緻 */
-    white-space: nowrap;          /* 絕對不准換行 */
-    margin: 0;
-    color: #333;
-}
-
-#equip-grid .input-group input {
-    flex: 1;                 
-    width: 100%;             
-    min-width: 30px;         /* 💡 允許輸入框縮小，在小螢幕也不會戳破外框 */
-    box-sizing: border-box;
-    padding: 6px;            
-    font-size: 14px;
-    text-align: center;      /* 讓輸入的數字置中，看起來會更像計算機 */
-}
-
-
-/* ==========================================
-   🎨 無視防禦：卡片式分類與色彩心理學設計
-   ========================================== */
-
-/* 1. 定義五大色系的變數 (背景、邊框、文字顏色) */
+/* ========================================== */
+/* 2. 無視計算機 (Ignore Calculator)             */
+/* ========================================== */
 :root {
-    --c-armor-bg: #F0F8FF;  --c-armor-border: #BCE0FD;  --c-armor-text: #2980B9; /* 淺晴空藍 */
-    --c-weapon-bg: #FFF5F5; --c-weapon-border: #FCD5D5; --c-weapon-text: #C0392B; /* 柔櫻珊瑚 */
-    --c-acc-bg: #F9F0FF;    --c-acc-border: #E8CCFF;    --c-acc-text: #8E44AD; /* 迷霧薰衣草 */
-    --c-ability-bg: #F0FFF4;--c-ability-border: #C6F6D5;--c-ability-text: #27AE60; /* 薄荷青翠 */
-    --c-special-bg: #FFFAF0;--c-special-border: #FEEBC8;--c-special-text: #D68910; /* 晨曦暖沙 */
+    --c-armor-bg: #F0F8FF;  --c-armor-border: #BCE0FD;  --c-armor-text: #2980B9; 
+    --c-weapon-bg: #FFF5F5; --c-weapon-border: #FCD5D5; --c-weapon-text: #C0392B; 
+    --c-acc-bg: #F9F0FF;    --c-acc-border: #E8CCFF;    --c-acc-text: #8E44AD; 
+    --c-ability-bg: #F0FFF4;--c-ability-border: #C6F6D5;--c-ability-text: #27AE60; 
+    --c-special-bg: #FFFAF0;--c-special-border: #FEEBC8;--c-special-text: #D68910; 
 }
 
-/* 2. 佈局與標題 */
+#equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .equip-section { margin-bottom: 20px; }
-.equip-section-title {
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding-left: 8px;
-    border-left: 4px solid;
-}
+.equip-section-title { font-size: 15px; font-weight: bold; margin-bottom: 10px; padding-left: 8px; border-left: 4px solid; }
 
-/* 動態套用各類別顏色 */
 .text-armor { color: var(--c-armor-text); border-color: var(--c-armor-text); }
 .text-weapon { color: var(--c-weapon-text); border-color: var(--c-weapon-text); }
 .text-acc { color: var(--c-acc-text); border-color: var(--c-acc-text); }
 .text-ability { color: var(--c-ability-text); border-color: var(--c-ability-text); }
 .text-special { color: var(--c-special-text); border-color: var(--c-special-text); }
 
-/* 3. 卡片網格 (RWD：電腦一排4~5個，手機自動變成2個) */
-.equip-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 12px;
-}
-
-/* 4. 卡片本體設計 */
-.equip-card {
-    border-radius: 10px;
-    border: 1px solid;
-    padding: 10px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: 0.2s ease;
-}
+.equip-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+.equip-card { border-radius: 10px; border: 1px solid; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: 0.2s ease; }
 .equip-card:focus-within { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
 
-/* 動態套用卡片背景 */
 .bg-armor { background: var(--c-armor-bg); border-color: var(--c-armor-border); }
 .bg-weapon { background: var(--c-weapon-bg); border-color: var(--c-weapon-border); }
 .bg-acc { background: var(--c-acc-bg); border-color: var(--c-acc-border); }
 .bg-ability { background: var(--c-ability-bg); border-color: var(--c-ability-border); }
 .bg-special { background: var(--c-special-bg); border-color: var(--c-special-border); }
 
-/* 5. 卡片內的文字與輸入框 */
-.card-title {
-    font-size: 13px;
-    font-weight: bold;
-    color: #444;
-    margin-bottom: 8px;
-}
-.card-input-wrapper {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: 6px;
-    padding: 2px 6px;
-    border: 1px solid rgba(0,0,0,0.1);
-    width: 100%;
-    box-sizing: border-box;
-}
-.card-input-wrapper input {
-    flex: 1;
-    width: 100%;
-    border: none;
-    background: transparent;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    outline: none;
-}
+.card-title { font-size: 13px; font-weight: bold; color: #444; margin-bottom: 8px; }
+.card-input-wrapper { display: flex; align-items: center; background: white; border-radius: 6px; padding: 2px 6px; border: 1px solid rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; }
+.card-input-wrapper input { flex: 1; width: 100%; border: none; background: transparent; text-align: center; font-size: 16px; font-weight: bold; color: #333; outline: none; }
 .card-percent { font-size: 12px; color: #888; margin-left: 2px; }
 
-/* ==========================================
-   ✨ 介面優化：左側排版與右側色彩配置
-   ========================================== */
-
-/* 1. 左側強制變為 3 欄連續網格 */
-#equip-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-/* 2. 右側套裝 - 航海師 (晨霧藍) */
 .panel-absolab .section-title { color: #2980B9; }
-.absolab-group .radio-label:has(input:checked) {
-    background-color: #EBF5FB; 
-    border-color: #3498DB; 
-    color: #2980B9; 
-    font-weight: bold;
-}
-
-/* 3. 右側套裝 - 神秘 (幻夢紫) */
+.absolab-group .radio-label:has(input:checked) { background-color: #EBF5FB; border-color: #3498DB; color: #2980B9; font-weight: bold; }
 .panel-arcane .section-title { color: #8E44AD; }
-.arcane-group .radio-label:has(input:checked) {
-    background-color: #F5EEF8; 
-    border-color: #9B59B6; 
-    color: #8E44AD; 
-    font-weight: bold;
-}
+.arcane-group .radio-label:has(input:checked) { background-color: #F5EEF8; border-color: #9B59B6; color: #8E44AD; font-weight: bold; }
 
-/* 4. 將單選按鈕改造成「方塊按鈕」並排 (2x2) */
-.radio-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 切成兩欄 */
-    gap: 8px;
-}
-.radio-label {
-    background: white;
-    border: 1px solid #e1e4e8;
-    border-radius: 8px;
-    padding: 10px 5px;
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-}
-.radio-label input[type="radio"] {
-    display: none; /* 💡 徹底隱藏醜醜的原生圓點！ */
-}
+.radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.radio-label { background: white; border: 1px solid #e1e4e8; border-radius: 8px; padding: 10px 5px; text-align: center; font-size: 14px; color: #666; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+.radio-label input[type="radio"] { display: none; }
 
-/* 5. 總無視防禦框 (琉璃冰藍漸層) */
-.result-gradient {
-    flex: 1; /* 自動填滿剩餘高度 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 8px;
-    margin: 0;
-    /* 漸層色配置 */
-    background: linear-gradient(135deg, #E1F5FE 0%, #E8EAF6 100%);
-    border: 2px solid #B3E5FC;
-    color: #1565C0;
-    box-shadow: inset 0 0 15px rgba(255,255,255,0.8);
-}
+.result-gradient { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border-radius: 8px; margin: 0; background: linear-gradient(135deg, #E1F5FE 0%, #E8EAF6 100%); border: 2px solid #B3E5FC; color: #1565C0; box-shadow: inset 0 0 15px rgba(255,255,255,0.8); }
+.btn-clear { width: 100%; padding: 14px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s; background-color: #FDEDEC; color: #E74C3C; border: 1px solid #FADBD8; }
+.btn-clear:hover { background-color: #FADBD8; transform: translateY(-2px); }
 
-/* 6. 清除按鈕 (柔和珊瑚紅) */
-.btn-clear {
-    width: 100%;
-    padding: 14px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    /* 柔和紅配置 */
-    background-color: #FDEDEC;
-    color: #E74C3C;
-    border: 1px solid #FADBD8;
-}
-.btn-clear:hover {
-    background-color: #FADBD8;
-    transform: translateY(-2px);
-}
+.ignore-layout-wrapper { display: flex; gap: 20px; align-items: stretch; width: 100%; }
+.ignore-left-panel { flex: 1.4; margin: 0; display: flex; flex-direction: column; }
+.ignore-right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
 
-/* ==========================================
-   📱 響應式佈局 (RWD)：手機版與電腦版自適應
-   ========================================== */
-
-/* --- 💻 電腦版預設：左右優雅並排 --- */
-.ignore-layout-wrapper {
-    display: flex;
-    gap: 20px;
-    align-items: stretch;
-    width: 100%;
-}
-.ignore-left-panel {
-    flex: 1.4;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-.ignore-right-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* --- 📱 手機版變身：當螢幕寬度小於 768px 時自動觸發 --- */
-@media (max-width: 768px) {
-    /* 1. 核心修復：把左右並排改成「上下堆疊」 */
-    .ignore-layout-wrapper {
-        flex-direction: column; 
-    }
-    
-    /* 2. 讓左右兩大區塊都解放，撐滿手機 100% 寬度 */
-    .ignore-left-panel,
-    .ignore-right-panel {
-        flex: none; 
-        width: 100%; 
-    }
-    
-    /* 3. 防破版微調：手機上的卡片字體稍微縮小，避免「魔島書」擠出去 */
-    #equip-grid .card-title {
-        font-size: 11px;
-    }
-    
-    /* 4. 手機上的結果框可以稍微矮一點，節省螢幕空間 */
-    .result-gradient {
-        min-height: 60px; 
-        font-size: 20px;
-    }
-}
 
 /* ========================================== */
-/* HEXA 進度計算機與動態卡片樣式 */
+/* 3. HEXA 進度與懶人決策 (HEXA Progress & Tables) */
 /* ========================================== */
 .core-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
 .prog-item { border-radius: 6px; padding: 12px 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
@@ -392,7 +142,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .tag-yellow { background-color: #f39c12; }
 .tag-red { background-color: #c0392b; }
 .loader { font-weight: bold; color: #0052cc; text-align: center; padding: 20px; }
-        
+
 .update-list { line-height: 1.8; color: #444; padding-left: 20px; }
 .update-list li { margin-bottom: 8px; }
 .disclaimer-box { background: #fff3f3; padding: 18px; border-radius: 8px; border-left: 6px solid #c0392b; line-height: 1.8; color: #444; }
@@ -400,8 +150,9 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .mobile-br { display: none; }
 .desktop-space { display: inline; }
 
+
 /* ========================================== */
-/* HEXA 屬性模擬器 (視覺化打鐵機) */
+/* 4. HEXA 屬性模擬器 (Visual Simulator)         */
 /* ========================================== */
 .visual-container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #171b2f; padding: 25px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); color: white; }
 .visual-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -412,6 +163,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .v-btn-top:hover { background-color: #4b6584; }
 .v-btn-top.muted-active { background-color: #7f8c8d; color: #bdc3c7; }
 .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0; margin-bottom: 15px; padding-left: 5px; }
+
 .visual-box { background: linear-gradient(180deg, #2b3e75 0%, #1e2a55 100%); border: 1.5px solid #5a7ec2; border-radius: 8px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3); margin-bottom: 15px; }
 .hexa-img { width: 55px; height: 55px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
 .v-content { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
@@ -424,6 +176,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .v-segment { flex: 1; background-color: #0b132b; transition: all 0.2s ease-in-out; }
 .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%); box-shadow: 0 0 8px #d094ff; border-top: 1px solid #ffccff; }
 .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%); box-shadow: 0 0 8px #66eeff; border-top: 1px solid #b3ffff; }
+
 .visual-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); gap: 15px;}
 .v-control-group { display: flex; align-items: center; gap: 12px; }
 .v-reset-tracker { font-size: 14px; color: #bdc3c7; }
@@ -438,9 +191,10 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400); box-shadow: 0 0 10px rgba(230, 126, 34, 0.5); }
 .v-btn-reset.highlight:hover { filter: brightness(1.2); }
 
+
 /* ========================================== */
-/* 鐵匠鋪遊戲真實 UI（超越模擬器控制面板） */
-/* ========================================== *//* 💡 將 max-width 縮小為 690px，擠掉左右多餘的空白 */
+/* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
+/* ========================================== */
 .msm-forge-ui { width: 100%; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; background-color: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; border-radius: 6px; overflow: hidden; }
 .forge-header { background-color: #455468; color: white; padding: 12px 20px; font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
 .forge-info-icon { display: inline-flex; justify-content: center; align-items: center; width: 22px; height: 22px; border: 2px solid white; border-radius: 4px; font-size: 14px; transform: rotate(45deg); }
@@ -451,6 +205,7 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .menu-item:last-child { border-bottom: none; }
 .menu-item.active { background-color: #ed7245; color: white; border-bottom: none; }
 .forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
+
 .sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s}
 .sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
 .sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
@@ -459,8 +214,9 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .item-col { display: flex; flex-direction: column; align-items: center; width: 140px;}
 .img-box { width: 85px; height: 85px; background-color: #e4e6e9; border: 1px solid #dcdde1; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); position: relative; }
 .img-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
-.dynamic-lv-overlay { position: absolute; bottom: 3px; right: 3px; background-color: #111111; color: #ffffff; font-size: 11px; font-weight: bold; padding: 1px 5px; border-radius: 10px; border: 1px solid #ffffff; z-index: 10; }
-.equip-name {  font-size: 12px; font-weight: bold; color: #333; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; }
+.dynamic-lv-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(17, 17, 17, 0.9); color: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: -0.1px; line-height: 1; padding: 2px 4px; border-radius: 10px; border: none; z-index: 10; min-width: 36px; text-align: center; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.equip-name { font-size: 12px; font-weight: bold; color: #333; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; }
+
 .fail-text { font-size: 12px; color: #888; }
 .plus-sign { font-size: 35px; font-weight: bold; color: #888; margin-top: 20px; }
 .lv-arrow { color: #f3724c; margin: 0 20px; font-size: 24px; display: inline-block; transform: scaleX(1.5); }
@@ -472,58 +228,44 @@ h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-s
 .rate-highlight { font-size: 22px; color: #f3724c; margin-left: 5px;}
 .rate-detail { font-size: 13px; color: #666; margin-bottom: 15px;}
 .rate-detail span { color: #f3724c; }
-
 hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0; width: calc(100% + 60px); }
 
 .bonus-row { width: 65%; margin: 0 auto 5px auto; display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #555; margin-top: -15px; margin-bottom: 0px; }
 .desc-text { font-size: 12px; color: #777; text-align: center; line-height: 1.6; font-weight: bold; width: 90%; }
 .coin-box { background: #ffffff; padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; color: #333; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; font-weight: bold; }
+
 .btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white; border: none; border-radius: 6px; transition: 0.1s; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
 .btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
 .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
 
-/* 扣除模式隱藏設定 */
-.scroll-mode-active #ui-level-content { display: none !important; } 
-.scroll-mode-active .sec-middle { background-color: #ffffff !important; justify-content: center !important; padding: 30px 20px !important; } 
-.scroll-mode-active #ui-rate-wrapper { display: none !important; } 
-.scroll-mode-active #ui-divider-line { display: none !important; } 
-.scroll-mode-active #ui-bonus-row { display: none !important; }    
-.scroll-mode-active .desc-text { color: #555; font-weight: normal; margin-bottom: 0; }
-.scroll-mode-active #ui-coin-box { display: none !important; } 
-.scroll-mode-active .sec-bottom { background-color: #ffffff !important; padding-top: 10px !important; }
-
-/* 模擬器設定面板 */
-.settings-panel { width: 100%; max-width: 600px; margin: 20px auto 0 auto; background: #ecf0f1; border-radius: 8px; padding: 20px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }.settings-title { font-size: 15px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+.settings-panel { width: 100%; max-width: 600px; margin: 20px auto 0 auto; background: #ecf0f1; border-radius: 8px; padding: 20px; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.settings-title { font-size: 15px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
 .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; color: #333; flex-wrap: wrap; }
 .setting-row input[type="number"], .setting-row select { padding: 4px; border-radius: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;}
 .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
-
 .stats-text { font-size: 14px; color: #555; text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;}
 .btn-reset-tr { width: 100%; padding: 10px; margin-top: 15px; background: #7f8c8d; color: white; border: none; border-radius: 4px; font-weight: bold; transition: 0.2s; }
 .btn-reset-tr:hover { background: #95a5a6; }
 .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 4px 10px; border-radius: 4px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
 .btn-sound.muted { background: #e74c3c; color: white; border-color: #c0392b; }
 
-/* 動態雷擊與彈窗結算特效樣式 */
-.lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
-.lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
-.lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
-@keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
-@keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
-
+/* 彈窗與特效 (Modals & Effects) */
 .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 2000; justify-content: center; align-items: center; }
 .modal-backdrop.active { display: flex; }
 .modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
 .modal-header { background: #4a5468; color: #ffffff; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
-.m-enh-grey-top { background-color: #F0F0F0; padding: 25px 20px 0px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.m-enh-grey-top { background-color: #F0F0F0; padding: 15px 20px 0px 20px !important; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
 .m-enh-white-mid { background-color: #ffffff; padding: 12px 20px 20px 20px; text-align: center; } 
 .m-enh-grey-bot { background-color: #e4e6e9; padding: 20px; display: flex; justify-content: center; }
+
 .m-scr-white-body { background-color: #ffffff; padding: 35px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .m-scr-grey-box { background-color: #F0F0F0; margin: 20px auto; padding: 14px; border-radius: 4px; width: 85%; font-weight: bold; font-size: 16px; text-align: center; letter-spacing: 0.5px;}
 .m-scr-text-orange { color: #ed7245; } 
 .m-scr-text-grey { color: #888888; } 
+
 .m-item-name { font-size: 13px; font-weight: bold; color: #333; margin-top: 10px;}
 .m-fail-text { font-size: 12px; color: #777; margin-top: 3px;}
 .m-fail-change { color: #777; font-weight: bold; margin-left: 4px; } 
@@ -534,69 +276,37 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .m-btn { background: #ed7245; color: #fff; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 6px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
 .m-btn:active { transform: translateY(4px); box-shadow: none; }
 
-/* ========================================== */
-/* 🎬 高級光影渲染特效 (薛丁格欺敵完美版) */
-/* ========================================== */
-@keyframes cr-flash-success {
-    0%   { background-color: rgba(0, 0, 0, 0.85); }       /* 瞬間壓上極暗黑底 */
-    35%  { background-color: rgba(180, 50, 255, 0.5); }   /* 前奏：紫電開始凝聚 */
-    50%  { background-color: rgba(220, 100, 255, 0.8); }  /* ⚡ 關鍵分水嶺：雷擊紫光 (與失敗一模一樣！) */
-    65%  { background-color: rgba(255, 255, 255, 1); }    /* 💥 成功：爆發純白耀眼強光，吞噬畫面 */
-    85%  { background-color: rgba(240, 200, 255, 0.9); }  /* 餘輝：強烈白紫光緩降 */
-    100% { background-color: rgba(0, 0, 0, 0.85); }       /* 結算前瞬間回到極暗黑底 */
-}
-
-@keyframes cr-flash-fail {
-    0%   { background-color: rgba(0, 0, 0, 0.85); }       /* 瞬間壓上極暗黑底 (完全同步) */
-    35%  { background-color: rgba(180, 50, 255, 0.5); }   /* 前奏：紫電開始凝聚 (完全同步) */
-    50%  { background-color: rgba(220, 100, 255, 0.8); }  /* ⚡ 關鍵分水嶺：雷擊紫光 (完全同步，完美欺敵！) */
-    65%  { background-color: rgba(0, 0, 0, 0.75); }       /* 🌑 失敗：瞬間斷電崩碎，跌入無盡死寂的漆黑 */
-    85%  { background-color: rgba(0, 0, 0, 0.65); }       /* 保持死寂的黑 */
-    100% { background-color: rgba(0, 0, 0, 0.85); }       /* 結算前稍微透出一點底層 UI */
-}
-
-.cr-anim-success { 
-    display: block !important; 
-    animation: cr-flash-success 1.26s ease-in-out forwards; 
-    mix-blend-mode: hard-light; 
-}
-.cr-anim-fail { 
-    display: block !important; 
-    animation: cr-flash-fail 1.26s ease-in-out forwards; 
-    mix-blend-mode: hard-light; 
-}
 
 /* ========================================== */
-/* 🎬 高級光影渲染特效 (神話專屬：黃金雷電版) */
+/* 6. 超越模擬器特定設定 (Transcend Specific)     */
 /* ========================================== */
-@keyframes cr-flash-success-gold {
-    0%   { background-color: rgba(0, 0, 0, 0.85); }       /* 瞬間壓上極暗黑底 */
-    35%  { background-color: rgba(255, 150, 0, 0.5); }    /* 前奏：橘金光開始凝聚 */
-    50%  { background-color: rgba(255, 200, 50, 0.8); }   /* ⚡ 關鍵分水嶺：雷擊金光 (與失敗一模一樣) */
-    65%  { background-color: rgba(255, 255, 255, 1); }    /* 💥 成功：爆發純白耀眼強光 */
-    85%  { background-color: rgba(255, 240, 180, 0.9); }  /* 餘輝：強烈白金光緩降 */
-    100% { background-color: rgba(0, 0, 0, 0.85); }       /* 結算前瞬間回到極暗黑底 */
-}
+.scroll-mode-active #ui-level-content { display: none !important; } 
+.scroll-mode-active .sec-middle { background-color: #ffffff !important; justify-content: center !important; padding: 30px 20px !important; } 
+.scroll-mode-active #ui-rate-wrapper { display: none !important; } 
+.scroll-mode-active #ui-divider-line { display: none !important; } 
+.scroll-mode-active #ui-bonus-row { display: none !important; }    
+.scroll-mode-active .desc-text { color: #555; font-weight: normal; margin-bottom: 0; }
+.scroll-mode-active #ui-coin-box { display: none !important; } 
+.scroll-mode-active .sec-bottom { background-color: #ffffff !important; padding-top: 10px !important; }
 
-@keyframes cr-flash-fail-gold {
-    0%   { background-color: rgba(0, 0, 0, 0.85); }       
-    35%  { background-color: rgba(255, 150, 0, 0.5); }    
-    50%  { background-color: rgba(255, 200, 50, 0.8); }   
-    65%  { background-color: rgba(0, 0, 0, 0.75); }       /* 🌑 失敗：瞬間斷電崩碎 */
-    85%  { background-color: rgba(0, 0, 0, 0.65); }       
-    100% { background-color: rgba(0, 0, 0, 0.85); }       
-}
+.lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
+.lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
+.lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
+@keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
+@keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
 
-.cr-anim-success-gold { 
-    display: block !important; 
-    animation: cr-flash-success-gold 1.26s ease-in-out forwards; 
-    mix-blend-mode: hard-light; 
-}
-.cr-anim-fail-gold { 
-    display: block !important; 
-    animation: cr-flash-fail-gold 1.26s ease-in-out forwards; 
-    mix-blend-mode: hard-light; 
-}
+
+/* ========================================== */
+/* 7. 製作模擬器特定設定 (Craft Specific)        */
+/* ========================================== */
+#cr-game-ui-container .sec-top { display: flex !important; justify-content: center !important; align-items: flex-start !important; gap: 15px !important; padding: 20px 0 15px 0 !important; flex-wrap: nowrap !important; }
+#cr-game-ui-container .item-col { display: flex !important; flex-direction: column !important; align-items: center !important; width: 85px !important; min-width: 85px !important; max-width: 85px !important; flex: 0 0 85px !important; margin: 0 !important; padding: 0 !important; }
+#cr-game-ui-container .img-box { width: 85px !important; height: 85px !important; margin: 0 0 5px 0 !important; flex-shrink: 0 !important; }
+#cr-game-ui-container .plus-sign { display: block !important; width: 30px !important; min-width: 30px !important; flex: 0 0 30px !important; text-align: center !important; font-size: 35px !important; margin: 0 !important; padding: 0 !important; margin-top: 25px !important; line-height: 1 !important; }
+#cr-game-ui-container .item-col:nth-child(3) { margin-right: 25px !important; }
+#cr-game-ui-container .equip-name { width: max-content !important; max-width: none !important; white-space: nowrap !important; overflow: visible !important; font-size: 12px !important; text-align: center !important; margin: 0 !important; letter-spacing: -0.2px !important; color: #333 !important; }
+#cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 11px !important; letter-spacing: -0.5px !important; }
+#cr-game-ui-container .forge-main { height: 520px; }
 
 .cr-confirm-box { width: 90%; max-width: 380px; background: #fff; border-radius: 8px; overflow: hidden; text-align: center; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .cr-confirm-header { background: #455468; color: white; padding: 12px; font-size: 16px; font-weight: bold; letter-spacing: 1px; }
@@ -606,112 +316,36 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .cr-btn-cancel:hover { background: #436a8b; }
 .cr-btn-confirm { flex: 1; background: #ed7245; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
 .cr-btn-confirm:hover { background: #d35400; }
-
 .cr-result-stats { background: #fff; padding: 10px 15px; text-align: left; font-size: 12px; line-height: 1.1; font-weight: bold; margin-top: 5px; border-top: 1px solid #eee; }
 .cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 0px; padding: 2px 0; }
-.m-enh-grey-top { padding: 15px 20px 0px 20px !important; }
-.m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
 
-/* 縮小等級遮罩，避免擋住武器 */
-.dynamic-lv-overlay { 
-    position: absolute; 
-    bottom: 4px; 
-    right: 4px; 
-    background-color: rgba(17, 17, 17, 0.9); 
-    color: #ffffff; 
-    font-family: Arial, Helvetica, sans-serif; /* 💡 鎖定最乾淨的英文無襯線字體 */
-    font-size: 11px; 
-    font-weight: 00; /* 💡 魔法1：將粗度從 bold (700) 降級到半粗體 (600)，解決字太肥的問題 */
-    letter-spacing: -0.1px; /* 💡 魔法2：字體變瘦後，把字距稍微放寬一點點才自然 */
-    line-height: 1; 
-    padding: 2px 4px; 
-    border-radius: 10px; 
-    border: none; 
-    z-index: 10; 
-    min-width: 36px; 
-    text-align: center; 
-    box-sizing: border-box; 
-    -webkit-font-smoothing: antialiased; /* 💡 魔法3：強制開啟抗鋸齒，讓邊緣更銳利 */
-}
-}/* ========================================== */
-/* 🔨 製作模擬器專屬排版 (Flexbox 絕對控制法) */
-/* ========================================== */
-#cr-game-ui-container .sec-top { 
-    display: flex !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    gap: 15 !important; /* 💡 關閉自動間距，改用 margin 精準控制 */
-    padding: 20px 0 15px 0 !important; 
-    flex-wrap: nowrap !important; /* 絕對禁止掉行 */
-}
-#cr-game-ui-container .item-col { 
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important; /* 確保文字永遠對準圖片正中央 */
-    width: 85px !important; 
-    min-width: 85px !important; 
-    max-width: 85px !important; 
-    flex: 0 0 85px !important; /* 💡 鎖死圖片寬度 85px */
-    margin: 0 !important;
-    padding: 0 !important;
-}
-#cr-game-ui-container .img-box { 
-    width: 85px !important;  
-    height: 85px !important; 
-    margin: 0 0 5px 0 !important; 
-    flex-shrink: 0 !important;
-}
-#cr-game-ui-container .plus-sign { 
-    display: block !important;
-    width: 30px !important; /* 💡 給予真實寬度，讓加號重新出現 */
-    min-width: 30px !important;
-    flex: 0 0 30px !important; 
-    text-align: center !important;
-    font-size: 35px !important; 
-    margin: 0 !important;
-    padding: 0 !important;
-    margin-top: 25px !important; /* (85-35)/2 = 25 垂直置中 */
-    line-height: 1 !important; 
-}
+@keyframes cr-flash-success { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(180, 50, 255, 0.5); } 50% { background-color: rgba(220, 100, 255, 0.8); } 65% { background-color: rgba(255, 255, 255, 1); } 85% { background-color: rgba(240, 200, 255, 0.9); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
+@keyframes cr-flash-fail { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(180, 50, 255, 0.5); } 50% { background-color: rgba(220, 100, 255, 0.8); } 65% { background-color: rgba(0, 0, 0, 0.75); } 85% { background-color: rgba(0, 0, 0, 0.65); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
+.cr-anim-success { display: block !important; animation: cr-flash-success 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
+.cr-anim-fail { display: block !important; animation: cr-flash-fail 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
 
-/* 💡 完美對齊你的綠線：精準調整結晶右側間距，把卷軸推開 */
-#cr-game-ui-container .item-col:nth-child(3) { 
-    margin-right: 25px !important; 
-}
-
-#cr-game-ui-container .equip-name { 
-    width: max-content !important; /* 💡 讓長文字自由向左右延展，不被裁切 */
-    max-width: none !important;
-    white-space: nowrap !important;     
-    overflow: visible !important; 
-    font-size: 12px !important; 
-    text-align: center !important;
-    margin: 0 !important; 
-    letter-spacing: -0.2px !important;
-    color: #333 !important; 
- 
-}
-/* 專門針對卷軸文字微縮 */
-#cr-game-ui-container .item-col:nth-child(4) .equip-name {
-    font-size: 11px !important; 
-    letter-spacing: -0.5px !important;
-}
-
-#cr-game-ui-container .forge-main {
-    height: 520px; /* 電腦版固定高度 */
-}
-
+@keyframes cr-flash-success-gold { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(255, 150, 0, 0.5); } 50% { background-color: rgba(255, 200, 50, 0.8); } 65% { background-color: rgba(255, 255, 255, 1); } 85% { background-color: rgba(255, 240, 180, 0.9); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
+@keyframes cr-flash-fail-gold { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(255, 150, 0, 0.5); } 50% { background-color: rgba(255, 200, 50, 0.8); } 65% { background-color: rgba(0, 0, 0, 0.75); } 85% { background-color: rgba(0, 0, 0, 0.65); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
+.cr-anim-success-gold { display: block !important; animation: cr-flash-success-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
+.cr-anim-fail-gold { display: block !important; animation: cr-flash-fail-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
 
 
 /* ========================================== */
-/* 📱 手機版 RWD 響應式佈局 (包含所有工具的適應) */
+/* 8. 響應式佈局 (Mobile RWD)                   */
 /* ========================================== */
+@media (max-width: 768px) {
+    .ignore-layout-wrapper { flex-direction: column; }
+    .ignore-left-panel, .ignore-right-panel { flex: none; width: 100%; }
+    #equip-grid .card-title { font-size: 11px; }
+    .result-gradient { min-height: 60px; font-size: 20px; }
+}
+
 @media (max-width: 500px) {
     body { padding: 5px; }
     .container { padding: 12px 6px; }
     .panel { padding: 12px 6px; }
 
-    /* HEXA 共用區塊 */
+    /* HEXA 區塊手機版適應 */
     .visual-container { padding: 20px 12px; }
     .visual-header-top { flex-direction: row; align-items: center; gap: 5px; }
     .v-fragment-text { font-size: 11px; white-space: nowrap; }
@@ -734,7 +368,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     .core-row { grid-template-columns: repeat(2, 1fr); }
     .dynamic-lv-overlay { transform: scale(0.85); transform-origin: bottom right; bottom: 3px; right: 3px; }
 
-    /* 隱藏與細節微調 */
+    /* 鐵匠鋪手機版適應 */
     .forge-sidebar { display: none; }
     .sec-white { min-height: 50px; padding: 10px 0; }
     .sec-grey-mid { padding: 15px 10px; }
@@ -753,98 +387,22 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     .m-scr-white-body { padding: 20px 10px; }
     .m-scr-grey-box { width: 95%; font-size: 14px; padding: 10px; }
 
-    /* ========================================== */
-    /* 🛡️ 基礎保護：超越模擬器手機版 (完全還原無點點點設計) */
-    /* ========================================== */
-    .sec-top { 
-        padding: 15px 5px; 
-        gap: 10px; 
-        justify-content: center; 
-        align-items: flex-start;
-        flex-wrap: nowrap !important;
-    }
+    /* 超越模擬器特定 */
+    .sec-top { padding: 15px 5px; gap: 10px; justify-content: center; align-items: flex-start; flex-wrap: nowrap !important; }
     .item-col { width: 110px; }
     .img-box { width: 70px; height: 70px; margin-bottom: 5px; }
     .plus-sign { font-size: 30px; margin-top: 15px; }
-    .equip-name { 
-        width: 100%; 
-        font-size: 11px; 
-        white-space: nowrap; 
-        overflow: visible; /* 💡 絕對不加點點點了！ */
-        word-break: break-word; 
-        line-height: 1.3; 
-        margin-top: 5px; 
-    }
+    .equip-name { width: 100%; font-size: 11px; white-space: nowrap; overflow: visible; word-break: break-word; line-height: 1.3; margin-top: 5px; }
 
-    /* ========================================== */
-    /* 📱 製作模擬器手機版 (開放參數微調版) */
-    /* ========================================== */
-    #cr-game-ui-container .sec-top { 
-        /* 👉 參數 1：整體間距。原本是 5px，覺得太擠可以調成 8px 甚至 10px */
-        gap: 15px !important; 
-        padding: 15px 0px 10px 0px !important; 
-    } 
-    #cr-game-ui-container .item-col { 
-        /* 👉 參數 2：物品的隱形外框寬度。原本是 70px，稍微加大到 75px 讓文字有更多空間延展 */
-        width: 75px !important; 
-        min-width: 75px !important;
-        max-width: 75px !important;
-        flex: 0 0 75px !important; 
-    }
-    #cr-game-ui-container .img-box { 
-        /* 💡 圖片本身維持超越模擬器的 70px 不變 */
-        width: 70px !important;  
-        height: 70px !important; 
-    }
-    #cr-game-ui-container .plus-sign { 
-        width: 20px !important;
-        min-width: 20px !important;
-        flex: 0 0 20px !important; 
-        font-size: 26px !important; 
-        margin-top: 22px !important; 
-    }
-    
-    /* 👉 參數 3：結晶與卷軸之間的「額外距離」。
-       如果覺得卷軸跟結晶太開，就把這裡改小 (例如 5px 或 0px) */
-    #cr-game-ui-container .item-col:nth-child(3) { 
-        margin-right:40px !important; 
-    }
-
-    #cr-game-ui-container .equip-name { 
-        /* 👉 參數 4：裝備與材料的字體大小 */
-        font-size: 12px !important; 
-        transform: none !important; /* 💡 移除之前的過度縮放，還原清晰度 */
-    }
-    #cr-game-ui-container .item-col:nth-child(4) .equip-name {
-        /* 👉 參數 5：卷軸專屬的字體大小。字太小可以改回 10px，太大可改 9px */
-        font-size: 10px !important; 
-        letter-spacing: -0.5px !important; /* 讓字距稍微緊縮，以便塞進手機螢幕 */
-        transform: none !important; 
-    }
-
-    #cr-game-ui-container .forge-main {
-        height: 400px !important; /* 👈 手機版固定高度 */
-    }
-
-    /* 💡 壓縮航海師的階級清單，讓它順利塞進 400px 內不把框撐爆 */
-    #cr-chaos-tier-list {
-        font-size: 12px !important;
-        margin-bottom: 0px !important;
-    }
-/* 💡 1. 黃金比例高度：415px 是神話不顯空洞、航海師剛好塞滿的最佳高度 */
-    #cr-game-ui-container .forge-main {
-        height: 415px !important; 
-    }
-
-    /* 💡 2. 偷空間魔法：把灰底區塊頂部的留白縮減 (原本 JS 是給 12px，我們在手機版壓成 4px) */
-    #cr-game-ui-container .sec-grey-mid {
-        padding-top: 4px !important; 
-    }
-
-    /* 💡 3. 清單微調：把清單稍微往上提，保留原本的字體大小與呼吸行高，不擠壓文字！ */
-    #cr-chaos-tier-list {
-        font-size: 12px !important;
-        margin-top: 8px !important; 
-        margin-bottom: 0px !important;
-    }
-} /* 💡 手機版 RWD 結束括號 */
+    /* 製作模擬器特定 */
+    #cr-game-ui-container .sec-top { gap: 15px !important; padding: 15px 0px 10px 0px !important; } 
+    #cr-game-ui-container .item-col { width: 75px !important; min-width: 75px !important; max-width: 75px !important; flex: 0 0 75px !important; }
+    #cr-game-ui-container .img-box { width: 70px !important; height: 70px !important; }
+    #cr-game-ui-container .plus-sign { width: 20px !important; min-width: 20px !important; flex: 0 0 20px !important; font-size: 26px !important; margin-top: 22px !important; }
+    #cr-game-ui-container .item-col:nth-child(3) { margin-right:40px !important; }
+    #cr-game-ui-container .equip-name { font-size: 12px !important; transform: none !important; }
+    #cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 10px !important; letter-spacing: -0.5px !important; transform: none !important; }
+    #cr-game-ui-container .forge-main { height: 415px !important; }
+    #cr-game-ui-container .sec-grey-mid { padding-top: 4px !important; }
+    #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
+}
