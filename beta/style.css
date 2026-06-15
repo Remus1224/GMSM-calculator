@@ -16,7 +16,7 @@ button, input, select, label, .btn-action { touch-action: manipulation; }
 
 body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0; }
 .container { background: #fff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 850px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-.container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active) { max-width: 800px; }
+.container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active), .container:has(#tab-will.active) { max-width: 800px; }
 
 h1 { width: 100%; text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
 .hint { width: 100%; font-size: 13px; color: #7f8c8d; text-align: center; margin-bottom: 10px; }
@@ -406,3 +406,14 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     #cr-game-ui-container .sec-grey-mid { padding-top: 4px !important; }
     #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
 }
+
+/* ========================================== */
+/* 9. 威爾模擬器特定設定 (Will Simulator)        */
+/* ========================================== */
+.will-game-panel { position: relative; padding: 0; overflow: hidden; background: #222; border-radius: 8px; display: flex; justify-content: center; align-items: center; }
+#willCanvas { width: 100%; height: auto; max-height: 500px; display: block; touch-action: none; background: url('https://imgur.com/K3V1gV3.png') center/cover; /* 預設一個深色背景 */ }
+#will-ui { position: absolute; top: 15px; left: 20px; color: white; z-index: 10; pointer-events: none; text-shadow: 1px 1px 3px black; }
+#will-status { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+#will-timer { font-size: 16px; color: #f1c40f; }
+#will-restart-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 20px; font-weight: bold; background-color: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; display: none; z-index: 20; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.2; }
+#will-restart-btn:hover { background-color: #c0392b; transform: translate(-50%, -50%) scale(1.05); }
