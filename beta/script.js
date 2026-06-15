@@ -28,6 +28,8 @@ let lazyTableGenerated = false;
 let visualInitialized = false;
 let progInitialized = false;
 let ignoreInitialized = false;
+let willInitialized = false; // 新增這行
+let willGameActive = false;  // 新增這行
 
 function switchTab(tabId) {
     document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
@@ -57,6 +59,16 @@ function switchTab(tabId) {
     if (tabId === 'ignore' && !ignoreInitialized) {
         initIgnoreGrid();
         ignoreInitialized = true;
+    }
+
+    willGameActive = (tabId === 'will');
+    if (tabId === 'will') {
+        if (!willInitialized) {
+            will_init();
+            willInitialized = true;
+        } else {
+            requestAnimationFrame(will_gameLoop); // 切回來時繼續跑動畫
+        }
     }
     
     if (typeof gtag === 'function') {
@@ -1724,4 +1736,154 @@ function cr_action_reset() {
     cr_fails = 0; cr_successes = 0; cr_crystals_used = 0;
     cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
     cr_updateUI();
+}
+
+/* ========================================== */
+/* 10. 威爾機制模擬引擎 (Will Simulator)         */
+/* ========================================== */
+const wCanvas = document.getElementById('willCanvas');
+const wCtx = wCanvas ? wCanvas.getContext('2d') : null;
+
+let wPlayer = { x: 400, y: 300, radius: 25, speed: 7, facing: 'right', targetX: null };
+let wKeys = { ArrowLeft: false, ArrowRight: false, a: false, d: false };
+let wState = { phase: 'waiting', crack: false, eyePos: 'none', timer: 0 };
+let wLastTime = 0;
+
+function will_init() {
+    if (!wCanvas) return;
+    window.addEventListener('keydown', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = true; });
+    window.addEventListener('keyup', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = false; });
+
+    wCanvas.addEventListener('pointerdown', will_handleInput);
+    wCanvas.addEventListener('pointermove', e => { if (e.buttons > 0) will_handleInput(e); });
+
+    will_resetGame();
+    requestAnimationFrame(will_gameLoop);
+}
+
+function will_handleInput(e) {
+    if (!willGameActive || wState.phase === 'gameover' || wState.phase === 'success') return;
+    const rect = wCanvas.getBoundingClientRect();
+    const scaleX = wCanvas.width / rect.width;
+    wPlayer.targetX = (e.clientX - rect.left) * scaleX;
+}
+
+function will_resetGame() {
+    wPlayer.x = wCanvas.width / 2;
+    wPlayer.targetX = null;
+    wState = { phase: 'waiting', crack: false, eyePos: 'none', timer: 2000 };
+    document.getElementById('will-restart-btn').style.display = 'none';
+    will_updateUI("準備迎戰...", "white", "等待王施放技能");
+    wLastTime = performance.now();
+}
+
+function will_updateUI(text, color, subtext = "") {
+    const statusEl = document.getElementById('will-status');
+    const timerEl = document.getElementById('will-timer');
+    statusEl.innerText = text;
+    statusEl.style.color = color;
+    if(subtext) timerEl.innerText = subtext;
+}
+
+function will_update(dt) {
+    if (wState.phase === 'gameover' || wState.phase === 'success') return;
+
+    // 1. 移動與面向更新
+    let dx = 0;
+    if (wKeys.ArrowLeft || wKeys.a) dx -= 1;
+    if (wKeys.ArrowRight || wKeys.d) dx += 1;
+
+    if (dx !== 0) {
+        wPlayer.targetX = null;
+        wPlayer.x += dx * wPlayer.speed;
+        wPlayer.facing = dx > 0 ? 'right' : 'left';
+    } else if (wPlayer.targetX !== null) {
+        const diffX = wPlayer.targetX - wPlayer.x;
+        if (Math.abs(diffX) > wPlayer.speed) {
+            wPlayer.x += Math.sign(diffX) * wPlayer.speed;
+            wPlayer.facing = diffX > 0 ? 'right' : 'left';
+        } else {
+            wPlayer.x = wPlayer.targetX;
+            wPlayer.targetX = null;
+        }
+    }
+    wPlayer.x = Math.max(wPlayer.radius, Math.min(wCanvas.width - wPlayer.radius, wPlayer.x));
+
+    // 2. 時間軸與機制觸發
+    wState.timer -= dt;
+
+    if (wState.phase === 'waiting' && wState.timer <= 0) {
+        wState.phase = 'mechanic';
+        wState.crack = Math.random() < 0.5;
+        wState.eyePos = Math.random() < 0.5 ? 'left' : 'right';
+        wState.timer = 3000; // 3秒反應時間
+        will_updateUI(wState.crack ? "【出現裂縫】" : "【一般畫面】", wState.crack ? "#e74c3c" : "#3498db", wState.crack ? "快面對眼球！" : "快背對眼球！");
+    } 
+    else if (wState.phase === 'mechanic' && wState.timer <= 0) {
+        // 3. 生死判定
+        let isFacingEye = false;
+        if (wState.eyePos === 'left' && wPlayer.facing === 'left') isFacingEye = true;
+        if (wState.eyePos === 'right' && wPlayer.facing === 'right') isFacingEye = true;
+
+        let isSuccess = false;
+        if (wState.crack && isFacingEye) isSuccess = true;   // 有裂縫 -> 面對
+        if (!wState.crack && !isFacingEye) isSuccess = true; // 無裂縫 -> 背對
+
+        if (isSuccess) {
+            wState.phase = 'success';
+            will_updateUI("判定成功！", "#2ecc71", "漂亮地躲過了攻擊");
+        } else {
+            wState.phase = 'gameover';
+            will_updateUI("判定失敗！", "#e74c3c", "遭到強大攻擊秒殺...");
+        }
+        document.getElementById('will-restart-btn').style.display = 'block';
+    }
+}
+
+function will_draw() {
+    wCtx.clearRect(0, 0, wCanvas.width, wCanvas.height);
+
+    // 繪製裂縫
+    if (wState.phase === 'mechanic' && wState.crack) {
+        wCtx.strokeStyle = 'rgba(231, 76, 60, 0.4)';
+        wCtx.lineWidth = 15;
+        wCtx.beginPath();
+        wCtx.moveTo(0, 0); wCtx.lineTo(800, 400);
+        wCtx.moveTo(800, 0); wCtx.lineTo(0, 400);
+        wCtx.moveTo(400, 0); wCtx.lineTo(400, 400);
+        wCtx.stroke();
+    }
+
+    // 繪製眼球
+    if (wState.phase === 'mechanic') {
+        const ex = wState.eyePos === 'left' ? 120 : 680;
+        const ey = 200;
+        wCtx.beginPath(); wCtx.arc(ex, ey, 45, 0, Math.PI * 2); wCtx.fillStyle = '#9b59b6'; wCtx.fill();
+        wCtx.beginPath(); wCtx.arc(ex, ey, 15, 0, Math.PI * 2); wCtx.fillStyle = '#f1c40f'; wCtx.fill();
+        // 倒數條
+        wCtx.fillStyle = 'rgba(255,255,255,0.2)'; wCtx.fillRect(ex - 50, ey + 60, 100, 8);
+        wCtx.fillStyle = '#f1c40f'; wCtx.fillRect(ex - 50, ey + 60, 100 * (wState.timer / 3000), 8);
+    }
+
+    // 繪製玩家
+    wCtx.beginPath();
+    wCtx.arc(wPlayer.x, wPlayer.y, wPlayer.radius, 0, Math.PI * 2);
+    wCtx.fillStyle = '#3498db'; wCtx.fill();
+    wCtx.lineWidth = 3; wCtx.strokeStyle = 'white'; wCtx.stroke();
+
+    // 繪製視線方向
+    wCtx.beginPath();
+    wCtx.moveTo(wPlayer.x, wPlayer.y);
+    const sightX = wPlayer.facing === 'right' ? wPlayer.x + 40 : wPlayer.x - 40;
+    wCtx.lineTo(sightX, wPlayer.y);
+    wCtx.lineWidth = 5; wCtx.strokeStyle = '#e74c3c'; wCtx.stroke();
+}
+
+function will_gameLoop(timestamp) {
+    if (!willGameActive) return; 
+    const dt = timestamp - wLastTime;
+    wLastTime = timestamp;
+    will_update(dt);
+    will_draw();
+    requestAnimationFrame(will_gameLoop);
 }
