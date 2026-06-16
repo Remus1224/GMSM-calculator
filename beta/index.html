@@ -844,23 +844,21 @@
             
             <canvas id="willCanvas"></canvas>
             
+            <div style="position: absolute; top: 5%; left: 50%; transform: translateX(-50%); text-align: center; z-index: 100; pointer-events: none; width: 100%;">
+                <div id="will-status" style="font-weight: bold; font-size: 28px; color: #2ecc71; text-shadow: 2px 2px 4px #000, 0 0 10px #000;">準備迎戰...</div>
+                <div id="will-timer" style="font-weight: bold; color: #fff; font-size: 18px; text-shadow: 2px 2px 4px #000; margin-top: 5px;">狀態: 等待機制</div>
+            </div>
+
+            <button id="will-restart-btn" onclick="will_resetGame()" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; font-size: 24px; background-color: #f1c40f; color: #222; border: 3px solid #fff; border-radius: 12px; cursor: pointer; font-weight: bold; z-index: 200; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+                再來一局
+            </button>
+
             <div id="joystick-base">
                 <div id="joystick-stick"></div>
             </div>
 
         </div>
 
-        <div class="panel will-game-panel" style="margin-top: 10px;">
-            <div id="will-ui">
-                <div id="will-status" style="font-weight: bold; font-size: 1.2em;">準備迎戰...</div>
-                <div id="will-timer" style="color: #aaa;">狀態: 等待機制</div>
-            </div>
-            <button id="will-restart-btn" onclick="will_resetGame()" style="display: none; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                重新挑戰
-            </button>
-        </div>
-    </div>
-
 <script src="script.js"></script>
 </body>
-</html>
+    </html>
