@@ -1947,20 +1947,43 @@ function will_init() {
     requestAnimationFrame(will_gameLoop);
 }
 
-// 🌟 修正：萬用全螢幕觸發器 (支援各家瀏覽器，iPhone 會有提示)
+// 🌟 終極全螢幕觸發器 (完美支援 iOS 與 PC/Android)
 window.toggleWillFullscreen = function() {
     const wrapper = document.getElementById('will-game-wrapper');
-    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    
+    // 判斷現在的狀態
+    const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+    const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
+
+    // 🔴 執行「離開全螢幕」
+    if (isNativeFullscreen || isFakeFullscreen) {
+        if (isNativeFullscreen) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+        if (isFakeFullscreen) {
+            wrapper.classList.remove('fake-fullscreen');
+        }
+        return;
+    }
+
+    // 🟢 執行「進入全螢幕」
+    // 偵測是不是 iOS 設備 (iPhone/iPad)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    // 如果不是 iOS，且瀏覽器支援原生 API，就走原生路線 (PC、Android)
+    if (!isIOS && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
         if (wrapper.requestFullscreen) {
             wrapper.requestFullscreen();
-        } else if (wrapper.webkitRequestFullscreen) { // Safari
-            wrapper.webkitRequestFullscreen();
         } else {
-            alert("📱 您的手機瀏覽器不支援強制全螢幕，建議您將手機【橫放】獲得最佳體驗！");
+            wrapper.webkitRequestFullscreen();
         }
-    } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } 
+    // 如果是 iOS，或是瀏覽器很舊，就開大絕招「虛擬全螢幕」
+    else {
+        wrapper.classList.add('fake-fullscreen');
+        // 自動把畫面捲到最上面，防止網址列干擾
+        window.scrollTo(0, 0); 
     }
 };
 
