@@ -724,13 +724,7 @@
             💡 <strong>機制說明：</strong><br>
             如果有【螢幕裂縫】，必須<strong>面對</strong>眼球。<br>
             如果沒有【螢幕裂縫】，必須<strong>背對</strong>眼球。<br>
-            (點擊畫面左右移動，或使用鍵盤 A/D 左右鍵控制面向)
-        </div>
-
-        <div style="background: #222; color: white; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-            <label style="font-weight: bold;">🔍 視野遠近 (Zoom)：</label>
-            <input type="range" id="cam-zoom" min="1.0" max="2.5" step="0.1" value="1.5" oninput="changeWillZoom(this.value)" style="flex: 1; accent-color: #3498db;">
-            <span id="zoom-val" style="font-weight: bold; color: #f1c40f; width: 40px;">1.5x</span>
+            (點擊畫面左右移動，或使用虛擬搖桿/鍵盤 A/D 左右鍵控制)
         </div>
 
         <div style="background: #222; color: white; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
@@ -738,20 +732,29 @@
             <input type="range" id="cam-zoom" min="1.0" max="2.5" step="0.1" value="1.1" oninput="changeWillZoom(this.value)" style="flex: 1; accent-color: #3498db;">
             <span id="zoom-val" style="font-weight: bold; color: #f1c40f; width: 40px;">1.1x</span>
             
-            <button onclick="document.getElementById('willCanvas').requestFullscreen()" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+            <button onclick="document.getElementById('will-game-wrapper').requestFullscreen()" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
                 📱 全螢幕
             </button>
+        </div>
+
+        <div id="will-game-wrapper" style="position: relative; width: 100%; touch-action: none; user-select: none;">
+            
+            <canvas id="willCanvas" style="display: block; width: 100%; background-color: #000;"></canvas>
+            
+            <div id="joystick-base" style="position: absolute; bottom: 10%; left: 5%; width: 130px; height: 130px; background-color: rgba(10, 30, 60, 0.4); border: 2px solid rgba(52, 152, 219, 0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;">
+                <div id="joystick-stick" style="width: 55px; height: 55px; background-color: rgba(52, 152, 219, 0.8); border-radius: 50%; box-shadow: 0 0 10px rgba(0,0,0,0.5); pointer-events: none; transition: transform 0.1;"></div>
             </div>
 
-        <div class="panel will-game-panel">
+        </div>
+
+        <div class="panel will-game-panel" style="margin-top: 10px;">
             <div id="will-ui">
-                <div id="will-status">準備迎戰...</div>
-                <div id="will-timer">狀態: 等待機制</div>
+                <div id="will-status" style="font-weight: bold; font-size: 1.2em;">準備迎戰...</div>
+                <div id="will-timer" style="color: #aaa;">狀態: 等待機制</div>
             </div>
-
-            <button id="will-restart-btn" onclick="will_resetGame()">重新挑戰</button>
-
-            <canvas id="willCanvas" width="800" height="400"></canvas>
+            <button id="will-restart-btn" onclick="will_resetGame()" style="display: none; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                重新挑戰
+            </button>
         </div>
     </div>
 
