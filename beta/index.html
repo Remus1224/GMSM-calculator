@@ -727,6 +727,12 @@
             (點擊畫面左右移動，或使用鍵盤 A/D 左右鍵控制面向)
         </div>
 
+        <div style="background: #222; color: white; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+            <label style="font-weight: bold;">🔍 視野遠近 (Zoom)：</label>
+            <input type="range" id="cam-zoom" min="1.0" max="2.5" step="0.1" value="1.5" oninput="changeWillZoom(this.value)" style="flex: 1; accent-color: #3498db;">
+            <span id="zoom-val" style="font-weight: bold; color: #f1c40f; width: 40px;">1.5x</span>
+        </div>
+
         <div class="panel will-game-panel">
             <div id="will-ui">
                 <div id="will-status">準備迎戰...</div>
@@ -738,8 +744,6 @@
             <canvas id="willCanvas" width="800" height="400"></canvas>
         </div>
     </div>
-
-</div>
 
 <script src="script.js"></script>
 </body>
