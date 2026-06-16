@@ -1917,7 +1917,6 @@ function tickSprite(cfg, dt, loop = true) {
     }
 }
 
-JavaScript
 function will_init() {
     if (!wCanvas) return;
     
@@ -2072,6 +2071,7 @@ function will_update(dt) {
 
     wGame.timer -= dt;
     if (wGame.flashRed > 0) wGame.flashRed -= dt;
+    let currPattern = WILL_PATTERNS[wGame.queue[wGame.currQ]];
 
     // 1. 進入準備狀態 (重置動畫幀數)
     if (wGame.phase === 'ready' && wGame.timer <= 0) {
