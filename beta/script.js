@@ -1739,144 +1739,460 @@ function cr_action_reset() {
 }
 
 /* ========================================== */
-/* 10. 威爾機制模擬引擎 (Will Simulator)         */
+/* 10. 威爾一階特訓模擬引擎 (1:1 鏡頭微調版)     */
 /* ========================================== */
 const wCanvas = document.getElementById('willCanvas');
 const wCtx = wCanvas ? wCanvas.getContext('2d') : null;
 
-let wPlayer = { x: 400, y: 300, radius: 25, speed: 7, facing: 'right', targetX: null };
+// 定義真實的遊戲世界大小 (依照你拆檔的背景圖)
+const WORLD_W = 1741;
+const WORLD_H = 713;
+const WORLD_CENTER = 870;
+
+// =========================================================================
+// 🎛️ 【導演專用總控面板 (CONFIG)】 - 所有的微調都在這裡！
+// =========================================================================
+const CONFIG = {
+    // 🛑【微調 1：鏡頭視角】
+    camera: {
+        zoom: 1.1,      // 預設縮放倍率 (可透過網頁拉桿即時修改)
+        offsetY: 100      // 上下視野微調：放大後若想看高一點就填正數(如 50)，想看低一點填負數(如 -50)
+    },
+    // 🛑【微調 2：物件大小比例】(1.0 代表原始圖片大小)
+    scale: {
+        player: 1,   // 玩家大小
+        boss: 1,      // 威爾大小
+        legTop: 1,    // 上方蜘蛛角大小
+        legBot: 1,    // 下方蜘蛛角大小
+        crack: 0.85     // 裂縫特效大小 (要夠大才能鋪滿 1741 背景)
+    },
+    // 🛑【微調 3：物件 Y 軸高度】(數字越大越靠近畫面下方)
+    pos: {
+        floorY: 445,    //OK 玩家腳踩的地板高度 (713的下方) & 下方蜘蛛腳刺出的基準線
+        bossY: 600,     //OK 威爾漂浮在半空中的高度
+        legTopY: 0,     // 上方蜘蛛角高度 (0 代表貼齊天花板)
+        crackX: 820,    // OK
+        crackY: 450,     // OK裂縫放在畫面正中央
+        // 👇 蜘蛛腳專屬的統一 Y 軸高度
+        legTopY: -280,     // 所有的【上方腳】統一高度 (0 代表貼齊天花板)
+        legBotY: 1100    // 所有的【下方腳】統一高度 (可以跟 floorY 一樣，也可以微調)
+
+    },
+    // 🛑【微調 4：遊戲節奏與時間】(單位：毫秒，1000 = 1秒)
+    time: { 
+        warn: 900,      // 預警時間：紅眼出現到刺下的反應時間 (影片約 0.9 秒)
+        strike: 900,    // 攻擊階段：蜘蛛角刺出的動畫持續時間
+        idle: 300       // 換位時間：收回腳到下一次出現預警的空檔 (影片約 0.3 秒)
+    },
+    // 🛑【微調 5：玩家手感與判定】
+    player: {
+        speed: 4,      // 角色移動速度：覺得走太慢躲不掉可調高 (例如 18)，走太滑可調低 (例如 12)
+        nativeFacingLeft: true, // 【方向修正】如果原圖面朝左就設 true，若發現左右顛倒就改成 false
+        hitTolerance: 130 // 碰撞判定寬度：數字越大越容易被打中，數字越小容錯率越高
+    }
+};
+
+// 🛑【微調 6：蜘蛛腳 X 軸精準座標】(以中心 870 為基準，左右推移)
+// 如果你發現腳生出來的位置沒有對齊背景圖的柱子，請微調這裡的數字
+const POS = { 
+    LL: 225,   // 更大左
+    L2: 440,   // 大左
+    L1: 655,   // 小左
+    M: 870,    // 中間
+    R1: 1085,  // 小右
+    R2: 1300,  // 大右
+    RR: 1515   // 更大右
+};
+const ALL_POS = [POS.LL, POS.L2, POS.L1, POS.M, POS.R1, POS.R2, POS.RR];
+// =========================================================================
+
+// 提供給 HTML 拉桿呼叫的函數
+window.changeWillZoom = function(val) {
+    CONFIG.camera.zoom = parseFloat(val);
+    const display = document.getElementById('zoom-val');
+    if(display) display.innerText = val + 'x';
+};
+
+// --- 1. 載入遊戲素材 ---
+const wAssets = {
+    bgSmooth: new Image(), bgCrack: new Image(), boss: new Image(),
+    pWalk: new Image(), pIdle: new Image(),
+    legTop: new Image(), legBot: new Image(), crack: new Image()
+};
+wAssets.bgSmooth.src = 'assets/bg_Deep_Mirror.png';
+wAssets.bgCrack.src = 'assets/bg_Deep_Mirror.png'; // 若有紅色裂縫背景可替換此檔
+wAssets.pWalk.src = 'assets/player_walk.png';
+wAssets.pIdle.src = 'assets/player_idle.png';
+wAssets.boss.src = 'assets/boss_will.png';
+wAssets.legTop.src = 'assets/spider_leg_top.png';
+wAssets.legBot.src = 'assets/spider_leg_bottom.png';
+wAssets.crack.src = 'assets/screen_crack.png';
+
+// --- 2. 精靈圖設定 ---
+const wSprites = {
+    pWalk:  { cols: 6, rows: 7, frames: 37, speed: 60, curr: 0, tick: 0 },
+    pIdle:  { cols: 9, rows: 9, frames: 80, speed: 60, curr: 0, tick: 0 },
+    boss:   { cols: 4, rows: 4, frames: 16, speed: 60, curr: 0, tick: 0 },
+    // 🌟 根據你的 WZ 拆檔數據，將 speed 精準校正為 60 毫秒！
+    legTop: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
+    legBot: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
+    crack:  { cols: 3, rows: 3, frames: 8,  speed: 60, curr: 0, tick: 0 }
+};
+// =========================================================================
+// 🕷️ 終極 1:1 蜘蛛角陣型設定 (位置索引：0=更大左, 1=大左, 2=小左, 3=中, 4=小右, 5=大右, 6=更大右)
+// =========================================================================
+const WILL_PATTERNS = [
+    { 
+        name: "光滑1 (中 ➔ 小左 ➔ 中)", crack: false, hint: "中 ➔ 小左 ➔ 中",
+        strikes: [
+            // 第一下：安全區在 870。下方腳有三根，上方腳有三根
+            { safe: 870, bot: [225, 440, 655], top: [1085, 1300, 1515] },
+            
+            // 第二下：安全區在 655。下方腳有五根，上方腳只有一根
+            { safe: 655, bot: [225, 870, 1085, 1300, 1515], top: [440] },
+            
+            // 第三下：跟第一下一樣
+            { safe: 870, bot: [225, 440, 655], top: [1085, 1300, 1515] }
+        ]
+    }
+    // 🛑【導演請注意】以下 6 題我先暫時用基本的陣型填補，請你依照遊戲實戰的影片，
+    // 把剩下的 `top` (上方腳) 和 `bot` (下方腳) 陣型，像第一題一樣精準填入！
+    //{ 
+      //  name: "光滑2 (中 ➔ 小右 ➔ 大右)", crack: false, hint: "中 ➔ 小右 ➔ 大右",
+        //strikes: [
+          //  { safe: 3, bot: [4, 5, 6], top: [0, 1, 2] },
+            //{ safe: 4, bot: [0, 1, 2, 3, 6], top: [5] }, // 示意：需填寫正確陣型
+            //{ safe: 5, bot: [0, 1, 2, 3, 4], top: [6] }  // 示意：需填寫正確陣型
+        //]
+    //},
+    //{ name: "光滑3 (中 ➔ 大右 ➔ 小右)", crack: false, hint: "中 ➔ 大右 ➔ 小右", strikes: [ { safe: 3, bot: [0,1,2,4,5,6], top: [] }, { safe: 5, bot: [0,1,2,3,4,6], top: [] }, { safe: 4, bot: [0,1,2,3,5,6], top: [] } ] },
+    //{ name: "光滑4 (中 ➔ 大左 ➔ 不動)", crack: false, hint: "中 ➔ 大左 ➔ 不動", strikes: [ { safe: 3, bot: [0,1,2,4,5,6], top: [] }, { safe: 1, bot: [0,2,3,4,5,6], top: [] }, { safe: 1, bot: [0,2,3,4,5,6], top: [] } ] },
+    //{ name: "地裂1 (中 ➔ 大左 ➔ 更大左)", crack: true, hint: "中 ➔ 大左 ➔ 更大左", strikes: [ { safe: 3, bot: [0,1,2,4,5,6], top: [] }, { safe: 1, bot: [0,2,3,4,5,6], top: [] }, { safe: 0, bot: [1,2,3,4,5,6], top: [] } ] },
+    //{ name: "地裂2 (中 ➔ 大右 ➔ 中)", crack: true, hint: "中 ➔ 大右 ➔ 中", strikes: [ { safe: 3, bot: [0,1,2,4,5,6], top: [] }, { safe: 5, bot: [0,1,2,3,4,6], top: [] }, { safe: 3, bot: [0,1,2,4,5,6], top: [] } ] },
+    //{ name: "地裂3 (中 ➔ 大右 ➔ 中)", crack: true, hint: "中 ➔ 大右 ➔ 中", strikes: [ { safe: 3, bot: [0,1,2,4,5,6], top: [] }, { safe: 5, bot: [0,1,2,3,4,6], top: [] }, { safe: 3, bot: [0,1,2,4,5,6], top: [] } ] }
+];
+
+let wPlayer = { x: WORLD_CENTER, y: CONFIG.pos.floorY, radius: 15, targetX: null, facing: 'right' };
 let wKeys = { ArrowLeft: false, ArrowRight: false, a: false, d: false };
-let wState = { phase: 'waiting', crack: false, eyePos: 'none', timer: 0 };
 let wLastTime = 0;
+let cameraX = 0; 
+
+let wGame = { hp: 3, queue: [], currQ: 0, phase: 'ready', strikeIndex: 0, timer: 0, flashRed: 0 };
+
+// 徹底拔除透明度的乾淨繪圖引擎
+function will_drawSprite(ctx, img, cfg, x, y, scale = 1, flip = false, align = 'bottom-center') {
+    if (!img.complete || img.naturalWidth === 0) return;
+    const fw = img.naturalWidth / cfg.cols;
+    const fh = img.naturalHeight / cfg.rows;
+    const col = cfg.curr % cfg.cols;
+    const row = Math.floor(cfg.curr / cfg.cols);
+
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    ctx.translate(x, y);
+    if (flip) ctx.scale(-1, 1);
+    
+    let drawX = -fw / 2;
+    let drawY = -fh / 2;
+    if (align === 'bottom-center') drawY = -fh;   
+    if (align === 'top-center') drawY = 0;        
+    
+    ctx.drawImage(img, col * fw, row * fh, fw, fh, drawX * scale, drawY * scale, fw * scale, fh * scale);
+    ctx.restore();
+}
+
+function tickSprite(cfg, dt, loop = true) {
+    cfg.tick += dt;
+    if (cfg.tick >= cfg.speed) {
+        cfg.tick = 0;
+        cfg.curr++;
+        if (cfg.curr >= cfg.frames) {
+            cfg.curr = loop ? 0 : cfg.frames - 1;
+        }
+    }
+}
 
 function will_init() {
     if (!wCanvas) return;
+    
+    // 【終極解法】把畫布的「真實像素」直接鎖死成官方背景圖的原生解析度
+    wCanvas.width = WORLD_W;   // 強制設為 1741
+    wCanvas.height = WORLD_H;  // 強制設為 713
+    
+    // 讓 CSS 去負責縮放畫面以符合使用者的螢幕寬度，保持比例不變形
+    wCanvas.style.width = '100%';
+    wCanvas.style.height = 'auto';
+
     window.addEventListener('keydown', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = true; });
     window.addEventListener('keyup', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = false; });
-
     wCanvas.addEventListener('pointerdown', will_handleInput);
     wCanvas.addEventListener('pointermove', e => { if (e.buttons > 0) will_handleInput(e); });
-
     will_resetGame();
     requestAnimationFrame(will_gameLoop);
 }
 
 function will_handleInput(e) {
-    if (!willGameActive || wState.phase === 'gameover' || wState.phase === 'success') return;
+    if (!willGameActive || wGame.phase === 'gameover' || wGame.phase === 'victory') return;
     const rect = wCanvas.getBoundingClientRect();
-    const scaleX = wCanvas.width / rect.width;
-    wPlayer.targetX = (e.clientX - rect.left) * scaleX;
+    const scaleX = wCanvas.width / rect.width; 
+    
+    // 將滑鼠點擊位置精準轉換成真實世界座標
+    const renderScale = (wCanvas.height / WORLD_H) * CONFIG.camera.zoom; 
+    let canvasX = (e.clientX - rect.left) * scaleX;
+    wPlayer.targetX = (canvasX / renderScale) + cameraX;
+}
+
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
 }
 
 function will_resetGame() {
-    wPlayer.x = wCanvas.width / 2;
-    wPlayer.targetX = null;
-    wState = { phase: 'waiting', crack: false, eyePos: 'none', timer: 2000 };
+    wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
+    wGame.hp = 99; //wGame.queue = [0, 1, 2, 3, 4, 5, 6]; shuffleArray(wGame.queue);
+    wGame.queue = [0, 0, 0, 0, 0, 0, 0];
+    wGame.currQ = 0; wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; wGame.flashRed = 0; wGame.hasEvaluated = false;
     document.getElementById('will-restart-btn').style.display = 'none';
-    will_updateUI("準備迎戰...", "white", "等待王施放技能");
+    will_updateUI("特訓開始！", "#2ecc71", "準備迎戰...");
     wLastTime = performance.now();
 }
 
 function will_updateUI(text, color, subtext = "") {
     const statusEl = document.getElementById('will-status');
     const timerEl = document.getElementById('will-timer');
-    statusEl.innerText = text;
-    statusEl.style.color = color;
-    if(subtext) timerEl.innerText = subtext;
+    if(statusEl) { statusEl.innerText = text; statusEl.style.color = color; }
+    if(timerEl) timerEl.innerText = subtext;
+}
+
+function will_nextQuestion() {
+    wGame.currQ++;
+    if (wGame.currQ >= 7) {
+        wGame.phase = 'victory';
+        will_updateUI("🎉 特訓通過！", "#f1c40f", `剩餘愛心: ${wGame.hp} 顆`);
+        document.getElementById('will-restart-btn').innerText = "再來一局";
+        document.getElementById('will-restart-btn').style.display = 'block';
+        return;
+    }
+    wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 1500;
+    
+    // 🌟 修正 1：刪除強制回到 WORLD_CENTER 的代碼，讓玩家維持在原地！
+    wPlayer.targetX = null; 
 }
 
 function will_update(dt) {
-    if (wState.phase === 'gameover' || wState.phase === 'success') return;
+    if (wGame.phase === 'gameover' || wGame.phase === 'victory') return;
 
-    // 1. 移動與面向更新
     let dx = 0;
     if (wKeys.ArrowLeft || wKeys.a) dx -= 1;
     if (wKeys.ArrowRight || wKeys.d) dx += 1;
 
+    let pSpeed = CONFIG.player.speed;
     if (dx !== 0) {
         wPlayer.targetX = null;
-        wPlayer.x += dx * wPlayer.speed;
+        wPlayer.x += dx * pSpeed;
         wPlayer.facing = dx > 0 ? 'right' : 'left';
     } else if (wPlayer.targetX !== null) {
         const diffX = wPlayer.targetX - wPlayer.x;
-        if (Math.abs(diffX) > wPlayer.speed) {
-            wPlayer.x += Math.sign(diffX) * wPlayer.speed;
+        if (Math.abs(diffX) > pSpeed) {
+            wPlayer.x += Math.sign(diffX) * pSpeed;
             wPlayer.facing = diffX > 0 ? 'right' : 'left';
         } else {
-            wPlayer.x = wPlayer.targetX;
-            wPlayer.targetX = null;
+            wPlayer.x = wPlayer.targetX; wPlayer.targetX = null;
         }
     }
-    wPlayer.x = Math.max(wPlayer.radius, Math.min(wCanvas.width - wPlayer.radius, wPlayer.x));
+    wPlayer.x = Math.max(0, Math.min(WORLD_W, wPlayer.x));
 
-    // 2. 時間軸與機制觸發
-    wState.timer -= dt;
+    let isMoving = (dx !== 0 || wPlayer.targetX !== null);
+    if (isMoving) { tickSprite(wSprites.pWalk, dt); wSprites.pIdle.curr = 0; }
+    else { tickSprite(wSprites.pIdle, dt); wSprites.pWalk.curr = 0; }
+    
+    tickSprite(wSprites.boss, dt); 
 
-    if (wState.phase === 'waiting' && wState.timer <= 0) {
-        wState.phase = 'mechanic';
-        wState.crack = Math.random() < 0.5;
-        wState.eyePos = Math.random() < 0.5 ? 'left' : 'right';
-        wState.timer = 3000; // 3秒反應時間
-        will_updateUI(wState.crack ? "【出現裂縫】" : "【一般畫面】", wState.crack ? "#e74c3c" : "#3498db", wState.crack ? "快面對眼球！" : "快背對眼球！");
+    wGame.timer -= dt;
+    if (wGame.flashRed > 0) wGame.flashRed -= dt;
+
+    let currPattern = WILL_PATTERNS[wGame.queue[wGame.currQ]];
+
+    // 1. 進入準備狀態 (重置動畫幀數)
+    if (wGame.phase === 'ready' && wGame.timer <= 0) {
+        wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn;
+        wSprites.crack.curr = 0; wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
+        wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+        will_updateUI(`第 ${wGame.currQ + 1}/7 題 - ${currPattern.crack ? "【地裂】" : "【光滑】"}`, "white", `提示: ${currPattern.hint}`);
     } 
-    else if (wState.phase === 'mechanic' && wState.timer <= 0) {
-        // 3. 生死判定
-        let isFacingEye = false;
-        if (wState.eyePos === 'left' && wPlayer.facing === 'left') isFacingEye = true;
-        if (wState.eyePos === 'right' && wPlayer.facing === 'right') isFacingEye = true;
 
-        let isSuccess = false;
-        if (wState.crack && isFacingEye) isSuccess = true;   // 有裂縫 -> 面對
-        if (!wState.crack && !isFacingEye) isSuccess = true; // 無裂縫 -> 背對
+    // 🌟 新邏輯：允許動畫延伸到 idle 階段繼續播放，確保 30 幀毫無保留全部播完！
+    if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
+        tickSprite(wSprites.legTop, dt, false);
+        tickSprite(wSprites.legBot, dt, false);
+        if (currPattern.crack) tickSprite(wSprites.crack, dt, false);
+    }
 
-        if (isSuccess) {
-            wState.phase = 'success';
-            will_updateUI("判定成功！", "#2ecc71", "漂亮地躲過了攻擊");
-        } else {
-            wState.phase = 'gameover';
-            will_updateUI("判定失敗！", "#e74c3c", "遭到強大攻擊秒殺...");
+    // 2. 預警結束 ➔ 進入攻擊動畫階段 (這裡不判定扣血，只切換狀態)
+    if (wGame.phase === 'warn' && wGame.timer <= 0) {
+        wGame.phase = 'strike'; 
+        wGame.timer = CONFIG.time.strike;
+        wGame.hasEvaluated = false; // 🌟 重新上鎖：標記這一下蜘蛛腳還沒結算過傷害
+    }
+    
+    // 3. 攻擊動畫播放中 ➔ 抓準第 23~25 幀進行精準判定！
+    else if (wGame.phase === 'strike') {
+        tickSprite(wSprites.legTop, dt, false);
+        tickSprite(wSprites.legBot, dt, false);
+        if (currPattern.crack) tickSprite(wSprites.crack, dt, false);
+
+        // 🌟 核心機制：當動畫跑到 22~25 幀之間 (也就是蜘蛛腳狠狠刺入地板的瞬間)，且還沒結算過，就進行判定
+        if (!wGame.hasEvaluated && wSprites.legBot.curr >= 22 && wSprites.legBot.curr <= 25) {
+            wGame.hasEvaluated = true; // 標記為已結算，確保這一下只會扣一次血
+            
+            let currentStrike = currPattern.strikes[wGame.strikeIndex];
+            let inDangerZone = false;
+            let dangerZones = [...currentStrike.bot, ...currentStrike.top];
+            
+            // 檢查玩家目前是否站在有蜘蛛腳的位子上
+            dangerZones.forEach(dangerX => {
+                if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTolerance) {
+                    inDangerZone = true;
+                }
+            });
+
+            let isHit = false;
+
+            // 🕷️ 威爾一階招牌機制：虛假之鏡 (地裂時邏輯反轉)
+            if (currPattern.crack) {
+                // 【地裂模式】：必須被蜘蛛腳戳到才算成功。如果「不在」危險區，就會受傷！
+                if (!inDangerZone) isHit = true;
+            } else {
+                // 【光滑模式】：必須躲開蜘蛛腳。如果「在」危險區，就會受傷！
+                if (inDangerZone) isHit = true;
+            }
+
+            // 結算扣血與 UI
+            if (isHit) {
+                wGame.hp--; 
+                wGame.flashRed = 500;
+                
+                if (wGame.hp <= 0) {
+                    wGame.phase = 'gameover';
+                    will_updateUI("💀 走位失誤！", "#e74c3c", "特訓失敗，請重新來過");
+                    document.getElementById('will-restart-btn').innerText = "重新挑戰";
+                    document.getElementById('will-restart-btn').style.display = 'block';
+                } else {
+                    will_updateUI("💥 判斷錯誤！", "#e74c3c", `機制處理失敗！ (愛心剩餘 ${wGame.hp})`);
+                }
+            } else {
+                will_updateUI("🛡️ 處理正確！", "#2ecc71", "完美迴避！");
+            }
         }
-        document.getElementById('will-restart-btn').style.display = 'block';
+
+        wGame.timer -= dt;
+        if (wGame.timer <= 0) {
+            wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle;
+        }
+    }
+    // 4. 收招空檔結束 ➔ 判定該換下一題還是下一砸
+    else if (wGame.phase === 'idle' && wGame.timer <= 0) {
+        wGame.strikeIndex++;
+        if (wGame.strikeIndex >= 3) {
+            will_updateUI("✅ 本題結束！", "#2ecc71", "準備迎接下一題");
+            wGame.phase = 'ready'; wGame.timer = 1000;
+            setTimeout(will_nextQuestion, 1000);
+        } else {
+            wGame.phase = 'warn'; 
+            wGame.timer = CONFIG.time.warn; 
+            wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
+            wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+        }
     }
 }
 
 function will_draw() {
     wCtx.clearRect(0, 0, wCanvas.width, wCanvas.height);
 
-    // 繪製裂縫
-    if (wState.phase === 'mechanic' && wState.crack) {
-        wCtx.strokeStyle = 'rgba(231, 76, 60, 0.4)';
-        wCtx.lineWidth = 15;
-        wCtx.beginPath();
-        wCtx.moveTo(0, 0); wCtx.lineTo(800, 400);
-        wCtx.moveTo(800, 0); wCtx.lineTo(0, 400);
-        wCtx.moveTo(400, 0); wCtx.lineTo(400, 400);
-        wCtx.stroke();
+    wCtx.imageSmoothingEnabled = true;
+    wCtx.imageSmoothingQuality = 'high';
+
+    // --- 計算鏡頭與縮放 ---
+    // 因為畫布已經是 1741x713 完美比例，所以基礎比例就是 1，直接乘上 Zoom 拉桿的數值！
+    const renderScale = 1 * CONFIG.camera.zoom; 
+    
+    cameraX = wPlayer.x - ((wCanvas.width / renderScale) / 2);
+    let maxCameraX = WORLD_W - (wCanvas.width / renderScale);
+    if (maxCameraX < 0) maxCameraX = 0;
+    cameraX = Math.max(0, Math.min(maxCameraX, cameraX));
+
+    let cameraY = WORLD_H - (wCanvas.height / renderScale) - CONFIG.camera.offsetY;
+    let maxCameraY = WORLD_H - (wCanvas.height / renderScale);
+    if (maxCameraY < 0) maxCameraY = 0;
+    cameraY = Math.max(0, Math.min(maxCameraY, cameraY));
+
+    wCtx.save();
+    wCtx.scale(renderScale, renderScale); 
+    wCtx.translate(-cameraX, -cameraY);          
+
+    // 1. 畫背景
+    let currPattern = WILL_PATTERNS[wGame.queue[wGame.currQ]];
+    let bgImg = (wGame.phase !== 'ready' && wGame.phase !== 'victory' && currPattern.crack) ? wAssets.bgCrack : wAssets.bgSmooth;
+    if (bgImg.complete && bgImg.naturalWidth > 0) {
+        wCtx.drawImage(bgImg, 0, 0, WORLD_W, WORLD_H);
     }
 
-    // 繪製眼球
-    if (wState.phase === 'mechanic') {
-        const ex = wState.eyePos === 'left' ? 120 : 680;
-        const ey = 200;
-        wCtx.beginPath(); wCtx.arc(ex, ey, 45, 0, Math.PI * 2); wCtx.fillStyle = '#9b59b6'; wCtx.fill();
-        wCtx.beginPath(); wCtx.arc(ex, ey, 15, 0, Math.PI * 2); wCtx.fillStyle = '#f1c40f'; wCtx.fill();
-        // 倒數條
-        wCtx.fillStyle = 'rgba(255,255,255,0.2)'; wCtx.fillRect(ex - 50, ey + 60, 100, 8);
-        wCtx.fillStyle = '#f1c40f'; wCtx.fillRect(ex - 50, ey + 60, 100 * (wState.timer / 3000), 8);
+    // 2. 畫螢幕碎裂特效
+    if (wGame.phase !== 'ready' && wGame.phase !== 'victory' && currPattern.crack) {
+        will_drawSprite(wCtx, wAssets.crack, wSprites.crack, CONFIG.pos.crackX, CONFIG.pos.crackY, CONFIG.scale.crack, false, 'center');
     }
 
-    // 繪製玩家
-    wCtx.beginPath();
-    wCtx.arc(wPlayer.x, wPlayer.y, wPlayer.radius, 0, Math.PI * 2);
-    wCtx.fillStyle = '#3498db'; wCtx.fill();
-    wCtx.lineWidth = 3; wCtx.strokeStyle = 'white'; wCtx.stroke();
+    // 3. 畫威爾 Boss
+    will_drawSprite(wCtx, wAssets.boss, wSprites.boss, WORLD_CENTER, CONFIG.pos.bossY, CONFIG.scale.boss, false, 'bottom-center');
 
-    // 繪製視線方向
-    wCtx.beginPath();
-    wCtx.moveTo(wPlayer.x, wPlayer.y);
-    const sightX = wPlayer.facing === 'right' ? wPlayer.x + 40 : wPlayer.x - 40;
-    wCtx.lineTo(sightX, wPlayer.y);
-    wCtx.lineWidth = 5; wCtx.strokeStyle = '#e74c3c'; wCtx.stroke();
+    // 4. 畫攻擊蜘蛛角 (完美 30 幀連貫播放)
+    if ((wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') && wGame.strikeIndex < 3) {
+        let currentStrike = currPattern.strikes[wGame.strikeIndex];
+        
+        currentStrike.top.forEach(xPos => {
+            will_drawSprite(wCtx, wAssets.legTop, wSprites.legTop, xPos, CONFIG.pos.legTopY, CONFIG.scale.legTop, false, 'top-center');
+        });
+
+        currentStrike.bot.forEach(xPos => {
+            will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center');
+        });
+    }
+
+    // 5. 畫地板座標輔助文字 (幫助你抓位置，之後如果不需要可以把這裡註解掉)
+    wCtx.fillStyle = 'rgba(255, 255, 255, 0.6)'; wCtx.font = "bold 18px Arial"; wCtx.textAlign = "center";
+    wCtx.fillText("[更大左]", POS.LL, CONFIG.pos.floorY + 50); wCtx.fillText("[大左]", POS.L2, CONFIG.pos.floorY + 50); wCtx.fillText("[小左]", POS.L1, CONFIG.pos.floorY + 50);
+    wCtx.fillText("[中]", POS.M, CONFIG.pos.floorY + 50); wCtx.fillText("[小右]", POS.R1, CONFIG.pos.floorY + 50); wCtx.fillText("[大右]", POS.R2, CONFIG.pos.floorY + 50);
+
+    // 6. 畫玩家
+    if (!(wGame.flashRed > 0 && Math.floor(wGame.flashRed / 100) % 2 === 0)) {
+        let isMoving = (wPlayer.targetX !== null || wKeys.ArrowLeft || wKeys.ArrowRight || wKeys.a || wKeys.d);
+        let pImg = isMoving ? wAssets.pWalk : wAssets.pIdle;
+        let pCfg = isMoving ? wSprites.pWalk : wSprites.pIdle;
+        
+        let isFlipped = false;
+        if (CONFIG.player.nativeFacingLeft) {
+            isFlipped = (wPlayer.facing === 'right'); 
+        } else {
+            isFlipped = (wPlayer.facing === 'left');  
+        }
+        // 畫玩家 (拔除原本的透明度 1)
+        will_drawSprite(wCtx, pImg, pCfg, wPlayer.x, CONFIG.pos.floorY, CONFIG.scale.player, isFlipped, 'bottom-center');
+    }
+
+    wCtx.restore(); 
+
+    // 7. 畫 UI 介面 (不隨鏡頭移動)
+    wCtx.fillStyle = '#e74c3c'; wCtx.font = "bold 24px Arial"; wCtx.textAlign = "left";
+    wCtx.fillText(`❤️ x ${wGame.hp}`, 15, 75); // 🌟 改成用數字顯示血量
+
+    if (wGame.flashRed > 0) {
+        wCtx.fillStyle = 'rgba(231, 76, 60, 0.3)';
+        wCtx.fillRect(0, 0, wCanvas.width, wCanvas.height);
+    }
 }
 
 function will_gameLoop(timestamp) {
@@ -1886,4 +2202,21 @@ function will_gameLoop(timestamp) {
     will_update(dt);
     will_draw();
     requestAnimationFrame(will_gameLoop);
+}
+
+function resizeCanvas() {
+    if (!wCanvas) return;
+    // 取得畫布在網頁上實際顯示的 CSS 寬高
+    const rect = wCanvas.getBoundingClientRect();
+    
+    // 偵測你的螢幕硬體像素密度 (例如高階手機或電競螢幕通常是 2 或 3)
+    const dpr = window.devicePixelRatio || 1;
+    
+    // 【關鍵 1】將畫布的「內部真實解析度」直接乘上設備密度，突破 800x400 的限制
+    wCanvas.width = rect.width * dpr;
+    wCanvas.height = rect.height * dpr;
+    
+    // 【關鍵 2】保持平滑開啟，但強制瀏覽器使用「最高品質 (high)」的縮放演算法
+    wCtx.imageSmoothingEnabled = true;
+    wCtx.imageSmoothingQuality = 'high';
 }
