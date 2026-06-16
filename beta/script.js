@@ -1786,7 +1786,7 @@ const CONFIG = {
     },
     // 🛑【微調 5：玩家手感與判定】
     player: {
-        speed: 4,      // 角色移動速度：覺得走太慢躲不掉可調高 (例如 18)，走太滑可調低 (例如 12)
+        speed: 7,      // 角色移動速度：覺得走太慢躲不掉可調高 (例如 18)，走太滑可調低 (例如 12)
         nativeFacingLeft: true, // 【方向修正】如果原圖面朝左就設 true，若發現左右顛倒就改成 false
         hitTolerance: 130 // 碰撞判定寬度：數字越大越容易被打中，數字越小容錯率越高
     }
@@ -2091,19 +2091,20 @@ function will_nextQuestion() {
 }
 
 function will_update(dt) {
-    if (wGame.phase === 'gameover' || wGame.phase === 'victory') return;
-
+    // 🌟 1. 刪除最上方的 return，讓遊戲結束後角色依然能走動、動畫依然活著！
+    
     let dx = 0;
-    // 🌟 結合鍵盤按鍵 與 虛擬搖桿
+    // 結合鍵盤按鍵 與 虛擬搖桿
     if (wKeys.ArrowLeft || wKeys.a || mTouchLeft) dx -= 1;
     if (wKeys.ArrowRight || wKeys.d || mTouchRight) dx += 1;
 
     let pSpeed = CONFIG.player.speed;
+    let moveDistance = pSpeed * (dt / 16.666);
     
-    // 只要有推著搖桿 (dx !== 0)，角色就會一直走！
+    // 即使過關或死亡，玩家還是可以開心滑行走動！
     if (dx !== 0) {
-        wPlayer.targetX = null; // 廢除舊的滑鼠點擊目標
-        wPlayer.x += dx * pSpeed;
+        wPlayer.targetX = null; 
+        wPlayer.x += dx * moveDistance; 
         wPlayer.facing = dx > 0 ? 'right' : 'left';
     }
     
@@ -2115,99 +2116,96 @@ function will_update(dt) {
     
     tickSprite(wSprites.boss, dt); 
 
-    wGame.timer -= dt;
     if (wGame.flashRed > 0) wGame.flashRed -= dt;
-    let currPattern = (wGame.currQ < 7) ? WILL_PATTERNS[wGame.queue[wGame.currQ]] : WILL_PATTERNS[0];
 
-    // 1. 進入準備狀態 (重置動畫幀數)
-    if (wGame.phase === 'ready' && wGame.timer <= 0) {
-        wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn;
-        wSprites.crack.curr = 0; wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
-        wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
-        will_updateUI(`第 ${wGame.currQ + 1}/7 題 - ${currPattern.crack ? "【地裂】" : "【光滑】"}`, "white", `提示: ${currPattern.hint}`);
-    } 
-
-    // 🌟 新邏輯：允許動畫延伸到 idle 階段繼續播放，確保 30 幀毫無保留全部播完！
-    if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
-        tickSprite(wSprites.legTop, dt, false);
-        tickSprite(wSprites.legBot, dt, false);
-        if (currPattern.crack) tickSprite(wSprites.crack, dt, false);
-    }
-
-    // 2. 預警結束 ➔ 進入攻擊動畫階段 (這裡不判定扣血，只切換狀態)
-    if (wGame.phase === 'warn' && wGame.timer <= 0) {
-        wGame.phase = 'strike'; 
-        wGame.timer = CONFIG.time.strike;
-        wGame.hasEvaluated = false; // 🌟 重新上鎖：標記這一下蜘蛛腳還沒結算過傷害
-    }
-    
-    // 3. 攻擊動畫播放中 ➔ 抓準第 23~25 幀進行精準判定！
-    else if (wGame.phase === 'strike') {
-        tickSprite(wSprites.legTop, dt, false);
-        tickSprite(wSprites.legBot, dt, false);
-        if (currPattern.crack) tickSprite(wSprites.crack, dt, false);
-
-        // 🌟 核心機制：當動畫跑到 22~25 幀之間 (也就是蜘蛛腳狠狠刺入地板的瞬間)，且還沒結算過，就進行判定
-        if (!wGame.hasEvaluated && wSprites.legBot.curr >= 22 && wSprites.legBot.curr <= 25) {
-            wGame.hasEvaluated = true; // 標記為已結算，確保這一下只會扣一次血
-            
-            let currentStrike = currPattern.strikes[wGame.strikeIndex];
-            let inDangerZone = false;
-            let dangerZones = [...currentStrike.bot, ...currentStrike.top];
-            
-            // 檢查玩家目前是否站在有蜘蛛腳的位子上
-            dangerZones.forEach(dangerX => {
-                if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTolerance) {
-                    inDangerZone = true;
-                }
-            });
-
-            let isHit = false;
-
-            // 🕷️ 威爾一階招牌機制：虛假之鏡 (地裂時邏輯反轉)
-            if (currPattern.crack) {
-                // 【地裂模式】：必須被蜘蛛腳戳到才算成功。如果「不在」危險區，就會受傷！
-                if (!inDangerZone) isHit = true;
-            } else {
-                // 【光滑模式】：必須躲開蜘蛛腳。如果「在」危險區，就會受傷！
-                if (inDangerZone) isHit = true;
-            }
-
-            // 結算扣血與 UI
-            if (isHit) {
-                wGame.hp--; 
-                wGame.flashRed = 500;
-                
-                if (wGame.hp <= 0) {
-                    wGame.phase = 'gameover';
-                    will_updateUI("💀 走位失誤！", "#e74c3c", "特訓失敗，請重新來過");
-                    document.getElementById('will-restart-btn').innerText = "重新挑戰";
-                    document.getElementById('will-restart-btn').style.display = 'block';
-                } else {
-                    will_updateUI("💥 判斷錯誤！", "#e74c3c", `機制處理失敗！ (愛心剩餘 ${wGame.hp})`);
-                }
-            } else {
-                will_updateUI("🛡️ 處理正確！", "#2ecc71", "完美迴避！");
-            }
-        }
-
+    // 🌟 2. 將機制判定包在防護罩裡，只有在「還沒結束」時才跑機制
+    if (wGame.phase !== 'gameover' && wGame.phase !== 'victory') {
         wGame.timer -= dt;
-        if (wGame.timer <= 0) {
-            wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle;
+        let currPattern = (wGame.currQ < 7) ? WILL_PATTERNS[wGame.queue[wGame.currQ]] : WILL_PATTERNS[0];
+
+        // 進入預警
+        if (wGame.phase === 'ready' && wGame.timer <= 0) {
+            wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn;
+            wSprites.crack.curr = 0; wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
+            wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+            will_updateUI(`第 ${wGame.currQ + 1}/7 題 - ${currPattern.crack ? "【地裂】" : "【光滑】"}`, "white", `提示: ${currPattern.hint}`);
+        } 
+
+        // 動畫推進
+        if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
+            tickSprite(wSprites.legTop, dt, false);
+            tickSprite(wSprites.legBot, dt, false);
+            if (currPattern.crack) tickSprite(wSprites.crack, dt, false);
         }
-    }
-    // 4. 收招空檔結束 ➔ 判定該換下一題還是下一砸
-    else if (wGame.phase === 'idle' && wGame.timer <= 0) {
-        wGame.strikeIndex++;
-        if (wGame.strikeIndex >= 3) {
-            will_updateUI("✅ 本題結束！", "#2ecc71", "準備迎接下一題");
-            wGame.phase = 'ready'; wGame.timer = 1000;
-            setTimeout(will_nextQuestion, 1000);
-        } else {
-            wGame.phase = 'warn'; 
-            wGame.timer = CONFIG.time.warn; 
-            wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
-            wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+
+        // 進入攻擊判定瞬間
+        if (wGame.phase === 'warn' && wGame.timer <= 0) {
+            wGame.phase = 'strike'; 
+            wGame.timer = CONFIG.time.strike;
+            wGame.hasEvaluated = false; 
+        }
+        
+        // 抓準時機判定扣血
+        else if (wGame.phase === 'strike') {
+            if (!wGame.hasEvaluated && wSprites.legBot.curr >= 22 && wSprites.legBot.curr <= 25) {
+                wGame.hasEvaluated = true; 
+                
+                let currentStrike = currPattern.strikes[wGame.strikeIndex];
+                let inDangerZone = false;
+                let dangerZones = [...currentStrike.bot, ...currentStrike.top];
+                
+                dangerZones.forEach(dangerX => {
+                    if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTolerance) {
+                        inDangerZone = true;
+                    }
+                });
+
+                let isHit = false;
+                if (currPattern.crack) {
+                    if (!inDangerZone) isHit = true;
+                } else {
+                    if (inDangerZone) isHit = true;
+                }
+
+                if (isHit) {
+                    wGame.hp--; 
+                    wGame.flashRed = 500;
+                    
+                    if (wGame.hp <= 0) {
+                        wGame.phase = 'gameover';
+                        will_updateUI("💀 走位失誤！", "#e74c3c", "特訓失敗，請重新來過");
+                        document.getElementById('will-restart-btn').innerText = "重新挑戰";
+                        document.getElementById('will-restart-btn').style.display = 'block';
+                    } else {
+                        will_updateUI("💥 判斷錯誤！", "#e74c3c", `機制處理失敗！ (愛心剩餘 ${wGame.hp})`);
+                    }
+                } else {
+                    will_updateUI("🛡️ 處理正確！", "#2ecc71", "完美迴避！");
+                }
+            }
+
+            if (wGame.timer <= 0) {
+                wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle;
+            }
+        }
+        // 換位空檔結束
+        else if (wGame.phase === 'idle' && wGame.timer <= 0) {
+            wGame.strikeIndex++;
+            if (wGame.strikeIndex >= 3) {
+                will_updateUI("✅ 本題結束！", "#2ecc71", "準備迎接下一題");
+                // 🌟 3. 廢除容易當機的 setTimeout，改用狀態機「next_wait」安穩等待
+                wGame.phase = 'next_wait'; 
+                wGame.timer = 1000;
+            } else {
+                wGame.phase = 'warn'; 
+                wGame.timer = CONFIG.time.warn; 
+                wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
+                wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+            }
+        }
+        // 🌟 4. 安穩等待 1 秒結束後，才正式叫出下一題
+        else if (wGame.phase === 'next_wait' && wGame.timer <= 0) {
+            will_nextQuestion();
         }
     }
 }
