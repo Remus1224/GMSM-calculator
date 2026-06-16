@@ -1875,7 +1875,10 @@ const WILL_PATTERNS = [
 let wPlayer = { x: WORLD_CENTER, y: CONFIG.pos.floorY, radius: 15, targetX: null, facing: 'right' };
 let wKeys = { ArrowLeft: false, ArrowRight: false, a: false, d: false };
 let wLastTime = 0;
-let cameraX = 0; 
+let cameraX = 0;
+let mTouchLeft = false;
+let mTouchRight = false;
+let isJoyDragging = false; 
 
 let wGame = { hp: 3, queue: [], currQ: 0, phase: 'ready', strikeIndex: 0, timer: 0, flashRed: 0 };
 
@@ -1914,35 +1917,94 @@ function tickSprite(cfg, dt, loop = true) {
     }
 }
 
+JavaScript
 function will_init() {
     if (!wCanvas) return;
     
-    // 【終極解法】把畫布的「真實像素」直接鎖死成官方背景圖的原生解析度
-    wCanvas.width = WORLD_W;   // 強制設為 1741
-    wCanvas.height = WORLD_H;  // 強制設為 713
-    
-    // 讓 CSS 去負責縮放畫面以符合使用者的螢幕寬度，保持比例不變形
+    wCanvas.width = WORLD_W;   
+    wCanvas.height = WORLD_H;  
     wCanvas.style.width = '100%';
     wCanvas.style.height = 'auto';
 
     window.addEventListener('keydown', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = true; });
     window.addEventListener('keyup', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = false; });
-    wCanvas.addEventListener('pointerdown', will_handleInput);
-    wCanvas.addEventListener('pointermove', e => { if (e.buttons > 0) will_handleInput(e); });
+    
+    // 🌟 把原本 wCanvas 的 pointerdown 刪除，改綁定到虛擬搖桿上
+    const joyBase = document.getElementById('joystick-base');
+    if (joyBase) {
+        joyBase.addEventListener('pointerdown', joyStart);
+        window.addEventListener('pointermove', joyMove);
+        window.addEventListener('pointerup', joyEnd);
+        window.addEventListener('pointercancel', joyEnd);
+    }
+
     will_resetGame();
     requestAnimationFrame(will_gameLoop);
 }
 
-function will_handleInput(e) {
-    if (!willGameActive || wGame.phase === 'gameover' || wGame.phase === 'victory') return;
-    const rect = wCanvas.getBoundingClientRect();
-    const scaleX = wCanvas.width / rect.width; 
-    
-    // 將滑鼠點擊位置精準轉換成真實世界座標
-    const renderScale = (wCanvas.height / WORLD_H) * CONFIG.camera.zoom; 
-    let canvasX = (e.clientX - rect.left) * scaleX;
-    wPlayer.targetX = (canvasX / renderScale) + cameraX;
+// ==========================================
+// 🕹️ 虛擬搖桿控制系統
+// ==========================================
+function joyStart(e) {
+    if (!willGameActive) return;
+    isJoyDragging = true;
+    document.getElementById('joystick-stick').style.transition = 'none'; // 拖曳時取消動畫，讓搖桿跟手
+    joyUpdate(e);
 }
+
+function joyMove(e) {
+    if (!isJoyDragging) return;
+    joyUpdate(e);
+}
+
+function joyEnd(e) {
+    if (!isJoyDragging) return;
+    isJoyDragging = false;
+    const stick = document.getElementById('joystick-stick');
+    stick.style.transform = `translate(0px, 0px)`; // 放開時搖桿彈回正中央
+    stick.style.transition = 'transform 0.2s ease-out';
+    
+    // 放開手，角色立刻停止！
+    mTouchLeft = false;
+    mTouchRight = false;
+}
+
+function joyUpdate(e) {
+    const joyBase = document.getElementById('joystick-base');
+    const stick = document.getElementById('joystick-stick');
+    const rect = joyBase.getBoundingClientRect();
+    
+    // 找出搖桿的正中心點
+    let joyCenterX = rect.left + rect.width / 2;
+    let joyCenterY = rect.top + rect.height / 2;
+    
+    // 計算大拇指與中心的距離
+    let dx = e.clientX - joyCenterX;
+    let dy = e.clientY - joyCenterY;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    let maxRadius = (rect.width / 2) - (stick.offsetWidth / 2); // 內圈不能跑出外圈
+
+    if (distance > maxRadius) {
+        dx = (dx / distance) * maxRadius;
+        dy = (dy / distance) * maxRadius;
+    }
+
+    // 讓內圈圓點跟著手移動
+    stick.style.transform = `translate(${dx}px, ${dy}px)`;
+
+    // 🌟 判斷角色移動方向 (設定 15px 的「死區」，輕輕摸到不會亂動)
+    if (dx < -15) {
+        mTouchLeft = true;
+        mTouchRight = false;
+    } else if (dx > 15) {
+        mTouchRight = true;
+        mTouchLeft = false;
+    } else {
+        mTouchLeft = false;
+        mTouchRight = false;
+    }
+}
+
 
 function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -1987,26 +2049,22 @@ function will_update(dt) {
     if (wGame.phase === 'gameover' || wGame.phase === 'victory') return;
 
     let dx = 0;
-    if (wKeys.ArrowLeft || wKeys.a) dx -= 1;
-    if (wKeys.ArrowRight || wKeys.d) dx += 1;
+    // 🌟 結合鍵盤按鍵 與 虛擬搖桿
+    if (wKeys.ArrowLeft || wKeys.a || mTouchLeft) dx -= 1;
+    if (wKeys.ArrowRight || wKeys.d || mTouchRight) dx += 1;
 
     let pSpeed = CONFIG.player.speed;
+    
+    // 只要有推著搖桿 (dx !== 0)，角色就會一直走！
     if (dx !== 0) {
-        wPlayer.targetX = null;
+        wPlayer.targetX = null; // 廢除舊的滑鼠點擊目標
         wPlayer.x += dx * pSpeed;
         wPlayer.facing = dx > 0 ? 'right' : 'left';
-    } else if (wPlayer.targetX !== null) {
-        const diffX = wPlayer.targetX - wPlayer.x;
-        if (Math.abs(diffX) > pSpeed) {
-            wPlayer.x += Math.sign(diffX) * pSpeed;
-            wPlayer.facing = diffX > 0 ? 'right' : 'left';
-        } else {
-            wPlayer.x = wPlayer.targetX; wPlayer.targetX = null;
-        }
     }
+    
     wPlayer.x = Math.max(0, Math.min(WORLD_W, wPlayer.x));
 
-    let isMoving = (dx !== 0 || wPlayer.targetX !== null);
+    let isMoving = (dx !== 0);
     if (isMoving) { tickSprite(wSprites.pWalk, dt); wSprites.pIdle.curr = 0; }
     else { tickSprite(wSprites.pIdle, dt); wSprites.pWalk.curr = 0; }
     
@@ -2014,8 +2072,6 @@ function will_update(dt) {
 
     wGame.timer -= dt;
     if (wGame.flashRed > 0) wGame.flashRed -= dt;
-
-    let currPattern = WILL_PATTERNS[wGame.queue[wGame.currQ]];
 
     // 1. 進入準備狀態 (重置動畫幀數)
     if (wGame.phase === 'ready' && wGame.timer <= 0) {
