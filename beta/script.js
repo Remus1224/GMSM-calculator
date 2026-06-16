@@ -1928,18 +1928,41 @@ function will_init() {
     window.addEventListener('keydown', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = true; });
     window.addEventListener('keyup', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = false; });
     
-    // 🌟 把原本 wCanvas 的 pointerdown 刪除，改綁定到虛擬搖桿上
+    // 🌟 修正：偵測是否為電腦，如果是電腦，直接把搖桿隱藏！
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
     const joyBase = document.getElementById('joystick-base');
+    
     if (joyBase) {
-        joyBase.addEventListener('pointerdown', joyStart);
-        window.addEventListener('pointermove', joyMove);
-        window.addEventListener('pointerup', joyEnd);
-        window.addEventListener('pointercancel', joyEnd);
+        if (!isTouchDevice) {
+            joyBase.style.display = 'none'; // 電腦版隱藏搖桿
+        } else {
+            joyBase.addEventListener('pointerdown', joyStart);
+            window.addEventListener('pointermove', joyMove);
+            window.addEventListener('pointerup', joyEnd);
+            window.addEventListener('pointercancel', joyEnd);
+        }
     }
 
     will_resetGame();
     requestAnimationFrame(will_gameLoop);
 }
+
+// 🌟 修正：萬用全螢幕觸發器 (支援各家瀏覽器，iPhone 會有提示)
+window.toggleWillFullscreen = function() {
+    const wrapper = document.getElementById('will-game-wrapper');
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (wrapper.requestFullscreen) {
+            wrapper.requestFullscreen();
+        } else if (wrapper.webkitRequestFullscreen) { // Safari
+            wrapper.webkitRequestFullscreen();
+        } else {
+            alert("📱 您的手機瀏覽器不支援強制全螢幕，建議您將手機【橫放】獲得最佳體驗！");
+        }
+    } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+};
 
 // ==========================================
 // 🕹️ 虛擬搖桿控制系統
@@ -2191,7 +2214,7 @@ function will_draw() {
     wCtx.translate(-cameraX, -cameraY);          
 
     // 1. 畫背景
-    let currPattern = WILL_PATTERNS[wGame.queue[wGame.currQ]];
+    let currPattern = (wGame.currQ < 7) ? WILL_PATTERNS[wGame.queue[wGame.currQ]] : WILL_PATTERNS[0];
     let bgImg = (wGame.phase !== 'ready' && wGame.phase !== 'victory' && currPattern.crack) ? wAssets.bgCrack : wAssets.bgSmooth;
     if (bgImg.complete && bgImg.naturalWidth > 0) {
         wCtx.drawImage(bgImg, 0, 0, WORLD_W, WORLD_H);
@@ -2225,7 +2248,9 @@ function will_draw() {
 
     // 6. 畫玩家
     if (!(wGame.flashRed > 0 && Math.floor(wGame.flashRed / 100) % 2 === 0)) {
-        let isMoving = (wPlayer.targetX !== null || wKeys.ArrowLeft || wKeys.ArrowRight || wKeys.a || wKeys.d);
+        // 🌟 修正：把 mTouchLeft 和 mTouchRight 加入動畫判斷中！
+        let isMoving = (wKeys.ArrowLeft || wKeys.ArrowRight || wKeys.a || wKeys.d || mTouchLeft || mTouchRight);
+        
         let pImg = isMoving ? wAssets.pWalk : wAssets.pIdle;
         let pCfg = isMoving ? wSprites.pWalk : wSprites.pIdle;
         
@@ -2235,7 +2260,6 @@ function will_draw() {
         } else {
             isFlipped = (wPlayer.facing === 'left');  
         }
-        // 畫玩家 (拔除原本的透明度 1)
         will_drawSprite(wCtx, pImg, pCfg, wPlayer.x, CONFIG.pos.floorY, CONFIG.scale.player, isFlipped, 'bottom-center');
     }
 
