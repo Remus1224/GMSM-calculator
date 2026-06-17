@@ -736,15 +736,16 @@
                 background-color: #000 !important; width: 100vw !important; height: 100vh !important;
             }
             #will-game-wrapper:fullscreen canvas {
+                /* 🌟 修正：強制 100% 並自動縮放，確保橫直畫面比例完美不變形 */
                 width: 100% !important; height: 100% !important; object-fit: contain !important;
             }
-            
-            /* iOS 虛擬全螢幕 (終極滿版修正) */
+            /* iOS 虛擬全螢幕 */
             #will-game-wrapper.fake-fullscreen {
-                position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+                position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important;
                 z-index: 999999 !important; display: flex !important; justify-content: center !important; align-items: center !important; background-color: #000 !important;
             }
             #will-game-wrapper.fake-fullscreen canvas {
+                /* 🌟 修正：強制 100% 並自動縮放 */
                 width: 100% !important; height: 100% !important; object-fit: contain !important;
             }
 
@@ -768,7 +769,8 @@
             #joystick-base {
                 position: absolute; bottom: 12%; left: 8%; width: 130px; height: 130px; background-color: rgba(255, 255, 255, 0.03); 
                 border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;
-                touch-action: none; /* 🌟 關鍵轉移：只有這裡被鎖定，螢幕其他地方都可以自由滑動！ */
+                /* 🌟 關鍵轉移：把鎖定滑動的功能，限定在搖桿範圍內就好！ */
+                touch-action: none; 
             }
             #will-game-wrapper.fake-fullscreen #joystick-base { z-index: 1000000 !important; }
             #joystick-stick {
