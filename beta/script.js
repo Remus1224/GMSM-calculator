@@ -2205,3 +2205,20 @@ function will_gameLoop(timestamp) {
     will_draw();
     requestAnimationFrame(will_gameLoop);
 }
+
+window.addEventListener('orientationchange', () => {
+    const wrapper = document.getElementById('will-game-wrapper');
+    
+    // 如果玩家正在全螢幕模式下旋轉手機
+    if (wrapper && wrapper.classList.contains('fake-fullscreen')) {
+        // 給手機 200 毫秒的反應時間，然後強迫畫面往下滑，逼 Safari 收起網址列
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+            
+            // 觸發瀏覽器強制重繪 (Reflow)，消除橫向旋轉產生的黑邊 Bug
+            wrapper.style.display = 'none';
+            wrapper.offsetHeight; 
+            wrapper.style.display = 'flex';
+        }, 200);
+    }
+});
