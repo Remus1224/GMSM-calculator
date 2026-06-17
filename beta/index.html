@@ -739,9 +739,9 @@
                 width: 100% !important; height: 100% !important; object-fit: contain !important;
             }
             
-            /* iOS 虛擬全螢幕 (換回 vw/vh 騙過 Safari 網址列) */
+            /* iOS 虛擬全螢幕 (終極滿版修正) */
             #will-game-wrapper.fake-fullscreen {
-                position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important;
+                position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
                 z-index: 999999 !important; display: flex !important; justify-content: center !important; align-items: center !important; background-color: #000 !important;
             }
             #will-game-wrapper.fake-fullscreen canvas {
@@ -768,6 +768,7 @@
             #joystick-base {
                 position: absolute; bottom: 12%; left: 8%; width: 130px; height: 130px; background-color: rgba(255, 255, 255, 0.03); 
                 border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;
+                touch-action: none; /* 🌟 關鍵轉移：只有這裡被鎖定，螢幕其他地方都可以自由滑動！ */
             }
             #will-game-wrapper.fake-fullscreen #joystick-base { z-index: 1000000 !important; }
             #joystick-stick {
@@ -776,7 +777,7 @@
             }
         </style>
 
-        <div id="will-game-wrapper" style="touch-action: none; user-select: none;">
+        <div id="will-game-wrapper" style="user-select: none;">
             
             <div id="glass-controls-top" class="glass-panel">
                 <button class="glass-btn" onclick="will_togglePause(true)" title="暫停">⏸</button>
