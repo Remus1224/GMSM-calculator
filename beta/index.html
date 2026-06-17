@@ -726,87 +726,20 @@
             (點擊畫面左右移動，或使用虛擬搖桿/鍵盤 A/D 左右鍵控制)
         </div>
 
-        <style>
-            #will-game-wrapper { position: relative; width: 100%; background-color: #000; overflow: hidden; }
-            #willCanvas { display: block; width: 100%; height: auto; background-color: #000; }
-
-            /* 全螢幕自適應 */
-            #will-game-wrapper:fullscreen {
-                display: flex !important; justify-content: center !important; align-items: center !important;
-                background-color: #000 !important; width: 100vw !important; height: 100vh !important;
-            }
-            #will-game-wrapper:fullscreen canvas {
-                width: 100% !important; height: 100% !important; object-fit: contain !important;
-            }
-
-            /* iOS 虛擬全螢幕 (故意使用 100vh 讓畫面可以滑動，藉此逼 Safari 收起網址列) */
-            #will-game-wrapper.fake-fullscreen {
-                position: fixed !important; top: 0 !important; left: 0 !important; 
-                width: 100vw !important; height: 100vh !important;
-                z-index: 999999 !important; display: flex !important; justify-content: center !important; align-items: center !important; background-color: #000 !important;
-            }
-            #will-game-wrapper.fake-fullscreen canvas {
-                width: 100% !important; height: 100% !important; 
-                max-width: none !important; max-height: none !important; 
-                object-fit: contain !important;
-            }
-
-            /* 💎 玻璃擬態控制面板 */
-            .glass-panel {
-                background: rgba(30, 40, 50, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 6px; display: flex; gap: 8px; align-items: center; z-index: 1000001;
-            }
-            .glass-btn {
-                background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 8px;
-                width: 36px; height: 36px; font-size: 18px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2 ease;
-            }
-            .glass-btn:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.05); }
-            .glass-btn:active { transform: scale(0.95); }
-            .zoom-text { color: white; font-weight: bold; font-family: monospace; font-size: 15px; min-width: 45px; text-align: center; text-shadow: 1px 1px 2px black; }
-
-            #glass-controls-top { position: absolute; top: 15px; right: 15px; }
-            #glass-controls-bottom { position: absolute; bottom: 15px; right: 15px; }
-
-            /* 🕹️ 現代簡約搖桿 */
-            #joystick-base {
-                position: absolute; bottom: 12%; left: 8%; width: 130px; height: 130px; background-color: rgba(255, 255, 255, 0.03); 
-                border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;
-            }
-            #will-game-wrapper.fake-fullscreen #joystick-base { z-index: 1000000 !important; }
-            #joystick-stick {
-                width: 55px; height: 55px; background-color: rgba(255, 255, 255, 0.3); border: 2px solid rgba(255, 255, 255, 0.6); 
-                border-radius: 50%; box-shadow: 0 0 15px rgba(52, 152, 219, 0.3); pointer-events: none; transition: transform 0.1 ease-out; backdrop-filter: blur(5px);
-            }
-        </style>
-
-        <div id="will-game-wrapper" style="user-select: none;">
-            
-            <div id="glass-controls-top" class="glass-panel">
-                <button class="glass-btn" onclick="will_togglePause(true)" title="暫停">⏸</button>
-                <button class="glass-btn" onclick="will_togglePause(false)" title="繼續">▶</button>
-                <button class="glass-btn" onclick="will_resetGame()" title="重置" style="font-size: 22px; font-weight: bold;">↺</button>
-                <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕 / 離開">⛶</button>
-            </div>
-
-            <div id="glass-controls-bottom" class="glass-panel">
-                <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小鏡頭">➖</button>
-                <span id="zoom-glass-val" class="zoom-text">1.1x</span>
-                <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大鏡頭">➕</button>
-            </div>
-            
+        <div class="will-game-panel">
             <canvas id="willCanvas"></canvas>
             
-            <div style="position: absolute; top: 5%; left: 50%; transform: translateX(-50%); text-align: center; z-index: 100; pointer-events: none; width: 100%;">
-                <div id="will-status" style="font-weight: bold; font-size: 28px; color: #2ecc71; text-shadow: 2px 2px 4px #000, 0 0 10px #000;">準備迎戰...</div>
-                <div id="will-timer" style="font-weight: bold; color: #fff; font-size: 18px; text-shadow: 2px 2px 4px #000; margin-top: 5px;">狀態: 等待機制</div>
+            <div id="will-ui">
+                <div id="will-status">準備迎戰...</div>
+                <div id="will-timer">狀態: 等待機制</div>
             </div>
 
-            <button id="will-restart-btn" onclick="will_resetGame()" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 40px; font-size: 24px; background-color: #f1c40f; color: #222; border: 3px solid #fff; border-radius: 12px; cursor: pointer; font-weight: bold; z-index: 200; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+            <button id="will-restart-btn" onclick="will_resetGame()">
                 再來一局
             </button>
 
-            <div id="joystick-base">
-                <div id="joystick-stick"></div>
+            <div id="joystick-base" style="position: absolute; bottom: 12%; left: 8%; width: 130px; height: 130px; background-color: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;">
+                <div id="joystick-stick" style="width: 55px; height: 55px; background-color: rgba(255,255,255,0.3); border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; box-shadow: 0 0 15px rgba(52, 152, 219, 0.3); pointer-events: none; transition: transform 0.1 ease-out;"></div>
             </div>
         </div>
     </div>
