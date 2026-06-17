@@ -736,17 +736,20 @@
                 background-color: #000 !important; width: 100vw !important; height: 100vh !important;
             }
             #will-game-wrapper:fullscreen canvas {
-                /* 🌟 修正：強制 100% 並自動縮放，確保橫直畫面比例完美不變形 */
                 width: 100% !important; height: 100% !important; object-fit: contain !important;
             }
-            /* iOS 虛擬全螢幕 */
+
+            /* 🌟 iOS 虛擬全螢幕 (終極防彈版：拋棄 100vw/100vh，改用四面絕對貼齊) */
             #will-game-wrapper.fake-fullscreen {
-                position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important;
+                position: fixed !important; 
+                top: 0 !important; bottom: 0 !important; left: 0 !important; right: 0 !important; 
+                width: auto !important; height: auto !important;
                 z-index: 999999 !important; display: flex !important; justify-content: center !important; align-items: center !important; background-color: #000 !important;
             }
             #will-game-wrapper.fake-fullscreen canvas {
-                /* 🌟 修正：強制 100% 並自動縮放 */
-                width: 100% !important; height: 100% !important; object-fit: contain !important;
+                width: 100% !important; height: 100% !important; 
+                max-width: none !important; max-height: none !important; 
+                object-fit: contain !important;
             }
 
             /* 💎 玻璃擬態控制面板 */
@@ -769,8 +772,6 @@
             #joystick-base {
                 position: absolute; bottom: 12%; left: 8%; width: 130px; height: 130px; background-color: rgba(255, 255, 255, 0.03); 
                 border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;
-                /* 🌟 關鍵轉移：把鎖定滑動的功能，限定在搖桿範圍內就好！ */
-                touch-action: none; 
             }
             #will-game-wrapper.fake-fullscreen #joystick-base { z-index: 1000000 !important; }
             #joystick-stick {
