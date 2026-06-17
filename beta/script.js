@@ -2203,7 +2203,7 @@ function will_gameLoop(timestamp) {
     }
     
     will_draw();
-    requestAnimationFrame(will_gameLoop);
+    requestAnimationFrame(will_gameLoop);   
 }
 
 window.addEventListener('orientationchange', () => {
