@@ -720,127 +720,75 @@
     </div>
 
     <div id="tab-will" class="tab-content">
-        <style>
-            #will-game-wrapper {
-                position: relative; 
-                width: 100%; 
-                background-color: #000; 
-                overflow: hidden;
-            }
-            #willCanvas {
-                display: block; 
-                width: 100%; 
-                height: auto; 
-                background-color: #000;
-            }
+        <div class="hint">
+            💡 <strong>機制說明：</strong><br>
+            如果有【螢幕裂縫】，必須<strong>面對</strong>眼球。如果沒有【螢幕裂縫】，必須<strong>背對</strong>眼球。<br>
+            (點擊畫面左右移動，或使用虛擬搖桿/鍵盤 A/D 左右鍵控制)
+        </div>
 
-            /* 原生全螢幕 (PC/Android 適用) */
+        <style>
+            #will-game-wrapper { position: relative; width: 100%; background-color: #000; overflow: hidden; }
+            #willCanvas { display: block; width: 100%; height: auto; background-color: #000; }
+
+            /* 全螢幕自適應 */
             #will-game-wrapper:fullscreen {
                 display: flex !important; justify-content: center !important; align-items: center !important;
                 background-color: #000 !important; width: 100vw !important; height: 100vh !important;
             }
             #will-game-wrapper:fullscreen canvas {
-                width: auto !important; height: auto !important;
-                max-width: 100vw !important; max-height: 100vh !important; object-fit: contain !important;
+                width: auto !important; height: auto !important; max-width: 100vw !important; max-height: 100vh !important; object-fit: contain !important;
             }
-
-            /* 🌟 iOS 專用的虛擬全螢幕大絕招 (z-index 調至極高) */
+            /* iOS 虛擬全螢幕 */
             #will-game-wrapper.fake-fullscreen {
-                position: fixed !important;
-                top: 0 !important; left: 0 !important;
-                width: 100vw !important; height: 100vh !important;
-                z-index: 999999 !important; 
-                display: flex !important; justify-content: center !important; align-items: center !important;
-                background-color: #000 !important;
+                position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important;
+                z-index: 999999 !important; display: flex !important; justify-content: center !important; align-items: center !important; background-color: #000 !important;
             }
             #will-game-wrapper.fake-fullscreen canvas {
-                width: auto !important; height: auto !important;
-                max-width: 100vw !important; max-height: 100vh !important; object-fit: contain !important;
+                width: auto !important; height: auto !important; max-width: 100vw !important; max-height: 100vh !important; object-fit: contain !important;
             }
 
-            /* 虛擬全螢幕專用的「離開」按鈕 (z-index 需蓋過虛擬全螢幕) */
-            #btn-exit-fs {
-                display: none;
-                position: absolute; top: 15px; right: 20px;
-                background: rgba(231, 76, 60, 0.8); color: white; border: 2px solid #c0392b;
-                padding: 8px 15px; border-radius: 8px; font-weight: bold; z-index: 1000001; /* 比全螢幕高 1 */
+            /* 💎 玻璃擬態控制面板 */
+            .glass-panel {
+                background: rgba(30, 40, 50, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 6px; display: flex; gap: 8px; align-items: center; z-index: 1000001;
             }
-            /* 只有進入虛擬全螢幕時，才顯示離開按鈕 */
-            #will-game-wrapper.fake-fullscreen #btn-exit-fs {
-                display: block;
+            .glass-btn {
+                background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 8px;
+                width: 36px; height: 36px; font-size: 18px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2 ease;
             }
+            .glass-btn:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.05); }
+            .glass-btn:active { transform: scale(0.95); }
+            .zoom-text { color: white; font-weight: bold; font-family: monospace; font-size: 15px; min-width: 45px; text-align: center; text-shadow: 1px 1px 2px black; }
 
-            /* ========================================= */
-            /* 🕹️ 🌟 現代簡約風格虛擬搖桿 (Joystick) */
-            /* ========================================= */
+            #glass-controls-top { position: absolute; top: 15px; right: 15px; }
+            #glass-controls-bottom { position: absolute; bottom: 15px; right: 15px; }
+
+            /* 🕹️ 現代簡約搖桿 (已移除所有 inline style) */
             #joystick-base {
-                position: absolute; 
-                bottom: 12%; /* 微調高度 */
-                left: 8%; /* 微調左邊距離 */
-                width: 130px; 
-                height: 130px; 
-                
-                /* 🌟 現代風：拋棄原本的深藍色，改用極簡、半透明的灰白色 outline */
-                background-color: rgba(255, 255, 255, 0.03); /* 幾乎透明的基底 */
-                border: 2px solid rgba(255, 255, 255, 0.15); /* 輕微的白邊 */
-                border-radius: 50%; 
-                display: flex; 
-                justify-content: center; 
-                align-items: center; 
-                box-sizing: border-box;
-
-                /* 🌟 關鍵修正：一般狀態下層級設高，防止被 UI 文字蓋住 */
-                z-index: 100;
+                position: absolute; bottom: 12%; left: 8%; width: 130px; height: 130px; background-color: rgba(255, 255, 255, 0.03); 
+                border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;
             }
-            
-            /* 🌟 關鍵修正：當進入「iOS 虛擬全螢幕」時，將搖桿層級提至最高，防止它消失！ */
-            #will-game-wrapper.fake-fullscreen #joystick-base {
-                z-index: 1000000 !important; /* 蓋過全螢幕畫布，與離開按鈕同層 */
-            }
-
+            #will-game-wrapper.fake-fullscreen #joystick-base { z-index: 1000000 !important; }
             #joystick-stick {
-                width: 55px; 
-                height: 55px; 
-                
-                /* 🌟 現代風：拋棄厚重的深藍色，改用透亮的灰白/淡藍冰霜風格 */
-                background-color: rgba(255, 255, 255, 0.3); /* 半透明灰白 */
-                border: 2px solid rgba(255, 255, 255, 0.6); /* 較亮的邊框 */
-                
-                border-radius: 50%; 
-                
-                /* 🌟 加一點發光的藍色陰影 (電競質感) */
-                box-shadow: 0 0 15px rgba(52, 152, 219, 0.3); 
-                
-                pointer-events: none; 
-                transition: transform 0.1 ease-out;
-                
-                /* 增加高級感 (可選： backdrop-filter 在手機瀏覽器可能有效) */
-                backdrop-filter: blur(5px);
+                width: 55px; height: 55px; background-color: rgba(255, 255, 255, 0.3); border: 2px solid rgba(255, 255, 255, 0.6); 
+                border-radius: 50%; box-shadow: 0 0 15px rgba(52, 152, 219, 0.3); pointer-events: none; transition: transform 0.1 ease-out; backdrop-filter: blur(5px);
             }
         </style>
 
-        
-
-        <div class="hint">
-            💡 <strong>機制說明：</strong><br>
-            如果有【螢幕裂縫】，必須<strong>面對</strong>眼球。<br>
-            如果沒有【螢幕裂縫】，必須<strong>背對</strong>眼球。<br>
-            (點擊畫面左右移動，或使用虛擬搖桿/鍵盤 A/D 左右鍵控制)
-        </div>
-
-        <div style="background: #222; color: white; padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-            <label style="font-weight: bold;">🔍 視野遠近 (Zoom)：</label>
-            <input type="range" id="cam-zoom" min="1.0" max="2.5" step="0.1" value="1.1" oninput="changeWillZoom(this.value)" style="flex: 1; accent-color: #3498db;">
-            <span id="zoom-val" style="font-weight: bold; color: #f1c40f; width: 40px;">1.1x</span>
-            
-            <button onclick="toggleWillFullscreen()" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
-                📱 全螢幕
-            </button>
-        </div>
-
         <div id="will-game-wrapper" style="touch-action: none; user-select: none;">
             
-            <button id="btn-exit-fs" onclick="toggleWillFullscreen()">❌ 離開</button>
+            <div id="glass-controls-top" class="glass-panel">
+                <button class="glass-btn" onclick="will_togglePause(true)" title="暫停">⏸</button>
+                <button class="glass-btn" onclick="will_togglePause(false)" title="繼續">▶</button>
+                <button class="glass-btn" onclick="will_resetGame()" title="重置" style="font-size: 22px; font-weight: bold;">↺</button>
+                <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕 / 離開">⛶</button>
+            </div>
+
+            <div id="glass-controls-bottom" class="glass-panel">
+                <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小鏡頭">➖</button>
+                <span id="zoom-glass-val" class="zoom-text">1.1x</span>
+                <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大鏡頭">➕</button>
+            </div>
             
             <canvas id="willCanvas"></canvas>
             
@@ -856,9 +804,9 @@
             <div id="joystick-base">
                 <div id="joystick-stick"></div>
             </div>
-
         </div>
+    </div>
 
 <script src="script.js"></script>
 </body>
-    </html>
+</html>
