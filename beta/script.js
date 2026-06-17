@@ -1971,8 +1971,11 @@ window.toggleWillFullscreen = function() {
     }
 };
 
-function joyStart(e) { if (!willGameActive) return; isJoyDragging = true; document.getElementById('joystick-stick').style.transition = 'none'; joyUpdate(e); }
-function joyMove(e) { if (!isJoyDragging) return; joyUpdate(e); }
+function joyStart(e) { 
+    isJoyDragging = true; 
+    document.getElementById('joystick-stick').style.transition = 'none'; 
+    joyUpdate(e); 
+}function joyMove(e) { if (!isJoyDragging) return; joyUpdate(e); }
 function joyEnd(e) {
     if (!isJoyDragging) return; isJoyDragging = false;
     const stick = document.getElementById('joystick-stick');
@@ -2192,18 +2195,22 @@ function will_draw() {
 }
 
 function will_gameLoop(timestamp) {
-    if (!willGameActive) return; 
-    if (!wLastTime) wLastTime = timestamp; // 🌟 避免一開始產生的巨大時間差導致瞬間穿牆
+    // 移除了錯誤的 willGameActive 判斷，遊戲現在會正常運轉了
+    if (wGame.isPaused) {
+        requestAnimationFrame(will_gameLoop);
+        return;
+    }
+    
+    if (!wLastTime) wLastTime = timestamp;
     const dt = timestamp - wLastTime;
     wLastTime = timestamp;
     
-    // 如果切換網頁導致 dt 飆高，直接忽略那一次運算
     if (dt > 0 && dt < 100) {
         will_update(dt);
     }
     
     will_draw();
-    requestAnimationFrame(will_gameLoop);   
+    requestAnimationFrame(will_gameLoop);
 }
 
 window.addEventListener('orientationchange', () => {
