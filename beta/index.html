@@ -730,21 +730,22 @@
             #will-game-wrapper { position: relative; width: 100%; background-color: #000; overflow: hidden; }
             #willCanvas { display: block; width: 100%; height: auto; background-color: #000; }
 
-            /* 全螢幕自適應 (升級 dvh 防止手機工具列遮擋) */
+            /* 全螢幕自適應 */
             #will-game-wrapper:fullscreen {
                 display: flex !important; justify-content: center !important; align-items: center !important;
-                background-color: #000 !important; width: 100dvw !important; height: 100dvh !important;
+                background-color: #000 !important; width: 100vw !important; height: 100vh !important;
             }
             #will-game-wrapper:fullscreen canvas {
-                width: auto !important; height: auto !important; max-width: 100dvw !important; max-height: 100dvh !important; object-fit: contain !important;
+                width: 100% !important; height: 100% !important; object-fit: contain !important;
             }
-            /* iOS 虛擬全螢幕 (升級 dvh) */
+            
+            /* iOS 虛擬全螢幕 (換回 vw/vh 騙過 Safari 網址列) */
             #will-game-wrapper.fake-fullscreen {
-                position: fixed !important; top: 0 !important; left: 0 !important; width: 100dvw !important; height: 100dvh !important;
+                position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important;
                 z-index: 999999 !important; display: flex !important; justify-content: center !important; align-items: center !important; background-color: #000 !important;
             }
             #will-game-wrapper.fake-fullscreen canvas {
-                width: auto !important; height: auto !important; max-width: 100dvw !important; max-height: 100dvh !important; object-fit: contain !important;
+                width: 100% !important; height: 100% !important; object-fit: contain !important;
             }
 
             /* 💎 玻璃擬態控制面板 */
