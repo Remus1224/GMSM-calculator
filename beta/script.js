@@ -1952,21 +1952,31 @@ window.toggleWillFullscreen = function() {
     const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
     const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
 
+    // 狀態 1：目前處於全螢幕，準備【退出】
     if (isNativeFullscreen || isFakeFullscreen) {
         if (isNativeFullscreen) {
             if (document.exitFullscreen) document.exitFullscreen();
             else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
         }
-        if (isFakeFullscreen) wrapper.classList.remove('fake-fullscreen');
+        if (isFakeFullscreen) {
+            wrapper.classList.remove('fake-fullscreen');
+            document.body.classList.remove('body-no-scroll'); // 解除背景滾動鎖定
+        }
         return;
     }
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (!isIOS && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
+    // 狀態 2：目前非全螢幕，準備【進入】
+    // 偵測是否為 Apple 裝置 (iOS Safari 不支援一般元素的 requestFullscreen)
+    const isAppleDevice = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (!isAppleDevice && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
+        // 安卓與一般電腦：走正規 Native 全螢幕
         if (wrapper.requestFullscreen) wrapper.requestFullscreen();
         else wrapper.webkitRequestFullscreen();
     } else {
+        // iOS Safari 備用方案：走 Fake 全螢幕
         wrapper.classList.add('fake-fullscreen');
+        document.body.classList.add('body-no-scroll'); // 鎖定背景滾動
         window.scrollTo(0, 0); 
     }
 };
