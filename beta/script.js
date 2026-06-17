@@ -1751,9 +1751,9 @@ const WORLD_CENTER = 870;
 const CONFIG = {
     camera: { zoom: 1.1, offsetY: 100 },
     scale: { player: 1, boss: 1, legTop: 1, legBot: 1, crack: 0.85 },
-    pos: { floorY: 445, bossY: 600, crackX: 820, crackY: 450, legTopY: -280, legBotY: 1100 },
+    pos: { floorY: 445, bossY: 600, crackX: 820, crackY: 450, legTopY: -280, legBotY: 1100,legTopOffsetX: 100, legBotOffsetX: 50 },
     time: { warn: 900, strike: 900, idle: 300 },
-    player: { speed: 7, nativeFacingLeft: true, hitTolerance: 130 }
+    player: { speed: 7, nativeFacingLeft: true, hitBot: 110,hitTop: 140 }
 };
 
 const POS = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
@@ -1771,19 +1771,27 @@ function will_zoomStep(amount) {
     if(display) display.innerText = CONFIG.camera.zoom.toFixed(1) + 'x';
 }
 
+// =========================================================================
+// 🖼️ 【修改素材區】 - 若要更換新的圖片素材，請在這裡修改路徑或檔名！
+// =========================================================================
 const wAssets = {
     bgSmooth: new Image(), bgCrack: new Image(), boss: new Image(),
     pWalk: new Image(), pIdle: new Image(), legTop: new Image(), legBot: new Image(), crack: new Image()
 };
-wAssets.bgSmooth.src = 'assets/bg_Deep_Mirror.png';
-wAssets.bgCrack.src = 'assets/bg_Deep_Mirror.png'; 
-wAssets.pWalk.src = 'assets/player_walk.png';
-wAssets.pIdle.src = 'assets/player_idle.png';
-wAssets.boss.src = 'assets/boss_will.png';
-wAssets.legTop.src = 'assets/spider_leg_top.png';
-wAssets.legBot.src = 'assets/spider_leg_bottom.png';
-wAssets.crack.src = 'assets/screen_crack.png';
 
+// 👇 替換圖片路徑請改這區的單引號內容 👇
+wAssets.bgSmooth.src = 'assets/bg_Deep_Mirror.png';       // 無裂縫時的背景圖
+wAssets.bgCrack.src  = 'assets/bg_Deep_Mirror.png';       // ⚠️ 有裂縫時的背景圖 (目前跟無裂縫一樣，若有新圖請改這裡)
+wAssets.crack.src    = 'assets/screen_crack.png';         // 玻璃裂痕的特效圖
+
+wAssets.pWalk.src    = 'assets/player_walk.png';          // 玩家走路動畫
+wAssets.pIdle.src    = 'assets/player_idle.png';          // 玩家待機動畫
+wAssets.boss.src     = 'assets/boss_will.png';            // 威爾 Boss 圖
+wAssets.legTop.src   = 'assets/spider_leg_top.png';       // 上方蜘蛛腳動畫
+wAssets.legBot.src   = 'assets/spider_leg_bottom.png';    // 下方蜘蛛腳動畫
+// 👆 替換圖片路徑請改這區的單引號內容 👆
+
+// --- 精靈圖設定 (wSprites) 保持不變 ---
 const wSprites = {
     pWalk:  { cols: 6, rows: 7, frames: 37, speed: 60, curr: 0, tick: 0 },
     pIdle:  { cols: 9, rows: 9, frames: 80, speed: 60, curr: 0, tick: 0 },
@@ -1793,13 +1801,99 @@ const wSprites = {
     crack:  { cols: 3, rows: 3, frames: 8,  speed: 60, curr: 0, tick: 0 }
 };
 
+// =========================================================================
+// 🕷️ 終極 1:1 蜘蛛角陣型題庫設定
+// 【位置代碼參考】
+// POS.LL(更大左), POS.L2(大左), POS.L1(小左), POS.M(中), POS.R1(小右), POS.R2(大右), POS.RR(更大右)
+// 填寫方式：safe 填寫安全區代碼，bot 與 top 陣列內填寫會長出蜘蛛腳的位置代碼。
+// =========================================================================
 const WILL_PATTERNS = [
+    // ------------------------------------------
+    // 題組 1：中 ➔ 小左 ➔ 中 (無裂縫)
+    // ------------------------------------------
     { 
-        name: "光滑1 (中 ➔ 小左 ➔ 中)", crack: false, hint: "中 ➔ 小左 ➔ 中",
+        name: "光滑1", crack: false, hint: "中 ➔ 小左 ➔ 中",
         strikes: [
-            { safe: 870, bot: [225, 440, 655], top: [1085, 1300, 1515] },
-            { safe: 655, bot: [225, 870, 1085, 1300, 1515], top: [440] },
-            { safe: 870, bot: [225, 440, 655], top: [1085, 1300, 1515] }
+            // 🌟 把它們全部改回純淨的 POS 代碼！
+            // 第一下：
+            { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] },
+            // 第二下：
+            { safe: POS.L1, bot: [POS.LL-150, POS.M, POS.R1, POS.R2, POS.RR, POS.RR+200], top: [POS.L2] },
+            // 第三下：
+            { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] }
+        ]
+    },
+
+    // ------------------------------------------
+    // 題組 2：中 ➔ 小右 ➔ 大右 ➔ 中 (無裂縫)
+    // ------------------------------------------
+    { 
+        name: "光滑2", crack: false, hint: "中 ➔ 小右 ➔ 大右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.L2, POS.R1, POS.L2, POS.RR], top: [POS.L1-50, POS.LL, POS.R2] }, // 第1下：中 (請填寫 bot 與 top)
+            { safe: POS.R1, bot: [POS.L1, POS.R2], top: [POS.L2-50, POS.M-50, POS.RR-50] }, // 第2下：小右
+            { safe: POS.R2, bot: [POS.M-30, POS.RR ], top: [POS.R1-50,POS.L1-50 ] }, // 第3下：大右
+        ]
+    },
+
+    // ------------------------------------------
+    // 題組 3：中 ➔ 大右 ➔ 小右 ➔ 中 (無裂縫)
+    // ------------------------------------------
+    { 
+        name: "光滑3", crack: false, hint: "中 ➔ 大右 ➔ 小右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.L2, POS.L1+130, POS.RR+50], top: [POS.LL, POS.L1-80, ] },
+            { safe: POS.R2, bot: [POS.LL, POS.L1-30, POS.RR-30], top: [POS.L2-50, POS.M-130, POS.M+50] },
+            { safe: POS.R1, bot: [POS.RR-50], top: [POS.LL,POS.M-120,POS.R2-90,POS.RR+50] },
+        ]
+    },
+
+    // ------------------------------------------
+    // 題組 4：中 ➔ 大左 ➔ 不動 ➔ 中 (無裂縫) 
+    // ------------------------------------------
+    { 
+        name: "光滑4", crack: false, hint: "中 ➔ 大左 ➔ 不動 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL-70, POS.M-80,POS.M+100,POS.RR-80, POS.RR+80], top: [POS.L2-50,POS.R1+90], noDeduct: true },
+            { safe: POS.L2, bot: [POS.RR-50], top: [POS.LL-100, POS.M-100, POS.R1-120,POS.R2-150] },
+            { safe: POS.L2, bot: [POS.R1-90,POS.R1+90], top: [POS.LL-20, POS.M-80,POS.R2-10] }, // 不動 (維持大左)
+        ]
+    },
+
+    // ------------------------------------------
+    // 題組 5：中 ➔ 大左 ➔ 更大左 ➔ 中 (有裂縫)
+    // ------------------------------------------
+    { 
+        name: "地裂1", crack: true, hint: "中 ➔ 大左 ➔ 更大左 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.M, POS.R1+50, POS.R2+100 ], top: [POS.RR+30] },
+            { safe: POS.L2, bot: [POS.LL], top: [POS.L2+100] },
+            { safe: POS.LL, bot: [POS.LL, POS.R1-50], top: [POS.L2-50, POS.R1] },
+        ]
+    },
+
+
+    // ------------------------------------------
+    // 題組 6：中 ➔ 大右 ➔ 中 (有裂縫) 型態1
+    // ------------------------------------------
+    { 
+        name: "地裂2-型態1", crack: true, hint: "中 ➔ 大右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.M,POS.R1], top: [POS.LL-150, POS.LL+50] },
+            { safe: POS.R2, bot: [POS.L2-80, POS.L2+120], top: [POS.R1+80, POS.R2+30] },
+            { safe: POS.M,  bot: [POS.LL-150, POS.LL+50], top: [POS.M-30,POS.R1-40] }
+        ]
+    },
+ 
+    // ------------------------------------------
+    // 題組 7：中 ➔ 大右 ➔ 中 (有裂縫) 型態2
+    // ------------------------------------------
+    { 
+        name: "地裂3-型態2", crack: true, hint: "中 ➔ 大右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL-100, POS.M ], top: [POS.LL, POS.R1-80] },
+            { safe: POS.R2, bot: [POS.L2+70, POS.R2+50], top: [POS.LL+70, POS.R1+70] },
+            { safe: POS.M,  bot: [POS.L1-30, POS.RR-80], top: [POS.M-30, POS.RR+70] }
         ]
     }
 ];
@@ -1895,10 +1989,17 @@ function joyUpdate(e) {
     mTouchLeft = dx < -15; mTouchRight = dx > 15;
 }
 
+// 初始化時生成隨機的 7 題隊列
 function will_resetGame() {
     wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
-    wGame.hp = 99; wGame.queue = [0, 0, 0, 0, 0, 0, 0];
-    wGame.currQ = 0; wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
+    wGame.hp = 99; 
+    
+    // 🌟 若你之後想讓題目「隨機洗牌」，就把下面第一行註解掉，並把第二行的註解打開
+    wGame.queue = [3, 3, 3, 3, 3, 4, 4]; 
+    // wGame.queue = [0, 1, 2, 3, 4, 5, 6]; shuffleArray(wGame.queue);
+
+    wGame.currQ = 0; wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
+    wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
     document.getElementById('will-restart-btn').style.display = 'none';
     will_updateUI("特訓開始！", "#2ecc71", "準備迎戰...");
     wLastTime = performance.now();
@@ -1966,23 +2067,54 @@ function will_update(dt) {
                 wGame.hasEvaluated = true; 
                 let currentStrike = currPattern.strikes[wGame.strikeIndex];
                 let inDangerZone = false;
-                let dangerZones = [...currentStrike.bot, ...currentStrike.top];
-                dangerZones.forEach(dangerX => { if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTolerance) inDangerZone = true; });
+                
+                // 1. 檢查玩家是否踩到【下方蜘蛛腳】的範圍
+                currentStrike.bot.forEach(dangerX => {
+                    if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitBot) {
+                        inDangerZone = true;
+                    }
+                });
+
+                // 2. 檢查玩家是否踩到【上方蜘蛛腳】的範圍
+                currentStrike.top.forEach(dangerX => {
+                    if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTop) {
+                        inDangerZone = true;
+                    }
+                });
 
                 let isHit = currPattern.crack ? !inDangerZone : inDangerZone;
+                
+                // 🌟 這裡補上了「觀察機制 (noDeduct)」的分流判斷！
                 if (isHit) {
-                    wGame.hp--; wGame.flashRed = 500;
-                    if (wGame.hp <= 0) {
-                        wGame.phase = 'gameover'; will_updateUI("💀 走位失誤！", "#e74c3c", "特訓失敗，請重新來過");
-                        document.getElementById('will-restart-btn').style.display = 'block';
-                    } else { will_updateUI("💥 判斷錯誤！", "#e74c3c", `機制處理失敗！ (愛心剩餘 ${wGame.hp})`); }
-                } else { will_updateUI("🛡️ 處理正確！", "#2ecc71", "完美迴避！"); }
+                    if (currentStrike.noDeduct) {
+                        wGame.flashRed = 500; // 畫面照樣閃紅，給玩家打擊感回饋
+                        will_updateUI("💥 觀察機制中！", "#f39c12", `必吃預警檢查 (愛心維持 ${wGame.hp})`);
+                    } else {
+                        // 正常扣血邏輯
+                        wGame.hp--; wGame.flashRed = 500;
+                        if (wGame.hp <= 0) {
+                            wGame.phase = 'gameover'; will_updateUI("💀 走位失誤！", "#e74c3c", "特訓失敗，請重新來過");
+                            document.getElementById('will-restart-btn').style.display = 'block';
+                        } else { 
+                            will_updateUI("💥 判斷錯誤！", "#e74c3c", `機制處理失敗！ (愛心剩餘 ${wGame.hp})`); 
+                        }
+                    }
+                } else { 
+                    if (currentStrike.noDeduct) {
+                        will_updateUI("🛡️ 奇蹟閃避！", "#2ecc71", "竟然沒被觀察區刮到！");
+                    } else {
+                        will_updateUI("🛡️ 處理正確！", "#2ecc71", "完美迴避！"); 
+                    }
+                }
             }
             if (wGame.timer <= 0) { wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle; }
         }
+        // 換位空檔結束
         else if (wGame.phase === 'idle' && wGame.timer <= 0) {
             wGame.strikeIndex++;
-            if (wGame.strikeIndex >= 3) {
+            
+            // 🌟 動態讀取這題總共有幾下，不再寫死 3 下
+            if (wGame.strikeIndex >= currPattern.strikes.length) {
                 will_updateUI("✅ 本題結束！", "#2ecc71", "準備迎接下一題");
                 wGame.phase = 'next_wait'; wGame.timer = 1000;
             } else {
@@ -2020,10 +2152,19 @@ function will_draw() {
 
     will_drawSprite(wCtx, wAssets.boss, wSprites.boss, WORLD_CENTER, CONFIG.pos.bossY, CONFIG.scale.boss, false, 'bottom-center');
 
-    if ((wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') && wGame.strikeIndex < 3) {
+    // 4. 畫攻擊蜘蛛角 (支援動態攻擊次數)
+    if ((wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') && wGame.strikeIndex < currPattern.strikes.length) {
         let currentStrike = currPattern.strikes[wGame.strikeIndex];
-        currentStrike.top.forEach(xPos => { will_drawSprite(wCtx, wAssets.legTop, wSprites.legTop, xPos, CONFIG.pos.legTopY, CONFIG.scale.legTop, false, 'top-center'); });
-        currentStrike.bot.forEach(xPos => { will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center'); });
+        
+        currentStrike.top.forEach(xPos => {
+            // 🌟 在 xPos 後面加上 legTopOffsetX 偏移量
+            will_drawSprite(wCtx, wAssets.legTop, wSprites.legTop, xPos + CONFIG.pos.legTopOffsetX, CONFIG.pos.legTopY, CONFIG.scale.legTop, false, 'top-center');
+        });
+
+        currentStrike.bot.forEach(xPos => {
+            // 🌟 在 xPos 後面加上 legBotOffsetX 偏移量
+            will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos + CONFIG.pos.legBotOffsetX, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center');
+        });
     }
 
     wCtx.fillStyle = 'rgba(255, 255, 255, 0.6)'; wCtx.font = "bold 18px Arial"; wCtx.textAlign = "center";
