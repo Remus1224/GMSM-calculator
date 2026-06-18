@@ -584,3 +584,20 @@ body.body-no-scroll {
     #will-timer { font-size: 10px !important; text-shadow: 1px 1px 2px #000 !important; margin-top: 0 !important; }
     #will-restart-btn { font-size: 12px !important; padding: 6px 12px !important; border-width: 2px !important; }
 }
+
+/* ========================================== */
+/* 臨時測試防護：隱藏其他功能，只對外開放威爾   */
+/* ========================================== */
+
+/* 隱藏整條頁籤選單，讓外人完全沒有按鈕可以切換分頁 */
+.tab-menu {
+    display: none !important; 
+}
+
+/* 💡 如果你希望測試畫面更像一個獨立的遊戲 App，
+   可以把下面這段註解打開，連網頁頂部的大標題一起隱藏 */
+/*
+h1 {
+    display: none !important;
+}
+*/
