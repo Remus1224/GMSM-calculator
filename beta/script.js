@@ -31,35 +31,30 @@ let ignoreInitialized = false;
 let willInitialized = false; // 新增這行
 let willGameActive = false;  // 新增這行
 
+// 替換 1: 增強版的分頁切換邏輯
 function switchTab(tabId) {
+    // 解決 UI 跑到其他分頁的 Bug：切換分頁時，強制解除偽全螢幕狀態
+    if (tabId !== 'will') {
+        const wrapper = document.getElementById('will-game-wrapper');
+        if (wrapper && wrapper.classList.contains('fake-fullscreen')) {
+            wrapper.classList.remove('fake-fullscreen');
+            document.body.classList.remove('body-no-scroll');
+        }
+    }
+
     document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
     document.getElementById('btn-' + tabId).classList.add('active');
     document.getElementById('tab-' + tabId).classList.add('active');
 
-    if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
-        setTimeout(generateLazyTable, 50); 
-        lazyTableGenerated = true;
-    }
-    if (tabId === 'hexa-visual' && !visualInitialized) {
-        initVisualBars();
-        visualInitialized = true;
-    }
-    if (tabId === 'transcend') {
-        tr_updateUI();
-    }
-    if (tabId === 'craft') {
-        cr_updateUI();
-    }
-    if (tabId === 'hexa-prog' && !progInitialized) {
-        initHexaProg();
-        progInitialized = true;
-    }
-    if (tabId === 'ignore' && !ignoreInitialized) {
-        initIgnoreGrid();
-        ignoreInitialized = true;
-    }
+    // ... (保留你原本 switchTab 內部的其他 if 判斷式，例如 lazyTableGenerated, transcend_updateUI 等) ...
+    if (tabId === 'hexa-lazy' && !lazyTableGenerated) { setTimeout(generateLazyTable, 50); lazyTableGenerated = true; }
+    if (tabId === 'hexa-visual' && !visualInitialized) { initVisualBars(); visualInitialized = true; }
+    if (tabId === 'transcend') { tr_updateUI(); }
+    if (tabId === 'craft') { cr_updateUI(); }
+    if (tabId === 'hexa-prog' && !progInitialized) { initHexaProg(); progInitialized = true; }
+    if (tabId === 'ignore' && !ignoreInitialized) { initIgnoreGrid(); ignoreInitialized = true; }
 
     willGameActive = (tabId === 'will');
     if (tabId === 'will') {
@@ -67,14 +62,43 @@ function switchTab(tabId) {
             will_init();
             willInitialized = true;
         } else {
-            requestAnimationFrame(will_gameLoop); // 切回來時繼續跑動畫
+            requestAnimationFrame(will_gameLoop);
         }
     }
-    
-    if (typeof gtag === 'function') {
-        gtag('event', 'click_simulator', { 'simulator_name': tabId });
-    }
 }
+
+// 替換 2: 全新 iOS 友善的全螢幕按鈕邏輯
+window.toggleWillFullscreen = function() {
+    const wrapper = document.getElementById('will-game-wrapper');
+    const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+    const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
+
+    // 如果目前是全螢幕 -> 執行退出
+    if (isNativeFullscreen || isFakeFullscreen) {
+        if (isNativeFullscreen) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+        if (isFakeFullscreen) {
+            wrapper.classList.remove('fake-fullscreen');
+            document.body.classList.remove('body-no-scroll');
+        }
+        return;
+    }
+
+    // 準備進入全螢幕：偵測是否為蘋果裝置
+    const isAppleDevice = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (!isAppleDevice && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
+        if (wrapper.requestFullscreen) wrapper.requestFullscreen();
+        else wrapper.webkitRequestFullscreen();
+    } else {
+        // iOS 方案：開啟 fake-fullscreen，並解鎖一點點讓玩家可以「往上滑隱藏網址列」
+        wrapper.classList.add('fake-fullscreen');
+        document.body.classList.add('body-no-scroll');
+        window.scrollTo(0, 0); 
+    }
+};
 
 /* ========================================== */
 /* 2. 六轉進度計算機引擎                       */
