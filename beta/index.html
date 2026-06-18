@@ -719,44 +719,66 @@
         </div>
     </div>
 
-    <div id="tab-will" class="tab-content" >
-     <div class="hint">
-        💡 <strong>機制說明：</strong>如果有【螢幕裂縫】，必須<strong>面對</strong>眼球。沒有【螢幕裂縫】，必須<strong>背對</strong>眼球。<br>
-        (手機點擊畫面左右，或使用搖桿控制。電腦使用 A/D 或左右鍵)<br>
-        🍎 <strong>iOS 玩家：</strong>點擊全螢幕後，手指在畫面上「輕輕往上滑」，即可隱藏 Safari 工具列達成真全螢幕！
-     </div>
-
-     <div id="will-game-wrapper">
-    
-    <div id="will-inner-container">
-        
-        <div id="glass-controls-top" class="glass-panel">
-            <button class="glass-btn" onclick="will_togglePause(true)" title="暫停">⏸</button>
-            <button class="glass-btn" onclick="will_togglePause(false)" title="繼續">▶</button>
-            <button class="glass-btn" onclick="will_resetGame()" title="重置" style="font-size: 22px; font-weight: bold;">↺</button>
-            <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕 / 離開">⛶</button>
-        </div>
-
-        <div id="glass-controls-bottom" class="glass-panel">
-            <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小鏡頭">➖</button>
-            <span id="zoom-glass-val" class="zoom-text">1.1x</span>
-            <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大鏡頭">➕</button>
-        </div>
+    <div id="tab-will" class="tab-content">
+        <div id="will-game-wrapper">
             
-        <canvas id="willCanvas"></canvas>
-            
-        <div id="will-status-container">
-            <div id="will-status">準備迎戰...</div>
-            <div id="will-timer">狀態: 等待機制</div>
+            <div id="will-inner-container">
+                <div id="will-start-overlay" class="glass-panel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; border-radius: 0; background: rgba(0,0,0,0.7); flex-direction: column; justify-content: center; align-items: center; border: none; backdrop-filter: blur(8px);">
+                    <div style="font-size: 30px; font-weight: bold; color: white; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;">威爾小遊戲練習機</div>
+                    <div style="font-size: 14px; color: #bdc3c7; margin-bottom: 30px; text-align: center; line-height: 1.6; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">如果有【螢幕裂縫】，必須面對眼球。<br>沒有【螢幕裂縫】，必須背對眼球。</div>
+                    
+                    <div style="display: flex; gap: 10px; width: 85%; max-width: 320px; justify-content: center;">
+                        <input type="text" id="will-player-name" class="glass-input" placeholder="輸入玩家名稱 (可留空)" autocomplete="off">
+                        <button class="glass-btn-start" onclick="will_startGame()">開始</button>
+                    </div>
+                </div>
+
+                <div id="glass-controls-top" class="glass-panel">
+                    <button class="glass-btn" onclick="will_togglePause(true)" title="暫停">❚❚</button>
+                    <button class="glass-btn" onclick="will_togglePause(false)" title="繼續">►</button>
+                    <button class="glass-btn hint-bulb-btn" id="btn-will-hint" onclick="will_toggleHintClick()" title="機制提示開關">💡</button>
+                    <button class="glass-btn" id="btn-will-bgm" onclick="will_toggleBgmClick()" title="背景音樂開關">♫</button>
+                    <button class="glass-btn" onclick="will_showStartScreen()" title="結束重來" style="font-size: 20px;">↻</button>
+                    <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕 / 離開">⛶</button>
+                </div>
+
+                <div id="glass-controls-bottom" class="glass-panel">
+                    <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小鏡頭">－</button>
+                    <span id="zoom-glass-val" class="zoom-text">1.1x</span>
+                    <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大鏡頭">＋</button>
+                </div>
+                    
+                <canvas id="willCanvas"></canvas>
+                    
+                <div id="will-status-container">
+                    <div id="will-status">準備...</div>
+                    <div id="will-timer"> </div>
+                </div>
+
+                <button id="will-restart-btn" class="glass-btn-restart" onclick="will_showStartScreen()">返回設定</button>
+
+                <div id="joystick-base">
+                    <div id="joystick-stick"></div>
+                </div>  
+            </div> 
         </div>
 
-        <button id="will-restart-btn" onclick="will_resetGame()">再來一局</button>
+        <div class="settings-panel">
+            <div class="settings-title">⚙️ 設定</div>
+            
+            <div class="setting-row" style="font-weight: bold; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                <label>威爾難度：</label>
+                <label style="margin-left: 10px; cursor: pointer;"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()"> 混沌</label>
+                <label style="margin-left: 10px; cursor: pointer;"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()"> 困難</label>
+            </div>
 
-        <div id="joystick-base">
-            <div id="joystick-stick"></div>
-        </div>  
-
-    </div> </div>
+            <div class="setting-row" style="font-weight: bold; color: #2c3e50; margin-top: 15px;">
+                <label>遊戲模式：</label>
+                <label style="margin-left: 10px; cursor: pointer;"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()"> 全機制×1</label>
+                <label style="margin-left: 10px; cursor: pointer;"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()"> 無限練習</label>
+            </div>
+        </div>
+    </div>
 
 <script src="script.js"></script>
 <script>
