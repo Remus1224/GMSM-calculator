@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>楓之谷M 機制模擬器測試</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止手機滑動頁面 */
+            background-color: #222; /* 深色背景，類似遊戲場景 */
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #ui-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10; /* 確保 UI 顯示在畫布上方 */
+            pointer-events: none; /* 讓點擊事件可以穿透 UI 到畫布上 */
+        }
+
+        #status {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #timer {
+            font-size: 18px;
+        }
+
+        /* 遊戲主要畫布 */
+        canvas {
+            display: block;
+            /* 讓畫布盡可能填滿螢幕，但保持比例（可依需求調整）*/
+            max-width: 100vw;
+            max-height: 100vh;
+            background-color: #333; /* 畫布背景色 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        #restart-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none; /* 預設隱藏 */
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-container">
+        <div id="status">遊戲進行中</div>
+        <div id="timer">時間: 0.0s</div>
+    </div>
+
+    <button id="restart-btn" onclick="resetGame()">重新開始</button>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const statusEl = document.getElementById('status');
+        const timerEl = document.getElementById('timer');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // --- 遊戲設定 ---
+        let gameWidth, gameHeight;
+        let isGameOver = false;
+        let startTime = 0;
+        let currentTime = 0;
+
+        // 玩家物件
+        const player = {
+            x: 0,
+            y: 0,
+            radius: 15,
+            color: '#00BFFF', // 藍色
+            speed: 5,
+            targetX: null, // 用於觸控移動
+            targetY: null
+        };
+
+        // 按鍵狀態記錄
+        const keys = {
+            ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false,
+            w: false, s: false, a: false, d: false
+        };
+
+        // 攻擊事件時間軸 (單位: 毫秒)
+        // 這個陣列定義了王何時要放什麼招式
+        const attackTimeline = [
+            { time: 2000, type: 'circle', x: 0.5, y: 0.5, radius: 100, warnDuration: 1500, activeDuration: 500 }, // 2秒時在中央放一個圓
+            { time: 5000, type: 'circle', x: 0.2, y: 0.2, radius: 80, warnDuration: 1000, activeDuration: 500 },
+            { time: 5000, type: 'circle', x: 0.8, y: 0.2, radius: 80, warnDuration: 1000, activeDuration: 500 },
+            { time: 8000, type: 'rect', x: 0, y: 0.4, w: 1, h: 0.2, warnDuration: 2000, activeDuration: 1000 }, // 8秒時橫向雷射
+        ];
+
+        // 畫面上現存的攻擊物件
+        let activeAttacks = [];
+
+        // --- 初始化與重置 ---
+        function init() {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // 監聽鍵盤
+            window.addEventListener('keydown', e => { if(keys.hasOwnProperty(e.key)) keys[e.key] = true; });
+            window.addEventListener('keyup', e => { if(keys.hasOwnProperty(e.key)) keys[e.key] = false; });
+            
+            // 監聽觸控/滑鼠點擊 (設定移動目標)
+            canvas.addEventListener('pointerdown', handlePointer);
+            canvas.addEventListener('pointermove', e => { if (e.buttons > 0) handlePointer(e); }); // 拖曳也能移動
+
+            resetGame();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function resizeCanvas() {
+            // 設定畫布大小為視窗大小，或自訂一個固定比例
+            gameWidth = window.innerWidth;
+            gameHeight = window.innerHeight;
+            canvas.width = gameWidth;
+            canvas.height = gameHeight;
+            
+            // 如果玩家還沒設定位置，放中間
+            if (player.x === 0 && player.y === 0) {
+                player.x = gameWidth / 2;
+                player.y = gameHeight / 2;
+            }
+        }
+
+        function resetGame() {
+            isGameOver = false;
+            statusEl.textContent = "遊戲進行中";
+            statusEl.style.color = "white";
+            restartBtn.style.display = "none";
+            
+            player.x = gameWidth / 2;
+            player.y = gameHeight / 2;
+            player.targetX = null;
+            player.targetY = null;
+            
+            activeAttacks = [];
+            
+            // 複製一份時間軸來追蹤哪些還沒發動
+            timelineQueue = [...attackTimeline];
+            
+            startTime = Date.now();
+        }
+
+        // --- 輸入處理 ---
+        function handlePointer(e) {
+            if (isGameOver) return;
+            const rect = canvas.getBoundingClientRect();
+            // 計算點擊位置相對於畫布的座標
+            player.targetX = e.clientX - rect.left;
+            player.targetY = e.clientY - rect.top;
+        }
+
+        // --- 更新邏輯 ---
+        function update() {
+            if (isGameOver) return;
+
+            currentTime = Date.now() - startTime;
+            timerEl.textContent = `時間: ${(currentTime / 1000).toFixed(1)}s`;
+
+            updatePlayer();
+            updateTimeline();
+            updateAttacks();
+            checkCollisions();
+        }
+
+        function updatePlayer() {
+            // 1. 鍵盤移動
+            let dx = 0;
+            let dy = 0;
+            if (keys.ArrowUp || keys.w) dy -= 1;
+            if (keys.ArrowDown || keys.s) dy += 1;
+            if (keys.ArrowLeft || keys.a) dx -= 1;
+            if (keys.ArrowRight || keys.d) dx += 1;
+
+            // 如果有按鍵盤，取消觸控目標
+            if (dx !== 0 || dy !== 0) {
+                player.targetX = null;
+                player.targetY = null;
+                // 正規化斜向移動速度
+                const length = Math.sqrt(dx * dx + dy * dy);
+                player.x += (dx / length) * player.speed;
+                player.y += (dy / length) * player.speed;
+            } 
+            // 2. 觸控/滑鼠移動到目標點
+            else if (player.targetX !== null && player.targetY !== null) {
+                const diffX = player.targetX - player.x;
+                const diffY = player.targetY - player.y;
+                const dist = Math.sqrt(diffX * diffX + diffY * diffY);
+                
+                if (dist > player.speed) {
+                    player.x += (diffX / dist) * player.speed;
+                    player.y += (diffY / dist) * player.speed;
+                } else {
+                    // 到達目標
+                    player.x = player.targetX;
+                    player.y = player.targetY;
+                    player.targetX = null;
+                    player.targetY = null;
+                }
+            }
+
+            // 邊界限制
+            player.x = Math.max(player.radius, Math.min(gameWidth - player.radius, player.x));
+            player.y = Math.max(player.radius, Math.min(gameHeight - player.radius, player.y));
+        }
+
+        // 檢查時間軸，生成攻擊
+        let timelineQueue = [];
+        function updateTimeline() {
+            // 檢查 Queue 中有沒有應該發動的攻擊
+            while (timelineQueue.length > 0 && currentTime >= timelineQueue[0].time) {
+                const attackDef = timelineQueue.shift(); // 取出第一個
+                
+                // 將定義轉換為實際的遊戲物件
+                activeAttacks.push({
+                    type: attackDef.type,
+                    // 將相對比例 (0~1) 轉換為實際像素座標
+                    x: attackDef.x * gameWidth, 
+                    y: attackDef.y * gameHeight,
+                    radius: attackDef.radius, // 圓形用
+                    w: attackDef.w * gameWidth, // 矩形用
+                    h: attackDef.h * gameHeight, // 矩形用
+                    spawnTime: currentTime,
+                    warnDuration: attackDef.warnDuration,
+                    activeDuration: attackDef.activeDuration,
+                    state: 'warning' // 'warning' (預警) -> 'active' (有傷害) -> 'done' (結束)
+                });
+            }
+        }
+
+        // 更新現存攻擊的狀態
+        function updateAttacks() {
+            for (let i = activeAttacks.length - 1; i >= 0; i--) {
+                const attack = activeAttacks[i];
+                const age = currentTime - attack.spawnTime;
+
+                if (age > attack.warnDuration + attack.activeDuration) {
+                    // 攻擊結束，移除
+                    activeAttacks.splice(i, 1);
+                } else if (age > attack.warnDuration) {
+                    // 預警時間結束，變成有傷害狀態
+                    attack.state = 'active';
+                }
+            }
+        }
+
+        // 碰撞判定 (只在 attack 狀態為 'active' 時判定)
+        function checkCollisions() {
+            for (const attack of activeAttacks) {
+                if (attack.state !== 'active') continue;
+
+                let isHit = false;
+
+                if (attack.type === 'circle') {
+                    // 圓對圓碰撞
+                    const dx = player.x - attack.x;
+                    const dy = player.y - attack.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < player.radius + attack.radius) {
+                        isHit = true;
+                    }
+                } else if (attack.type === 'rect') {
+                    // 圓對矩形碰撞 (簡化版：把玩家當作一個點)
+                    if (player.x > attack.x && player.x < attack.x + attack.w &&
+                        player.y > attack.y && player.y < attack.y + attack.h) {
+                        isHit = true;
+                    }
+                }
+
+                if (isHit) {
+                    gameOver();
+                    break;
+                }
+            }
+        }
+
+        function gameOver() {
+            isGameOver = true;
+            statusEl.textContent = "機制失敗！被擊中了";
+            statusEl.style.color = "red";
+            restartBtn.style.display = "block";
+        }
+
+        // --- 繪製邏輯 ---
+        function draw() {
+            // 清除畫布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. 畫背景網格 (選用，增加遊戲感)
+            drawGrid();
+
+            // 2. 畫攻擊特效
+            drawAttacks();
+
+            // 3. 畫玩家
+            drawPlayer();
+        }
+
+        function drawGrid() {
+            ctx.strokeStyle = '#444';
+            ctx.lineWidth = 1;
+            const gridSize = 50;
+            for(let x=0; x<gameWidth; x+=gridSize) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,gameHeight); ctx.stroke(); }
+            for(let y=0; y<gameHeight; y+=gridSize) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(gameWidth,y); ctx.stroke(); }
+        }
+
+        function drawAttacks() {
+            for (const attack of activeAttacks) {
+                ctx.beginPath();
+                
+                // 根據狀態決定顏色：預警是半透明橘紅，攻擊是實心紅
+                if (attack.state === 'warning') {
+                    ctx.fillStyle = 'rgba(255, 165, 0, 0.4)'; 
+                    ctx.strokeStyle = 'rgba(255, 165, 0, 0.8)';
+                } else if (attack.state === 'active') {
+                    ctx.fillStyle = 'rgba(255, 0, 0, 0.7)';
+                    ctx.strokeStyle = 'rgba(255, 0, 0, 1)';
+                }
+
+                ctx.lineWidth = 2;
+
+                if (attack.type === 'circle') {
+                    ctx.arc(attack.x, attack.y, attack.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                } else if (attack.type === 'rect') {
+                    ctx.rect(attack.x, attack.y, attack.w, attack.h);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function drawPlayer() {
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+            ctx.fillStyle = player.color;
+            ctx.fill();
+            
+            // 畫個白邊讓他比較明顯
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // 畫出觸控目標點 (除錯/視覺回饋用)
+            if (player.targetX !== null) {
+                ctx.beginPath();
+                ctx.arc(player.targetX, player.targetY, 5, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.fill();
+            }
+        }
+
+        // --- 主迴圈 ---
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 啟動遊戲
+        init();
+
+    </script>
+</body>
+</html>
