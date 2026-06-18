@@ -555,31 +555,32 @@ body.body-no-scroll {
 }
 
 /* ========================================== */
-/* 威爾模擬器：手機版 (直立模式) UI 自動縮放適配 */
+/* 威爾模擬器：手機版 (直立模式) UI 極限縮放適配 */
 /* ========================================== */
 @media (max-width: 768px) and (orientation: portrait) {
-    /* 1. 縮小頂部與底部玻璃按鈕 */
-    .glass-panel { padding: 3px 6px !important; gap: 6px !important; }
-    .glass-btn { font-size: 14px !important; padding: 2px 4px !important; }
-    .zoom-text { font-size: 12px !important; min-width: 30px !important; }
-    #glass-controls-top { top: 5px !important; right: 5px !important; }
-    #glass-controls-bottom { bottom: 5px !important; right: 5px !important; }
+    /* 1. 極限縮小頂部與底部玻璃按鈕 */
+    .glass-panel { padding: 2px 4px !important; gap: 4px !important; border-radius: 4px !important; }
+    .glass-btn { font-size: 11px !important; padding: 2px !important; }
+    .zoom-text { font-size: 10px !important; min-width: 25px !important; }
+    #glass-controls-top { top: 3px !important; right: 3px !important; }
+    #glass-controls-bottom { bottom: 3px !important; right: 3px !important; }
     
-    /* 2. 縮小虛擬搖桿 */
+    /* 2. 極限縮小虛擬搖桿 (適應不到 160px 高的微型畫布) */
     #joystick-base {
-        width: 70px !important; 
-        height: 70px !important;
-        bottom: 5% !important; 
+        width: 45px !important; 
+        height: 45px !important;
+        bottom: 6% !important; 
         left: 2% !important;
         border-width: 1px !important;
     }
     #joystick-stick {
-        width: 30px !important; 
-        height: 30px !important;
+        width: 20px !important; 
+        height: 20px !important;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
     }
     
-    /* 3. 縮小狀態文字與按鈕 */
-    #will-status { font-size: 16px !important; text-shadow: 1px 1px 2px #000 !important; }
-    #will-timer { font-size: 12px !important; text-shadow: 1px 1px 2px #000 !important; margin-top: 2px !important; }
-    #will-restart-btn { font-size: 16px !important; padding: 8px 16px !important; }
+    /* 3. 極限縮小狀態文字與按鈕 */
+    #will-status { font-size: 14px !important; text-shadow: 1px 1px 2px #000 !important; margin-bottom: 2px !important; }
+    #will-timer { font-size: 10px !important; text-shadow: 1px 1px 2px #000 !important; margin-top: 0 !important; }
+    #will-restart-btn { font-size: 12px !important; padding: 6px 12px !important; border-width: 2px !important; }
 }
