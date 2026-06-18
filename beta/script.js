@@ -67,13 +67,13 @@ function switchTab(tabId) {
     }
 }
 
-// 替換 2: 全新 iOS 友善的全螢幕按鈕邏輯
+// 全新 iOS 友善的全螢幕按鈕邏輯 (鐵桶鎖死版)
 window.toggleWillFullscreen = function() {
     const wrapper = document.getElementById('will-game-wrapper');
     const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
     const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
 
-    // 如果目前是全螢幕 -> 執行退出
+    // 狀態 1：退出全螢幕
     if (isNativeFullscreen || isFakeFullscreen) {
         if (isNativeFullscreen) {
             if (document.exitFullscreen) document.exitFullscreen();
@@ -86,14 +86,15 @@ window.toggleWillFullscreen = function() {
         return;
     }
 
-    // 準備進入全螢幕：偵測是否為蘋果裝置
+    // 狀態 2：進入全螢幕
     const isAppleDevice = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
     if (!isAppleDevice && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
+        // 安卓與電腦：完美原生全螢幕
         if (wrapper.requestFullscreen) wrapper.requestFullscreen();
         else wrapper.webkitRequestFullscreen();
     } else {
-        // iOS 方案：開啟 fake-fullscreen，並解鎖一點點讓玩家可以「往上滑隱藏網址列」
+        // iOS 方案：強制套用 fake-fullscreen 與背景鎖死
         wrapper.classList.add('fake-fullscreen');
         document.body.classList.add('body-no-scroll');
         window.scrollTo(0, 0); 
