@@ -1962,10 +1962,11 @@ function will_init() {
     if (joyBase) {
         if (!isTouchDevice) joyBase.style.display = 'none';
         else {
-            joyBase.addEventListener('pointerdown', joyStart);
-            window.addEventListener('pointermove', joyMove);
-            window.addEventListener('pointerup', joyEnd);
-            window.addEventListener('pointercancel', joyEnd);
+            // 🌟 捨棄 Pointer，改用專屬手機的 Touch 事件，並強制關閉被動模式 (passive: false) 以允許阻止預設行為
+            joyBase.addEventListener('touchstart', joyStart, { passive: false });
+            joyBase.addEventListener('touchmove', joyMove, { passive: false });
+            joyBase.addEventListener('touchend', joyEnd);
+            joyBase.addEventListener('touchcancel', joyEnd);
         }
     }
     will_resetGame();
@@ -2012,69 +2013,103 @@ window.toggleWillFullscreen = function() {
 };
 
 // ==========================================
-// 🕹️ 搖桿控制 (原汁原味版 + 防斷觸修復)
+// 🕹️ 搖桿控制 (防彈級 Touch 版，徹底根除斷觸與劫持)
 // ==========================================
+let activeTouchId = null;
+
 function joyStart(e) { 
     if (!willGameActive) return; 
+    e.preventDefault(); // 🛡️ 第一層防禦：阻止任何預設觸控行為（如點擊高亮）
+    if (isJoyDragging) return; 
+
+    // 鎖定第一根按下去的手指
+    const touch = e.changedTouches[0];
+    activeTouchId = touch.identifier;
     isJoyDragging = true; 
+
     const stick = document.getElementById('joystick-stick');
     stick.style.transition = 'none'; 
-
-    // 🌟 關鍵防斷觸：強制捕獲這根手指的動態
-    const joyBase = document.getElementById('joystick-base');
-    if (joyBase.setPointerCapture) {
-        joyBase.setPointerCapture(e.pointerId);
-    }
-
-    joyUpdate(e); 
+    joyUpdate(touch); 
 }
 
 function joyMove(e) { 
     if (!isJoyDragging) return; 
-    joyUpdate(e); 
+    e.preventDefault(); // 🛡️ 第二層防禦：徹底封殺瀏覽器的滑動與上一頁手勢
+
+    // 在所有移動的手指中，找出我們鎖定的那根
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === activeTouchId) {
+            joyUpdate(e.changedTouches[i]);
+            break;
+        }
+    }
 }
 
 function joyEnd(e) {
     if (!isJoyDragging) return; 
-    isJoyDragging = false;
-    
-    // 🌟 釋放這根手指的捕獲
-    const joyBase = document.getElementById('joystick-base');
-    if (joyBase.releasePointerCapture) {
-        joyBase.releasePointerCapture(e.pointerId);
-    }
 
+    // 確認放開的這根手指，是不是我們鎖定的那根
+    let isOurTouchReleased = false;
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === activeTouchId) {
+            isOurTouchReleased = true;
+            break;
+        }
+    }
+    if (!isOurTouchReleased) return; // 如果是別根手指放開，不理它
+
+    isJoyDragging = false;
+    activeTouchId = null;
+    
     const stick = document.getElementById('joystick-stick');
     stick.style.transform = `translate(0px, 0px)`; 
     stick.style.transition = 'transform 0.2s ease-out';
     mTouchLeft = false; mTouchRight = false;
 }
 
-// joyUpdate 保持你原本的寫法，完全不動！
-function joyUpdate(e) {
+// 負責計算位置與移動判斷 (接收的是 touch 物件)
+function joyUpdate(touch) {
     const rect = document.getElementById('joystick-base').getBoundingClientRect();
     const stick = document.getElementById('joystick-stick');
-    let dx = e.clientX - (rect.left + rect.width / 2); 
-    let dy = e.clientY - (rect.top + rect.height / 2);
+    
+    // 計算手指相對於搖桿中心的距離
+    let dx = touch.clientX - (rect.left + rect.width / 2); 
+    let dy = touch.clientY - (rect.top + rect.height / 2);
     let dist = Math.sqrt(dx * dx + dy * dy); 
     let maxR = (rect.width / 2) - (stick.offsetWidth / 2);
-    if (dist > maxR) { dx = (dx / dist) * maxR; dy = (dy / dist) * maxR; }
+    
+    // 如果手指滑太遠，把視覺上的圓柱鎖在圓圈邊緣
+    if (dist > maxR) { 
+        dx = (dx / dist) * maxR; 
+        dy = (dy / dist) * maxR; 
+    }
+    
     stick.style.transform = `translate(${dx}px, ${dy}px)`;
-    mTouchLeft = dx < -15; mTouchRight = dx > 15;
+    
+    // 設定推動閥值，超過 15 判定為移動
+    mTouchLeft = dx < -15; 
+    mTouchRight = dx > 15;
 }
 
-// 初始化時生成隨機的 7 題隊列
 function will_resetGame() {
-    wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
+    wPlayer.x = WORLD_CENTER; 
+    wPlayer.targetX = null;
     wGame.hp = 99; 
     
-    // 🌟 若你之後想讓題目「隨機洗牌」，就把下面第一行註解掉，並把第二行的註解打開
-    wGame.queue = [0, 1, 2, 3, 4, 5, 6]; 
-    // wGame.queue = [0, 1, 2, 3, 4, 5, 6]; shuffleArray(wGame.queue);
+    // 這裡是你原本設定的題目陣列
+    wGame.queue = [1, 2, 3, 4, 5, 6, 0]; 
 
-    wGame.currQ = 0; wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
-    wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
-    document.getElementById('will-restart-btn').style.display = 'none';
+    wGame.currQ = 0; 
+    wGame.strikeIndex = 0; 
+    wGame.phase = 'ready'; 
+    wGame.timer = 2000; 
+    wGame.flashRed = 0; 
+    wGame.hasEvaluated = false; 
+    wGame.isPaused = false;
+    
+    const restartBtn = document.getElementById('will-restart-btn');
+    if (restartBtn) restartBtn.style.display = 'none';
+    
     will_updateUI("特訓開始！", "#2ecc71", "準備迎戰...");
     wLastTime = performance.now();
 }
