@@ -31,10 +31,14 @@ let ignoreInitialized = false;
 let willInitialized = false; // 新增這行
 let willGameActive = false;  // 新增這行
 
-// 替換 1: 增強版的分頁切換邏輯
 function switchTab(tabId) {
-    // 解決 UI 跑到其他分頁的 Bug：切換分頁時，強制解除偽全螢幕狀態
+    // 跨分頁靜音與解除鎖定防護
     if (tabId !== 'will') {
+        if (typeof willBgm !== 'undefined') willBgm.pause();
+        isBgmPlaying = false;
+        const bgmBtn = document.getElementById('btn-will-bgm');
+        if(bgmBtn) bgmBtn.classList.add('muted-bgm');
+        
         const wrapper = document.getElementById('will-game-wrapper');
         if (wrapper && wrapper.classList.contains('fake-fullscreen')) {
             wrapper.classList.remove('fake-fullscreen');
@@ -1786,7 +1790,7 @@ const POS = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
 function will_togglePause(forceState) {
     wGame.isPaused = forceState;
     if (wGame.isPaused) will_updateUI("⏸ 遊戲暫停", "#f1c40f", "點擊 ▶ 繼續");
-    else will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備迎戰...");
+    else will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備...");
 }
 
 function will_zoomStep(amount) {
@@ -1828,42 +1832,27 @@ const wSprites = {
 
 // =========================================================================
 // 🕷️ 終極 1:1 蜘蛛角陣型題庫設定
-// 【位置代碼參考】
-// POS.LL(更大左), POS.L2(大左), POS.L1(小左), POS.M(中), POS.R1(小右), POS.R2(大右), POS.RR(更大右)
-// 填寫方式：safe 填寫安全區代碼，bot 與 top 陣列內填寫會長出蜘蛛腳的位置代碼。
 // =========================================================================
 const WILL_PATTERNS = [
-    // ------------------------------------------
-    // 題組 1：中 ➔ 小左 ➔ 中 (無裂縫)
-    // ------------------------------------------
+    // 0: 光滑1 (中 ➔ 小左 ➔ 中)
     { 
         name: "光滑1", crack: false, hint: "中 ➔ 小左 ➔ 中",
         strikes: [
-            // 🌟 把它們全部改回純淨的 POS 代碼！
-            // 第一下：
             { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] },
-            // 第二下：
             { safe: POS.L1, bot: [POS.LL-150, POS.M, POS.R1, POS.R2, POS.RR, POS.RR+200], top: [POS.L2] },
-            // 第三下：
             { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] }
         ]
     },
-
-    // ------------------------------------------
-    // 題組 2：中 ➔ 小右 ➔ 大右 ➔ 中 (無裂縫)
-    // ------------------------------------------
+    // 1: 光滑2 (中 ➔ 小右 ➔ 大右 ➔ 中)
     { 
         name: "光滑2", crack: false, hint: "中 ➔ 小右 ➔ 大右 ➔ 中",
         strikes: [
-            { safe: POS.M,  bot: [POS.L2, POS.R1, POS.L2, POS.RR], top: [POS.L1-50, POS.LL, POS.R2] }, // 第1下：中 (請填寫 bot 與 top)
-            { safe: POS.R1, bot: [POS.L1, POS.R2], top: [POS.L2-50, POS.M-50, POS.RR-50] }, // 第2下：小右
-            { safe: POS.R2, bot: [POS.M-30, POS.RR ], top: [POS.R1-50,POS.L1-50 ] }, // 第3下：大右
+            { safe: POS.M,  bot: [POS.L2, POS.R1, POS.L2, POS.RR], top: [POS.L1-50, POS.LL, POS.R2] }, 
+            { safe: POS.R1, bot: [POS.L1, POS.R2], top: [POS.L2-50, POS.M-50, POS.RR-50] }, 
+            { safe: POS.R2, bot: [POS.M-30, POS.RR ], top: [POS.R1-50,POS.L1-50 ] }, 
         ]
     },
-
-    // ------------------------------------------
-    // 題組 3：中 ➔ 大右 ➔ 小右 ➔ 中 (無裂縫)
-    // ------------------------------------------
+    // 2: 光滑3 (中 ➔ 大右 ➔ 小右 ➔ 中)
     { 
         name: "光滑3", crack: false, hint: "中 ➔ 大右 ➔ 小右 ➔ 中",
         strikes: [
@@ -1872,22 +1861,16 @@ const WILL_PATTERNS = [
             { safe: POS.R1, bot: [POS.RR-50], top: [POS.LL,POS.M-120,POS.R2-90,POS.RR+50] },
         ]
     },
-
-    // ------------------------------------------
-    // 題組 4：中 ➔ 大左 ➔ 不動 ➔ 中 (無裂縫) 
-    // ------------------------------------------
+    // 3: 光滑4 (中 ➔ 大左 ➔ 不動 ➔ 中) 
     { 
         name: "光滑4", crack: false, hint: "中 ➔ 大左 ➔ 不動 ➔ 中",
         strikes: [
             { safe: POS.M,  bot: [POS.LL-70, POS.M-80,POS.M+100,POS.RR-80, POS.RR+80], top: [POS.L2-50,POS.R1+90], noDeduct: true },
             { safe: POS.L2, bot: [POS.RR-50], top: [POS.LL-100, POS.M-100, POS.R1-120,POS.R2-150] },
-            { safe: POS.L2, bot: [POS.R1-90,POS.R1+90], top: [POS.LL-20, POS.M-80,POS.R2-10] }, // 不動 (維持大左)
+            { safe: POS.L2, bot: [POS.R1-90,POS.R1+90], top: [POS.LL-20, POS.M-80,POS.R2-10] }, 
         ]
     },
-
-    // ------------------------------------------
-    // 題組 5：中 ➔ 大左 ➔ 更大左 ➔ 中 (有裂縫)
-    // ------------------------------------------
+    // 4: 地裂1 (中 ➔ 大左 ➔ 更大左 ➔ 中)
     { 
         name: "地裂1", crack: true, hint: "中 ➔ 大左 ➔ 更大左 ➔ 中",
         strikes: [
@@ -1896,11 +1879,7 @@ const WILL_PATTERNS = [
             { safe: POS.LL, bot: [POS.LL, POS.R1-50], top: [POS.L2-50, POS.R1] },
         ]
     },
-
-
-    // ------------------------------------------
-    // 題組 6：中 ➔ 大右 ➔ 中 (有裂縫) 型態1
-    // ------------------------------------------
+    // 5: 地裂2-型態1 (中 ➔ 大右 ➔ 中)
     { 
         name: "地裂2-型態1", crack: true, hint: "中 ➔ 大右 ➔ 中",
         strikes: [
@@ -1909,16 +1888,22 @@ const WILL_PATTERNS = [
             { safe: POS.M,  bot: [POS.LL-150, POS.LL+50], top: [POS.M-30,POS.R1-40] }
         ]
     },
- 
-    // ------------------------------------------
-    // 題組 7：中 ➔ 大右 ➔ 中 (有裂縫) 型態2
-    // ------------------------------------------
+    // 6: 地裂3-型態2 (中 ➔ 大右 ➔ 中)
     { 
         name: "地裂3-型態2", crack: true, hint: "中 ➔ 大右 ➔ 中",
         strikes: [
             { safe: POS.M,  bot: [POS.LL-100, POS.M ], top: [POS.LL, POS.R1-80] },
             { safe: POS.R2, bot: [POS.L2+70, POS.R2+50], top: [POS.LL+70, POS.R1+70] },
             { safe: POS.M,  bot: [POS.L1-30, POS.RR-80], top: [POS.M-30, POS.RR+70] }
+        ]
+    },
+    // 7: 光滑5 (中 ➔ 大左 ➔ 中)
+    { 
+        name: "光滑5", crack: false, hint: "中 ➔ 大左 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL-70, POS.M-80, POS.M+100, POS.RR-80, POS.RR+80], top: [POS.L2-50, POS.R1+90] },
+            { safe: POS.L2, bot: [POS.RR-50], top: [POS.LL-100, POS.M-100, POS.R1-120, POS.R2-150] },
+            { safe: POS.M,  bot: [POS.LL-70, POS.M-80, POS.M+100, POS.RR-80, POS.RR+80], top: [POS.L2-50, POS.R1+90] } 
         ]
     }
 ];
@@ -1927,7 +1912,28 @@ let wPlayer = { x: WORLD_CENTER, y: CONFIG.pos.floorY, radius: 15, targetX: null
 let wKeys = { ArrowLeft: false, ArrowRight: false, a: false, d: false };
 let wLastTime = 0; let cameraX = 0;
 let mTouchLeft = false; let mTouchRight = false; let isJoyDragging = false; 
-let wGame = { hp: 3, queue: [], currQ: 0, phase: 'ready', strikeIndex: 0, timer: 0, flashRed: 0, hasEvaluated: false, isPaused: false };
+
+// 🌟 遊戲核心狀態
+let wGame = { 
+    hits: 0,            // 累積擊中次數
+    questionsAnswered: 0, // 已通過題數
+    currentPatternIdx: 0, // 目前題目 ID
+    phase: 'stopped',     // 狀態: stopped, ready, warn, strike, idle, next_wait, victory
+    strikeIndex: 0, timer: 0, flashRed: 0, hasEvaluated: false, isPaused: false,
+    playerName: ""
+};
+
+// 🌟 新增背景音樂管理
+let willBgm = new Audio('assets/will_bgm.mp3');
+willBgm.loop = true; // 開啟循環播放
+let isBgmPlaying = false; // 追蹤目前音樂播放狀態
+
+// 🌟 設定狀態 (已移除 HTML 上的 hint checkbox，改由燈泡按鈕直接管理)
+let wSettings = {
+    mode: 'chaos', // hard (1,2,8), chaos (1~7)
+    endless: false,
+    hint: false    // 預設關閉提示
+};
 
 function will_drawSprite(ctx, img, cfg, x, y, scale = 1, flip = false, align = 'bottom-center') {
     if (!img.complete || img.naturalWidth === 0) return;
@@ -1950,6 +1956,59 @@ function tickSprite(cfg, dt, loop = true) {
     }
 }
 
+// 🌟 讀取設定面板的值 (只抓取難度與長度)
+window.will_updateSettings = function() {
+    let modeRadio = document.querySelector('input[name="will-mode"]:checked');
+    let lengthRadio = document.querySelector('input[name="will-length"]:checked');
+    
+    if(modeRadio) wSettings.mode = modeRadio.value;
+    if(lengthRadio) wSettings.endless = (lengthRadio.value === 'endless');
+    
+    // 同步刷新燈泡按鈕外觀狀態
+    const hintBtn = document.getElementById('btn-will-hint');
+    if(hintBtn) {
+        if(wSettings.hint) hintBtn.classList.add('active-hint');
+        else hintBtn.classList.remove('active-hint');
+    }
+};
+
+// 🌟 新增：點擊遊戲內燈泡切換提示
+window.will_toggleHintClick = function() {
+    if (wGame.phase === 'stopped') return; // 未開始前不允許切換
+    wSettings.hint = !wSettings.hint;
+    will_updateSettings();
+};
+
+// 🌟 新增：點擊遊戲內音樂符號切換 BGM
+window.will_toggleBgmClick = function() {
+    const bgmBtn = document.getElementById('btn-will-bgm');
+    if (!isBgmPlaying) {
+        // 執行播放
+        willBgm.play().then(() => {
+            isBgmPlaying = true;
+            if(bgmBtn) bgmBtn.classList.remove('muted-bgm');
+        }).catch(e => console.log("音樂播放受瀏覽器安全限制：", e));
+    } else {
+        // 執行暫停
+        willBgm.pause();
+        isBgmPlaying = false;
+        if(bgmBtn) bgmBtn.classList.add('muted-bgm');
+    }
+};
+
+// 🌟 顯示開始覆蓋層 (同時暫停音樂)
+window.will_showStartScreen = function() {
+    wGame.phase = 'stopped';
+    willBgm.pause();
+    isBgmPlaying = false;
+    const bgmBtn = document.getElementById('btn-will-bgm');
+    if(bgmBtn) bgmBtn.classList.add('muted-bgm');
+
+    document.getElementById('will-start-overlay').style.display = 'flex';
+    document.getElementById('will-restart-btn').style.display = 'none';
+};
+
+// 🌟 初始化只負責綁定事件，不直接開始遊戲
 function will_init() {
     if (!wCanvas) return;
     wCanvas.width = WORLD_W; wCanvas.height = WORLD_H;
@@ -1962,71 +2021,65 @@ function will_init() {
     if (joyBase) {
         if (!isTouchDevice) joyBase.style.display = 'none';
         else {
-            // 🌟 捨棄 Pointer，改用專屬手機的 Touch 事件，並強制關閉被動模式 (passive: false) 以允許阻止預設行為
             joyBase.addEventListener('touchstart', joyStart, { passive: false });
             joyBase.addEventListener('touchmove', joyMove, { passive: false });
             joyBase.addEventListener('touchend', joyEnd);
             joyBase.addEventListener('touchcancel', joyEnd);
         }
     }
-    will_resetGame();
+    
+    // 剛切換過來時，先讀取設定並顯示開始畫面
+    will_updateSettings();
+    will_showStartScreen();
     requestAnimationFrame(will_gameLoop);
 }
 
-// 全新 iOS 友善的全螢幕按鈕邏輯 (支援滑動隱藏網址列)
-window.toggleWillFullscreen = function() {
-    const wrapper = document.getElementById('will-game-wrapper');
-    const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
-    const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
+// 🌟 從題庫中隨機挑選下一題 (依照難度模式)
+function will_pickNextPattern() {
+    let allowedIndices = (wSettings.mode === 'hard') ? [0, 1, 7] : [0, 1, 2, 3, 4, 5, 6];
+    let rand = Math.floor(Math.random() * allowedIndices.length);
+    return allowedIndices[rand];
+}
 
-    // 狀態 1：如果目前是全螢幕 -> 執行退出
-    if (isNativeFullscreen || isFakeFullscreen) {
-        if (isNativeFullscreen) {
-            if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-        }
-        if (isFakeFullscreen) {
-            wrapper.classList.remove('fake-fullscreen');
-            document.body.classList.remove('ios-scroll-unlock');
-            // 恢復原本的鎖定狀態，防止玩遊戲時畫面亂跳
-            wrapper.style.touchAction = 'none'; 
-        }
-        return;
-    }
+// 🌟 按下「開始」按鈕，啟動遊戲與音樂
+window.will_startGame = function() {
+    will_updateSettings(); // 確保抓到最新設定
+    let nameInput = document.getElementById('will-player-name').value.trim();
+    wGame.playerName = nameInput !== "" ? nameInput : "無名英雄";
+    
+    wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
+    wGame.hits = 0; 
+    wGame.questionsAnswered = 0;
+    
+    // 抽取第一題
+    wGame.currentPatternIdx = will_pickNextPattern();
 
-    // 狀態 2：準備進入全螢幕 -> 偵測是否為蘋果裝置
-    const isAppleDevice = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
+    wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
+    
+    document.getElementById('will-start-overlay').style.display = 'none';
+    document.getElementById('will-restart-btn').style.display = 'none';
+    will_updateUI("練習開始！", "#2ecc71", "準備...");
+    
+    // 🎵 遊戲開始，背景音樂啟動
+    willBgm.currentTime = 0;
+    willBgm.play().then(() => {
+        isBgmPlaying = true;
+        const bgmBtn = document.getElementById('btn-will-bgm');
+        if(bgmBtn) bgmBtn.classList.remove('muted-bgm');
+    }).catch(e => console.log("等待玩家首次互動後播放音樂"));
 
-    if (!isAppleDevice && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
-        // 安卓與電腦：走原生真全螢幕
-        if (wrapper.requestFullscreen) wrapper.requestFullscreen();
-        else wrapper.webkitRequestFullscreen();
-    } else {
-        // iOS 方案：開啟偽全螢幕，並套用解鎖機制
-        wrapper.classList.add('fake-fullscreen');
-        document.body.classList.add('ios-scroll-unlock');
-        
-        // 🌟 關鍵：強制覆蓋 HTML 上的 touch-action: none，釋放玩家滑動網頁的能力！
-        wrapper.style.touchAction = 'auto'; 
-        window.scrollTo(0, 0); 
-    }
+    wLastTime = performance.now();
 };
 
-// ==========================================
-// 🕹️ 搖桿控制 (防彈級 Touch 版，徹底根除斷觸與劫持)
-// ==========================================
 let activeTouchId = null;
-
 function joyStart(e) { 
-    if (!willGameActive) return; 
-    e.preventDefault(); // 🛡️ 第一層防禦：阻止任何預設觸控行為（如點擊高亮）
+    if (!willGameActive || wGame.phase === 'stopped') return; 
+    e.preventDefault(); 
     if (isJoyDragging) return; 
-
-    // 鎖定第一根按下去的手指
     const touch = e.changedTouches[0];
     activeTouchId = touch.identifier;
     isJoyDragging = true; 
-
     const stick = document.getElementById('joystick-stick');
     stick.style.transition = 'none'; 
     joyUpdate(touch); 
@@ -2034,9 +2087,7 @@ function joyStart(e) {
 
 function joyMove(e) { 
     if (!isJoyDragging) return; 
-    e.preventDefault(); // 🛡️ 第二層防禦：徹底封殺瀏覽器的滑動與上一頁手勢
-
-    // 在所有移動的手指中，找出我們鎖定的那根
+    e.preventDefault();
     for (let i = 0; i < e.changedTouches.length; i++) {
         if (e.changedTouches[i].identifier === activeTouchId) {
             joyUpdate(e.changedTouches[i]);
@@ -2047,73 +2098,30 @@ function joyMove(e) {
 
 function joyEnd(e) {
     if (!isJoyDragging) return; 
-
-    // 確認放開的這根手指，是不是我們鎖定的那根
     let isOurTouchReleased = false;
     for (let i = 0; i < e.changedTouches.length; i++) {
-        if (e.changedTouches[i].identifier === activeTouchId) {
-            isOurTouchReleased = true;
-            break;
-        }
+        if (e.changedTouches[i].identifier === activeTouchId) { isOurTouchReleased = true; break; }
     }
-    if (!isOurTouchReleased) return; // 如果是別根手指放開，不理它
-
-    isJoyDragging = false;
-    activeTouchId = null;
-    
+    if (!isOurTouchReleased) return; 
+    isJoyDragging = false; activeTouchId = null;
     const stick = document.getElementById('joystick-stick');
     stick.style.transform = `translate(0px, 0px)`; 
     stick.style.transition = 'transform 0.2s ease-out';
     mTouchLeft = false; mTouchRight = false;
 }
 
-// 負責計算位置與移動判斷 (接收的是 touch 物件)
 function joyUpdate(touch) {
     const rect = document.getElementById('joystick-base').getBoundingClientRect();
     const stick = document.getElementById('joystick-stick');
-    
-    // 計算手指相對於搖桿中心的距離
     let dx = touch.clientX - (rect.left + rect.width / 2); 
     let dy = touch.clientY - (rect.top + rect.height / 2);
     let dist = Math.sqrt(dx * dx + dy * dy); 
     let maxR = (rect.width / 2) - (stick.offsetWidth / 2);
-    
-    // 如果手指滑太遠，把視覺上的圓柱鎖在圓圈邊緣
-    if (dist > maxR) { 
-        dx = (dx / dist) * maxR; 
-        dy = (dy / dist) * maxR; 
-    }
-    
+    if (dist > maxR) { dx = (dx / dist) * maxR; dy = (dy / dist) * maxR; }
     stick.style.transform = `translate(${dx}px, ${dy}px)`;
-    
-    // 🌟 關鍵修復：將寫死的 15 廢除！改成「推動超過最大半徑的 40%」就觸發移動
     let threshold = maxR * 0.4; 
-    
     mTouchLeft = dx < -threshold; 
     mTouchRight = dx > threshold;
-}
-
-function will_resetGame() {
-    wPlayer.x = WORLD_CENTER; 
-    wPlayer.targetX = null;
-    wGame.hp = 99; 
-    
-    // 這裡是你原本設定的題目陣列
-    wGame.queue = [1, 2, 3, 4, 5, 6, 0]; 
-
-    wGame.currQ = 0; 
-    wGame.strikeIndex = 0; 
-    wGame.phase = 'ready'; 
-    wGame.timer = 2000; 
-    wGame.flashRed = 0; 
-    wGame.hasEvaluated = false; 
-    wGame.isPaused = false;
-    
-    const restartBtn = document.getElementById('will-restart-btn');
-    if (restartBtn) restartBtn.style.display = 'none';
-    
-    will_updateUI("特訓開始！", "#2ecc71", "準備迎戰...");
-    wLastTime = performance.now();
 }
 
 function will_updateUI(text, color, subtext = "") {
@@ -2124,18 +2132,23 @@ function will_updateUI(text, color, subtext = "") {
 }
 
 function will_nextQuestion() {
-    wGame.currQ++;
-    if (wGame.currQ >= 7) {
+    wGame.questionsAnswered++;
+    
+    // 如果不是無限模式，且已經答完 7 題，則過關
+    if (!wSettings.endless && wGame.questionsAnswered >= 7) {
         wGame.phase = 'victory';
-        will_updateUI("🎉 特訓通過！", "#f1c40f", `剩餘愛心: ${wGame.hp} 顆`);
+        will_updateUI("🎉 練習完成！", "#f1c40f", `總共被擊中: ${wGame.hits} 次`);
         document.getElementById('will-restart-btn').style.display = 'block';
         return;
     }
+    
+    // 抽取下一題
+    wGame.currentPatternIdx = will_pickNextPattern();
     wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 1500; wPlayer.targetX = null; 
 }
 
 function will_update(dt) {
-    if (wGame.isPaused) return;
+    if (wGame.isPaused || wGame.phase === 'stopped') return;
 
     let dx = 0;
     if (wKeys.ArrowLeft || wKeys.a || mTouchLeft) dx -= 1;
@@ -2154,15 +2167,18 @@ function will_update(dt) {
 
     if (wGame.flashRed > 0) wGame.flashRed -= dt;
 
-    if (wGame.phase !== 'gameover' && wGame.phase !== 'victory') {
+    if (wGame.phase !== 'victory' && wGame.phase !== 'stopped') {
         wGame.timer -= dt;
-        let currPattern = (wGame.currQ < 7) ? WILL_PATTERNS[wGame.queue[wGame.currQ]] : WILL_PATTERNS[0];
+        let currPattern = WILL_PATTERNS[wGame.currentPatternIdx];
 
         if (wGame.phase === 'ready' && wGame.timer <= 0) {
             wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn;
             wSprites.crack.curr = 0; wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
             wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
-            will_updateUI(`第 ${wGame.currQ + 1}/7 題 - ${currPattern.crack ? "【地裂】" : "【光滑】"}`, "white", `提示: ${currPattern.hint}`);
+            
+            let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/7`;
+            let hintStr = wSettings.hint ? `提示: ${currPattern.hint}` : " ";
+            will_updateUI(`第 ${qNumStr} 題 - ${currPattern.crack ? "【地裂】" : "【光滑】"}`, "white", hintStr);
         } 
 
         if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
@@ -2179,36 +2195,18 @@ function will_update(dt) {
                 let currentStrike = currPattern.strikes[wGame.strikeIndex];
                 let inDangerZone = false;
                 
-                // 1. 檢查玩家是否踩到【下方蜘蛛腳】的範圍
-                currentStrike.bot.forEach(dangerX => {
-                    if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitBot) {
-                        inDangerZone = true;
-                    }
-                });
-
-                // 2. 檢查玩家是否踩到【上方蜘蛛腳】的範圍
-                currentStrike.top.forEach(dangerX => {
-                    if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTop) {
-                        inDangerZone = true;
-                    }
-                });
+                currentStrike.bot.forEach(dangerX => { if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitBot) inDangerZone = true; });
+                currentStrike.top.forEach(dangerX => { if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTop) inDangerZone = true; });
 
                 let isHit = currPattern.crack ? !inDangerZone : inDangerZone;
                 
-                // 🌟 這裡補上了「觀察機制 (noDeduct)」的分流判斷！
                 if (isHit) {
                     if (currentStrike.noDeduct) {
-                        wGame.flashRed = 500; // 畫面照樣閃紅，給玩家打擊感回饋
-                        will_updateUI("💥 觀察機制中！", "#f39c12", `必吃預警檢查 (愛心維持 ${wGame.hp})`);
+                        wGame.flashRed = 500; 
+                        will_updateUI("💥 觀察機制中！", "#f39c12", `必吃預警檢查 (擊中數維持)`);
                     } else {
-                        // 正常扣血邏輯
-                        wGame.hp--; wGame.flashRed = 500;
-                        if (wGame.hp <= 0) {
-                            wGame.phase = 'gameover'; will_updateUI("💀 走位失誤！", "#e74c3c", "特訓失敗，請重新來過");
-                            document.getElementById('will-restart-btn').style.display = 'block';
-                        } else { 
-                            will_updateUI("💥 判斷錯誤！", "#e74c3c", `機制處理失敗！ (愛心剩餘 ${wGame.hp})`); 
-                        }
+                        wGame.hits++; wGame.flashRed = 500;
+                        will_updateUI("💥 走位失誤！", "#e74c3c", `機制處理失敗！ (被擊中: ${wGame.hits} 次)`); 
                     }
                 } else { 
                     if (currentStrike.noDeduct) {
@@ -2220,11 +2218,8 @@ function will_update(dt) {
             }
             if (wGame.timer <= 0) { wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle; }
         }
-        // 換位空檔結束
         else if (wGame.phase === 'idle' && wGame.timer <= 0) {
             wGame.strikeIndex++;
-            
-            // 🌟 動態讀取這題總共有幾下，不再寫死 3 下
             if (wGame.strikeIndex >= currPattern.strikes.length) {
                 will_updateUI("✅ 本題結束！", "#2ecc71", "準備迎接下一題");
                 wGame.phase = 'next_wait'; wGame.timer = 1000;
@@ -2253,35 +2248,21 @@ function will_draw() {
     wCtx.scale(renderScale, renderScale); 
     wCtx.translate(-cameraX, -cameraY);          
 
-    let currPattern = (wGame.currQ < 7) ? WILL_PATTERNS[wGame.queue[wGame.currQ]] : WILL_PATTERNS[0];
-    let bgImg = (wGame.phase !== 'ready' && wGame.phase !== 'victory' && currPattern.crack) ? wAssets.bgCrack : wAssets.bgSmooth;
+    let currPattern = WILL_PATTERNS[wGame.currentPatternIdx] || WILL_PATTERNS[0];
+    let bgImg = (wGame.phase !== 'ready' && wGame.phase !== 'victory' && wGame.phase !== 'stopped' && currPattern.crack) ? wAssets.bgCrack : wAssets.bgSmooth;
     if (bgImg.complete && bgImg.naturalWidth > 0) wCtx.drawImage(bgImg, 0, 0, WORLD_W, WORLD_H);
 
-    if (wGame.phase !== 'ready' && wGame.phase !== 'victory' && currPattern.crack) {
+    if (wGame.phase !== 'ready' && wGame.phase !== 'victory' && wGame.phase !== 'stopped' && currPattern.crack) {
         will_drawSprite(wCtx, wAssets.crack, wSprites.crack, CONFIG.pos.crackX, CONFIG.pos.crackY, CONFIG.scale.crack, false, 'center');
     }
 
     will_drawSprite(wCtx, wAssets.boss, wSprites.boss, WORLD_CENTER, CONFIG.pos.bossY, CONFIG.scale.boss, false, 'bottom-center');
 
-    // 4. 畫攻擊蜘蛛角 (支援動態攻擊次數)
     if ((wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') && wGame.strikeIndex < currPattern.strikes.length) {
         let currentStrike = currPattern.strikes[wGame.strikeIndex];
-        
-        currentStrike.top.forEach(xPos => {
-            // 🌟 在 xPos 後面加上 legTopOffsetX 偏移量
-            will_drawSprite(wCtx, wAssets.legTop, wSprites.legTop, xPos + CONFIG.pos.legTopOffsetX, CONFIG.pos.legTopY, CONFIG.scale.legTop, false, 'top-center');
-        });
-
-        currentStrike.bot.forEach(xPos => {
-            // 🌟 在 xPos 後面加上 legBotOffsetX 偏移量
-            will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos + CONFIG.pos.legBotOffsetX, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center');
-        });
+        currentStrike.top.forEach(xPos => { will_drawSprite(wCtx, wAssets.legTop, wSprites.legTop, xPos + CONFIG.pos.legTopOffsetX, CONFIG.pos.legTopY, CONFIG.scale.legTop, false, 'top-center'); });
+        currentStrike.bot.forEach(xPos => { will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos + CONFIG.pos.legBotOffsetX, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center'); });
     }
-
-    wCtx.fillStyle = 'rgba(255, 255, 255, 0.6)'; wCtx.font = "bold 18px Arial"; wCtx.textAlign = "center";
-    wCtx.fillText("[更大左]", POS.LL, CONFIG.pos.floorY + 50); wCtx.fillText("[大左]", POS.L2, CONFIG.pos.floorY + 50); 
-    wCtx.fillText("[小左]", POS.L1, CONFIG.pos.floorY + 50); wCtx.fillText("[中]", POS.M, CONFIG.pos.floorY + 50); 
-    wCtx.fillText("[小右]", POS.R1, CONFIG.pos.floorY + 50); wCtx.fillText("[大右]", POS.R2, CONFIG.pos.floorY + 50);
 
     if (!(wGame.flashRed > 0 && Math.floor(wGame.flashRed / 100) % 2 === 0)) {
         let isMoving = (wKeys.ArrowLeft || wKeys.ArrowRight || wKeys.a || wKeys.d || mTouchLeft || mTouchRight);
@@ -2293,8 +2274,16 @@ function will_draw() {
 
     wCtx.restore(); 
 
-    wCtx.fillStyle = '#e74c3c'; wCtx.font = "bold 24px Arial"; wCtx.textAlign = "left";
-    wCtx.fillText(`❤️ x ${wGame.hp}`, 15, 45); 
+    // 🌟 在左上角畫出計數器與玩家名稱
+    if (wGame.phase !== 'stopped') {
+        wCtx.fillStyle = '#e74c3c'; wCtx.font = "bold 22px Arial"; wCtx.textAlign = "left";
+        wCtx.fillText(`💥 被擊中: ${wGame.hits} 次`, 15, 45); 
+        
+        if (wGame.playerName) {
+            wCtx.fillStyle = '#f1c40f'; wCtx.font = "bold 18px Arial";
+            wCtx.fillText(`👤 ${wGame.playerName}`, 15, 75);
+        }
+    }
 
     if (wGame.flashRed > 0) {
         wCtx.fillStyle = 'rgba(231, 76, 60, 0.3)';
@@ -2304,11 +2293,10 @@ function will_draw() {
 
 function will_gameLoop(timestamp) {
     if (!willGameActive) return; 
-    if (!wLastTime) wLastTime = timestamp; // 🌟 避免一開始產生的巨大時間差導致瞬間穿牆
+    if (!wLastTime) wLastTime = timestamp; 
     const dt = timestamp - wLastTime;
     wLastTime = timestamp;
     
-    // 如果切換網頁導致 dt 飆高，直接忽略那一次運算
     if (dt > 0 && dt < 100) {
         will_update(dt);
     }
