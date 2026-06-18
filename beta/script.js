@@ -1971,12 +1971,13 @@ function will_init() {
     requestAnimationFrame(will_gameLoop);
 }
 
+// 全新 iOS 友善的全螢幕按鈕邏輯 (支援滑動隱藏網址列)
 window.toggleWillFullscreen = function() {
     const wrapper = document.getElementById('will-game-wrapper');
     const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
     const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
 
-    // 狀態 1：目前處於全螢幕，準備【退出】
+    // 狀態 1：如果目前是全螢幕 -> 執行退出
     if (isNativeFullscreen || isFakeFullscreen) {
         if (isNativeFullscreen) {
             if (document.exitFullscreen) document.exitFullscreen();
@@ -1984,23 +1985,27 @@ window.toggleWillFullscreen = function() {
         }
         if (isFakeFullscreen) {
             wrapper.classList.remove('fake-fullscreen');
-            document.body.classList.remove('body-no-scroll'); // 解除背景滾動鎖定
+            document.body.classList.remove('ios-scroll-unlock');
+            // 恢復原本的鎖定狀態，防止玩遊戲時畫面亂跳
+            wrapper.style.touchAction = 'none'; 
         }
         return;
     }
 
-    // 狀態 2：目前非全螢幕，準備【進入】
-    // 偵測是否為 Apple 裝置 (iOS Safari 不支援一般元素的 requestFullscreen)
+    // 狀態 2：準備進入全螢幕 -> 偵測是否為蘋果裝置
     const isAppleDevice = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
     if (!isAppleDevice && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
-        // 安卓與一般電腦：走正規 Native 全螢幕
+        // 安卓與電腦：走原生真全螢幕
         if (wrapper.requestFullscreen) wrapper.requestFullscreen();
         else wrapper.webkitRequestFullscreen();
     } else {
-        // iOS Safari 備用方案：走 Fake 全螢幕
+        // iOS 方案：開啟偽全螢幕，並套用解鎖機制
         wrapper.classList.add('fake-fullscreen');
-        document.body.classList.add('body-no-scroll'); // 鎖定背景滾動
+        document.body.classList.add('ios-scroll-unlock');
+        
+        // 🌟 關鍵：強制覆蓋 HTML 上的 touch-action: none，釋放玩家滑動網頁的能力！
+        wrapper.style.touchAction = 'auto'; 
         window.scrollTo(0, 0); 
     }
 };
