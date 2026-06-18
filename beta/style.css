@@ -410,7 +410,6 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 /* ========================================== */
 /* 9. 威爾模擬器特定設定 (Will Simulator)        */
 /* ========================================== */
-/* 當威爾分頁啟用時，強制容器滿版，消除白邊 */
 .container:has(#tab-will.active) {
     padding: 0 !important;
     max-width: 100% !important;
@@ -418,56 +417,98 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     margin: 0 !important;
 }
 
-#tab-will { padding: 0; margin: 0; width: 100%; display: flex; flex-direction: column; }
-.will-game-panel { position: relative; padding: 0; overflow: hidden; background: #1a1a2e; display: flex; justify-content: center; align-items: center; width: 100%; }
+#tab-will.active { padding: 0; margin: 0; width: 100%; display: flex; flex-direction: column; }
+/* 遊戲容器主體 */
+#will-game-wrapper {
+    position: relative; 
+    width: 100%; 
+    background-color: #000; 
+    overflow: hidden;
+    border-radius: 8px;
+    touch-action: none; 
+    user-select: none;
+}
 
-/* 讓畫布盡可能放大 */
 #willCanvas { 
     width: 100%; 
     height: auto; 
-    max-height: 85vh; /* 避免在手機上過長需要滾動 */
+    max-height: 85vh; 
     display: block; 
     touch-action: none; 
-    background: url('https://imgur.com/K3V1gV3.png') center/cover; 
+    background: #000; 
 }
 
-#will-ui { position: absolute; top: 15px; left: 15px; color: white; z-index: 10; pointer-events: none; text-shadow: 1px 1px 3px black; }
-#will-status { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
-#will-timer { font-size: 14px; color: #f1c40f; }
+/* 狀態文字與重新開始按鈕 */
+#will-status-container {
+    position: absolute; top: 5%; left: 50%; transform: translateX(-50%); 
+    text-align: center; z-index: 100; pointer-events: none; width: 100%;
+}
+#will-status { font-weight: bold; font-size: 28px; color: #2ecc71; text-shadow: 2px 2px 4px #000, 0 0 10px #000; }
+#will-timer { font-weight: bold; color: #fff; font-size: 18px; text-shadow: 2px 2px 4px #000; margin-top: 5px; }
 
-#will-restart-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 20px; font-weight: bold; background-color: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; display: none; z-index: 20; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+#will-restart-btn {
+    display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    padding: 15px 40px; font-size: 24px; background-color: #f1c40f; color: #222; 
+    border: 3px solid #fff; border-radius: 12px; cursor: pointer; font-weight: bold; 
+    z-index: 200; box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
 
-/* ========================================== */
-/* iOS 偽全螢幕備用方案 (Fake Fullscreen)        */
-/* ========================================== */
+/* 玻璃面板美化 */
+.glass-panel {
+    position: absolute;
+    background: rgba(20, 20, 30, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    padding: 5px 10px;
+    z-index: 150;
+}
+#glass-controls-top { top: 15px; right: 15px; }
+#glass-controls-bottom { bottom: 15px; right: 15px; }
 
-/* 1. 將遊戲區塊強制固定在畫面上層 */
+.glass-btn {
+    background: transparent; border: none; color: white; font-size: 20px;
+    cursor: pointer; padding: 5px 8px; transition: transform 0.1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); display: flex; align-items: center;
+}
+.glass-btn:active { transform: scale(0.85); color: #3498db; }
+.zoom-text { color: #f1c40f; font-weight: bold; font-size: 16px; display: flex; align-items: center; text-shadow: 0 2px 4px rgba(0,0,0,0.8); min-width: 35px; justify-content: center; }
+
+/* 🕹️ 現代簡約搖桿 */
+#joystick-base {
+    position: absolute; bottom: 10%; left: 5%; width: 130px; height: 130px; 
+    background-color: rgba(10, 30, 60, 0.4); border: 2px solid rgba(52, 152, 219, 0.5); 
+    border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 100;
+}
+#joystick-stick {
+    width: 55px; height: 55px; background-color: rgba(52, 152, 219, 0.8); 
+    border-radius: 50%; box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+    pointer-events: none; transition: transform 0.1;
+}
+
+/* iOS 偽全螢幕備用方案 (Fake Fullscreen) */
 #will-game-wrapper.fake-fullscreen {
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
+    top: 0 !important; left: 0 !important;
     width: 100vw !important;
-    height: 100dvh !important; /* 使用 dvh 完美對齊 iOS 視窗 */
+    height: 100dvh !important; /* dvh 完美避開 iOS 工具列 */
+    border-radius: 0 !important;
     z-index: 9999 !important;
     background-color: #000 !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0 !important; padding: 0 !important;
 }
 
-/* 2. 畫布在偽全螢幕下的自適應邏輯 (與原生全螢幕相同) */
 #will-game-wrapper.fake-fullscreen canvas {
-    width: auto !important;
-    height: auto !important;
-    max-width: 100vw !important;
-    max-height: 100dvh !important;
+    width: auto !important; height: auto !important;
+    max-width: 100vw !important; max-height: 100dvh !important;
     object-fit: contain !important;
 }
 
-/* 3. 防止玩家在全螢幕推搖桿時，背後的整個網頁跟著上下拉動 */
-body.body-no-scroll {
-    overflow: hidden !important;
-    touch-action: none !important; /* 徹底封殺 Safari 橡皮筋捲動效應 */
-}
+/* 鎖定背景，防止玩家推搖桿時拉扯到後方網頁 */
+body.body-no-scroll { overflow: hidden !important; touch-action: none !important; }
