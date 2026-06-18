@@ -719,7 +719,7 @@
         </div>
     </div>
 
-    <div id="tab-will" class="tab-content">
+    <div id="tab-will" class="tab-content" >
      <div class="hint">
         💡 <strong>機制說明：</strong>如果有【螢幕裂縫】，必須<strong>面對</strong>眼球。沒有【螢幕裂縫】，必須<strong>背對</strong>眼球。<br>
         (手機點擊畫面左右，或使用搖桿控制。電腦使用 A/D 或左右鍵)<br>
@@ -759,5 +759,13 @@
     </div> </div>
 
 <script src="script.js"></script>
+<script>
+    // 網頁 DOM 結構載入完成後，自動切換至威爾模擬器並點燃遊戲引擎
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof switchTab === 'function') {
+            switchTab('will');
+        }
+    });
+</script>
 </body>
 </html>
