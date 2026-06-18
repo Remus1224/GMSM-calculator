@@ -2086,9 +2086,11 @@ function joyUpdate(touch) {
     
     stick.style.transform = `translate(${dx}px, ${dy}px)`;
     
-    // 設定推動閥值，超過 15 判定為移動
-    mTouchLeft = dx < -15; 
-    mTouchRight = dx > 15;
+    // 🌟 關鍵修復：將寫死的 15 廢除！改成「推動超過最大半徑的 40%」就觸發移動
+    let threshold = maxR * 0.4; 
+    
+    mTouchLeft = dx < -threshold; 
+    mTouchRight = dx > threshold;
 }
 
 function will_resetGame() {
