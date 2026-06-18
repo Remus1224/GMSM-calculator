@@ -490,13 +490,13 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 }
 
 /* ========================================== */
-/* iOS 偽全螢幕：可滑動隱藏網址列的動態方案       */
+/* iOS 偽全螢幕：鐵桶防護方案 (捨棄滑動，確保不跑版) */
 /* ========================================== */
 #will-game-wrapper.fake-fullscreen {
-    position: absolute !important; /* 🌟 關鍵：改成 absolute，讓它跟著網頁一起滑動 */
+    position: fixed !important; /* 🌟 鎖死在視窗上，絕對不跟著網頁滾動 */
     top: 0 !important; left: 0 !important;
     width: 100vw !important;
-    height: 100dvh !important; /* 當網址列縮小，dvh 會自動長大填滿畫面 */
+    height: 100dvh !important; /* 完美塞進 iOS 剩餘可視空間 */
     border-radius: 0 !important;
     z-index: 9999 !important;
     background-color: #000 !important;
@@ -512,9 +512,8 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     object-fit: contain !important;
 }
 
-/* 🌟 關鍵：撐開背景高度，製造「往上滑」的空間給瀏覽器 */
-body.ios-scroll-unlock { 
-    min-height: 150vh !important; 
-    overflow: auto !important; 
-    background-color: #000 !important;
+/* 🌟 最強硬的鎖定：徹底封殺所有上下滾動與橡皮筋回彈效應 */
+body.body-no-scroll { 
+    overflow: hidden !important; 
+    touch-action: none !important; 
 }
