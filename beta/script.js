@@ -2011,19 +2011,53 @@ window.toggleWillFullscreen = function() {
     }
 };
 
-function joyStart(e) { if (!willGameActive) return; isJoyDragging = true; document.getElementById('joystick-stick').style.transition = 'none'; joyUpdate(e); }
-function joyMove(e) { if (!isJoyDragging) return; joyUpdate(e); }
-function joyEnd(e) {
-    if (!isJoyDragging) return; isJoyDragging = false;
+// ==========================================
+// 🕹️ 搖桿控制 (原汁原味版 + 防斷觸修復)
+// ==========================================
+function joyStart(e) { 
+    if (!willGameActive) return; 
+    isJoyDragging = true; 
     const stick = document.getElementById('joystick-stick');
-    stick.style.transform = `translate(0px, 0px)`; stick.style.transition = 'transform 0.2s ease-out';
+    stick.style.transition = 'none'; 
+
+    // 🌟 關鍵防斷觸：強制捕獲這根手指的動態
+    const joyBase = document.getElementById('joystick-base');
+    if (joyBase.setPointerCapture) {
+        joyBase.setPointerCapture(e.pointerId);
+    }
+
+    joyUpdate(e); 
+}
+
+function joyMove(e) { 
+    if (!isJoyDragging) return; 
+    joyUpdate(e); 
+}
+
+function joyEnd(e) {
+    if (!isJoyDragging) return; 
+    isJoyDragging = false;
+    
+    // 🌟 釋放這根手指的捕獲
+    const joyBase = document.getElementById('joystick-base');
+    if (joyBase.releasePointerCapture) {
+        joyBase.releasePointerCapture(e.pointerId);
+    }
+
+    const stick = document.getElementById('joystick-stick');
+    stick.style.transform = `translate(0px, 0px)`; 
+    stick.style.transition = 'transform 0.2s ease-out';
     mTouchLeft = false; mTouchRight = false;
 }
+
+// joyUpdate 保持你原本的寫法，完全不動！
 function joyUpdate(e) {
     const rect = document.getElementById('joystick-base').getBoundingClientRect();
     const stick = document.getElementById('joystick-stick');
-    let dx = e.clientX - (rect.left + rect.width / 2); let dy = e.clientY - (rect.top + rect.height / 2);
-    let dist = Math.sqrt(dx * dx + dy * dy); let maxR = (rect.width / 2) - (stick.offsetWidth / 2);
+    let dx = e.clientX - (rect.left + rect.width / 2); 
+    let dy = e.clientY - (rect.top + rect.height / 2);
+    let dist = Math.sqrt(dx * dx + dy * dy); 
+    let maxR = (rect.width / 2) - (stick.offsetWidth / 2);
     if (dist > maxR) { dx = (dx / dist) * maxR; dy = (dy / dist) * maxR; }
     stick.style.transform = `translate(${dx}px, ${dy}px)`;
     mTouchLeft = dx < -15; mTouchRight = dx > 15;
@@ -2035,7 +2069,7 @@ function will_resetGame() {
     wGame.hp = 99; 
     
     // 🌟 若你之後想讓題目「隨機洗牌」，就把下面第一行註解掉，並把第二行的註解打開
-    wGame.queue = [3, 3, 3, 3, 3, 4, 4]; 
+    wGame.queue = [0, 1, 2, 3, 4, 5, 6]; 
     // wGame.queue = [0, 1, 2, 3, 4, 5, 6]; shuffleArray(wGame.queue);
 
     wGame.currQ = 0; wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
