@@ -739,6 +739,149 @@ body.body-no-scroll {
 }
 
 /* ========================================== */
+/* 🍁 楓之谷 M 角色狀態欄 (100% 像素還原版 v3)    */
+/* ========================================== */
+
+/* 🌟 1. 全局網底：左上角完全貼齊畫面邊緣 */
+#ms-player-hud {
+    position: absolute;
+    top: 0; left: 0; /* 完美貼齊 */
+    z-index: 150;
+    pointer-events: none; 
+    display: flex;
+    flex-direction: column;
+    gap: 2px; 
+    font-family: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+    letter-spacing: 0.5px;
+    
+    /* 從邊緣開始漸淡的黑灰透明背景 */
+    background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 75%, transparent 100%);
+    padding: 12px 40px 12px 12px; /* 內部留白，確保文字不會撞到邊緣 */
+    border-radius: 0; /* 移除圓角，徹底貼齊邊框 */
+}
+
+/* 經典文字黑邊 */
+.ms-lv, #ms-name-text, .ms-stat-text {
+    text-shadow: 
+        -1px -1px 0 #111,  
+         1px -1px 0 #111,
+        -1px  1px 0 #111,
+         1px  1px 0 #111,
+         0px  2px 2px rgba(0,0,0,0.8) !important;
+    -webkit-text-stroke: 0px transparent !important;
+}
+
+/* 等級與名稱 */
+.ms-hud-name-row {
+    font-weight: 900;
+    margin-bottom: 2px;
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+}
+.ms-lv { color: #ffdf00; font-size: 16px; } 
+#ms-name-text { color: #ffffff; font-size: 18px; }
+
+/* 血條與魔條底座 (寬度大於名字) */
+.ms-bar-row {
+    position: relative;
+    width: 175px; 
+    height: 12px; 
+    display: flex;
+    align-items: center;
+    margin-bottom: 1px;
+}
+.ms-bar-bg {
+    width: 100%; height: 90%;
+    background-color: #222;
+    border: 1px solid #000; 
+    border-radius: 2px;
+    box-shadow: 0 1px 20px rgba(0,0,0,0.5); 
+    overflow: hidden;
+}
+.ms-hp-fill {
+    width: 100%; height: 100%;
+    /* 乾淨的左右漸層，左邊深鮮紅，右邊亮橘紅 */
+    background: linear-gradient(to right, #d90000 0%, #ff4444 100%);
+    border-right: none; 
+}
+
+.ms-mp-fill {
+    width: 100%; height: 100%;
+    /* 乾淨的左右漸層，左邊深海藍，右邊亮冰藍 */
+    background: linear-gradient(to right, #0077dd 0%, #22bbff 100%);
+    border-right: none; 
+}
+
+/* 🌟 數值字體修正：極細骨架搭配銳利黑邊 */
+.ms-bar-text {
+    position: absolute;
+    right: 11px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    color: white; 
+    font-size: 14px; 
+    line-height: 1;
+    font-weight: 100; /* 🌟 採用極細字體，抵銷黑邊厚度 */
+    font-family: Tahoma, Arial, sans-serif; 
+    letter-spacing: 0px; 
+    text-shadow: 
+        -1px -1px 0 #111,  
+         1px -1px 0 #111,
+        -1px  1px 0 #111,
+         1px  1px 0 #111,
+         1px  1px 1px rgba(0,0,0,0.9) !important;
+    -webkit-text-stroke: 0px transparent !important;
+}
+
+/* 下方戰鬥力與地點列 */
+.ms-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 1px;
+}
+.ms-stat-text {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* 🌟 3. 單向漸層膠囊底 (地點與擊中次數) */
+.ms-dark-pill {
+    /* 左半邊深色，右半邊漸漸消失成透明 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%);
+    border-radius: 12px 0 0 12px; /* 只有左邊有圓角包住 Icon */
+    padding: 2px 40px 2px 2px; /* 右側加寬 padding，留出漸層消失的空間 */
+    align-self: flex-start; 
+}
+.ms-hit-pill {
+    /* 專屬微紅色調漸層 */
+    background: linear-gradient(to right, rgba(80, 0, 0, 0.65) 0%, rgba(60, 0, 0, 0.25) 60%, transparent 100%);
+    margin-top: 2px;
+}
+
+/* 小圖示基底 */
+.ms-icon {
+    width: 16px; height: 16px;
+    background-color: #555;
+    border: 1px solid #111;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.2);
+    background-size: 75%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ⚔️ 雙劍圖示 */
+.ms-icon-cp { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 2l3 3-1 1-3-3-1 1 3 3-1 1-3-3L2 6l5-5 1 1zm12 0l-3 3 1 1 3-3 1 1-3 3 1 1 3-3 1-1-5-5-1 1zM3 21l3-3 1 1-3 3-1-1zm18 0l-3-3-1 1 3 3 1-1zM12 10l-2 2 2 2 2-2-2-2z'/%3E%3C/svg%3E"); }
+/* 📍 地標圖示 */
+.ms-icon-map { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E"); }
+/* 💥 擊中圖示 */
+.ms-icon-hit { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b6b'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E"); }
+
+
+/* ========================================== */
 /* 臨時測試防護：隱藏其他功能，只對外開放威爾   */
 /* ========================================== */
 
