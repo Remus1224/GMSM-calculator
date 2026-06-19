@@ -2115,9 +2115,9 @@ window.will_showResultScreen = function() {
     // 寫入難度
     document.getElementById('res-diff').innerText = (wSettings.mode === 'hard') ? "困難" : "混沌";
     
-    // 寫入模式
-    let modeStr = "全機制×1";
-    if (wSettings.isCustom) modeStr = `全機制×${wSettings.customRounds}`;
+    // 🌟 寫入模式文字 (更新為 "次" 結尾)
+    let modeStr = "全機制1次";
+    if (wSettings.isCustom) modeStr = `全機制${wSettings.customRounds}次`;
     else if (wSettings.endless) modeStr = "無限練習";
     document.getElementById('res-mode').innerText = modeStr;
     
