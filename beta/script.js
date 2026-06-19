@@ -1778,7 +1778,7 @@ const WORLD_H = 713;
 const WORLD_CENTER = 870;
 
 const CONFIG = {
-    camera: { zoom: 1.1, offsetY: 100 },
+    camera: { zoom: 1.3, offsetY: 100 },
     scale: { player: 1, boss: 1, legTop: 1, legBot: 1, crack: 0.85 },
     pos: { floorY: 445, bossY: 600, crackX: 820, crackY: 450, legTopY: -280, legBotY: 1100,legTopOffsetX: 100, legBotOffsetX: 50 },
     time: { warn: 900, strike: 900, idle: 300 },
@@ -2078,6 +2078,7 @@ window.will_startGame = function() {
     wGame.currentHp = wGame.maxHp; 
     wGame.targetHp = wGame.maxHp; 
     wGame.healTimer = 0;
+    wGame.patternBag = []; // 🌟 新增：每次遊戲開始，清空抽籤袋
     
     const hitHud = document.getElementById('ms-hit-text');
     if (hitHud) hitHud.innerText = `被擊中次數: 0`;
@@ -2095,7 +2096,7 @@ window.will_startGame = function() {
     
     document.getElementById('will-start-overlay').style.display = 'none';
     document.getElementById('will-restart-btn').style.display = 'none';
-    will_updateUI("練習開始！", "#2ecc71", "準備...");
+    will_updateUI("練習開始", "#2ecc71", "準備...");
     
     willBgm.currentTime = 0;
     if (wSettings.bgm) {
@@ -2105,6 +2106,45 @@ window.will_startGame = function() {
     }
 
     wLastTime = performance.now();
+};
+
+// 🌟 顯示成績單
+window.will_showResultScreen = function() {
+    // 🌟 寫入玩家名稱 (如果有留空，就顯示預設的 nickname1204)
+    document.getElementById('res-name').innerText = wGame.playerName || "nickname1204";
+    // 寫入難度
+    document.getElementById('res-diff').innerText = (wSettings.mode === 'hard') ? "困難" : "混沌";
+    
+    // 寫入模式
+    let modeStr = "全機制×1";
+    if (wSettings.isCustom) modeStr = `全機制×${wSettings.customRounds}`;
+    else if (wSettings.endless) modeStr = "無限練習";
+    document.getElementById('res-mode').innerText = modeStr;
+    
+    // 寫入機制提示狀態 (極簡無符號)
+    document.getElementById('res-hint').innerText = wSettings.hint ? "已開啟" : "未開啟";
+    
+    // 寫入被擊中次數
+    document.getElementById('res-hits').innerText = wGame.hits;
+    
+    // 顯示面板
+    document.getElementById('will-result-overlay').style.display = 'flex';
+};
+
+// 🌟 成績單右下角：再來一次
+window.will_playAgain = function() {
+    document.getElementById('will-result-overlay').style.display = 'none';
+    will_startGame(); // 直接重開一局
+};
+
+// 🌟 覆蓋原本的返回設定 (確保成績單被隱藏)
+window.will_showStartScreen = function() {
+    wGame.phase = 'stopped';
+    willBgm.pause();
+    isBgmPlaying = false;
+
+    document.getElementById('will-start-overlay').style.display = 'flex';
+    document.getElementById('will-result-overlay').style.display = 'none'; // 隱藏成績單
 };
 
 window.will_updateVolume = function() {
@@ -2142,48 +2182,82 @@ function will_init() {
 
 
 
-// 🌟 按下「開始」按鈕，啟動遊戲與音樂
+// 🌟 按下「開始」按鈕 (自動適應困難 3 題 / 混沌 7 題)
 window.will_startGame = function() {
-    will_updateSettings(); // 確保抓到最新設定
+    will_updateSettings(); 
     let nameInput = document.getElementById('will-player-name').value.trim();
-    wGame.playerName = nameInput !== "" ? nameInput : "nickname1204"; // 🌟 改成預設 nickname1204
+    wGame.playerName = nameInput !== "" ? nameInput : "nickname1204";
     
-    // 🌟 關鍵新增：把名字寫入左上角的 UI 面板中
     const hudName = document.getElementById('ms-name-text');
     if (hudName) hudName.innerText = wGame.playerName;
-    
+
     wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
     wGame.hits = 0; 
     wGame.questionsAnswered = 0;
-    wGame.currentHp = wGame.maxHp; // 🌟 每次開始特訓都補滿血
+    
+    // 🌟 核心修正：判斷當前難度的「基礎題數」
+    // 如果是 hard (困難)，一輪就是 3 題；否則 (混沌) 就是 7 題
+    let baseQuestions = (wSettings.mode === 'hard') ? 3 : 7;
+    
+    // 🌟 計算總題數 (無盡 = 無限 / 自訂 = 數字 x 基礎題數 / 預設 = 基礎題數)
+    if (wSettings.endless) {
+        wGame.totalQuestions = Infinity;
+    } else if (wSettings.isCustom) {
+        wGame.totalQuestions = wSettings.customRounds * baseQuestions;
+    } else {
+        wGame.totalQuestions = baseQuestions; // 全機制×1 就會跑這裡
+    }
+    
+    wGame.currentHp = wGame.maxHp; 
     wGame.targetHp = wGame.maxHp; 
     wGame.healTimer = 0;
-    // 抽取第一題
+    
+    const hitHud = document.getElementById('ms-hit-text');
+    if (hitHud) hitHud.innerText = `被擊中次數: 0`;
+    const hpBar = document.getElementById('ms-hp-bar');
+    const hpText = document.getElementById('ms-hp-text');
+    if (hpBar) hpBar.style.width = `100%`;
+    if (hpText) hpText.innerText = wGame.maxHp.toLocaleString();
+    
+    // 🌟 每次重新開始，清空洗牌袋，準備重新抽題
+    wGame.patternBag = []; 
+    
     wGame.currentPatternIdx = will_pickNextPattern();
-
     wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
     wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
     
-    document.getElementById('will-start-overlay').style.display = 'none';
-    document.getElementById('will-restart-btn').style.display = 'none';
-    will_updateUI("練習開始！", "#2ecc71", "準備...");
+    const pauseBtn = document.getElementById('btn-will-pause');
+    if (pauseBtn) pauseBtn.innerText = '❚❚';
     
-    // 🎵 遊戲開始，背景音樂啟動
+    document.getElementById('will-start-overlay').style.display = 'none';
+    document.getElementById('will-result-overlay').style.display = 'none'; // 確保成績單被隱藏
+    
+    // 🌟 套用你的無符號極簡文字
+    will_updateUI("練習開始", "#2ecc71", "準備...");
+    
     willBgm.currentTime = 0;
-    willBgm.play().then(() => {
-        isBgmPlaying = true;
-        const bgmBtn = document.getElementById('btn-will-bgm');
-        if(bgmBtn) bgmBtn.classList.remove('muted-bgm');
-    }).catch(e => console.log("等待玩家首次互動後播放音樂"));
+    if (wSettings.bgm) {
+        willBgm.play().then(() => { isBgmPlaying = true; }).catch(e => console.log("需互動"));
+    } else {
+        isBgmPlaying = false;
+    }
 
     wLastTime = performance.now();
 };
 
-// 🌟 從題庫中隨機挑選下一題 (依照難度模式)
+// 🌟 智慧選題系統 (保證每輪機制不重複的「抽籤袋洗牌」邏輯)
+// 🌟 智慧選題系統 (保證每輪機制不重複)
 function will_pickNextPattern() {
-    let allowedIndices = (wSettings.mode === 'hard') ? [7, 7, 7] : [0, 1, 2, 3, 4, 5, 6];
-    let rand = Math.floor(Math.random() * allowedIndices.length);
-    return allowedIndices[rand];
+    let allowedIndices = (wSettings.mode === 'hard') ? [0, 1, 7] : [0, 1, 2, 3, 4, 5, 6];
+
+    if (!wGame.patternBag || wGame.patternBag.length === 0) {
+        wGame.patternBag = [...allowedIndices]; 
+        for (let i = wGame.patternBag.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [wGame.patternBag[i], wGame.patternBag[j]] = [wGame.patternBag[j], wGame.patternBag[i]];
+        }
+    }
+    return wGame.patternBag.pop();
 }
 
 let activeTouchId = null;
@@ -2251,8 +2325,12 @@ function will_nextQuestion() {
     // 🌟 將原本的 7 改為 wGame.totalQuestions
     if (!wSettings.endless && wGame.questionsAnswered >= wGame.totalQuestions) {
         wGame.phase = 'victory';
-        will_updateUI("🎉 練習完成！", "#f1c40f", `總共被擊中: ${wGame.hits} 次`);
-        document.getElementById('will-restart-btn').style.display = 'block';
+        will_updateUI("練習完成", "#f1c40f", "計算成績中...");
+        
+        // 延遲 0.8 秒彈出成績單，讓玩家有時間看到「練習完成」四個字
+        setTimeout(() => {
+            will_showResultScreen();
+        }, 800); 
         return;
     }
     
@@ -2376,12 +2454,29 @@ function will_draw() {
     wCtx.imageSmoothingEnabled = true; wCtx.imageSmoothingQuality = 'high';
 
     const renderScale = 1 * CONFIG.camera.zoom; 
-    cameraX = wPlayer.x - ((wCanvas.width / renderScale) / 2);
+    
+    // ==========================================
+    // 🎥 1. 計算 X 軸鏡頭 (跟隨玩家置中)
+    // ==========================================
+    let cameraX = wPlayer.x - ((wCanvas.width / renderScale) / 2);
     let maxCameraX = WORLD_W - (wCanvas.width / renderScale);
     cameraX = Math.max(0, Math.min(Math.max(0, maxCameraX), cameraX));
-    let cameraY = WORLD_H - (wCanvas.height / renderScale) - CONFIG.camera.offsetY;
+
+    // ==========================================
+    // 🎥 2. 計算 Y 軸鏡頭 (🌟 修正：對焦點鎖定玩家身體)
+    // ==========================================
+    // focusY 是鏡頭的「絕對視覺中心」。
+    // 把它設定在地板 (floorY) 往上約 120 像素的地方，大約是角色的胸口/頭部。
+    let focusY = CONFIG.pos.floorY - 120; 
+    
+    // 讓鏡頭的中心完美對齊 focusY
+    let cameraY = focusY - ((wCanvas.height / renderScale) / 2);
+    
+    // 確保鏡頭不會超出世界的上下邊界而露出黑邊
     let maxCameraY = WORLD_H - (wCanvas.height / renderScale);
     cameraY = Math.max(0, Math.min(Math.max(0, maxCameraY), cameraY));
+
+    // ==========================================
 
     wCtx.save();
     wCtx.scale(renderScale, renderScale); 
