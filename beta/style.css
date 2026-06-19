@@ -708,17 +708,25 @@ body.body-no-scroll {
 }
 
 /* ========================================== */
-/* 威爾模擬器：手機版 (直立模式) UI 極限縮放適配 */
+/* 📱 手機版 UI 動態自適應縮放 (響應式防護罩)   */
 /* ========================================== */
+
+/* 📱 1. 手機直立模式 (Portrait) - 極限縮小 */
 @media (max-width: 768px) and (orientation: portrait) {
-    /* 1. 極限縮小頂部與底部玻璃按鈕 */
+    /* 左上角角色狀態欄：等比縮小至 65%，並從左上角開始縮放 */
+    #ms-player-hud {
+        transform: scale(0.65);
+        transform-origin: top left;
+    }
+    
+    /* 右側玻璃按鈕區縮小 */
     .glass-panel { padding: 4px 8px !important; gap: 6px !important; border-radius: 8px !important; }
     .glass-btn { font-size: 13px !important; width: 28px !important; height: 28px !important; padding: 0 !important; }
     .zoom-text { font-size: 11px !important; min-width: 32px !important; }
     #glass-controls-top { top: 5px !important; right: 5px !important; }
     #glass-controls-bottom { bottom: 5px !important; right: 5px !important; }
     
-    /* 2. 極限縮小虛擬搖桿 (適應不到 160px 高的微型畫布) */
+    /* 縮小微型搖桿 */
     #joystick-base {
         width: 45px !important; 
         height: 45px !important;
@@ -726,16 +734,35 @@ body.body-no-scroll {
         left: 2% !important;
         border-width: 1px !important;
     }
-    #joystick-stick {
-        width: 20px !important; 
-        height: 20px !important;
-        box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
+    #joystick-stick { width: 20px !important; height: 20px !important; }
+    
+    /* 中間字體微調 */
+    #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
+    #will-timer { font-size: 10px !important; margin-top: 0 !important; }
+}
+
+/* 📱 2. 手機橫向模式 (Landscape) - 微幅縮小以避開邊緣干擾 */
+@media (max-width: 950px) and (orientation: landscape) {
+    /* 左上角角色狀態欄：縮小至 80% */
+    #ms-player-hud {
+        transform: scale(0.8);
+        transform-origin: top left;
     }
     
-    /* 3. 極限縮小狀態文字與按鈕 */
-    #will-status { font-size: 14px !important; text-shadow: 1px 1px 2px #000 !important; margin-bottom: 2px !important; }
-    #will-timer { font-size: 10px !important; text-shadow: 1px 1px 2px #000 !important; margin-top: 0 !important; }
-    #will-restart-btn { font-size: 12px !important; padding: 6px 12px !important; border-width: 2px !important; }
+    /* 玻璃面板微微往內縮，避免被手機瀏海或圓角擋住 */
+    .glass-panel { padding: 4px 10px !important; gap: 8px !important; }
+    .glass-btn { font-size: 15px !important; width: 32px !important; height: 32px !important; }
+    #glass-controls-top { top: 8px !important; right: 10px !important; }
+    #glass-controls-bottom { bottom: 8px !important; right: 10px !important; }
+    
+    /* 橫向模式的搖桿也稍微縮小一點點，避免遮擋畫面 */
+    #joystick-base {
+        width: 100px !important; 
+        height: 100px !important;
+        bottom: 8% !important; 
+        left: 4% !important;
+    }
+    #joystick-stick { width: 45px !important; height: 45px !important; }
 }
 
 /* ========================================== */
