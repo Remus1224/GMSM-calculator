@@ -732,12 +732,44 @@
                         <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #2ecc71; margin: 0 2px;">閃避</span>蜘蛛腳</span>
                         
                         <span style="color: #e74c3c; font-weight: bold;">【背景有裂痕】:</span>
-                        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">主動去撞</span>蜘蛛腳</span>
+                        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">接</span>蜘蛛腳</span>
                     </div>
                     
                     <div style="display: flex; gap: 10px; width: 90%; max-width: 450px; justify-content: center;">
                         <input type="text" id="will-player-name" class="glass-input" placeholder="輸入玩家名稱 (可留空)" autocomplete="off">
                         <button class="glass-btn-start" onclick="will_startGame()">開始</button>
+                    </div>
+                </div>
+
+                <div id="will-result-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 600; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="result-card">
+                        
+                        <div class="result-stat">
+                            <span class="stat-label">玩家名稱：</span>
+                            <span id="res-name" class="stat-value"></span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-label">威爾難度：</span>
+                            <span id="res-diff" class="stat-value">混沌</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-label">遊戲模式：</span>
+                            <span id="res-mode" class="stat-value">全機制×1</span>
+                        </div>
+                        <div class="result-stat">
+                            <span class="stat-label">機制提示：</span>
+                            <span id="res-hint" class="stat-value">未開啟</span>
+                        </div>
+                        
+                        <div class="result-stat result-total">
+                            <span class="stat-label" style="font-size: 18px; color: rgba(255,255,255,0.9) !important;">總共被擊中：</span>
+                            <span style="color: #ff6b6b; font-weight: 900; font-size: 20px; text-shadow: 0 2px 10px rgba(255,107,107,0.4);"><span id="res-hits" style="font-size: 36px;">0</span> 次</span>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 30px; width: 100%; justify-content: center;">
+                            <button class="glass-btn-start btn-res-secondary" onclick="will_showStartScreen()">返回設定</button>
+                            <button class="glass-btn-start btn-res-primary" onclick="will_playAgain()">再來一次</button>
+                        </div>
                     </div>
                 </div>
 
@@ -750,7 +782,7 @@
 
                 <div id="glass-controls-bottom" class="glass-panel">
                     <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小鏡頭">－</button>
-                    <span id="zoom-glass-val" class="zoom-text">1.1x</span>
+                    <span id="zoom-glass-val" class="zoom-text">1.3x</span>
                     <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大鏡頭">＋</button>
                 </div>
                     
