@@ -456,12 +456,37 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 #will-status { font-weight: bold; font-size: 28px; color: #2ecc71; text-shadow: 2px 2px 4px #000, 0 0 10px #000; margin-bottom: 5px; }
 #will-timer { font-weight: bold; color: #fff; font-size: 18px; text-shadow: 2px 2px 4px #000; margin-top: 5px; }
 
-#will-restart-btn {
-    display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-    padding: 15px 40px; font-size: 24px; background-color: #f1c40f; color: #222; 
-    border: 3px solid #fff; border-radius: 12px; cursor: pointer; font-weight: bold; 
-    z-index: 200; box-shadow: 0 0 20px rgba(0,0,0,0.8);
+/* 🌟 液態玻璃返回設定按鈕 */
+.glass-btn-restart {
+    display: none; 
+    position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%); 
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    padding: 14px 35px; 
+    font-size: 20px; 
+    font-weight: bold; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    z-index: 200; 
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
 }
+.glass-btn-restart:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translate(-50%, -52%);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+.glass-btn-restart:active {
+    transform: translate(-50%, -49%) scale(0.95);
+}
+
 
 /* ========================================== */
 /* 🍁 2. 楓之谷 M 角色狀態欄 (100% 像素還原版)  */
@@ -565,14 +590,18 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 /* ⚙️ 4. 設定面板 (白色毛玻璃 + 上方圓角下方直角) */
 /* ========================================== */
 .settings-panel {
-    /* 🌟 加入對角線微透漸層，模擬光線打在玻璃上的反光，解決純色背景下的扁平感 */
     background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%) !important; 
     backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
     border: 1px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
-    /* 🌟 增加內陰影 (inset) 創造玻璃的厚度感 */
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
-    border-radius: 24px 24px 0 0 !important; 
-    padding: 20px 25px !important; margin: 0 !important; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
+    
+    /* 🌟 核心修正：四邊皆為圓角，並限制最大寬度與置中 */
+    border-radius: 16px !important; 
+    max-width: 800px !important; /* 電腦版不會無限拉長 */
+    width: 95% !important; /* 手機版保留邊距 */
+    margin: 20px auto 40px auto !important; /* 絕對置中，並在下方留白避免切斷感 */
+    
+    padding: 20px 25px !important; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10;
 }
 .settings-title { font-size: 18px !important; color: #2c3e50 !important; font-weight: 900 !important; margin-bottom: 15px !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; }
 .setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: #34495e; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-top: 15px; gap: 12px; }
@@ -614,8 +643,14 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #joystick-stick { width: 20px !important; height: 20px !important; }
     #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
+
+    /* 🌟 新增：手機直立時，大幅縮小起始畫面元素 */
+    #will-start-overlay > div:nth-child(1) { font-size: 22px !important; margin-bottom: 6px !important; } /* 縮小標題 */
+    #will-start-overlay > div:nth-child(2) { font-size: 13px !important; padding: 10px 16px !important; margin-bottom: 15px !important; } /* 縮小機制說明框 */
+    .glass-input, .glass-btn-start { height: 40px !important; font-size: 14px !important; padding: 0 15px !important; } /* 壓扁輸入框與按鈕 */
 }
 
+/* 📱 2. 手機橫向模式 (Landscape) - 微幅縮小以避開邊緣干擾 */
 @media (max-width: 950px) and (orientation: landscape) {
     #ms-player-hud { transform: scale(0.8); transform-origin: top left; }
     .glass-panel { padding: 4px 10px !important; gap: 8px !important; }
@@ -623,6 +658,91 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #glass-controls-top { top: 8px !important; right: 10px !important; }
     #joystick-base { width: 100px !important; height: 100px !important; bottom: 8% !important; left: 4% !important; }
     #joystick-stick { width: 45px !important; height: 45px !important; }
+
+    /* 🌟 新增：手機橫向時，縮小起始畫面避免佔據全螢幕高度 */
+    #will-start-overlay > div:nth-child(1) { font-size: 20px !important; margin-bottom: 4px !important; } /* 縮小標題 */
+    #will-start-overlay > div:nth-child(2) { font-size: 12px !important; padding: 8px 14px !important; margin-bottom: 10px !important; gap: 4px 6px !important; } /* 縮小機制說明框 */
+    .glass-input, .glass-btn-start { height: 36px !important; font-size: 14px !important; padding: 0 15px !important; } /* 極限壓扁輸入框與按鈕 */
+}
+
+#glass-controls-bottom { bottom: 15px; right: 15px; }
+
+/* 縮放數值文字 */
+.zoom-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+    font-size: 15px;
+    font-family: monospace; /* 簡約代碼字體 */
+    display: flex;
+    align-items: center;
+    min-width: 40px;
+    justify-content: center;
+    text-shadow: none;
+}
+
+/* ========================================== */
+/* 🏆 6. 結算成績單 (深色液態玻璃風格)            */
+/* ========================================== */
+.result-card {
+    /* 🌟 核心：移植控制面板的深色玻璃配方，並稍微加深以襯托白字 */
+    background: rgba(15, 15, 20, 0.45) !important;
+    backdrop-filter: blur(16px) saturate(120%) !important; 
+    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+    
+    /* 經典的玻璃高光邊框 (左上亮，右下暗) */
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
+    
+    /* 增建立體感的深色陰影與內部微弱反光 */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05) !important;
+    
+    border-radius: 20px; 
+    padding: 35px 45px !important; 
+    text-align: left; 
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+    min-width: 320px;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+/* 🌟 拉開行距與統一白字 */
+.result-stat { 
+    font-size: 16px; 
+    margin-bottom: 16px !important; /* 👈 行距拉開了 */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.stat-label { color: rgba(255, 255, 255, 0.5) !important; font-weight: bold; }
+.stat-value { color: #fff !important; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+/* 分隔線與總計區塊 */
+.result-total {
+    margin-top: 25px !important;
+    border-top: 1px solid rgba(255,255,255,0.15) !important; /* 微透白線 */
+    padding-top: 20px !important;
+    margin-bottom: 0 !important;
+}
+
+/* 🌟 按鈕專屬液態配色 */
+.btn-res-secondary { 
+    background: rgba(255,255,255,0.05) !important; 
+    color: rgba(255,255,255,0.8) !important; 
+    border-color: rgba(255,255,255,0.2) !important; 
+}
+.btn-res-secondary:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+
+.btn-res-primary { 
+    background: rgba(52, 152, 219, 0.3) !important; /* 科技藍透光 */
+    color: white !important; 
+    border-color: rgba(52, 152, 219, 0.5) !important; 
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3) !important;
+}
+.btn-res-primary:hover { background: rgba(52, 152, 219, 0.5) !important; box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5) !important; }
+
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
 /* ========================================== */
