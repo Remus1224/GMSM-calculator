@@ -1915,28 +1915,33 @@ let mTouchLeft = false; let mTouchRight = false; let isJoyDragging = false;
 
 // 🌟 遊戲核心狀態
 let wGame = { 
-    hits: 0,            // 累積擊中次數
-    questionsAnswered: 0, // 已通過題數
-    currentPatternIdx: 0, // 目前題目 ID
-    phase: 'stopped',     // 狀態: stopped, ready, warn, strike, idle, next_wait, victory
+    hits: 0, 
+    questionsAnswered: 0, 
+    totalQuestions: 7,    // 🌟 新增：該局的總題數
+    currentPatternIdx: 0, 
+    phase: 'stopped', 
     strikeIndex: 0, timer: 0, flashRed: 0, hasEvaluated: false, isPaused: false,
     playerName: "",
-    maxHp: 1204000,    // 🌟 新增：最大血量
+    maxHp: 1204000, 
     currentHp: 1204000,
-    targetHp: 1204000, // 🌟 動畫目標血量
-    healTimer: 0       // 🌟 寵物喝水延遲計時器
+    targetHp: 1204000, 
+    healTimer: 0       
 };
 
-// 🌟 新增背景音樂管理
-let willBgm = new Audio('assets/will_bgm.mp3');
-willBgm.loop = true; // 開啟循環播放
-let isBgmPlaying = false; // 追蹤目前音樂播放狀態
+// 🌟 背景音樂管理
+let willBgm = new Audio('assets/MirrorCage.mp3');
+willBgm.loop = true; 
+willBgm.volume = 0.3; // 🌟 加上這行，讓初始音量對齊拉桿的 30%
+let isBgmPlaying = false;
 
-// 🌟 設定狀態 (已移除 HTML 上的 hint checkbox，改由燈泡按鈕直接管理)
+// 🌟 設定狀態 (加入 bgm 預設開啟)
 let wSettings = {
-    mode: 'chaos', // hard (1,2,8), chaos (1~7)
+    mode: 'chaos', 
     endless: false,
-    hint: false    // 預設關閉提示
+    isCustom: false,     // 🌟 新增：判斷是否為自訂模式
+    customRounds: 2,     // 🌟 新增：自訂的回合數
+    hint: false,
+    bgm: true 
 };
 
 function will_drawSprite(ctx, img, cfg, x, y, scale = 1, flip = false, align = 'bottom-center') {
@@ -1961,14 +1966,40 @@ function tickSprite(cfg, dt, loop = true) {
 }
 
 // 🌟 讀取設定面板的值 (只抓取難度與長度)
+// 🌟 讀取設定面板的值 (加入背景音樂的即時控制)
+// 🌟 讀取設定面板的值
 window.will_updateSettings = function() {
     let modeRadio = document.querySelector('input[name="will-mode"]:checked');
     let lengthRadio = document.querySelector('input[name="will-length"]:checked');
+    let hintCheck = document.getElementById('will-hint-toggle');
+    let bgmCheck = document.getElementById('will-bgm-toggle');
+    let customInput = document.getElementById('will-custom-rounds'); // 🌟 抓取輸入框
     
     if(modeRadio) wSettings.mode = modeRadio.value;
-    if(lengthRadio) wSettings.endless = (lengthRadio.value === 'endless');
+    if(lengthRadio) {
+        wSettings.endless = (lengthRadio.value === 'endless');
+        wSettings.isCustom = (lengthRadio.value === 'custom'); // 🌟 判斷自訂
+    }
     
-    // 同步刷新燈泡按鈕外觀狀態
+    // 🌟 確保數字合理 (1 回合 = 7 題)
+    if(customInput) {
+        wSettings.customRounds = parseInt(customInput.value) || 1;
+        if(wSettings.customRounds < 1) wSettings.customRounds = 1; 
+    }
+    
+    if(hintCheck) wSettings.hint = hintCheck.checked;
+    
+    // 🎵 處理背景音樂的打勾狀態
+    if(bgmCheck) {
+        wSettings.bgm = bgmCheck.checked;
+        if (!wSettings.bgm && isBgmPlaying) {
+            willBgm.pause(); isBgmPlaying = false;
+        }
+        if (wSettings.bgm && !isBgmPlaying && wGame.phase !== 'stopped') {
+            willBgm.play().then(() => { isBgmPlaying = true; }).catch(e=>console.log(e));
+        }
+    }
+    
     const hintBtn = document.getElementById('btn-will-hint');
     if(hintBtn) {
         if(wSettings.hint) hintBtn.classList.add('active-hint');
@@ -1984,32 +2015,103 @@ window.will_toggleHintClick = function() {
 };
 
 // 🌟 新增：點擊遊戲內音樂符號切換 BGM
-window.will_toggleBgmClick = function() {
-    const bgmBtn = document.getElementById('btn-will-bgm');
-    if (!isBgmPlaying) {
-        // 執行播放
-        willBgm.play().then(() => {
-            isBgmPlaying = true;
-            if(bgmBtn) bgmBtn.classList.remove('muted-bgm');
-        }).catch(e => console.log("音樂播放受瀏覽器安全限制：", e));
+window.will_togglePauseState = function() {
+    if (wGame.phase === 'stopped') return;
+    wGame.isPaused = !wGame.isPaused;
+    
+    const pauseBtn = document.getElementById('btn-will-pause');
+    if (wGame.isPaused) {
+        if (pauseBtn) pauseBtn.innerText = '►'; // 暫停時變成播放圖示
+        will_updateUI("⏸ 遊戲暫停", "#f1c40f", "點擊右上角 ► 繼續");
     } else {
-        // 執行暫停
-        willBgm.pause();
-        isBgmPlaying = false;
-        if(bgmBtn) bgmBtn.classList.add('muted-bgm');
+        if (pauseBtn) pauseBtn.innerText = '❚❚'; // 繼續時變回暫停圖示
+        will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備...");
     }
 };
 
-// 🌟 顯示開始覆蓋層 (同時暫停音樂)
+// 🌟 點擊遊戲內燈泡切換提示
+window.will_toggleHintClick = function() {
+    if (wGame.phase === 'stopped') return; 
+    let hintCheck = document.getElementById('will-hint-toggle');
+    if (hintCheck) {
+        hintCheck.checked = !hintCheck.checked; // 連動更新設定面板的打勾
+    }
+    will_updateSettings();
+};
+
+// 🌟 顯示開始覆蓋層 (暫停音樂)
 window.will_showStartScreen = function() {
     wGame.phase = 'stopped';
     willBgm.pause();
     isBgmPlaying = false;
-    const bgmBtn = document.getElementById('btn-will-bgm');
-    if(bgmBtn) bgmBtn.classList.add('muted-bgm');
 
     document.getElementById('will-start-overlay').style.display = 'flex';
     document.getElementById('will-restart-btn').style.display = 'none';
+};
+
+// 🌟 按下「開始」按鈕
+// 🌟 按下「開始」按鈕
+window.will_startGame = function() {
+    will_updateSettings(); 
+    let nameInput = document.getElementById('will-player-name').value.trim();
+    wGame.playerName = nameInput !== "" ? nameInput : "nickname1204";
+    
+    const hudName = document.getElementById('ms-name-text');
+    if (hudName) hudName.innerText = wGame.playerName;
+
+    wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
+    wGame.hits = 0; 
+    wGame.questionsAnswered = 0;
+    
+    // 🌟 核心修正：根據難度決定「全機制一輪」的基礎題數
+    let baseQuestions = (wSettings.mode === 'hard') ? 3 : 7;
+    
+    // 🌟 計算總題數 (無盡 = 無限 / 自訂 = 數字 x 基礎題數 / 預設 = 基礎題數)
+    if (wSettings.endless) {
+        wGame.totalQuestions = Infinity;
+    } else if (wSettings.isCustom) {
+        wGame.totalQuestions = wSettings.customRounds * baseQuestions;
+    } else {
+        wGame.totalQuestions = baseQuestions;
+    }
+    
+    wGame.currentHp = wGame.maxHp; 
+    wGame.targetHp = wGame.maxHp; 
+    wGame.healTimer = 0;
+    
+    const hitHud = document.getElementById('ms-hit-text');
+    if (hitHud) hitHud.innerText = `被擊中次數: 0`;
+    const hpBar = document.getElementById('ms-hp-bar');
+    const hpText = document.getElementById('ms-hp-text');
+    if (hpBar) hpBar.style.width = `100%`;
+    if (hpText) hpText.innerText = wGame.maxHp.toLocaleString();
+    
+    wGame.currentPatternIdx = will_pickNextPattern();
+    wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
+    wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
+    
+    const pauseBtn = document.getElementById('btn-will-pause');
+    if (pauseBtn) pauseBtn.innerText = '❚❚';
+    
+    document.getElementById('will-start-overlay').style.display = 'none';
+    document.getElementById('will-restart-btn').style.display = 'none';
+    will_updateUI("練習開始！", "#2ecc71", "準備...");
+    
+    willBgm.currentTime = 0;
+    if (wSettings.bgm) {
+        willBgm.play().then(() => { isBgmPlaying = true; }).catch(e => console.log("需互動"));
+    } else {
+        isBgmPlaying = false;
+    }
+
+    wLastTime = performance.now();
+};
+
+window.will_updateVolume = function() {
+    let volSlider = document.getElementById('will-bgm-volume');
+    if (volSlider && typeof willBgm !== 'undefined') {
+        willBgm.volume = parseFloat(volSlider.value);
+    }
 };
 
 // 🌟 初始化只負責綁定事件，不直接開始遊戲
@@ -2038,12 +2140,7 @@ function will_init() {
     requestAnimationFrame(will_gameLoop);
 }
 
-// 🌟 從題庫中隨機挑選下一題 (依照難度模式)
-function will_pickNextPattern() {
-    let allowedIndices = (wSettings.mode === 'hard') ? [7, 7, 7] : [0, 1, 2, 3, 4, 5, 6];
-    let rand = Math.floor(Math.random() * allowedIndices.length);
-    return allowedIndices[rand];
-}
+
 
 // 🌟 按下「開始」按鈕，啟動遊戲與音樂
 window.will_startGame = function() {
@@ -2081,6 +2178,13 @@ window.will_startGame = function() {
 
     wLastTime = performance.now();
 };
+
+// 🌟 從題庫中隨機挑選下一題 (依照難度模式)
+function will_pickNextPattern() {
+    let allowedIndices = (wSettings.mode === 'hard') ? [7, 7, 7] : [0, 1, 2, 3, 4, 5, 6];
+    let rand = Math.floor(Math.random() * allowedIndices.length);
+    return allowedIndices[rand];
+}
 
 let activeTouchId = null;
 function joyStart(e) { 
@@ -2144,15 +2248,14 @@ function will_updateUI(text, color, subtext = "") {
 function will_nextQuestion() {
     wGame.questionsAnswered++;
     
-    // 如果不是無限模式，且已經答完 7 題，則過關
-    if (!wSettings.endless && wGame.questionsAnswered >= 7) {
+    // 🌟 將原本的 7 改為 wGame.totalQuestions
+    if (!wSettings.endless && wGame.questionsAnswered >= wGame.totalQuestions) {
         wGame.phase = 'victory';
         will_updateUI("🎉 練習完成！", "#f1c40f", `總共被擊中: ${wGame.hits} 次`);
         document.getElementById('will-restart-btn').style.display = 'block';
         return;
     }
     
-    // 抽取下一題
     wGame.currentPatternIdx = will_pickNextPattern();
     wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 1500; wPlayer.targetX = null; 
 }
@@ -2210,10 +2313,11 @@ function will_update(dt) {
             wSprites.crack.curr = 0; wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
             wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
             
-            let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/7`;
+            // 🌟 將原本的 /7 改為動態的 /${wGame.totalQuestions}
+            let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/${wGame.totalQuestions}`;
             let hintStr = wSettings.hint ? `提示: ${currPattern.hint}` : " ";
             will_updateUI(`第 ${qNumStr} 題`, "white", hintStr);
-        } 
+        }
 
         if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
             tickSprite(wSprites.legTop, dt, false); tickSprite(wSprites.legBot, dt, false);
