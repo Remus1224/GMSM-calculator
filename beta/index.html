@@ -763,7 +763,9 @@
                         
                         <div class="result-stat result-total">
                             <span class="stat-label" style="font-size: 16px; color: #ffffff !important;">總共被擊中</span>
-                            <span class="stat-value" style="color: #ff6b6b !important; font-weight: 900; font-size: 18px; text-shadow: 0 2px 10px rgba(255,107,107,0.4);"><span id="res-hits" style="font-size: 32px;">0</span> 次</span>
+                            <span class="stat-value" style="color: #ff6b6b !important; font-weight: 900; font-size: 18px; text-shadow: 0 2px 10px rgba(255,107,107,0.4);">
+                                <span id="res-hits" style="font-size: 32px;">0</span><span style="margin-left: 4px;">次</span>
+                            </span>
                         </div>
                         
                         <div style="display: flex; gap: 15px; margin-top: 30px; width: 100%; justify-content: center;">
@@ -775,9 +777,13 @@
 
                 <div id="glass-controls-top" class="glass-panel">
                     <button id="btn-will-pause" class="glass-btn" onclick="will_togglePauseState()" title="暫停/繼續">❚❚</button>
-                    <button class="glass-btn hint-bulb-btn" id="btn-will-hint" onclick="will_toggleHintClick()" title="機制提示開關">💡</button>
                     <button class="glass-btn" onclick="will_showStartScreen()" title="結束重來" style="font-size: 20px;">↻</button>
+                    <button class="glass-btn" onclick="will_forceEndGame()" title="提早結算" style="font-size: 16px;">⏭</button>
                     <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕 / 離開">⛶</button>
+                </div>
+
+                <div id="glass-controls-mid" class="glass-panel">
+                    <button class="glass-btn hint-bulb-btn" id="btn-will-hint" onclick="will_toggleHintClick()" title="機制提示開關" style="width: 45px; height: 45px; font-size: 24px;">💡</button>
                 </div>
 
                 <div id="glass-controls-bottom" class="glass-panel">
@@ -867,6 +873,9 @@
                 </div>
             </div>
         </div>
+        
+        </div>
+    </div>
 
 <script src="script.js"></script>
 <script>
