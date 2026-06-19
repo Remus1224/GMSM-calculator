@@ -1834,7 +1834,7 @@ const wSprites = {
 // 🕷️ 終極 1:1 蜘蛛角陣型題庫設定
 // =========================================================================
 const WILL_PATTERNS = [
-    // 0: 光滑1 (中 ➔ 小左 ➔ 中)
+    // 0: 困難混沌無地裂1 (中 ➔ 小左 ➔ 中)
     { 
         name: "光滑1", crack: false, hint: "中 ➔ 小左 ➔ 中",
         strikes: [
@@ -1843,7 +1843,7 @@ const WILL_PATTERNS = [
             { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] }
         ]
     },
-    // 1: 光滑2 (中 ➔ 小右 ➔ 大右 ➔ 中)
+    // 1: 困難混沌無地裂2 (中 ➔ 小右 ➔ 大右 ➔ 中)
     { 
         name: "光滑2", crack: false, hint: "中 ➔ 小右 ➔ 大右 ➔ 中",
         strikes: [
@@ -1852,16 +1852,16 @@ const WILL_PATTERNS = [
             { safe: POS.R2, bot: [POS.M-30, POS.RR ], top: [POS.R1-50,POS.L1-50 ] }, 
         ]
     },
-    // 2: 光滑3 (中 ➔ 大右 ➔ 小右 ➔ 中)
+    // 2: 混沌無地裂3 (中 ➔ 大右 ➔ 小右 ➔ 中)
     { 
-        name: "光滑3", crack: false, hint: "中 ➔ 大右 ➔ 小右 ➔ 中",
+        name: "光滑3", crack: false, hint: "中 ➔ 大右 ➔ 小右(中) ➔ 中",
         strikes: [
             { safe: POS.M,  bot: [POS.L2, POS.L1+130, POS.RR+50], top: [POS.LL, POS.L1-80, ] },
             { safe: POS.R2, bot: [POS.LL, POS.L1-30, POS.RR-30], top: [POS.L2-50, POS.M-130, POS.M+50] },
             { safe: POS.R1, bot: [POS.RR-50], top: [POS.LL,POS.M-120,POS.R2-90,POS.RR+50] },
         ]
     },
-    // 3: 光滑4 (中 ➔ 大左 ➔ 不動 ➔ 中) 
+    // 3: 混沌無地裂4 (中 ➔ 大左 ➔ 不動 ➔ 中) 
     { 
         name: "光滑4", crack: false, hint: "中 ➔ 大左 ➔ 不動 ➔ 中",
         strikes: [
@@ -1870,7 +1870,7 @@ const WILL_PATTERNS = [
             { safe: POS.L2, bot: [POS.R1-90,POS.R1+90], top: [POS.LL-20, POS.M-80,POS.R2-10] }, 
         ]
     },
-    // 4: 地裂1 (中 ➔ 大左 ➔ 更大左 ➔ 中)
+    // 4: 混沌地裂1 (中 ➔ 大左 ➔ 更大左 ➔ 中)
     { 
         name: "地裂1", crack: true, hint: "中 ➔ 大左 ➔ 更大左 ➔ 中",
         strikes: [
@@ -1879,7 +1879,7 @@ const WILL_PATTERNS = [
             { safe: POS.LL, bot: [POS.LL, POS.R1-50], top: [POS.L2-50, POS.R1] },
         ]
     },
-    // 5: 地裂2-型態1 (中 ➔ 大右 ➔ 中)
+    // 5: 混沌地裂2-型態1 (中 ➔ 大右 ➔ 中)
     { 
         name: "地裂2-型態1", crack: true, hint: "中 ➔ 大右 ➔ 中",
         strikes: [
@@ -1888,7 +1888,7 @@ const WILL_PATTERNS = [
             { safe: POS.M,  bot: [POS.LL-150, POS.LL+50], top: [POS.M-30,POS.R1-40] }
         ]
     },
-    // 6: 地裂3-型態2 (中 ➔ 大右 ➔ 中)
+    // 6: 混沌地裂3-型態2 (中 ➔ 大右 ➔ 中)
     { 
         name: "地裂3-型態2", crack: true, hint: "中 ➔ 大右 ➔ 中",
         strikes: [
@@ -1897,13 +1897,13 @@ const WILL_PATTERNS = [
             { safe: POS.M,  bot: [POS.L1-30, POS.RR-80], top: [POS.M-30, POS.RR+70] }
         ]
     },
-    // 7: 光滑5 (中 ➔ 大左 ➔ 中)
+    // 7: 困難混沌有地裂 (中 ➔ 大左 ➔ 中)
     { 
-        name: "光滑5", crack: false, hint: "中 ➔ 大左 ➔ 中",
+        name: "光滑5", crack: true, hint: "中 ➔ 大左 ➔ 中",
         strikes: [
-            { safe: POS.M,  bot: [POS.LL-70, POS.M-80, POS.M+100, POS.RR-80, POS.RR+80], top: [POS.L2-50, POS.R1+90] },
-            { safe: POS.L2, bot: [POS.RR-50], top: [POS.LL-100, POS.M-100, POS.R1-120, POS.R2-150] },
-            { safe: POS.M,  bot: [POS.LL-70, POS.M-80, POS.M+100, POS.RR-80, POS.RR+80], top: [POS.L2-50, POS.R1+90] } 
+            { safe: POS.M,  bot: [POS.LL-100, POS.M ], top: [POS.LL, POS.R1-80] },
+            { safe: POS.R2, bot: [POS.L2+70, POS.R2+50], top: [POS.LL+70, POS.R1+70] },
+            { safe: POS.M,  bot: [POS.L1-30, POS.RR-80], top: [POS.M-30, POS.RR+70] }
         ]
     }
 ];
@@ -1920,7 +1920,11 @@ let wGame = {
     currentPatternIdx: 0, // 目前題目 ID
     phase: 'stopped',     // 狀態: stopped, ready, warn, strike, idle, next_wait, victory
     strikeIndex: 0, timer: 0, flashRed: 0, hasEvaluated: false, isPaused: false,
-    playerName: ""
+    playerName: "",
+    maxHp: 1204000,    // 🌟 新增：最大血量
+    currentHp: 1204000,
+    targetHp: 1204000, // 🌟 動畫目標血量
+    healTimer: 0       // 🌟 寵物喝水延遲計時器
 };
 
 // 🌟 新增背景音樂管理
@@ -2036,7 +2040,7 @@ function will_init() {
 
 // 🌟 從題庫中隨機挑選下一題 (依照難度模式)
 function will_pickNextPattern() {
-    let allowedIndices = (wSettings.mode === 'hard') ? [0, 1, 7] : [0, 1, 2, 3, 4, 5, 6];
+    let allowedIndices = (wSettings.mode === 'hard') ? [7, 7, 7] : [0, 1, 2, 3, 4, 5, 6];
     let rand = Math.floor(Math.random() * allowedIndices.length);
     return allowedIndices[rand];
 }
@@ -2045,12 +2049,18 @@ function will_pickNextPattern() {
 window.will_startGame = function() {
     will_updateSettings(); // 確保抓到最新設定
     let nameInput = document.getElementById('will-player-name').value.trim();
-    wGame.playerName = nameInput !== "" ? nameInput : "無名英雄";
+    wGame.playerName = nameInput !== "" ? nameInput : "nickname1204"; // 🌟 改成預設 nickname1204
+    
+    // 🌟 關鍵新增：把名字寫入左上角的 UI 面板中
+    const hudName = document.getElementById('ms-name-text');
+    if (hudName) hudName.innerText = wGame.playerName;
     
     wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
     wGame.hits = 0; 
     wGame.questionsAnswered = 0;
-    
+    wGame.currentHp = wGame.maxHp; // 🌟 每次開始特訓都補滿血
+    wGame.targetHp = wGame.maxHp; 
+    wGame.healTimer = 0;
     // 抽取第一題
     wGame.currentPatternIdx = will_pickNextPattern();
 
@@ -2147,6 +2157,7 @@ function will_nextQuestion() {
     wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 1500; wPlayer.targetX = null; 
 }
 
+JavaScript
 function will_update(dt) {
     if (wGame.isPaused || wGame.phase === 'stopped') return;
 
@@ -2167,6 +2178,29 @@ function will_update(dt) {
 
     if (wGame.flashRed > 0) wGame.flashRed -= dt;
 
+    // ==========================================
+    // 🩸 血條動態特效區 (抽血與寵物自動喝水)
+    // ==========================================
+    // 1. 寵物喝水計時器 (當血量見底時，等待 0.6 秒再喝水)
+    if (wGame.healTimer > 0) {
+        wGame.healTimer -= dt;
+        if (wGame.healTimer <= 0) {
+            wGame.targetHp = wGame.maxHp; // 觸發寵物補血，目標設為滿血
+        }
+    }
+
+    // 2. 血條平滑扣血/補血動畫 (追蹤目標血量)
+    if (wGame.currentHp > wGame.targetHp) {
+        // 📉 猛烈扣血：0.15秒內抽乾
+        wGame.currentHp -= (wGame.maxHp / 500) * dt; 
+        if (wGame.currentHp < wGame.targetHp) wGame.currentHp = wGame.targetHp;
+    } else if (wGame.currentHp < wGame.targetHp) {
+        // 📈 急速補滿：0.15秒內補滿
+        wGame.currentHp += (wGame.maxHp / 300) * dt; 
+        if (wGame.currentHp > wGame.targetHp) wGame.currentHp = wGame.targetHp;
+    }
+    // ==========================================
+
     if (wGame.phase !== 'victory' && wGame.phase !== 'stopped') {
         wGame.timer -= dt;
         let currPattern = WILL_PATTERNS[wGame.currentPatternIdx];
@@ -2178,7 +2212,7 @@ function will_update(dt) {
             
             let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/7`;
             let hintStr = wSettings.hint ? `提示: ${currPattern.hint}` : " ";
-            will_updateUI(`第 ${qNumStr} 題 - ${currPattern.crack ? "【地裂】" : "【光滑】"}`, "white", hintStr);
+            will_updateUI(`第 ${qNumStr} 題`, "white", hintStr);
         } 
 
         if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
@@ -2203,25 +2237,26 @@ function will_update(dt) {
                 if (isHit) {
                     if (currentStrike.noDeduct) {
                         wGame.flashRed = 500; 
-                        will_updateUI("💥 觀察機制中！", "#f39c12", `必吃預警檢查 (擊中數維持)`);
+                        will_updateUI("此被擊中次數不增加", "#f39c12", " ");
                     } else {
-                        wGame.hits++; wGame.flashRed = 500;
-                        will_updateUI("💥 走位失誤！", "#e74c3c", `機制處理失敗！ (被擊中: ${wGame.hits} 次)`); 
+                        wGame.hits++; 
+                        wGame.flashRed = 500;
+
+                        // 🌟 關鍵觸發：將目標血量設為 1204，並要求寵物等 0.6 秒後再喝水！
+                        wGame.targetHp = 1204;
+                        wGame.healTimer = 600; 
+                        
+                        const hitHud = document.getElementById('ms-hit-text');
+                        if (hitHud) hitHud.innerText = `被擊中次數: ${wGame.hits}`;
                     }
-                } else { 
-                    if (currentStrike.noDeduct) {
-                        will_updateUI("🛡️ 奇蹟閃避！", "#2ecc71", "竟然沒被觀察區刮到！");
-                    } else {
-                        will_updateUI("🛡️ 處理正確！", "#2ecc71", "完美迴避！"); 
-                    }
-                }
+                } 
             }
             if (wGame.timer <= 0) { wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle; }
         }
         else if (wGame.phase === 'idle' && wGame.timer <= 0) {
             wGame.strikeIndex++;
             if (wGame.strikeIndex >= currPattern.strikes.length) {
-                will_updateUI("✅ 本題結束！", "#2ecc71", "準備迎接下一題");
+                will_updateUI("✅ 本題結束！", "#2ecc71", " "); 
                 wGame.phase = 'next_wait'; wGame.timer = 1000;
             } else {
                 wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn; 
@@ -2274,15 +2309,18 @@ function will_draw() {
 
     wCtx.restore(); 
 
+    if (wGame.phase !== 'stopped') {
+        // 🌟 每一幀動態更新 HTML 血條長度與跳動的數字
+        const hpBar = document.getElementById('ms-hp-bar');
+        const hpText = document.getElementById('ms-hp-text');
+        if (hpBar) hpBar.style.width = `${(wGame.currentHp / wGame.maxHp) * 100}%`;
+        // toLocaleString() 會自動幫我們把數字加上千分位逗號 (如: 1,204,000)
+        if (hpText) hpText.innerText = Math.floor(wGame.currentHp).toLocaleString();
+    }
+
     // 🌟 在左上角畫出計數器與玩家名稱
     if (wGame.phase !== 'stopped') {
-        wCtx.fillStyle = '#e74c3c'; wCtx.font = "bold 22px Arial"; wCtx.textAlign = "left";
-        wCtx.fillText(`💥 被擊中: ${wGame.hits} 次`, 15, 45); 
         
-        if (wGame.playerName) {
-            wCtx.fillStyle = '#f1c40f'; wCtx.font = "bold 18px Arial";
-            wCtx.fillText(`👤 ${wGame.playerName}`, 15, 75);
-        }
     }
 
     if (wGame.flashRed > 0) {
