@@ -723,8 +723,10 @@
         <div id="will-game-wrapper">
             
             <div id="will-inner-container">
-                <div id="will-start-overlay" class="glass-panel" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; border-radius: 0; background: rgba(0,0,0,0.7); flex-direction: column; justify-content: center; align-items: center; border: none; backdrop-filter: blur(8px);">
+                <div id="will-start-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    
                     <div style="font-size: 30px; font-weight: bold; color: white; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;">威爾小遊戲練習機</div>
+                    
                     <div style="font-size: 15px; color: #bdc3c7; margin-bottom: 25px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); background: rgba(0, 0, 0, 0.4); padding: 14px 24px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); display: grid; grid-template-columns: auto 1fr; gap: 8px 6px; text-align: left; align-items: center;">
                         <span style="color: #2ecc71; font-weight: bold;">【背景無裂痕】:</span>
                         <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #2ecc71; margin: 0 2px;">閃避</span>蜘蛛腳</span>
@@ -733,8 +735,7 @@
                         <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">主動去撞</span>蜘蛛腳</span>
                     </div>
                     
-                    
-                    <div style="display: flex; gap: 10px; width: 85%; max-width: 320px; justify-content: center;">
+                    <div style="display: flex; gap: 10px; width: 90%; max-width: 450px; justify-content: center;">
                         <input type="text" id="will-player-name" class="glass-input" placeholder="輸入玩家名稱 (可留空)" autocomplete="off">
                         <button class="glass-btn-start" onclick="will_startGame()">開始</button>
                     </div>
@@ -798,48 +799,38 @@
         <div class="settings-panel">
             <div class="settings-title">⚙️ 設定</div>
             
-            <div class="setting-row" style="display: flex; align-items: center; font-weight: bold; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
-                <span style="margin-right:0px;">威爾難度：</span>
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; margin-right: 5px;">
-                    <input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()" style="margin: 0;"> 混沌
-                </label>
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                    <input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()" style="margin: 0;"> 困難
-                </label>
+            <div class="setting-row">
+                <span class="setting-label">威爾難度：</span>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()"> 混沌</label>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()"> 困難</label>
             </div>
 
-            <div class="setting-row" style="display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-top: 15px; gap: 15px;">
-                <span style="margin-right: 0px;">遊戲模式</span>
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                    <input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()" style="margin: 0;"> 全機制×1
-                </label>
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()" style="margin: 0;"> 全機制×
+            <div class="setting-row">
+                <span class="setting-label">遊戲模式：</span>
+                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()"> 全機制×1</label>
+                <label class="setting-opt">
+                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()"> 全機制×
                     <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
                            onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
                            oninput="will_updateSettings()" 
-                           style="width: 35px; text-align: center; border: 1px solid #aaa; border-radius: 4px; padding: 2px; font-weight: bold; font-size: 14px; outline: none;">
+                           class="custom-num-input">
                 </label>
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                    <input type="radio" name="will-length" value="endless" onchange="will_updateSettings()" style="margin: 0;"> 無限練習
-                </label>
+                <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()"> 無限練習</label>
             </div>
 
-            <div class="setting-row" style="font-weight: bold; color: #2c3e50; margin-top: 15px; display: flex; flex-wrap: wrap; align-items: center; gap: 15px;">
-                <label style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    機制提示
-                    <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="margin: 0; width: 16px; height: 16px;">
+            <div class="setting-row">
+                <label class="setting-opt">機制提示
+                    <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="width: 16px; height: 16px;">
                 </label>
                 
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <label style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        背景音樂
-                        <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="margin: 0; width: 16px; height: 16px;">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <label class="setting-opt">背景音樂
+                        <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="width: 16px; height: 16px;">
                     </label>
                     
-                    <div style="display: flex; align-items: center; gap: 6px; border-left: 2px solid #ccc; padding-left: 12px;">
-                        <span style="font-size: 13px; color: #7f8c8d;">音量</span>
-                        <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer; margin: 0;">
+                    <div class="vol-group">
+                        <span style="font-size: 13px; color: #555;">音量</span>
+                        <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer;">
                     </div>
                 </div>
             </div>
