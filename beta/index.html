@@ -839,13 +839,13 @@
 
             <div class="setting-row">
                 <span class="setting-label">遊戲模式：</span>
-                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()"> 全機制×1</label>
+                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()"> 全機制1次</label>
                 <label class="setting-opt">
-                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()"> 全機制×
+                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()"> 全機制
                     <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
                            onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
                            oninput="will_updateSettings()" 
-                           class="custom-num-input">
+                           class="custom-num-input"> 次
                 </label>
                 <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()"> 無限練習</label>
             </div>
