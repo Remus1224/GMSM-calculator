@@ -655,6 +655,9 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* 🏆 6. 結算成績單 (深色液態玻璃風格)            */
 /* ========================================== */
 .result-card {
+    /* 🌟 新增縮小燈變數：預設電腦版為 1 (100%大小) */
+    --card-scale: 1; 
+
     background: rgba(15, 15, 20, 0.45) !important;
     backdrop-filter: blur(16px) saturate(120%) !important; 
     -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
@@ -663,35 +666,53 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
     box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05) !important;
     border-radius: 20px; 
-    padding: 35px 40px !important; 
+    padding: 35px 30px !important; 
     text-align: left; 
     font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
     
-    /* 🌟 核心修正：強制盒模型，鎖定寬度但允許被螢幕擠壓 */
     box-sizing: border-box !important;
-    width: 400px !important; 
-    max-width: 90vw !important; /* 絕對不允許超過螢幕寬度的 90% */
+    width: 320px !important; /* 永遠保持完美的 320px 比例 */
     
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    /* 讓動畫配合縮小燈變數 */
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
 }
 
-/* 🌟 拉開行距與統一白字 */
+/* 雙欄對齊 */
 .result-stat { 
-    font-size: 16px; 
-    margin-bottom: 16px !important; /* 👈 行距拉開了 */
-    display: flex; 
-    justify-content: space-between; 
+    font-size: 15px; 
+    margin-bottom: 12px !important; 
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: 15px !important; 
     align-items: center; 
 }
-.stat-label { color: rgba(255, 255, 255, 0.5) !important; font-weight: bold; }
-.stat-value { color: #fff !important; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+/* 🌟 還原顏色：左邊標題改為質感淺灰 */
+.stat-label { 
+    color: rgba(255, 255, 255, 0.5) !important; 
+    font-weight: bold; 
+    text-align: left !important; 
+}
+
+/* 🌟 還原顏色：右邊數值（包含玩家名稱）一律強制純白 */
+.stat-value, div.result-stat:nth-child(1) .stat-value { 
+    color: #ffffff !important; 
+    font-weight: bold; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
+    text-align: center !important; 
+}
 
 /* 分隔線與總計區塊 */
 .result-total {
-    margin-top: 25px !important;
-    border-top: 1px solid rgba(255,255,255,0.15) !important; /* 微透白線 */
-    padding-top: 20px !important;
+    margin-top: 20px !important;
+    border-top: 1px solid rgba(255,255,255,0.15) !important; 
+    padding-top: 16px !important;
     margin-bottom: 0 !important;
+}
+
+/* 總計專屬文字右移 */
+.result-total .stat-label {
+    padding-left: 40px !important; 
 }
 
 /* 🌟 按鈕專屬液態配色 */
@@ -710,9 +731,10 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 .btn-res-primary:hover { background: rgba(52, 152, 219, 0.5) !important; box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5) !important; }
 
+/* 🌟 修改彈出動畫，讓它能吃「縮小燈變數」 */
 @keyframes popIn {
-    0% { opacity: 0; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1); }
+    0% { opacity: 0; transform: scale(calc(var(--card-scale) * 0.8)); }
+    100% { opacity: 1; transform: scale(var(--card-scale)); }
 }
 
 /* ========================================== */
@@ -720,7 +742,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* ⚠️ 注意：這段必須放在檔案的最最最底端！       */
 /* ========================================== */
 
-/* 📱 1. 手機直立模式 (Portrait) - 極限縮小 */
+/* 📱 1. 手機直立模式 (Portrait) - 框內微型壓縮版 */
 @media (max-width: 768px) and (orientation: portrait) {
     #ms-player-hud { transform: scale(0.65); transform-origin: top left; }
     .glass-panel { padding: 4px 8px !important; gap: 6px !important; border-radius: 8px !important; }
@@ -731,33 +753,29 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
 
-    /* 起始畫面縮小 */
-    #will-start-overlay > div:nth-child(1) { font-size: 22px !important; margin-bottom: 6px !important; }
-    #will-start-overlay > div:nth-child(2) { font-size: 13px !important; padding: 10px 16px !important; margin-bottom: 15px !important; }
-    .glass-input, .glass-btn-start { height: 40px !important; font-size: 14px !important; padding: 0 15px !important; }
-    .custom-num-input { width: 38px !important; padding: 2px !important; font-size: 13px !important; }
+    /* 🌟 起始畫面：解除全螢幕，使用微型壓縮 (完美塞入 160px 的扁框內) */
+    #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
+    #will-start-overlay > div:nth-child(1) { font-size: 16px !important; margin-bottom: 4px !important; letter-spacing: 1px !important; }
+    #will-start-overlay > div:nth-child(2) { font-size: 10px !important; padding: 6px 12px !important; margin-bottom: 8px !important; gap: 4px !important; line-height: 1.2 !important; }
+    #will-start-overlay > div:nth-child(3) { gap: 6px !important; max-width: 90% !important; } 
+    .glass-input, .glass-btn-start { height: 30px !important; font-size: 12px !important; padding: 0 10px !important; }
+    .custom-num-input { width: 36px !important; padding: 2px !important; font-size: 12px !important; }
 
-    /* 🌟 成績單大幅縮小，適應直立螢幕 */
+    /* 🌟 成績單：更窄、更正方形的精緻比例 */
+    #will-result-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
     .result-card { 
-        width: 85vw !important; /* 直接綁定螢幕寬度的 85% */
-        min-width: 0 !important; /* 解除所有硬性限制 */
-        padding: 25px 20px !important; /* 減少左右內距 */
-        border-radius: 15px !important; 
+        width: 70% !important; /* 👈 從 90% 縮小到 70%，讓卡片變窄 */
+        max-width: 260px !important; /* 👈 加上最大寬度限制，強制拉回正方形視覺 */
+        padding: 15px 20px !important; 
+        border-radius: 12px !important; 
     }
-    .result-stat { font-size: 14px !important; margin-bottom: 12px !important; }
-    .result-total { margin-top: 15px !important; padding-top: 15px !important; }
-    .result-total .stat-label { font-size: 16px !important; }
-    #res-hits { font-size: 28px !important; }
     
-    /* 🌟 讓兩個按鈕「平分寬度(flex: 1)」，不再硬撐卡片 */
-    .btn-res-secondary, .btn-res-primary { 
-        flex: 1 !important; 
-        font-size: 14px !important; 
-        padding: 0 5px !important; 
-        height: 42px !important; 
+    /* 🌟 手機直向：啟動縮小燈，將完美方塊整體縮小到 85%，免調字體！ */
+    .result-card { 
+        --card-scale: 0.85 !important; 
     }
 
-/* 📱 2. 手機橫向模式 (Landscape) - 防切斷極限壓扁 */
+/* 📱 2. 手機橫向模式 (Landscape) - 框內適度壓縮版 */
 @media (max-width: 950px) and (orientation: landscape) {
     #ms-player-hud { transform: scale(0.8); transform-origin: top left; }
     .glass-panel { padding: 4px 10px !important; gap: 8px !important; }
@@ -766,41 +784,19 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #joystick-base { width: 100px !important; height: 100px !important; bottom: 8% !important; left: 4% !important; }
     #joystick-stick { width: 45px !important; height: 45px !important; }
 
-    /* 起始畫面縮小 */
-    #will-start-overlay > div:nth-child(1) { font-size: 20px !important; margin-bottom: 4px !important; }
-    #will-start-overlay > div:nth-child(2) { font-size: 12px !important; padding: 8px 14px !important; margin-bottom: 10px !important; gap: 4px 6px !important; }
-    .glass-input, .glass-btn-start { height: 36px !important; font-size: 14px !important; padding: 0 15px !important; }
+    /* 🌟 起始畫面：解除全螢幕，讓它乖乖待在遊戲畫面裡 */
+    #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
+    #will-start-overlay > div:nth-child(1) { font-size: 18px !important; margin-bottom: 6px !important; }
+    #will-start-overlay > div:nth-child(2) { font-size: 11px !important; padding: 8px 12px !important; margin-bottom: 10px !important; gap: 4px !important; }
+    .glass-input, .glass-btn-start { height: 34px !important; font-size: 13px !important; padding: 0 10px !important; }
     .custom-num-input { width: 40px !important; padding: 2px !important; }
 
-    /* 🌟 成績單防切斷極限壓扁 */
+   /* 🌟 核心修復：極限壓縮，達成更服貼、更方正的比例，且絕對防撐胖 */
+    #will-result-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
+   /* 🌟 手機橫向：遊戲框太扁，啟動極限縮小燈，將方塊整體縮小到 60%！ */
     .result-card { 
-        width: 50vw !important; 
-        min-width: 0 !important;
-        padding: 15px 25px !important; 
-        border-radius: 12px !important; 
-        max-height: 85vh !important;
-        overflow-y: auto !important;
+        --card-scale: 0.6 !important; 
     }
-    .result-stat { font-size: 13px !important; margin-bottom: 6px !important; }
-    .result-total { margin-top: 10px !important; padding-top: 10px !important; }
-    .result-total .stat-label { font-size: 14px !important; }
-    #res-hits { font-size: 24px !important; }
-    
-    /* 🌟 讓橫向按鈕也平分寬度 */
-    .btn-res-secondary, .btn-res-primary { 
-        flex: 1 !important;
-        font-size: 13px !important; 
-        padding: 0 5px !important; 
-        height: 36px !important; 
-        margin-top: 15px !important; 
-    }
-    .result-stat { font-size: 13px !important; margin-bottom: 6px !important; }
-    .result-total { margin-top: 10px !important; padding-top: 10px !important; }
-    .result-total .stat-label { font-size: 14px !important; }
-    #res-hits { font-size: 24px !important; }
-    /* 橫向模式按鈕縮小 */
-    .btn-res-secondary, .btn-res-primary { font-size: 14px !important; padding: 0 15px !important; height: 34px !important; margin-top: 15px !important; }
-}
 
 /* ========================================== */
 /* 臨時測試防護：隱藏其他功能，只對外開放威爾   */
