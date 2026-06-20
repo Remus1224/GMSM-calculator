@@ -816,6 +816,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
 }
 
+
 /* 📱 2. 手機橫向模式 (Landscape) - 框內適度壓縮版 */
 @media (max-width: 950px) and (orientation: landscape) {
     #ms-player-hud { transform: scale(0.8); transform-origin: top left; }
@@ -832,6 +833,36 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #will-start-overlay > div:nth-child(2) { font-size: 11px !important; padding: 8px 12px !important; margin-bottom: 10px !important; gap: 4px !important; }
     .glass-input, .glass-btn-start { height: 34px !important; font-size: 13px !important; padding: 0 10px !important; }
     .custom-num-input { width: 25px !important; padding: 2px !important; }
+}
+
+/* ========================================== */
+/* 📱 手機版專屬覆蓋：結算卡片等比縮小防爆機制    */
+/* ========================================== */
+
+/* 🌟 1. 直立模式：縮小到 50%，完美塞入扁扁的遊戲框 */
+@media (max-width: 768px) and (orientation: portrait) {
+    #will-result-overlay .result-card {
+        width: 320px !important;
+        height: auto !important; /* 解除高度綁架，讓文字自然排版 */
+        animation: popInPortrait 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+    }
+}
+@keyframes popInPortrait {
+    0% { opacity: 0; transform: scale(0.2); }
+    100% { opacity: 1; transform: scale(0.5); } /* 縮小到原本的一半 */
+}
+
+/* 🌟 2. 橫向模式：縮小到 75%，消除過度拉長造成的垂直空白 */
+@media (max-width: 950px) and (orientation: landscape) {
+    #will-result-overlay .result-card {
+        width: 320px !important;
+        height: auto !important; /* 解除高度綁架，消除多餘空白 */
+        animation: popInLandscape 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+    }
+}
+@keyframes popInLandscape {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(0.75); } /* 微縮以保持精緻感 */
 }
 
 /* ========================================== */
