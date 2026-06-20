@@ -1779,10 +1779,11 @@ const WORLD_CENTER = 870;
 
 const CONFIG = {
     camera: { zoom: 1.3, offsetY: 100 },
-    scale: { player: 1, boss: 1, legTop: 1, legBot: 1, crack: 0.85 },
+    scale: { player: 1, boss: 1, legTop: 1, legBot: 1, crack: 0.85, hitEffect: 1 },
     pos: { floorY: 445, bossY: 600, crackX: 820, crackY: 450, legTopY: -280, legBotY: 1100, legTopOffsetX: 100, legBotOffsetX: 50 },
     time: { warn: 900, strike: 900, idle: 300 },
-    player: { speed: 7, nativeFacingLeft: true, hitBot: 110, hitTop: 140 }
+    player: { speed: 7, nativeFacingLeft: true, hitBot: 110, hitTop: 140 },
+    boss: {speed: 2.5, ollowDistance: 30 }
 };
 
 const POS = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
@@ -1815,7 +1816,9 @@ wAssets.pWalk.src    = 'assets/player_walk.png';
 wAssets.pIdle.src    = 'assets/player_idle.png';          
 wAssets.boss.src     = 'assets/boss_will.png';            
 wAssets.legTop.src   = 'assets/spider_leg_top.png';       
-wAssets.legBot.src   = 'assets/spider_leg_bottom.png';    
+wAssets.legBot.src   = 'assets/spider_leg_bottom.png'; 
+wAssets.hitEffect = new Image();
+wAssets.hitEffect.src = 'assets/spider_leg_hit.png';   
 
 const wSprites = {
     pWalk:  { cols: 6, rows: 7, frames: 37, speed: 60, curr: 0, tick: 0 },
@@ -1823,7 +1826,8 @@ const wSprites = {
     boss:   { cols: 4, rows: 4, frames: 16, speed: 60, curr: 0, tick: 0 },
     legTop: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
     legBot: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
-    crack:  { cols: 3, rows: 3, frames: 8,  speed: 60, curr: 0, tick: 0 }
+    crack:  { cols: 3, rows: 3, frames: 8,  speed: 60, curr: 0, tick: 0 },
+    hitEffect: { cols: 3, rows: 3, frames: 9, speed: 80, curr: 0, tick: 0, active: false }
 };
 
 // =========================================================================
@@ -1897,6 +1901,7 @@ const WILL_PATTERNS = [
 ];
 
 let wPlayer = { x: WORLD_CENTER, y: CONFIG.pos.floorY, radius: 15, targetX: null, facing: 'right' };
+let wBoss = { x: WORLD_CENTER, facing: 'left' };
 let wKeys = { ArrowLeft: false, ArrowRight: false, a: false, d: false };
 let wLastTime = 0; let cameraX = 0;
 let mTouchLeft = false; let mTouchRight = false; let isJoyDragging = false; 
@@ -2003,9 +2008,19 @@ window.will_togglePauseState = function() {
     if (wGame.isPaused) {
         if (pauseBtn) pauseBtn.innerText = '►'; 
         will_updateUI("⏸ 遊戲暫停", "#f1c40f", "點擊右上角 ► 繼續");
+        
+        // 🌟 音樂連動：遊戲暫停時，暫停音樂 (不洗掉播放進度)
+        if (isBgmPlaying) {
+            willBgm.pause();
+        }
     } else {
         if (pauseBtn) pauseBtn.innerText = '❚❚'; 
         will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備...");
+        
+        // 🌟 音樂連動：遊戲繼續時，如果設定有開音樂，就「接續」播放
+        if (wSettings.bgm) {
+            willBgm.play().then(() => { isBgmPlaying = true; }).catch(e => console.log(e));
+        }
     }
 };
 
@@ -2044,6 +2059,7 @@ window.will_startGame = function() {
     if (hudName) hudName.innerText = wGame.playerName;
 
     wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
+    wBoss.x = WORLD_CENTER; wBoss.facing = 'left';
     wGame.hits = 0; 
     wGame.questionsAnswered = 0;
     
@@ -2341,6 +2357,42 @@ function will_update(dt) {
     else { tickSprite(wSprites.pIdle, dt); wSprites.pWalk.curr = 0; }
     tickSprite(wSprites.boss, dt); 
 
+    // ============================================
+    // 🌟 在這裡貼上這段：更新受擊特效 (播完就自動關閉)
+    // ============================================
+    if (wSprites.hitEffect.active) {
+        wSprites.hitEffect.tick += dt;
+        if (wSprites.hitEffect.tick >= wSprites.hitEffect.speed) {
+            wSprites.hitEffect.tick = 0;
+            wSprites.hitEffect.curr++;
+            if (wSprites.hitEffect.curr >= wSprites.hitEffect.frames) {
+                wSprites.hitEffect.active = false; // 9幀播完，關閉特效
+            }
+        }
+    }
+
+    // ============================================
+    // 🌟 新增：Boss 自動追蹤玩家系統
+    // ============================================
+    let distToPlayer = wPlayer.x - wBoss.x;
+    let absDist = Math.abs(distToPlayer);
+
+    // 當距離超過我們設定的「保持距離」時，Boss 才會開始移動
+    if (absDist > CONFIG.boss.followDistance) {
+        let dir = distToPlayer > 0 ? 1 : -1; // 1 代表往右走，-1 代表往左走
+        let moveDistance = CONFIG.boss.speed * (dt / 16.666);
+        
+        // 防抖動處理：如果王已經快貼到保持距離了，就直接定位，避免前後瘋狂抽搐
+        if (absDist - CONFIG.boss.followDistance < moveDistance) {
+            wBoss.x = wPlayer.x - (dir * CONFIG.boss.followDistance);
+        } else {
+            wBoss.x += dir * moveDistance; // Boss 移動
+        }
+    }
+    
+    // 讓王永遠盯著玩家的方向看
+    wBoss.facing = distToPlayer > 0 ? 'right' : 'left';
+
     if (wGame.flashRed > 0) wGame.flashRed -= dt;
 
     if (wGame.healTimer > 0) {
@@ -2391,7 +2443,12 @@ function will_update(dt) {
 
                 let isHit = currPattern.crack ? !inDangerZone : inDangerZone;
                 
-                if (isHit) {
+               if (isHit) {
+                    // 🌟 觸發特效：每次被打中都從第 0 幀開始播
+                    wSprites.hitEffect.active = true;
+                    wSprites.hitEffect.curr = 0;
+                    wSprites.hitEffect.tick = 0;
+
                     if (currentStrike.noDeduct) {
                         wGame.flashRed = 500; 
                         will_updateUI("此被擊中次數不增加", "#f39c12", " ");
@@ -2450,7 +2507,9 @@ function will_draw() {
         will_drawSprite(wCtx, wAssets.crack, wSprites.crack, CONFIG.pos.crackX, CONFIG.pos.crackY, CONFIG.scale.crack, false, 'center');
     }
 
-    will_drawSprite(wCtx, wAssets.boss, wSprites.boss, WORLD_CENTER, CONFIG.pos.bossY, CONFIG.scale.boss, false, 'bottom-center');
+    // 🌟 將原本寫死的 WORLD_CENTER 改成 wBoss.x，並加上轉身機制
+    let isBossFlipped = (wBoss.facing === 'right'); // 假設你的王圖預設是面向左
+    will_drawSprite(wCtx, wAssets.boss, wSprites.boss, wBoss.x, CONFIG.pos.bossY, CONFIG.scale.boss, isBossFlipped, 'bottom-center');
 
     if ((wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') && wGame.strikeIndex < currPattern.strikes.length) {
         let currentStrike = currPattern.strikes[wGame.strikeIndex];
@@ -2458,12 +2517,20 @@ function will_draw() {
         currentStrike.bot.forEach(xPos => { will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos + CONFIG.pos.legBotOffsetX, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center'); });
     }
 
-    if (!(wGame.flashRed > 0 && Math.floor(wGame.flashRed / 100) % 2 === 0)) {
+    //if (!(wGame.flashRed > 0 && Math.floor(wGame.flashRed / 100) % 2 === 0)) {
         let isMoving = (wKeys.ArrowLeft || wKeys.ArrowRight || wKeys.a || wKeys.d || mTouchLeft || mTouchRight);
         let pImg = isMoving ? wAssets.pWalk : wAssets.pIdle;
         let pCfg = isMoving ? wSprites.pWalk : wSprites.pIdle;
         let isFlipped = CONFIG.player.nativeFacingLeft ? (wPlayer.facing === 'right') : (wPlayer.facing === 'left');  
         will_drawSprite(wCtx, pImg, pCfg, wPlayer.x, CONFIG.pos.floorY, CONFIG.scale.player, isFlipped, 'bottom-center');
+    //}
+
+    // ============================================
+    // 🌟 貼上這段：畫出受擊特效
+    // ============================================
+    if (wSprites.hitEffect.active) {
+        // 使用 'center' 對齊，並將 Y 軸設定在 floorY - 70 (大約是玩家身體中心點)
+        will_drawSprite(wCtx, wAssets.hitEffect, wSprites.hitEffect, wPlayer.x, CONFIG.pos.floorY - 70, CONFIG.scale.hitEffect, false, 'center');
     }
 
     wCtx.restore(); 
@@ -2475,10 +2542,10 @@ function will_draw() {
         if (hpText) hpText.innerText = Math.floor(wGame.currentHp).toLocaleString();
     }
 
-    if (wGame.flashRed > 0) {
+    /*if (wGame.flashRed > 0) {
         wCtx.fillStyle = 'rgba(231, 76, 60, 0.3)';
         wCtx.fillRect(0, 0, wCanvas.width, wCanvas.height);
-    }
+    }*/
 }
 
 function will_gameLoop(timestamp) {
