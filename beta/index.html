@@ -720,170 +720,164 @@
     </div>
 
     <div id="tab-will" class="tab-content">
-        <div id="will-game-wrapper">
+    <div id="will-game-wrapper">
+        <div id="will-inner-container">
             
-            <div id="will-inner-container">
-                <div id="will-start-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <canvas id="willCanvas"></canvas>
+
+            <div id="ms-player-hud">
+                <div class="ms-hud-name-row">
+                    <span class="ms-lv">LV.999</span> 
+                    <span id="ms-name-text">nickname1204</span>
+                </div>
+                <div class="ms-bar-row">
+                    <div class="ms-bar-bg"><div class="ms-bar-fill ms-hp-fill" id="ms-hp-bar"></div></div>
+                    <span class="ms-bar-text" id="ms-hp-text">1,204,000</span>
+                </div>
+                <div class="ms-bar-row">
+                    <div class="ms-bar-bg"><div class="ms-bar-fill ms-mp-fill"></div></div>
+                    <span class="ms-bar-text">120,400</span>
+                </div>
+                <div class="ms-stat-row" style="margin-top: 3px;">
+                    <div class="ms-icon ms-icon-cp"></div>
+                    <span class="ms-stat-text">12,041,204</span>
+                </div>
+                <div class="ms-stat-row ms-dark-pill">
+                    <div class="ms-icon ms-icon-map"></div>
+                    <span class="ms-stat-text">深邃的鏡子</span>
+                </div>
+                <div class="ms-stat-row ms-dark-pill ms-hit-pill">
+                    <div class="ms-icon ms-icon-hit"></div>
+                    <span class="ms-stat-text" id="ms-hit-text" style="color: #ff6b6b;">被擊中次數: 0</span>
+                </div>
+            </div>
+                
+            <div id="will-status-container">
+                <div id="will-status">準備...</div>
+                <div id="will-timer"> </div>
+            </div>
+
+            <div id="joystick-base">
+                <div id="joystick-stick"></div>
+            </div>  
+
+            <button id="will-restart-btn" class="glass-btn-restart" onclick="will_showStartScreen()">返回設定</button>
+
+            <div id="will-start-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="start-card" style="padding: 25px !important;">
+                    <div style="font-size: 26px; font-weight: bold; color: white; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;">威爾小遊戲練習機</div>
                     
-                    <div class="start-card" style="padding: 25px !important;">
-    
-    <div style="font-size: 26px; font-weight: bold; color: white; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;">威爾小遊戲練習機</div>
-    
-    <div style="font-size: 14px; color: #bdc3c7; text-shadow: 0 1px 4px rgba(0,0,0,0.8); background: rgba(0, 0, 0, 0.4); 
-                padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
-                display: grid; grid-template-columns: auto auto; justify-content: center; gap: 8px 6px; text-align: left; align-items: center; width: 100%; 
-                max-width: 250px; box-sizing: border-box; margin: 0 auto 16px auto;">
-        
-        <span style="color: #2ecc71; font-weight: bold; white-space: nowrap;">【背景無裂痕】:</span>
-        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #2ecc71; margin: 0 2px;">閃避</span>蜘蛛腳</span>
-        
-        <span style="color: #e74c3c; font-weight: bold; white-space: nowrap;">【背景有裂痕】:</span>
-        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">接下</span>蜘蛛腳</span>
+                    <div style="font-size: 14px; color: #bdc3c7; text-shadow: 0 1px 4px rgba(0,0,0,0.8); background: rgba(0, 0, 0, 0.4); 
+                                padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
+                                display: grid; grid-template-columns: auto auto; justify-content: center; gap: 8px 6px; text-align: left; align-items: center; width: 100%; 
+                                max-width: 250px; box-sizing: border-box; margin: 0 auto 16px auto;">
+                        <span style="color: #2ecc71; font-weight: bold; white-space: nowrap;">【背景無裂痕】:</span>
+                        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #2ecc71; margin: 0 2px;">閃避</span>蜘蛛腳</span>
+                        
+                        <span style="color: #e74c3c; font-weight: bold; white-space: nowrap;">【背景有裂痕】:</span>
+                        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">接下</span>蜘蛛腳</span>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: row; gap: 8px; width: 100%; max-width: 250px; justify-content: center; align-items: center; margin: 0 auto;">
+                        <input type="text" id="will-player-name" class="glass-input start-custom-input" placeholder="名稱 (可留空)" autocomplete="off">
+                        <button class="glass-btn-start start-custom-btn" onclick="will_startGame()">開始</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="will-result-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 600; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="result-card">
+                    <div class="result-stat">
+                        <span class="stat-label">玩家名稱</span>
+                        <span id="res-name" class="stat-value"></span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">威爾難度</span>
+                        <span id="res-diff" class="stat-value">混沌</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">遊戲模式</span>
+                        <span id="res-mode" class="stat-value">全機制1次</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">機制提示</span>
+                        <span id="res-hint" class="stat-value">未開啟</span>
+                    </div>
+                    
+                    <div class="result-stat result-total">
+                        <span class="stat-label" style="font-size: 16px; color: #ffffff !important;">總共被擊中</span>
+                        <span class="stat-value" style="color: #ff6b6b !important; font-weight: 900; font-size: 18px; text-shadow: 0 2px 10px rgba(255,107,107,0.4);">
+                            <span id="res-hits" style="font-size: 32px;">0</span><span style="margin-left: 4px;">次</span>
+                        </span>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px; width: 100%; justify-content: center;">
+                        <button class="glass-btn-start btn-res-secondary" onclick="will_showStartScreen()">返回設定</button>
+                        <button class="glass-btn-start btn-res-primary" onclick="will_playAgain()">再來一次</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="glass-controls-top" class="glass-panel" style="z-index: 1000;">
+                <button id="btn-will-pause" class="glass-btn" onclick="will_togglePauseState()" title="暫停/繼續">⏸&#xFE0E;</button>
+                <button id="btn-will-restart" class="glass-btn" onclick="will_showStartScreen()" title="結束重來" style="font-size: 20px;">↻&#xFE0E;</button>
+                <button id="btn-will-end" class="glass-btn" onclick="will_forceEndGame()" title="提早結算">⏭&#xFE0E;</button>
+                <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕/離開">⛶</button>
+            </div>
+
+            <div id="glass-controls-mid" class="glass-panel" style="z-index: 1000;">
+                <button id="btn-will-hint" class="glass-btn hint-bulb-btn" onclick="will_toggleHintClick()" title="機制提示">💡&#xFE0E;</button>
+            </div>
+
+            <div id="glass-controls-bottom" class="glass-panel" style="z-index: 1000;">
+                <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小">-</button>
+                <div id="zoom-glass-val" class="zoom-text">1.3x</div>
+                <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大">+</button>
+            </div>
+            
+        </div> 
     </div>
-    
-    <div style="display: flex; flex-direction: row; gap: 8px; width: 100%; max-width: 250px; justify-content: center; align-items: center; margin: 0 auto;">
-        <input type="text" id="will-player-name" class="glass-input start-custom-input" placeholder="名稱 (可留空)" autocomplete="off">
-        <button class="glass-btn-start start-custom-btn" onclick="will_startGame()">開始</button>
-    </div>
-    
-</div>
-                </div>
 
-                <div id="will-result-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 600; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="result-card">
-                        
-                        <div class="result-stat">
-                            <span class="stat-label">玩家名稱</span>
-                            <span id="res-name" class="stat-value"></span>
-                        </div>
-                        <div class="result-stat">
-                            <span class="stat-label">威爾難度</span>
-                            <span id="res-diff" class="stat-value">混沌</span>
-                        </div>
-                        <div class="result-stat">
-                            <span class="stat-label">遊戲模式</span>
-                            <span id="res-mode" class="stat-value">全機制1次</span>
-                        </div>
-                        <div class="result-stat">
-                            <span class="stat-label">機制提示</span>
-                            <span id="res-hint" class="stat-value">未開啟</span>
-                        </div>
-                        
-                        <div class="result-stat result-total">
-                            <span class="stat-label" style="font-size: 16px; color: #ffffff !important;">總共被擊中</span>
-                            <span class="stat-value" style="color: #ff6b6b !important; font-weight: 900; font-size: 18px; text-shadow: 0 2px 10px rgba(255,107,107,0.4);">
-                                <span id="res-hits" style="font-size: 32px;">0</span><span style="margin-left: 4px;">次</span>
-                            </span>
-                        </div>
-                        
-                        <div style="display: flex; gap: 15px; margin-top: 30px; width: 100%; justify-content: center;">
-                            <button class="glass-btn-start btn-res-secondary" onclick="will_showStartScreen()">返回設定</button>
-                            <button class="glass-btn-start btn-res-primary" onclick="will_playAgain()">再來一次</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="glass-controls-top" class="glass-panel">
-                    <button id="btn-will-pause" class="glass-btn" onclick="will_togglePauseState()" title="暫停/繼續">❚❚</button>
-                    <button class="glass-btn" onclick="will_showStartScreen()" title="結束重來" style="font-size: 20px;">↻</button>
-                    <button class="glass-btn" onclick="will_forceEndGame()" title="提早結算" style="font-size: 16px;">⏭&#xFE0E;</button>
-                    <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕 / 離開">⛶</button>
-                </div>
-
-                <div id="glass-controls-mid" class="glass-panel">
-                    <button class="glass-btn hint-bulb-btn" id="btn-will-hint" onclick="will_toggleHintClick()" title="機制提示開關" style="width: 45px; height: 45px; font-size: 24px;">💡</button>
-                </div>
-
-                <div id="glass-controls-bottom" class="glass-panel">
-                    <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小鏡頭">－</button>
-                    <span id="zoom-glass-val" class="zoom-text">1.3x</span>
-                    <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大鏡頭">＋</button>
-                </div>
-                    
-                <canvas id="willCanvas"></canvas>
-
-                <div id="ms-player-hud">
-                    <div class="ms-hud-name-row">
-                        <span class="ms-lv">LV.999</span> 
-                        <span id="ms-name-text">nickname1204</span>
-                    </div>
-                    <div class="ms-bar-row">
-                        <div class="ms-bar-bg"><div class="ms-bar-fill ms-hp-fill" id="ms-hp-bar"></div></div>
-                        <span class="ms-bar-text" id="ms-hp-text">1,204,000</span>
-                    </div>
-                    <div class="ms-bar-row">
-                        <div class="ms-bar-bg"><div class="ms-bar-fill ms-mp-fill"></div></div>
-                        <span class="ms-bar-text">120,400</span>
-                    </div>
-                    <div class="ms-stat-row" style="margin-top: 3px;">
-                        <div class="ms-icon ms-icon-cp"></div>
-                        <span class="ms-stat-text">12,041,204</span>
-                    </div>
-                    <div class="ms-stat-row ms-dark-pill">
-                        <div class="ms-icon ms-icon-map"></div>
-                        <span class="ms-stat-text">深邃的鏡子</span>
-                    </div>
-                    <div class="ms-stat-row ms-dark-pill ms-hit-pill">
-                        <div class="ms-icon ms-icon-hit"></div>
-                        <span class="ms-stat-text" id="ms-hit-text" style="color: #ff6b6b;">被擊中次數: 0</span>
-                    </div>
-                </div>
-                    
-                <div id="will-status-container">
-                    <div id="will-status">準備...</div>
-                    <div id="will-timer"> </div>
-                </div>
-
-                <button id="will-restart-btn" class="glass-btn-restart" onclick="will_showStartScreen()">返回設定</button>
-
-                <div id="joystick-base">
-                    <div id="joystick-stick"></div>
-                </div>  
-            </div> 
+    <div class="settings-panel">
+        <div class="settings-title">⚙️ 設定</div>
+        
+        <div class="setting-row">
+            <span class="setting-label">威爾難度：</span>
+            <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">混沌</label>
+            <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">困難</label>
         </div>
 
-        <div class="settings-panel">
-            <div class="settings-title">⚙️ 設定</div>
+        <div class="setting-row">
+            <span class="setting-label">遊戲模式：</span>
+            <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">全機制1次</label>
+            <label class="setting-opt">
+                <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">全機制
+                <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
+                       onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
+                       oninput="will_updateSettings()" 
+                       class="custom-num-input">次
+            </label>
+            <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()">無限練習</label>
+        </div>
+
+        <div class="setting-row">
+            <label class="setting-opt">機制提示
+                <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="width: 16px; height: 16px;">
+            </label>
             
-            <div class="setting-row">
-                <span class="setting-label">威爾難度：</span>
-                <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">混沌</label>
-                <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">困難</label>
-            </div>
-
-            <div class="setting-row">
-                <span class="setting-label">遊戲模式：</span>
-                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">全機制1次</label>
-                <label class="setting-opt">
-                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">全機制
-                    <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
-                           onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
-                           oninput="will_updateSettings()" 
-                           class="custom-num-input">次
-                </label>
-                <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()">無限練習</label>
-            </div>
-
-            <div class="setting-row">
-                <label class="setting-opt">機制提示
-                    <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="width: 16px; height: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <label class="setting-opt">背景音樂
+                    <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="width: 16px; height: 16px;">
                 </label>
                 
-                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <label class="setting-opt">背景音樂
-                        <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="width: 16px; height: 16px;">
-                    </label>
-                    
-                    <div class="vol-group">
-                        <span style="font-size: 13px; color: #555;">音量</span>
-                        <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer;">
-                    </div>
+                <div class="vol-group">
+                    <span style="font-size: 13px; color: #555;">音量</span>
+                    <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer;">
                 </div>
             </div>
         </div>
-        
-        </div>
     </div>
+</div>
 
 <script src="script.js"></script>
 <script>
