@@ -2113,7 +2113,11 @@ window.will_startGame = function() {
 // 🌟 顯示成績單 (支援無限模式與防作弊)
 window.will_showResultScreen = function() {
     document.getElementById('res-name').innerText = wGame.playerName || "nickname1204";
-    document.getElementById('res-diff').innerText = (wSettings.mode === 'hard') ? "困難" : "混沌";
+    let diffStr = "混沌";
+    if (wSettings.mode === 'hard') diffStr = "困難";
+    else if (wSettings.mode === 'random') diffStr = "動態隨機"; // 🌟 支援新模式的結算字樣
+
+    document.getElementById('res-diff').innerText = diffStr;
     
     let modeStr = "全機制1次";
     if (wSettings.isCustom) {
@@ -2177,8 +2181,69 @@ function will_init() {
     requestAnimationFrame(will_gameLoop);
 }
 
-// 🌟 智慧選題系統 (保證每輪機制不重複)
+// 🌟 智慧選題系統 (支援原有固定題庫與全新動態隨機模式)
 function will_pickNextPattern() {
+    
+    // =========================================================================
+    // 🌟 新增：如果玩家選取了全新的「動態隨機」模式
+    // =========================================================================
+    if (wSettings.mode === 'random') {
+        const lanes = [POS.LL, POS.L2, POS.L1, POS.M, POS.R1, POS.R2, POS.RR];
+        const isCrack = Math.random() < 0.5; // 50% 機率有地裂，50% 無地裂
+        let randomStrikes = [];
+        let lastSafeIdx = 3; // 第一波安全區從中央(M)開始算，防暴走
+
+        for (let s = 0; s < 3; s++) {
+            // 演算法防呆：下一波的安全軌道，只能在上一波的左右一格內 (-1, 0, 1)
+            let shift = Math.floor(Math.random() * 3) - 1; 
+            let currentSafeIdx = lastSafeIdx + shift;
+            if (currentSafeIdx < 0) currentSafeIdx = 0;
+            if (currentSafeIdx > 6) currentSafeIdx = 6;
+            
+            lastSafeIdx = currentSafeIdx;
+            let safeX = lanes[currentSafeIdx];
+            let botLegs = [];
+            let topLegs = [];
+
+            if (isCrack === false) {
+                // 【無地裂模式：閃躲腳】安全區絕不生腳，其餘軌道 40% 機率長蜘蛛腳
+                for (let i = 0; i < lanes.length; i++) {
+                    if (i === currentSafeIdx) continue;
+                    if (Math.random() < 0.4) botLegs.push(lanes[i]);
+                    if (Math.random() < 0.4) topLegs.push(lanes[i]);
+                }
+            } else {
+                // 【有地裂模式：接住腳】安全區必生蜘蛛腳讓玩家踩，其餘軌道 15% 機率生出干擾干擾腳
+                let legType = Math.random();
+                if (legType < 0.4) botLegs.push(safeX);
+                else if (legType < 0.8) topLegs.push(safeX);
+                else { botLegs.push(safeX); topLegs.push(safeX); }
+                
+                for (let i = 0; i < lanes.length; i++) {
+                    if (i === currentSafeIdx) continue;
+                    if (Math.random() < 0.15) {
+                        if (Math.random() < 0.5) botLegs.push(lanes[i]);
+                        else topLegs.push(lanes[i]);
+                    }
+                }
+            }
+
+            randomStrikes.push({ safe: safeX, bot: botLegs, top: topLegs });
+        }
+
+        // 🎯 核心防爆技巧：把現場臨時印製的隨機題目塞到第 8 號虛擬槽位，0~7 號原本題庫動都不會動！
+        WILL_PATTERNS[8] = {
+            name: `動態隨機機制 (${isCrack ? "有地裂" : "無地裂"})`,
+            crack: isCrack,
+            hint: isCrack ? "請找腳踩進去！" : "請避開所有腳！",
+            strikes: randomStrikes
+        };
+        return 8; // 叫遊戲引擎直接去讀取第 8 號槽位
+    }
+
+    // =========================================================================
+    // 🔒 原本的固定題庫邏輯，100% 完整保留，完全沒變動！
+    // =========================================================================
     let allowedIndices = (wSettings.mode === 'hard') ? [0, 1, 7] : [0, 1, 2, 3, 4, 5, 6];
 
     if (!wGame.patternBag || wGame.patternBag.length === 0) {
@@ -2249,6 +2314,27 @@ function will_updateUI(text, color, subtext = "") {
     const timerEl = document.getElementById('will-timer');
     if(statusEl) { statusEl.innerText = text; statusEl.style.color = color; }
     if(timerEl) timerEl.innerText = subtext;
+}
+
+// 🌟 智慧型提示文字動態翻譯機
+function will_getHintText(currPattern) {
+    if (!wSettings.hint) return " ";
+    // 如果是原本的固定模式，直接回傳原廠寫好的 hint 即可
+    if (wSettings.mode !== 'random') return `提示: ${currPattern.hint}`;
+    
+    // 如果是全新的動態隨機模式，自動將隨機座標 (870, 440) 翻譯成精美文字路徑！
+    let pathNames = currPattern.strikes.map(s => {
+        if (s.safe === POS.M) return "中";
+        if (s.safe === POS.L1) return "小左";
+        if (s.safe === POS.L2) return "大左";
+        if (s.safe === POS.LL) return "極左";
+        if (s.safe === POS.R1) return "小右";
+        if (s.safe === POS.R2) return "大右";
+        if (s.safe === POS.RR) return "極右";
+        return "未知";
+    }).join(" ➔ ");
+    
+    return `提示 [${currPattern.crack ? "接腳" : "躲腳"}]: ${pathNames}`;
 }
 
 // =========================================================================
@@ -2420,7 +2506,7 @@ function will_update(dt) {
             wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
             
             let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/${wGame.totalQuestions}`;
-            let hintStr = wSettings.hint ? `提示: ${currPattern.hint}` : " ";
+            let hintStr = will_getHintText(currPattern);
             will_updateUI(`第 ${qNumStr} 題`, "white", hintStr);
         }
 
@@ -2468,9 +2554,22 @@ function will_update(dt) {
                     }
                 } 
             }
-            if (wGame.timer <= 0) { wGame.phase = 'idle'; wGame.timer = CONFIG.time.idle; }
+            if (wGame.timer <= 0) { 
+                wGame.phase = 'idle'; 
+                wGame.timer = CONFIG.time.idle; 
+                // 🌟 這裡保持乾淨！不要在這裡洗掉文字，讓提示文字可以「活過」接下來的 300ms 
+            }
         }
         else if (wGame.phase === 'idle' && wGame.timer <= 0) {
+            
+            // ============================================
+            // 🌟 核心修正：搬到這裡！等 300ms 空窗期「結束」，下一波蜘蛛腳準備出來前才洗掉文字
+            // ============================================
+            let currPattern = WILL_PATTERNS[wGame.currentPatternIdx];
+            let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/${wGame.totalQuestions}`;
+            let hintStr = will_getHintText(currPattern);
+            will_updateUI(`第 ${qNumStr} 題`, "white", hintStr);
+
             wGame.strikeIndex++;
             if (wGame.strikeIndex >= currPattern.strikes.length) {
                 will_updateUI("✅ 本題結束！", "#2ecc71", " "); 
