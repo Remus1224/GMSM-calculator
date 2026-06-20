@@ -558,10 +558,10 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 /* 起始畫面：強迫症對齊版輸入框與開始按鈕 */
 .glass-input, .glass-btn-start { box-sizing: border-box !important; height: 50px !important; margin: 0 !important; }
 .glass-input {
-    /* 🌟 保留彈性壓縮的能力，但加上最高 200px 的生長限制 */
-    flex: 1 1 auto !important; 
+    /* 🌟 解除之前的 200px 封印，讓它與上方的說明框一樣寬 */
+    flex: none !important; 
     width: 100% !important; 
-    max-width: 200px !important; 
+    max-width: 100% !important; 
     
     text-align: center; font-weight: bold; font-size: 16px;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); 
@@ -656,7 +656,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     text-shadow: none;
 }
 
-/* 🌟 起始畫面卡片 (與結算卡片共用相同的玻璃質感) */
+/* 🌟 起始畫面卡片 */
 .start-card {
     background: rgba(15, 15, 20, 0.45) !important;
     backdrop-filter: blur(16px) saturate(120%) !important; 
@@ -664,7 +664,10 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
     border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05) !important;
+    
+    /* 🌟 核心修正：將 0.6 的深黑陰影調淡至 0.25，消除底部的髒污感 */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25), inset 0 0 20px rgba(255,255,255,0.05) !important;
+    
     border-radius: 16px !important;
     padding: 30px !important;
     text-align: center;
@@ -810,32 +813,22 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     100% { opacity: 1; transform: scale(1); }
 }
 
-/* ========================================== */
-/* 🛡️ 5. 全螢幕適應與手機響應式 (防跑版方案)     */
-/* ⚠️ 注意：這段必須放在檔案的最最最底端！       */
-/* ========================================== */
-
 /* 📱 1. 手機直立模式 (Portrait) - 框內微型壓縮版 */
 @media (max-width: 768px) and (orientation: portrait) {
     #ms-player-hud { transform: scale(0.65); transform-origin: top left; }
     .glass-panel { padding: 4px 8px !important; gap: 6px !important; border-radius: 8px !important; }
     .glass-btn { font-size: 13px !important; width: 28px !important; height: 28px !important; padding: 0 !important; }
     #glass-controls-top { top: 5px !important; right: 5px !important; }
-    #glass-controls-mid { right: 5px !important; } /* 👈 手機版往外靠一點 */
+    #glass-controls-mid { right: 5px !important; }
     #joystick-base { width: 45px !important; height: 45px !important; bottom: 6% !important; left: 2% !important; border-width: 1px !important; }
     #joystick-stick { width: 20px !important; height: 20px !important; }
     #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
 
-    /* 🌟 把這四行替換掉 */
+    /* 🌟 清除舊版文字壓縮，讓卡片整體純粹依賴下方的 transform 縮小 */
     #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
-    .start-card > div:nth-child(1) { font-size: 16px !important; margin-bottom: 4px !important; letter-spacing: 1px !important; }
-    .start-card > div:nth-child(2) { font-size: 10px !important; padding: 6px 12px !important; margin-bottom: 8px !important; gap: 4px !important; line-height: 1.2 !important; }
-    .start-card > div:nth-child(3) { gap: 6px !important; width: 100% !important; }
-    .glass-input, .glass-btn-start { height: 30px !important; font-size: 12px !important; padding: 0 10px !important; }
     .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
 }
-
 
 /* 📱 2. 手機橫向模式 (Landscape) - 框內適度壓縮版 */
 @media (max-width: 950px) and (orientation: landscape) {
@@ -843,44 +836,65 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .glass-panel { padding: 4px 10px !important; gap: 8px !important; }
     .glass-btn { font-size: 15px !important; width: 32px !important; height: 32px !important; }
     #glass-controls-top { top: 8px !important; right: 10px !important; }
-    #glass-controls-mid { right: 10px !important; } /* 👈 橫向保持優雅距離 */
+    #glass-controls-mid { right: 10px !important; }
     #joystick-base { width: 100px !important; height: 100px !important; bottom: 8% !important; left: 4% !important; }
     #joystick-stick { width: 45px !important; height: 45px !important; }
 
-    /* 🌟 起始畫面：解除全螢幕，讓它乖乖待在遊戲畫面裡 */
-    /* 🌟 把這四行替換掉 */
+    /* 🌟 清除舊版文字壓縮 */
     #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
-    .start-card > div:nth-child(1) { font-size: 18px !important; margin-bottom: 6px !important; }
-    .start-card > div:nth-child(2) { font-size: 11px !important; padding: 8px 12px !important; margin-bottom: 10px !important; gap: 4px !important; }
-    .glass-input, .glass-btn-start { height: 34px !important; font-size: 13px !important; padding: 0 10px !important; }
     .custom-num-input { width: 25px !important; padding: 2px !important; }
 }
 
 /* ========================================== */
-/* 📱 手機版專屬覆蓋：結算卡片等比縮小防爆機制    */
+/* 🌟 起始卡片：專屬輸入框與按鈕比例優化 */
+/* ========================================== */
+.start-card .start-custom-input {
+    flex: 1 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 40px !important; /* 👈 解除原本 50px 的巨人高度，改為精緻的 40px */
+    font-size: 14px !important;
+    padding: 0 12px !important;
+    margin: 0 !important;
+}
+
+.start-card .start-custom-btn {
+    flex-shrink: 0 !important;
+    height: 40px !important; /* 👈 與輸入框保持相同高度 */
+    font-size: 15px !important;
+    padding: 0 16px !important;
+    margin: 0 !important;
+}
+
+/* ========================================== */
+/* 📱 手機版專屬覆蓋：結算卡片與起始卡片 等比縮小防爆機制 */
 /* ========================================== */
 
-/* 🌟 1. 直立模式：加入 .start-card 一起縮小 */
+/* 🌟 1. 直立模式 */
 @media (max-width: 768px) and (orientation: portrait) {
     #will-result-overlay .result-card,
-    #will-start-overlay .start-card { /* 👈 加上這行 */
-        width: 240px !important; 
-        padding: 15px 20px !important; 
-        height: auto !important; 
+    #will-start-overlay .start-card { 
+        width: 320px !important; 
+        height: max-content !important; 
+        flex-shrink: 0 !important; 
+        padding: 25px 20px !important; /* 👈 確保底部有高級留白，不會貼底 */
         animation: popInPortrait 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
     }
+    #will-start-overlay .start-card > div:first-child { white-space: nowrap !important; }
 }
 @keyframes popInPortrait {
     0% { opacity: 0; transform: scale(0.2); }
-    100% { opacity: 1; transform: scale(0.65); } 
+    100% { opacity: 1; transform: scale(0.55); } 
 }
 
-/* 🌟 2. 橫向模式：加入 .start-card 一起微縮 */
+/* 🌟 2. 橫向模式 */
 @media (max-width: 950px) and (orientation: landscape) {
     #will-result-overlay .result-card,
-    #will-start-overlay .start-card { /* 👈 加上這行 */
+    #will-start-overlay .start-card { 
         width: 320px !important;
-        height: auto !important; 
+        height: max-content !important; 
+        flex-shrink: 0 !important; 
+        padding: 25px 20px !important; /* 👈 上次我漏寫這行，所以你的按鈕才會貼到卡片最下面！ */
         animation: popInLandscape 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
     }
 }
