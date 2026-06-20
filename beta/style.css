@@ -839,17 +839,20 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* 📱 手機版專屬覆蓋：結算卡片等比縮小防爆機制    */
 /* ========================================== */
 
-/* 🌟 1. 直立模式：縮小到 50%，完美塞入扁扁的遊戲框 */
+/* 🌟 1. 直立模式：改窄寬度並優化縮放，完美塞入扁扁的遊戲框 */
 @media (max-width: 768px) and (orientation: portrait) {
     #will-result-overlay .result-card {
-        width: 320px !important;
-        height: auto !important; /* 解除高度綁架，讓文字自然排版 */
+        /* 🌟 將原本的 320px 改窄，讓卡片比例看起來更接近正方形 */
+        width: 240px !important; 
+        padding: 15px 20px !important; /* 配合變窄的寬度，稍微縮小內邊距讓排版不擁擠 */
+        height: auto !important; 
         animation: popInPortrait 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
     }
 }
 @keyframes popInPortrait {
     0% { opacity: 0; transform: scale(0.2); }
-    100% { opacity: 1; transform: scale(0.5); } /* 縮小到原本的一半 */
+    /* 🌟 因為卡片變窄了，把縮放比例從 0.5 微調到 0.65，避免字體縮得太小 */
+    100% { opacity: 1; transform: scale(0.65); } 
 }
 
 /* 🌟 2. 橫向模式：縮小到 75%，消除過度拉長造成的垂直空白 */
