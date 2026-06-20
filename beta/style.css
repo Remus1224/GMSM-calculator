@@ -907,7 +907,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* ========================================== */
 
 /* 隱藏整條頁籤選單，讓外人完全沒有按鈕可以切換分頁 */
-/*.tab-menu {
+.tab-menu {
     display: none !important; 
 }
 
