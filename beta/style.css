@@ -604,17 +604,33 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     border: 10px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
     
-    /* 🌟 核心修正：四邊皆為圓角，並限制最大寬度與置中 */
     border-radius: 16px !important; 
-    max-width: 800px !important; /* 電腦版不會無限拉長 */
-    width: 95% !important; /* 手機版保留邊距 */
-    margin: 20px auto 40px auto !important; /* 絕對置中，並在下方留白避免切斷感 */
+    max-width: 800px !important; 
+    width: 95% !important; 
+    margin: 15px auto !important; 
     
-    padding: 20px 25px !important; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10;
+    /* ========================================================== */
+    /* 🌟 核心修正：將上下左右的留白統一設定為 25px！ */
+    /* 這樣你標示的紅色底部與綠色側邊，就會是完美的 1:1 等距！ */
+    /* ========================================================== */
+    padding: 25px !important; 
+    
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10;
 }
-.settings-title { font-size: 18px !important; color: #2c3e50 !important; font-weight: 900 !important; margin-bottom: 15px !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; }
+.settings-title { 
+    margin-top: 0 !important; /* 👈 魔法就在這行，強制歸零預設頂部外距 */
+    margin-bottom: 12px !important; /* 稍微縮小與下方內容的距離 */
+    font-size: 18px !important; 
+    color: #2c3e50 !important; 
+    font-weight: 900 !important; 
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; 
+}
 .setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: #34495e; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-top: 15px; gap: 8px; }
-.setting-row:last-child { border-bottom: none; padding-bottom: 0; }
+.setting-row:last-child { 
+    border-bottom: none; 
+    padding-bottom: 0; 
+    margin-bottom: 0 !important; /* 確保底部貼齊 */
+}
 .setting-label { margin-right: 0px; color: #1a252f; }
 .setting-opt { cursor: pointer; display: flex; align-items: center; gap: 5px; color: #2c3e50; }
 .custom-num-input {
@@ -903,16 +919,37 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     100% { opacity: 1; transform: scale(0.75); } 
 }
 
-/* ========================================== */
-/* 📖 5. 遊戲說明面板專屬排版 (白底高對比版)  */
+/* ========================================================== */
+/* 📖 設定與說明面板終極美化 (完美留白與強迫症對齊)          */
 /* ========================================== */
 
-/* 讓說明面板緊貼在設定面板下方，稍微減少一點間距 */
-.instructions-panel {
-    margin-top: -20px !important; 
+/* 🌟 全域面板設定 (包含設定與說明書) - 統一 Padding，鎖死圓角 */
+.settings-panel {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%) !important; 
+    backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 10px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
+    
+    border-radius: 16px !important; 
+    max-width: 800px !important; 
+    width: 95% !important; 
+    margin: 15px auto !important; 
+    
+    /* ========================================================== */
+    /* 🌟 核心修正：將上下左右的留白統一設定為 25px！ */
+    /* 這樣你標示的紅色底部與綠色側邊，就會是完美的 1:1 等距！ */
+    /* ========================================================== */
+    padding: 25px !important; 
+    
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10;
 }
 
-/* 每一個說明的獨立小區塊 (改為淡淡的灰底，做出層次感) */
+/* 確保設定面板底部的最後一塊元素，不會有自己的推擠 */
+.inst-section:last-child {
+    margin-bottom: 0 !important; 
+}
+
+/* 每一個說明的獨立小區塊 */
 .inst-section {
     margin-bottom: 20px;
     background: rgba(0, 0, 0, 0.03); 
@@ -920,151 +957,207 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     padding: 15px 20px;
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
+.inst-section:last-child { margin-bottom: 0; }
 
-/* 標題改為深藍黑字體 */
-.inst-subtitle {
-    color: #2c3e50;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 8px;
-}
-
-/* 內文改為深灰色，提升閱讀體驗 */
-.inst-list {
-    color: #555555; 
-    font-size: 14px;
-    line-height: 1.8;
-    padding-left: 22px;
-    margin: 0;
-}
-
-/* 一般強調字改為極深色 */
-.inst-list b {
-    color: #1a252f; 
-}
-
-/* 🌟 按鈕圖鑑的網格系統 */
-.inst-btn-grid {
-    display: grid;
-    /* 電腦版預設讓按鈕自然分配，最小寬度設小一點讓它可以塞兩到三欄 */
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-    gap: 15px;
-}
-
-/* 🌟 控制長說明的按鈕：永遠強制佔滿一整列 (100%寬度) */
-.span-full {
-    grid-column: 1 / -1 !important; 
-}
-
-/* 📱 手機版專屬：強制短按鈕排成完美的兩欄 (左右各一) */
-@media (max-width: 768px) {
-    .inst-btn-grid {
-        grid-template-columns: repeat(2, 1fr); /* 強制切成兩欄 */
-    }
-}
-
-/* 圖鑑卡片底色改為純白透光 */
-.inst-btn-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 12px 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-}
-
-.inst-btn-item:hover {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
+/* 標題與內文樣式維持不變 */
+.inst-subtitle { color: #2c3e50; font-size: 15px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 8px; }
+.inst-list { color: #555555; font-size: clamp(12px, 3vw, 14px); line-height: 1.8; padding-left: 22px; margin: 0; }
+.inst-list b { color: #1a252f; }
 
 /* ========================================================== */
-/* 📖 說明書按鈕圖鑑專屬樣式 (霧白玻璃 + 完美網格)            */
+/* 🎛️ 按鈕圖鑑圖示終極對齊 (霧白玻璃 + 絕對置中)            */
 /* ========================================================== */
 
-/* 1. 🌟 展示用的單個圖標底層 (換成高質感霧白玻璃) */
+/* 1. 🌟 展示用的單個圖標底層 */
 .mock-btn {
     position: static !important;
     transform: none !important;
     flex-shrink: 0;
     pointer-events: none;
     
-    /* 遊戲同款霧白玻璃配方 */
+    /* 動態縮放圖示大小 */
+    width: clamp(28px, 8vw, 36px) !important; 
+    height: clamp(28px, 8vw, 36px) !important; 
+    font-size: clamp(14px, 4vw, 18px) !important;
+    
+    /* 🌟 核心魔法：終極置中對齊 */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    line-height: 1 !important; /* 🌟 核心魔法：強制行高為 1，解決燈泡符号垂直不均的問題 */
+    
     background: rgba(255, 255, 255, 0.8) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
-    color: #2c3e50 !important; /* 保持深色圖示以利閱讀 */
+    color: #2c3e50 !important; 
     border: 1px solid rgba(0, 0, 0, 0.08) !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.03), inset 0 0 8px rgba(255,255,255,1) !important;
 }
 
-/* 2. 🌟 視角縮放 Flex 控制面板展示 (霧白玻璃樣式) */
+/* 2. 🌟 視角縮放 Flex 控制面板展示 (外橢圓對齊修正) */
 .inst-mock-glass-panel {
     display: flex;
-    gap: 4px;
-    padding: 3px 6px;
+    gap: clamp(2px, 1vw, 4px);
+    padding: 3px;
+    
+    /* 🌟 核心魔法：外橢圓終極垂直置中，強迫裡面的符號靠在同一條中線上！ */
+    justify-content: center !important;
+    align-items: center !important; 
+    
     background: rgba(255, 255, 255, 0.4); 
     border: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 8px;
-    margin-right: 5px; 
+    margin-right: clamp(2px, 1vw, 5px); 
     flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
 }
 
+/* 縮放面板裡面的小圖示，比一般的再小一點 */
 .inst-mock-glass-panel .mock-btn {
-    width: 32px !important; 
-    height: 32px !important; 
-    font-size: 14px;
+    width: clamp(24px, 6vw, 30px) !important; 
+    height: clamp(24px, 6vw, 30px) !important; 
+    font-size: clamp(12px, 3vw, 14px) !important;
     box-shadow: none !important; 
     border-color: rgba(0, 0, 0, 0.05) !important;
     background: rgba(255, 255, 255, 0.9) !important;
 }
 
+/* 🌟 專門控制中間 1.0x 文字的假按鈕 (內橢圓置中修正) */
 .inst-zoom-text {
-    font-size: 11px !important;
+    font-size: clamp(10px, 2.5vw, 12px) !important;
     color: #2c3e50 !important; 
     font-family: monospace;
     font-weight: bold;
+    
+    /* 🌟 核心魔法：強制移除任何可能影響 Flex 置中的內外距、行高與預設樣式！ */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    line-height: 1 !important; 
+    padding: 0 !important; 
+    margin: 0 !important;
+}
+
+/* 🌟 按鈕項目外框與文字樣式维持不變 */
+.inst-btn-item { display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); padding: 8px 10px; background: rgba(255, 255, 255, 0.6); border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.08); transition: all 0.3s ease; overflow: hidden; }
+.inst-btn-text { color: #2c3e50; font-size: clamp(12px, 3.5vw, 14px); line-height: 1.2; white-space: nowrap; }
+.span-special .inst-btn-text { white-space: normal; line-height: 1.4; }
+.span-special .inst-btn-text span { color: #7f8c8d; font-size: clamp(11px, 3vw, 12px); }
+
+/* ========================================== */
+/* 🌟 按鈕圖鑑響應式網格邏輯维持不變          */
+/* ========================================== */
+.inst-btn-grid { display: grid; gap: 10px; align-items: stretch; }
+@media (min-width: 769px) { .inst-btn-grid { grid-template-columns: repeat(4, 1fr); } .inst-btn-item { grid-column: span 1; } .span-special { grid-column: span 2 !important; } }
+@media (max-width: 768px) { .inst-btn-grid { grid-template-columns: repeat(2, 1fr); } .inst-btn-item { grid-column: span 1; } .span-special { grid-column: 1 / -1 !important; } }
+
+/* ========================================== */
+/* 📖 5. 說明書極致緊湊版專屬 CSS (針對綠色框框) */
+/* ========================================== */
+
+/* 1. 🌟 核心修正：大幅縮減區塊的內外距 */
+.inst-section-compact {
+    margin-bottom: 8px !important; /* 原本 20px */
+    padding: 8px 15px !important; /* 原本 15px 20px */
+}
+
+/* 2. 🌟 標題與清單緊湊化 */
+.inst-subtitle-compact {
+    margin-bottom: 6px !important; /* 原本 12px */
+    padding-bottom: 4px !important;
+    font-size: 14px !important;
+}
+
+.inst-list-compact {
+    line-height: 1.5 !important; /* 原本 1.8 */
+    gap: 2px !important; /* 減少 li 之間的距離 */
+}
+
+.inst-list-compact li {
+    font-size: clamp(11px, 3vw, 13px) !important; /* 稍微縮小字體 */
 }
 
 /* ========================================== */
-/* 🌟 按鈕圖鑑響應式網格邏輯 (終極修正版)       */
+/* 📝 6. Discord 便條紙專屬樣式 (圖文雙欄) */
 /* ========================================== */
 
-.inst-btn-grid {
-    display: grid;
-    gap: 15px;
-    align-items: stretch; /* 確保同一排的卡片高度對齊 */
+.memo-card {
+    /* 紙條往上提，緊貼說明書 */
+    margin-top: -10px !important; 
+    padding: 15px !important; /* 稍微扁一點 */
 }
 
-/* 💻 電腦版：強制切成 4 欄 (前4個佔1欄，後2個佔2欄) */
-@media (min-width: 769px) {
-    .inst-btn-grid {
-        grid-template-columns: repeat(4, 1fr); 
-    }
-    .inst-btn-item {
-        grid-column: span 1; /* 預設短按鈕各佔 1/4 */
-    }
-    .span-special {
-        grid-column: span 2 !important; /* 視角與提示各佔 2/4 (也就是半行)，完美平分最底下一列！ */
-    }
+/* 🌟 圖文雙欄 Flex 佈局 */
+.memo-content {
+    display: flex;
+    align-items: center; /* 垂直置中 */
+    gap: 20px; /* 圖與文的距離 */
 }
 
-/* 📱 手機版：強制切成 2 欄 (前4個各佔1半，後2個佔滿整排) */
-@media (max-width: 768px) {
-    .inst-btn-grid {
-        grid-template-columns: repeat(2, 1fr); 
+/* 左側：APNG 動圖控制 */
+.memo-apng {
+    /* 🌟 將原始寬度縮小為 120px，維持精緻的名片感 */
+    width: 120px; 
+    height: auto; /* 保持原圖直式比例 */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    flex-shrink: 0; /* 防止圖片被壓縮 */
+}
+
+/* 右側：文字區域 */
+.memo-text-area {
+    color: #2c3e50;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.memo-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #c0392b; /* 使用一點警告 Bug 的深紅色 */
+    margin-bottom: 8px;
+}
+
+.memo-text-area p {
+    margin: 0 0 8px 0;
+}
+
+/* Discord ID 質感方框 */
+.discord-tag-box {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    margin: 5px 0 10px 0;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.discord-label { font-weight: bold; color: #555; }
+.discord-id { color: #2c3e50; font-weight: 900; font-family: monospace; }
+
+.memo-note {
+    font-size: 11px;
+    color: #7f8c8d;
+    font-style: italic;
+    margin: 0 !important;
+}
+
+/* 📱 手機版 RWD 微調 */
+@media (max-width: 600px) {
+    .memo-content {
+        /* 手機螢幕太窄時，改為上下排列 */
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
     }
-    .inst-btn-item {
-        grid-column: span 1; /* 預設短按鈕各佔 1/2 */
+    
+    .memo-apng {
+        /* 手機版可以稍微放寬一點點，但不超過 150px */
+        width: 140px; 
     }
-    .span-special {
-        grid-column: 1 / -1 !important; /* 強制橫跨整排 */
+    
+    .discord-tag-box {
+        justify-content: center;
     }
 }
 /* ========================================== */
