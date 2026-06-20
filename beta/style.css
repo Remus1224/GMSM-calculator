@@ -704,9 +704,9 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     height: 85cqh !important;
     width: 85cqh !important; 
     /* 當螢幕夠大時，鎖死在 320px 的完美尺寸 */
-    width: auto !important;
+
     max-height: 320px !important;
-    max-width: 450px !important;
+    max-width: 320px !important;
 
     /* 🛡️ 加入捲軸防護：避免極端小螢幕時文字溢出 */
     overflow-y: auto !important;
@@ -874,7 +874,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 @media (max-width: 768px) and (orientation: portrait) {
     #will-result-overlay .result-card,
     #will-start-overlay .start-card { 
-        width: 320px !important; 
+        width: 280px !important; 
         height: max-content !important; 
         flex-shrink: 0 !important; 
         padding: 25px 20px !important; /* 👈 確保底部有高級留白，不會貼底 */
@@ -891,7 +891,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 @media (max-width: 950px) and (orientation: landscape) {
     #will-result-overlay .result-card,
     #will-start-overlay .start-card { 
-        width: 320px !important;
+        width: 280px !important;
         height: max-content !important; 
         flex-shrink: 0 !important; 
         padding: 25px 20px !important; /* 👈 上次我漏寫這行，所以你的按鈕才會貼到卡片最下面！ */
