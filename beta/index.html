@@ -732,7 +732,7 @@
                         <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #2ecc71; margin: 0 2px;">閃避</span>蜘蛛腳</span>
                         
                         <span style="color: #e74c3c; font-weight: bold;">【背景有裂痕】:</span>
-                        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">接</span>蜘蛛腳</span>
+                        <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">接下</span>蜘蛛腳</span>
                     </div>
                     
                     <div style="display: flex; gap: 10px; width: 90%; max-width: 450px; justify-content: center;">
@@ -839,21 +839,21 @@
             
             <div class="setting-row">
                 <span class="setting-label">威爾難度：</span>
-                <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()"> 混沌</label>
-                <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()"> 困難</label>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">混沌</label>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">困難</label>
             </div>
 
             <div class="setting-row">
                 <span class="setting-label">遊戲模式：</span>
-                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()"> 全機制1次</label>
+                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">全機制1次</label>
                 <label class="setting-opt">
-                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()"> 全機制
+                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">全機制
                     <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
                            onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
                            oninput="will_updateSettings()" 
-                           class="custom-num-input"> 次
+                           class="custom-num-input">次
                 </label>
-                <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()"> 無限練習</label>
+                <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()">無限練習</label>
             </div>
 
             <div class="setting-row">
