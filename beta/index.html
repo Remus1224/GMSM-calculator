@@ -838,115 +838,101 @@
         </div> 
     </div>
 
-    <div class="settings-panel">
-        <div class="settings-title">⚙️ 設定</div>
-        
-        <div class="setting-row">
-            <span class="setting-label">威爾難度：</span>
-            <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">混沌</label>
-            <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">困難</label>
-            <label class="setting-opt"><input type="radio" name="will-mode" value="random" onchange="will_updateSettings()">動態隨機</span></label>
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
 
-        </div>
-
-        <div class="setting-row">
-            <span class="setting-label">遊戲模式：</span>
-            <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">全機制1次</label>
-            <label class="setting-opt">
-                <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">全機制
-                <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
-                       onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
-                       oninput="will_updateSettings()" 
-                       class="custom-num-input">次
-            </label>
-            <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()">無限練習</label>
-        </div>
-
-        <div class="setting-row">
-            <label class="setting-opt">機制提示
-                <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="width: 16px; height: 16px;">
-            </label>
+        <div class="settings-panel">
+            <div class="settings-title">⚙️ 設定</div>
             
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <label class="setting-opt">背景音樂
-                    <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="width: 16px; height: 16px;">
+            <div class="setting-row">
+                <span class="setting-label">威爾難度：</span>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">混沌</label>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">困難</label>
+                <label class="setting-opt"><input type="radio" name="will-mode" value="random" onchange="will_updateSettings()">動態隨機</label>
+            </div>
+
+            <div class="setting-row">
+                <span class="setting-label">遊戲模式：</span>
+                <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">全機制1次</label>
+                <label class="setting-opt">
+                    <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">全機制
+                    <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
+                           onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
+                           oninput="will_updateSettings()" 
+                           class="custom-num-input">次
+                </label>
+                <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()">無限練習</label>
+            </div>
+
+            <div class="setting-row">
+                <label class="setting-opt">機制提示
+                    <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="width: 16px; height: 16px;">
                 </label>
                 
-                <div class="vol-group">
-                    <span style="font-size: 13px; color: #555;">音量</span>
-                    <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <label class="setting-opt">背景音樂
+                        <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="width: 16px; height: 16px;">
+                    </label>
+                    
+                    <div class="vol-group">
+                        <span style="font-size: 13px; color: #555;">音量</span>
+                        <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer;">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="settings-panel instructions-panel">
-    <h3 class="settings-title" style="text-align: center; font-size: 20px !important;">📖 說明書</h3>
+        <div class="settings-panel instructions-panel">
+            <h3 class="settings-title" style="text-align: center; font-size: 20px !important; margin-bottom: 8px !important;">📖 說明書</h3>
 
-    <div class="inst-section">
-        <div class="inst-subtitle">威爾難度</div>
-        <ul class="inst-list">
-            <li><b>混沌：</b>完整七種題庫。</li>
-            <li><b>困難：</b>完整３種題庫。</li>
-            <li><b>動態隨機：</b>每次的蜘蛛腳都是由演算法當場生成，依造遊戲原始機制體驗。<br>
-            <span style="font-size: 12px; color: #95a5a6;">（💡 備註：此模式為演算法即時運算，以體驗隨機樂趣為主。若偶遇極端陣型或非預期的小 Bug，敬請見諒！）</span></li>
-        </ul>
-    </div>
-
-    <div class="inst-section">
-        <div class="inst-subtitle">遊戲模式</div>
-        <ul class="inst-list">
-            <li><b>全機制 1 次：</b>完整跑完一輪所有的機制。</li>
-            <li><b>全機制 [ 自訂 ] 次：</b>可自行設定要循環幾輪全機制。</li>
-            <li><b>無限練習：</b>難度內的所有機制不斷重複直到按下結算。</li>
-        </ul>
-    </div>
-
-    <div class="inst-section" style="padding-top: 20px;">
-        <div class="inst-btn-grid">
-            
-            <div class="inst-btn-item">
-                <div class="glass-btn mock-btn">❚❚</div>
-                <div class="inst-btn-text"><b>暫停 / 繼續</b></div>
+            <div class="inst-section inst-section-compact">
+                <div class="inst-subtitle inst-subtitle-compact">威爾難度</div>
+                <ul class="inst-list inst-list-compact">
+                    <li><b>混沌：</b>完整7種題庫。</li>
+                    <li><b>困難：</b>完整3種題庫。</li>
+                    <li><b>動態隨機：</b>當場生成陣型。<span style="font-size: 11px; color: #7f8c8d;">（備註：以體驗樂趣為主，若遇極端陣型請見諒。）</span></li>
+                </ul>
             </div>
 
-            <div class="inst-btn-item">
-                <div class="glass-btn mock-btn">↻</div>
-                <div class="inst-btn-text"><b>重新開始</b></div>
+            <div class="inst-section inst-section-compact">
+                <div class="inst-subtitle inst-subtitle-compact">遊戲模式</div>
+                <ul class="inst-list inst-list-compact">
+                    <li><b>全機制1次：</b>跑完一輪題庫。</li>
+                    <li><b>全機制自訂次：</b>循環自訂輪數。</li>
+                    <li><b>無限練習：</b>不斷重複直到結算。</li>
+                </ul>
             </div>
 
-            <div class="inst-btn-item">
-                <div class="glass-btn mock-btn" style="font-size: 20px;">⏭&#xFE0E</div>
-                <div class="inst-btn-text"><b>提早結算</b></div>
-            </div>
-
-            <div class="inst-btn-item">
-                <div class="glass-btn mock-btn">⛶</div>
-                <div class="inst-btn-text"><b>全螢幕</b></div>
-            </div>
-
-            <div class="inst-btn-item span-special">
-                <div class="inst-mock-glass-panel">
-                    <div class="glass-btn mock-btn">-</div>
-                    <div class="glass-btn mock-btn inst-zoom-text">1.0x</div>
-                    <div class="glass-btn mock-btn">+</div>
-                </div>
-                <div class="inst-btn-text"><b>視角縮放</b></div>
-            </div>
-
-            <div class="inst-btn-item span-special">
-                <div class="glass-btn mock-btn hint-bulb-btn">💡</div>
-                <div class="inst-btn-text" style="line-height: 1.3;">
-                    <b>機制提示</b><br>
-                    <span>開啟後會在畫面正上方顯示該題走法。<br>（⚠️ 開啟後將標記已使用提示）</span>
+            <div class="inst-section" style="padding: 10px 15px !important; margin-bottom: 0 !important;">
+                <div class="inst-btn-grid">
+                    <div class="inst-btn-item"><div class="glass-btn mock-btn">❚❚</div><div class="inst-btn-text"><b>暫停 / 繼續</b></div></div>
+                    <div class="inst-btn-item"><div class="glass-btn mock-btn">↻</div><div class="inst-btn-text"><b>重新開始</b></div></div>
+                    <div class="inst-btn-item"><div class="glass-btn mock-btn" style="font-size: 20px;">⏭&#xFE0E</div><div class="inst-btn-text"><b>提早結算</b></div></div>
+                    <div class="inst-btn-item"><div class="glass-btn mock-btn">⛶</div><div class="inst-btn-text"><b>全螢幕</b></div></div>
+                    <div class="inst-btn-item span-special"><div class="inst-mock-glass-panel"><div class="glass-btn mock-btn">-</div><div class="glass-btn mock-btn inst-zoom-text">1.0x</div><div class="glass-btn mock-btn">+</div></div><div class="inst-btn-text"><b>視角縮放</b></div></div>
+                    <div class="inst-btn-item span-special"><div class="glass-btn mock-btn hint-bulb-btn">💡</div><div class="inst-btn-text" style="line-height: 1.3;"><b>機制提示</b><br><span>開啟後顯示走法。（⚠️ 將標記已使用提示）</span></div></div>
                 </div>
             </div>
-
         </div>
-    </div>
-</div>
 
+        <div class="settings-panel instructions-panel memo-card">
+            <div class="memo-content">
+                <img src="assets/Discord_ID" alt=" Luna Card" class="memo-apng">
+                
+                <div class="memo-text-area">
+                    <div class="memo-title">发现 Bug 告知</div>
+                    <p>如果有發現什麼 Bug 可以加我的 Discord 告知！👾</p>
+                    
+                    <div class="discord-tag-box">
+                        <span class="discord-label">紙條：</span>
+                        <span class="discord-id">露娜-迷你安安</span>
+                    </div>
+                    
+                    <p class="memo-note">（留言 Discord 名稱我方便確認好友喔）</p>
+                </div>
+            </div>
+        </div>
+
+    </div> </div> 
 <script src="script.js"></script>
 <script>
     // 網頁 DOM 結構載入完成後，自動切換至威爾模擬器並點燃遊戲引擎
