@@ -1783,7 +1783,7 @@ const CONFIG = {
     pos: { floorY: 445, bossY: 600, crackX: 820, crackY: 450, legTopY: -280, legBotY: 1100, legTopOffsetX: 100, legBotOffsetX: 50 },
     time: { warn: 900, strike: 900, idle: 300 },
     player: { speed: 7, nativeFacingLeft: true, hitBot: 110, hitTop: 140 },
-    boss: {speed: 2.5, ollowDistance: 30 }
+    boss: {speed: 2.5, followDistance: 30 }
 };
 
 const POS = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
@@ -1827,7 +1827,7 @@ const wSprites = {
     legTop: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
     legBot: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
     crack:  { cols: 3, rows: 3, frames: 8,  speed: 60, curr: 0, tick: 0 },
-    hitEffect: { cols: 3, rows: 3, frames: 9, speed: 80, curr: 0, tick: 0, active: false }
+    hitEffect: { cols: 3, rows: 3, frames: 9, speed: 80, curr: 0, tick: 0, active: false, hitX: 0, hitY: 0 }
 };
 
 // =========================================================================
@@ -2449,6 +2449,10 @@ function will_update(dt) {
                     wSprites.hitEffect.curr = 0;
                     wSprites.hitEffect.tick = 0;
 
+                    wSprites.hitEffect.hitX = wPlayer.x;
+                    // 同時鎖定 Y 軸，這樣就算之後王飄高了，特效依然在原地爆炸
+                    wSprites.hitEffect.hitY = CONFIG.pos.floorY - 70;
+
                     if (currentStrike.noDeduct) {
                         wGame.flashRed = 500; 
                         will_updateUI("此被擊中次數不增加", "#f39c12", " ");
@@ -2530,7 +2534,7 @@ function will_draw() {
     // ============================================
     if (wSprites.hitEffect.active) {
         // 使用 'center' 對齊，並將 Y 軸設定在 floorY - 70 (大約是玩家身體中心點)
-        will_drawSprite(wCtx, wAssets.hitEffect, wSprites.hitEffect, wPlayer.x, CONFIG.pos.floorY - 70, CONFIG.scale.hitEffect, false, 'center');
+        will_drawSprite(wCtx, wAssets.hitEffect, wSprites.hitEffect, wSprites.hitEffect.hitX, wSprites.hitEffect.hitY, CONFIG.scale.hitEffect, false, 'center');
     }
 
     wCtx.restore(); 
