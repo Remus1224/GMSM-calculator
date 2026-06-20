@@ -2030,8 +2030,8 @@ window.will_showStartScreen = function() {
     willBgm.pause();
     isBgmPlaying = false;
 
-    document.getElementById('will-start-overlay').style.display = 'flex';
-    document.getElementById('will-result-overlay').style.display = 'none'; 
+    // 🎯 呼叫總指揮：切換到 START 狀態
+    will_updateUIState('START');
 };
 
 // 🌟 按下「開始」按鈕 (結合題數與防作弊初始化)
@@ -2047,7 +2047,6 @@ window.will_startGame = function() {
     wGame.hits = 0; 
     wGame.questionsAnswered = 0;
     
-    // 🛡️ 防作弊：遊戲開始時如果面板提示已打勾，就算作弊！
     wGame.hasUsedHintThisGame = wSettings.hint; 
     
     let baseQuestions = (wSettings.mode === 'hard') ? 3 : 7;
@@ -2080,10 +2079,8 @@ window.will_startGame = function() {
     const pauseBtn = document.getElementById('btn-will-pause');
     if (pauseBtn) pauseBtn.innerText = '❚❚';
     
-    document.getElementById('will-start-overlay').style.display = 'none';
-    document.getElementById('will-result-overlay').style.display = 'none'; 
-    let restartBtn = document.getElementById('will-restart-btn');
-    if(restartBtn) restartBtn.style.display = 'none';
+    // 🎯 呼叫總指揮：切換到 PLAYING 狀態 (取代了原本好幾行手動隱藏的代碼)
+    will_updateUIState('PLAYING');
     
     will_updateUI("練習開始", "#2ecc71", "準備...");
     
@@ -2106,15 +2103,15 @@ window.will_showResultScreen = function() {
     if (wSettings.isCustom) {
         modeStr = `全機制${wSettings.customRounds}次`;
     } else if (wSettings.endless) {
-        modeStr = `無限練習 (已完成 ${wGame.questionsAnswered} 題)`; // 顯示完成題數
+        modeStr = `無限練習 (已完成 ${wGame.questionsAnswered} 題)`;
     }
     document.getElementById('res-mode').innerText = modeStr;
     
-    // 🛡️ 結算防作弊：看追蹤紀錄，而不是當下開關
     document.getElementById('res-hint').innerText = wGame.hasUsedHintThisGame ? "已開啟" : "未開啟";
-    
     document.getElementById('res-hits').innerText = wGame.hits;
-    document.getElementById('will-result-overlay').style.display = 'flex';
+    
+    // 🎯 呼叫總指揮：切換到 RESULT 狀態
+    will_updateUIState('RESULT');
 };
 
 // 🌟 🏁 新增：提早結算功能
@@ -2236,6 +2233,77 @@ function will_updateUI(text, color, subtext = "") {
     const timerEl = document.getElementById('will-timer');
     if(statusEl) { statusEl.innerText = text; statusEl.style.color = color; }
     if(timerEl) timerEl.innerText = subtext;
+}
+
+// =========================================================================
+// 🎮 遊戲 UI 狀態中央控制器 (終極防彈版)
+// =========================================================================
+function will_updateUIState(state) {
+    const startOverlay = document.getElementById('will-start-overlay');
+    const resultOverlay = document.getElementById('will-result-overlay');
+    const settingsPanel = document.querySelector('.settings-panel');
+    const joystick = document.getElementById('joystick-base');
+    const hud = document.getElementById('ms-player-hud');
+    
+    // 🎯 透過專屬 ID 精準抓取三大面板與按鈕
+    const pnlMid = document.getElementById('glass-controls-mid');
+    const pnlBot = document.getElementById('glass-controls-bottom');
+    const btnPause = document.getElementById('btn-will-pause');
+    const btnRestart = document.getElementById('btn-will-restart');
+    const btnEnd = document.getElementById('btn-will-end');
+    
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+    if (state === 'START') {
+        if(startOverlay) startOverlay.style.display = 'flex';
+        if(resultOverlay) resultOverlay.style.display = 'none';
+        if(settingsPanel) settingsPanel.style.display = ''; 
+        if(hud) hud.style.display = 'none';
+        if(joystick) joystick.style.display = 'none';
+        
+        // 🌟 清除畫面上次殘留的「第 1/7 題」文字
+        const statusEl = document.getElementById('will-status');
+        const timerEl = document.getElementById('will-timer');
+        if(statusEl) statusEl.innerText = '';
+        if(timerEl) timerEl.innerText = '';
+        
+        // 🌟 直接隱藏整個中、下玻璃面板，不留空殼！
+        if(pnlMid) pnlMid.style.display = 'none'; 
+        if(pnlBot) pnlBot.style.display = 'none'; 
+        
+        // 🌟 上方面板只隱藏特定按鈕，留下全螢幕按鈕
+        if(btnPause) btnPause.style.display = 'none';
+        if(btnRestart) btnRestart.style.display = 'none';
+        if(btnEnd) btnEnd.style.display = 'none';
+    } 
+    else if (state === 'PLAYING') {
+        if(startOverlay) startOverlay.style.display = 'none';
+        if(resultOverlay) resultOverlay.style.display = 'none';
+        if(settingsPanel) settingsPanel.style.display = 'none';
+        if(hud) hud.style.display = 'flex';
+        if(joystick && isTouchDevice) joystick.style.display = 'flex';
+        
+        // 🌟 遊戲開始，全部面板與按鈕回歸！
+        if(pnlMid) pnlMid.style.display = 'flex';
+        if(pnlBot) pnlBot.style.display = 'flex';
+        if(btnPause) btnPause.style.display = '';
+        if(btnRestart) btnRestart.style.display = '';
+        if(btnEnd) btnEnd.style.display = '';
+    } 
+    else if (state === 'RESULT') {
+        if(startOverlay) startOverlay.style.display = 'none';
+        if(resultOverlay) resultOverlay.style.display = 'flex';
+        if(settingsPanel) settingsPanel.style.display = 'none';
+        if(hud) hud.style.display = 'none';
+        if(joystick) joystick.style.display = 'none';
+        
+        // 🌟 結算時，隱藏無效功能，但留下「結束重來」與全螢幕
+        if(pnlMid) pnlMid.style.display = 'none';
+        if(pnlBot) pnlBot.style.display = 'none';
+        if(btnPause) btnPause.style.display = 'none';
+        if(btnRestart) btnRestart.style.display = ''; // 可以按重來
+        if(btnEnd) btnEnd.style.display = 'none';
+    }
 }
 
 function will_nextQuestion() {
