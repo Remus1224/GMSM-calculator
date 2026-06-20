@@ -902,12 +902,177 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     0% { opacity: 0; transform: scale(0.5); }
     100% { opacity: 1; transform: scale(0.75); } 
 }
+
+/* ========================================== */
+/* 📖 5. 遊戲說明面板專屬排版 (白底高對比版)  */
+/* ========================================== */
+
+/* 讓說明面板緊貼在設定面板下方，稍微減少一點間距 */
+.instructions-panel {
+    margin-top: -20px !important; 
+}
+
+/* 每一個說明的獨立小區塊 (改為淡淡的灰底，做出層次感) */
+.inst-section {
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.03); 
+    border-radius: 12px;
+    padding: 15px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 標題改為深藍黑字體 */
+.inst-subtitle {
+    color: #2c3e50;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 8px;
+}
+
+/* 內文改為深灰色，提升閱讀體驗 */
+.inst-list {
+    color: #555555; 
+    font-size: 14px;
+    line-height: 1.8;
+    padding-left: 22px;
+    margin: 0;
+}
+
+/* 一般強調字改為極深色 */
+.inst-list b {
+    color: #1a252f; 
+}
+
+/* 🌟 按鈕圖鑑的網格系統 */
+.inst-btn-grid {
+    display: grid;
+    /* 電腦版預設讓按鈕自然分配，最小寬度設小一點讓它可以塞兩到三欄 */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+    gap: 15px;
+}
+
+/* 🌟 控制長說明的按鈕：永遠強制佔滿一整列 (100%寬度) */
+.span-full {
+    grid-column: 1 / -1 !important; 
+}
+
+/* 📱 手機版專屬：強制短按鈕排成完美的兩欄 (左右各一) */
+@media (max-width: 768px) {
+    .inst-btn-grid {
+        grid-template-columns: repeat(2, 1fr); /* 強制切成兩欄 */
+    }
+}
+
+/* 圖鑑卡片底色改為純白透光 */
+.inst-btn-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.inst-btn-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* ========================================================== */
+/* 📖 說明書按鈕圖鑑專屬樣式 (霧白玻璃 + 完美網格)            */
+/* ========================================================== */
+
+/* 1. 🌟 展示用的單個圖標底層 (換成高質感霧白玻璃) */
+.mock-btn {
+    position: static !important;
+    transform: none !important;
+    flex-shrink: 0;
+    pointer-events: none;
+    
+    /* 遊戲同款霧白玻璃配方 */
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    color: #2c3e50 !important; /* 保持深色圖示以利閱讀 */
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03), inset 0 0 8px rgba(255,255,255,1) !important;
+}
+
+/* 2. 🌟 視角縮放 Flex 控制面板展示 (霧白玻璃樣式) */
+.inst-mock-glass-panel {
+    display: flex;
+    gap: 4px;
+    padding: 3px 6px;
+    background: rgba(255, 255, 255, 0.4); 
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    margin-right: 5px; 
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.inst-mock-glass-panel .mock-btn {
+    width: 32px !important; 
+    height: 32px !important; 
+    font-size: 14px;
+    box-shadow: none !important; 
+    border-color: rgba(0, 0, 0, 0.05) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.inst-zoom-text {
+    font-size: 11px !important;
+    color: #2c3e50 !important; 
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* ========================================== */
+/* 🌟 按鈕圖鑑響應式網格邏輯 (終極修正版)       */
+/* ========================================== */
+
+.inst-btn-grid {
+    display: grid;
+    gap: 15px;
+    align-items: stretch; /* 確保同一排的卡片高度對齊 */
+}
+
+/* 💻 電腦版：強制切成 4 欄 (前4個佔1欄，後2個佔2欄) */
+@media (min-width: 769px) {
+    .inst-btn-grid {
+        grid-template-columns: repeat(4, 1fr); 
+    }
+    .inst-btn-item {
+        grid-column: span 1; /* 預設短按鈕各佔 1/4 */
+    }
+    .span-special {
+        grid-column: span 2 !important; /* 視角與提示各佔 2/4 (也就是半行)，完美平分最底下一列！ */
+    }
+}
+
+/* 📱 手機版：強制切成 2 欄 (前4個各佔1半，後2個佔滿整排) */
+@media (max-width: 768px) {
+    .inst-btn-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    .inst-btn-item {
+        grid-column: span 1; /* 預設短按鈕各佔 1/2 */
+    }
+    .span-special {
+        grid-column: 1 / -1 !important; /* 強制橫跨整排 */
+    }
+}
 /* ========================================== */
 /* 臨時測試防護：隱藏其他功能，只對外開放威爾   */
 /* ========================================== */
 
 /* 隱藏整條頁籤選單，讓外人完全沒有按鈕可以切換分頁 */
-.tab-menu {
+/*.tab-menu {
     display: none !important; 
 }
 
