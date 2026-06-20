@@ -558,9 +558,16 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 /* 起始畫面：強迫症對齊版輸入框與開始按鈕 */
 .glass-input, .glass-btn-start { box-sizing: border-box !important; height: 50px !important; margin: 0 !important; }
 .glass-input {
-    flex: 1 1 auto !important; width: 100% !important; min-width: 120px !important; text-align: center; font-weight: bold; font-size: 16px;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-top: 1px solid rgba(255,255,255,0.4); border-left: 1px solid rgba(255,255,255,0.4);
-    color: white; padding: 0 15px !important; border-radius: 8px; outline: none; box-shadow: inset 0 0 8px rgba(0,0,0,0.2); transition: all 0.3s ease;
+    /* 🌟 保留彈性壓縮的能力，但加上最高 200px 的生長限制 */
+    flex: 1 1 auto !important; 
+    width: 100% !important; 
+    max-width: 200px !important; 
+    
+    text-align: center; font-weight: bold; font-size: 16px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); 
+    border-top: 1px solid rgba(255,255,255,0.4); border-left: 1px solid rgba(255,255,255,0.4);
+    color: white; padding: 0 15px !important; border-radius: 8px; outline: none; 
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.2); transition: all 0.3s ease;
 }
 .glass-input::placeholder { color: rgba(255,255,255,0.5); font-weight: normal; }
 .glass-input:focus { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); box-shadow: 0 0 10px rgba(255,255,255,0.2), inset 0 0 8px rgba(0,0,0,0.2); }
@@ -594,7 +601,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .settings-panel {
     background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%) !important; 
     backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
+    border: 10px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
     
     /* 🌟 核心修正：四邊皆為圓角，並限制最大寬度與置中 */
@@ -606,12 +613,12 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     padding: 20px 25px !important; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10;
 }
 .settings-title { font-size: 18px !important; color: #2c3e50 !important; font-weight: 900 !important; margin-bottom: 15px !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; }
-.setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: #34495e; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-top: 15px; gap: 12px; }
+.setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: #34495e; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-top: 15px; gap: 8px; }
 .setting-row:last-child { border-bottom: none; padding-bottom: 0; }
-.setting-label { margin-right: 10px; color: #1a252f; }
+.setting-label { margin-right: 0px; color: #1a252f; }
 .setting-opt { cursor: pointer; display: flex; align-items: center; gap: 5px; color: #2c3e50; }
 .custom-num-input {
-    width: 45px; text-align: center; border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; padding: 3px; font-weight: bold; font-size: 14px;
+    width: 30px; text-align: center; border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; padding: 3px; font-weight: bold; font-size: 14px;
     background: rgba(255,255,255,0.8); outline: none; transition: all 0.3s;
 }
 .custom-num-input:focus { border-color: #3498db; box-shadow: 0 0 5px rgba(52,152,219,0.5); background: #fff; }
@@ -806,7 +813,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #will-start-overlay > div:nth-child(2) { font-size: 10px !important; padding: 6px 12px !important; margin-bottom: 8px !important; gap: 4px !important; line-height: 1.2 !important; }
     #will-start-overlay > div:nth-child(3) { gap: 6px !important; max-width: 90% !important; } 
     .glass-input, .glass-btn-start { height: 30px !important; font-size: 12px !important; padding: 0 10px !important; }
-    .custom-num-input { width: 36px !important; padding: 2px !important; font-size: 12px !important; }
+    .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
 }
 
 /* 📱 2. 手機橫向模式 (Landscape) - 框內適度壓縮版 */
@@ -824,7 +831,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #will-start-overlay > div:nth-child(1) { font-size: 18px !important; margin-bottom: 6px !important; }
     #will-start-overlay > div:nth-child(2) { font-size: 11px !important; padding: 8px 12px !important; margin-bottom: 10px !important; gap: 4px !important; }
     .glass-input, .glass-btn-start { height: 34px !important; font-size: 13px !important; padding: 0 10px !important; }
-    .custom-num-input { width: 40px !important; padding: 2px !important; }
+    .custom-num-input { width: 25px !important; padding: 2px !important; }
 }
 
 /* ========================================== */
