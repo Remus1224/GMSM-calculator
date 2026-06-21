@@ -2135,16 +2135,21 @@ window.will_showResultScreen = function() {
     document.getElementById('res-mode').innerHTML = modeStr;
     document.getElementById('res-hint').innerText = wGame.hasUsedHintThisGame ? "已開啟" : "未開啟";
     
-    // 🌟 完美通關變色處理 (透過 toggle / add Class 來切換狀態)
+    // 🌟 完美通關變色處理 (必須 0次 + 完整通關 才亮綠色)
     const hitValueElem = document.getElementById('res-hits');
     hitValueElem.innerText = wGame.hits;
     
     const hitWrapper = hitValueElem.parentElement;
+    hitWrapper.removeAttribute('style'); 
     
-    if (wGame.hits === 0) {
+    // 🛡️ 新增嚴格判斷：0次 且 (是無限模式 或 答題數達到總題數) 才算真正完美
+    let isPerfectClear = (wGame.hits === 0) && (wSettings.endless || wGame.questionsAnswered >= wGame.totalQuestions);
+    
+    if (isPerfectClear) {
         hitWrapper.classList.remove('hit-danger');
         hitWrapper.classList.add('hit-success');
     } else {
+        // 有被擊中，或者「雖然 0 次但未完成」，一律給紅色！
         hitWrapper.classList.remove('hit-success');
         hitWrapper.classList.add('hit-danger');
     }
