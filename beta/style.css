@@ -849,6 +849,16 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 
 /* --- 窄螢幕微調 (Discord 面板) --- */
 @media (max-width: 768px), (max-width: 950px) and (orientation: landscape) {
+    .memo-content {
+        flex-direction: column !important; /* 強制改為上下排列 */
+        gap: 15px !important;              /* 縮小圖片和文字之間的間距 */
+        text-align: center !important;     /* 文字置中，在手機上看起來更平衡 */
+    }
+    /* 🌟 2. 讓圖片自適應手機寬度，避免撐爆螢幕 */
+    .memo-apng {
+        width: 100% !important;
+        max-width: 280px !important;       /* 手機版圖片稍微縮小一點 */
+    }
     .memo-mobile-break {
         display: block !important;      /* 強制變成獨立區塊，直接掉到下一行 */
         margin-top: 4px !important;     /* 和上面的名字稍微拉開一點距離 */
