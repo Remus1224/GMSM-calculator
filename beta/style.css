@@ -14,7 +14,7 @@ button, input, select, label, .btn-action { touch-action: manipulation; }
     text-shadow: none !important;
 }
 
-body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0; }
+body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0;-webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
 .container { background: #fff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 850px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
 .container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active), .container:has(#tab-will.active) { max-width: 800px; }
 
@@ -760,8 +760,9 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .note-gray { color: #bdc3c7; }
 .note-red { color: #ff6b6b; }
 /* 2. 總共被擊中次數的顏色狀態 */
-.hit-danger {color: #ff6b6b !important;text-shadow: 0 2px 10px rgba(255, 107, 107, 0.4) !important;}
-.hit-success {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
+/* 2. 總共被擊中次數的顏色狀態 */
+.hit-danger, .hit-danger * {color: #ff6b6b !important;text-shadow: 0 2px 10px rgba(255, 107, 107, 0.4) !important;}
+.hit-success, .hit-success * {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
 
 /* ========================================== */
 /* 📝 6. Discord 便條紙專屬樣式 (圖文雙欄統一版) */
@@ -847,13 +848,11 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 @keyframes popInPortrait { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.55); } }
 
 /* --- 窄螢幕微調 (Discord 面板) --- */
-@media (max-width: 600px) {
-    .memo-content { flex-direction: column; text-align: center; gap: 10px; }
-    .memo-apng { width: 300px; }
-    .discord-tag-box { justify-content: center; }
-    .memo-mobile-break {display: block;      /* 強制變成獨立區塊，直接掉到下一行 */
-        margin-top: 4px;     /* 和上面的名字稍微拉開一點距離，看起來更舒服 */
-        font-size: 12px;     /* 手機版稍微縮小一點點備註的字體，更有層次感 */
+@media (max-width: 768px), (max-width: 950px) and (orientation: landscape) {
+    .memo-mobile-break {
+        display: block !important;      /* 強制變成獨立區塊，直接掉到下一行 */
+        margin-top: 4px !important;     /* 和上面的名字稍微拉開一點距離 */
+        font-size: 12px !important;     /* 統一縮小字體，保持精緻感 */
     }
     .mobile-break-hint {
         display: inline !important;  /* 🌟 解除強制斷行，讓它乖乖待在同一排 */
