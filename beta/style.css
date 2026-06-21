@@ -687,35 +687,80 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .start-card .start-custom-input { flex: 1 !important; min-width: 0 !important; max-width: none !important; height: 40px !important; font-size: 14px !important; padding: 0 12px !important; margin: 0 !important; }
 .start-card .start-custom-btn { flex-shrink: 0 !important; height: 40px !important; font-size: 15px !important; padding: 0 16px !important; margin: 0 !important; }
 
-/* 🌟 結算成績單 */
-#will-result-overlay { container-type: size !important; }
+/* 🌟 結算成績單 (隨內容貼合版，告別多餘空白) */
 .result-card {
-    background: rgba(15, 15, 20, 0.45) !important; backdrop-filter: blur(16px) saturate(120%) !important; -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important; border-top: 1px solid rgba(255, 255, 255, 0.4) !important; border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
+    background: rgba(15, 15, 20, 0.45) !important; 
+    backdrop-filter: blur(16px) saturate(120%) !important; 
+    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important; 
+    border-top: 1px solid rgba(255, 255, 255, 0.4) !important; 
+    border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
     box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05) !important;
-    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; box-sizing: border-box !important;
-    height: 85cqh !important; width: 85cqh !important; max-height: 320px !important; max-width: 320px !important;
-    overflow-y: auto !important; overflow-x: hidden !important;
-    border-radius: clamp(10px, 4cqh, 20px) !important; padding: clamp(12px, 6cqh, 35px) clamp(15px, 6cqh, 30px) !important; 
-    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+    box-sizing: border-box !important;
+    
+    /* 🌟 魔法就在這兩行：寬度固定，高度自動貼合內容！ */
+    width: 90% !important; 
+    max-width: 340px !important;
+    height: auto !important; 
+    
+    border-radius: 16px !important; 
+    padding: 30px 25px 25px 25px !important; 
+    display: flex; flex-direction: column; 
     animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
-.result-stat { display: grid !important; grid-template-columns: auto 1fr !important; gap: clamp(8px, 3.5cqh, 150px) !important; align-items: center; font-size: clamp(10px, 4cqh, 15px) !important; margin-bottom: clamp(4px, 2cqh, 12px) !important; }
-.stat-label { color: #95a5a6 !important; font-weight: bold; text-align: left !important; }
-.stat-value, div.result-stat:nth-child(1) .stat-value { color: #ffffff !important; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); text-align: center !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.result-total { margin-top: auto !important; border-top: 1px solid rgba(255,255,255,0.15) !important; padding-top: clamp(6px, 3.5cqh, 16px) !important; margin-bottom: clamp(6px, 3cqh, 20px) !important; gap: 10px !important; }
-.result-total .stat-label { padding-left: clamp(10px, 6cqh, 40px) !important; }
-#res-hits { font-size: clamp(18px, 8cqh, 32px) !important; }
+
+.result-stat { 
+    display: flex !important; justify-content: space-between !important; align-items: center; 
+    width: 100%; font-size: 15px !important; margin-bottom: 12px !important; gap: 15px !important; 
+}
+.stat-label { 
+    color: #95a5a6 !important; font-weight: bold; flex-shrink: 0; text-align: left !important; 
+}
+.stat-value { 
+    color: #ffffff !important; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
+    text-align: right !important; word-break: break-all; white-space: normal; 
+}
+
+/* 總計與分隔線 */
+.result-total { 
+    width: 100%; margin-top: 10px !important; border-top: 1px solid rgba(255,255,255,0.15) !important; 
+    padding-top: 15px !important; margin-bottom: 20px !important; 
+    display: flex; justify-content: space-between; align-items: center; 
+}
+#res-hits { 
+    font-size: 32px !important; font-weight: 900; 
+}
 
 /* 按鈕區塊 */
-.result-card > div:last-child { display: flex; gap: clamp(8px, 3.5cqh, 15px) !important; width: 100%; justify-content: center; margin-top: 0 !important; }
-.btn-res-secondary, .btn-res-primary { flex: 1 !important; max-width: none !important; height: clamp(28px, 10cqh, 40px) !important; font-size: clamp(11px, 4cqh, 15px) !important; padding: 0 !important; margin: 0 !important; border-radius: 8px !important; font-weight: bold !important; cursor: pointer !important; transition: all 0.3s !important; display: flex; justify-content: center; align-items: center; }
+.result-card > div:last-child { 
+    display: flex; gap: 15px !important; width: 100%; justify-content: center; margin-top: 0 !important; 
+}
+.btn-res-secondary, .btn-res-primary { 
+    flex: 1 !important; height: 40px !important; font-size: 15px !important; border-radius: 8px !important; 
+    font-weight: bold !important; cursor: pointer !important; transition: all 0.3s !important; 
+    display: flex; justify-content: center; align-items: center; border: none !important; 
+}
 .btn-res-secondary { background: rgba(255,255,255,0.05) !important; color: rgba(255,255,255,0.8) !important; border: 1px solid rgba(255,255,255,0.2) !important; }
 .btn-res-secondary:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
 .btn-res-primary { background: rgba(52, 152, 219, 0.3) !important; color: white !important; border: 1px solid rgba(52, 152, 219, 0.5) !important; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3) !important; }
 .btn-res-primary:hover { background: rgba(52, 152, 219, 0.5) !important; box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5) !important; }
 
 @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+
+/* ========================================== */
+/* 🌟 成績單排版與特效專用 Classes (遵循關注點分離原則) */
+/* ========================================== */
+
+/* 1. 遊戲模式的浮動備註文字 */
+.mode-title-wrapper {position: relative;display: inline-block; }
+.mode-subtitle {position: absolute;left: 100%;top: 50%;transform: translateY(-50%);margin-left: 8px;font-size: 11px;font-weight: normal;text-shadow: none;white-space: nowrap;}
+/* 備註文字的顏色狀態 */
+.note-gray { color: #bdc3c7; }
+.note-red { color: #ff6b6b; }
+/* 2. 總共被擊中次數的顏色狀態 */
+.hit-danger {color: #ff6b6b !important;text-shadow: 0 2px 10px rgba(255, 107, 107, 0.4) !important;}
+.hit-success {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
 
 /* ========================================== */
 /* 📝 6. Discord 便條紙專屬樣式 (圖文雙欄)      */
