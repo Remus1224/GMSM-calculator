@@ -2110,7 +2110,7 @@ window.will_startGame = function() {
     wLastTime = performance.now();
 };
 
-// 🌟 顯示成績單 (加入提早放棄與進度標示 - 雙行精緻排版)
+// 🌟 顯示成績單 (純淨版：JS 僅負責邏輯，外觀交給 CSS Class)
 window.will_showResultScreen = function() {
     document.getElementById('res-name').innerText = wGame.playerName || "nickname1204";
     
@@ -2125,36 +2125,38 @@ window.will_showResultScreen = function() {
         modeStr = `全機制${wSettings.customRounds}次`;
     }
 
-    // 🛡️ 針對不同模式的文字標示更新 (加入 <br> 換行與次要文字樣式)
+    // 🛡️ JS 僅負責套用乾淨的 HTML 結構與 Class，不再寫死 Style
     if (wSettings.endless) {
-        // 無限練習：第二行顯示灰色小字
-        modeStr = `無限練習<br><span style="font-size: 12px; color: #bdc3c7; font-weight: normal; text-shadow: none;">(已完成 ${wGame.questionsAnswered} 題)</span>`;
+        modeStr = `<span class="mode-title-wrapper">無限練習<span class="mode-subtitle note-gray">(完成 ${wGame.questionsAnswered} 題)</span></span>`;
     } else if (wGame.questionsAnswered < wGame.totalQuestions) {
-        // 提早結算：第二行顯示橘黃色警告小字
-        modeStr += `<br><span style="font-size: 12px; color: #f39c12; font-weight: normal; text-shadow: none;">(提早放棄: 僅完成 ${wGame.questionsAnswered} 題)</span>`;
+        modeStr = `<span class="mode-title-wrapper">${modeStr}<span class="mode-subtitle note-red">(未完成)</span></span>`;
     }
     
-    // ⚠️ 核心修改：這裡必須把 innerText 改成 innerHTML，這樣 <br> 和 <span> 標籤才會生效！
     document.getElementById('res-mode').innerHTML = modeStr;
-    
     document.getElementById('res-hint').innerText = wGame.hasUsedHintThisGame ? "已開啟" : "未開啟";
-    document.getElementById('res-hits').innerText = wGame.hits;
+    
+    // 🌟 完美通關變色處理 (透過 toggle / add Class 來切換狀態)
+    const hitValueElem = document.getElementById('res-hits');
+    hitValueElem.innerText = wGame.hits;
+    
+    const hitWrapper = hitValueElem.parentElement;
+    
+    if (wGame.hits === 0) {
+        hitWrapper.classList.remove('hit-danger');
+        hitWrapper.classList.add('hit-success');
+    } else {
+        hitWrapper.classList.remove('hit-success');
+        hitWrapper.classList.add('hit-danger');
+    }
     
     // 🎯 呼叫總指揮：切換到 RESULT 狀態
     will_updateUIState('RESULT');
 };
 
-// 🌟 🏁 新增：提早結算功能 (防作弊與懲罰機制)
+// 🌟 🏁 提早結算功能 (純結算，不強制增加擊中次數)
 window.will_forceEndGame = function() {
     if (wGame.phase === 'stopped' || wGame.phase === 'victory') return;
     
-    // 🛡️ 防作弊機制：如果在「非無限模式」下提早放棄，剩下的題目全部算作被擊中！
-    // 每 1 題有 3 波攻擊，所以沒玩到的題目 = 沒躲過 = 每題加 3 次被擊中
-    if (!wSettings.endless && wGame.questionsAnswered < wGame.totalQuestions) {
-        let skippedQuestions = wGame.totalQuestions - wGame.questionsAnswered;
-        wGame.hits += (skippedQuestions * 3);
-    }
-
     wGame.phase = 'victory'; 
     will_updateUI("提早結算", "#f1c40f", "計算成績中...");
     
