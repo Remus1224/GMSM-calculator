@@ -687,60 +687,61 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .start-card .start-custom-input { flex: 1 !important; min-width: 0 !important; max-width: none !important; height: 40px !important; font-size: 14px !important; padding: 0 12px !important; margin: 0 !important; }
 .start-card .start-custom-btn { flex-shrink: 0 !important; height: 40px !important; font-size: 15px !important; padding: 0 16px !important; margin: 0 !important; }
 
-/* 🌟 結算成績單 (隨內容貼合版，告別多餘空白) */
+/* 🌟 結算成績單 (極致緊湊與完美置中版) */
+#will-result-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; flex-direction: column; justify-content: center; align-items: center; }
+
 .result-card {
-    background: rgba(15, 15, 20, 0.45) !important; 
-    backdrop-filter: blur(16px) saturate(120%) !important; 
-    -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important; 
-    border-top: 1px solid rgba(255, 255, 255, 0.4) !important; 
-    border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
+    background: rgba(15, 15, 20, 0.45) !important; backdrop-filter: blur(16px) saturate(120%) !important; -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important; border-top: 1px solid rgba(255, 255, 255, 0.4) !important; border-left: 1px solid rgba(255, 255, 255, 0.4) !important;
     box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05) !important;
-    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-    box-sizing: border-box !important;
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; box-sizing: border-box !important;
     
-    /* 🌟 魔法就在這兩行：寬度固定，高度自動貼合內容！ */
-    width: 90% !important; 
-    max-width: 340px !important;
+    /* 🌟 拔除 cqh 與固定高度，改為自動貼合，並大幅縮小 Padding */
+    width: 90% !important; max-width: 320px !important;
     height: auto !important; 
-    
     border-radius: 16px !important; 
-    padding: 30px 25px 25px 25px !important; 
-    display: flex; flex-direction: column; 
+    padding: 20px 25px !important; 
+    
+    display: flex; flex-direction: column; justify-content: space-between;
     animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
+/* 🌟 網格置中對齊：左邊固定 70px，右邊填滿並置中 */
 .result-stat { 
-    display: flex !important; justify-content: space-between !important; align-items: center; 
-    width: 100%; font-size: 15px !important; margin-bottom: 12px !important; gap: 15px !important; 
+    display: grid !important; 
+    grid-template-columns: 70px 1fr !important; 
+    gap: 10px !important; 
+    align-items: center; 
+    font-size: 14px !important; /* 縮小字體以適應手機 */
+    margin-bottom: 8px !important; /* 縮短行距 */
 }
+
 .stat-label { 
-    color: #95a5a6 !important; font-weight: bold; flex-shrink: 0; text-align: left !important; 
+    color: #95a5a6 !important; font-weight: bold; text-align: left !important; line-height: 1.2 !important; 
 }
-.stat-value { 
+
+/* 🌟 數值強制置中，並縮短行高 */
+.stat-value, div.result-stat:nth-child(1) .stat-value { 
     color: #ffffff !important; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
-    text-align: right !important; word-break: break-all; white-space: normal; 
+    text-align: center !important; /* 👈 恢復完美的置中 */
+    word-break: break-all; white-space: normal; 
+    line-height: 1.3 !important; /* 縮短多行文字的行高 */
 }
 
 /* 總計與分隔線 */
 .result-total { 
-    width: 100%; margin-top: 10px !important; border-top: 1px solid rgba(255,255,255,0.15) !important; 
-    padding-top: 15px !important; margin-bottom: 20px !important; 
-    display: flex; justify-content: space-between; align-items: center; 
+    margin-top: 5px !important; /* 縮短上方空白 */
+    border-top: 1px solid rgba(255,255,255,0.15) !important; 
+    padding-top: 12px !important; /* 縮短線下方空白 */
+    margin-bottom: 15px !important; /* 縮短與按鈕的距離 */
+    display: flex !important; justify-content: center; gap: 30px !important;align-items: center; 
 }
-#res-hits { 
-    font-size: 32px !important; font-weight: 900; 
-}
+.result-total .stat-label { padding-left: 0 !important; }
+#res-hits { font-size: 28px !important; line-height: 1 !important; }
 
 /* 按鈕區塊 */
-.result-card > div:last-child { 
-    display: flex; gap: 15px !important; width: 100%; justify-content: center; margin-top: 0 !important; 
-}
-.btn-res-secondary, .btn-res-primary { 
-    flex: 1 !important; height: 40px !important; font-size: 15px !important; border-radius: 8px !important; 
-    font-weight: bold !important; cursor: pointer !important; transition: all 0.3s !important; 
-    display: flex; justify-content: center; align-items: center; border: none !important; 
-}
+.result-card > div:last-child { display: flex; gap: 12px !important; width: 100%; justify-content: center; margin-top: auto !important; }
+.btn-res-secondary, .btn-res-primary { flex: 1 !important; max-width: none !important; height: 36px !important; font-size: 14px !important; padding: 0 !important; margin: 0 !important; border-radius: 8px !important; font-weight: bold !important; cursor: pointer !important; transition: all 0.3s !important; display: flex; justify-content: center; align-items: center; border: none !important; }
 .btn-res-secondary { background: rgba(255,255,255,0.05) !important; color: rgba(255,255,255,0.8) !important; border: 1px solid rgba(255,255,255,0.2) !important; }
 .btn-res-secondary:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
 .btn-res-primary { background: rgba(52, 152, 219, 0.3) !important; color: white !important; border: 1px solid rgba(52, 152, 219, 0.5) !important; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3) !important; }
