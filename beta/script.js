@@ -2135,16 +2135,21 @@ window.will_showResultScreen = function() {
     document.getElementById('res-mode').innerHTML = modeStr;
     document.getElementById('res-hint').innerText = wGame.hasUsedHintThisGame ? "已開啟" : "未開啟";
     
-    // 🌟 完美通關變色處理 (透過 toggle / add Class 來切換狀態)
+    // 🌟 完美通關變色處理 (必須 0次 + 完整通關 才亮綠色)
     const hitValueElem = document.getElementById('res-hits');
     hitValueElem.innerText = wGame.hits;
     
     const hitWrapper = hitValueElem.parentElement;
+    hitWrapper.removeAttribute('style'); 
     
-    if (wGame.hits === 0) {
+    // 🛡️ 新增嚴格判斷：0次 且 (是無限模式 或 答題數達到總題數) 才算真正完美
+    let isPerfectClear = (wGame.hits === 0) && (wSettings.endless || wGame.questionsAnswered >= wGame.totalQuestions);
+    
+    if (isPerfectClear) {
         hitWrapper.classList.remove('hit-danger');
         hitWrapper.classList.add('hit-success');
     } else {
+        // 有被擊中，或者「雖然 0 次但未完成」，一律給紅色！
         hitWrapper.classList.remove('hit-success');
         hitWrapper.classList.add('hit-danger');
     }
@@ -2675,48 +2680,3 @@ function will_gameLoop(timestamp) {
     requestAnimationFrame(will_gameLoop);
 }
 
-// ==========================================
-// 🎵 終極版：三重監聽使用者切換 APP (支援 new Audio 寫法)
-// ==========================================
-
-function handleAppSwitch(isAppHidden) {
-    // 🌟 因為你是用 new Audio()，所以直接對你的「willBgm」變數下指令即可！
-    // (確保這段代碼放在讀得到 willBgm 的地方)
-    if (!willBgm) return; 
-
-    if (isAppHidden) {
-        // 🔴 狀態：離開 APP
-        if (!willBgm.paused) {
-            willBgm.pause();
-            willBgm.isPausedBySystem = true; // 貼上系統暫停標籤
-        }
-    } else {
-        // 🟢 狀態：回到 APP
-        // 檢查：1. 是不是系統剛幫忙暫停的？ 2. 玩家的音樂開關 (bgmCheck) 有沒有打勾？
-        if (willBgm.isPausedBySystem && bgmCheck.checked) {
-            willBgm.play().catch(e => console.log("自動恢復被 iOS 阻擋", e));
-            willBgm.isPausedBySystem = false; // 撕掉標籤
-        }
-    }
-}
-
-// 🕸️ 撒下三重天羅地網：
-// 1. 標準的可見性監聽
-document.addEventListener("visibilitychange", function() {
-    handleAppSwitch(document.visibilityState === 'hidden');
-});
-
-// 2. 頁面隱藏監聽 (專抓 iOS)
-window.addEventListener("pagehide", function() {
-    handleAppSwitch(true);
-});
-
-// 3. 失去焦點監聽 (專抓下拉通知列、切換 APP)
-window.addEventListener("blur", function() {
-    handleAppSwitch(true);
-});
-
-// 4. 恢復焦點監聽 (抓回到畫面)
-window.addEventListener("focus", function() {
-    setTimeout(() => handleAppSwitch(false), 200); 
-});
