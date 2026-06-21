@@ -847,28 +847,36 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 @keyframes popInPortrait { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.55); } }
 
-/* --- 窄螢幕微調 (Discord 面板) --- */
-@media (max-width: 768px), (max-width: 950px) and (orientation: landscape) {
+/* ========================================================== */
+/* 📱 手機版專屬微調：分離「排版」與「文字斷行」的規則 */
+/* ========================================================== */
+
+/* 🌟 條件 A：只有在螢幕「非常窄 (手機直立，小於 600px)」時，才變成上下排列 */
+@media (max-width: 600px) {
     .memo-content {
         flex-direction: column !important; /* 強制改為上下排列 */
-        gap: 15px !important;              /* 縮小圖片和文字之間的間距 */
-        text-align: center !important;     /* 文字置中，在手機上看起來更平衡 */
+        gap: 15px !important;              
+        text-align: center !important;     
     }
-    /* 🌟 2. 讓圖片自適應手機寬度，避免撐爆螢幕 */
     .memo-apng {
         width: 100% !important;
-        max-width: 280px !important;       /* 手機版圖片稍微縮小一點 */
+        max-width: 280px !important;       
     }
+}
+
+/* 🌟 條件 B：只要是手機或平板 (包含橫向)，都套用文字斷行，但不干擾圖文左右排版 */
+@media (max-width: 768px), (max-width: 950px) and (orientation: landscape) {
     .memo-mobile-break {
         display: block !important;      /* 強制變成獨立區塊，直接掉到下一行 */
         margin-top: 4px !important;     /* 和上面的名字稍微拉開一點距離 */
         font-size: 12px !important;     /* 統一縮小字體，保持精緻感 */
     }
+    
     .mobile-break-hint {
-        display: inline !important;  /* 🌟 解除強制斷行，讓它乖乖待在同一排 */
-        font-size: 10px !important;  /* 🌟 稍微縮小字體，確保 390px 螢幕能完美塞下 */
-        margin-top: 0 !important;    /* 移除之前的間距 */
-        color: #7f8c8d !important;   /* 加上一點灰色，讓它有備註的低調感 */
+        display: inline !important;  /* 解除強制斷行，讓它乖乖待在同一排 */
+        font-size: 10px !important;  /* 稍微縮小字體，確保窄螢幕能完美塞下 */
+        margin-top: 0 !important;    
+        color: #7f8c8d !important;   
     }
 }
 /* ========================================== */
