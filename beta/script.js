@@ -2110,22 +2110,32 @@ window.will_startGame = function() {
     wLastTime = performance.now();
 };
 
-// 🌟 顯示成績單 (支援無限模式與防作弊)
+// 🌟 顯示成績單 (加入提早放棄與進度標示 - 雙行精緻排版)
 window.will_showResultScreen = function() {
     document.getElementById('res-name').innerText = wGame.playerName || "nickname1204";
+    
     let diffStr = "混沌";
     if (wSettings.mode === 'hard') diffStr = "困難";
-    else if (wSettings.mode === 'random') diffStr = "動態隨機"; // 🌟 支援新模式的結算字樣
+    else if (wSettings.mode === 'random') diffStr = "動態隨機"; 
 
     document.getElementById('res-diff').innerText = diffStr;
     
     let modeStr = "全機制1次";
     if (wSettings.isCustom) {
         modeStr = `全機制${wSettings.customRounds}次`;
-    } else if (wSettings.endless) {
-        modeStr = `無限練習 (已完成 ${wGame.questionsAnswered} 題)`;
     }
-    document.getElementById('res-mode').innerText = modeStr;
+
+    // 🛡️ 針對不同模式的文字標示更新 (加入 <br> 換行與次要文字樣式)
+    if (wSettings.endless) {
+        // 無限練習：第二行顯示灰色小字
+        modeStr = `無限練習<br><span style="font-size: 12px; color: #bdc3c7; font-weight: normal; text-shadow: none;">(已完成 ${wGame.questionsAnswered} 題)</span>`;
+    } else if (wGame.questionsAnswered < wGame.totalQuestions) {
+        // 提早結算：第二行顯示橘黃色警告小字
+        modeStr += `<br><span style="font-size: 12px; color: #f39c12; font-weight: normal; text-shadow: none;">(提早放棄: 僅完成 ${wGame.questionsAnswered} 題)</span>`;
+    }
+    
+    // ⚠️ 核心修改：這裡必須把 innerText 改成 innerHTML，這樣 <br> 和 <span> 標籤才會生效！
+    document.getElementById('res-mode').innerHTML = modeStr;
     
     document.getElementById('res-hint').innerText = wGame.hasUsedHintThisGame ? "已開啟" : "未開啟";
     document.getElementById('res-hits').innerText = wGame.hits;
@@ -2134,11 +2144,20 @@ window.will_showResultScreen = function() {
     will_updateUIState('RESULT');
 };
 
-// 🌟 🏁 新增：提早結算功能
+// 🌟 🏁 新增：提早結算功能 (防作弊與懲罰機制)
 window.will_forceEndGame = function() {
     if (wGame.phase === 'stopped' || wGame.phase === 'victory') return;
+    
+    // 🛡️ 防作弊機制：如果在「非無限模式」下提早放棄，剩下的題目全部算作被擊中！
+    // 每 1 題有 3 波攻擊，所以沒玩到的題目 = 沒躲過 = 每題加 3 次被擊中
+    if (!wSettings.endless && wGame.questionsAnswered < wGame.totalQuestions) {
+        let skippedQuestions = wGame.totalQuestions - wGame.questionsAnswered;
+        wGame.hits += (skippedQuestions * 3);
+    }
+
     wGame.phase = 'victory'; 
     will_updateUI("提早結算", "#f1c40f", "計算成績中...");
+    
     setTimeout(() => {
         will_showResultScreen();
     }, 800); 
@@ -2338,16 +2357,14 @@ function will_getHintText(currPattern) {
 }
 
 // =========================================================================
-// 🎮 遊戲 UI 狀態中央控制器 (終極防彈版)
+// 🎮 遊戲 UI 狀態中央控制器 (純淨防誤殺版)
 // =========================================================================
 function will_updateUIState(state) {
     const startOverlay = document.getElementById('will-start-overlay');
     const resultOverlay = document.getElementById('will-result-overlay');
-    const settingsPanel = document.querySelector('.settings-panel');
     const joystick = document.getElementById('joystick-base');
     const hud = document.getElementById('ms-player-hud');
     
-    // 🎯 透過專屬 ID 精準抓取三大面板與按鈕
     const pnlMid = document.getElementById('glass-controls-mid');
     const pnlBot = document.getElementById('glass-controls-bottom');
     const btnPause = document.getElementById('btn-will-pause');
@@ -2359,21 +2376,16 @@ function will_updateUIState(state) {
     if (state === 'START') {
         if(startOverlay) startOverlay.style.display = 'flex';
         if(resultOverlay) resultOverlay.style.display = 'none';
-        if(settingsPanel) settingsPanel.style.display = ''; 
         if(hud) hud.style.display = 'none';
         if(joystick) joystick.style.display = 'none';
         
-        // 🌟 清除畫面上次殘留的「第 1/7 題」文字
         const statusEl = document.getElementById('will-status');
         const timerEl = document.getElementById('will-timer');
         if(statusEl) statusEl.innerText = '';
         if(timerEl) timerEl.innerText = '';
         
-        // 🌟 直接隱藏整個中、下玻璃面板，不留空殼！
         if(pnlMid) pnlMid.style.display = 'none'; 
         if(pnlBot) pnlBot.style.display = 'none'; 
-        
-        // 🌟 上方面板只隱藏特定按鈕，留下全螢幕按鈕
         if(btnPause) btnPause.style.display = 'none';
         if(btnRestart) btnRestart.style.display = 'none';
         if(btnEnd) btnEnd.style.display = 'none';
@@ -2381,11 +2393,9 @@ function will_updateUIState(state) {
     else if (state === 'PLAYING') {
         if(startOverlay) startOverlay.style.display = 'none';
         if(resultOverlay) resultOverlay.style.display = 'none';
-        if(settingsPanel) settingsPanel.style.display = 'none';
         if(hud) hud.style.display = 'flex';
         if(joystick && isTouchDevice) joystick.style.display = 'flex';
         
-        // 🌟 遊戲開始，全部面板與按鈕回歸！
         if(pnlMid) pnlMid.style.display = 'flex';
         if(pnlBot) pnlBot.style.display = 'flex';
         if(btnPause) btnPause.style.display = '';
@@ -2395,15 +2405,13 @@ function will_updateUIState(state) {
     else if (state === 'RESULT') {
         if(startOverlay) startOverlay.style.display = 'none';
         if(resultOverlay) resultOverlay.style.display = 'flex';
-        if(settingsPanel) settingsPanel.style.display = 'none';
         if(hud) hud.style.display = 'none';
         if(joystick) joystick.style.display = 'none';
         
-        // 🌟 結算時，隱藏無效功能，但留下「結束重來」與全螢幕
         if(pnlMid) pnlMid.style.display = 'none';
         if(pnlBot) pnlBot.style.display = 'none';
         if(btnPause) btnPause.style.display = 'none';
-        if(btnRestart) btnRestart.style.display = ''; // 可以按重來
+        if(btnRestart) btnRestart.style.display = ''; 
         if(btnEnd) btnEnd.style.display = 'none';
     }
 }
