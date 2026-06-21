@@ -760,8 +760,9 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .note-gray { color: #bdc3c7; }
 .note-red { color: #ff6b6b; }
 /* 2. 總共被擊中次數的顏色狀態 */
-.hit-danger {color: #ff6b6b !important;text-shadow: 0 2px 10px rgba(255, 107, 107, 0.4) !important;}
-.hit-success {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
+/* 2. 總共被擊中次數的顏色狀態 */
+.hit-danger, .hit-danger * {color: #ff6b6b !important;text-shadow: 0 2px 10px rgba(255, 107, 107, 0.4) !important;}
+.hit-success, .hit-success * {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
 
 /* ========================================== */
 /* 📝 6. Discord 便條紙專屬樣式 (圖文雙欄統一版) */
