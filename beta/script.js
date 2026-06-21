@@ -2674,3 +2674,31 @@ function will_gameLoop(timestamp) {
     will_draw();
     requestAnimationFrame(will_gameLoop);
 }
+
+// ==========================================
+// 🎵 監聽使用者離開網頁或切換 APP (自動暫停/恢復音樂)
+// ==========================================
+document.addEventListener("visibilitychange", function() {
+    
+    // 取得你的背景音樂元素 (請替換成你實際的音樂變數或 ID)
+    // 例如：const bgm = document.getElementById('bgm-audio');
+    const bgm = window.bgmAudio; 
+
+    if (document.visibilityState === 'hidden') {
+        // 🔴 狀態：使用者切換 APP、跳回主畫面、或切換分頁
+        if (bgm && !bgm.paused) {
+            bgm.pause();
+            bgm.isPausedBySystem = true; // 貼個標籤，記住是「系統自動幫他暫停的」
+        }
+    } else if (document.visibilityState === 'visible') {
+        // 🟢 狀態：使用者回到你的模擬器畫面
+        
+        // 只有當「本來設定就有開音樂」且「剛剛是系統自動暫停的」，才幫他恢復播放
+        if (bgm && bgm.isPausedBySystem && wSettings.bgmEnabled) {
+            bgm.play().catch(function(error) {
+                console.log("瀏覽器阻擋了自動恢復播放:", error);
+            });
+            bgm.isPausedBySystem = false; // 撕掉標籤
+        }
+    }
+});
