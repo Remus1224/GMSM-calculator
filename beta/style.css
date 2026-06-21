@@ -596,7 +596,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     border-radius: 16px !important; 
     max-width: 800px !important; 
     width: 95% !important; 
-    margin: 15px auto !important; 
+    margin: 5px auto !important; 
     
     /* 🌟 核心修正：將上下左右的留白統一設定為 25px！ */
     /* 這樣標示的紅色底部與綠色側邊，就會是完美的 1:1 等距！ */
@@ -628,7 +628,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .vol-group { display: flex; align-items: center; gap: 8px; border-left: 2px solid rgba(0,0,0,0.15); padding-left: 12px; margin-left: 5px; }
 
 /* --- 說明書區塊 --- */
-.inst-section { margin-bottom: 20px; background: rgba(0, 0, 0, 0.03); border-radius: 12px; padding: 15px 20px; border: 1px solid rgba(0, 0, 0, 0.05); }
+.inst-section { margin-bottom: 10px; background: rgba(0, 0, 0, 0.03); border-radius: 12px; padding: 15px 20px; border: 1px solid rgba(0, 0, 0, 0.05); }
 .inst-section:last-child { margin-bottom: 0 !important; }
 .inst-subtitle { color: #2c3e50; font-size: 15px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 8px; }
 .inst-list { color: #555555; font-size: clamp(12px, 3vw, 14px); line-height: 1.8; padding-left: 22px; margin: 0; }
@@ -764,18 +764,19 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .hit-success {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
 
 /* ========================================== */
-/* 📝 6. Discord 便條紙專屬樣式 (圖文雙欄)      */
+/* 📝 6. Discord 便條紙專屬樣式 (圖文雙欄統一版) */
 /* ========================================== */
-.memo-card { margin-top: -10px !important; padding: 15px !important; }
-.memo-content { display: flex; align-items: center; gap: 20px; }
-.memo-apng { width: 120px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
-.memo-text-area { color: #2c3e50; font-size: 13px; line-height: 1.5; }
-.memo-title { font-size: 16px; font-weight: bold; color: #c0392b; margin-bottom: 8px; }
-.memo-text-area p { margin: 0 0 8px 0; }
-.discord-tag-box { background: rgba(0, 0, 0, 0.05); padding: 6px 12px; border-radius: 6px; display: inline-flex; align-items: center; margin: 5px 0 10px 0; border: 1px solid rgba(0,0,0,0.08); }
-.discord-label { font-weight: bold; color: #555; }
-.discord-id { color: #2c3e50; font-weight: 900; font-family: monospace; }
-.memo-note { font-size: 11px; color: #7f8c8d; font-style: italic; margin: 0 !important; }
+.memo-card { margin-top: 5px !important; padding: 25px !important; }
+.memo-content { display: flex; align-items: center; gap: 50px; }
+.memo-apng { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
+
+/* 🌟 核心修正：讓整個文字區塊統一為高質感的深色與微粗體 */
+.memo-text-area { color: #2c3e50; font-size: 13px; line-height: 1.6; font-weight: bold; }
+.memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; }
+.memo-text-area p { margin: 0 0 6px 0; }
+
+/* 保留文字的上下間距，但顏色與粗細已經順應整體統一了 */
+.memo-simple-text { margin-top: 5px !important; }
 
 
 /* ========================================== */
@@ -848,8 +849,18 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* --- 窄螢幕微調 (Discord 面板) --- */
 @media (max-width: 600px) {
     .memo-content { flex-direction: column; text-align: center; gap: 10px; }
-    .memo-apng { width: 140px; }
+    .memo-apng { width: 300px; }
     .discord-tag-box { justify-content: center; }
+    .memo-mobile-break {display: block;      /* 強制變成獨立區塊，直接掉到下一行 */
+        margin-top: 4px;     /* 和上面的名字稍微拉開一點距離，看起來更舒服 */
+        font-size: 12px;     /* 手機版稍微縮小一點點備註的字體，更有層次感 */
+    }
+    .mobile-break-hint {
+        display: inline !important;  /* 🌟 解除強制斷行，讓它乖乖待在同一排 */
+        font-size: 10px !important;  /* 🌟 稍微縮小字體，確保 390px 螢幕能完美塞下 */
+        margin-top: 0 !important;    /* 移除之前的間距 */
+        color: #7f8c8d !important;   /* 加上一點灰色，讓它有備註的低調感 */
+    }
 }
 /* ========================================== */
 /* 臨時測試防護：隱藏其他功能，只對外開放威爾   */
