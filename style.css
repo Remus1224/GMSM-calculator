@@ -14,7 +14,7 @@ button, input, select, label, .btn-action { touch-action: manipulation; }
     text-shadow: none !important;
 }
 
-body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0; }
+body { font-family: "微軟正黑體", "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; padding: 20px; user-select: none; -webkit-user-select: none; margin: 0;-webkit-text-size-adjust: 100%; text-size-adjust: 100%;}
 .container { background: #fff; padding: 20px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 850px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
 .container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active), .container:has(#tab-will.active) { max-width: 800px; }
 
@@ -847,20 +847,36 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 @keyframes popInPortrait { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.55); } }
 
-/* --- 窄螢幕微調 (Discord 面板) --- */
+/* ========================================================== */
+/* 📱 手機版專屬微調：分離「排版」與「文字斷行」的規則 */
+/* ========================================================== */
+
+/* 🌟 條件 A：只有在螢幕「非常窄 (手機直立，小於 600px)」時，才變成上下排列 */
 @media (max-width: 600px) {
-    .memo-content { flex-direction: column; text-align: center; gap: 10px; }
-    .memo-apng { width: 300px; }
-    .discord-tag-box { justify-content: center; }
-    .memo-mobile-break {display: block;      /* 強制變成獨立區塊，直接掉到下一行 */
-        margin-top: 4px;     /* 和上面的名字稍微拉開一點距離，看起來更舒服 */
-        font-size: 12px;     /* 手機版稍微縮小一點點備註的字體，更有層次感 */
+    .memo-content {
+        flex-direction: column !important; /* 強制改為上下排列 */
+        gap: 15px !important;              
+        text-align: center !important;     
     }
+    .memo-apng {
+        width: 100% !important;
+        max-width: 280px !important;       
+    }
+}
+
+/* 🌟 條件 B：只要是手機或平板 (包含橫向)，都套用文字斷行，但不干擾圖文左右排版 */
+@media (max-width: 768px), (max-width: 950px) and (orientation: landscape) {
+    .memo-mobile-break {
+        display: block !important;      /* 強制變成獨立區塊，直接掉到下一行 */
+        margin-top: 4px !important;     /* 和上面的名字稍微拉開一點距離 */
+        font-size: 12px !important;     /* 統一縮小字體，保持精緻感 */
+    }
+    
     .mobile-break-hint {
-        display: inline !important;  /* 🌟 解除強制斷行，讓它乖乖待在同一排 */
-        font-size: 10px !important;  /* 🌟 稍微縮小字體，確保 390px 螢幕能完美塞下 */
-        margin-top: 0 !important;    /* 移除之前的間距 */
-        color: #7f8c8d !important;   /* 加上一點灰色，讓它有備註的低調感 */
+        display: inline !important;  /* 解除強制斷行，讓它乖乖待在同一排 */
+        font-size: 10px !important;  /* 稍微縮小字體，確保窄螢幕能完美塞下 */
+        margin-top: 0 !important;    
+        color: #7f8c8d !important;   
     }
 }
 /* ========================================== */
