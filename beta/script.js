@@ -2676,29 +2676,47 @@ function will_gameLoop(timestamp) {
 }
 
 // ==========================================
-// 🎵 監聽使用者離開網頁或切換 APP (自動暫停/恢復音樂)
+// 🎵 終極版：三重監聽使用者切換 APP (支援 new Audio 寫法)
 // ==========================================
-document.addEventListener("visibilitychange", function() {
-    
-    // 取得你的背景音樂元素 (請替換成你實際的音樂變數或 ID)
-    // 例如：const bgm = document.getElementById('bgm-audio');
-    const bgm = window.bgmAudio; 
 
-    if (document.visibilityState === 'hidden') {
-        // 🔴 狀態：使用者切換 APP、跳回主畫面、或切換分頁
-        if (bgm && !bgm.paused) {
-            bgm.pause();
-            bgm.isPausedBySystem = true; // 貼個標籤，記住是「系統自動幫他暫停的」
+function handleAppSwitch(isAppHidden) {
+    // 🌟 因為你是用 new Audio()，所以直接對你的「willBgm」變數下指令即可！
+    // (確保這段代碼放在讀得到 willBgm 的地方)
+    if (!willBgm) return; 
+
+    if (isAppHidden) {
+        // 🔴 狀態：離開 APP
+        if (!willBgm.paused) {
+            willBgm.pause();
+            willBgm.isPausedBySystem = true; // 貼上系統暫停標籤
         }
-    } else if (document.visibilityState === 'visible') {
-        // 🟢 狀態：使用者回到你的模擬器畫面
-        
-        // 只有當「本來設定就有開音樂」且「剛剛是系統自動暫停的」，才幫他恢復播放
-        if (bgm && bgm.isPausedBySystem && wSettings.bgmEnabled) {
-            bgm.play().catch(function(error) {
-                console.log("瀏覽器阻擋了自動恢復播放:", error);
-            });
-            bgm.isPausedBySystem = false; // 撕掉標籤
+    } else {
+        // 🟢 狀態：回到 APP
+        // 檢查：1. 是不是系統剛幫忙暫停的？ 2. 玩家的音樂開關 (bgmCheck) 有沒有打勾？
+        if (willBgm.isPausedBySystem && bgmCheck.checked) {
+            willBgm.play().catch(e => console.log("自動恢復被 iOS 阻擋", e));
+            willBgm.isPausedBySystem = false; // 撕掉標籤
         }
     }
+}
+
+// 🕸️ 撒下三重天羅地網：
+// 1. 標準的可見性監聽
+document.addEventListener("visibilitychange", function() {
+    handleAppSwitch(document.visibilityState === 'hidden');
+});
+
+// 2. 頁面隱藏監聽 (專抓 iOS)
+window.addEventListener("pagehide", function() {
+    handleAppSwitch(true);
+});
+
+// 3. 失去焦點監聽 (專抓下拉通知列、切換 APP)
+window.addEventListener("blur", function() {
+    handleAppSwitch(true);
+});
+
+// 4. 恢復焦點監聽 (抓回到畫面)
+window.addEventListener("focus", function() {
+    setTimeout(() => handleAppSwitch(false), 200); 
 });
