@@ -24,6 +24,7 @@
 /* ========================================== */
 /* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
+html, body { max-width: 100vw; overflow-x: hidden; }
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
@@ -52,6 +53,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    body:has(#tab-will.active) { padding: 0 !important; }
 }
 
 .container { 
@@ -123,6 +125,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
     border: 1px solid var(--glass-border); 
     padding: 18px; border-radius: 16px; width: 100%; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box;
+    min-width: 0;
 }
 .left-panel { flex: 2; min-width: 300px; }
 .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
@@ -244,7 +247,16 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #FF3B30; font-weight: bold; margin-top: 10px;}
 .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
 
-.lazy-table-container { border: none !important; background: transparent !important; box-shadow: none !important; overflow-x: auto; border-radius: 12px; }
+.lazy-table-container { 
+    width: 100%; 
+    max-width: 100%; 
+    border: none !important; 
+    background: transparent !important; 
+    box-shadow: none !important; 
+    overflow-x: auto !important; /* 確保表格過長時出現內部捲軸 */
+    -webkit-overflow-scrolling: touch; /* 讓手機滑動更順暢 */
+    border-radius: 12px; 
+}
 .lazy-table { width: 100%; border-collapse: collapse; font-size: 14.5px; text-align: center; background: var(--glass-bg) !important; backdrop-filter: blur(8px); }
 .lazy-table th { background-color: var(--glass-border) !important; color: var(--text-main) !important; padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.1) !important; font-weight: 700 !important; }
 .lazy-table td { padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.05) !important; vertical-align: middle; border-left: none !important; border-right: none !important; color: var(--text-main);}
@@ -613,7 +625,15 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 @media (max-width: 500px) {
     body { padding: 10px; }
     .container { padding: 16px 12px; border-radius: 16px; }
-    .panel, .detail-box { padding: 12px 8px; border-radius: 12px; }
+    .panel, .detail-box { 
+    background: var(--glass-bg); 
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); 
+    padding: 18px; border-radius: 16px; width: 100%; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box;
+    /* 🌟 關鍵魔法：允許內部表格比外框寬時，外框不會被強制撐破 */
+    min-width: 0; 
+}
 
     .lazy-table th, .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 10px 4px; }
     .lazy-table th { white-space: nowrap; }
@@ -666,36 +686,44 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-game-ui-container .sec-grey-mid { padding-top: 4px !important; }
     #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
 
-    /* HEXA 手機版修復 */
+/* ================================================= */
+    /* 🔮 HEXA 區塊手機版適應 (解壓縮寬敞版)                 */
+    /* ================================================= */
     #tab-hexa-visual .visual-container { padding: 15px 12px !important; }
     
-    /* 1. 頂部資訊保持左右排列，但縮小字體以塞入同一行 */
+    /* 1. 頂部資訊改為上下排列，不硬擠在同一排 */
     #tab-hexa-visual .visual-header-top { 
-        flex-direction: row !important; 
-        align-items: center !important; 
-        padding-bottom: 10px !important;
+        flex-direction: column !important; 
+        align-items: flex-start !important; 
+        gap: 12px !important; 
+        padding-bottom: 15px !important;
     }
-    #tab-hexa-visual .v-fragment-text { font-size: 12px !important; white-space: nowrap !important; }
-    #tab-hexa-visual .v-btn-top { padding: 6px 8px !important; font-size: 11px !important; }
+    #tab-hexa-visual .v-fragment-text { font-size: 14px !important; white-space: normal !important; }
+    #tab-hexa-visual .v-top-controls { width: 100% !important; justify-content: flex-end !important; gap: 8px !important;}
+    #tab-hexa-visual .v-btn-top { padding: 8px 12px !important; font-size: 13px !important; }
 
     /* 2. 核心屬性區塊微調 */
-    #tab-hexa-visual .visual-box { padding: 10px !important; gap: 8px !important; border-radius: 12px !important; }
-    #tab-hexa-visual .hexa-img { width: 40px !important; height: 40px !important; }
+    #tab-hexa-visual .visual-box { padding: 12px !important; gap: 12px !important; border-radius: 12px !important; }
+    #tab-hexa-visual .hexa-img { width: 45px !important; height: 45px !important; }
     
-    /* 3. 讓機率文字保持在右邊，縮小字體 */
+    /* 3. 讓機率文字掉到下一行，不要跟屬性名稱打架 */
     #tab-hexa-visual .v-header-row { 
-        flex-direction: row !important; 
-        align-items: flex-end !important; 
+        flex-direction: column !important; 
+        align-items: flex-start !important; 
+        gap: 4px !important; 
     }
-    #tab-hexa-visual .v-title-main, #tab-hexa-visual .v-title-sub { font-size: 12px !important; }
-    #tab-hexa-visual .v-stat-name { font-size: 13px !important; }
-    #tab-hexa-visual .v-prob { font-size: 11px !important; white-space: nowrap !important; margin-left: auto !important;}
+    #tab-hexa-visual .v-title-main, #tab-hexa-visual .v-title-sub { font-size: 13px !important; }
+    #tab-hexa-visual .v-stat-name { font-size: 14px !important; }
+    #tab-hexa-visual .v-prob { 
+        font-size: 12px !important; 
+        margin-left: 0 !important; 
+        color: #b3c2d1 !important; 
+    }
 
     /* 4. 底部按鈕控制區 */
     #tab-hexa-visual .visual-controls { flex-direction: column !important; align-items: stretch !important; padding: 15px 12px !important; gap: 15px !important; border-radius: 12px !important;}
     #tab-hexa-visual .v-control-group { width: 100% !important; justify-content: space-between !important; }
     #tab-hexa-visual .v-btn-10x, #tab-hexa-visual .v-btn { flex: 1 !important; padding: 12px 10px !important; font-size: 15px !important; text-align: center !important; border-radius: 8px !important;}
-}
 
 @media (max-width: 768px) and (orientation: portrait) {
     /* 威爾手機直立模式 - 沿用你已經調好比例的原始代碼 */
