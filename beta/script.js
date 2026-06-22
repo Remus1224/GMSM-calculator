@@ -1,3 +1,33 @@
+// ==========================================
+// 🌙 主題切換系統 (Dark/Light Mode)
+// ==========================================
+function toggleTheme() {
+    const body = document.body;
+    const themeBtn = document.getElementById('theme-toggle');
+    
+    // 如果目前是深色，就切回淺色；反之亦然
+    if (body.classList.contains('dark-theme')) {
+        body.classList.remove('dark-theme');
+        themeBtn.innerText = '🌙'; // 切換圖示為月亮
+        localStorage.setItem('msm-theme', 'light'); // 記住使用者的選擇
+    } else {
+        body.classList.add('dark-theme');
+        themeBtn.innerText = '☀️'; // 切換圖示為太陽
+        localStorage.setItem('msm-theme', 'dark');
+    }
+}
+
+// 網頁載入時，檢查使用者之前選了什麼模式
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('msm-theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        const themeBtn = document.getElementById('theme-toggle');
+        if(themeBtn) themeBtn.innerText = '☀️';
+    }
+    // ... 這裡保留你原本 DOMContentLoaded 裡的程式碼 (例如 initIgnoreGrid) ...
+    if (typeof initIgnoreGrid === 'function') initIgnoreGrid();
+});
 /* ========================================== */
 /* 1. 全域系統與頁籤路由 (已加入 GA4 追蹤)     */
 /* ========================================== */
