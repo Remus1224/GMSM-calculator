@@ -24,19 +24,85 @@
     
     <h1>楓之谷M 也許有用的工具</h1>
     <div class="tab-menu">
-        <button id="btn-notice" class="active" onclick="switchTab('notice')">🪧 告示牌</button>
-        <button id="btn-ignore" onclick="switchTab('ignore')">無視計算機</button>
-        <button id="btn-transcend" onclick="switchTab('transcend')">超越模擬器</button>
-        <button id="btn-craft" onclick="switchTab('craft')">製作模擬器</button>
-        <button id="btn-hexa-prog" onclick="switchTab('hexa-prog')">六轉進度計算機</button>
-        <button id="btn-hexa-visual" onclick="switchTab('hexa-visual')">HEXA屬性模擬器</button>
-        <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
-        <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
-        <button id="btn-hexa-sim" onclick="switchTab('hexa-sim')">HEXA 目標屬性模擬</button>
-        <button id="btn-will" onclick="switchTab('will')">威爾練習機</button>
+        <button id="btn-home" onclick="switchTab('home')">🏠 返回大廳首頁</button>
     </div>
 
-    <div id="tab-notice" class="tab-content active">
+    <div id="tab-home" class="tab-content active">
+        <div class="app-grid">
+            <div class="app-card" onclick="switchTab('notice')">
+                <div class="app-icon">🪧</div>
+                <div class="app-info">
+                    <h3>公告與不負責聲明</h3>
+                    <p>查看版本更新日誌與工具箱開發緣由</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('ignore')">
+                <div class="app-icon">🔍</div>
+                <div class="app-info">
+                    <h3>無視防禦計算機</h3>
+                    <p>自訂各部位與套效，精確計算實質無視</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('transcend')">
+                <div class="app-icon">🔨</div>
+                <div class="app-info">
+                    <h3>鐵匠鋪：超越模擬器</h3>
+                    <p>1:1還原遊戲超越機制，追蹤期望值與消耗</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('craft')">
+                <div class="app-icon">🛠️</div>
+                <div class="app-info">
+                    <h3>鐵匠鋪：製作模擬器</h3>
+                    <p>模擬神話進古代、死靈、航海與神秘製作</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('hexa-prog')">
+                <div class="app-icon">📊</div>
+                <div class="app-info">
+                    <h3>六轉畢業進度計算機</h3>
+                    <p>輸入背包剩餘庫存，精準推算畢業天數</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('hexa-visual')">
+                <div class="app-icon">🔮</div>
+                <div class="app-info">
+                    <h3>HEXA 屬性視覺模擬器</h3>
+                    <p>高仿還原核心點擊，統計碎片與重置消耗</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('hexa-lazy')">
+                <div class="app-icon">📜</div>
+                <div class="app-info">
+                    <h3>HEXA 10次點完懶人表</h3>
+                    <p>十萬次深度運算，前10次點完對照即知去留</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('hexa-reset')">
+                <div class="app-icon">🔄</div>
+                <div class="app-info">
+                    <h3>HEXA 即時重置決策模擬</h3>
+                    <p>分析當前核心殘局與新核心的勝率PK</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('hexa-sim')">
+                <div class="app-icon">🎯</div>
+                <div class="app-info">
+                    <h3>HEXA 自訂目標策略模擬</h3>
+                    <p>百萬次極限推算，自訂目標與停損策略分析</p>
+                </div>
+            </div>
+            <div class="app-card" onclick="switchTab('will')">
+                <div class="app-icon">🎮</div>
+                <div class="app-info">
+                    <h3>威爾二階練習機</h3>
+                    <p>內建隨機與固定題庫，蜘蛛腳閃躲走位特訓</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-notice" class="tab-content">
         <div class="panel">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list" style="font-size: 14.5px;">
@@ -46,7 +112,7 @@
                 <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點HEXA相關功能,少走一點HEXA屬性的冤枉路。</li>
-                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
+                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的东西。</li>
             </ul>
 
             <div class="target-divider" style="margin: 10px 0;"></div>
@@ -63,7 +129,7 @@
             
             <div class="target-divider" style="margin: 10px 0;"></div>
             
-            <div class="section-title" style="color: #c0392b; border-bottom: 2px solid #fadbd8;">🐒 絕對不負責聲明 </div>
+            <div class="section-title" style="color: #c0392b; border-bottom: 1px solid rgba(0,0,0,0.08);">🐒 絕對不負責聲明 </div>
             <div class="disclaimer-box">
                 <p style="margin-top: 0;">本工具專為《楓之谷M》(GMSM) 使用（未來可能會長出其他奇怪功能）。</p>
                 <p>這裡面 <strong>99.9% 的程式碼都是 AI (如 Gemini / ChatGPT) 寫出來的</strong>！我只是一個「出一張嘴」的非本科小白，主要負責通靈需求、提供公式、還有在旁邊喊加油。</p>
@@ -73,8 +139,8 @@
             </div>
 
             <div class="target-divider" style="margin: 15px 0;"></div>
-            <div class="section-title" style="color: #7f8c8d; border-bottom: 2px solid #e1e4e8;">⚖️ 版權聲明 </div>
-            <div class="disclaimer-box" style="background: #f8f9fa; border-left: 6px solid #7f8c8d;">
+            <div class="section-title" style="color: #7f8c8d; border-bottom: 1px solid rgba(0,0,0,0.05);">⚖️ 版權聲明 </div>
+            <div class="disclaimer-box" style="background: rgba(0,0,0,0.02); border-left: 6px solid #7f8c8d; box-shadow: none;">
                 <p style="margin: 0; color: #555; font-size: 14px;">本網站為玩家自製的非營利實用工具，僅供社群交流與學習使用。網站內所使用的所有遊戲圖像、圖示、名稱與相關素材，其著作權與商標權皆歸原遊戲公司 (Nexon) 所有。本站並無任何營利行為，若有侵權疑慮，請來信告知，將立即移除相關內容。</p>
             </div>
         </div>
@@ -227,25 +293,25 @@
                 <input type="text" inputmode="decimal" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
             </div>
 
-            <div class="stats-text" style="text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;">
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
+            <div class="stats-text">
+                <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【超越石消耗】</strong><br>
                         一般超越：<span id="stat-stone-normal">0</span> 顆<br>
                         發光超越：<span id="stat-stone-radiant">0</span> 顆<br>
                         混沌超越：<span id="stat-stone-chaos">0</span> 顆<br>
-                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
-                            實際總消耗：<strong id="stat-stones-total" style="color:#c0392b; font-size:14px;">0</strong> 顆<br>
-                            理論期望值：<strong id="stat-stones-ev" style="color:#2980b9; font-size:14px;">0.00</strong> 顆
+                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed rgba(0,0,0,0.1);">
+                            實際總消耗：<strong id="stat-stones-total" style="color:#0071E3; font-size:14px;">0</strong> 顆<br>
+                            理論期望值：<strong id="stat-stones-ev" style="color:#86868B; font-size:14px;">0.00</strong> 顆
                         </div>
                     </div>
                     <div style="flex: 1; min-width: 140px;">
-                        <strong style="color:#2980b9;">【扣除卷軸消耗】</strong><br>
+                        <strong style="color:#0071E3;">【扣除卷軸消耗】</strong><br>
                         失敗扣除卷：<span id="stat-scrolls-total">0</span> 張<br><br><br>
-                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
-                            實際總消耗：<strong id="stat-scrolls-total-bottom" style="color:#c0392b; font-size:14px;">0</strong> 張<br>
-                            理論期望值：<strong id="stat-scrolls-ev" style="color:#2980b9; font-size:14px;">0.00</strong> 張
+                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed rgba(0,0,0,0.1);">
+                            實際總消耗：<strong id="stat-scrolls-total-bottom" style="color:#0071E3; font-size:14px;">0</strong> 張<br>
+                            理論期望值：<strong id="stat-scrolls-ev" style="color:#86868B; font-size:14px;">0.00</strong> 張
                         </div>
                     </div>
                 </div>
@@ -419,7 +485,7 @@
                 </select>
             </div>
 
-            <div class="stats-text" style="text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;">
+            <div class="stats-text">
                 <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
@@ -510,10 +576,10 @@
 
         <div class="panel">
             <div class="section-title">⏳ 第三步：資源獲取速度 (用於推算畢業時間)</div>
-            <div style="font-weight:bold; color:#444; margin-bottom: 10px;">每日掛機獲取</div>
+            <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 10px;">每日掛機獲取</div>
             <div class="inv-grid" style="margin-bottom: 15px;">
-                <div class="inv-item" style="border-right: 2px solid #eee; padding-right: 15px;">
-                    <label style="color:#2980b9;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
+                <div class="inv-item" style="border-right: 1px solid rgba(0,0,0,0.05); padding-right: 15px;">
+                    <label style="color:#0071E3;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
                     <input type="text" inputmode="decimal" id="farm-hours" min="0" max="24" value="">
                 </div>
                 <div class="inv-item"><label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label><input type="text" inputmode="decimal" id="farm-frag-hr" min="0" value=""></div>
@@ -521,7 +587,7 @@
                 <div class="inv-item"><label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-weak-hr" min="0" value=""></div>
             </div>
 
-            <div style="font-weight:bold; color:#e67e22; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
+            <div style="font-weight:bold; color:#FF9500; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
             <div class="inv-grid">
                 <div class="inv-item"><label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label><input type="text" inputmode="decimal" id="farm-frag-wk" min="0" value=""></div>
                 <div class="inv-item"><label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label><input type="text" inputmode="decimal" id="farm-conc-wk" min="0" value=""></div>
@@ -611,11 +677,11 @@
             <div class="visual-controls">
                 <div class="v-control-group">
                     <button class="v-btn-reset" id="btn-reset-v" onclick="resetVisual()" disabled style="opacity: 0.5; cursor: not-allowed;">重置</button>
-                    <span class="v-reset-tracker">重製次數：<span id="v-reset-count" style="font-weight:bold; color:#f1c40f; font-size:16px;">0</span></span>
+                    <span class="v-reset-tracker">重製次數：<span id="v-reset-count" style="font-weight:bold; color:#FF9500; font-size:16px;">0</span></span>
                 </div>
                 <div class="v-control-group">
                     <button class="v-btn-10x" id="btn-enhance-10x" onclick="clickVisualEnhance10x()">強化10次</button>
-                    <button class="v-btn" id="btn-enhance-1" onclick="clickVisualEnhance()">強化</button>
+                    <button class="v-btn" id="btn-enhance-1" onclick="clickVisualVisualEnhance()">強化</button>
                 </div>
             </div>
         </div>
@@ -645,17 +711,17 @@
             </div>
             
             <div class="target-divider"></div>
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #1D1D1F;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub" min="0" max="10" value=""></div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
-                <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start;" title="將運算次數從 3 萬提升至 100 萬次，適合極端目標">
+                <label class="checkbox-label" style="color: #FF9500; justify-content: flex-start;" title="將運算次數從 3 萬提升至 100 萬次，適合極端目標">
                     <input type="checkbox" id="sim-million-reset"> ⚠️ 啟用極限運算 (100萬次模擬，按下後可能卡頓 1~3 秒)
                 </label>
-                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
+                <div style="font-size: 12px; color: #86868B; text-align: left; padding-left: 28px;">
                     💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的數據。
                 </div>
             </div>
@@ -677,7 +743,7 @@
         <div class="panel">
             <div class="section-title">設定模擬條件</div>
             
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">📍 目前狀態</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #1D1D1F;">📍 目前狀態</div>
             <div class="hexa-inputs">
                 <div><label>主屬 (A)</label><input type="text" inputmode="decimal" id="sim-a" min="0" max="10" value=""></div>
                 <div><label>附屬 (B)</label><input type="text" inputmode="decimal" id="sim-b" min="0" max="10" value=""></div>
@@ -687,27 +753,27 @@
 
             <div class="target-divider"></div>
             
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #1D1D1F;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="target-sub" min="0" max="10" value=""></div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
-                <label class="checkbox-label" style="justify-content: flex-start; color:#3498db;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
+                <label class="checkbox-label" style="justify-content: flex-start; color:#0071E3;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
                     <input type="checkbox" id="sim-stoploss" checked> ☑️ 啟用策略模式 (含停損與重置決策)
                 </label>
-                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px; line-height: 1.6;">
+                <div style="font-size: 12px; color: #86868B; text-align: left; padding-left: 28px; line-height: 1.6;">
                     💡 <strong>提早停損</strong>：當剩餘次數「絕對不可能」達成目標時，提早放棄以省下碎片。<br>
                     💡 <strong>重置決策</strong>：僅針對難度最高的單一目標 [主9] 與 [主10] 生效。<br>
                       🎯 拚主 10：前 10 次若主屬性未達 5 級，果斷重置。<br>
                       🎯 拚主 9：前 10 次若主屬性未達 4 級，果斷重置。
                 </div>
 
-                <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start; margin-top: 10px;">
+                <label class="checkbox-label" style="color: #FF9500; justify-content: flex-start; margin-top: 10px;">
                     <input type="checkbox" id="sim-million"> ⚠️ 啟用極限運算 (100萬次模擬，計算可能需1~2秒)
                 </label>
-                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
+                <div style="font-size: 12px; color: #86868B; text-align: left; padding-left: 28px;">
                     💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的期望值。
                 </div>
             </div>
@@ -890,16 +956,6 @@
                     </ul>
                 </div>
 
-                <div class="inst-section">
-                    <div class="inst-subtitle">遊戲機制</div>
-                    <ul class="inst-list">
-                        <li>若畫面背景<b>無裂痕</b>，請<b>閃避</b>蜘蛛腳。</li>
-                        <li>若畫面背景<b>有裂痕</b>，請<b>接下</b>蜘蛛腳。</li>
-                        <li>每當系統判定您處於錯誤位置，您的角色上方會顯示 <b>Miss</b> 且左側狀態列 <b>被擊中次數 +1</b>。</li>
-                        <li>為了還原遊戲體驗，血條會隨著被擊中扣除，但目前並不會真的死亡。</li>
-                    </ul>
-                </div>
-
                 <div class="inst-section" style="border: none; background: transparent; padding: 5px 0;">
                     <div class="inst-btn-grid">
                         <div class="inst-btn-item">
@@ -912,13 +968,13 @@
                             <div class="inst-mock-glass-panel">
                                 <div class="glass-btn mock-btn">↻&#xFE0E;</div>
                             </div>
-                            <div class="inst-btn-text"><b>結束重來</b><br><span>(返回設定)</span></div>
+                            <div class="inst-btn-text"><b>結束重來</b></div>
                         </div>
                         <div class="inst-btn-item">
                             <div class="inst-mock-glass-panel">
                                 <div class="glass-btn mock-btn">⏭&#xFE0E;</div>
                             </div>
-                            <div class="inst-btn-text"><b>提早結算</b><br><span>(看成績單)</span></div>
+                            <div class="inst-btn-text"><b>提早結算</b></div>
                         </div>
                         <div class="inst-btn-item">
                             <div class="inst-mock-glass-panel">
@@ -956,14 +1012,10 @@
                 </div>
             </div>
         </div> 
-    </div> <script src="script.js"></script>
-<script>
-    /*// 網頁 DOM 結構載入完成後，自動切換至威爾模擬器並點燃遊戲引擎
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof switchTab === 'function') {
-            switchTab('will');
-        }
-    });*/
-</script>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
