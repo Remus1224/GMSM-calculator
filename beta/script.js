@@ -49,7 +49,8 @@ function switchTab(tabId) {
     document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
-    document.getElementById('btn-' + tabId).classList.add('active');
+    const targetBtn = document.getElementById('btn-' + tabId);
+    if (targetBtn) targetBtn.classList.add('active');
     document.getElementById('tab-' + tabId).classList.add('active');
 
     // ... (保留你原本 switchTab 內部的其他 if 判斷式，例如 lazyTableGenerated, transcend_updateUI 等) ...
@@ -2679,4 +2680,3 @@ function will_gameLoop(timestamp) {
     will_draw();
     requestAnimationFrame(will_gameLoop);
 }
-
