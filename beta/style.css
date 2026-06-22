@@ -24,7 +24,11 @@
 /* ========================================== */
 /* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
-html, body { max-width: 100vw; overflow-x: hidden; }
+html, body { 
+    width: 100%; /* 👈 放棄 100vw，改用 100% 以避免捲軸問題 */
+    max-width: 100%; 
+    overflow-x: hidden; /* 保留防護網，防止整個網頁左右滑動 */
+}
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
@@ -54,6 +58,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
     body:has(#tab-will.active) { padding: 0 !important; }
+    body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !important; }
 }
 
 .container { 
@@ -126,6 +131,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
     padding: 18px; border-radius: 16px; width: 100%; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box;
     min-width: 0;
+    overflow-x: auto;
 }
 .left-panel { flex: 2; min-width: 300px; }
 .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
@@ -623,17 +629,9 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 
 @media (max-width: 500px) {
-    body { padding: 10px; }
-    .container { padding: 16px 12px; border-radius: 16px; }
-    .panel, .detail-box { 
-    background: var(--glass-bg); 
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); 
-    padding: 18px; border-radius: 16px; width: 100%; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box;
-    /* 🌟 關鍵魔法：允許內部表格比外框寬時，外框不會被強制撐破 */
-    min-width: 0; 
-}
+    body { padding: 4px; }
+    .container { padding: 12px 8px; border-radius: 16px; }
+    .panel, .detail-box { padding: 10px 6px; border-radius: 12px; }
 
     .lazy-table th, .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 10px 4px; }
     .lazy-table th { white-space: nowrap; }
@@ -687,38 +685,35 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
 
 /* ================================================= */
-    /* 🔮 HEXA 區塊手機版適應 (解壓縮寬敞版)                 */
+    /* 🔮 HEXA 區塊手機版適應 (同排防錯位版)                 */
     /* ================================================= */
     #tab-hexa-visual .visual-container { padding: 15px 12px !important; }
     
-    /* 1. 頂部資訊改為上下排列，不硬擠在同一排 */
+    /* 1. 頂部資訊保持左右排列，但微縮字體 */
     #tab-hexa-visual .visual-header-top { 
-        flex-direction: column !important; 
-        align-items: flex-start !important; 
-        gap: 12px !important; 
-        padding-bottom: 15px !important;
+        flex-direction: row !important; 
+        align-items: center !important; 
+        padding-bottom: 10px !important;
     }
-    #tab-hexa-visual .v-fragment-text { font-size: 14px !important; white-space: normal !important; }
-    #tab-hexa-visual .v-top-controls { width: 100% !important; justify-content: flex-end !important; gap: 8px !important;}
-    #tab-hexa-visual .v-btn-top { padding: 8px 12px !important; font-size: 13px !important; }
+    #tab-hexa-visual .v-fragment-text { font-size: 12px !important; white-space: nowrap !important; }
+    #tab-hexa-visual .v-btn-top { padding: 6px 8px !important; font-size: 11px !important; }
 
     /* 2. 核心屬性區塊微調 */
-    #tab-hexa-visual .visual-box { padding: 12px !important; gap: 12px !important; border-radius: 12px !important; }
-    #tab-hexa-visual .hexa-img { width: 45px !important; height: 45px !important; }
+    #tab-hexa-visual .visual-box { padding: 10px 8px !important; gap: 8px !important; border-radius: 12px !important; }
+    #tab-hexa-visual .hexa-img { width: 38px !important; height: 38px !important; }
     
-    /* 3. 讓機率文字掉到下一行，不要跟屬性名稱打架 */
+    /* 3. 🌟 讓機率文字保持在右邊同行，限制左邊寬度防止覆蓋 */
     #tab-hexa-visual .v-header-row { 
-        flex-direction: column !important; 
-        align-items: flex-start !important; 
-        gap: 4px !important; 
+        flex-direction: row !important; 
+        justify-content: space-between !important; 
+        align-items: flex-end !important; 
+        flex-wrap: nowrap !important;
     }
-    #tab-hexa-visual .v-title-main, #tab-hexa-visual .v-title-sub { font-size: 13px !important; }
-    #tab-hexa-visual .v-stat-name { font-size: 14px !important; }
-    #tab-hexa-visual .v-prob { 
-        font-size: 12px !important; 
-        margin-left: 0 !important; 
-        color: #b3c2d1 !important; 
-    }
+    #tab-hexa-visual .v-title-main, #tab-hexa-visual .v-title-sub { font-size: 12px !important; margin-bottom: 2px !important; }
+    /* 左邊屬性名稱限制最大寬度，超出的字會自動變成... */
+    #tab-hexa-visual .v-stat-name { font-size: 12px !important; letter-spacing: 0 !important; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* 右邊機率文字 */
+    #tab-hexa-visual .v-prob { font-size: 11px !important; white-space: nowrap !important; margin-left: 5px !important;}
 
     /* 4. 底部按鈕控制區 */
     #tab-hexa-visual .visual-controls { flex-direction: column !important; align-items: stretch !important; padding: 15px 12px !important; gap: 15px !important; border-radius: 12px !important;}
@@ -726,7 +721,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #tab-hexa-visual .v-btn-10x, #tab-hexa-visual .v-btn { flex: 1 !important; padding: 12px 10px !important; font-size: 15px !important; text-align: center !important; border-radius: 8px !important;}
 
 @media (max-width: 768px) and (orientation: portrait) {
-    /* 威爾手機直立模式 - 沿用你已經調好比例的原始代碼 */
+    /* --- 1. 輔助 UI 與狀態列 --- */
     #ms-player-hud { transform: scale(0.6) !important; transform-origin: top left; }
     .glass-panel { padding: 3px 6px !important; gap: 4px !important; border-radius: 6px !important; }
     .glass-btn { font-size: 12px !important; width: 26px !important; height: 26px !important; padding: 0 !important; }
@@ -734,22 +729,22 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #glass-controls-mid { right: 4px !important; }
     #glass-controls-bottom { bottom: 4px !important; right: 4px !important; }
     
+    /* --- 2. 搖桿與狀態文字 --- */
     #joystick-base { width: 45px !important; height: 45px !important; bottom: 5% !important; left: 2% !important; border-width: 1px !important; }
     #joystick-stick { width: 18px !important; height: 18px !important; }
     #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
     #tab-will .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
     
+    /* --- 3. 恢復黑色外框 --- */
     #will-game-wrapper { 
         min-height: auto !important; 
-        overflow: hidden !important; 
+        overflow: hidden !important; /* 鎖死結界 */
     }
-    
     #will-inner-container { 
         height: auto !important; 
         aspect-ratio: 1741 / 713 !important; 
     }
-    
     #willCanvas { 
         position: relative !important; 
         top: auto !important; 
@@ -757,17 +752,17 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         height: 100% !important; 
     }
 
+    /* --- 4. 疊加層與卡片 (找回等比例縮小魔法) --- */
     #will-start-overlay, #will-result-overlay { 
         position: absolute !important; 
         width: 100% !important; 
         height: 100% !important; 
         border-radius: 8px !important; 
-        /* 💡 把導致重疊的 display: flex 刪除了 */
     }
 
     #will-start-overlay .start-card { 
         width: 90% !important; 
-        max-width: 250px !important;
+        max-width: 250px !important; 
         height: auto !important; 
         padding: 25px 25px !important; 
         transform-origin: center center !important;
@@ -778,15 +773,16 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 
     #will-result-overlay .result-card { 
         width: 95% !important; 
-        max-width: 250px !important;
+        max-width: 260px !important; 
         height: auto !important; 
-        padding: 25px 25px !important; 
+        padding: 25px 20px !important; 
         transform-origin: center center !important;
         overflow-y: visible !important; 
         max-height: none !important;
         animation: popInPortraitResult 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
     }
     
+    /* 內部細節壓縮 */
     #will-start-overlay .will-game-title { font-size: 16px !important; margin-bottom: 5px !important; letter-spacing: 1px !important; }
     #will-start-overlay .will-rule-box { padding: 6px !important; font-size: 11px !important; gap: 2px 4px !important; margin-bottom: 6px !important; width: 100% !important; max-width: 240px !important;}
     #will-start-overlay .glass-input, #will-start-overlay .glass-btn-start { height: 32px !important; font-size: 13px !important; }
@@ -794,9 +790,67 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .result-stat { margin-bottom: 3px !important; gap: 4px !important; font-size: 12px !important; }
     .result-total { margin-top: 2px !important; padding-top: 5px !important; margin-bottom: 6px !important; gap: 10px !important;}
     .will-res-hit-num { font-size: 20px !important; }
-    .btn-res-secondary, .btn-res-primary { height: 28px !important; font-size: 12px !important; }
-}
+    
+    /* 防止結算按鈕斷行 */
+    .will-res-btn-group { flex-wrap: nowrap !important; gap: 8px !important; }
+    .btn-res-secondary, .btn-res-primary { 
+        height: 28px !important; 
+        font-size: 12px !important; 
+        padding: 0 8px !important; 
+        white-space: nowrap !important; 
+    }
 
+    /* ================================================= */
+    /* 🛠️ 威爾設定區精準修復 (維持390px內，還原你的完美排版)  */
+    /* ================================================= */
+    #tab-will .settings-panel { padding: 15px !important; }
+    
+    /* 1. 音量控制：還原「不換行」，自動適應 390px */
+    #tab-will .will-vol-group-wrapper { 
+        flex-wrap: nowrap !important; 
+        gap: 5px !important; 
+    }
+    #tab-will .vol-group { 
+        border-left: none !important; 
+        padding-left: 0 !important; 
+        margin-left: 0 !important; 
+        width: auto !important; 
+        flex: 1 !important; 
+    }
+    #tab-will .vol-group input[type="range"] {
+        width: 100% !important;
+        min-width: 40px !important; 
+    }
+    #tab-will .vol-group label {
+        white-space: nowrap !important; 
+    }
+
+    /* 2. 動圖與說明區：保持上下排列 */
+    #tab-will .memo-content { 
+        flex-direction: column !important; 
+        gap: 15px !important; 
+        align-items: center !important; 
+        text-align: center !important;
+    }
+    #tab-will .memo-apng { 
+        width: 100% !important; 
+        max-width: 250px !important; 
+    }
+
+    /* 3. 還原你的神級排版：前四個左右排列，後兩個自己一列 */
+    #tab-will .inst-btn-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+    #tab-will .inst-btn-grid > div:nth-child(5),
+    #tab-will .inst-btn-grid > div:nth-child(6) {
+        grid-column: span 2 !important;
+    }
+} /* 👈 這是 @media 的結尾括號，請確保它有被包含進去！ */
+
+/* 🌟 專屬縮放動畫 (必須放在 @media 結尾大括號的外面！) */
 @keyframes popInPortraitStart {
     0% { opacity: 0; transform: scale(0.2); }
     100% { opacity: 1; transform: scale(0.52); } 
