@@ -725,33 +725,82 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 @media (max-width: 768px) { .inst-btn-grid { grid-template-columns: repeat(2, 1fr); } .inst-btn-item { grid-column: span 1; } .span-special { grid-column: 1 / -1 !important; } }
 @media (max-width: 768px) and (orientation: portrait) {
-    #ms-player-hud { transform: scale(0.65); transform-origin: top left; }
-    .glass-panel { padding: 4px 8px !important; gap: 6px !important; border-radius: 8px !important; }
-    .glass-btn { font-size: 13px !important; width: 28px !important; height: 28px !important; padding: 0 !important; }
-    #glass-controls-top { top: 5px !important; right: 5px !important; }
-    #glass-controls-mid { right: 5px !important; }
-    #joystick-base { width: 45px !important; height: 45px !important; bottom: 6% !important; left: 2% !important; border-width: 1px !important; }
-    #joystick-stick { width: 20px !important; height: 20px !important; }
+    /* --- 1. 輔助 UI 與狀態列極致微縮 --- */
+    #ms-player-hud { transform: scale(0.6) !important; transform-origin: top left; }
+    .glass-panel { padding: 3px 6px !important; gap: 4px !important; border-radius: 6px !important; }
+    .glass-btn { font-size: 12px !important; width: 26px !important; height: 26px !important; padding: 0 !important; }
+    #glass-controls-top { top: 4px !important; right: 4px !important; }
+    #glass-controls-mid { right: 4px !important; }
+    #glass-controls-bottom { bottom: 4px !important; right: 4px !important; }
+    
+    /* --- 2. 搖桿與狀態文字微調 --- */
+    #joystick-base { width: 45px !important; height: 45px !important; bottom: 5% !important; left: 2% !important; border-width: 1px !important; }
+    #joystick-stick { width: 18px !important; height: 18px !important; }
     #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
-    #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
     #tab-will .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
-    /* 🍏 直立模式彈窗極致壓縮與防溢出 */
-    #will-result-overlay .result-card, #will-start-overlay .start-card { 
-        width: 88% !important; 
-        max-width: 320px !important;
-        max-height: 85dvh !important; /* 避開手機上下狀態列 */
-        height: auto !important; 
-        flex-shrink: 0 !important; 
-        padding: 20px 15px !important; /* 縮減內部留白 */
-        overflow-y: auto !important; /* 啟動內部彈性滾動 */
-        animation: popInPortrait 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
+    
+    /* --- 3. 恢復黑色外框原始比例，解除撐高 --- */
+    #will-game-wrapper { 
+        min-height: auto !important; /* 拔除上一輪的撐高，還原細長黑框 */
+        overflow: hidden !important; /* 鎖死邊界，不准任何東西突出來 */
     }
     
-    /* 針對開始畫面的元素進一步壓縮，確保不用滾動也能看完 */
-    #will-start-overlay .will-game-title { font-size: 20px !important; margin-bottom: 10px !important; white-space: normal !important; }
-    #will-start-overlay .will-rule-box { padding: 8px !important; font-size: 12px !important; gap: 6px 4px !important; margin-bottom: 12px !important; }
-    #will-start-overlay .glass-input, #will-start-overlay .glass-btn-start { height: 40px !important; font-size: 14px !important; }
+    #will-inner-container { 
+        height: auto !important; 
+        aspect-ratio: 1741 / 713 !important; /* 鎖定 1:1 遊戲原始比例 */
+    }
+    
+    #willCanvas { 
+        position: relative !important; 
+        top: auto !important; 
+        transform: none !important; 
+        height: 100% !important; 
+    }
+
+    /* --- 4. 覆蓋疊加層，維持原本的彈性顯示 --- */
+    #will-start-overlay, #will-result-overlay { 
+        position: absolute !important; 
+        width: 100% !important; 
+        height: 100% !important; 
+        border-radius: 8px !important; 
+    }
+
+    /* --- 5. 核心精準縮放魔法：強制縮小卡體，使其完全不出框 --- */
+    #will-start-overlay .start-card { 
+        width: 90% !important; 
+        max-width: 320px !important;
+        height: auto !important; 
+        padding: 12px 15px !important; /* 壓縮內邊距 */
+        transform-origin: center center !important;
+        overflow-y: visible !important; 
+        max-height: none !important;
+        /* 呼叫專屬動畫：完美縮放到 0.52 倍 */
+        animation: popInPortraitStart 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
+    }
+
+    #will-result-overlay .result-card { 
+        width: 95% !important; 
+        max-width: 320px !important;
+        height: auto !important; 
+        padding: 10px 15px !important; /* 結算卡片更緊湊 */
+        transform-origin: center center !important;
+        overflow-y: visible !important; 
+        max-height: none !important;
+        /* 呼叫專屬動畫：因為結算字多，極致縮放到 0.46 倍完美融入 */
+        animation: popInPortraitResult 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
+    }
+    
+    /* 壓縮標題與規則框基底 */
+    #will-start-overlay .will-game-title { font-size: 16px !important; margin-bottom: 5px !important; letter-spacing: 1px !important; }
+    #will-start-overlay .will-rule-box { padding: 6px !important; font-size: 11px !important; gap: 2px 4px !important; margin-bottom: 6px !important; width: 100% !important; max-width: 240px !important;}
+    #will-start-overlay .glass-input, #will-start-overlay .glass-btn-start { height: 32px !important; font-size: 13px !important; }
+    
+    /* 壓縮結算數據基底 */
+    .result-stat { margin-bottom: 3px !important; gap: 4px !important; font-size: 12px !important; }
+    .result-total { margin-top: 2px !important; padding-top: 5px !important; margin-bottom: 6px !important; gap: 10px !important;}
+    .will-res-hit-num { font-size: 20px !important; }
+    .btn-res-secondary, .btn-res-primary { height: 28px !important; font-size: 12px !important; }
 }
 @media (max-width: 600px) {
     #tab-will .memo-content { flex-direction: column !important; gap: 15px !important; text-align: center !important; }
@@ -760,6 +809,15 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 @media (max-width: 768px), (max-width: 950px) and (orientation: landscape) {
     #tab-will .memo-mobile-break { display: block !important; margin-top: 4px !important; font-size: 12px !important; }
     #tab-will .mobile-break-hint { display: inline !important; font-size: 10px !important; margin-top: 0 !important; color: #7f8c8d !important; }
+}
+/* 🌟 在 @media 外面（或是最底部）補上這兩個專屬的直立縮放動畫 */
+@keyframes popInPortraitStart {
+    0% { opacity: 0; transform: scale(0.2); }
+    100% { opacity: 1; transform: scale(0.52); } /* 開始畫面 0.52 倍契合 */
+}
+@keyframes popInPortraitResult {
+    0% { opacity: 0; transform: scale(0.2); }
+    100% { opacity: 1; transform: scale(0.46); } /* 結算畫面 0.46 倍契合 */
 }
 
 /* ========================================== */
