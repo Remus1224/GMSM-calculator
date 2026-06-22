@@ -1,4 +1,56 @@
 /* ========================================== */
+/* 0. 核心主題變數 (CSS Variables)             */
+/* ========================================== */
+:root {
+    /* 🌞 預設淺色模式 (明亮極光) */
+    --bg-base: #F3E8FF;
+    --bg-grad-1: rgba(156, 234, 254, 0.9);
+    --bg-grad-2: rgba(200, 141, 221, 0.9);
+    --bg-grad-3: rgba(182, 223, 255, 0.6);
+    --text-main: #1D1D1F;
+    --text-muted: #86868B;
+    
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --card-bg: rgba(255, 255, 255, 0.45);
+    --card-hover: #FFFFFF;
+    --input-bg: rgba(255, 255, 255, 0.8);
+    
+    --btn-grad-1: #9CEAFE;
+    --btn-grad-2: #C88DDD;
+    --btn-text: #1D1D1F;
+}
+
+body.dark-theme {
+    /* 🌙 深色模式 (暗黑霓虹) */
+    --bg-base: #0B0B13; /* 深邃太空黑 */
+    --bg-grad-1: rgba(56, 189, 248, 0.4); /* 霓虹青 */
+    --bg-grad-2: rgba(168, 85, 247, 0.4); /* 霓虹紫 */
+    --bg-grad-3: rgba(59, 130, 246, 0.2);
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-hover: rgba(255, 255, 255, 0.08);
+    --input-bg: rgba(0, 0, 0, 0.4);
+    
+    --btn-grad-1: #0EA5E9;
+    --btn-grad-2: #9333EA;
+    --btn-text: #FFFFFF;
+}
+
+/* 🍎 切換按鈕的專屬樣式 */
+.theme-btn {
+    position: absolute; right: 0;
+    background: var(--glass-bg); border: 1px solid var(--glass-border);
+    border-radius: 50%; width: 40px; height: 40px; font-size: 20px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.theme-btn:hover { transform: scale(1.1); background: var(--card-hover); }
+/* ========================================== */
 /* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
 html { box-sizing: border-box; }
@@ -15,24 +67,15 @@ button, input, select, label, .btn-action { touch-action: manipulation; font-fam
 }
 
 body { 
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
-    
-    /* 使用你色票中的淺紫色作為基底 */
-    background-color: #F3E8FF; 
-    /* 疊加巨大的青色與紫色光暈 */
+    /* ...保留原本字體設定... */
+    background-color: var(--bg-base); 
     background-image: 
-        radial-gradient(circle at 15% 40%, rgba(156, 234, 254, 0.9) 0%, transparent 55%), /* #9CEAFE */
-        radial-gradient(circle at 85% 60%, rgba(200, 141, 221, 0.9) 0%, transparent 55%), /* #C88DDD */
-        radial-gradient(circle at 50% 10%, rgba(182, 223, 255, 0.6) 0%, transparent 40%); /* 頂部微光 */
+        radial-gradient(circle at 15% 40%, var(--bg-grad-1) 0%, transparent 55%),
+        radial-gradient(circle at 85% 60%, var(--bg-grad-2) 0%, transparent 55%),
+        radial-gradient(circle at 50% 10%, var(--bg-grad-3) 0%, transparent 40%);
     background-attachment: fixed;
-    
-    color: #1D1D1F; 
-    display: flex; justify-content: center; padding: 20px; 
-    user-select: none; -webkit-user-select: none; margin: 0; 
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    color: var(--text-main); 
+    transition: background-color 0.5s ease, color 0.5s ease; /* 讓切換時有平滑漸變動畫 */
 }
 
 /* 🍎 圖一修復：移除主容器的白底與邊框，讓卡片直接懸浮 */
@@ -669,7 +712,16 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #joystick-stick { width: 45px !important; height: 45px !important; }
     #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
     #tab-will .custom-num-input { width: 25px !important; padding: 2px !important; }
-    #will-result-overlay .result-card, #will-start-overlay .start-card { width: 280px !important; height: max-content !important; flex-shrink: 0 !important; padding: 25px 20px !important; animation: popInLandscape 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; }
+    /* 🍏 橫向模式彈窗防溢出優化 */
+    #will-result-overlay .result-card, #will-start-overlay .start-card { 
+        width: 320px !important; 
+        max-height: 90dvh !important; /* 最高只到螢幕的 90% */
+        height: auto !important; 
+        flex-shrink: 0 !important; 
+        padding: 15px 20px !important; /* 縮小 Padding 爭取空間 */
+        overflow-y: auto !important; /* 內容太多時允許內部滾動 */
+        animation: popInLandscape 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
+    }
 }
 @media (max-width: 768px) { .inst-btn-grid { grid-template-columns: repeat(2, 1fr); } .inst-btn-item { grid-column: span 1; } .span-special { grid-column: 1 / -1 !important; } }
 @media (max-width: 768px) and (orientation: portrait) {
@@ -684,8 +736,22 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
     #will-start-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
     #tab-will .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
-    #will-result-overlay .result-card, #will-start-overlay .start-card { width: 280px !important; height: max-content !important; flex-shrink: 0 !important; padding: 25px 20px !important; animation: popInPortrait 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; }
-    #will-start-overlay .start-card > div:first-child { white-space: nowrap !important; }
+    /* 🍏 直立模式彈窗極致壓縮與防溢出 */
+    #will-result-overlay .result-card, #will-start-overlay .start-card { 
+        width: 88% !important; 
+        max-width: 320px !important;
+        max-height: 85dvh !important; /* 避開手機上下狀態列 */
+        height: auto !important; 
+        flex-shrink: 0 !important; 
+        padding: 20px 15px !important; /* 縮減內部留白 */
+        overflow-y: auto !important; /* 啟動內部彈性滾動 */
+        animation: popInPortrait 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
+    }
+    
+    /* 針對開始畫面的元素進一步壓縮，確保不用滾動也能看完 */
+    #will-start-overlay .will-game-title { font-size: 20px !important; margin-bottom: 10px !important; white-space: normal !important; }
+    #will-start-overlay .will-rule-box { padding: 8px !important; font-size: 12px !important; gap: 6px 4px !important; margin-bottom: 12px !important; }
+    #will-start-overlay .glass-input, #will-start-overlay .glass-btn-start { height: 40px !important; font-size: 14px !important; }
 }
 @media (max-width: 600px) {
     #tab-will .memo-content { flex-direction: column !important; gap: 15px !important; text-align: center !important; }
