@@ -21,17 +21,27 @@
 <body>
 
 <div class="container">
-    
-    <div class="header-area" style="width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin-bottom: 5px;">
-        <h1 style="margin-bottom: 0;">楓之谷M 也許有用的工具</h1>
-        <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()" title="切換深/淺色模式">🌙</button>
-    </div>
-    <div class="tab-menu">
-        <button id="btn-home" onclick="switchTab('home')">🏠 返回大廳首頁</button>
+
+    <div class="top-header-section">
+        
+        <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
+
+        <div class="top-nav-bar">
+        
+        <div class="nav-side left-side">
+            <button id="btn-home" onclick="switchTab('home')" class="nav-btn">主選單</button>
+        </div>
+
+        <div id="sub-page-title" class="nav-title-glass">主選單</div>
+
+        <div class="nav-side right-side">
+            <button id="theme-toggle" class="nav-btn" onclick="toggleTheme()" title="切換深/淺色模式">🌙</button>
+        </div>
+
     </div>
 
     <div id="tab-home" class="tab-content active">
-    <div class="app-grid">
+        <div class="app-grid">
         
         <div class="app-card" onclick="switchTab('notice')">
             <div class="app-icon">
@@ -47,7 +57,7 @@
                 <img src="assets/icon_超越模擬器.png" class="menu-custom-img" alt="icon">
             </div>
             <div class="app-info">
-                <h3>鐵匠鋪：超越模擬器</h3>
+                <h3>超越模擬器</h3>
             </div>
         </div>
 
@@ -56,7 +66,7 @@
                 <img src="assets/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
             </div>
             <div class="app-info">
-                <h3>鐵匠鋪：製作模擬器</h3>
+                <h3>製作模擬器</h3>
             </div>
         </div>
 
@@ -123,7 +133,15 @@
             </div>
         </div>
 
-        
+    </div> <div class="settings-panel instructions-panel memo-card">
+        <div class="memo-content">
+            <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
+            <div class="memo-text-area">
+                <div class="memo-title">Bug 告知</div>
+                <p>如果有發現什麼 Bug 可以加我的 Discord </p>
+                <p class="memo-simple-text">紙條：露娜-迷你安安 <br class="mobile-br">（留言 Discord 名稱我方便確認好友）</span></p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -322,7 +340,7 @@
             </div>
 
             <div class="stats-text">
-                <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
+                <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px;"> 消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【超越石消耗】</strong><br>
@@ -344,7 +362,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-reset-tr" onclick="tr_action_reset()">🔄 重新模擬 (清除所有狀態)</button>
+            <button class="btn-reset-tr" onclick="tr_action_reset()"> 重新模擬 (清除所有狀態)</button>
         </div>
 
         <div class="modal-backdrop" id="result-modal">
@@ -1033,16 +1051,7 @@
                 </div>
             </div>
             
-            <div class="settings-panel instructions-panel memo-card">
-                <div class="memo-content">
-                    <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
-                    <div class="memo-text-area">
-                        <div class="memo-title">Bug 告知</div>
-                        <p>如果有發現什麼 Bug 可以加我的 Discord </p>
-                        <p class="memo-simple-text">紙條：露娜-迷你安安 <span class="memo-mobile-break">（留言 Discord 名稱我方便確認好友）</span></p>
-                    </div>
-                </div>
-            </div>
+            
         </div> 
     </div>
 
