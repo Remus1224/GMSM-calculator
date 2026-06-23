@@ -74,7 +74,7 @@ body {
 .container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active) { max-width: 900px; }
 
 h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5px; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
-.hint { width: 100%; font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 10px; font-weight: 500; }
+.hint { width: 100%; font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 0px; font-weight: 500; }
 
 .container:has(#tab-home.active) .tab-menu { display: none; }
 .tab-menu { 
@@ -88,7 +88,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 }
 .tab-menu button:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
 
-.tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 20px; align-items: flex-start;}
+.tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 12px; align-items: flex-start;}
 .tab-content.active { display: flex; animation: appleFadeIn 0.4s ease; }
 
 @keyframes appleFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -167,7 +167,29 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 
 .clear-btn { background: #E5E5EA; color: #1D1D1F; flex: 0.2; min-width: 80px; box-shadow: none;}
 .clear-btn:hover { background: #D1D1D6; transform: scale(1.01); box-shadow: none; filter: none;}
-.result-box { text-align: center; margin-top: 15px; font-size: 17px; font-weight: 700; color: #0071E3; background: rgba(0, 113, 227, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(0, 113, 227, 0.12); white-space: pre-line; line-height: 1.5; }
+.error-msg {
+    font-size: 14px;
+    color: var(--text-main);
+    line-height: 1.6;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* 首頁大廳自訂圖標的完美適應設定 */
+.menu-custom-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 確保圖片不變形，完美塞進 app-icon 裡面 */
+    display: block;
+}
+
+/* 如果原本的 app-icon 有預設文字大小，可以把背景變透明以防擋住圖片 */
+.app-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 防止圖片凸出去 */
+}
 
 /* ========================================== */
 /* 2. 無視計算機 (Ignore Calculator)             */
@@ -370,7 +392,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
 
 .settings-panel { 
-    width: 100%; max-width: 720px; margin: 20px auto 0 auto; 
+    width: 100%; max-width: 720px; margin: 0px auto 0 auto; 
     background: var(--glass-bg) !important; 
     backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
     border: 1px solid var(--glass-border) !important; 
@@ -683,6 +705,25 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-game-ui-container .forge-main { height: 415px !important; }
     #cr-game-ui-container .sec-grey-mid { padding-top: 4px !important; }
     #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
+
+    /* 針對 HEXA 模擬器下方的設定行進行微壓縮，防止極限運算掉到下一行 */
+    .setting-row { 
+        gap: 6px !important; /* 縮小項目之間的間距 */
+        font-size: 13px !important; /* 稍微縮小字體 */
+    }
+    .setting-row label { 
+        font-size: 13px !important; 
+    }
+    .checkbox-label { 
+        font-size: 13px !important; 
+        letter-spacing: -0.5px !important; /* 把字稍微擠緊一點點 */
+    }
+
+/* 確保彈出動畫存在 */
+@keyframes hexaResultPop {
+    0% { transform: translateY(15px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
 
 /* ================================================= */
     /* 🔮 HEXA 區塊手機版適應 (同排防錯位版)                 */
