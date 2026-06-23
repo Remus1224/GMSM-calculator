@@ -2,18 +2,21 @@
 // 🌙 主題切換系統 (Dark/Light Mode)
 // ==========================================
 function toggleTheme() {
-    const body = document.body;
+    // 取得 HTML 標籤
+    const htmlElement = document.documentElement;
     const themeBtn = document.getElementById('theme-toggle');
-    
-    // 如果目前是深色，就切回淺色；反之亦然
-    if (body.classList.contains('dark-theme')) {
-        body.classList.remove('dark-theme');
-        themeBtn.innerText = '🌙'; // 切換圖示為月亮
-        localStorage.setItem('msm-theme', 'light'); // 記住使用者的選擇
+
+    // 檢查目前是不是暗色模式
+    const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+
+    if (isDark) {
+        // 切換回淺色模式
+        htmlElement.removeAttribute('data-theme');
+        if (themeBtn) themeBtn.innerText = '🌙'; 
     } else {
-        body.classList.add('dark-theme');
-        themeBtn.innerText = '☀️'; // 切換圖示為太陽
-        localStorage.setItem('msm-theme', 'dark');
+        // 切換到暗色模式
+        htmlElement.setAttribute('data-theme', 'dark');
+        if (themeBtn) themeBtn.innerText = '☀️'; 
     }
 }
 
