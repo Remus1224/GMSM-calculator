@@ -1566,7 +1566,7 @@ function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
 
     if (stage === 'necro') {
         // 1. 死靈 1%~6% (注意：有把 % 補上去了！)
-        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}%.png`; 
+        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}.png`; 
         
         // 2. 死靈 10% 和 15% 共用 5_10 這張
         if (firstRate === 10 || firstRate === 15) return `${folder}幸運的古代製作卷軸5_10.png`; 
@@ -1576,7 +1576,7 @@ function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
         if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
         
         // 4. 混沌 10% (注意：有把 % 補上去了！)
-        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸(武器)10%.png`;
+        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸(武器)10.png`;
     }
     
     return defaultImg; 
