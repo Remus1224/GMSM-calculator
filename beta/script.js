@@ -83,14 +83,18 @@ function switchTab(tabId) {
         }
     }
 
+    // 1. 隱藏所有選單按鈕與分頁內容 (單純移除 active，不強制覆蓋 display 屬性，保護你的 CSS 排版)
     document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
+    // 2. 顯示目標按鈕與分頁內容
     const targetBtn = document.getElementById('btn-' + tabId);
     if (targetBtn) targetBtn.classList.add('active');
-    document.getElementById('tab-' + tabId).classList.add('active');
+    
+    const targetTab = document.getElementById('tab-' + tabId);
+    if (targetTab) targetTab.classList.add('active');
 
-    // ... (保留你原本 switchTab 內部的其他 if 判斷式，例如 lazyTableGenerated, transcend_updateUI 等) ...
+    // ... (保留你原本所有的分頁初始化與更新邏輯) ...
     if (tabId === 'hexa-lazy' && !lazyTableGenerated) { setTimeout(generateLazyTable, 50); lazyTableGenerated = true; }
     if (tabId === 'hexa-visual' && !visualInitialized) { initVisualBars(); visualInitialized = true; }
     if (tabId === 'transcend') { tr_updateUI(); }
@@ -107,7 +111,54 @@ function switchTab(tabId) {
             requestAnimationFrame(will_gameLoop);
         }
     }
+
+    // ==========================================
+    // 🌟 頂部導航列動態控制 (保護 Grid 完美排版)
+    // ==========================================
+    const subPageTitle = document.getElementById('sub-page-title');
+    const backBtn = document.getElementById('btn-home');
+
+    if (subPageTitle && backBtn) {
+        // 定義每個分頁的專屬副標題
+        const titleMap = {
+            'home': '主選單', 
+            'notice': '布告欄',
+            'ignore': '無視防禦計算機',
+            'transcend': '超越模擬器',
+            'craft': '製作模擬器',
+            'hexa-prog': '六轉畢業進度計算機',
+            'hexa-visual': 'HEXA 屬性視覺模擬器',
+            'hexa-lazy': 'HEXA 10次點完懶人表',
+            'hexa-reset': 'HEXA 即時重置決策模擬',
+            'hexa-sim': 'HEXA 自訂目標策略模擬',
+            'will': '威爾二階練習機'
+        };
+
+        if (titleMap[tabId]) {
+            subPageTitle.innerText = titleMap[tabId];
+        }
+
+        // 判斷是否在首頁
+        if (tabId === 'home') {
+            // 首頁：將返回鍵「隱形」但保留佔據的空間，這樣中間的大廳選單才不會歪掉
+            backBtn.style.visibility = 'hidden'; 
+            
+            // 強制移除 home-hide，確保按鈕與標題的本體還在畫面上
+            backBtn.classList.remove('home-hide'); 
+            subPageTitle.classList.remove('home-hide'); 
+        } else {
+            // 其他頁面：顯示返回鍵
+            backBtn.style.visibility = 'visible'; 
+            backBtn.classList.remove('home-hide'); 
+            subPageTitle.classList.remove('home-hide'); 
+        }
+    }
 }
+
+// 確保網頁一開啟時，預設執行一次首頁狀態，避免任何跑版
+document.addEventListener("DOMContentLoaded", () => {
+    switchTab('home');
+});
 
 // 全新 iOS 友善的全螢幕按鈕邏輯 (鐵桶鎖死版)
 window.toggleWillFullscreen = function() {
@@ -341,7 +392,8 @@ const equipCategories = [
     { title: "武器類", type: "weapon", items: ["副武", "三武"] },
     { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書"] }, 
     { title: "能力類", type: "ability", items: ["HEXA屬性"] },
-    { title: "特殊", type: "special", items: ["活動", "預留", "預留", "預留"] }
+    // 👇 1. 將這裡加上數字，確保 ID 唯一
+    { title: "特殊", type: "special", items: ["活動", "預留1", "預留2", "預留3"] }
 ];
 
 const equipments = equipCategories.flatMap(cat => cat.items);
@@ -356,8 +408,11 @@ function initIgnoreGrid() {
             const card = document.createElement('div');
             card.className = `equip-card bg-${category.type}`;
             
+            // 👇 2. 關鍵：如果名字結尾有數字（如預留1），在畫面上把數字去掉，保持視覺乾淨
+            const displayTitle = equip.replace(/\d+$/, '');
+            
             card.innerHTML = `
-                <div class="card-title">${equip}</div>
+                <div class="card-title">${displayTitle}</div>
                 <div class="card-input-wrapper">
                     <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="">
                     <span class="card-percent">%</span>
@@ -1510,12 +1565,20 @@ function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
     let folder = 'assets/';
 
     if (stage === 'necro') {
-        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}.png`; 
+        // 1. 死靈 1%~6% (注意：有把 % 補上去了！)
+        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}%.png`; 
+        
+        // 2. 死靈 10% 和 15% 共用 5_10 這張
         if (firstRate === 10 || firstRate === 15) return `${folder}幸運的古代製作卷軸5_10.png`; 
+
     } else {
+        // 3. 混沌 3%, 5%, 7% 共用一張圖
         if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
-        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸(武器)10.png`;
+        
+        // 4. 混沌 10% (注意：有把 % 補上去了！)
+        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸(武器)10%.png`;
     }
+    
     return defaultImg; 
 }
 
