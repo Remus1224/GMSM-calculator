@@ -33,9 +33,11 @@
         </div>
 
         <div id="sub-page-title" class="nav-title-glass">主選單</div>
+        <div class="nav-side right-side">
 
-        
+            <button id="theme-toggle" class="nav-btn" onclick="toggleTheme()" title="切換深/淺色模式">🌙</button>
 
+        </div>
     </div>
 
     <div id="tab-home" class="tab-content active">
@@ -161,7 +163,7 @@
         <div class="panel" style="animation: appleFadeIn 0.4s ease 0.1s; animation-fill-mode: both;">
             <div class="section-title">🛠️ 微調與優化</div>
             <ul class="update-list" style="font-size: 14.5px;">
-                <li><strong>2026/06/24</strong><br>全UI重新設計。</li>
+                <li><strong>2026/06/24</strong><br>全UI重新設計，增加深色模式。</li>
                 <li><strong>2026/06/06</strong><br>優化輸入法改為直接使用數字鍵盤，無視計算機UI重新設計。</li>
                 <li><strong>2026/05/30</strong><br>超越模擬器加入「期望值與實際消耗」即時追蹤系統，並修正獎勵機率計算（最低保底5%）。</li>
                 <li><strong>2026/05/28</strong><br>優化重置決策模擬，原先只能模擬核心LV10改為LV10~19。</li>
@@ -353,7 +355,7 @@
                     </div>
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#0071E3;">【扣除卷軸消耗】</strong><br>
-                        失敗扣除卷：<span id="stat-scrolls-total">0</span> 張<br><br><br>
+                        失敗扣除卷：<span id="stat-scrolls-total">0</span> 張<br>
                         <div style="margin-top:5px; padding-top:5px; border-top:1px dashed rgba(0,0,0,0.1);">
                             實際總消耗：<strong id="stat-scrolls-total-bottom" style="color:#0071E3; font-size:14px;">0</strong> 張<br>
                             理論期望值：<strong id="stat-scrolls-ev" style="color:#86868B; font-size:14px;">0.00</strong> 張
@@ -531,7 +533,7 @@
             </div>
 
             <div class="stats-text">
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
+                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【結晶消耗】</strong><br>
@@ -835,7 +837,7 @@
     </div>
 
     <div id="tab-will" class="tab-content">
-        <div class="hint">使用手機時，建議橫向全螢幕並開啟全螢幕,<br class="mobile-br">IOS系統稍微上滑隱藏網址列後再點擊全螢幕。</div>
+        <div class="hint">使用手機時，建議橫向開啟全螢幕,<br class="mobile-br">IOS系統稍微上滑隱藏網址列後再點擊全螢幕。</div>
         <div id="will-game-wrapper" class="will-strict-boundary">
             <div id="will-inner-container">
                 
