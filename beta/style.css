@@ -22,12 +22,270 @@
 }
 
 /* ========================================== */
+/* 🌙 夜間模式：終極雙色極光 (50% 粉藍 / 50% 粉紫) */
+/* ========================================== */
+[data-theme="dark"] {
+    --bg-base: #070B14; 
+    --bg-grad-1: rgba(156, 234, 254, 0.25); 
+    --bg-grad-2: rgba(200, 141, 221, 0.25); 
+    --bg-grad-3: rgba(156, 234, 254, 0.15); 
+    
+    --text-main: #E0F2FE; 
+    --text-muted: #8ba4b5; 
+    
+    --glass-bg: rgba(10, 15, 25, 0.55);
+    --glass-border: rgba(178, 187, 237, 0.3); 
+    --card-bg: rgba(15, 20, 30, 0.45);
+    --card-hover: rgba(25, 35, 55, 0.7);
+    --input-bg: rgba(10, 15, 25, 0.6);
+    
+    --btn-text: #FFFFFF;
+}
+
+/* ------------------------------------------ */
+/* 🎯 夜間專屬覆蓋：左藍右紫的 50/50 雙色霓虹美學 */
+/* ------------------------------------------ */
+
+/* 1. 頂部大廳選單標題 (左半透藍、右半透紫) */
+[data-theme="dark"] .nav-title-glass {
+    background-image: 
+        linear-gradient(rgba(10, 15, 25, 0.7), rgba(10, 15, 25, 0.4)), 
+        linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important; 
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.6),                      
+        -12px 0 25px rgba(156, 234, 254, 0.65),    
+        12px 0 25px rgba(200, 141, 221, 0.65),     
+        inset 0 0 12px rgba(255, 255, 255, 0.6) !important; 
+    text-shadow: 0 0 8px rgba(178, 187, 237, 0.8); 
+    color: #FFFFFF !important;
+}
+
+/* 2. 左右小按鈕 */
+[data-theme="dark"] .nav-btn {
+    background: rgba(15, 20, 30, 0.6) !important; 
+    color: #E0F2FE !important;
+    border-color: rgba(178, 187, 237, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.1) !important;
+}
+[data-theme="dark"] .nav-btn:hover {
+    background: rgba(25, 35, 55, 0.8) !important;
+    box-shadow: -8px 0 20px rgba(156, 234, 254, 0.6), 8px 0 20px rgba(200, 141, 221, 0.6), inset 0 0 10px rgba(178, 187, 237, 0.2) !important; 
+}
+
+/* 3. 首頁大標題 */
+[data-theme="dark"] .main-site-title {
+    color: #FFFFFF !important;
+    text-shadow: -4px 0 15px rgba(156, 234, 254, 0.7), 4px 0 15px rgba(200, 141, 221, 0.7); 
+}
+
+/* 4. 主選單各個工具卡片 */
+[data-theme="dark"] .app-card { border: 1px solid rgba(178, 187, 237, 0.2); }
+[data-theme="dark"] .app-card:hover {
+    border-color: rgba(178, 187, 237, 0.6);
+    box-shadow: -15px 0 30px rgba(156, 234, 254, 0.3), 15px 0 30px rgba(200, 141, 221, 0.3), inset 0 0 15px rgba(178, 187, 237, 0.15);
+}
+
+/* 5. 卡片內的 Icon */
+[data-theme="dark"] .app-icon {
+    background: linear-gradient(135deg, rgba(156, 234, 254, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%);
+    border-color: rgba(178, 187, 237, 0.3);
+}
+[data-theme="dark"] .app-card:hover .app-icon {
+    background: linear-gradient(135deg, rgba(156, 234, 254, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%);
+    box-shadow: -5px 0 15px rgba(156, 234, 254, 0.5), 5px 0 15px rgba(200, 141, 221, 0.5);
+}
+
+/* 🌟 6. 精準控制：僅讓獨立面板 (設定面板、說明書、布告欄) 套用夜間玻璃，絕不干擾鐵匠鋪主體 */
+[data-theme="dark"] .settings-panel, 
+[data-theme="dark"] .instructions-panel, 
+[data-theme="dark"] .memo-card, 
+[data-theme="dark"] .panel,
+[data-theme="dark"] .detail-box {
+    background: linear-gradient(135deg, rgba(20, 25, 35, 0.85) 0%, rgba(10, 15, 25, 0.7) 100%) !important;
+    border: 1px solid rgba(178, 187, 237, 0.2) !important;
+    border-top: 1px solid rgba(156, 234, 254, 0.4) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(156, 234, 254, 0.05) !important;
+    color: #E0F2FE !important;
+}
+
+/* 布告欄夜間專屬標題修正 */
+[data-theme="dark"] #tab-home .memo-title {
+    color: #ff6b6b !important;
+    text-shadow: 0 0 8px rgba(255,107,107,0.4);
+}
+/* 1. 修正下拉選單與輸入框：解決「深色底+深藍字」導致文字隱形的問題 */
+[data-theme="dark"] .setting-row input[type="text"], 
+[data-theme="dark"] .setting-row input[type="number"], 
+[data-theme="dark"] .setting-row select {
+    background: rgba(0, 0, 0, 0.4) !important; /* 加深底色產生凹陷感 */
+    border: 1px solid rgba(156, 234, 254, 0.3) !important;
+    color: #9CEAFE !important; /* 文字換成你的專屬粉藍色，高對比且極具科技感 */
+}
+[data-theme="dark"] .setting-row input[type="text"]:focus, 
+[data-theme="dark"] .setting-row input[type="number"]:focus, 
+[data-theme="dark"] .setting-row select:focus {
+    border-color: #9CEAFE !important;
+    box-shadow: 0 0 8px rgba(156, 234, 254, 0.4) !important;
+}
+
+/* 2. 修正重新計算/模擬按鈕：解決黑色背景導致的隱形感 */
+[data-theme="dark"] .btn-reset-tr {
+    background: rgba(255, 255, 255, 0.1) !important; /* 改為半透明白光 */
+    color: #E0F2FE !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+[data-theme="dark"] .btn-reset-tr:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important;
+}
+
+/* 3. 修正音效按鈕：去除刺眼的純白背景，融入夜間玻璃風格 */
+[data-theme="dark"] .btn-sound {
+    background: rgba(15, 20, 30, 0.6) !important;
+    border: 1px solid rgba(178, 187, 237, 0.3) !important;
+    color: #E0F2FE !important;
+}
+
+/* 4. 修正統計區塊 (.stats-text)：加深背景，並強制提亮內部暗色文字 */
+[data-theme="dark"] .stats-text {
+    background: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(178, 187, 237, 0.1) !important;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5) !important; /* 內陰影增加立體層次 */
+    color: #E0F2FE !important; /* 確保像是「消耗統計與期望值分析」等預設文字變亮 */
+}
+
+/* ========================================== */
+/* 🛠️ 夜間模式：全域表單、隱形文字與面板終極修復補丁 */
+/* ========================================== */
+
+/* --- 1. 修正「消耗統計與期望值分析」背景與字體 --- */
+[data-theme="dark"] .stats-text {
+    background: rgba(15, 20, 30, 0.6) !important; 
+    border: 1px solid rgba(178, 187, 237, 0.2) !important;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2) !important; 
+    color: #E0F2FE !important; 
+}
+[data-theme="dark"] .stats-text legend, 
+[data-theme="dark"] .stats-text span, 
+[data-theme="dark"] .stats-text div {
+    color: #E0F2FE !important; 
+}
+
+/* --- 2. 修正「HEXA目標策略模擬」隱形的文字與分隔線 --- */
+[data-theme="dark"] .hexa-inputs,
+[data-theme="dark"] .hexa-inputs div,
+[data-theme="dark"] .hexa-inputs span {
+    color: #E0F2FE !important; 
+}
+[data-theme="dark"] .target-divider {
+    background-color: rgba(178, 187, 237, 0.2) !important; 
+}
+
+/* --- 3. 修正「六轉進度計算機」彩色邊框回歸與文字提亮 --- */
+[data-theme="dark"] .prog-item {
+    background: rgba(15, 20, 30, 0.6) !important; 
+    /* ✨ 關鍵修復：只改上、右、下邊框的「顏色」，絕對不碰左邊框！保留彩色線條 */
+    border-top-color: rgba(178, 187, 237, 0.15) !important;
+    border-right-color: rgba(178, 187, 237, 0.15) !important;
+    border-bottom-color: rgba(178, 187, 237, 0.15) !important;
+}
+[data-theme="dark"] .prog-item label,
+[data-theme="dark"] .prog-item span,
+[data-theme="dark"] .prog-item div {
+    color: #E0F2FE !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+}
+
+/* --- 4. 統一全站輸入框 (六轉、HEXA、鐵匠鋪) 的科技藍框效果 --- */
+[data-theme="dark"] .setting-row input[type="text"], 
+[data-theme="dark"] .setting-row input[type="number"], 
+[data-theme="dark"] .setting-row select,
+[data-theme="dark"] .hexa-inputs input,       
+[data-theme="dark"] .inv-grid input,          
+[data-theme="dark"] .prog-item select,        
+[data-theme="dark"] .card-input-wrapper input {
+    background: rgba(0, 0, 0, 0.4) !important; 
+    border: 1px solid rgba(156, 234, 254, 0.3) !important;
+    color: #9CEAFE !important; 
+}
+
+/* 輸入框點擊高光 */
+[data-theme="dark"] .setting-row input[type="text"]:focus, 
+[data-theme="dark"] .setting-row input[type="number"]:focus, 
+[data-theme="dark"] .setting-row select:focus,
+[data-theme="dark"] .hexa-inputs input:focus,
+[data-theme="dark"] .inv-grid input:focus,
+[data-theme="dark"] .prog-item select:focus,
+[data-theme="dark"] .card-input-wrapper input:focus {
+    border-color: #9CEAFE !important;
+    box-shadow: 0 0 8px rgba(156, 234, 254, 0.4) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 六轉未解鎖下拉選單 (灰色禁用狀態) */
+[data-theme="dark"] .prog-item select:disabled {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* --- 5. 鐵匠鋪重新模擬按鈕與音效按鈕 --- */
+[data-theme="dark"] .btn-reset-tr {
+    background: rgba(255, 255, 255, 0.1) !important; 
+    color: #E0F2FE !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+[data-theme="dark"] .btn-reset-tr:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important;
+}
+[data-theme="dark"] .btn-sound {
+    background: rgba(15, 20, 30, 0.6) !important;
+    border: 1px solid rgba(178, 187, 237, 0.3) !important;
+    color: #E0F2FE !important;
+}
+
+/* --- 6. 其他細節文字提亮 --- */
+[data-theme="dark"] .panel h3,          
+[data-theme="dark"] .detail-box h3,
+[data-theme="dark"] .inv-item label,    
+[data-theme="dark"] .prog-header,
+[data-theme="dark"] .checkbox-label {
+    color: #E0F2FE !important;
+}
+
+/* --- 7. 修正「HEXA 重置決策與目標策略模擬」中的隱形框線與文字 --- */
+[data-theme="dark"] .panel div,
+[data-theme="dark"] .panel span,
+[data-theme="dark"] .panel center,
+[data-theme="dark"] .panel label {
+    color: #E0F2FE !important;
+}
+
+/* 🎯 關鍵修正：加上 :not(.prog-item)，放過六轉進度卡片，絕不誤殺彩色邊框！ */
+[data-theme="dark"] .panel div[style*="border"]:not(.prog-item) {
+    border-color: rgba(156, 234, 254, 0.4) !important;
+    background: rgba(0, 0, 0, 0.3) !important; 
+    box-shadow: inset 0 0 8px rgba(156, 234, 254, 0.1) !important;
+    border-radius: 6px !important; 
+    color: #9CEAFE !important; 
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
+}
+
+/* --- 8. 修正布告欄與各面板小標題 (.section-title) 的底線消失問題 --- */
+/* 將原本隱形的黑色底線，換成帶有科技感的微弱藍紫光底線 */
+[data-theme="dark"] .section-title {
+    border-bottom: 1px solid rgba(178, 187, 237, 0.25) !important;
+}
+
+/* ========================================== */
 /* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
 html, body { 
-    width: 100%; /* 👈 放棄 100vw，改用 100% 以避免捲軸問題 */
+    width: 100%; 
     max-width: 100%; 
-    overflow-x: hidden; /* 保留防護網，防止整個網頁左右滑動 */
+    overflow-x: hidden; 
 }
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
@@ -58,110 +316,52 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
-    body:has(#tab-will.active) { padding: 0 !important; }
-    body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !important; }
-
 }
+body:has(#tab-will.active) { padding: 0 !important; }
+body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !important; }
 
+/* 📱 頂部標題與按鈕 */
+.top-header-section { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
+.main-site-title { margin: 0 0 15px 0; font-size: 26px; font-weight: 900; color: var(--text-main); text-align: center; }
+.top-nav-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0px; width: 100%; margin-bottom: 20px; }
+.left-side { justify-self: end; }
+.right-side { justify-self: start; }
+.home-hide { display: none !important; }
 
-
-/* ================================== */
-/* 📱 頂部標題與按鈕 (強制置中與垂直排列) */
-/* ================================== */
-
-/* 核心魔法：這個包裝盒會讓裡面的東西「垂直排列」且「左右絕對置中」 */
-.top-header-section {
-    display: flex;
-    flex-direction: column; /* 垂直排列：確保標題在上，按鈕在下 */
-    align-items: center;    /* 左右絕對置中 */
-    width: 100%;
-    margin-bottom: 25px;    /* 跟下方卡片拉開一點距離 */
-}
-
-/* 網站大標題的專屬設定 */
-.main-site-title {
-    margin: 0 0 15px 0; /* 下方留 15px 的空隙給按鈕，其他方向沒有邊距 */
-    font-size: 26px;
-    font-weight: 900;
-    color: #2c3e50;
-    text-align: center;
-}
-
-/* 讓三個按鈕水平排列並互相靠攏 */
-.top-nav-bar {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr; 
-    align-items: center;
-    gap: 12px; /* 左右按鈕向中間靠攏的距離，可自行微調 */
-    width: 100%;
-    margin-bottom: 12px;
-}
-/* 左側格子：讓裡面的按鈕靠右（貼近中間） */
-.left-side {
-    justify-self: end;
-}
-
-/* 右側格子：讓裡面的按鈕靠左（貼近中間） */
-.right-side {
-    justify-self: start;
-}
-
-/* 隱藏首頁按鈕與標題專用 */
-.home-hide {
-    display: none !important; 
-}
-
-/* ================================== */
-/* 💎 共用的完美玻璃風格 (三個按鈕都會套用) */
-/* ================================== */
-.nav-btn, .nav-title-glass {
+/* 🔘 左右按鈕 */
+.nav-btn {
     background: rgba(255, 255, 255, 0.6) !important;
     border: 1px solid rgba(255, 255, 255, 0.9) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 8px 18px !important;
-    border-radius: 20px !important;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0; /* 確保不會被其他的 margin 設定干擾 */
-    white-space: nowrap;
-}
-
-/* --- 有功能的左右按鈕 (游標會變成手，滑過會變色) --- */
-.nav-btn {
-    color: #2c3e50 !important;
-    cursor: pointer;
-
-
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 8px 18px !important; border-radius: 20px !important;
+    font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;
+    margin: 0; white-space: nowrap; color: #2c3e50 !important; cursor: pointer; transition: all 0.3s ease; 
 }
 .nav-btn:hover {
-    background: rgba(255, 255, 255, 0.95) !important;
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.95) !important; transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(156, 234, 254, 0.3) !important; 
 }
 
-/* --- 無功能的中間標題 (游標是箭頭，不會變色) --- */
+/* 💎 獨立的中間標題 (日間高顯眼度・發光霓虹玻璃) */
 .nav-title-glass {
-    color: #7f8c8d !important;
-    cursor: default; 
-}
-
-/* --- 首頁隱藏返回按鈕與標題的專屬設定 --- */
-.home-hide {
-    display: none !important; 
+    padding: 8px 24px !important; font-size: 15px; font-weight: 900; color: #2c3e50 !important;
+    border-radius: 20px !important; display: flex; align-items: center; justify-content: center;
+    margin: 0 10px; white-space: nowrap; cursor: default;
+    border: 2px solid transparent !important;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)),
+        linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important;        
+    background-origin: border-box !important; background-clip: padding-box, border-box !important;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 0 15px rgba(156, 234, 254, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.9) !important;  
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); 
 }
 
 .container { 
-    background: transparent !important; 
-    border: none !important; 
-    box-shadow: none !important; 
-    backdrop-filter: none !important; 
-    -webkit-backdrop-filter: none !important;
-    padding: 10px 20px; 
-    max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; 
+    background: transparent !important; border: none !important; box-shadow: none !important; 
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    padding: 10px 20px; max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; 
     align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
     margin: 3vh auto 20px auto;
 }
@@ -171,10 +371,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .hint { width: 100%; font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 0px; font-weight: 500; }
 
 .container:has(#tab-home.active) .tab-menu { display: none; }
-.tab-menu { 
-    width: 100%; display: flex; justify-content: center; 
-    background: transparent; border: none; padding: 0; margin-bottom: 20px; box-shadow: none;
-}
+.tab-menu { width: 100%; display: flex; justify-content: center; background: transparent; border: none; padding: 0; margin-bottom: 20px; box-shadow: none; }
 .tab-menu button { 
     background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border); padding: 12px 30px; font-size: 16px; font-weight: bold; color: var(--text-main); 
@@ -184,7 +381,6 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 
 .tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 16px; align-items: flex-start;}
 .tab-content.active { display: flex; animation: appleFadeIn 0.4s ease; }
-
 @keyframes appleFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 .app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin-top: 10px; }
@@ -207,7 +403,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
     background: linear-gradient(135deg, rgba(156, 234, 254, 0.3), rgba(200, 141, 221, 0.3));
     border: 1px solid rgba(200, 141, 221, 0.2);
     border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    transition: all 0.3s;
+    transition: all 0.3s; overflow: hidden;
 }
 .app-card:hover .app-icon { 
     background: linear-gradient(135deg, rgba(156, 234, 254, 0.6), rgba(200, 141, 221, 0.6)); 
@@ -216,80 +412,48 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .app-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
 .app-info h3 { margin: 0; font-size: 15.5px; font-weight: 600; color: var(--text-main); letter-spacing: -0.2px; }
 .app-info p { margin: 0; font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.menu-custom-img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 .section-title { font-weight: 700; color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 6px; width: 100%; font-size: 17px; }
 .panel, .detail-box { 
-    background: var(--glass-bg); 
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); 
-    padding: 18px; border-radius: 16px; width: 100%; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box;
-    min-width: 0;
-    overflow-x: auto;
+    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); padding: 18px; border-radius: 16px; width: 100%; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box; min-width: 0; overflow-x: auto;
 }
 .left-panel { flex: 2; min-width: 300px; }
+.right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
 .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
 
 .input-group label { font-size: 14px; color: var(--text-main); font-weight: 500; }
-.input-group input, 
-.setting-row input[type="text"], .setting-row input[type="number"], .setting-row select,
-.hexa-inputs input, .inv-grid input { 
+.input-group input, .setting-row input[type="text"], .setting-row input[type="number"], .setting-row select, .hexa-inputs input, .inv-grid input { 
     user-select: auto; -webkit-user-select: auto; 
-    background: var(--input-bg) !important; 
-    border: 1px solid rgba(0, 0, 0, 0.12) !important; 
-    color: #0071E3 !important; 
-    border-radius: 8px; font-size: 14px; text-align: center;
+    background: var(--input-bg) !important; border: 1px solid rgba(0, 0, 0, 0.12) !important; 
+    color: #0071E3 !important; border-radius: 8px; font-size: 14px; text-align: center;
     font-weight: 600; transition: all 0.2s ease; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
 }
 input:focus, select:focus { outline: none; border-color: #0071E3 !important; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15); background: var(--card-hover) !important; }
 
-.right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
 .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-
 .action-btn { 
-    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); 
-    color: var(--btn-text); 
-    border: none; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 10px; 
-    transition: all 0.2s; flex: 1; cursor: pointer; 
-    box-shadow: 0 4px 12px rgba(200, 141, 221, 0.2);
+    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); color: var(--btn-text); 
+    border: none; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 10px; transition: all 0.2s; flex: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(200, 141, 221, 0.2);
 }
-.action-btn:hover { 
-    filter: brightness(1.05); transform: scale(1.01); 
-    box-shadow: 0 6px 16px rgba(200, 141, 221, 0.4); 
-}
+.action-btn:hover { filter: brightness(1.05); transform: scale(1.01); box-shadow: 0 6px 16px rgba(200, 141, 221, 0.4); }
 .action-btn:active { transform: scale(0.99); }
-
 .clear-btn { background: #E5E5EA; color: #1D1D1F; flex: 0.2; min-width: 80px; box-shadow: none;}
 .clear-btn:hover { background: #D1D1D6; transform: scale(1.01); box-shadow: none; filter: none;}
-.error-msg {
-    font-size: 14px;
-    color: var(--text-main);
-    line-height: 1.6;
-    font-weight: 600;
-    text-align: center;
-}
+.error-msg { font-size: 14px; color: var(--text-main); line-height: 1.6; font-weight: 600; text-align: center; }
 
-/* 首頁大廳自訂圖標的完美適應設定 */
-.menu-custom-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* 確保圖片不變形，完美塞進 app-icon 裡面 */
-    display: block;
+/* 🌟 DISCORD 布告欄修復：套用完美玻璃材質 */
+#tab-home .memo-card { 
+    width: 100% !important; max-width: none !important; box-sizing: border-box !important; padding: 25px !important; 
+    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border); border-radius: 16px;
 }
-
-/* 如果原本的 app-icon 有預設文字大小，可以把背景變透明以防擋住圖片 */
-.app-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* 防止圖片凸出去 */
-}
-
-#tab-home .memo-card { width: 100% !important;max-width: none !important;box-sizing: border-box !important; padding: 25px !important; }
 #tab-home .memo-content { display: flex; align-items: center; gap: 50px; }
 #tab-home .memo-apng { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
-#tab-home .memo-text-area { color: #2c3e50; font-size: 13px; line-height: 1.6; font-weight: bold; }
-#tab-home .memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; }
+#tab-home .memo-text-area { color: var(--text-main); font-size: 13px; line-height: 1.6; font-weight: bold; }
+#tab-home .memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; transition: color 0.3s;}
 #tab-home .memo-text-area p { margin: 0 0 6px 0; }
 #tab-home .memo-simple-text { margin-top: 5px !important; }
 
@@ -325,7 +489,6 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 .bg-special { background: var(--c-special-bg); border-color: var(--c-special-border); }
 
 .card-title { font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
-
 .card-input-wrapper { display: flex; align-items: center; background: transparent !important; border: none !important; box-shadow: none !important; width: 100%; box-sizing: border-box; margin-top: 4px;}
 .card-input-wrapper input { flex: 1; width: 100%; background: var(--glass-bg) !important; text-align: center; font-size: 16px; font-weight: bold; color: #0071E3 !important; outline: none; border-radius: 6px; padding: 4px; border: 1px solid var(--glass-border) !important; box-shadow: inset 0 1px 3px rgba(0,0,0,0.03) !important;}
 .card-input-wrapper input:focus { background: var(--card-hover) !important; border-color: #0071E3 !important; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important; }
@@ -353,7 +516,7 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 /* ========================================== */
 .core-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
 .prog-item { border-radius: 12px; padding: 12px 10px; text-align: center; background: var(--glass-bg) !important; border: 1px solid rgba(0,0,0,0.05); }
-.prog-item select { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1) !important; text-align: center; font-weight: bold; font-size: 14px; background: #fff !important; color: #1D1D1F !important; box-shadow: none !important;}
+.prog-item select { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1) !important; text-align: center; font-weight: bold; font-size: 14px; background: var(--input-bg) !important; color: #1D1D1F !important; box-shadow: none !important;}
 .prog-item select:disabled { background-color: rgba(0,0,0,0.03) !important; color: #86868B !important; }
 
 .inv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
@@ -378,14 +541,8 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
 
 .lazy-table-container { 
-    width: 100%; 
-    max-width: 100%; 
-    border: none !important; 
-    background: transparent !important; 
-    box-shadow: none !important; 
-    overflow-x: auto !important; /* 確保表格過長時出現內部捲軸 */
-    -webkit-overflow-scrolling: touch; /* 讓手機滑動更順暢 */
-    border-radius: 12px; 
+    width: 100%; max-width: 100%; border: none !important; background: transparent !important; 
+    box-shadow: none !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; border-radius: 12px; 
 }
 .lazy-table { width: 100%; border-collapse: collapse; font-size: 14.5px; text-align: center; background: var(--glass-bg) !important; backdrop-filter: blur(8px); }
 .lazy-table th { background-color: var(--glass-border) !important; color: var(--text-main) !important; padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.1) !important; font-weight: 700 !important; }
@@ -449,8 +606,9 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 /* ========================================== */
 /* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
 /* ========================================== */
-#tab-transcend *, #tab-transcend *:before, #tab-transcend *:after,
-#tab-craft *, #tab-craft *:before, #tab-craft *:after {
+.msm-forge-ui, .msm-forge-ui *, .msm-forge-ui *:before, .msm-forge-ui *:after,
+.modal-box, .modal-box *, .modal-box *:before, .modal-box *:after,
+.cr-confirm-box, .cr-confirm-box *, .cr-confirm-box *:before, .cr-confirm-box *:after {
     box-sizing: content-box !important;
 }
 .msm-forge-ui, .modal-box { color: #333 !important; font-family: "微軟正黑體", Arial, sans-serif !important; }
@@ -497,6 +655,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
 .btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
 
+/* 🌟 鐵匠鋪下方設定面板 (改為變數，完美吃夜間模式) */
 .settings-panel { 
     width: 100%; max-width: 720px; margin: 0px auto 0 auto; 
     background: var(--glass-bg) !important; 
@@ -591,11 +750,16 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 
 
 /* ========================================== */
-/* 8. 威爾練習機完整專屬 CSS                    */
+/* 🌟 8. 威爾練習機 (移除硬代碼，全面掛上變數玻璃) */
 /* ========================================== */
 .container:has(#tab-will.active) {
-    padding: 0 !important; max-width: 100% !important; border-radius: 0 !important; margin: 0 !important;
-    background: transparent !important; border: none !important; box-shadow: none !important;
+    padding: 0 !important; 
+    max-width: 100% !important; 
+    border-radius: 0 !important; 
+    margin: 3vh auto 20px auto !important; /* ✨ 關鍵：恢復原本的 3vh 頂部距離，讓標題不貼緊 */
+    background: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important;
 }
 #tab-will.active { padding: 0; margin: 0; width: 100%; display: flex; flex-direction: column; }
 #will-game-wrapper {
@@ -629,7 +793,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .ms-hit-pill { background: linear-gradient(to right, rgba(80,0,0,0.65) 0%, rgba(60,0,0,0.25) 60%, transparent 100%); margin-top: 2px; }
 
 .ms-icon { width: 16px; height: 16px; background-color: #555; border: 1px solid #111; border-radius: 4px; box-shadow: inset 0 1px 2px rgba(255,255,255,0.2); background-size: 75%; background-position: center; background-repeat: no-repeat; }
-.ms-icon-cp { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 2l3 3-1 1-3-3-1 1 3 3-1 1-3-3L2 6l5-5 1 1zm12 0l-3 3 1 1 3-3 1 1-3 3 1 1 3-3 1-1-5-5-1 1zM3 21l3-3 1 1-3 3-1-1zm18 0l-3-3-1 1 3 3 1-1zM12 10l-2 2 2 2 2-2-2-2z'/%3E%3C/svg%3E"); }
+.ms-icon-cp { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 2l3 3-1 1-3-3-1 1 3 3-1 1-3-3L2 6l5-5 1 1zm12 0l-3 3 1 1 3-3 1 1-3 3 1 1-3 3 1-1-5-5-1 1zM3 21l3-3 1 1-3 3-1-1zm18 0l-3-3-1 1 3 3 1-1zM12 10l-2 2 2 2 2-2-2-2z'/%3E%3C/svg%3E"); }
 .ms-icon-map { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E"); }
 .ms-icon-hit { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b6b'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E"); }
 
@@ -649,59 +813,53 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 #joystick-stick { width: 55px; height: 55px; border-radius: 50%; pointer-events: none; transition: transform 0.1s; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%); border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 2px 10px rgba(255,255,255,0.4); }
 
 #tab-will .instructions-panel { display: block !important; visibility: visible !important; opacity: 1 !important; }
-#tab-will .settings-panel {
-    /* --- 1. 保留你絕美的視覺外觀 (皮膚) --- */
-    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%) !important; 
-    backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
-    border-radius: 16px !important; 
-    padding: 25px !important; 
-    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-    position: relative; 
-    z-index: 10; 
-    color: #2c3e50 !important;
 
-    /* --- 2. 換上新的排版設定 (骨架) --- */
-    max-width: 100% !important; /* 解除最大寬度限制 */
-    width: 100% !important;     /* 強制切齊上方的畫布 */
-    margin: 10px 0 !important;  /* 因為 100% 寬度了，不需要 auto 置中，只要留上下間距即可 */
-    box-sizing: border-box !important;
+/* 🌟 威爾練習機底部面板替換為變數，完美吃夜間設定 */
+#tab-will .settings-panel,
+#tab-will .instructions-panel {
+    background: var(--glass-bg); 
+    backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid var(--glass-border); 
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1), inset 0 0 12px var(--glass-border); 
+    border-radius: 16px; padding: 25px; 
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+    position: relative; z-index: 10; color: var(--text-main);
+    max-width: 1000px !important; margin: 10px auto !important; box-sizing: border-box;
 }
-/* 解鎖威爾練習機底下「外層容器」的寬度限制 */
+
 #tab-will .container, 
 #tab-will > div {max-width: 100% !important; width: 100% !important;}
-#tab-will .settings-panel,
-#tab-will .instructions-panel {max-width: 1000px !important; margin: 10px auto !important;}
 #tab-will .inst-btn-grid {display: grid !important;grid-template-columns: repeat(2, 1fr) !important;gap: 10px !important;width: 100% !important;}
 #tab-will .inst-btn-grid > div:nth-child(5),
 #tab-will .inst-btn-grid > div:nth-child(6) {grid-column: span 2 !important;}
-#tab-will .settings-title { margin-top: 0 !important; margin-bottom: 12px !important; font-size: 18px !important; color: #2c3e50 !important; font-weight: 900 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; border-bottom: none !important; }
-#tab-will .setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold !important; color: #34495e !important; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-top: 15px; gap: 8px; }
-#tab-will .setting-row:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0 !important; }
-#tab-will .setting-label { margin-right: 0px; color: #1a252f; font-weight: bold; }
-#tab-will .setting-opt { cursor: pointer; display: flex; align-items: center; gap: 5px; color: #2c3e50; font-weight: bold; }
-#tab-will .custom-num-input { width: 40px; text-align: center; border: 1px solid rgba(0,0,0,0.2); border-radius: 6px; padding: 3px; font-weight: bold; font-size: 14px; background: rgba(255,255,255,0.8) !important; color: #2c3e50 !important; outline: none; transition: all 0.3s; box-shadow: none !important; }
-#tab-will .custom-num-input:focus { border-color: #3498db !important; box-shadow: 0 0 5px rgba(52,152,219,0.5) !important; background: #fff !important; }
+
+#tab-will .settings-title { margin-top: 0; margin-bottom: 12px; font-size: 18px; color: var(--text-main); font-weight: 900; border-bottom: none; text-shadow: none; }
+#tab-will .setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: var(--text-main); border-bottom: 1px solid rgba(178, 187, 237, 0.2); padding-bottom: 12px; margin-top: 15px; gap: 8px; }
+#tab-will .setting-row:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+#tab-will .setting-label { margin-right: 0px; color: var(--text-main); font-weight: bold; }
+#tab-will .setting-opt { cursor: pointer; display: flex; align-items: center; gap: 5px; color: var(--text-main); font-weight: bold; }
+#tab-will .custom-num-input { width: 40px; text-align: center; border: 1px solid var(--glass-border); border-radius: 6px; padding: 3px; font-weight: bold; font-size: 14px; background: var(--input-bg); color: var(--text-main); outline: none; transition: all 0.3s; box-shadow: none; }
+#tab-will .custom-num-input:focus { border-color: #9CEAFE; box-shadow: 0 0 5px rgba(156,234,254,0.5); }
 #tab-will .will-vol-group-wrapper { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap !important; }
-#tab-will .vol-group { display: flex; align-items: center; gap: 8px; border-left: 2px solid rgba(0,0,0,0.15); padding-left: 12px; margin-left: 5px; white-space: nowrap !important; }
-#tab-will .inst-section { margin-bottom: 10px; background: rgba(0, 0, 0, 0.03); border-radius: 12px; padding: 15px 20px; border: 1px solid rgba(0, 0, 0, 0.05); }
+#tab-will .vol-group { display: flex; align-items: center; gap: 8px; border-left: 2px solid rgba(178, 187, 237, 0.2); padding-left: 12px; margin-left: 5px; white-space: nowrap !important; }
+
+#tab-will .inst-section { margin-bottom: 10px; background: var(--card-bg); border-radius: 12px; padding: 15px 20px; border: 1px solid var(--glass-border); }
 #tab-will .inst-section:last-child { margin-bottom: 0 !important; }
-#tab-will .inst-subtitle { color: #2c3e50; font-size: 15px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 8px; }
-#tab-will .inst-list { color: #555555; font-size: clamp(12px, 3vw, 14px); line-height: 1.8; padding-left: 22px; margin: 0; }
-#tab-will .inst-list b { color: #1a252f; }
+#tab-will .inst-subtitle { color: var(--text-main); font-size: 15px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(178, 187, 237, 0.2); padding-bottom: 8px; }
+#tab-will .inst-list { color: var(--text-muted); font-size: clamp(12px, 3vw, 14px); line-height: 1.8; padding-left: 22px; margin: 0; }
+#tab-will .inst-list b { color: #C88DDD; }
 #tab-will .inst-section-compact { margin-bottom: 8px !important; padding: 12px 15px !important; }
 #tab-will .inst-subtitle-compact { margin-bottom: 6px !important; padding-bottom: 4px !important; font-size: 14px !important; }
 #tab-will .inst-list-compact { line-height: 1.5 !important; gap: 2px !important; }
 #tab-will .inst-list-compact li { font-size: clamp(12px, 3vw, 13px) !important; }
-#tab-will .mock-btn { position: static !important; transform: none !important; flex-shrink: 0; pointer-events: none; width: clamp(28px, 8vw, 36px) !important; height: clamp(28px, 8vw, 36px) !important; font-size: clamp(14px, 4vw, 18px) !important; display: flex !important; justify-content: center !important; align-items: center !important; line-height: 1 !important; background: rgba(255, 255, 255, 0.8) !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; color: #2c3e50 !important; border: 1px solid rgba(0, 0, 0, 0.08) !important; box-shadow: 0 4px 10px rgba(0,0,0,0.03), inset 0 0 8px rgba(255,255,255,1) !important; }
-#tab-will .inst-mock-glass-panel { display: flex; gap: clamp(2px, 1vw, 4px); padding: 3px; justify-content: center !important; align-items: center !important; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 8px; margin-right: clamp(2px, 1vw, 5px); flex-shrink: 0; }
-#tab-will .inst-mock-glass-panel .mock-btn { width: clamp(24px, 6vw, 30px) !important; height: clamp(24px, 6vw, 30px) !important; font-size: clamp(12px, 3vw, 14px) !important; box-shadow: none !important; border-color: rgba(0, 0, 0, 0.05) !important; background: rgba(255, 255, 255, 0.9) !important; }
-#tab-will .inst-zoom-text { font-size: clamp(10px, 2.5vw, 12px) !important; color: #2c3e50 !important; font-family: monospace; font-weight: bold; display: flex !important; justify-content: center !important; align-items: center !important; line-height: 1 !important; padding: 0 !important; margin: 0 !important; }
-#tab-will .inst-btn-item { display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); padding: 8px 10px; background: rgba(255, 255, 255, 0.6); border-radius: 8px; border: 1px solid rgba(0, 0, 0, 0.08); transition: all 0.3s ease; overflow: hidden; }
-#tab-will .inst-btn-text { color: #2c3e50; font-size: clamp(12px, 3.5vw, 14px); line-height: 1.2; white-space: nowrap; }
+#tab-will .mock-btn { flex-shrink: 0; pointer-events: none; width: clamp(28px, 8vw, 36px); height: clamp(28px, 8vw, 36px); font-size: clamp(14px, 4vw, 18px); display: flex; justify-content: center; align-items: center; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+#tab-will .inst-mock-glass-panel { display: flex; gap: clamp(2px, 1vw, 4px); padding: 3px; justify-content: center; align-items: center; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 8px; margin-right: clamp(2px, 1vw, 5px); flex-shrink: 0; }
+#tab-will .inst-mock-glass-panel .mock-btn { width: clamp(24px, 6vw, 30px); height: clamp(24px, 6vw, 30px); font-size: clamp(12px, 3vw, 14px); box-shadow: none; border-color: rgba(0, 0, 0, 0.05); background: var(--input-bg); }
+#tab-will .inst-zoom-text { font-size: clamp(10px, 2.5vw, 12px); color: var(--text-main); font-family: monospace; font-weight: bold; display: flex; justify-content: center; align-items: center; line-height: 1; padding: 0; margin: 0; }
+#tab-will .inst-btn-item { display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); padding: 8px 10px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--glass-border); transition: all 0.3s ease; overflow: hidden; }
+#tab-will .inst-btn-text { color: var(--text-main); font-size: clamp(12px, 3.5vw, 14px); line-height: 1.2; white-space: nowrap; }
 #tab-will .span-special .inst-btn-text { white-space: normal; line-height: 1.4; }
-#tab-will .span-special .inst-btn-text span { color: #7f8c8d; font-size: clamp(11px, 3vw, 12px); }
+#tab-will .span-special .inst-btn-text span { color: var(--text-muted); font-size: clamp(11px, 3vw, 12px); }
 
 .will-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 #will-result-overlay { z-index: 600; display: none; }
@@ -765,6 +923,13 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .inst-btn-grid { grid-template-columns: repeat(2, 1fr); }
     .inst-btn-item { grid-column: span 1; }
     .span-special { grid-column: 1 / -1 !important; }
+    #will-game-wrapper,
+    #tab-will .settings-panel,
+    #tab-will .instructions-panel {
+        width: calc(100% - 16px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 }
 
 @media (max-width: 500px) {
@@ -1017,9 +1182,3 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     100% { opacity: 1; transform: scale(0.46); } 
 }
 
-
-/*<div class="nav-side right-side">
-
-            <button id="theme-toggle" class="nav-btn" onclick="toggleTheme()" title="切換深/淺色模式">🌙</button>
-
-        </div>*/
