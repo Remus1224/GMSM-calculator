@@ -1576,7 +1576,7 @@ function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
         if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
         
         // 4. 混沌 10% (注意：有把 % 補上去了！)
-        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸(武器)10.png`;
+        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸_武器_10.png`;
     }
     
     return defaultImg; 
