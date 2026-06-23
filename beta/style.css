@@ -54,11 +54,102 @@ body {
     display: flex; justify-content: center; padding: 20px; 
     user-select: none; -webkit-user-select: none; margin: 0; 
     min-height: 100vh;
+    align-items: flex-start;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
     body:has(#tab-will.active) { padding: 0 !important; }
     body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !important; }
+
+}
+
+/* ================================== */
+/* 📱 頂部標題與按鈕 (強制置中與垂直排列) */
+/* ================================== */
+
+/* 核心魔法：這個包裝盒會讓裡面的東西「垂直排列」且「左右絕對置中」 */
+.top-header-section {
+    display: flex;
+    flex-direction: column; /* 垂直排列：確保標題在上，按鈕在下 */
+    align-items: center;    /* 左右絕對置中 */
+    width: 100%;
+    margin-bottom: 25px;    /* 跟下方卡片拉開一點距離 */
+}
+
+/* 網站大標題的專屬設定 */
+.main-site-title {
+    margin: 0 0 15px 0; /* 下方留 15px 的空隙給按鈕，其他方向沒有邊距 */
+    font-size: 26px;
+    font-weight: 900;
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* 讓三個按鈕水平排列並互相靠攏 */
+.top-nav-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center;
+    gap: 12px; /* 左右按鈕向中間靠攏的距離，可自行微調 */
+    width: 100%;
+    margin-bottom: 12px;
+}
+/* 左側格子：讓裡面的按鈕靠右（貼近中間） */
+.left-side {
+    justify-self: end;
+}
+
+/* 右側格子：讓裡面的按鈕靠左（貼近中間） */
+.right-side {
+    justify-self: start;
+}
+
+/* 隱藏首頁按鈕與標題專用 */
+.home-hide {
+    display: none !important; 
+}
+
+/* ================================== */
+/* 💎 共用的完美玻璃風格 (三個按鈕都會套用) */
+/* ================================== */
+.nav-btn, .nav-title-glass {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 18px !important;
+    border-radius: 20px !important;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0; /* 確保不會被其他的 margin 設定干擾 */
+    white-space: nowrap;
+}
+
+/* --- 有功能的左右按鈕 (游標會變成手，滑過會變色) --- */
+.nav-btn {
+    color: #2c3e50 !important;
+    cursor: pointer;
+
+
+}
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.95) !important;
+    transform: translateY(-2px);
+}
+
+/* --- 無功能的中間標題 (游標是箭頭，不會變色) --- */
+.nav-title-glass {
+    color: #7f8c8d !important;
+    cursor: default; 
+}
+
+/* --- 首頁隱藏返回按鈕與標題的專屬設定 --- */
+.home-hide {
+    display: none !important; 
 }
 
 .container { 
@@ -70,6 +161,7 @@ body {
     padding: 10px 20px; 
     max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; 
     align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    margin: 3vh auto 20px auto;
 }
 .container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active) { max-width: 900px; }
 
@@ -88,7 +180,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 }
 .tab-menu button:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
 
-.tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 12px; align-items: flex-start;}
+.tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 16px; align-items: flex-start;}
 .tab-content.active { display: flex; animation: appleFadeIn 0.4s ease; }
 
 @keyframes appleFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -190,6 +282,14 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
     align-items: center;
     overflow: hidden; /* 防止圖片凸出去 */
 }
+
+#tab-home .memo-card { width: 100% !important;max-width: none !important;box-sizing: border-box !important; padding: 25px !important; }
+#tab-home .memo-content { display: flex; align-items: center; gap: 50px; }
+#tab-home .memo-apng { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
+#tab-home .memo-text-area { color: #2c3e50; font-size: 13px; line-height: 1.6; font-weight: bold; }
+#tab-home .memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; }
+#tab-home .memo-text-area p { margin: 0 0 6px 0; }
+#tab-home .memo-simple-text { margin-top: 5px !important; }
 
 /* ========================================== */
 /* 2. 無視計算機 (Ignore Calculator)             */
@@ -348,7 +448,7 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 /* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
 /* ========================================== */
 .msm-forge-ui, .modal-box { color: #333 !important; font-family: "微軟正黑體", Arial, sans-serif !important; }
-.msm-forge-ui { width: 100%; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; background-color: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; border-radius: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+.msm-forge-ui { width: 100%; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column;  box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; border-radius: 6px; overflow: hidden; }
 .forge-header { background-color: #455468; color: white !important; padding: 12px 20px; font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
 .forge-info-icon { display: inline-flex; justify-content: center; align-items: center; width: 22px; height: 22px; border: 2px solid white; border-radius: 4px; font-size: 14px; transform: rotate(45deg); }
 .forge-info-icon span { transform: rotate(-45deg); }
@@ -411,7 +511,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 
 .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
 .modal-backdrop.active { display: flex; }
-.modal-box { width: 90%; max-width: 420px; background: #F0F0F0; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.2); }
+.modal-box { width: 90%; max-width: 420px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
 .modal-header { background: #4a5468; color: #ffffff !important; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
@@ -470,7 +570,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .cr-btn-cancel:hover { background: #436a8b; }
 .cr-btn-confirm { flex: 1; background: #ed7245; color: white !important; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
 .cr-btn-confirm:hover { background: #d35400; }
-.cr-result-stats { background: #fff; padding: 12px 15px; text-align: left; font-size: 13px; line-height: 1.2; font-weight: bold; margin-top: 5px; border-top: 1px solid #eee; color: #333 !important; }
+.cr-result-stats { background: #fff; padding: 12px 15px; text-align: left; font-size: 13px; line-height: 1.2; font-weight: bold; border-top: 1px solid #eee; color: #333 !important; }
 .cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 0px; padding: 4px 0; }
 
 @keyframes cr-flash-success { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(180, 50, 255, 0.5); } 50% { background-color: rgba(220, 100, 255, 0.8); } 65% { background-color: rgba(255, 255, 255, 1); } 85% { background-color: rgba(240, 200, 255, 0.9); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
@@ -544,13 +644,32 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 
 #tab-will .instructions-panel { display: block !important; visibility: visible !important; opacity: 1 !important; }
 #tab-will .settings-panel {
+    /* --- 1. 保留你絕美的視覺外觀 (皮膚) --- */
     background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.5) 100%) !important; 
     backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
     border: 1px solid rgba(255,255,255,0.8) !important; border-top: 2px solid rgba(255,255,255,1) !important;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08), inset 0 0 12px rgba(255,255,255,0.6) !important; 
-    border-radius: 16px !important; max-width: 800px !important; width: 95% !important; margin: 10px auto !important; padding: 25px !important; 
-    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; position: relative; z-index: 10; color: #2c3e50 !important;
+    border-radius: 16px !important; 
+    padding: 25px !important; 
+    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+    position: relative; 
+    z-index: 10; 
+    color: #2c3e50 !important;
+
+    /* --- 2. 換上新的排版設定 (骨架) --- */
+    max-width: 100% !important; /* 解除最大寬度限制 */
+    width: 100% !important;     /* 強制切齊上方的畫布 */
+    margin: 10px 0 !important;  /* 因為 100% 寬度了，不需要 auto 置中，只要留上下間距即可 */
+    box-sizing: border-box !important;
 }
+/* 解鎖威爾練習機底下「外層容器」的寬度限制 */
+#tab-will .container, 
+#tab-will > div {max-width: 100% !important; width: 100% !important;}
+#tab-will .settings-panel,
+#tab-will .instructions-panel {max-width: 1000px !important; margin: 10px auto !important;}
+#tab-will .inst-btn-grid {display: grid !important;grid-template-columns: repeat(2, 1fr) !important;gap: 10px !important;width: 100% !important;}
+#tab-will .inst-btn-grid > div:nth-child(5),
+#tab-will .inst-btn-grid > div:nth-child(6) {grid-column: span 2 !important;}
 #tab-will .settings-title { margin-top: 0 !important; margin-bottom: 12px !important; font-size: 18px !important; color: #2c3e50 !important; font-weight: 900 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; border-bottom: none !important; }
 #tab-will .setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold !important; color: #34495e !important; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px; margin-top: 15px; gap: 8px; }
 #tab-will .setting-row:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0 !important; }
@@ -577,14 +696,6 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 #tab-will .inst-btn-text { color: #2c3e50; font-size: clamp(12px, 3.5vw, 14px); line-height: 1.2; white-space: nowrap; }
 #tab-will .span-special .inst-btn-text { white-space: normal; line-height: 1.4; }
 #tab-will .span-special .inst-btn-text span { color: #7f8c8d; font-size: clamp(11px, 3vw, 12px); }
-
-#tab-will .memo-card { margin-top: 5px !important; padding: 25px !important; }
-#tab-will .memo-content { display: flex; align-items: center; gap: 50px; }
-#tab-will .memo-apng { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
-#tab-will .memo-text-area { color: #2c3e50; font-size: 13px; line-height: 1.6; font-weight: bold; }
-#tab-will .memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; }
-#tab-will .memo-text-area p { margin: 0 0 6px 0; }
-#tab-will .memo-simple-text { margin-top: 5px !important; }
 
 .will-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 #will-result-overlay { z-index: 600; display: none; }
@@ -866,14 +977,13 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         white-space: nowrap !important; 
     }
 
-    /* 2. 動圖與說明區：保持上下排列 */
-    #tab-will .memo-content { 
+    .memo-content { 
         flex-direction: column !important; 
         gap: 15px !important; 
         align-items: center !important; 
         text-align: center !important;
     }
-    #tab-will .memo-apng { 
+    .memo-apng { 
         width: 100% !important; 
         max-width: 250px !important; 
     }
