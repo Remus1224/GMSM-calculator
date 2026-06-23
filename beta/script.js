@@ -39,7 +39,12 @@ function clearReset() {
     document.getElementById('reset-target-a').value = '';
     document.getElementById('reset-target-sub').value = '';
     if(document.getElementById('sim-million-reset')) document.getElementById('sim-million-reset').checked = false;
-    document.getElementById('result-hexa-reset-container').style.display = 'none';
+    
+    // 隱藏新的兩張結果面板
+    let mp = document.getElementById('res-main-panel');
+    let dp = document.getElementById('res-detail-panel');
+    if (mp) mp.style.display = 'none';
+    if (dp) dp.style.display = 'none';
 }
 
 function clearSim() {
@@ -51,7 +56,9 @@ function clearSim() {
     document.getElementById('target-sub').value = '';
     document.getElementById('sim-stoploss').checked = true;
     if(document.getElementById('sim-million')) document.getElementById('sim-million').checked = false;
-    document.getElementById('result-hexa-sim').style.display = 'none';
+    
+    let resBox = document.getElementById('result-hexa-sim');
+    if(resBox) resBox.style.display = 'none';
 }
 
 let lazyTableGenerated = false;
@@ -1077,7 +1084,7 @@ function sortTable(col) {
 }
 
 /* ========================================== */
-/* 7. HEXA 重置決策邏輯 (Reset Decision Sim)    */
+/* 7. HEXA 重置決策邏輯 (Reset Decision Sim)  */
 /* ========================================== */
 function checkHexaReset() {
     let a = parseInt(document.getElementById('reset-a').value) || 0;
@@ -1089,24 +1096,35 @@ function checkHexaReset() {
     
     let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
 
-    let container = document.getElementById('result-hexa-reset-container');
+    let mainPanel = document.getElementById('res-main-panel');
+    let detailPanel = document.getElementById('res-detail-panel');
     let mainBox = document.getElementById('result-hexa-reset-main');
     let detailBox = document.getElementById('result-hexa-reset-details');
 
     if (a + b + c + rolls !== 20) {
-        container.style.display = 'block';
-        mainBox.innerText = `⚠️ 錯誤：目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 應該要等於 20 喔！\n請確認輸入數字是否正確。`;
+        mainPanel.style.display = 'block';
+        detailPanel.style.display = 'none';
+        // 👇 換成這種排版結構
+        mainBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div style="display: inline-block; text-align: left;">目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。</div>
+            </div>`;
         detailBox.innerHTML = "";
         return;
     }
 
     if (targetA === 0 && targetSub === 0) {
-        container.style.display = 'block';
-        mainBox.innerText = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！";
+        mainPanel.style.display = 'block';
+        detailPanel.style.display = 'none';
+        mainBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div>請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！</div>
+            </div>`;
         detailBox.innerHTML = "";
         return;
     }
-
     const trials = useMillionReset ? 1000000 : 30000;
     let gradSuccess = 0; 
     let baseSuccess = 0; 
@@ -1153,37 +1171,50 @@ function checkHexaReset() {
     let suggestion = "";
     
     if (winRate === 0) {
-        suggestion = "💀 無法達成 (機率為 0%)，請立刻重置。";
+        suggestion = "無法達成 (機率為 0%)，請立刻重置。";
     } else if (winRate >= baseWinRate * 3) {
-        suggestion = `💎 歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
+        suggestion = `歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
     } else if (winRate >= baseWinRate) {
-        suggestion = `✅ 狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+        suggestion = `狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
     } else if (winRate >= baseWinRate * 0.5) {
-        suggestion = `⚠️ 狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
+        suggestion = `狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
     } else {
-        suggestion = `❌ 狀態極差 (機率遠低於從頭來過，立刻重置)`;
+        suggestion = `狀態極差 (機率遠低於從頭來過，立刻重置)`;
     }
 
-    container.style.display = 'block';
-    mainBox.innerHTML = `📊 預估畢業勝率：${winRate.toFixed(2)}%<br><span style="font-size: 15px; color: ${winRate >= baseWinRate ? '#27ae60' : '#c0392b'};">${suggestion}</span>`;
+    mainPanel.style.display = 'block';
+    detailPanel.style.display = 'block';
     
-    let htmlA = `<div style="flex: 1; min-width: 150px;"><div style="color:#0052cc; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【主屬性 (A)】</div>`;
-    for(let i = Math.max(0, a); i <= 10; i++) htmlA += `• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%<br>`;
+    mainBox.innerHTML = `
+        <div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">預估畢業勝率：${winRate.toFixed(2)}%</div>
+        <div style="font-size: 15px; color: ${winRate >= baseWinRate ? '#34C759' : '#FF3B30'}; font-weight: 600;">${suggestion}</div>
+    `;
+    
+    let htmlA = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#007AFF; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【主屬性 (A)】</div>`;
+    for(let i = Math.max(0, a); i <= 10; i++) htmlA += `<div style="margin-bottom: 4px;">• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%</div>`;
     htmlA += `</div>`;
 
-    let htmlB = `<div style="flex: 1; min-width: 150px;"><div style="color:#c0392b; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (B)】</div>`;
-    for(let i = Math.max(0, b); i <= 10; i++) htmlB += `• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%<br>`;
+    let htmlB = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF3B30; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (B)】</div>`;
+    for(let i = Math.max(0, b); i <= 10; i++) htmlB += `<div style="margin-bottom: 4px;">• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%</div>`;
     htmlB += `</div>`;
 
-    let htmlC = `<div style="flex: 1; min-width: 150px;"><div style="color:#e67e22; font-weight:bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">【附屬性 (C)】</div>`;
-    for(let i = Math.max(0, c); i <= 10; i++) htmlC += `• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%<br>`;
+    let htmlC = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF9500; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (C)】</div>`;
+    for(let i = Math.max(0, c); i <= 10; i++) htmlC += `<div style="margin-bottom: 4px;">• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%</div>`;
     htmlC += `</div>`;
 
-    detailBox.innerHTML = `<div style="width:100%;"><strong>🔮 點完後可能性的機率分佈：</strong><br><span style="font-size: 13px; color: #7f8c8d;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span></div>${htmlA}${htmlB}${htmlC}`;
+    detailBox.innerHTML = `
+        <div style="width:100%; text-align: left; font-size: 14px; color: var(--text-main, #333);">
+            <strong style="display:block; margin-bottom: 6px; font-size: 15px;">點完後可能性的機率分佈：</strong>
+            <span style="font-size: 13px; color: var(--text-muted, #888); display: block; margin-bottom: 15px;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
+                ${htmlA}${htmlB}${htmlC}
+            </div>
+        </div>
+    `;
 }
 
 /* ========================================== */
-/* 8. HEXA 目標屬性模擬邏輯 (Target Goal Sim)    */
+/* 8. HEXA 目標屬性模擬邏輯 (Target Goal Sim) */
 /* ========================================== */
 function runHexaSimulation() {
     let valA = document.getElementById('sim-a').value;
@@ -1207,13 +1238,22 @@ function runHexaSimulation() {
 
     if (sA + sB + sC + rolls !== 20) {
         resBox.style.display = 'block'; 
-        resBox.innerHTML = `⚠️ 錯誤：目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。`; 
+        // 👇 換成這種排版結構
+        resBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div style="display: inline-block; text-align: left;">目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。</div>
+            </div>`; 
         return;
     }
 
     if (tA === 0 && tSub === 0) {
         resBox.style.display = 'block'; 
-        resBox.innerHTML = "⚠️ 錯誤：請至少設定一項目標屬性等級 (>0) 才能進行模擬！"; 
+        resBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div>請至少設定一項目標屬性等級 (>0) 才能進行模擬！</div>
+            </div>`; 
         return;
     }
 
@@ -1280,39 +1320,39 @@ function runHexaSimulation() {
     let prob = (cSuccess / trials) * 100;
     let avgCost = cSuccess > 0 ? (tFrag / cSuccess) : 0;
     
-    let htmlOutput = `<strong>🎯 【 模擬 ${trials.toLocaleString()} 次結果 】</strong><br>`;
+    let htmlOutput = `<div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">【 模擬 ${trials.toLocaleString()} 次結果 】</div>`;
     
     if (useStopLoss) {
-        htmlOutput += `<span style="color:${isGolden ? '#27ae60' : '#7f8c8d'}; font-size:13px;">`;
+        htmlOutput += `<div style="color:${isGolden ? '#34C759' : 'var(--text-muted, #888)'}; font-size: 13px; margin-bottom: 15px;">`;
         if (isGolden) htmlOutput += `(套用提早停損及重置決策：前十次未達主屬${tA===10?'5':'4'}時直接重置)`;
         else htmlOutput += `(僅套用提早停損)`;
-        htmlOutput += `</span><br><br>`;
+        htmlOutput += `</div>`;
     } else {
-        htmlOutput += `<br><br>`;
+        htmlOutput += `<div style="margin-bottom: 15px;"></div>`;
     }
     
-    if (tA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#0052cc;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
-    if (tSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#c0392b;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
+    htmlOutput += `<div style="text-align: left; line-height: 1.8; color: var(--text-main, #333); font-size: 15px;">`;
+    
+    if (tA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#007AFF; font-size: 16px;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
+    if (tSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#FF3B30; font-size: 16px;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
     
     if (tA > 0 && tSub > 0) {
-        htmlOutput += `• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#27ae60;">${prob.toFixed(2)} %</strong><br>`;
-        htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong>${((cHitBoth / trials) * 100).toFixed(2)} %</strong><br>`;
+        htmlOutput += `<div style="margin-top: 6px;">• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#34C759; font-size: 16px;">${prob.toFixed(2)} %</strong></div>`;
+        htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong style="color:#AF52DE; font-size: 16px;">${((cHitBoth / trials) * 100).toFixed(2)} %</strong>`;
     }
+    htmlOutput += `</div>`;
     
-    htmlOutput += `<br><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
+    htmlOutput += `<div style="width: 100%; height: 1px; background-color: var(--glass-border, #eee); margin: 20px 0;"></div>`;
     
     if (cSuccess > 0) {
-        htmlOutput += `💰 預估碎片需求：平均準備約 <strong style="font-size:18px; color:#c0392b;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標`;
+        htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">預估碎片需求：平均準備約 <strong style="font-size: 19px; color:#FF3B30;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標</div>`;
     } else {
-        htmlOutput += `💀 起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。`;
+        htmlOutput += `<div style="color: #FF3B30; font-size: 15px; font-weight: bold;">起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。</div>`;
     }
 
     resBox.style.display = 'block';
     resBox.innerHTML = htmlOutput;
 }
-
-tr_updateUI();
-
 /* ========================================== */
 /* 9. 製作模擬器邏輯 (Craft Simulator)           */
 /* ========================================== */
