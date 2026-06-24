@@ -343,7 +343,7 @@
             </div>
 
             <div class="stats-text">
-                <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 5px;"> 消耗統計與期望值分析</div>
+                <div style="font-weight:bold; color:var(--text-main); margin-bottom: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px;">消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【超越石消耗】</strong><br>
@@ -535,7 +535,7 @@
             </div>
 
             <div class="stats-text">
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">消耗統計與期望值分析</div>
+                <div style="font-weight:bold; color:var(--text-main); margin-bottom: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px;">消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【結晶消耗】</strong><br>
@@ -554,7 +554,7 @@
                 </div>
             </div>
             
-            <button class="btn-reset-tr" onclick="cr_action_reset()">🔄 重新計算</button>
+            <button class="btn-reset-tr" onclick="cr_action_reset()"> 重新模擬 (清除所有狀態)</button>
         </div>
 
         <div class="modal-backdrop" id="cr-confirm-modal">
@@ -627,7 +627,7 @@
             <div class="section-title">第三步：資源獲取速度 (用於推算畢業時間)</div>
             <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 10px;">每日掛機獲取</div>
             <div class="inv-grid" style="margin-bottom: 15px;">
-                <div class="inv-item" style="border-right: 1px solid rgba(0,0,0,0.05); padding-right: 15px;">
+                <div class="inv-item">
                     <label style="color:#0071E3;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
                     <input type="text" inputmode="decimal" id="farm-hours" min="0" max="24" value="">
                 </div>
