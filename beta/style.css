@@ -42,60 +42,67 @@
     --btn-text: #FFFFFF;
 }
 
+
+
 /* ------------------------------------------ */
-/* 🎯 夜間專屬覆蓋：左藍右紫的 50/50 雙色霓虹美學 */
+/* 🎯 夜間專屬覆蓋：全局與獨立面板玻璃化 */
 /* ------------------------------------------ */
 
-/* 1. 頂部大廳選單標題 (左半透藍、右半透紫) */
+/* 1. 頂部大廳選單標題 (收緊雙色邊緣光暈) */
 [data-theme="dark"] .nav-title-glass {
     background-image: 
         linear-gradient(rgba(10, 15, 25, 0.7), rgba(10, 15, 25, 0.4)), 
         linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important; 
     box-shadow: 
-        0 8px 24px rgba(0, 0, 0, 0.6),                      
-        -12px 0 25px rgba(156, 234, 254, 0.65),    
-        12px 0 25px rgba(200, 141, 221, 0.65),     
-        inset 0 0 12px rgba(255, 255, 255, 0.6) !important; 
-    text-shadow: 0 0 8px rgba(178, 187, 237, 0.8); 
+        0 4px 12px rgba(0, 0, 0, 0.6),                      
+        -4px 0 12px rgba(156, 234, 254, 0.7),    /* 從 25px 縮小至 12px，左右偏移縮至 4px */
+        4px 0 12px rgba(200, 141, 221, 0.7),     /* 讓光集中在邊緣 */
+        inset 0 0 6px rgba(255, 255, 255, 0.4) !important; 
+    text-shadow: 0 0 4px rgba(178, 187, 237, 0.8); /* 縮小文字光暈 */
     color: #FFFFFF !important;
 }
 
-/* 2. 左右小按鈕 */
+/* 2. 左右小按鈕 (收緊 Hover 光暈) */
 [data-theme="dark"] .nav-btn {
     background: rgba(15, 20, 30, 0.6) !important; 
     color: #E0F2FE !important;
     border-color: rgba(178, 187, 237, 0.2) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.1) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 0 6px rgba(178, 187, 237, 0.1) !important;
 }
 [data-theme="dark"] .nav-btn:hover {
     background: rgba(25, 35, 55, 0.8) !important;
-    box-shadow: -8px 0 20px rgba(156, 234, 254, 0.6), 8px 0 20px rgba(200, 141, 221, 0.6), inset 0 0 10px rgba(178, 187, 237, 0.2) !important; 
+    box-shadow: 
+        -3px 0 10px rgba(156, 234, 254, 0.6), 
+        3px 0 10px rgba(200, 141, 221, 0.6), 
+        inset 0 0 6px rgba(178, 187, 237, 0.2) !important; 
+        transition: none !important;
 }
 
-/* 3. 首頁大標題 */
+/* 3. 首頁大標題 (文字光芒集中) */
 [data-theme="dark"] .main-site-title {
     color: #FFFFFF !important;
-    text-shadow: -4px 0 15px rgba(156, 234, 254, 0.7), 4px 0 15px rgba(200, 141, 221, 0.7); 
+    text-shadow: -2px 0 8px rgba(156, 234, 254, 0.8), 2px 0 8px rgba(200, 141, 221, 0.8); /* 收緊擴散範圍，提升清晰度 */
 }
 
-/* 4. 主選單各個工具卡片 */
+/* 4. 主選單各個工具卡片 (移除超大光害，改為銳利邊框發光) */
 [data-theme="dark"] .app-card { border: 1px solid rgba(178, 187, 237, 0.2); }
 [data-theme="dark"] .app-card:hover {
     border-color: rgba(178, 187, 237, 0.6);
-    box-shadow: -15px 0 30px rgba(156, 234, 254, 0.3), 15px 0 30px rgba(200, 141, 221, 0.3), inset 0 0 15px rgba(178, 187, 237, 0.15);
+    box-shadow: 
+        -4px 0 15px rgba(156, 234, 254, 0.4), /* 模糊從 30px 砍半到 15px */
+        4px 0 15px rgba(200, 141, 221, 0.4), 
+        inset 0 0 8px rgba(178, 187, 237, 0.15);
 }
-
-/* 5. 卡片內的 Icon */
 [data-theme="dark"] .app-icon {
     background: linear-gradient(135deg, rgba(156, 234, 254, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%);
     border-color: rgba(178, 187, 237, 0.3);
 }
 [data-theme="dark"] .app-card:hover .app-icon {
     background: linear-gradient(135deg, rgba(156, 234, 254, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%);
-    box-shadow: -5px 0 15px rgba(156, 234, 254, 0.5), 5px 0 15px rgba(200, 141, 221, 0.5);
+    box-shadow: -3px 0 10px rgba(156, 234, 254, 0.5), 3px 0 10px rgba(200, 141, 221, 0.5); /* 收緊 Icon 發光 */
 }
 
-/* 🌟 6. 精準控制：僅讓獨立面板 (設定面板、說明書、布告欄) 套用夜間玻璃，絕不干擾鐵匠鋪主體 */
+/* 5. 全局獨立面板 (設定、說明、布告欄) 套用夜間科技玻璃 */
 [data-theme="dark"] .settings-panel, 
 [data-theme="dark"] .instructions-panel, 
 [data-theme="dark"] .memo-card, 
@@ -108,196 +115,71 @@
     color: #E0F2FE !important;
 }
 
-/* 布告欄夜間專屬標題修正 */
+/* 6. 布告欄夜間專屬標題與底線 */
 [data-theme="dark"] #tab-home .memo-title {
     color: #ff6b6b !important;
     text-shadow: 0 0 8px rgba(255,107,107,0.4);
 }
-/* 1. 修正下拉選單與輸入框：解決「深色底+深藍字」導致文字隱形的問題 */
-[data-theme="dark"] .setting-row input[type="text"], 
-[data-theme="dark"] .setting-row input[type="number"], 
-[data-theme="dark"] .setting-row select {
-    background: rgba(0, 0, 0, 0.4) !important; /* 加深底色產生凹陷感 */
-    border: 1px solid rgba(156, 234, 254, 0.3) !important;
-    color: #9CEAFE !important; /* 文字換成你的專屬粉藍色，高對比且極具科技感 */
-}
-[data-theme="dark"] .setting-row input[type="text"]:focus, 
-[data-theme="dark"] .setting-row input[type="number"]:focus, 
-[data-theme="dark"] .setting-row select:focus {
-    border-color: #9CEAFE !important;
-    box-shadow: 0 0 8px rgba(156, 234, 254, 0.4) !important;
+[data-theme="dark"] .section-title {
+    border-bottom: 1px solid rgba(178, 187, 237, 0.25) !important;
 }
 
-/* 2. 修正重新計算/模擬按鈕：解決黑色背景導致的隱形感 */
-[data-theme="dark"] .btn-reset-tr {
-    background: rgba(255, 255, 255, 0.1) !important; /* 改為半透明白光 */
-    color: #E0F2FE !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-[data-theme="dark"] .btn-reset-tr:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important;
-}
-
-/* 3. 修正音效按鈕：去除刺眼的純白背景，融入夜間玻璃風格 */
-[data-theme="dark"] .btn-sound {
-    background: rgba(15, 20, 30, 0.6) !important;
-    border: 1px solid rgba(178, 187, 237, 0.3) !important;
-    color: #E0F2FE !important;
-}
-
-/* 4. 修正統計區塊 (.stats-text)：加深背景，並強制提亮內部暗色文字 */
-[data-theme="dark"] .stats-text {
-    background: rgba(0, 0, 0, 0.25) !important;
-    border: 1px solid rgba(178, 187, 237, 0.1) !important;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5) !important; /* 內陰影增加立體層次 */
-    color: #E0F2FE !important; /* 確保像是「消耗統計與期望值分析」等預設文字變亮 */
-}
-
-/* ========================================== */
-/* 🛠️ 夜間模式：全域表單、隱形文字與面板終極修復補丁 */
-/* ========================================== */
-
-/* --- 1. 修正「消耗統計與期望值分析」背景與字體 --- */
-[data-theme="dark"] .stats-text {
-    background: rgba(15, 20, 30, 0.6) !important; 
-    border: 1px solid rgba(178, 187, 237, 0.2) !important;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2) !important; 
-    color: #E0F2FE !important; 
-}
-[data-theme="dark"] .stats-text legend, 
-[data-theme="dark"] .stats-text span, 
-[data-theme="dark"] .stats-text div {
-    color: #E0F2FE !important; 
-}
-
-/* --- 2. 修正「HEXA目標策略模擬」隱形的文字與分隔線 --- */
-[data-theme="dark"] .hexa-inputs,
-[data-theme="dark"] .hexa-inputs div,
-[data-theme="dark"] .hexa-inputs span {
-    color: #E0F2FE !important; 
-}
-[data-theme="dark"] .target-divider {
-    background-color: rgba(178, 187, 237, 0.2) !important; 
-}
-
-/* --- 3. 修正「六轉進度計算機」彩色邊框回歸與文字提亮 --- */
-[data-theme="dark"] .prog-item {
-    background: rgba(15, 20, 30, 0.6) !important; 
-    /* ✨ 關鍵修復：只改上、右、下邊框的「顏色」，絕對不碰左邊框！保留彩色線條 */
-    border-top-color: rgba(178, 187, 237, 0.15) !important;
-    border-right-color: rgba(178, 187, 237, 0.15) !important;
-    border-bottom-color: rgba(178, 187, 237, 0.15) !important;
-}
-[data-theme="dark"] .prog-item label,
-[data-theme="dark"] .prog-item span,
-[data-theme="dark"] .prog-item div {
-    color: #E0F2FE !important;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
-}
-
-/* --- 4. 統一全站輸入框 (六轉、HEXA、鐵匠鋪) 的科技藍框效果 --- */
+/* 7. 鐵匠鋪設定區：夜間優化 */
 [data-theme="dark"] .setting-row input[type="text"], 
 [data-theme="dark"] .setting-row input[type="number"], 
 [data-theme="dark"] .setting-row select,
 [data-theme="dark"] .hexa-inputs input,       
 [data-theme="dark"] .inv-grid input,          
-[data-theme="dark"] .prog-item select,        
 [data-theme="dark"] .card-input-wrapper input {
     background: rgba(0, 0, 0, 0.4) !important; 
     border: 1px solid rgba(156, 234, 254, 0.3) !important;
     color: #9CEAFE !important; 
 }
-
-/* 輸入框點擊高光 */
 [data-theme="dark"] .setting-row input[type="text"]:focus, 
 [data-theme="dark"] .setting-row input[type="number"]:focus, 
 [data-theme="dark"] .setting-row select:focus,
 [data-theme="dark"] .hexa-inputs input:focus,
 [data-theme="dark"] .inv-grid input:focus,
-[data-theme="dark"] .prog-item select:focus,
 [data-theme="dark"] .card-input-wrapper input:focus {
     border-color: #9CEAFE !important;
     box-shadow: 0 0 8px rgba(156, 234, 254, 0.4) !important;
     background: rgba(0, 0, 0, 0.6) !important;
 }
+[data-theme="dark"] .btn-reset-tr { background: rgba(255, 255, 255, 0.1) !important; color: #E0F2FE !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; }
+[data-theme="dark"] .btn-reset-tr:hover { background: rgba(255, 255, 255, 0.15) !important; box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important; }
+[data-theme="dark"] .btn-sound { background: rgba(15, 20, 30, 0.6) !important; border: 1px solid rgba(178, 187, 237, 0.3) !important; color: #E0F2FE !important; }
 
-/* 六轉未解鎖下拉選單 (灰色禁用狀態) */
-[data-theme="dark"] .prog-item select:disabled {
-    background: rgba(255, 255, 255, 0.05) !important;
-    color: rgba(255, 255, 255, 0.3) !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
+/* 8. 夜間模式：所有隱形文字強制提亮 (精準排除無視卡片與六轉卡片) */
+[data-theme="dark"] .stats-text { background: rgba(15, 20, 30, 0.6) !important; border: 1px solid rgba(178, 187, 237, 0.2) !important; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2) !important; color: #E0F2FE !important; }
+[data-theme="dark"] .stats-text legend, [data-theme="dark"] .stats-text span, [data-theme="dark"] .stats-text div,
+[data-theme="dark"] .hexa-inputs, [data-theme="dark"] .hexa-inputs div, [data-theme="dark"] .hexa-inputs span,
+[data-theme="dark"] .panel h3, [data-theme="dark"] .detail-box h3, [data-theme="dark"] .inv-item label, 
+[data-theme="dark"] .prog-header, [data-theme="dark"] .checkbox-label,
+[data-theme="dark"] .panel div, [data-theme="dark"] .panel span, [data-theme="dark"] .panel center, [data-theme="dark"] .panel label {
+    color: #E0F2FE !important; 
 }
+[data-theme="dark"] .target-divider { background-color: rgba(178, 187, 237, 0.2) !important; }
 
-/* --- 5. 鐵匠鋪重新模擬按鈕與音效按鈕 --- */
-[data-theme="dark"] .btn-reset-tr {
-    background: rgba(255, 255, 255, 0.1) !important; 
-    color: #E0F2FE !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-[data-theme="dark"] .btn-reset-tr:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important;
-}
-[data-theme="dark"] .btn-sound {
-    background: rgba(15, 20, 30, 0.6) !important;
-    border: 1px solid rgba(178, 187, 237, 0.3) !important;
-    color: #E0F2FE !important;
+/* 🎯 全域面板框線修復：排除特定組件，防止誤傷 */
+[data-theme="dark"] .panel div[style*="border"]:not(.prog-item):not(.equip-card):not(.radio-label) {
+    border-color: rgba(156, 234, 254, 0.4) !important; background: rgba(0, 0, 0, 0.3) !important; 
+    box-shadow: inset 0 0 8px rgba(156, 234, 254, 0.1) !important; border-radius: 6px !important; 
+    color: #9CEAFE !important; text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
 }
 
-/* --- 6. 其他細節文字提亮 --- */
-[data-theme="dark"] .panel h3,          
-[data-theme="dark"] .detail-box h3,
-[data-theme="dark"] .inv-item label,    
-[data-theme="dark"] .prog-header,
-[data-theme="dark"] .checkbox-label {
-    color: #E0F2FE !important;
-}
-
-/* --- 7. 修正「HEXA 重置決策與目標策略模擬」中的隱形框線與文字 --- */
-[data-theme="dark"] .panel div,
-[data-theme="dark"] .panel span,
-[data-theme="dark"] .panel center,
-[data-theme="dark"] .panel label {
-    color: #E0F2FE !important;
-}
-
-/* 🎯 關鍵修正：加上 :not(.prog-item)，放過六轉進度卡片，絕不誤殺彩色邊框！ */
-[data-theme="dark"] .panel div[style*="border"]:not(.prog-item) {
-    border-color: rgba(156, 234, 254, 0.4) !important;
-    background: rgba(0, 0, 0, 0.3) !important; 
-    box-shadow: inset 0 0 8px rgba(156, 234, 254, 0.1) !important;
-    border-radius: 6px !important; 
-    color: #9CEAFE !important; 
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
-}
-
-/* --- 8. 修正布告欄與各面板小標題 (.section-title) 的底線消失問題 --- */
-/* 將原本隱形的黑色底線，換成帶有科技感的微弱藍紫光底線 */
-[data-theme="dark"] .section-title {
-    border-bottom: 1px solid rgba(178, 187, 237, 0.25) !important;
-}
 
 /* ========================================== */
 /* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
-html, body { 
-    width: 100%; 
-    max-width: 100%; 
-    overflow-x: hidden; 
-}
+html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
 button, input, select, label, .btn-action { touch-action: manipulation; font-family: inherit; }
 
 .txt-sharp {
-    font-weight: 800 !important;
-    -webkit-text-stroke: 0px transparent !important;
-    -webkit-font-smoothing: antialiased !important;
-    -moz-osx-font-smoothing: grayscale !important;
-    text-shadow: none !important;
+    font-weight: 800 !important; -webkit-text-stroke: 0px transparent !important;
+    -webkit-font-smoothing: antialiased !important; -moz-osx-font-smoothing: grayscale !important; text-shadow: none !important;
 }
 
 body { 
@@ -307,20 +189,14 @@ body {
         radial-gradient(circle at 15% 40%, var(--bg-grad-1) 0%, transparent 55%),
         radial-gradient(circle at 85% 60%, var(--bg-grad-2) 0%, transparent 55%),
         radial-gradient(circle at 50% 10%, var(--bg-grad-3) 0%, transparent 40%);
-    background-attachment: fixed;
-    color: var(--text-main); 
+    background-attachment: fixed; color: var(--text-main); 
     display: flex; justify-content: center; padding: 20px; 
     user-select: none; -webkit-user-select: none; margin: 0; 
-    min-height: 100vh;
-    align-items: flex-start;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh; align-items: flex-start;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
 }
-body:has(#tab-will.active) { padding: 0 !important; }
-body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !important; }
 
-/* 📱 頂部標題與按鈕 */
 .top-header-section { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
 .main-site-title { margin: 0 0 15px 0; font-size: 26px; font-weight: 900; color: var(--text-main); text-align: center; }
 .top-nav-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0px; width: 100%; margin-bottom: 20px; }
@@ -328,35 +204,108 @@ body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !
 .right-side { justify-self: start; }
 .home-hide { display: none !important; }
 
-/* 🔘 左右按鈕 */
 .nav-btn {
-    background: rgba(255, 255, 255, 0.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    padding: 8px 18px !important; border-radius: 20px !important;
-    font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 8px 18px !important; border-radius: 20px !important; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;
     margin: 0; white-space: nowrap; color: #2c3e50 !important; cursor: pointer; transition: all 0.3s ease; 
 }
-.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.95) !important; transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(156, 234, 254, 0.3) !important; 
-}
+.nav-btn:hover { background: rgba(255, 255, 255, 0.95) !important; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(156, 234, 254, 0.3) !important;transition: none !important; }
 
-/* 💎 獨立的中間標題 (日間高顯眼度・發光霓虹玻璃) */
 .nav-title-glass {
     padding: 8px 24px !important; font-size: 15px; font-weight: 900; color: #2c3e50 !important;
     border-radius: 20px !important; display: flex; align-items: center; justify-content: center;
-    margin: 0 10px; white-space: nowrap; cursor: default;
-    border: 2px solid transparent !important;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)),
-        linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important;        
+    margin: 0 10px; white-space: nowrap; cursor: default; border: 2px solid transparent !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)), linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important;        
     background-origin: border-box !important; background-clip: padding-box, border-box !important;
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 0 15px rgba(156, 234, 254, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.9) !important;  
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); 
 }
+
+
+
+/* ========================================== */
+/* 🌟 11. 日夜切換按鈕 (滑動膠囊 - 100% 絕對置中版) */
+/* ========================================== */
+
+/* 1. 膠囊外框 (Track) */
+.theme-toggle {position: relative;display: flex;align-items: center; justify-content: space-between;width: 72px; height: 34px; padding: 0 2px; border-radius: 34px;
+    box-sizing: border-box; 
+    cursor: pointer;
+    border: none;
+    outline: none;
+    /* 日間軌道：白透玻璃 */
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 4px 10px rgba(0,0,0,0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    margin: 0;
+}
+
+/* 2. 實體滑塊 (Thumb) */
+.theme-toggle::before {content: "";position: absolute;top: 2px; left: 2px; width: 32px; height: 28px; border-radius: 28px;
+    /* 日間滑塊：套用你的專屬粉藍/粉紫漸層 */
+    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2));
+    box-shadow: 0 2px 6px rgba(200, 141, 221, 0.4);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+}
+
+/* 3. 太陽與月亮圖示設定 */
+.theme-toggle .icon-sun, 
+.theme-toggle .icon-moon {position: relative;z-index: 2;font-size: 15px; width: 32px; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s ease;
+}
+
+/* 日間狀態：太陽亮起，月亮變暗 */
+.theme-toggle .icon-sun {opacity: 1;filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));transform: scale(1.05);
+}
+.theme-toggle .icon-moon {opacity: 0.4;filter: grayscale(1);transform: scale(0.9);
+}
+
+/* --- 🌙 夜間模式切換 --- */
+
+/* 夜間軌道：暗色玻璃 */
+[data-theme="dark"] .theme-toggle {
+    background: rgba(10, 15, 25, 0.6);
+    border: 1px solid rgba(178, 187, 237, 0.3);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* 夜間滑塊：向右滑動，變成科技冰藍框 */
+[data-theme="dark"] .theme-toggle::before {
+    /* 精準數學：72(總寬) - 2(邊框) - 4(左右留白) - 32(滑塊寬) = 正好 34px！ */
+    transform: translateX(34px); 
+    background: rgba(156, 234, 254, 0.15);
+    border: 1px solid rgba(156, 234, 254, 0.4);
+    box-shadow: inset 0 0 8px rgba(156, 234, 254, 0.2), 0 0 10px rgba(156, 234, 254, 0.3);
+}
+
+/* 夜間狀態：太陽變暗，月亮發光 */
+[data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 0.3;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}
+[data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(156, 234, 254, 0.8));
+    transform: scale(1.05);
+}
+
+/* 懸停 (Hover) 的微浮起特效 */
+.theme-toggle:hover { transform: translateY(-2px); box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 6px 15px rgba(200, 141, 221, 0.2); }
+[data-theme="dark"] .theme-toggle:hover {
+    border-color: rgba(156, 234, 254, 0.6);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(156, 234, 254, 0.2);
+}
+
 
 .container { 
     background: transparent !important; border: none !important; box-shadow: none !important; 
@@ -386,29 +335,28 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin-top: 10px; }
 .app-card {
     background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); border-radius: 18px;
-    padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer;
+    border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
-.app-card:hover {
-    background: var(--card-hover); transform: translateY(-4px); border-color: rgba(200, 141, 221, 0.5);
-    box-shadow: 0 12px 26px rgba(200, 141, 221, 0.15), 0 2px 4px rgba(0, 0, 0, 0.01);
+.app-card:hover { 
+    background: var(--card-hover); 
+    transform: translateY(-4px); 
+    border-color: rgba(200, 141, 221, 0.8);
+    box-shadow: 
+        -8px 0 25px rgba(156, 234, 254, 0.6), 
+         8px 0 25px rgba(200, 141, 221, 0.6), 
+         0 8px 15px rgba(0, 0, 0, 0.05),      
+         inset 0 0 15px rgba(255, 255, 255, 0.9); 
 }
 .app-card:active { transform: translateY(-1px) scale(0.98); }
 .app-card-highlight { background: rgba(200, 141, 221, 0.05); border-color: rgba(200, 141, 221, 0.2); }
 .app-card-highlight:hover { border-color: rgba(200, 141, 221, 0.6); }
 
 .app-icon {
-    font-size: 26px; width: 46px; height: 46px; 
-    background: linear-gradient(135deg, rgba(156, 234, 254, 0.3), rgba(200, 141, 221, 0.3));
-    border: 1px solid rgba(200, 141, 221, 0.2);
-    border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    transition: all 0.3s; overflow: hidden;
+    font-size: 26px; width: 46px; height: 46px; background: linear-gradient(135deg, rgba(156, 234, 254, 0.3), rgba(200, 141, 221, 0.3));
+    border: 1px solid rgba(200, 141, 221, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; overflow: hidden;
 }
-.app-card:hover .app-icon { 
-    background: linear-gradient(135deg, rgba(156, 234, 254, 0.6), rgba(200, 141, 221, 0.6)); 
-    transform: scale(1.05);
-}
+.app-card:hover .app-icon { background: linear-gradient(135deg, rgba(156, 234, 254, 0.6), rgba(200, 141, 221, 0.6)); transform: scale(1.05); }
 .app-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
 .app-info h3 { margin: 0; font-size: 15.5px; font-weight: 600; color: var(--text-main); letter-spacing: -0.2px; }
 .app-info p { margin: 0; font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -426,17 +374,15 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 
 .input-group label { font-size: 14px; color: var(--text-main); font-weight: 500; }
 .input-group input, .setting-row input[type="text"], .setting-row input[type="number"], .setting-row select, .hexa-inputs input, .inv-grid input { 
-    user-select: auto; -webkit-user-select: auto; 
-    background: var(--input-bg) !important; border: 1px solid rgba(0, 0, 0, 0.12) !important; 
-    color: #0071E3 !important; border-radius: 8px; font-size: 14px; text-align: center;
-    font-weight: 600; transition: all 0.2s ease; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+    user-select: auto; -webkit-user-select: auto; background: var(--input-bg) !important; border: 1px solid rgba(0, 0, 0, 0.12) !important; 
+    color: #0071E3 !important; border-radius: 8px; font-size: 14px; text-align: center; font-weight: 600; transition: all 0.2s ease; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
 }
-input:focus, select:focus { outline: none; border-color: #0071E3 !important; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15); background: var(--card-hover) !important; }
+input:focus, select:focus { outline: none !important; border-color: rgba(200, 141, 221, 0.6) !important; background: #FFFFFF !important; box-shadow: 0 0 0 3px rgba(200, 141, 221, 0.15), inset 0 1px 3px rgba(0, 0, 0, 0.04) !important;transition: all 0.2s ease;
+}
 
 .btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
 .action-btn { 
-    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); color: var(--btn-text); 
-    border: none; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 10px; transition: all 0.2s; flex: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(200, 141, 221, 0.2);
+    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); color: var(--btn-text); border: none; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 10px; transition: all 0.2s; flex: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(200, 141, 221, 0.2);
 }
 .action-btn:hover { filter: brightness(1.05); transform: scale(1.01); box-shadow: 0 6px 16px rgba(200, 141, 221, 0.4); }
 .action-btn:active { transform: scale(0.99); }
@@ -457,67 +403,171 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 #tab-home .memo-text-area p { margin: 0 0 6px 0; }
 #tab-home .memo-simple-text { margin-top: 5px !important; }
 
-/* ========================================== */
-/* 2. 無視計算機 (Ignore Calculator)             */
-/* ========================================== */
-:root {
-    --c-armor-bg: rgba(0, 122, 255, 0.06);  --c-armor-border: rgba(0, 122, 255, 0.15);  --c-armor-text: #007AFF; 
-    --c-weapon-bg: rgba(255, 59, 48, 0.06); --c-weapon-border: rgba(255, 59, 48, 0.15); --c-weapon-text: #FF3B30; 
-    --c-acc-bg: rgba(175, 82, 222, 0.06);    --c-acc-border: rgba(175, 82, 222, 0.15);    --c-acc-text: #AF52DE; 
-    --c-ability-bg: rgba(52, 199, 89, 0.06);--c-ability-border: rgba(52, 199, 89, 0.15);--c-ability-text: #34C759; 
-    --c-special-bg: rgba(255, 149, 0, 0.06);--c-special-border: rgba(255, 149, 0, 0.15);--c-special-text: #FF9500; 
-}
 
+/* ========================================== */
+/* 2. 無視防禦計算機 (全玻璃化與連動發光升級)    */
+/* ========================================== */
 #equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .equip-section { margin-bottom: 20px; }
 .equip-section-title { font-size: 15px; font-weight: bold; margin-bottom: 10px; padding-left: 8px; border-left: 4px solid; }
 
-.text-armor { color: var(--c-armor-text); border-color: var(--c-armor-text); }
-.text-weapon { color: var(--c-weapon-text); border-color: var(--c-weapon-text); }
-.text-acc { color: var(--c-acc-text); border-color: var(--c-acc-text); }
-.text-ability { color: var(--c-ability-text); border-color: var(--c-ability-text); }
-.text-special { color: var(--c-special-text); border-color: var(--c-special-text); }
-
 .equip-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
-.equip-card { border-radius: 12px; border: 1px solid; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: 0.2s ease; }
-.equip-card:focus-within { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
-
-.bg-armor { background: var(--c-armor-bg); border-color: var(--c-armor-border); }
-.bg-weapon { background: var(--c-weapon-bg); border-color: var(--c-weapon-border); }
-.bg-acc { background: var(--c-acc-bg); border-color: var(--c-acc-border); }
-.bg-ability { background: var(--c-ability-bg); border-color: var(--c-ability-border); }
-.bg-special { background: var(--c-special-bg); border-color: var(--c-special-border); }
-
-.card-title { font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
+.card-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
 .card-input-wrapper { display: flex; align-items: center; background: transparent !important; border: none !important; box-shadow: none !important; width: 100%; box-sizing: border-box; margin-top: 4px;}
-.card-input-wrapper input { flex: 1; width: 100%; background: var(--glass-bg) !important; text-align: center; font-size: 16px; font-weight: bold; color: #0071E3 !important; outline: none; border-radius: 6px; padding: 4px; border: 1px solid var(--glass-border) !important; box-shadow: inset 0 1px 3px rgba(0,0,0,0.03) !important;}
-.card-input-wrapper input:focus { background: var(--card-hover) !important; border-color: #0071E3 !important; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important; }
-.card-percent { font-size: 12px; color: var(--text-muted); margin-left: 4px; font-weight: bold; }
+.card-input-wrapper input { flex: 1; width: 100%; text-align: center; font-size: 16px; font-weight: bold; outline: none; border-radius: 6px; padding: 4px; transition: all 0.3s ease; }
+.card-percent { font-size: 12px; margin-left: 4px; font-weight: bold; }
 
-.panel-absolab .section-title { color: #007AFF; }
-.absolab-group .radio-label:has(input:checked) { background-color: rgba(0,122,255,0.08); border-color: #007AFF; color: #007AFF; font-weight: bold; }
-.panel-arcane .section-title { color: #AF52DE; }
-.arcane-group .radio-label:has(input:checked) { background-color: rgba(175,82,222,0.08); border-color: #AF52DE; color: #AF52DE; font-weight: bold; }
+/* 🌟 卡片本體玻璃化與日夜色彩統一 */
+.equip-card { border-radius: 12px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: all 0.3s ease !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-style: solid; border-width: 1.5px; }
 
+/* 日間卡片底色與框線 */
+#equip-grid .bg-armor { background: rgba(0, 122, 255, 0.06) !important; border-color: rgba(0, 122, 255, 0.2) !important; }
+#equip-grid .bg-weapon { background: rgba(255, 59, 48, 0.06) !important; border-color: rgba(255, 59, 48, 0.2) !important; }
+#equip-grid .bg-acc { background: rgba(175, 82, 222, 0.06) !important; border-color: rgba(175, 82, 222, 0.2) !important; }
+#equip-grid .bg-ability { background: rgba(52, 199, 89, 0.06) !important; border-color: rgba(52, 199, 89, 0.2) !important; }
+#equip-grid .bg-special { background: rgba(255, 149, 0, 0.06) !important; border-color: rgba(255, 149, 0, 0.2) !important; }
+
+/* 夜間卡片底色與框線 */
+[data-theme="dark"] #equip-grid .bg-armor { background: rgba(0, 122, 255, 0.12) !important; border-color: rgba(0, 122, 255, 0.6) !important; }
+[data-theme="dark"] #equip-grid .bg-weapon { background: rgba(255, 59, 48, 0.12) !important; border-color: rgba(255, 59, 48, 0.6) !important; }
+[data-theme="dark"] #equip-grid .bg-acc { background: rgba(175, 82, 222, 0.12) !important; border-color: rgba(175, 82, 222, 0.6) !important; }
+[data-theme="dark"] #equip-grid .bg-ability { background: rgba(52, 199, 89, 0.12) !important; border-color: rgba(52, 199, 89, 0.6) !important; }
+[data-theme="dark"] #equip-grid .bg-special { background: rgba(255, 149, 0, 0.12) !important; border-color: rgba(255, 149, 0, 0.6) !important; }
+
+/* 標題與 % 符號回歸原本的文字顏色，防止被染色 */
+#equip-grid .card-title, 
+#equip-grid .card-percent { color: var(--text-main) !important; }
+[data-theme="dark"] #equip-grid .card-title, 
+[data-theme="dark"] #equip-grid .card-percent { color: var(--text-main) !important; text-shadow: none !important; }
+
+/* 日夜模式輸入框背景 */
+#equip-grid .card-input-wrapper input { background: rgba(255, 255, 255, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.9) !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important; backdrop-filter: blur(4px); }
+[data-theme="dark"] #equip-grid .card-input-wrapper input { background: rgba(0, 0, 0, 0.5) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; }
+
+/* 僅針對「輸入框內的數字」上專屬色 (日間) */
+#equip-grid .bg-armor .card-input-wrapper input { color: #007AFF !important; }
+#equip-grid .bg-weapon .card-input-wrapper input { color: #FF3B30 !important; }
+#equip-grid .bg-acc .card-input-wrapper input { color: #AF52DE !important; }
+#equip-grid .bg-ability .card-input-wrapper input { color: #34C759 !important; }
+#equip-grid .bg-special .card-input-wrapper input { color: #FF9500 !important; }
+
+/* 僅針對「輸入框內的數字」上專屬色 (夜間) */
+[data-theme="dark"] #equip-grid .bg-armor .card-input-wrapper input { color: #66b3ff !important; }
+[data-theme="dark"] #equip-grid .bg-weapon .card-input-wrapper input { color: #ff8080 !important; }
+[data-theme="dark"] #equip-grid .bg-acc .card-input-wrapper input { color: #d896ff !important; }
+[data-theme="dark"] #equip-grid .bg-ability .card-input-wrapper input { color: #80ff99 !important; }
+[data-theme="dark"] #equip-grid .bg-special .card-input-wrapper input { color: #ffcc80 !important; }
+
+/* 日間 Hover & Focus */
+.bg-armor:hover { box-shadow: 0 4px 15px rgba(0, 122, 255, 0.25) !important; border-color: rgba(0, 122, 255, 0.5) !important; }
+.bg-armor:focus-within { box-shadow: 0 0 15px rgba(0, 122, 255, 0.5), inset 0 0 10px rgba(0, 122, 255, 0.1) !important; border-color: #007AFF !important; transform: translateY(-2px); }
+.bg-armor .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(0, 122, 255, 0.3) !important; border-color: #007AFF !important; background: #fff !important; }
+.bg-weapon:hover { box-shadow: 0 4px 15px rgba(255, 59, 48, 0.25) !important; border-color: rgba(255, 59, 48, 0.5) !important; }
+.bg-weapon:focus-within { box-shadow: 0 0 15px rgba(255, 59, 48, 0.5), inset 0 0 10px rgba(255, 59, 48, 0.1) !important; border-color: #FF3B30 !important; transform: translateY(-2px); }
+.bg-weapon .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(255, 59, 48, 0.3) !important; border-color: #FF3B30 !important; background: #fff !important; }
+.bg-acc:hover { box-shadow: 0 4px 15px rgba(175, 82, 222, 0.25) !important; border-color: rgba(175, 82, 222, 0.5) !important; }
+.bg-acc:focus-within { box-shadow: 0 0 15px rgba(175, 82, 222, 0.5), inset 0 0 10px rgba(175, 82, 222, 0.1) !important; border-color: #AF52DE !important; transform: translateY(-2px); }
+.bg-acc .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(175, 82, 222, 0.3) !important; border-color: #AF52DE !important; background: #fff !important; }
+.bg-ability:hover { box-shadow: 0 4px 15px rgba(52, 199, 89, 0.25) !important; border-color: rgba(52, 199, 89, 0.5) !important; }
+.bg-ability:focus-within { box-shadow: 0 0 15px rgba(52, 199, 89, 0.5), inset 0 0 10px rgba(52, 199, 89, 0.1) !important; border-color: #34C759 !important; transform: translateY(-2px); }
+.bg-ability .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(52, 199, 89, 0.3) !important; border-color: #34C759 !important; background: #fff !important; }
+.bg-special:hover { box-shadow: 0 4px 15px rgba(255, 149, 0, 0.25) !important; border-color: rgba(255, 149, 0, 0.5) !important; }
+.bg-special:focus-within { box-shadow: 0 0 15px rgba(255, 149, 0, 0.5), inset 0 0 10px rgba(255, 149, 0, 0.1) !important; border-color: #FF9500 !important; transform: translateY(-2px); }
+.bg-special .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(255, 149, 0, 0.3) !important; border-color: #FF9500 !important; background: #fff !important; }
+
+/* 🌟 右側套組選擇區玻璃化 */
 .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.radio-label { background: var(--glass-bg); border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; padding: 10px 5px; text-align: center; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; user-select: none; }
+.radio-label { background: rgba(255, 255, 255, 0.5) !important; border: 1px solid rgba(255, 255, 255, 0.8) !important; border-radius: 8px; padding: 10px 5px; text-align: center; font-size: 14px; color: var(--text-muted) !important; cursor: pointer; transition: all 0.2s ease; user-select: none; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 4px 10px rgba(0,0,0,0.02) !important; }
+.radio-label:hover { background: rgba(255, 255, 255, 0.8) !important; }
 .radio-label input[type="radio"] { display: none; }
+.panel-absolab .section-title { color: #007AFF; }
+.absolab-group .radio-label:has(input:checked) { background: rgba(0, 122, 255, 0.1) !important; border-color: rgba(0, 122, 255, 0.4) !important; color: #007AFF !important; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15), inset 0 0 8px rgba(255,255,255,0.8) !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8); font-weight: bold; }
+.panel-arcane .section-title { color: #AF52DE; }
+.arcane-group .radio-label:has(input:checked) { background: rgba(175, 82, 222, 0.1) !important; border-color: rgba(175, 82, 222, 0.4) !important; color: #AF52DE !important; box-shadow: 0 4px 12px rgba(175, 82, 222, 0.15), inset 0 0 8px rgba(255,255,255,0.8) !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8); font-weight: bold; }
 
-.result-gradient { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold; border-radius: 12px; margin: 0; background: linear-gradient(135deg, rgba(0,113,227,0.05) 0%, rgba(0,113,227,0.12) 100%); border: 1px solid rgba(0,113,227,0.2); color: #0071E3; }
-.btn-clear { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; background-color: rgba(255,59,48,0.06); color: #FF3B30; border: 1px solid rgba(255,59,48,0.15); }
-.btn-clear:hover { background-color: rgba(255,59,48,0.12); transform: translateY(-2px); }
+/* 🌟 右側套組選擇區 (夜間修復：去除模糊與灰白) */
+[data-theme="dark"] .radio-label { background: rgba(0, 0, 0, 0.3) !important; border: 1px solid rgba(255, 255, 255, 0.2) !important; color: #E0F2FE !important; box-shadow: none !important; }
+[data-theme="dark"] .radio-label:hover { background: rgba(255, 255, 255, 0.1) !important; }
+[data-theme="dark"] .absolab-group .radio-label:has(input:checked) { background: rgba(0, 122, 255, 0.15) !important; border: 1.5px solid #66b3ff !important; box-shadow: none !important; }
+[data-theme="dark"] .arcane-group .radio-label:has(input:checked) { background: rgba(175, 82, 222, 0.15) !important; border: 1.5px solid #d896ff !important; box-shadow: none !important; }
+.absolab-group .radio-label:has(input:checked), .arcane-group .radio-label:has(input:checked),
+[data-theme="dark"] .absolab-group .radio-label:has(input:checked), [data-theme="dark"] .arcane-group .radio-label:has(input:checked) { text-shadow: none !important; }
+
+/* 🌟 總結果面板與清除按鈕 */
+.result-gradient { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold; border-radius: 12px; margin: 0; background: rgba(255, 255, 255, 0.6) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(0, 113, 227, 0.3) !important; color: #0071E3 !important; box-shadow: 0 8px 24px rgba(0, 113, 227, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.9) !important; }
+[data-theme="dark"] .result-gradient { background: rgba(0, 0, 0, 0.4) !important; border: 1px solid rgba(156, 234, 254, 0.4) !important; color: #9CEAFE !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important; }
+.btn-clear { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; background: rgba(255, 59, 48, 0.08) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 59, 48, 0.2) !important; color: #FF3B30 !important; }
+.btn-clear:hover { background: rgba(255, 59, 48, 0.15) !important; box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15); transform: translateY(-2px); }
+[data-theme="dark"] .btn-clear { background: rgba(255, 59, 48, 0.1) !important; border: 1px solid rgba(255, 59, 48, 0.5) !important; color: #ff6b6b !important; box-shadow: none !important; }
+[data-theme="dark"] .btn-clear:hover { background: rgba(255, 59, 48, 0.2) !important; }
 
 .ignore-layout-wrapper { display: flex; gap: 20px; align-items: stretch; width: 100%; }
 .ignore-left-panel { flex: 1.4; margin: 0; display: flex; flex-direction: column; }
 .ignore-right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
 
+
 /* ========================================== */
-/* 3. HEXA 進度與懶人決策 (HEXA Progress & Tables) */
+/* 🌟 3. 六轉進度與懶人決策 (四色玻璃全框發光)   */
 /* ========================================== */
 .core-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
-.prog-item { border-radius: 12px; padding: 12px 10px; text-align: center; background: var(--glass-bg) !important; border: 1px solid rgba(0,0,0,0.05); }
-.prog-item select { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1) !important; text-align: center; font-weight: bold; font-size: 14px; background: var(--input-bg) !important; color: #1D1D1F !important; box-shadow: none !important;}
-.prog-item select:disabled { background-color: rgba(0,0,0,0.03) !important; color: #86868B !important; }
+
+/* --- 四色專屬變數設定 (使用 ID 精準定位，無懼排版變化) --- */
+/* 啟源技能 (sk1, sk2) : 深靛紫 */
+.prog-item[id*="sk"] {
+    --hx-color-light: #673AB7; --hx-bg-light: rgba(103, 58, 183, 0.08); --hx-glow-light: rgba(103, 58, 183, 0.35);
+    --hx-color-dark: #9575CD;  --hx-bg-dark: rgba(149, 117, 205, 0.15); --hx-glow-dark: rgba(149, 117, 205, 0.6);
+}
+/* 精通核心 (ma1~ma4) : 粉紫色 */
+.prog-item[id*="ma"] {
+    --hx-color-light: #D279E6; --hx-bg-light: rgba(210, 121, 230, 0.08); --hx-glow-light: rgba(210, 121, 230, 0.35);
+    --hx-color-dark: #E1BEE7;  --hx-bg-dark: rgba(225, 190, 231, 0.15); --hx-glow-dark: rgba(225, 190, 231, 0.6);
+}
+/* 強化核心 (en1~en4) : 亮天藍 */
+.prog-item[id*="en"] {
+    --hx-color-light: #00BFFF; --hx-bg-light: rgba(0, 191, 255, 0.08); --hx-glow-light: rgba(0, 191, 255, 0.35);
+    --hx-color-dark: #80D8FF;  --hx-bg-dark: rgba(128, 216, 255, 0.15); --hx-glow-dark: rgba(128, 216, 255, 0.6);
+}
+/* 共通核心 (co1~co4) : 淺灰藍 */
+.prog-item[id*="co"] {
+    --hx-color-light: #90A4AE; --hx-bg-light: rgba(144, 164, 174, 0.08); --hx-glow-light: rgba(144, 164, 174, 0.35);
+    --hx-color-dark: #CFD8DC;  --hx-bg-dark: rgba(207, 216, 220, 0.15); --hx-glow-dark: rgba(207, 216, 220, 0.5);
+}
+
+/* 卡片本體玻璃化 (強制覆蓋四邊) */
+.prog-item { 
+    border-radius: 12px; padding: 12px 10px; text-align: center; 
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid var(--hx-color-light) !important; 
+    background: var(--hx-bg-light) !important;
+    transition: all 0.3s ease !important;
+}
+.prog-item label, .prog-item span { color: var(--hx-color-light) !important; font-weight: 800 !important; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.prog-item:hover { box-shadow: 0 4px 15px var(--hx-glow-light) !important; transform: translateY(-2px); }
+.prog-item:focus-within { box-shadow: 0 0 15px var(--hx-glow-light), inset 0 0 8px var(--hx-bg-light) !important; transform: translateY(-2px); }
+
+/* 輸入框下拉選單玻璃化 */
+.prog-item select { 
+    width: 100%; padding: 6px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 14px; 
+    background: rgba(255, 255, 255, 0.7) !important; border: 1px solid var(--hx-color-light) !important;
+    color: var(--hx-color-light) !important; backdrop-filter: blur(4px); transition: all 0.3s ease; box-shadow: none !important; outline: none;
+}
+.prog-item select:focus { background: #fff !important; border-color: var(--hx-color-light) !important; box-shadow: 0 0 8px var(--hx-glow-light) !important; }
+
+/* 禁用狀態 (未解鎖) */
+.prog-item:has(select:disabled) { border-color: rgba(134, 134, 139, 0.3) !important; background: rgba(134, 134, 139, 0.05) !important; box-shadow: none !important; transform: none !important; }
+.prog-item:has(select:disabled) label { color: #86868B !important; }
+.prog-item select:disabled { background-color: rgba(0,0,0,0.03) !important; color: #86868B !important; border-color: transparent !important; box-shadow: none !important;}
+
+/* 夜間模式對應 */
+[data-theme="dark"] .prog-item { border-color: var(--hx-color-dark) !important; background: var(--hx-bg-dark) !important; }
+[data-theme="dark"] .prog-item label, [data-theme="dark"] .prog-item span { color: var(--hx-color-dark) !important; text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important; }
+[data-theme="dark"] .prog-item:hover { box-shadow: 0 4px 15px var(--hx-glow-dark) !important; }
+[data-theme="dark"] .prog-item:focus-within { box-shadow: 0 0 15px var(--hx-glow-dark), inset 0 0 10px var(--hx-bg-dark) !important; }
+[data-theme="dark"] .prog-item select { background: rgba(0, 0, 0, 0.4) !important; border: 1px solid var(--hx-color-dark) !important; color: var(--hx-color-dark) !important; }
+[data-theme="dark"] .prog-item select:focus { background: rgba(0, 0, 0, 0.6) !important; border-color: var(--hx-color-dark) !important; box-shadow: 0 0 8px var(--hx-glow-dark) !important; }
+[data-theme="dark"] .prog-item:has(select:disabled) { border-color: rgba(255, 255, 255, 0.1) !important; background: rgba(255, 255, 255, 0.02) !important; }
+[data-theme="dark"] .prog-item:has(select:disabled) label { color: rgba(255, 255, 255, 0.3) !important; }
+[data-theme="dark"] .prog-item select:disabled { color: rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.2) !important; }
 
 .inv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
 .inv-item { display: flex; flex-direction: column; gap: 5px; }
@@ -606,6 +656,7 @@ input:focus, select:focus { outline: none; border-color: #0071E3 !important; box
 /* ========================================== */
 /* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
 /* ========================================== */
+/* 🎯 精準鎖定：保護鐵匠鋪與彈出視窗使用 content-box，放過下方設定面板防爆框 */
 .msm-forge-ui, .msm-forge-ui *, .msm-forge-ui *:before, .msm-forge-ui *:after,
 .modal-box, .modal-box *, .modal-box *:before, .modal-box *:after,
 .cr-confirm-box, .cr-confirm-box *, .cr-confirm-box *:before, .cr-confirm-box *:after {
@@ -756,7 +807,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     padding: 0 !important; 
     max-width: 100% !important; 
     border-radius: 0 !important; 
-    margin: 3vh auto 20px auto !important; /* ✨ 關鍵：恢復原本的 3vh 頂部距離，讓標題不貼緊 */
+    margin: 3vh auto 20px auto !important; 
     background: transparent !important; 
     border: none !important; 
     box-shadow: none !important;
@@ -814,7 +865,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 
 #tab-will .instructions-panel { display: block !important; visibility: visible !important; opacity: 1 !important; }
 
-/* 🌟 威爾練習機底部面板替換為變數，完美吃夜間設定 */
+/* 威爾練習機底部面板替換為變數，完美吃夜間設定 */
 #tab-will .settings-panel,
 #tab-will .instructions-panel {
     background: var(--glass-bg); 
@@ -912,11 +963,13 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 #will-game-wrapper:fullscreen #will-inner-container, #will-game-wrapper:-webkit-full-screen #will-inner-container, #will-game-wrapper.fake-fullscreen #will-inner-container { max-width: min(100vw, calc(100dvh * (1741 / 713))) !important; max-height: 100dvh !important; }
 #will-game-wrapper:fullscreen canvas, #will-game-wrapper:-webkit-full-screen canvas, #will-game-wrapper.fake-fullscreen canvas { width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: fill !important; }
 
+
+
+
 /* ================================================= */
-/* 🔮 HEXA 區塊手機版適應 (解壓縮寬敞版)                 */
+/* 📱 響應式佈局 (Mobile & Tablet RWD)                 */
 /* ================================================= */
 @media (max-width: 768px) {
-    /* 大廳與無視計算機解除並排，改為單欄以防止爆框 */
     .app-grid { grid-template-columns: 1fr; gap: 12px; }
     .ignore-layout-wrapper { flex-direction: column; }
     .ignore-left-panel, .ignore-right-panel { width: 100%; flex: none; }
@@ -945,7 +998,6 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .core-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .dynamic-lv-overlay { transform: scale(0.85); transform-origin: bottom right; bottom: 3px; right: 3px; }
 
-    /* 鐵匠鋪手機版適應 */
     .forge-sidebar { display: none; }
     .sec-white { min-height: 50px; padding: 10px 0; }
     .sec-grey-mid { padding: 15px 10px; }
@@ -964,19 +1016,16 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .m-scr-white-body { padding: 24px 12px; }
     .m-scr-grey-box { width: 95%; font-size: 14px; padding: 12px; }
 
-    /* 超越模擬器特定 */
     .sec-top { padding: 15px 5px; gap: 10px; justify-content: center; align-items: flex-start; flex-wrap: nowrap !important; }
     .item-col { width: 110px; }
     .img-box { width: 70px; height: 70px; margin-bottom: 5px; }
     .plus-sign { font-size: 30px; margin-top: 15px; }
     .equip-name { width: 100%; font-size: 11px; white-space: nowrap; overflow: visible; word-break: break-word; line-height: 1.3; margin-top: 5px; }
     
-    /* 防止底部按鈕過大撐破外框 */
     .coin-box { width: 140px; font-size: 14px; padding: 8px 10px; }
     .btn-action-tr { width: 110px; font-size: 15px; padding: 10px 0; }
     .sec-bottom { gap: 10px; padding: 15px 0; }
 
-    /* 製作模擬器特定 */
     #cr-game-ui-container .sec-top { gap: 5px !important; padding: 15px 0px 10px 0px !important; } 
     #cr-game-ui-container .item-col { width: 75px !important; min-width: 75px !important; max-width: 75px !important; flex: 0 0 75px !important; }
     #cr-game-ui-container .img-box { width: 70px !important; height: 70px !important; }
@@ -986,65 +1035,27 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 10px !important; letter-spacing: -0.5px !important; transform: none !important; }
     #cr-game-ui-container .forge-main { height: 415px !important; }
     #cr-game-ui-container .sec-grey-mid { padding-top: 4px !important; }
-    #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
 
-    /* 針對 HEXA 模擬器下方的設定行進行微壓縮，防止極限運算掉到下一行 */
-    .setting-row { 
-        gap: 6px !important; /* 縮小項目之間的間距 */
-        font-size: 13px !important; /* 稍微縮小字體 */
-    }
-    .setting-row label { 
-        font-size: 13px !important; 
-    }
-    .checkbox-label { 
-        font-size: 13px !important; 
-        letter-spacing: -0.5px !important; /* 把字稍微擠緊一點點 */
-    }
+    .setting-row { gap: 6px !important; font-size: 13px !important; }
+    .setting-row label { font-size: 13px !important; }
+    .checkbox-label { font-size: 13px !important; letter-spacing: -0.5px !important; }
 
-/* 確保彈出動畫存在 */
-@keyframes hexaResultPop {
-    0% { transform: translateY(15px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-/* ================================================= */
-    /* 🔮 HEXA 區塊手機版適應 (同排防錯位版)                 */
-    /* ================================================= */
     #tab-hexa-visual .visual-container { padding: 15px 12px !important; }
-    
-    /* 1. 頂部資訊保持左右排列，但微縮字體 */
-    #tab-hexa-visual .visual-header-top { 
-        flex-direction: row !important; 
-        align-items: center !important; 
-        padding-bottom: 10px !important;
-    }
+    #tab-hexa-visual .visual-header-top { flex-direction: row !important; align-items: center !important; padding-bottom: 10px !important; }
     #tab-hexa-visual .v-fragment-text { font-size: 12px !important; white-space: nowrap !important; }
     #tab-hexa-visual .v-btn-top { padding: 6px 7px !important; font-size: 11px !important; }
-
-    /* 2. 核心屬性區塊微調 */
     #tab-hexa-visual .visual-box { padding: 10px 8px !important; gap: 8px !important; border-radius: 12px !important; }
     #tab-hexa-visual .hexa-img { width: 38px !important; height: 38px !important; }
-    
-    /* 3. 🌟 讓機率文字保持在右邊同行，限制左邊寬度防止覆蓋 */
-    #tab-hexa-visual .v-header-row { 
-        flex-direction: row !important; 
-        justify-content: space-between !important; 
-        align-items: flex-end !important; 
-        flex-wrap: nowrap !important;
-    }
+    #tab-hexa-visual .v-header-row { flex-direction: row !important; justify-content: space-between !important; align-items: flex-end !important; flex-wrap: nowrap !important; }
     #tab-hexa-visual .v-title-main, #tab-hexa-visual .v-title-sub { font-size: 12px !important; margin-bottom: 2px !important; }
-    /* 左邊屬性名稱限制最大寬度，超出的字會自動變成... */
     #tab-hexa-visual .v-stat-name { font-size: 12px !important; letter-spacing: 0 !important; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    /* 右邊機率文字 */
     #tab-hexa-visual .v-prob { font-size: 11px !important; white-space: nowrap !important; margin-left: 5px !important;}
-
-    /* 4. 底部按鈕控制區 */
     #tab-hexa-visual .visual-controls { flex-direction: column !important; align-items: stretch !important; padding: 15px 12px !important; gap: 15px !important; border-radius: 12px !important;}
     #tab-hexa-visual .v-control-group { width: 100% !important; justify-content: space-between !important; }
     #tab-hexa-visual .v-btn-10x, #tab-hexa-visual .v-btn { flex: 1 !important; padding: 12px 10px !important; font-size: 15px !important; text-align: center !important; border-radius: 8px !important;}
+}
 
 @media (max-width: 768px) and (orientation: portrait) {
-    /* --- 1. 輔助 UI 與狀態列 --- */
     #ms-player-hud { transform: scale(0.6) !important; transform-origin: top left; }
     .glass-panel { padding: 3px 6px !important; gap: 4px !important; border-radius: 6px !important; }
     .glass-btn { font-size: 12px !important; width: 26px !important; height: 26px !important; padding: 0 !important; }
@@ -1052,60 +1063,21 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #glass-controls-mid { right: 4px !important; }
     #glass-controls-bottom { bottom: 4px !important; right: 4px !important; }
     
-    /* --- 2. 搖桿與狀態文字 --- */
     #joystick-base { width: 45px !important; height: 45px !important; bottom: 5% !important; left: 2% !important; border-width: 1px !important; }
     #joystick-stick { width: 18px !important; height: 18px !important; }
     #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
     #will-timer { font-size: 10px !important; margin-top: 0 !important; }
     #tab-will .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
     
-    /* --- 3. 恢復黑色外框 --- */
-    #will-game-wrapper { 
-        min-height: auto !important; 
-        overflow: hidden !important; /* 鎖死結界 */
-    }
-    #will-inner-container { 
-        height: auto !important; 
-        aspect-ratio: 1741 / 713 !important; 
-    }
-    #willCanvas { 
-        position: relative !important; 
-        top: auto !important; 
-        transform: none !important; 
-        height: 100% !important; 
-    }
+    #will-game-wrapper { min-height: auto !important; overflow: hidden !important; }
+    #will-inner-container { height: auto !important; aspect-ratio: 1741 / 713 !important; }
+    #willCanvas { position: relative !important; top: auto !important; transform: none !important; height: 100% !important; }
 
-    /* --- 4. 疊加層與卡片 (找回等比例縮小魔法) --- */
-    #will-start-overlay, #will-result-overlay { 
-        position: absolute !important; 
-        width: 100% !important; 
-        height: 100% !important; 
-        border-radius: 8px !important; 
-    }
+    #will-start-overlay, #will-result-overlay { position: absolute !important; width: 100% !important; height: 100% !important; border-radius: 8px !important; }
 
-    #will-start-overlay .start-card { 
-        width: 90% !important; 
-        max-width: 250px !important; 
-        height: auto !important; 
-        padding: 25px 25px !important; 
-        transform-origin: center center !important;
-        overflow-y: visible !important; 
-        max-height: none !important;
-        animation: popInPortraitStart 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
-    }
-
-    #will-result-overlay .result-card { 
-        width: 95% !important; 
-        max-width: 260px !important; 
-        height: auto !important; 
-        padding: 25px 20px !important; 
-        transform-origin: center center !important;
-        overflow-y: visible !important; 
-        max-height: none !important;
-        animation: popInPortraitResult 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
-    }
+    #will-start-overlay .start-card { width: 90% !important; max-width: 250px !important; height: auto !important; padding: 25px 25px !important; transform-origin: center center !important; overflow-y: visible !important; max-height: none !important; animation: popInPortraitStart 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; }
+    #will-result-overlay .result-card { width: 95% !important; max-width: 260px !important; height: auto !important; padding: 25px 20px !important; transform-origin: center center !important; overflow-y: visible !important; max-height: none !important; animation: popInPortraitResult 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; }
     
-    /* 內部細節壓縮 */
     #will-start-overlay .will-game-title { font-size: 16px !important; margin-bottom: 5px !important; letter-spacing: 1px !important; }
     #will-start-overlay .will-rule-box { padding: 6px !important; font-size: 11px !important; gap: 2px 4px !important; margin-bottom: 6px !important; width: 100% !important; max-width: 240px !important;}
     #will-start-overlay .glass-input, #will-start-overlay .glass-btn-start { height: 32px !important; font-size: 13px !important; }
@@ -1114,71 +1086,26 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .result-total { margin-top: 2px !important; padding-top: 5px !important; margin-bottom: 6px !important; gap: 10px !important;}
     .will-res-hit-num { font-size: 20px !important; }
     
-    /* 防止結算按鈕斷行 */
     .will-res-btn-group { flex-wrap: nowrap !important; gap: 8px !important; }
-    .btn-res-secondary, .btn-res-primary { 
-        height: 28px !important; 
-        font-size: 12px !important; 
-        padding: 0 8px !important; 
-        white-space: nowrap !important; 
-    }
+    .btn-res-secondary, .btn-res-primary { height: 28px !important; font-size: 12px !important; padding: 0 8px !important; white-space: nowrap !important; }
 
-    /* ================================================= */
-    /* 🛠️ 威爾設定區精準修復 (維持390px內，還原你的完美排版)  */
-    /* ================================================= */
     #tab-will .settings-panel { padding: 15px !important; }
-    
-    /* 1. 音量控制：還原「不換行」，自動適應 390px */
-    #tab-will .will-vol-group-wrapper { 
-        flex-wrap: nowrap !important; 
-        gap: 5px !important; 
-    }
-    #tab-will .vol-group { 
-        border-left: none !important; 
-        padding-left: 0 !important; 
-        margin-left: 0 !important; 
-        width: auto !important; 
-        flex: 1 !important; 
-    }
-    #tab-will .vol-group input[type="range"] {
-        width: 100% !important;
-        min-width: 40px !important; 
-    }
-    #tab-will .vol-group label {
-        white-space: nowrap !important; 
-    }
+    #tab-will .will-vol-group-wrapper { flex-wrap: nowrap !important; gap: 5px !important; }
+    #tab-will .vol-group { border-left: none !important; padding-left: 0 !important; margin-left: 0 !important; width: auto !important; flex: 1 !important; }
+    #tab-will .vol-group input[type="range"] { width: 100% !important; min-width: 40px !important; }
+    #tab-will .vol-group label { white-space: nowrap !important; }
 
-    .memo-content { 
-        flex-direction: column !important; 
-        gap: 15px !important; 
-        align-items: center !important; 
-        text-align: center !important;
-    }
-    .memo-apng { 
-        width: 100% !important; 
-        max-width: 250px !important; 
-    }
+    .memo-content { flex-direction: column !important; gap: 15px !important; align-items: center !important; text-align: center !important; }
+    .memo-apng { width: 100% !important; max-width: 250px !important; }
 
-    /* 3. 還原你的神級排版：前四個左右排列，後兩個自己一列 */
-    #tab-will .inst-btn-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px !important;
-        width: 100% !important;
-    }
-    #tab-will .inst-btn-grid > div:nth-child(5),
-    #tab-will .inst-btn-grid > div:nth-child(6) {
-        grid-column: span 2 !important;
-    }
-} /* 👈 這是 @media 的結尾括號，請確保它有被包含進去！ */
-
-/* 🌟 專屬縮放動畫 (必須放在 @media 結尾大括號的外面！) */
-@keyframes popInPortraitStart {
-    0% { opacity: 0; transform: scale(0.2); }
-    100% { opacity: 1; transform: scale(0.52); } 
+    #tab-will .inst-btn-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; width: 100% !important; }
+    #tab-will .inst-btn-grid > div:nth-child(5), #tab-will .inst-btn-grid > div:nth-child(6) { grid-column: span 2 !important; }
 }
-@keyframes popInPortraitResult {
-    0% { opacity: 0; transform: scale(0.2); }
-    100% { opacity: 1; transform: scale(0.46); } 
-}
+
+@keyframes hexaResultPop { 0% { transform: translateY(15px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+@keyframes popInPortraitStart { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.52); } }
+@keyframes popInPortraitResult { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.46); } }
+
+
+
 
