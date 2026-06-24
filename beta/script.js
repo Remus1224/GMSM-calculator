@@ -129,11 +129,11 @@ function switchTab(tabId) {
             'ignore': '無視防禦計算機',
             'transcend': '超越模擬器',
             'craft': '製作模擬器',
-            'hexa-prog': '六轉畢業進度計算機',
-            'hexa-visual': 'HEXA 屬性視覺模擬器',
-            'hexa-lazy': 'HEXA 10次點完懶人表',
-            'hexa-reset': 'HEXA 即時重置決策模擬',
-            'hexa-sim': 'HEXA 自訂目標策略模擬',
+            'hexa-prog': '六轉進度計算機',
+            'hexa-visual': 'HEXA屬性模擬器',
+            'hexa-lazy': 'HEXA懶人決策表',
+            'hexa-reset': 'HEXA重置決策模擬',
+            'hexa-sim': 'HEXA目標策略模擬',
             'will': '威爾二階練習機'
         };
 
