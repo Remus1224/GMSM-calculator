@@ -26,9 +26,9 @@
 /* ========================================== */
 [data-theme="dark"] {
     --bg-base: #070B14; 
-    --bg-grad-1: rgba(156, 234, 254, 0.25); 
+    --bg-grad-1: rgba(85, 195, 255, 0.25); 
     --bg-grad-2: rgba(200, 141, 221, 0.25); 
-    --bg-grad-3: rgba(156, 234, 254, 0.15); 
+    --bg-grad-3: rgba(85, 195, 255, 0.15); 
     
     --text-main: #E0F2FE; 
     --text-muted: #8ba4b5; 
@@ -48,27 +48,37 @@
 
 /* 1. 頂部大廳選單標題 (收緊雙色邊緣光暈) */
 [data-theme="dark"] .nav-title-glass {
-    background-image: linear-gradient(rgba(10, 15, 25, 0.7), rgba(10, 15, 25, 0.4)), linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), -4px 0 12px rgba(156, 234, 254, 0.7), 4px 0 12px rgba(200, 141, 221, 0.7), inset 0 0 6px rgba(255, 255, 255, 0.4) !important; 
+    background-image: linear-gradient(rgba(10, 15, 25, 0.7), rgba(10, 15, 25, 0.4)), linear-gradient(135deg, #55C3FF 0%, #C88DDD 100%) !important; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), -4px 0 12px rgba(85, 195, 255, 0.7), 4px 0 12px rgba(200, 141, 221, 0.7), inset 0 0 6px rgba(255, 255, 255, 0.4) !important; 
     text-shadow: 0 0 4px rgba(178, 187, 237, 0.8); color: #FFFFFF !important;
 }
 
 /* 2. 左右小按鈕 (收緊 Hover 光暈) */
 [data-theme="dark"] .nav-btn { background: rgba(15, 20, 30, 0.6) !important; color: #E0F2FE !important; border-color: rgba(178, 187, 237, 0.2) !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 0 6px rgba(178, 187, 237, 0.1) !important; }
-[data-theme="dark"] .nav-btn:hover { background: rgba(25, 35, 55, 0.8) !important; box-shadow: -3px 0 10px rgba(156, 234, 254, 0.6), 3px 0 10px rgba(200, 141, 221, 0.6), inset 0 0 6px rgba(178, 187, 237, 0.2) !important; }
+[data-theme="dark"] .nav-btn:hover { background: rgba(25, 35, 55, 0.8) !important; box-shadow: -3px 0 10px rgba(85, 195, 255, 0.6), 3px 0 10px rgba(200, 141, 221, 0.6), inset 0 0 6px rgba(178, 187, 237, 0.2) !important; }
 
 /* 3. 首頁大標題 (文字光芒集中) */
-[data-theme="dark"] .main-site-title { color: #FFFFFF !important; text-shadow: -2px 0 8px rgba(156, 234, 254, 0.8), 2px 0 8px rgba(200, 141, 221, 0.8); }
+[data-theme="dark"] .main-site-title { color: #FFFFFF !important; text-shadow: -2px 0 8px rgba(85, 195, 255, 0.8), 2px 0 8px rgba(200, 141, 221, 0.8); }
 
 /* 4. 主選單工具卡片 (移除光害，改為銳利邊框發光) */
 [data-theme="dark"] .app-card { border: 1px solid rgba(178, 187, 237, 0.2); }
-[data-theme="dark"] .app-card:hover { border-color: rgba(178, 187, 237, 0.6); box-shadow: -4px 0 15px rgba(156, 234, 254, 0.4), 4px 0 15px rgba(200, 141, 221, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.15); }
-[data-theme="dark"] .app-icon { background: linear-gradient(135deg, rgba(156, 234, 254, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%); border-color: rgba(178, 187, 237, 0.3); }
-[data-theme="dark"] .app-card:hover .app-icon { background: linear-gradient(135deg, rgba(156, 234, 254, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%); box-shadow: -3px 0 10px rgba(156, 234, 254, 0.5), 3px 0 10px rgba(200, 141, 221, 0.5); }
+[data-theme="dark"] .app-card:hover { border-color: rgba(178, 187, 237, 0.6); box-shadow: -4px 0 15px rgba(85, 195, 255, 0.4), 4px 0 15px rgba(200, 141, 221, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.15); }
+[data-theme="dark"] .app-icon { background: linear-gradient(135deg, rgba(85, 195, 255, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%); border-color: rgba(178, 187, 237, 0.3); }
+[data-theme="dark"] .app-card:hover .app-icon { background: linear-gradient(135deg, rgba(85, 195, 255, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%); box-shadow: -3px 0 10px rgba(85, 195, 255, 0.5), 3px 0 10px rgba(200, 141, 221, 0.5); }
 
 /* 5. 全局獨立面板套用夜間科技玻璃 */
 [data-theme="dark"] .settings-panel, [data-theme="dark"] .instructions-panel, [data-theme="dark"] .memo-card, [data-theme="dark"] .panel, [data-theme="dark"] .detail-box {
-    background: linear-gradient(135deg, rgba(20, 25, 35, 0.85) 0%, rgba(10, 15, 25, 0.7) 100%) !important; border: 1px solid rgba(178, 187, 237, 0.2) !important; border-top: 1px solid rgba(156, 234, 254, 0.4) !important; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(156, 234, 254, 0.05) !important; color: #E0F2FE !important;
+    /* 維持原本的高級深色漸層底 */
+    background: linear-gradient(135deg, rgba(20, 25, 35, 0.85) 0%, rgba(10, 15, 25, 0.7) 100%) !important; 
+    border: 1px solid rgba(178, 187, 237, 0.2) !important; 
+    
+    /* 🌟 關鍵修正：將頂部高光替換為純淨藍 */
+    border-top: 1px solid rgba(85, 195, 255, 0.4) !important; 
+    
+    /* 🌟 關鍵修正：將內側大面積微光替換為純淨藍，徹底消滅墨綠色 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(85, 195, 255, 0.08) !important; 
+    
+    color: #E0F2FE !important;
 }
 
 /* 6. 布告欄夜間專屬標題與底線 */
@@ -164,12 +174,77 @@ body {
 .theme-toggle .icon-sun, .theme-toggle .icon-moon { position: relative; z-index: 2; font-size: 15px; width: 32px; height: 100%; display: flex; justify-content: center; align-items: center; transition: all 0.4s ease; }
 .theme-toggle .icon-sun { opacity: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); transform: scale(1.05); }
 .theme-toggle .icon-moon { opacity: 0.4; filter: grayscale(1); transform: scale(0.9); }
-[data-theme="dark"] .theme-toggle { background: rgba(10, 15, 25, 0.6); border: 1px solid rgba(178, 187, 237, 0.3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 4px 15px rgba(0,0,0,0.4); }
-[data-theme="dark"] .theme-toggle::before { transform: translateX(34px); background: rgba(156, 234, 254, 0.15); border: 1px solid rgba(156, 234, 254, 0.4); box-shadow: inset 0 0 8px rgba(156, 234, 254, 0.2), 0 0 10px rgba(156, 234, 254, 0.3); }
-[data-theme="dark"] .theme-toggle .icon-sun { opacity: 0.3; filter: grayscale(1); transform: scale(0.9); }
-[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; filter: drop-shadow(0 0 4px rgba(156, 234, 254, 0.8)); transform: scale(1.05); }
+/* --- 🌙 夜間模式切換 --- */
+
+/* 夜間軌道：暗色玻璃 */
+[data-theme="dark"] .theme-toggle {
+    background: rgba(10, 15, 25, 0.6);
+    border: 1px solid rgba(178, 187, 237, 0.3);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* 夜間滑塊：向右滑動，變成純淨藍玻璃框 */
+[data-theme="dark"] .theme-toggle::before {
+    /* 精準數學：72(總寬) - 2(邊框) - 4(左右留白) - 32(滑塊寬) = 正好 34px！ */
+    transform: translateX(34px); 
+    background: rgba(85, 195, 255, 0.15); /* 🌟 替換為純淨藍 */
+    border: 1px solid rgba(85, 195, 255, 0.4); /* 🌟 替換為純淨藍 */
+    box-shadow: inset 0 0 8px rgba(85, 195, 255, 0.2), 0 0 10px rgba(85, 195, 255, 0.3); /* 🌟 替換為純淨藍 */
+}
+
+/* 夜間狀態：太陽變暗，月亮發出純淨藍光 */
+[data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 0.3;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}
+[data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(85, 195, 255, 0.8)); /* 🌟 替換為純淨藍 */
+    transform: scale(1.05);
+}
+
+/* 懸停 (Hover) 的微浮起特效 */
 .theme-toggle:hover { transform: translateY(-2px); box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 6px 15px rgba(200, 141, 221, 0.2); }
-[data-theme="dark"] .theme-toggle:hover { border-color: rgba(156, 234, 254, 0.6); box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(156, 234, 254, 0.2); }
+[data-theme="dark"] .theme-toggle:hover {
+    border-color: rgba(85, 195, 255, 0.6); /* 🌟 替換為純淨藍 */
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(85, 195, 255, 0.2); /* 🌟 替換為純淨藍 */
+}
+[data-theme="dark"] .theme-toggle:hover { border-color: rgba(85, 195, 255, 0.6); box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(85, 195, 255, 0.2); }
+
+/* ========================================== */
+/* 🌟 日間模式：清除/重置按鈕 (科技霓虹紅)     */
+/* ========================================== */
+
+.btn-reset-tr,.action-btn.clear-btn { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; background: rgba(255, 59, 48, 0.08) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 59, 48, 0.2) !important; color: #FF3B30 !important; }
+.btn-reset-tr:hover ,.action-btn.clear-btn:hover{ background: rgba(255, 59, 48, 0.15) !important; box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15); transform: translateY(-2px); }
+
+
+/* ========================================== */
+/* 🌙 夜間模式：清除/重置按鈕 (科技霓虹紅)     */
+/* ========================================== */
+
+/* 1. 按鈕平時狀態：微紅玻璃質感 */
+[data-theme="dark"] .btn-reset-tr ,
+[data-theme="dark"] .action-btn.clear-btn{
+    background: rgba(255, 75, 114, 0.1) !important; 
+    border: 1px solid rgba(255, 75, 114, 0.4) !important;
+    color: #FF6B8B !important; /* 柔和但清晰的霓虹紅 */
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* 2. 按鈕點擊發光狀態：霓虹紅空氣光暈 */
+[data-theme="dark"] .btn-reset-tr:hover, 
+[data-theme="dark"] .btn-reset-tr:focus,
+[data-theme="dark"] .action-btn.clear-btn:hover,
+[data-theme="dark"] .action-btn.clear-btn:focus {
+    background: rgba(255, 75, 114, 0.2) !important;
+    border-color: rgba(255, 75, 114, 0.8) !important;
+    box-shadow: 0 0 10px rgba(255, 75, 114, 0.3), inset 0 2px 6px rgba(0,0,0,0.6) !important;
+    transform: translateY(-1px) !important;
+    color: #FFFFFF !important; /* 滑鼠移過去時字體變白，加強辨識度 */
+}
 
 /* 全局容器與卡片 */
 .container { 
@@ -225,8 +300,16 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 }
 
 /* 🌙 夜間全域輸入格基礎 */
-[data-theme="dark"] .input-group input, [data-theme="dark"] .setting-row input[type="text"], [data-theme="dark"] .setting-row input[type="number"], [data-theme="dark"] .setting-row select, [data-theme="dark"] .hexa-inputs input, [data-theme="dark"] .inv-grid input {
-    background: rgba(10, 12, 20, 0.95) !important; border: 1px solid rgba(156, 234, 254, 0.3) !important; color: #9CEAFE !important; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6) !important;
+[data-theme="dark"] .input-group input, 
+[data-theme="dark"] .setting-row input[type="text"], 
+[data-theme="dark"] .setting-row input[type="number"], 
+[data-theme="dark"] .setting-row select, 
+[data-theme="dark"] .hexa-inputs input, 
+[data-theme="dark"] .inv-grid input {
+    background: rgba(10, 12, 20, 0.95) !important; 
+    border: 1px solid rgba(85, 195, 255, 0.4) !important; /* 替換為純淨藍 */
+    color: #55C3FF !important; /* 替換為純淨藍 */
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.6) !important;
 }
 
 /* 🌞 日間全域輸入格 Focus (柔和空氣光暈) */
@@ -234,9 +317,13 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
     background: #FFFFFF !important; border-color: rgba(200, 141, 221, 0.7) !important; box-shadow: 0 0 8px rgba(200, 141, 221, 0.35), inset 0 1px 3px rgba(0,0,0,0.02) !important; transform: translateY(-1px) !important;
 }
 
-/* 🌙 夜間全域輸入格 Focus (科技冰藍光暈) */
-[data-theme="dark"] input:focus, [data-theme="dark"] select:focus {
-    background: rgba(10, 12, 20, 0.95) !important; border-color: rgba(156, 234, 254, 0.6) !important; box-shadow: 0 0 8px rgba(156, 234, 254, 0.35), inset 0 2px 6px rgba(0,0,0,0.6) !important; transform: translateY(-1px) !important;
+/* 🌙 夜間全域輸入格 Focus (純淨科技藍光暈) */
+[data-theme="dark"] input:focus, 
+[data-theme="dark"] select:focus {
+    background: rgba(10, 12, 20, 0.95) !important; 
+    border-color: rgba(85, 195, 255, 0.8) !important; /* 替換為純淨藍 */
+    box-shadow: 0 0 10px rgba(85, 195, 255, 0.4), inset 0 2px 6px rgba(0,0,0,0.6) !important; /* 替換為純淨藍光暈 */
+    transform: translateY(-1px) !important;
 }
 
 /* 按鈕樣式 */
@@ -355,7 +442,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 
 /* 🌟 總結果面板與清除按鈕 */
 .result-gradient { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold; border-radius: 12px; margin: 0; background: rgba(255, 255, 255, 0.6) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(0, 113, 227, 0.3) !important; color: #0071E3 !important; box-shadow: 0 8px 24px rgba(0, 113, 227, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.9) !important; }
-[data-theme="dark"] .result-gradient { background: rgba(0, 0, 0, 0.4) !important; border: 1px solid rgba(156, 234, 254, 0.4) !important; color: #9CEAFE !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important; }
+[data-theme="dark"] .result-gradient { background: rgba(0, 0, 0, 0.4) !important; border: 1px solid rgba(85, 195, 255, 0.4) !important; color: #55C3FF !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important; }
 .btn-clear { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; background: rgba(255, 59, 48, 0.08) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 59, 48, 0.2) !important; color: #FF3B30 !important; }
 .btn-clear:hover { background: rgba(255, 59, 48, 0.15) !important; box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15); transform: translateY(-2px); }
 [data-theme="dark"] .btn-clear { background: rgba(255, 59, 48, 0.1) !important; border: 1px solid rgba(255, 59, 48, 0.5) !important; color: #ff6b6b !important; box-shadow: none !important; }
@@ -765,7 +852,6 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 body.body-no-scroll { overflow: hidden !important; touch-action: none !important; }
 #will-game-wrapper:fullscreen #will-inner-container, #will-game-wrapper:-webkit-full-screen #will-inner-container, #will-game-wrapper.fake-fullscreen #will-inner-container { max-width: min(100vw, calc(100dvh * (1741 / 713))) !important; max-height: 100dvh !important; }
 #will-game-wrapper:fullscreen canvas, #will-game-wrapper:-webkit-full-screen canvas, #will-game-wrapper.fake-fullscreen canvas { width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: fill !important; }
-
 
 /* ================================================= */
 /* 📱 響應式佈局 (Mobile & Tablet RWD)                 */
