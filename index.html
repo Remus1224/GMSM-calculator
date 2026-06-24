@@ -21,23 +21,135 @@
 <body>
 
 <div class="container">
-    
-    <h1>楓之谷M 也許有用的工具</h1>
-    <div class="tab-menu">
-        <button id="btn-notice" class="active" onclick="switchTab('notice')">🪧 告示牌</button>
-        <button id="btn-ignore" onclick="switchTab('ignore')">無視計算機</button>
-        <button id="btn-transcend" onclick="switchTab('transcend')">超越模擬器</button>
-        <button id="btn-craft" onclick="switchTab('craft')">製作模擬器</button>
-        <button id="btn-hexa-prog" onclick="switchTab('hexa-prog')">六轉進度計算機</button>
-        <button id="btn-hexa-visual" onclick="switchTab('hexa-visual')">HEXA屬性模擬器</button>
-        <button id="btn-hexa-lazy" onclick="switchTab('hexa-lazy')">HEXA 懶人決策表</button>
-        <button id="btn-hexa-reset" onclick="switchTab('hexa-reset')">HEXA 重置決策模擬</button>
-        <button id="btn-hexa-sim" onclick="switchTab('hexa-sim')">HEXA 目標屬性模擬</button>
-        <button id="btn-will" onclick="switchTab('will')">威爾練習機</button>
+
+    <div class="top-header-section">
+        
+        <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
+
+        <div class="top-nav-bar">
+        
+        <div class="nav-side left-side">
+            <button id="btn-home" onclick="switchTab('home')" class="nav-btn">主選單</button>
+        </div>
+
+        <div id="sub-page-title" class="nav-title-glass">主選單</div>
+
+        <div class="nav-side right-side">
+            <button  class="theme-toggle" onclick="toggleTheme()">
+                 <span class="icon-sun">☀️</span>
+                 <span class="icon-moon">🌙</span>
+            </button>
+        </div>
     </div>
 
-    <div id="tab-notice" class="tab-content active">
-        <div class="panel">
+    <div id="tab-home" class="tab-content active">
+        <div class="app-grid">
+        
+        <div class="app-card" onclick="switchTab('notice')">
+            <div class="app-icon">
+                <img src="assets/icon_公告.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>布告欄</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('transcend')">
+            <div class="app-icon">
+                <img src="assets/icon_超越模擬器.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>超越模擬器</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('craft')">
+            <div class="app-icon">
+                <img src="assets/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>製作模擬器</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('will')">
+            <div class="app-icon">
+                <img src="assets/Collection_Will.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>威爾二階練習機</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('ignore')">
+            <div class="app-icon">
+                <img src="assets/icon_無視防禦計算機.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>無視防禦計算機</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('hexa-prog')">
+            <div class="app-icon">
+                <img src="assets/icon_六轉計算機.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>六轉進度計算機</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('hexa-visual')">
+            <div class="app-icon">
+                <img src="assets/icon-purple HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>HEXA 屬性模擬器</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('hexa-lazy')">
+            <div class="app-icon">
+                <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>HEXA 懶人重製表</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('hexa-reset')">
+            <div class="app-icon">
+                <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>HEXA 重置決策模擬</h3>
+            </div>
+        </div>
+
+        <div class="app-card" onclick="switchTab('hexa-sim')">
+            <div class="app-icon">
+                <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            </div>
+            <div class="app-info">
+                <h3>HEXA 目標策略模擬</h3>
+            </div>
+        </div>
+
+    </div> <div class="settings-panel instructions-panel memo-card">
+        <div class="memo-content">
+            <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
+            <div class="memo-text-area">
+                <div class="memo-title">Bug 告知</div>
+                <p>如果有發現什麼 Bug 可以加我的 Discord </p>
+                <p class="memo-simple-text">紙條：露娜-迷你安安 <br class="mobile-br">（留言 Discord 名稱我方便確認好友）</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="tab-notice" class="tab-content">
+        
+        <div class="panel" style="animation: appleFadeIn 0.4s ease;">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list" style="font-size: 14.5px;">
                 <li><strong>2026/06/21</strong>：新增威爾二階練習機。</li>
@@ -46,13 +158,14 @@
                 <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點HEXA相關功能,少走一點HEXA屬性的冤枉路。</li>
-                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
+                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的东西。</li>
             </ul>
+        </div>
 
-            <div class="target-divider" style="margin: 10px 0;"></div>
-            
+        <div class="panel" style="animation: appleFadeIn 0.4s ease 0.1s; animation-fill-mode: both;">
             <div class="section-title">🛠️ 微調與優化</div>
             <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/06/24</strong><br>全UI重新設計，增加深色模式。</li>
                 <li><strong>2026/06/06</strong><br>優化輸入法改為直接使用數字鍵盤，無視計算機UI重新設計。</li>
                 <li><strong>2026/05/30</strong><br>超越模擬器加入「期望值與實際消耗」即時追蹤系統，並修正獎勵機率計算（最低保底5%）。</li>
                 <li><strong>2026/05/28</strong><br>優化重置決策模擬，原先只能模擬核心LV10改為LV10~19。</li>
@@ -60,10 +173,10 @@
                 <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更精準。<br>HEXA屬性模擬器新增強化10次與重置次數統計的功能。</li>
                 <li><strong>2026/05/24</strong><br>懶人決策表增加主屬性、發生機率、畢業機率可以排序。</li>
             </ul>
-            
-            <div class="target-divider" style="margin: 10px 0;"></div>
-            
-            <div class="section-title" style="color: #c0392b; border-bottom: 2px solid #fadbd8;">🐒 絕對不負責聲明 </div>
+        </div>
+        
+        <div class="panel" style="animation: appleFadeIn 0.4s ease 0.2s; animation-fill-mode: both;">
+            <div class="section-title" style="color: #c0392b; border-bottom: 1px solid rgba(0,0,0,0.08);">🐒 絕對不負責聲明 </div>
             <div class="disclaimer-box">
                 <p style="margin-top: 0;">本工具專為《楓之谷M》(GMSM) 使用（未來可能會長出其他奇怪功能）。</p>
                 <p>這裡面 <strong>99.9% 的程式碼都是 AI (如 Gemini / ChatGPT) 寫出來的</strong>！我只是一個「出一張嘴」的非本科小白，主要負責通靈需求、提供公式、還有在旁邊喊加油。</p>
@@ -71,17 +184,19 @@
                 <strong>👉 請深呼吸，放下鍵盤，並在心裡默念：「Pro遊戲」</strong> </p>
                 <p style="margin-bottom: 0; font-weight: bold; color: #2c3e50;">祝大家超越隨便超，製作隨便過！</p>
             </div>
+        </div>
 
-            <div class="target-divider" style="margin: 15px 0;"></div>
-            <div class="section-title" style="color: #7f8c8d; border-bottom: 2px solid #e1e4e8;">⚖️ 版權聲明 </div>
-            <div class="disclaimer-box" style="background: #f8f9fa; border-left: 6px solid #7f8c8d;">
+        <div class="panel" style="animation: appleFadeIn 0.4s ease 0.3s; animation-fill-mode: both;">
+            <div class="section-title" style="color: #7f8c8d; border-bottom: 1px solid rgba(0,0,0,0.05);">⚖️ 版權聲明 </div>
+            <div class="disclaimer-box" style="background: rgba(0,0,0,0.02); border-left: 6px solid #7f8c8d; box-shadow: none;">
                 <p style="margin: 0; color: #555; font-size: 14px;">本網站為玩家自製的非營利實用工具，僅供社群交流與學習使用。網站內所使用的所有遊戲圖像、圖示、名稱與相關素材，其著作權與商標權皆歸原遊戲公司 (Nexon) 所有。本站並無任何營利行為，若有侵權疑慮，請來信告知，將立即移除相關內容。</p>
             </div>
         </div>
+        
     </div>
 
     <div id="tab-ignore" class="tab-content">
-        <div class="hint">雙排無視請先自行加總，HEXA屬性有BUG會有些一點誤差可自行驗證</div>
+        <div class="hint">雙排無視請先自行加總，<br class="mobile-br">HEXA屬性有Bug會有些一點誤差可自行驗證。<br class="mobile-br">（遊戲版本2026/06測試）</div>
 
         <div class="ignore-layout-wrapper">
             <div class="left-panel panel ignore-left-panel">
@@ -227,30 +342,30 @@
                 <input type="text" inputmode="decimal" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
             </div>
 
-            <div class="stats-text" style="text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;">
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
+            <div class="stats-text">
+                <div style="font-weight:bold; color:var(--text-main); margin-bottom: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px;">消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【超越石消耗】</strong><br>
                         一般超越：<span id="stat-stone-normal">0</span> 顆<br>
                         發光超越：<span id="stat-stone-radiant">0</span> 顆<br>
                         混沌超越：<span id="stat-stone-chaos">0</span> 顆<br>
-                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
-                            實際總消耗：<strong id="stat-stones-total" style="color:#c0392b; font-size:14px;">0</strong> 顆<br>
-                            理論期望值：<strong id="stat-stones-ev" style="color:#2980b9; font-size:14px;">0.00</strong> 顆
+                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed rgba(0,0,0,0.1);">
+                            實際總消耗：<strong id="stat-stones-total" style="color:#0071E3; font-size:14px;">0</strong> 顆<br>
+                            理論期望值：<strong id="stat-stones-ev" style="color:#86868B; font-size:14px;">0.00</strong> 顆
                         </div>
                     </div>
                     <div style="flex: 1; min-width: 140px;">
-                        <strong style="color:#2980b9;">【扣除卷軸消耗】</strong><br>
-                        失敗扣除卷：<span id="stat-scrolls-total">0</span> 張<br><br><br>
-                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;">
-                            實際總消耗：<strong id="stat-scrolls-total-bottom" style="color:#c0392b; font-size:14px;">0</strong> 張<br>
-                            理論期望值：<strong id="stat-scrolls-ev" style="color:#2980b9; font-size:14px;">0.00</strong> 張
+                        <strong style="color:#0071E3;">【扣除卷軸消耗】</strong><br>
+                        失敗扣除卷：<span id="stat-scrolls-total">0</span> 張<br>
+                        <div style="margin-top:5px; padding-top:5px; border-top:1px dashed rgba(0,0,0,0.1);">
+                            實際總消耗：<strong id="stat-scrolls-total-bottom" style="color:#0071E3; font-size:14px;">0</strong> 張<br>
+                            理論期望值：<strong id="stat-scrolls-ev" style="color:#86868B; font-size:14px;">0.00</strong> 張
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="btn-reset-tr" onclick="tr_action_reset()">🔄 重新模擬 (清除所有狀態)</button>
+            <button class="btn-reset-tr" onclick="tr_action_reset()"> 重新模擬 (清除所有狀態)</button>
         </div>
 
         <div class="modal-backdrop" id="result-modal">
@@ -419,8 +534,8 @@
                 </select>
             </div>
 
-            <div class="stats-text" style="text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-top: 15px;">
-                <div style="font-weight:bold; color:#2c3e50; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">📊 消耗統計與期望值分析</div>
+            <div class="stats-text">
+                <div style="font-weight:bold; color:var(--text-main); margin-bottom: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px;">消耗統計與期望值分析</div>
                 <div style="display:flex; flex-wrap: wrap; gap: 15px; font-size: 13px;">
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【結晶消耗】</strong><br>
@@ -439,7 +554,7 @@
                 </div>
             </div>
             
-            <button class="btn-reset-tr" onclick="cr_action_reset()">🔄 重新計算</button>
+            <button class="btn-reset-tr" onclick="cr_action_reset()"> 重新模擬 (清除所有狀態)</button>
         </div>
 
         <div class="modal-backdrop" id="cr-confirm-modal">
@@ -477,13 +592,13 @@
 
     <div id="tab-hexa-prog" class="tab-content">
         <div class="panel">
-            <div class="section-title" style="margin-bottom: 5px;">📊 第一步：設定目前核心等級</div>
+            <div class="section-title" style="margin-bottom: 5px;">第一步：設定目前核心等級</div>
             <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 15px;">💡 提示：共通核心尚未開放，暫時採用韓服（Kmsm）需求。</div>
             <div id="prog-cores-container"></div>
         </div>
 
         <div class="panel">
-            <div class="section-title">🎒 第二步：背包剩餘庫存 (選填，直接抵扣需求)</div>
+            <div class="section-title">第二步：背包剩餘庫存 (選填，直接抵扣需求)</div>
             <div class="inv-grid">
                 <div class="inv-item">
                     <label><img src="assets/靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯</label>
@@ -509,11 +624,11 @@
         </div>
 
         <div class="panel">
-            <div class="section-title">⏳ 第三步：資源獲取速度 (用於推算畢業時間)</div>
-            <div style="font-weight:bold; color:#444; margin-bottom: 10px;">每日掛機獲取</div>
+            <div class="section-title">第三步：資源獲取速度 (用於推算畢業時間)</div>
+            <div style="font-weight:bold; color:#1D1D1F; margin-bottom: 10px;">每日掛機獲取</div>
             <div class="inv-grid" style="margin-bottom: 15px;">
-                <div class="inv-item" style="border-right: 2px solid #eee; padding-right: 15px;">
-                    <label style="color:#2980b9;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
+                <div class="inv-item">
+                    <label style="color:#0071E3;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
                     <input type="text" inputmode="decimal" id="farm-hours" min="0" max="24" value="">
                 </div>
                 <div class="inv-item"><label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label><input type="text" inputmode="decimal" id="farm-frag-hr" min="0" value=""></div>
@@ -521,7 +636,7 @@
                 <div class="inv-item"><label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-weak-hr" min="0" value=""></div>
             </div>
 
-            <div style="font-weight:bold; color:#e67e22; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
+            <div style="font-weight:bold; color:#FF9500; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
             <div class="inv-grid">
                 <div class="inv-item"><label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label><input type="text" inputmode="decimal" id="farm-frag-wk" min="0" value=""></div>
                 <div class="inv-item"><label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label><input type="text" inputmode="decimal" id="farm-conc-wk" min="0" value=""></div>
@@ -611,7 +726,7 @@
             <div class="visual-controls">
                 <div class="v-control-group">
                     <button class="v-btn-reset" id="btn-reset-v" onclick="resetVisual()" disabled style="opacity: 0.5; cursor: not-allowed;">重置</button>
-                    <span class="v-reset-tracker">重製次數：<span id="v-reset-count" style="font-weight:bold; color:#f1c40f; font-size:16px;">0</span></span>
+                    <span class="v-reset-tracker">重製次數：<span id="v-reset-count" style="font-weight:bold; color:#FF9500; font-size:16px;">0</span></span>
                 </div>
                 <div class="v-control-group">
                     <button class="v-btn-10x" id="btn-enhance-10x" onclick="clickVisualEnhance10x()">強化10次</button>
@@ -622,19 +737,19 @@
     </div>
 
     <div id="tab-hexa-lazy" class="tab-content">
-        <div class="hint">目標【主屬性 8 或 任一附屬 10】。點完前 10 次後，請直接對照下方表格，判斷是否該繼續點，主屬9以上決策請使用HEXA重製決策模擬。</div>
+        <div class="hint">目標【主屬性 8 或 任一附屬 10】。點完前 10 次後，<br class="mobile-br">請直接對照下方表格，判斷是否該繼續點，<br class="mobile-br">主屬9以上決策請使用HEXA重製決策模擬。</div>
         <div class="panel">
             <div id="lazy-table-wrapper" class="lazy-table-container">
                 <div class="loader" id="lazy-loader">正在由系統為您生成十萬次深度運算決策表，請稍候...</div>
             </div>
             <div style="font-size: 12px; color: #7f8c8d; text-align: center; margin-top: 10px;">
-                💡 表格已隱藏極端罕見 (發生率 &lt; 0.05%) 及無法達成主屬性8和附屬性10的組合，保持版面乾淨。
+                💡 表格已隱藏極端罕見 (發生率 < 0.05%) 及無法達成主屬性8和附屬性10的組合，保持版面乾淨。
             </div>
         </div>
     </div>
 
     <div id="tab-hexa-reset" class="tab-content">
-        <div class="hint">請輸入目前的核心等級狀態、剩餘強化次數與你的畢業目標，系統將即時推算剩餘勝率與全新核心進行決策 PK。</div>
+        <div class="hint">請輸入目前的核心等級狀態、剩餘強化次數與畢業目標，<br class="mobile-br">系統將即時推算剩餘勝率與全新核心進行決策 PK。</div>
         <div class="panel">
             <div class="section-title">目前核心狀態</div>
             <div class="hexa-inputs">
@@ -645,7 +760,7 @@
             </div>
             
             <div class="target-divider"></div>
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub" min="0" max="10" value=""></div>
@@ -664,20 +779,22 @@
                 <button class="action-btn" onclick="checkHexaReset()">分析重置決策</button>
                 <button class="action-btn clear-btn" onclick="clearReset()">清除</button>
             </div>
-            
-            <div id="result-hexa-reset-container" style="display: none; width: 100%;">
-                <div class="result-box" id="result-hexa-reset-main"></div>
-                <div class="detail-box" id="result-hexa-reset-details" style="display: flex; gap: 20px; flex-wrap: wrap;"></div>
-            </div>
+        </div>
+        
+        <div id="res-main-panel" class="panel" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;">
+            <div id="result-hexa-reset-main"></div>
+        </div>
+        <div id="res-detail-panel" class="panel" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;">
+            <div id="result-hexa-reset-details"></div>
         </div>
     </div>
 
     <div id="tab-hexa-sim" class="tab-content">
-        <div class="hint">自訂你的起點與畢業目標，系統將進行深度模擬，計算達成機率與需要的碎片預估。</div>
+        <div class="hint">自訂你的起點與畢業目標，系統將進行深度模擬，<br class="mobile-br">計算達成機率與需要的碎片預估。</div>
         <div class="panel">
             <div class="section-title">設定模擬條件</div>
             
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">📍 目前狀態</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">目前狀態</div>
             <div class="hexa-inputs">
                 <div><label>主屬 (A)</label><input type="text" inputmode="decimal" id="sim-a" min="0" max="10" value=""></div>
                 <div><label>附屬 (B)</label><input type="text" inputmode="decimal" id="sim-b" min="0" max="10" value=""></div>
@@ -687,7 +804,7 @@
 
             <div class="target-divider"></div>
             
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">🎯 畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="target-sub" min="0" max="10" value=""></div>
@@ -695,12 +812,12 @@
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
                 <label class="checkbox-label" style="justify-content: flex-start; color:#3498db;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
-                    <input type="checkbox" id="sim-stoploss" checked> ☑️ 啟用策略模式 (含停損與重置決策)
+                    <input type="checkbox" id="sim-stoploss" checked>啟用策略模式 (含停損與重置決策)
                 </label>
                 <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px; line-height: 1.6;">
                     💡 <strong>提早停損</strong>：當剩餘次數「絕對不可能」達成目標時，提早放棄以省下碎片。<br>
                     💡 <strong>重置決策</strong>：僅針對難度最高的單一目標 [主9] 與 [主10] 生效。<br>
-                      🎯 拚主 10：前 10 次若主屬性未達 5 級，果斷重置。<br>
+                      🎯 拚主 10：前 10 次若主屬性未達 5 級，果斷重置。<br>    
                       🎯 拚主 9：前 10 次若主屬性未達 4 級，果斷重置。
                 </div>
 
@@ -716,12 +833,14 @@
                 <button class="action-btn" onclick="runHexaSimulation()">啟動目標模擬</button>
                 <button class="action-btn clear-btn" onclick="clearSim()">清除</button>
             </div>
-            <div class="detail-box" id="result-hexa-sim" style="display: none;"></div>
         </div>
+        
+        <div class="panel" id="result-hexa-sim" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;"></div>
     </div>
 
     <div id="tab-will" class="tab-content">
-        <div id="will-game-wrapper">
+        <div class="hint">使用手機時，建議橫向開啟全螢幕,<br class="mobile-br">IOS系統稍微上滑隱藏網址列後再點擊全螢幕。</div>
+        <div id="will-game-wrapper" class="will-strict-boundary">
             <div id="will-inner-container">
                 
                 <canvas id="willCanvas"></canvas>
@@ -739,7 +858,7 @@
                         <div class="ms-bar-bg"><div class="ms-bar-fill ms-mp-fill"></div></div>
                         <span class="ms-bar-text">120,400</span>
                     </div>
-                    <div class="ms-stat-row" style="margin-top: 3px;">
+                    <div class="ms-stat-row will-mt-3">
                         <div class="ms-icon ms-icon-cp"></div>
                         <span class="ms-stat-text">12,041,204</span>
                     </div>
@@ -749,7 +868,7 @@
                     </div>
                     <div class="ms-stat-row ms-dark-pill ms-hit-pill">
                         <div class="ms-icon ms-icon-hit"></div>
-                        <span class="ms-stat-text" id="ms-hit-text" style="color: #ff6b6b;">被擊中次數: 0</span>
+                        <span class="ms-stat-text will-hit-red" id="ms-hit-text">被擊中次數: 0</span>
                     </div>
                 </div>
                     
@@ -764,29 +883,26 @@
 
                 <button id="will-restart-btn" class="glass-btn-restart" onclick="will_showStartScreen()">返回設定</button>
 
-                <div id="will-start-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div class="start-card" style="padding: 25px !important;">
-                        <div style="font-size: 26px; font-weight: bold; color: white; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;">威爾小遊戲練習機</div>
+                <div id="will-start-overlay" class="will-overlay">
+                    <div class="start-card will-start-card">
+                        <div class="will-game-title">威爾小遊戲練習機</div>
                         
-                        <div style="font-size: 14px; color: #bdc3c7; text-shadow: 0 1px 4px rgba(0,0,0,0.8); background: rgba(0, 0, 0, 0.4); 
-                                    padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); 
-                                    display: grid; grid-template-columns: auto auto; justify-content: center; gap: 8px 6px; text-align: left; align-items: center; width: 100%; 
-                                    max-width: 250px; box-sizing: border-box; margin: 0 auto 16px auto;">
-                            <span style="color: #2ecc71; font-weight: bold; white-space: nowrap;">【背景無裂痕】:</span>
-                            <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #2ecc71; margin: 0 2px;">閃避</span>蜘蛛腳</span>
+                        <div class="will-rule-box">
+                            <span class="will-rule-green">【背景無裂痕】:</span>
+                            <span>請<span class="will-rule-highlight green-line">閃避</span>蜘蛛腳</span>
                             
-                            <span style="color: #e74c3c; font-weight: bold; white-space: nowrap;">【背景有裂痕】:</span>
-                            <span>請<span style="color: white; font-weight: bold; border-bottom: 1px solid #e74c3c; margin: 0 2px;">接下</span>蜘蛛腳</span>
+                            <span class="will-rule-red">【背景有裂痕】:</span>
+                            <span>請<span class="will-rule-highlight red-line">接下</span>蜘蛛腳</span>
                         </div>
                         
-                        <div style="display: flex; flex-direction: row; gap: 8px; width: 100%; max-width: 250px; justify-content: center; align-items: center; margin: 0 auto;">
+                        <div class="will-input-group">
                             <input type="text" id="will-player-name" class="glass-input start-custom-input" placeholder="名稱 (可留空)" autocomplete="off">
                             <button class="glass-btn-start start-custom-btn" onclick="will_startGame()">開始</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="will-result-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 600; flex-direction: column; justify-content: center; align-items: center;">
+                <div id="will-result-overlay" class="will-overlay" style="display: none;">
                     <div class="result-card">
                         <div class="result-stat">
                             <span class="stat-label">玩家名稱</span>
@@ -806,31 +922,31 @@
                         </div>
                         
                         <div class="result-stat result-total">
-                            <span class="stat-label" style="font-size: 16px; color: #ffffff !important;">總共被擊中</span>
-                            <span class="stat-value" style="color: #ff6b6b !important; font-weight: 900; font-size: 18px; text-shadow: 0 2px 10px rgba(255,107,107,0.4);">
-                                <span id="res-hits" style="font-size: 32px;">0</span><span style="margin-left: 4px;">次</span>
+                            <span class="stat-label will-res-title">總共被擊中</span>
+                            <span class="stat-value will-res-hit-val">
+                                <span id="res-hits" class="will-res-hit-num">0</span><span class="will-ml-4">次</span>
                             </span>
                         </div>
                         
-                        <div style="display: flex; gap: 15px; margin-top: 30px; width: 100%; justify-content: center;">
+                        <div class="will-res-btn-group">
                             <button class="glass-btn-start btn-res-secondary" onclick="will_showStartScreen()">返回設定</button>
                             <button class="glass-btn-start btn-res-primary" onclick="will_playAgain()">再來一次</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="glass-controls-top" class="glass-panel" style="z-index: 1000;">
+                <div id="glass-controls-top" class="glass-panel will-z-1000">
                     <button id="btn-will-pause" class="glass-btn" onclick="will_togglePauseState()" title="暫停/繼續">⏸&#xFE0E;</button>
-                    <button id="btn-will-restart" class="glass-btn" onclick="will_showStartScreen()" title="結束重來" style="font-size: 20px;">↻&#xFE0E;</button>
+                    <button id="btn-will-restart" class="glass-btn will-font-20" onclick="will_showStartScreen()" title="結束重來">↻&#xFE0E;</button>
                     <button id="btn-will-end" class="glass-btn" onclick="will_forceEndGame()" title="提早結算">⏭&#xFE0E;</button>
                     <button class="glass-btn" onclick="toggleWillFullscreen()" title="全螢幕/離開">⛶</button>
                 </div>
 
-                <div id="glass-controls-mid" class="glass-panel" style="z-index: 1000;">
+                <div id="glass-controls-mid" class="glass-panel will-z-1000">
                     <button id="btn-will-hint" class="glass-btn hint-bulb-btn" onclick="will_toggleHintClick()" title="機制提示">💡&#xFE0E;</button>
                 </div>
 
-                <div id="glass-controls-bottom" class="glass-panel" style="z-index: 1000;">
+                <div id="glass-controls-bottom" class="glass-panel will-z-1000">
                     <button class="glass-btn" onclick="will_zoomStep(-0.1)" title="縮小">-</button>
                     <div id="zoom-glass-val" class="zoom-text">1.3x</div>
                     <button class="glass-btn" onclick="will_zoomStep(0.1)" title="放大">+</button>
@@ -839,8 +955,7 @@
             </div> 
         </div>
 
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-
+        <div class="will-settings-wrapper">
             <div class="settings-panel">
                 <div class="settings-title">⚙️ 設定</div>
                 
@@ -866,77 +981,85 @@
 
                 <div class="setting-row">
                     <label class="setting-opt">機制提示
-                        <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" style="width: 16px; height: 16px;">
+                        <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" class="will-checkbox">
                     </label>
                     
-                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <div class="will-vol-group-wrapper">
                         <label class="setting-opt">背景音樂
-                            <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" style="width: 16px; height: 16px;">
+                            <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" class="will-checkbox">
                         </label>
-                        
                         <div class="vol-group">
-                            <span style="font-size: 13px; color: #555;">音量</span>
-                            <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" style="width: 70px; cursor: pointer;">
+                            <span class="will-vol-label">音量</span>
+                            <input type="range" id="will-bgm-volume" min="0" max="1" step="0.01" value="0.3" oninput="will_updateVolume()" class="will-vol-slider">
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="settings-panel instructions-panel">
-            <h3 class="settings-title" style="font-size: 20px !important; margin-bottom: 8px !important;">📖 說明書</h3>
+                <h3 class="settings-title will-inst-title">📖 說明書</h3>
 
-            <div class="inst-section inst-section-compact">
-                <div class="inst-subtitle inst-subtitle-compact">威爾難度</div>
-                <ul class="inst-list inst-list-compact">
-                    <li><b>混沌：</b>完整7種題庫。</li>
-                    <li><b>困難：</b>完整3種題庫。</li>
-                    <li><b>動態隨機：</b>每次的蜘蛛腳都是由演算法當場生成，依造遊戲原始機制體驗。<br>
-                    <span style="font-size: 11px; color: #7f8c8d;">（💡 備註：此模式為演算法即時運算，以體驗隨機樂趣為主。若偶遇極端陣型或非預期的小 Bug，敬請見諒！）</span></li>
-                </ul>
-            </div>
-
-            <div class="inst-section inst-section-compact">
-                <div class="inst-subtitle inst-subtitle-compact">遊戲模式</div>
-                <ul class="inst-list inst-list-compact">
-                    <li><b>全機制１次：</b>完整跑完一輪所有的機制。</li>
-                    <li><b>全機制[自訂]次：</b>可自行設定要循環幾輪全機制。</li>
-                    <li><b>無限練習：</b>難度內的所有機制不斷重複直到按下結算。</li>
-                </ul>
-            </div>
-
-            <div class="inst-section" style="padding: 10px 15px !important; margin-bottom: 0 !important;">
-                <div class="inst-btn-grid">
-                    <div class="inst-btn-item"><div class="glass-btn mock-btn">❚❚</div><div class="inst-btn-text"><b>暫停 / 繼續</b></div></div>
-                    <div class="inst-btn-item"><div class="glass-btn mock-btn">↻</div><div class="inst-btn-text"><b>重新開始</b></div></div>
-                    <div class="inst-btn-item"><div class="glass-btn mock-btn" style="font-size: 20px;">⏭&#xFE0E</div><div class="inst-btn-text"><b>提早結算</b></div></div>
-                    <div class="inst-btn-item"><div class="glass-btn mock-btn">⛶</div><div class="inst-btn-text"><b>全螢幕</b></div></div>
-                    <div class="inst-btn-item span-special"><div class="inst-mock-glass-panel"><div class="glass-btn mock-btn">-</div><div class="glass-btn mock-btn inst-zoom-text">1.3x</div><div class="glass-btn mock-btn">+</div></div><div class="inst-btn-text"><b>視角縮放</b></div></div>
-                    <div class="inst-btn-item span-special"><div class="glass-btn mock-btn hint-bulb-btn">💡</div><div class="inst-btn-text" style="line-height: 1.3;"><b>機制提示</b><br><span>開啟後顯示走法 <span class="mobile-break-hint">（💡 備註：結算會顯示）</span></span></div></div>
+                <div class="inst-section inst-section-compact">
+                    <div class="inst-subtitle inst-subtitle-compact">威爾難度</div>
+                    <ul class="inst-list inst-list-compact">
+                        <li><b>混沌：</b>完整7種題庫。</li>
+                        <li><b>困難：</b>完整3種題庫。</li>
+                        <li><b>動態隨機：</b>每次的蜘蛛腳都是由演算法當場生成，依造遊戲原始機制體驗。<br>
+                        <span class="will-inst-hint">（💡 備註：此模式為演算法即時運算，以體驗隨機樂趣為主。若偶遇極端陣型或非預期的小 Bug，敬請見諒！）</span></li>
+                    </ul>
                 </div>
-            </div>
-        </div>
 
-            <div class="settings-panel instructions-panel memo-card">
-                <div class="memo-content">
-                    <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
-
-                    <div class="memo-text-area">
-                        <div class="memo-title">Bug 告知</div>
-                        <p>如果有發現什麼 Bug 可以加我的 Discord </p>
+                <div class="inst-section" style="border: none; background: transparent; padding: 5px 0;">
+                    <div class="inst-btn-grid">
+                        <div class="inst-btn-item">
+                            <div class="inst-mock-glass-panel">
+                                <div class="glass-btn mock-btn">⏸&#xFE0E;</div>
+                            </div>
+                            <div class="inst-btn-text"><b>暫停</b> / <b>繼續</b></div>
+                        </div>
+                        <div class="inst-btn-item">
+                            <div class="inst-mock-glass-panel">
+                                <div class="glass-btn mock-btn">↻&#xFE0E;</div>
+                            </div>
+                            <div class="inst-btn-text"><b>結束重來</b></div>
+                        </div>
+                        <div class="inst-btn-item">
+                            <div class="inst-mock-glass-panel">
+                                <div class="glass-btn mock-btn">⏭&#xFE0E;</div>
+                            </div>
+                            <div class="inst-btn-text"><b>提早結算</b></div>
+                        </div>
+                        <div class="inst-btn-item">
+                            <div class="inst-mock-glass-panel">
+                                <div class="glass-btn mock-btn">⛶</div>
+                            </div>
+                            <div class="inst-btn-text"><b>全螢幕</b> / <b>離開</b></div>
+                        </div>
                         
-                        <p class="memo-simple-text">紙條：露娜-迷你安安 <span class="memo-mobile-break">（留言 Discord 名稱我方便確認好友）</span></p>
+                        <div class="inst-btn-item span-special">
+                            <div class="inst-mock-glass-panel">
+                                <div class="glass-btn mock-btn">-</div>
+                                <div class="glass-btn mock-btn inst-zoom-text">1.3x</div>
+                                <div class="glass-btn mock-btn">+</div>
+                            </div>
+                            <div class="inst-btn-text"><b>視角縮放</b></div>
+                        </div>
+                        <div class="inst-btn-item span-special">
+                            <div class="inst-mock-glass-panel">
+                                <div class="glass-btn mock-btn hint-bulb-btn">💡</div>
+                            </div>
+                            <div class="inst-btn-text" style="line-height: 1.3;"><b>機制提示</b><br><span>開啟後顯示走法 <span class="mobile-break-hint">（💡 備註：結算會顯示）</span></span></div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            
+        </div> 
+    </div>
 
-        </div> </div> </div> <script src="script.js"></script>
-<script>
-    /*// 網頁 DOM 結構載入完成後，自動切換至威爾模擬器並點燃遊戲引擎
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof switchTab === 'function') {
-            switchTab('will');
-        }
-    });*/
-</script>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
