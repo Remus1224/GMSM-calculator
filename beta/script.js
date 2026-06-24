@@ -1,1457 +1,2818 @@
+// ==========================================
+// 🌙 主題切換系統 (Dark/Light Mode)
+// ==========================================
+function toggleTheme() {
+    // 取得 HTML 標籤
+    const htmlElement = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle');
+
+    // 檢查目前是不是暗色模式
+    const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+
+    if (isDark) {
+        // 切換回淺色模式
+        htmlElement.removeAttribute('data-theme');
+        if (themeBtn) themeBtn.innerText = '🌙'; 
+    } else {
+        // 切換到暗色模式
+        htmlElement.setAttribute('data-theme', 'dark');
+        if (themeBtn) themeBtn.innerText = '☀️'; 
+    }
+}
+
+// 網頁載入時，檢查使用者之前選了什麼模式
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('msm-theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        const themeBtn = document.getElementById('theme-toggle');
+        if(themeBtn) themeBtn.innerText = '☀️';
+    }
+    // ... 這裡保留你原本 DOMContentLoaded 裡的程式碼 (例如 initIgnoreGrid) ...
+    if (typeof initIgnoreGrid === 'function') initIgnoreGrid();
+});
 /* ========================================== */
-/* 0. 核心主題變數 (CSS Variables)             */
+/* 1. 全域系統與頁籤路由 (已加入 GA4 追蹤)     */
 /* ========================================== */
-:root {
-    /* 🌞 預設淺色模式 (明亮極光) */
-    --bg-base: #F3E8FF;
-    --bg-grad-1: rgba(156, 234, 254, 0.9);
-    --bg-grad-2: rgba(200, 141, 221, 0.9);
-    --bg-grad-3: rgba(182, 223, 255, 0.6);
-    --text-main: #1D1D1F;
-    --text-muted: #86868B;
+function clearReset() {
+    document.getElementById('reset-a').value = '';
+    document.getElementById('reset-b').value = '';
+    document.getElementById('reset-c').value = '';
+    document.getElementById('reset-rolls').value = '10';
+    document.getElementById('reset-target-a').value = '';
+    document.getElementById('reset-target-sub').value = '';
+    if(document.getElementById('sim-million-reset')) document.getElementById('sim-million-reset').checked = false;
     
-    --glass-bg: rgba(255, 255, 255, 0.5);
-    --glass-border: rgba(255, 255, 255, 0.6);
-    --card-bg: rgba(255, 255, 255, 0.45);
-    --card-hover: #FFFFFF;
-    --input-bg: rgba(255, 255, 255, 0.8);
+    // 隱藏新的兩張結果面板
+    let mp = document.getElementById('res-main-panel');
+    let dp = document.getElementById('res-detail-panel');
+    if (mp) mp.style.display = 'none';
+    if (dp) dp.style.display = 'none';
+}
+
+function clearSim() {
+    document.getElementById('sim-a').value = '';
+    document.getElementById('sim-b').value = '';
+    document.getElementById('sim-c').value = '';
+    document.getElementById('sim-rolls').value = '';
+    document.getElementById('target-a').value = '';
+    document.getElementById('target-sub').value = '';
+    document.getElementById('sim-stoploss').checked = true;
+    if(document.getElementById('sim-million')) document.getElementById('sim-million').checked = false;
     
-    --btn-grad-1: #9CEAFE;
-    --btn-grad-2: #C88DDD;
-    --btn-text: #1D1D1F;
+    let resBox = document.getElementById('result-hexa-sim');
+    if(resBox) resBox.style.display = 'none';
 }
 
-/* ========================================== */
-/* 🌙 夜間模式：終極雙色極光 (50% 粉藍 / 50% 粉紫) */
-/* ========================================== */
-[data-theme="dark"] {
-    --bg-base: #070B14; 
-    --bg-grad-1: rgba(156, 234, 254, 0.25); 
-    --bg-grad-2: rgba(200, 141, 221, 0.25); 
-    --bg-grad-3: rgba(156, 234, 254, 0.15); 
+let lazyTableGenerated = false;
+let visualInitialized = false;
+let progInitialized = false;
+let ignoreInitialized = false;
+let willInitialized = false; // 新增這行
+let willGameActive = false;  // 新增這行
+
+function switchTab(tabId) {
+    // 跨分頁靜音與解除鎖定防護
+    if (tabId !== 'will') {
+        if (typeof willBgm !== 'undefined') willBgm.pause();
+        isBgmPlaying = false;
+        const bgmBtn = document.getElementById('btn-will-bgm');
+        if(bgmBtn) bgmBtn.classList.add('muted-bgm');
+        
+        const wrapper = document.getElementById('will-game-wrapper');
+        if (wrapper && wrapper.classList.contains('fake-fullscreen')) {
+            wrapper.classList.remove('fake-fullscreen');
+            document.body.classList.remove('body-no-scroll');
+        }
+    }
+
+    // 1. 隱藏所有選單按鈕與分頁內容 (單純移除 active，不強制覆蓋 display 屬性，保護你的 CSS 排版)
+    document.querySelectorAll('.tab-menu button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
-    --text-main: #E0F2FE; 
-    --text-muted: #8ba4b5; 
+    // 2. 顯示目標按鈕與分頁內容
+    const targetBtn = document.getElementById('btn-' + tabId);
+    if (targetBtn) targetBtn.classList.add('active');
     
-    --glass-bg: rgba(10, 15, 25, 0.55);
-    --glass-border: rgba(178, 187, 237, 0.3); 
-    --card-bg: rgba(15, 20, 30, 0.45);
-    --card-hover: rgba(25, 35, 55, 0.7);
-    --input-bg: rgba(10, 15, 25, 0.6);
+    const targetTab = document.getElementById('tab-' + tabId);
+    if (targetTab) targetTab.classList.add('active');
+
+    // ... (保留你原本所有的分頁初始化與更新邏輯) ...
+    if (tabId === 'hexa-lazy' && !lazyTableGenerated) { setTimeout(generateLazyTable, 50); lazyTableGenerated = true; }
+    if (tabId === 'hexa-visual' && !visualInitialized) { initVisualBars(); visualInitialized = true; }
+    if (tabId === 'transcend') { tr_updateUI(); }
+    if (tabId === 'craft') { cr_updateUI(); }
+    if (tabId === 'hexa-prog' && !progInitialized) { initHexaProg(); progInitialized = true; }
+    if (tabId === 'ignore' && !ignoreInitialized) { initIgnoreGrid(); ignoreInitialized = true; }
+
+    willGameActive = (tabId === 'will');
+    if (tabId === 'will') {
+        if (!willInitialized) {
+            will_init();
+            willInitialized = true;
+        } else {
+            requestAnimationFrame(will_gameLoop);
+        }
+    }
+
+    // ==========================================
+    // 🌟 頂部導航列動態控制 (保護 Grid 完美排版)
+    // ==========================================
+    const subPageTitle = document.getElementById('sub-page-title');
+    const backBtn = document.getElementById('btn-home');
+
+    if (subPageTitle && backBtn) {
+        // 定義每個分頁的專屬副標題
+        const titleMap = {
+            'home': '主選單', 
+            'notice': '布告欄',
+            'ignore': '無視防禦計算機',
+            'transcend': '超越模擬器',
+            'craft': '製作模擬器',
+            'hexa-prog': '六轉進度計算機',
+            'hexa-visual': 'HEXA屬性模擬器',
+            'hexa-lazy': 'HEXA懶人決策表',
+            'hexa-reset': 'HEXA重置決策模擬',
+            'hexa-sim': 'HEXA目標策略模擬',
+            'will': '威爾二階練習機'
+        };
+
+        if (titleMap[tabId]) {
+            subPageTitle.innerText = titleMap[tabId];
+        }
+
+        // 判斷是否在首頁
+        if (tabId === 'home') {
+            // 首頁：將返回鍵「隱形」但保留佔據的空間，這樣中間的大廳選單才不會歪掉
+            backBtn.style.visibility = 'hidden'; 
+            
+            // 強制移除 home-hide，確保按鈕與標題的本體還在畫面上
+            backBtn.classList.remove('home-hide'); 
+            subPageTitle.classList.remove('home-hide'); 
+        } else {
+            // 其他頁面：顯示返回鍵
+            backBtn.style.visibility = 'visible'; 
+            backBtn.classList.remove('home-hide'); 
+            subPageTitle.classList.remove('home-hide'); 
+        }
+    }
+}
+
+// 確保網頁一開啟時，預設執行一次首頁狀態，避免任何跑版
+document.addEventListener("DOMContentLoaded", () => {
+    switchTab('home');
+});
+
+// 全新 iOS 友善的全螢幕按鈕邏輯 (鐵桶鎖死版)
+window.toggleWillFullscreen = function() {
+    const wrapper = document.getElementById('will-game-wrapper');
+    const isNativeFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+    const isFakeFullscreen = wrapper.classList.contains('fake-fullscreen');
+
+    // 狀態 1：退出全螢幕
+    if (isNativeFullscreen || isFakeFullscreen) {
+        if (isNativeFullscreen) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+        if (isFakeFullscreen) {
+            wrapper.classList.remove('fake-fullscreen');
+            document.body.classList.remove('body-no-scroll');
+        }
+        return;
+    }
+
+    // 狀態 2：進入全螢幕
+    const isAppleDevice = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (!isAppleDevice && (wrapper.requestFullscreen || wrapper.webkitRequestFullscreen)) {
+        // 安卓與電腦：完美原生全螢幕
+        if (wrapper.requestFullscreen) wrapper.requestFullscreen();
+        else wrapper.webkitRequestFullscreen();
+    } else {
+        // iOS 方案：強制套用 fake-fullscreen 與背景鎖死
+        wrapper.classList.add('fake-fullscreen');
+        document.body.classList.add('body-no-scroll');
+        window.scrollTo(0, 0); 
+    }
+};
+
+/* ========================================== */
+/* 2. 六轉進度計算機引擎                       */
+/* ========================================== */
+const reqData = {
+    skill: {
+        big: [0,0,2,3,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,15],
+        small:[0,0,40,50,60,70,80,90,100,110,125,140,155,170,185,200,215,230,245,260,280,300,320,340,360,380,400,420,440,460,500]
+    },
+    mastery: {
+        big: [0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,8,8,8,8,9,9,9,10],
+        small:[0,10,20,25,30,35,40,45,50,55,62,69,76,83,90,97,104,111,118,125,135,145,155,165,175,185,195,205,215,225,240]
+    },
+    enhance: {
+        big: [0,1,2,2,2,2,2,2,2,2,5,5,5,5,5,5,5,5,5,5,10,10,10,10,10,10,10,10,10,10,15],
+        small:[0,20,30,35,40,45,50,55,60,65,75,85,95,105,115,125,135,145,155,165,180,195,210,225,240,255,270,285,300,315,335]
+    },
+    common: {
+        big: [0, 10, 4, 4, 5, 5, 6, 6, 7, 7, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 17, 17, 17, 18, 18, 18, 19, 19, 19, 19, 20],
+        small: [0, 200, 55, 69, 83, 97, 110, 124, 138, 152, 173, 193, 214, 235, 255, 276, 297, 317, 338, 359, 386, 414, 442, 469, 497, 525, 552, 580, 607, 635, 670]
+    }
+};
+
+const coreConfig = [
+    { id: 'sk1', label: '啟源技能', type: 'skill', mandatory: true, default: true, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+    { id: 'sk2', label: '技能核心 2', type: 'skill', mandatory: false, default: false, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+    { id: 'ma1', label: '精通核心 1', type: 'mastery', mandatory: false, default: true, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma2', label: '精通核心 2', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma3', label: '精通核心 3', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma4', label: '精通核心 4', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'en1', label: '強化核心 1', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'en2', label: '強化核心 2', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'en3', label: '強化核心 3', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'en4', label: '強化核心 4', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
+    { id: 'co1', label: '共通核心 1', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co2', label: '共通核心 2', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co3', label: '共通核心 3', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co4', label: '共通核心 4', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' }
+];
+
+function getCumul(arr, lv) {
+    let sum = 0;
+    for(let i=1; i<=lv; i++) sum += arr[i] || 0;
+    return sum;
+}
+
+function initHexaProg() {
+    const container = document.getElementById('prog-cores-container');
+    if (!container) return;
+    let html = '';
+    let selectOptions = '';
+    for(let i=0; i<=30; i++) selectOptions += `<option value="${i}">Lv. ${i}</option>`;
+
+    const categories = [{ type: 'skill' }, { type: 'mastery' }, { type: 'enhance' }, { type: 'common' }];
+    categories.forEach(cat => {
+        let cores = coreConfig.filter(c => c.type === cat.type);
+        html += `<div class="core-row">`;
+        cores.forEach(core => {
+            let isChecked = core.default ? 'checked' : '';
+            let cbHtml = core.mandatory ? 
+                `<span style="font-weight:bold; color:#333333; font-size: 14px;">${core.label}</span>` : 
+                `<label style="cursor:pointer; display:flex; align-items:center; color:#333333; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
+            
+            html += `
+                <div class="prog-item" id="item-${core.id}" style="background-color: ${core.bg}; border-left: 5px solid ${core.border}; ${(!core.mandatory && !core.default) ? 'opacity: 0.5;' : ''}">
+                    <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 8px; height: 24px;">
+                        ${cbHtml}
+                    </div>
+                    <select id="sel-${core.id}" ${(!core.mandatory && !core.default) ? 'disabled' : ''}>${selectOptions}</select>
+                </div>
+            `;
+        });
+        html += `</div>`;
+    });
+    container.innerHTML = html;
+}
+
+function toggleCoreProg(id) {
+    let cb = document.getElementById('cb-' + id);
+    let sel = document.getElementById('sel-' + id);
+    let item = document.getElementById('item-' + id);
+    if (!cb || !sel || !item) return;
+
+    let isChecked = cb.checked;
+    sel.disabled = !isChecked;
+    item.style.opacity = isChecked ? '1' : '0.5';
+    if(!isChecked) sel.value = '0';
+}
+
+function calcHexaProg() {
+    let totalBigNeeded = 0, totalSmallNeeded = 0;
+    let investedBig = 0, investedSmall = 0;
+
+    coreConfig.forEach(core => {
+        let isActive = false;
+        if (core.mandatory) {
+            isActive = true;
+        } else {
+            let cb = document.getElementById('cb-' + core.id);
+            isActive = cb ? cb.checked : false;
+        }
+
+        if (isActive) {
+            let sel = document.getElementById('sel-' + core.id);
+            let lv = sel ? parseInt(sel.value) : 0;
+            if (isNaN(lv)) lv = 0;
+
+            let bigArr = reqData[core.type].big;
+            let smallArr = reqData[core.type].small;
+
+            totalBigNeeded += getCumul(bigArr, 30);
+            totalSmallNeeded += getCumul(smallArr, 30);
+            investedBig += getCumul(bigArr, lv);
+            investedSmall += getCumul(smallArr, lv);
+        }
+    });
+
+    let invBig = parseInt(document.getElementById('inv-big').value) || 0;
+    let invFrag = parseInt(document.getElementById('inv-frag').value) || 0;
+    let invConc = parseInt(document.getElementById('inv-conc').value) || 0;
+    let invNrg = parseInt(document.getElementById('inv-nrg').value) || 0;
+    let invWeak = parseInt(document.getElementById('inv-weak').value) || 0;
+
+    let currentBagEnergy = (invBig * 1000) + (invConc * 500) + (invNrg * 200) + (invWeak * 10);
+    let remainingFrag = Math.max(0, totalSmallNeeded - investedSmall);
+    let remainingEnergy = Math.max(0, (totalBigNeeded - investedBig) * 1000);
     
-    --btn-text: #FFFFFF;
-}
-
-/* ------------------------------------------ */
-/* 🎯 夜間專屬覆蓋：左藍右紫的 50/50 雙色霓虹美學 */
-/* ------------------------------------------ */
-
-/* 1. 頂部大廳選單標題 (左半透藍、右半透紫) */
-[data-theme="dark"] .nav-title-glass {
-    background-image: 
-        linear-gradient(rgba(10, 15, 25, 0.7), rgba(10, 15, 25, 0.4)), 
-        linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important; 
-    box-shadow: 
-        0 8px 24px rgba(0, 0, 0, 0.6),                      
-        -12px 0 25px rgba(156, 234, 254, 0.65),    
-        12px 0 25px rgba(200, 141, 221, 0.65),     
-        inset 0 0 12px rgba(255, 255, 255, 0.6) !important; 
-    text-shadow: 0 0 8px rgba(178, 187, 237, 0.8); 
-    color: #FFFFFF !important;
-}
-
-/* 2. 左右小按鈕 */
-[data-theme="dark"] .nav-btn {
-    background: rgba(15, 20, 30, 0.6) !important; 
-    color: #E0F2FE !important;
-    border-color: rgba(178, 187, 237, 0.2) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.1) !important;
-}
-[data-theme="dark"] .nav-btn:hover {
-    background: rgba(25, 35, 55, 0.8) !important;
-    box-shadow: -8px 0 20px rgba(156, 234, 254, 0.6), 8px 0 20px rgba(200, 141, 221, 0.6), inset 0 0 10px rgba(178, 187, 237, 0.2) !important; 
-}
-
-/* 3. 首頁大標題 */
-[data-theme="dark"] .main-site-title {
-    color: #FFFFFF !important;
-    text-shadow: -4px 0 15px rgba(156, 234, 254, 0.7), 4px 0 15px rgba(200, 141, 221, 0.7); 
-}
-
-/* 4. 主選單各個工具卡片 */
-[data-theme="dark"] .app-card { border: 1px solid rgba(178, 187, 237, 0.2); }
-[data-theme="dark"] .app-card:hover {
-    border-color: rgba(178, 187, 237, 0.6);
-    box-shadow: -15px 0 30px rgba(156, 234, 254, 0.3), 15px 0 30px rgba(200, 141, 221, 0.3), inset 0 0 15px rgba(178, 187, 237, 0.15);
-}
-
-/* 5. 卡片內的 Icon */
-[data-theme="dark"] .app-icon {
-    background: linear-gradient(135deg, rgba(156, 234, 254, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%);
-    border-color: rgba(178, 187, 237, 0.3);
-}
-[data-theme="dark"] .app-card:hover .app-icon {
-    background: linear-gradient(135deg, rgba(156, 234, 254, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%);
-    box-shadow: -5px 0 15px rgba(156, 234, 254, 0.5), 5px 0 15px rgba(200, 141, 221, 0.5);
-}
-
-/* 🌟 6. 精準控制：僅讓獨立面板 (設定面板、說明書、布告欄) 套用夜間玻璃，絕不干擾鐵匠鋪主體 */
-[data-theme="dark"] .settings-panel, 
-[data-theme="dark"] .instructions-panel, 
-[data-theme="dark"] .memo-card, 
-[data-theme="dark"] .panel,
-[data-theme="dark"] .detail-box {
-    background: linear-gradient(135deg, rgba(20, 25, 35, 0.85) 0%, rgba(10, 15, 25, 0.7) 100%) !important;
-    border: 1px solid rgba(178, 187, 237, 0.2) !important;
-    border-top: 1px solid rgba(156, 234, 254, 0.4) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(156, 234, 254, 0.05) !important;
-    color: #E0F2FE !important;
-}
-
-/* 布告欄夜間專屬標題修正 */
-[data-theme="dark"] #tab-home .memo-title {
-    color: #ff6b6b !important;
-    text-shadow: 0 0 8px rgba(255,107,107,0.4);
-}
-/* 1. 修正下拉選單與輸入框：解決「深色底+深藍字」導致文字隱形的問題 */
-[data-theme="dark"] .setting-row input[type="text"], 
-[data-theme="dark"] .setting-row input[type="number"], 
-[data-theme="dark"] .setting-row select {
-    background: rgba(0, 0, 0, 0.4) !important; /* 加深底色產生凹陷感 */
-    border: 1px solid rgba(156, 234, 254, 0.3) !important;
-    color: #9CEAFE !important; /* 文字換成你的專屬粉藍色，高對比且極具科技感 */
-}
-[data-theme="dark"] .setting-row input[type="text"]:focus, 
-[data-theme="dark"] .setting-row input[type="number"]:focus, 
-[data-theme="dark"] .setting-row select:focus {
-    border-color: #9CEAFE !important;
-    box-shadow: 0 0 8px rgba(156, 234, 254, 0.4) !important;
-}
-
-/* 2. 修正重新計算/模擬按鈕：解決黑色背景導致的隱形感 */
-[data-theme="dark"] .btn-reset-tr {
-    background: rgba(255, 255, 255, 0.1) !important; /* 改為半透明白光 */
-    color: #E0F2FE !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-[data-theme="dark"] .btn-reset-tr:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important;
-}
-
-/* 3. 修正音效按鈕：去除刺眼的純白背景，融入夜間玻璃風格 */
-[data-theme="dark"] .btn-sound {
-    background: rgba(15, 20, 30, 0.6) !important;
-    border: 1px solid rgba(178, 187, 237, 0.3) !important;
-    color: #E0F2FE !important;
-}
-
-/* 4. 修正統計區塊 (.stats-text)：加深背景，並強制提亮內部暗色文字 */
-[data-theme="dark"] .stats-text {
-    background: rgba(0, 0, 0, 0.25) !important;
-    border: 1px solid rgba(178, 187, 237, 0.1) !important;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5) !important; /* 內陰影增加立體層次 */
-    color: #E0F2FE !important; /* 確保像是「消耗統計與期望值分析」等預設文字變亮 */
-}
-
-/* ========================================== */
-/* 🛠️ 夜間模式：全域表單、隱形文字與面板終極修復補丁 */
-/* ========================================== */
-
-/* --- 1. 修正「消耗統計與期望值分析」背景與字體 --- */
-[data-theme="dark"] .stats-text {
-    background: rgba(15, 20, 30, 0.6) !important; 
-    border: 1px solid rgba(178, 187, 237, 0.2) !important;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2) !important; 
-    color: #E0F2FE !important; 
-}
-[data-theme="dark"] .stats-text legend, 
-[data-theme="dark"] .stats-text span, 
-[data-theme="dark"] .stats-text div {
-    color: #E0F2FE !important; 
-}
-
-/* --- 2. 修正「HEXA目標策略模擬」隱形的文字與分隔線 --- */
-[data-theme="dark"] .hexa-inputs,
-[data-theme="dark"] .hexa-inputs div,
-[data-theme="dark"] .hexa-inputs span {
-    color: #E0F2FE !important; 
-}
-[data-theme="dark"] .target-divider {
-    background-color: rgba(178, 187, 237, 0.2) !important; 
-}
-
-/* --- 3. 修正「六轉進度計算機」彩色邊框回歸與文字提亮 --- */
-[data-theme="dark"] .prog-item {
-    background: rgba(15, 20, 30, 0.6) !important; 
-    /* ✨ 關鍵修復：只改上、右、下邊框的「顏色」，絕對不碰左邊框！保留彩色線條 */
-    border-top-color: rgba(178, 187, 237, 0.15) !important;
-    border-right-color: rgba(178, 187, 237, 0.15) !important;
-    border-bottom-color: rgba(178, 187, 237, 0.15) !important;
-}
-[data-theme="dark"] .prog-item label,
-[data-theme="dark"] .prog-item span,
-[data-theme="dark"] .prog-item div {
-    color: #E0F2FE !important;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
-}
-
-/* --- 4. 統一全站輸入框 (六轉、HEXA、鐵匠鋪) 的科技藍框效果 --- */
-[data-theme="dark"] .setting-row input[type="text"], 
-[data-theme="dark"] .setting-row input[type="number"], 
-[data-theme="dark"] .setting-row select,
-[data-theme="dark"] .hexa-inputs input,       
-[data-theme="dark"] .inv-grid input,          
-[data-theme="dark"] .prog-item select,        
-[data-theme="dark"] .card-input-wrapper input {
-    background: rgba(0, 0, 0, 0.4) !important; 
-    border: 1px solid rgba(156, 234, 254, 0.3) !important;
-    color: #9CEAFE !important; 
-}
-
-/* 輸入框點擊高光 */
-[data-theme="dark"] .setting-row input[type="text"]:focus, 
-[data-theme="dark"] .setting-row input[type="number"]:focus, 
-[data-theme="dark"] .setting-row select:focus,
-[data-theme="dark"] .hexa-inputs input:focus,
-[data-theme="dark"] .inv-grid input:focus,
-[data-theme="dark"] .prog-item select:focus,
-[data-theme="dark"] .card-input-wrapper input:focus {
-    border-color: #9CEAFE !important;
-    box-shadow: 0 0 8px rgba(156, 234, 254, 0.4) !important;
-    background: rgba(0, 0, 0, 0.6) !important;
-}
-
-/* 六轉未解鎖下拉選單 (灰色禁用狀態) */
-[data-theme="dark"] .prog-item select:disabled {
-    background: rgba(255, 255, 255, 0.05) !important;
-    color: rgba(255, 255, 255, 0.3) !important;
-    border-color: transparent !important;
-    box-shadow: none !important;
-}
-
-/* --- 5. 鐵匠鋪重新模擬按鈕與音效按鈕 --- */
-[data-theme="dark"] .btn-reset-tr {
-    background: rgba(255, 255, 255, 0.1) !important; 
-    color: #E0F2FE !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-[data-theme="dark"] .btn-reset-tr:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 0 10px rgba(156, 234, 254, 0.2) !important;
-}
-[data-theme="dark"] .btn-sound {
-    background: rgba(15, 20, 30, 0.6) !important;
-    border: 1px solid rgba(178, 187, 237, 0.3) !important;
-    color: #E0F2FE !important;
-}
-
-/* --- 6. 其他細節文字提亮 --- */
-[data-theme="dark"] .panel h3,          
-[data-theme="dark"] .detail-box h3,
-[data-theme="dark"] .inv-item label,    
-[data-theme="dark"] .prog-header,
-[data-theme="dark"] .checkbox-label {
-    color: #E0F2FE !important;
-}
-
-/* --- 7. 修正「HEXA 重置決策與目標策略模擬」中的隱形框線與文字 --- */
-[data-theme="dark"] .panel div,
-[data-theme="dark"] .panel span,
-[data-theme="dark"] .panel center,
-[data-theme="dark"] .panel label {
-    color: #E0F2FE !important;
-}
-
-/* 🎯 關鍵修正：加上 :not(.prog-item)，放過六轉進度卡片，絕不誤殺彩色邊框！ */
-[data-theme="dark"] .panel div[style*="border"]:not(.prog-item) {
-    border-color: rgba(156, 234, 254, 0.4) !important;
-    background: rgba(0, 0, 0, 0.3) !important; 
-    box-shadow: inset 0 0 8px rgba(156, 234, 254, 0.1) !important;
-    border-radius: 6px !important; 
-    color: #9CEAFE !important; 
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
-}
-
-/* --- 8. 修正布告欄與各面板小標題 (.section-title) 的底線消失問題 --- */
-/* 將原本隱形的黑色底線，換成帶有科技感的微弱藍紫光底線 */
-[data-theme="dark"] .section-title {
-    border-bottom: 1px solid rgba(178, 187, 237, 0.25) !important;
-}
-
-/* ========================================== */
-/* 1. 基礎全域設定與導覽 (Global & Layout)       */
-/* ========================================== */
-html, body { 
-    width: 100%; 
-    max-width: 100%; 
-    overflow-x: hidden; 
-}
-html { box-sizing: border-box; }
-*, *:before, *:after { box-sizing: inherit; }
-
-button, input, select, label, .btn-action { touch-action: manipulation; font-family: inherit; }
-
-.txt-sharp {
-    font-weight: 800 !important;
-    -webkit-text-stroke: 0px transparent !important;
-    -webkit-font-smoothing: antialiased !important;
-    -moz-osx-font-smoothing: grayscale !important;
-    text-shadow: none !important;
-}
-
-body { 
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
-    background-color: var(--bg-base); 
-    background-image: 
-        radial-gradient(circle at 15% 40%, var(--bg-grad-1) 0%, transparent 55%),
-        radial-gradient(circle at 85% 60%, var(--bg-grad-2) 0%, transparent 55%),
-        radial-gradient(circle at 50% 10%, var(--bg-grad-3) 0%, transparent 40%);
-    background-attachment: fixed;
-    color: var(--text-main); 
-    display: flex; justify-content: center; padding: 20px; 
-    user-select: none; -webkit-user-select: none; margin: 0; 
-    min-height: 100vh;
-    align-items: flex-start;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
-}
-body:has(#tab-will.active) { padding: 0 !important; }
-body:has(#tab-will.active) .container { padding: 0 !important; max-width: 100% !important; }
-
-/* 📱 頂部標題與按鈕 */
-.top-header-section { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
-.main-site-title { margin: 0 0 15px 0; font-size: 26px; font-weight: 900; color: var(--text-main); text-align: center; }
-.top-nav-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0px; width: 100%; margin-bottom: 20px; }
-.left-side { justify-self: end; }
-.right-side { justify-self: start; }
-.home-hide { display: none !important; }
-
-/* 🔘 左右按鈕 */
-.nav-btn {
-    background: rgba(255, 255, 255, 0.6) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    padding: 8px 18px !important; border-radius: 20px !important;
-    font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;
-    margin: 0; white-space: nowrap; color: #2c3e50 !important; cursor: pointer; transition: all 0.3s ease; 
-}
-.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.95) !important; transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(156, 234, 254, 0.3) !important; 
-}
-
-/* 💎 獨立的中間標題 (日間高顯眼度・發光霓虹玻璃) */
-.nav-title-glass {
-    padding: 8px 24px !important; font-size: 15px; font-weight: 900; color: #2c3e50 !important;
-    border-radius: 20px !important; display: flex; align-items: center; justify-content: center;
-    margin: 0 10px; white-space: nowrap; cursor: default;
-    border: 2px solid transparent !important;
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)),
-        linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important;        
-    background-origin: border-box !important; background-clip: padding-box, border-box !important;
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 0 15px rgba(156, 234, 254, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.9) !important;  
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); 
-}
-
-.container { 
-    background: transparent !important; border: none !important; box-shadow: none !important; 
-    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
-    padding: 10px 20px; max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; 
-    align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
-    margin: 3vh auto 20px auto;
-}
-.container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active) { max-width: 900px; }
-
-h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5px; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
-.hint { width: 100%; font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 0px; font-weight: 500; }
-
-.container:has(#tab-home.active) .tab-menu { display: none; }
-.tab-menu { width: 100%; display: flex; justify-content: center; background: transparent; border: none; padding: 0; margin-bottom: 20px; box-shadow: none; }
-.tab-menu button { 
-    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); padding: 12px 30px; font-size: 16px; font-weight: bold; color: var(--text-main); 
-    border-radius: 30px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.tab-menu button:hover { background: var(--card-hover); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
-
-.tab-content { display: none; width: 100%; flex-wrap: wrap; gap: 16px; align-items: flex-start;}
-.tab-content.active { display: flex; animation: appleFadeIn 0.4s ease; }
-@keyframes appleFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-.app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin-top: 10px; }
-.app-card {
-    background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); border-radius: 18px;
-    padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-}
-.app-card:hover {
-    background: var(--card-hover); transform: translateY(-4px); border-color: rgba(200, 141, 221, 0.5);
-    box-shadow: 0 12px 26px rgba(200, 141, 221, 0.15), 0 2px 4px rgba(0, 0, 0, 0.01);
-}
-.app-card:active { transform: translateY(-1px) scale(0.98); }
-.app-card-highlight { background: rgba(200, 141, 221, 0.05); border-color: rgba(200, 141, 221, 0.2); }
-.app-card-highlight:hover { border-color: rgba(200, 141, 221, 0.6); }
-
-.app-icon {
-    font-size: 26px; width: 46px; height: 46px; 
-    background: linear-gradient(135deg, rgba(156, 234, 254, 0.3), rgba(200, 141, 221, 0.3));
-    border: 1px solid rgba(200, 141, 221, 0.2);
-    border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    transition: all 0.3s; overflow: hidden;
-}
-.app-card:hover .app-icon { 
-    background: linear-gradient(135deg, rgba(156, 234, 254, 0.6), rgba(200, 141, 221, 0.6)); 
-    transform: scale(1.05);
-}
-.app-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
-.app-info h3 { margin: 0; font-size: 15.5px; font-weight: 600; color: var(--text-main); letter-spacing: -0.2px; }
-.app-info p { margin: 0; font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.menu-custom-img { width: 100%; height: 100%; object-fit: contain; display: block; }
-
-.section-title { font-weight: 700; color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 6px; width: 100%; font-size: 17px; }
-.panel, .detail-box { 
-    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); padding: 18px; border-radius: 16px; width: 100%; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03); color: var(--text-main); box-sizing: border-box; min-width: 0; overflow-x: auto;
-}
-.left-panel { flex: 2; min-width: 300px; }
-.right-panel { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 15px; }
-.grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 20px; }
-
-.input-group label { font-size: 14px; color: var(--text-main); font-weight: 500; }
-.input-group input, .setting-row input[type="text"], .setting-row input[type="number"], .setting-row select, .hexa-inputs input, .inv-grid input { 
-    user-select: auto; -webkit-user-select: auto; 
-    background: var(--input-bg) !important; border: 1px solid rgba(0, 0, 0, 0.12) !important; 
-    color: #0071E3 !important; border-radius: 8px; font-size: 14px; text-align: center;
-    font-weight: 600; transition: all 0.2s ease; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
-}
-input:focus, select:focus { outline: none; border-color: #0071E3 !important; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15); background: var(--card-hover) !important; }
-
-.btn-group { display: flex; gap: 10px; margin-top: 10px; width: 100%; }
-.action-btn { 
-    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); color: var(--btn-text); 
-    border: none; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 10px; transition: all 0.2s; flex: 1; cursor: pointer; box-shadow: 0 4px 12px rgba(200, 141, 221, 0.2);
-}
-.action-btn:hover { filter: brightness(1.05); transform: scale(1.01); box-shadow: 0 6px 16px rgba(200, 141, 221, 0.4); }
-.action-btn:active { transform: scale(0.99); }
-.clear-btn { background: #E5E5EA; color: #1D1D1F; flex: 0.2; min-width: 80px; box-shadow: none;}
-.clear-btn:hover { background: #D1D1D6; transform: scale(1.01); box-shadow: none; filter: none;}
-.error-msg { font-size: 14px; color: var(--text-main); line-height: 1.6; font-weight: 600; text-align: center; }
-
-/* 🌟 DISCORD 布告欄修復：套用完美玻璃材質 */
-#tab-home .memo-card { 
-    width: 100% !important; max-width: none !important; box-sizing: border-box !important; padding: 25px !important; 
-    background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border); border-radius: 16px;
-}
-#tab-home .memo-content { display: flex; align-items: center; gap: 50px; }
-#tab-home .memo-apng { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
-#tab-home .memo-text-area { color: var(--text-main); font-size: 13px; line-height: 1.6; font-weight: bold; }
-#tab-home .memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; transition: color 0.3s;}
-#tab-home .memo-text-area p { margin: 0 0 6px 0; }
-#tab-home .memo-simple-text { margin-top: 5px !important; }
-
-/* ========================================== */
-/* 2. 無視計算機 (Ignore Calculator)             */
-/* ========================================== */
-:root {
-    --c-armor-bg: rgba(0, 122, 255, 0.06);  --c-armor-border: rgba(0, 122, 255, 0.15);  --c-armor-text: #007AFF; 
-    --c-weapon-bg: rgba(255, 59, 48, 0.06); --c-weapon-border: rgba(255, 59, 48, 0.15); --c-weapon-text: #FF3B30; 
-    --c-acc-bg: rgba(175, 82, 222, 0.06);    --c-acc-border: rgba(175, 82, 222, 0.15);    --c-acc-text: #AF52DE; 
-    --c-ability-bg: rgba(52, 199, 89, 0.06);--c-ability-border: rgba(52, 199, 89, 0.15);--c-ability-text: #34C759; 
-    --c-special-bg: rgba(255, 149, 0, 0.06);--c-special-border: rgba(255, 149, 0, 0.15);--c-special-text: #FF9500; 
-}
-
-#equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.equip-section { margin-bottom: 20px; }
-.equip-section-title { font-size: 15px; font-weight: bold; margin-bottom: 10px; padding-left: 8px; border-left: 4px solid; }
-
-.text-armor { color: var(--c-armor-text); border-color: var(--c-armor-text); }
-.text-weapon { color: var(--c-weapon-text); border-color: var(--c-weapon-text); }
-.text-acc { color: var(--c-acc-text); border-color: var(--c-acc-text); }
-.text-ability { color: var(--c-ability-text); border-color: var(--c-ability-text); }
-.text-special { color: var(--c-special-text); border-color: var(--c-special-text); }
-
-.equip-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
-.equip-card { border-radius: 12px; border: 1px solid; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: 0.2s ease; }
-.equip-card:focus-within { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
-
-.bg-armor { background: var(--c-armor-bg); border-color: var(--c-armor-border); }
-.bg-weapon { background: var(--c-weapon-bg); border-color: var(--c-weapon-border); }
-.bg-acc { background: var(--c-acc-bg); border-color: var(--c-acc-border); }
-.bg-ability { background: var(--c-ability-bg); border-color: var(--c-ability-border); }
-.bg-special { background: var(--c-special-bg); border-color: var(--c-special-border); }
-
-.card-title { font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
-.card-input-wrapper { display: flex; align-items: center; background: transparent !important; border: none !important; box-shadow: none !important; width: 100%; box-sizing: border-box; margin-top: 4px;}
-.card-input-wrapper input { flex: 1; width: 100%; background: var(--glass-bg) !important; text-align: center; font-size: 16px; font-weight: bold; color: #0071E3 !important; outline: none; border-radius: 6px; padding: 4px; border: 1px solid var(--glass-border) !important; box-shadow: inset 0 1px 3px rgba(0,0,0,0.03) !important;}
-.card-input-wrapper input:focus { background: var(--card-hover) !important; border-color: #0071E3 !important; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important; }
-.card-percent { font-size: 12px; color: var(--text-muted); margin-left: 4px; font-weight: bold; }
-
-.panel-absolab .section-title { color: #007AFF; }
-.absolab-group .radio-label:has(input:checked) { background-color: rgba(0,122,255,0.08); border-color: #007AFF; color: #007AFF; font-weight: bold; }
-.panel-arcane .section-title { color: #AF52DE; }
-.arcane-group .radio-label:has(input:checked) { background-color: rgba(175,82,222,0.08); border-color: #AF52DE; color: #AF52DE; font-weight: bold; }
-
-.radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.radio-label { background: var(--glass-bg); border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; padding: 10px 5px; text-align: center; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; user-select: none; }
-.radio-label input[type="radio"] { display: none; }
-
-.result-gradient { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: bold; border-radius: 12px; margin: 0; background: linear-gradient(135deg, rgba(0,113,227,0.05) 0%, rgba(0,113,227,0.12) 100%); border: 1px solid rgba(0,113,227,0.2); color: #0071E3; }
-.btn-clear { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; background-color: rgba(255,59,48,0.06); color: #FF3B30; border: 1px solid rgba(255,59,48,0.15); }
-.btn-clear:hover { background-color: rgba(255,59,48,0.12); transform: translateY(-2px); }
-
-.ignore-layout-wrapper { display: flex; gap: 20px; align-items: stretch; width: 100%; }
-.ignore-left-panel { flex: 1.4; margin: 0; display: flex; flex-direction: column; }
-.ignore-right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-
-/* ========================================== */
-/* 3. HEXA 進度與懶人決策 (HEXA Progress & Tables) */
-/* ========================================== */
-.core-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
-.prog-item { border-radius: 12px; padding: 12px 10px; text-align: center; background: var(--glass-bg) !important; border: 1px solid rgba(0,0,0,0.05); }
-.prog-item select { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1) !important; text-align: center; font-weight: bold; font-size: 14px; background: var(--input-bg) !important; color: #1D1D1F !important; box-shadow: none !important;}
-.prog-item select:disabled { background-color: rgba(0,0,0,0.03) !important; color: #86868B !important; }
-
-.inv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
-.inv-item { display: flex; flex-direction: column; gap: 5px; }
-.inv-item label { font-size: 13px; font-weight: bold; color: var(--text-main); display: flex; align-items: center; }
-.res-icon { width: 18px; height: 18px; object-fit: contain; margin-right: 6px; }
-
-.prog-bar-wrap { margin-top: 15px; background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); }
-.prog-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: var(--text-main); margin-bottom: 5px; align-items: center; }
-.prog-header span { color: var(--text-muted); font-size: 13px; }
-.prog-bar-bg { width: 100%; height: 20px; background-color: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; margin-bottom: 10px; position: relative; }
-.prog-bar-fill { height: 100%; transition: width 0.4s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: bold; color: white; }
-.prog-fill-frag { background: linear-gradient(90deg, #34C759, #30D158); }
-.prog-fill-sol { background: linear-gradient(90deg, #AF52DE, #BF5AF2); }
-.time-box { background: rgba(0,113,227,0.04); border-left: 4px solid #0071E3; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 15px; line-height: 1.6; color: var(--text-main); }
-
-.hexa-inputs { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 15px; }
-.hexa-inputs div { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 60px;}
-.hexa-inputs input { width: 50px; border-radius: 6px; }
-.target-divider { width: 100%; height: 1px; background-color: rgba(0,0,0,0.05); margin: 10px 0; }
-.checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #FF3B30; font-weight: bold; margin-top: 10px;}
-.checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
-
-.lazy-table-container { 
-    width: 100%; max-width: 100%; border: none !important; background: transparent !important; 
-    box-shadow: none !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; border-radius: 12px; 
-}
-.lazy-table { width: 100%; border-collapse: collapse; font-size: 14.5px; text-align: center; background: var(--glass-bg) !important; backdrop-filter: blur(8px); }
-.lazy-table th { background-color: var(--glass-border) !important; color: var(--text-main) !important; padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.1) !important; font-weight: 700 !important; }
-.lazy-table td { padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.05) !important; vertical-align: middle; border-left: none !important; border-right: none !important; color: var(--text-main);}
-.lazy-table tr:hover { background-color: var(--card-hover) !important; }
-.lazy-table tr:last-child td { border-bottom: none !important; }
-
-.tag { padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: bold; color: #fff; display: inline-block; }
-.tag-green { background-color: #34C759; }
-.tag-yellow { background-color: #FF9500; }
-.tag-red { background-color: #FF3B30; }
-.loader { font-weight: bold; color: #0071E3; text-align: center; padding: 20px; }
-
-.update-list { line-height: 1.8; color: var(--text-main); padding-left: 20px; }
-.update-list li { margin-bottom: 8px; }
-.disclaimer-box { background: rgba(255,59,48,0.04); padding: 18px; border-radius: 12px; border-left: 6px solid #FF3B30; line-height: 1.8; color: var(--text-main); box-shadow: none; }
-
-.mobile-br { display: none; }
-.desktop-space { display: inline; }
-
-/* ========================================== */
-/* 🛡️ 4. HEXA 屬性模擬器 (1:1 復刻防護網)         */
-/* ========================================== */
-#tab-hexa-visual .visual-container { width: 100%; max-width: 720px; margin: 0 auto; background-color: #171b2f !important; padding: 25px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8) !important; color: white !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border: none !important; }
-#tab-hexa-visual .visual-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1) !important; }
-#tab-hexa-visual .v-fragment-text { font-size: 15px; color: #a1c4fd !important; font-weight: bold; display: flex; align-items: center; }
-#tab-hexa-visual .frag-icon { width: 18px; height: 18px; margin-right: 6px; filter: none !important;}
-#tab-hexa-visual .v-top-controls { display: flex; gap: 8px; }
-#tab-hexa-visual .v-btn-top { background-color: #34495e !important; color: white !important; border: none !important; padding: 6px 12px; font-size: 13px; border-radius: 4px; transition: 0.2s; font-weight: bold; }
-#tab-hexa-visual .v-btn-top:hover { background-color: #4b6584 !important; }
-#tab-hexa-visual .v-btn-top.muted-active { background-color: #7f8c8d !important; color: #bdc3c7 !important; border-color: transparent !important; }
-#tab-hexa-visual .v-core-title { font-size: 16px; font-weight: bold; color: #dbe4f0 !important; margin-bottom: 15px; padding-left: 5px; }
-
-#tab-hexa-visual .visual-box { background: linear-gradient(180deg, #2b3e75 0%, #1e2a55 100%) !important; border: 1.5px solid #5a7ec2 !important; border-radius: 8px; padding: 15px 20px; display: flex; align-items: center; gap: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3) !important; margin-bottom: 15px; backdrop-filter: none !important;}
-#tab-hexa-visual .hexa-img { width: 55px; height: 55px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)) !important; }
-#tab-hexa-visual .v-content { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
-#tab-hexa-visual .v-header-row { display: flex; justify-content: space-between; align-items: flex-end; }
-#tab-hexa-visual .v-title-main { color: #d094ff !important; font-weight: bold; font-size: 15px; } 
-#tab-hexa-visual .v-title-sub { color: #8cb6ff !important; font-weight: bold; font-size: 15px; }  
-#tab-hexa-visual .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff !important; letter-spacing: 1px; margin-top: 2px;}
-#tab-hexa-visual .v-prob { color: #b3c2d1 !important; font-size: 14px; }
-#tab-hexa-visual .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15 !important; border: 2px solid #0a1128 !important; border-radius: 2px; gap: 2px; padding: 1px; }
-#tab-hexa-visual .v-segment { flex: 1; background-color: #0b132b !important; transition: all 0.2s ease-in-out; border-radius: 0 !important; }
-#tab-hexa-visual .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%) !important; box-shadow: 0 0 8px #d094ff !important; border-top: 1px solid #ffccff !important; }
-#tab-hexa-visual .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%) !important; box-shadow: 0 0 8px #66eeff !important; border-top: 1px solid #b3ffff !important; }
-
-#tab-hexa-visual .visual-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.05) !important; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1) !important; gap: 15px;}
-#tab-hexa-visual .v-control-group { display: flex; align-items: center; gap: 12px; }
-#tab-hexa-visual .v-reset-tracker { font-size: 14px; color: #bdc3c7 !important; font-weight: normal !important;}
-#tab-hexa-visual .v-btn { background: linear-gradient(135deg, #e67e22, #d35400) !important; color: white !important; border: none !important; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; box-shadow: none !important; }
-#tab-hexa-visual .v-btn:hover { filter: brightness(1.2) !important; transform: none !important;}
-#tab-hexa-visual .v-btn:active { transform: scale(0.95) !important; }
-#tab-hexa-visual .v-btn-10x { background: linear-gradient(135deg, #8e44ad, #6c3483) !important; color: white !important; border: none !important; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s; box-shadow: none !important; }
-#tab-hexa-visual .v-btn-10x:hover { filter: brightness(1.2) !important; transform: none !important;}
-#tab-hexa-visual .v-btn-10x:active { transform: scale(0.95) !important; }
-#tab-hexa-visual .v-btn-reset { background-color: #7f8c8d !important; color: white !important; border: none !important; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; transition: transform 0.1s, filter 0.2s, background 0.3s; box-shadow: none !important; }
-#tab-hexa-visual .v-btn-reset:active { transform: scale(0.95) !important; }
-#tab-hexa-visual .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400) !important; box-shadow: 0 0 10px rgba(230, 126, 34, 0.5) !important; border-color: transparent !important;}
-#tab-hexa-visual .v-btn-reset.highlight:hover { filter: brightness(1.2) !important; transform: none !important;}
-
-/* ========================================== */
-/* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
-/* ========================================== */
-.msm-forge-ui, .msm-forge-ui *, .msm-forge-ui *:before, .msm-forge-ui *:after,
-.modal-box, .modal-box *, .modal-box *:before, .modal-box *:after,
-.cr-confirm-box, .cr-confirm-box *, .cr-confirm-box *:before, .cr-confirm-box *:after {
-    box-sizing: content-box !important;
-}
-.msm-forge-ui, .modal-box { color: #333 !important; font-family: "微軟正黑體", Arial, sans-serif !important; }
-.msm-forge-ui { width: 100%; max-width: 720px; margin: 0 auto; display: flex; flex-direction: column;  box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; border-radius: 6px; overflow: hidden; }
-.forge-header { background-color: #455468; color: white !important; padding: 12px 20px; font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
-.forge-info-icon { display: inline-flex; justify-content: center; align-items: center; width: 22px; height: 22px; border: 2px solid white; border-radius: 4px; font-size: 14px; transform: rotate(45deg); }
-.forge-info-icon span { transform: rotate(-45deg); }
-.forge-body { display: flex; width: 100%; background-color: #f4f5f7; }
-.forge-sidebar { width: 115px; background-color: #344253; display: flex; flex-direction: column; flex-shrink: 0; }
-.menu-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #a6b2c2 !important; font-size: 14px; font-weight: bold; border-bottom: 1px solid #2a3543; transition: background-color 0.2s;}
-.menu-item:last-child { border-bottom: none; }
-.menu-item.active { background-color: #ed7245; color: white !important; border-bottom: none; }
-.forge-main { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 480px; }
-
-.sec-top { display: flex; justify-content: center; align-items: flex-start; padding: 20px; gap: 20px; background-color: #F0F0F0; transition: background-color 0.2s}
-.sec-white { background-color: #ffffff; padding: 1px 0; text-align: center; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60px; transition: background-color 0.2s;}
-.sec-grey-mid { background-color: #F0F0F0; padding: 15px 30px; display: flex; flex-direction: column; align-items: center; flex: 1; transition: background-color 0.2s;}
-.sec-bottom { background-color: #FCFCFC; width: 100%; padding: 20px 0; display: flex; justify-content: center; align-items: center; gap: 15px; transition: background-color 0.2s;}
-
-.item-col { display: flex; flex-direction: column; align-items: center; width: 140px;}
-.img-box { width: 85px; height: 85px; background-color: #e4e6e9; border: 1px solid #dcdde1; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); position: relative; }
-.img-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; filter: none !important; }
-.dynamic-lv-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(17, 17, 17, 0.9); color: #ffffff !important; font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: -0.1px; line-height: 1; padding: 2px 4px; border-radius: 10px; border: none; z-index: 10; min-width: 36px; text-align: center; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-.equip-name { font-size: 12px; font-weight: bold; color: #333 !important; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; }
-
-.fail-text { font-size: 12px; color: #888 !important; }
-.plus-sign { font-size: 35px; font-weight: bold; color: #888 !important; margin-top: 20px; }
-.lv-arrow { color: #f3724c !important; margin: 0 20px; font-size: 24px; display: inline-block; transform: scaleX(1.5); }
-.lv-text { font-size: 22px; font-weight: bold; color: #555 !important; }
-.lv-next { color: #f3724c !important; }
-
-.rate-box { width: 100%; text-align: center; margin-bottom: 15px; }
-.rate-title { font-size: 18px; font-weight: bold; color: #555 !important; margin-bottom: 5px;}
-.rate-highlight { font-size: 22px; color: #f3724c !important; margin-left: 5px;}
-.rate-detail { font-size: 13px; color: #666 !important; margin-bottom: 15px;}
-.rate-detail span { color: #f3724c !important; }
-hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0; width: calc(100% + 60px); }
-
-.bonus-row { width: 65%; margin: 0 auto 5px auto; display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #555 !important; margin-top: -15px; margin-bottom: 0px; }
-.desc-text { font-size: 12px; color: #777 !important; text-align: center; line-height: 1.6; font-weight: bold; width: 90%; }
-.coin-box { background: #ffffff; padding: 10px 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; color: #333 !important; display: flex; align-items: center; gap: 8px; width: 200px; justify-content: center; font-weight: bold; }
-
-.btn-action-tr { padding: 12px 0; width: 140px; font-size: 18px; font-weight: bold; color: white !important; border: none; border-radius: 6px; transition: 0.1s; background-color: #ed7245; box-shadow: 0 3px 0 #d35400; }
-.btn-action-tr:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
-.btn-action-tr:disabled { background-color: #bdc3c7; box-shadow: 0 3px 0 #95a5a6; cursor: not-allowed; }
-
-/* 🌟 鐵匠鋪下方設定面板 (改為變數，完美吃夜間模式) */
-.settings-panel { 
-    width: 100%; max-width: 720px; margin: 0px auto 0 auto; 
-    background: var(--glass-bg) !important; 
-    backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
-    border: 1px solid var(--glass-border) !important; 
-    border-radius: 16px !important; padding: 20px; box-sizing: border-box; box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
-    color: var(--text-main);
-}
-.settings-title { font-size: 16px; font-weight: 700; color: #0071E3 !important; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 6px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
-.setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; color: var(--text-main) !important; flex-wrap: wrap; }
-.setting-row input[type="number"], .setting-row select { font-weight: bold;}
-.setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--text-main) !important; }
-.stats-text { font-size: 14px; color: var(--text-main) !important; text-align: left; background: var(--glass-bg) !important; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05) !important; margin-top: 15px;}
-.btn-reset-tr { width: 100%; padding: 12px; margin-top: 15px; background: rgba(0,0,0,0.05); color: var(--text-main); border: none; border-radius: 10px; font-weight: 600; transition: 0.2s; cursor: pointer; }
-.btn-reset-tr:hover { background: rgba(0,0,0,0.08); }
-.btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 6px 12px; border-radius: 8px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
-.btn-sound.muted { background: #FF3B30; color: white; border-color: #FF3B30; }
-
-.modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
-.modal-backdrop.active { display: flex; }
-.modal-box { width: 90%; max-width: 420px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); display: flex; flex-direction: column; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-@keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-.modal-header { background: #4a5468; color: #ffffff !important; text-align: center; padding: 18px; font-size: 22px; font-weight: bold; }
-.m-enh-grey-top { background-color: #F0F0F0; padding: 15px 20px 0px 20px !important; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.m-enh-grey-top .lv-text { margin-top: 8px !important; margin-bottom: 5px !important; font-size: 18px !important; }
-.m-enh-white-mid { background-color: #ffffff; padding: 12px 20px 20px 20px; text-align: center; } 
-.m-enh-grey-bot { background-color: #e4e6e9; padding: 20px; display: flex; justify-content: center; }
-
-.m-scr-white-body { background-color: #ffffff; padding: 35px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.m-scr-grey-box { background-color: #F0F0F0; margin: 20px auto; padding: 14px; border-radius: 4px; width: 85%; font-weight: bold; font-size: 16px; text-align: center; letter-spacing: 0.5px;}
-.m-scr-text-orange { color: #ed7245 !important; } 
-.m-scr-text-grey { color: #888888 !important; } 
-
-.m-item-name { font-size: 13px; font-weight: bold; color: #333 !important; margin-top: 10px;}
-.m-fail-text { font-size: 12px; color: #777 !important; margin-top: 3px;}
-.m-fail-change { color: #777 !important; font-weight: bold; margin-left: 4px; } 
-.m-status-title { font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #333 !important; }
-.m-status-sub { font-size: 12px; color: #7f8c8d !important; margin-bottom: 10px; }
-.m-bonus-rate { font-size: 22px; color: #f3724c !important; font-weight: bold; margin-bottom: 5px; }
-.m-bonus-hint { font-size: 11px; color: #95a5a6 !important; }
-.m-btn { background: #ed7245; color: #fff !important; border: none; padding: 14px 0; font-size: 18px; font-weight: bold; border-radius: 8px; width: 60%; box-shadow: 0 4px 0 #d35400; transition: 0.1s; }
-.m-btn:active { transform: translateY(4px); box-shadow: none; }
-
-.scroll-mode-active #ui-level-content { display: none !important; } 
-.scroll-mode-active .sec-middle { background-color: #ffffff !important; justify-content: center !important; padding: 30px 20px !important; } 
-.scroll-mode-active #ui-rate-wrapper { display: none !important; } 
-.scroll-mode-active #ui-divider-line { display: none !important; } 
-.scroll-mode-active #ui-bonus-row { display: none !important; }    
-.scroll-mode-active .desc-text { color: #555 !important; font-weight: normal; margin-bottom: 0; }
-.scroll-mode-active #ui-coin-box { display: none !important; } 
-.scroll-mode-active .sec-bottom { background-color: #ffffff !important; padding-top: 10px !important; }
-
-.lightning-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; justify-content: center; align-items: center; overflow: hidden; }
-.lightning-overlay.active { display: flex; animation: flash-bang 1s ease-out forwards; }
-.lightning-img { width: 150%; height: 150%; object-fit: cover; transform: rotate(-15deg); mix-blend-mode: screen; animation: strike-flicker 0.6s infinite alternate; }
-@keyframes flash-bang { 0% { background-color: rgba(255,255,255,0); } 10% { background-color: rgba(255,255,255,1); } 30% { background-color: rgba(255,255,255,0.5); } 100% { background-color: rgba(255,255,255,0); } }
-@keyframes strike-flicker { 0% { opacity: 0; transform: scale(0.9) rotate(-15deg); } 20% { opacity: 1; transform: scale(1.2) rotate(-15deg); } 40% { opacity: 0.2; } 60% { opacity: 1; transform: scale(1.0) rotate(-15deg); } 80% { opacity: 0; } 100% { opacity: 1; transform: scale(1.1) rotate(-15deg); } }
-
-/* ========================================== */
-/* 7. 製作模擬器特定設定 (Craft Specific)        */
-/* ========================================== */
-#cr-game-ui-container .sec-top { display: flex !important; justify-content: center !important; align-items: flex-start !important; gap: 15px !important; padding: 20px 0 15px 0 !important; flex-wrap: nowrap !important; }
-#cr-game-ui-container .item-col { display: flex !important; flex-direction: column !important; align-items: center !important; width: 85px !important; min-width: 85px !important; max-width: 85px !important; flex: 0 0 85px !important; margin: 0 !important; padding: 0 !important; }
-#cr-game-ui-container .img-box { width: 85px !important; height: 85px !important; margin: 0 0 5px 0 !important; flex-shrink: 0 !important; }
-#cr-game-ui-container .plus-sign { display: block !important; width: 30px !important; min-width: 30px !important; flex: 0 0 30px !important; text-align: center !important; font-size: 35px !important; margin: 0 !important; padding: 0 !important; margin-top: 25px !important; line-height: 1 !important; color: #888 !important;}
-#cr-game-ui-container .item-col:nth-child(3) { margin-right: 25px !important; }
-#cr-game-ui-container .equip-name { width: max-content !important; max-width: none !important; white-space: nowrap !important; overflow: visible !important; font-size: 12px !important; text-align: center !important; margin: 0 !important; letter-spacing: -0.2px !important; color: #333 !important; }
-#cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 11px !important; letter-spacing: -0.5px !important; }
-#cr-game-ui-container .forge-main { height: 520px; }
-
-.cr-confirm-box { width: 90%; max-width: 380px; background: #fff; border-radius: 12px; overflow: hidden; text-align: center; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); color: #333; }
-.cr-confirm-header { background: #455468; color: white !important; padding: 14px; font-size: 18px; font-weight: bold; letter-spacing: 1px; }
-.cr-confirm-body { padding: 25px 15px; font-size: 15px; line-height: 1.6; color: #333 !important; }
-.cr-confirm-footer { display: flex; gap: 12px; padding: 0px 20px 20px; }
-.cr-btn-cancel { flex: 1; background: #5482a9; color: white !important; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s;}
-.cr-btn-cancel:hover { background: #436a8b; }
-.cr-btn-confirm { flex: 1; background: #ed7245; color: white !important; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
-.cr-btn-confirm:hover { background: #d35400; }
-.cr-result-stats { background: #fff; padding: 12px 15px; text-align: left; font-size: 13px; line-height: 1.2; font-weight: bold; border-top: 1px solid #eee; color: #333 !important; }
-.cr-stat-row { display: flex; justify-content: space-between; margin-bottom: 0px; padding: 4px 0; }
-
-@keyframes cr-flash-success { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(180, 50, 255, 0.5); } 50% { background-color: rgba(220, 100, 255, 0.8); } 65% { background-color: rgba(255, 255, 255, 1); } 85% { background-color: rgba(240, 200, 255, 0.9); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
-@keyframes cr-flash-fail { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(180, 50, 255, 0.5); } 50% { background-color: rgba(220, 100, 255, 0.8); } 65% { background-color: rgba(0, 0, 0, 0.75); } 85% { background-color: rgba(0, 0, 0, 0.65); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
-.cr-anim-success { display: block !important; animation: cr-flash-success 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
-.cr-anim-fail { display: block !important; animation: cr-flash-fail 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
-
-@keyframes cr-flash-success-gold { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(255, 150, 0, 0.5); } 50% { background-color: rgba(255, 200, 50, 0.8); } 65% { background-color: rgba(255, 255, 255, 1); } 85% { background-color: rgba(255, 240, 180, 0.9); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
-@keyframes cr-flash-fail-gold { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(255, 150, 0, 0.5); } 50% { background-color: rgba(255, 200, 50, 0.8); } 65% { background-color: rgba(0, 0, 0, 0.75); } 85% { background-color: rgba(0, 0, 0, 0.65); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
-.cr-anim-success-gold { display: block !important; animation: cr-flash-success-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
-.cr-anim-fail-gold { display: block !important; animation: cr-flash-fail-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
-
-
-/* ========================================== */
-/* 🌟 8. 威爾練習機 (移除硬代碼，全面掛上變數玻璃) */
-/* ========================================== */
-.container:has(#tab-will.active) {
-    padding: 0 !important; 
-    max-width: 100% !important; 
-    border-radius: 0 !important; 
-    margin: 3vh auto 20px auto !important; /* ✨ 關鍵：恢復原本的 3vh 頂部距離，讓標題不貼緊 */
-    background: transparent !important; 
-    border: none !important; 
-    box-shadow: none !important;
-}
-#tab-will.active { padding: 0; margin: 0; width: 100%; display: flex; flex-direction: column; }
-#will-game-wrapper {
-    position: relative; width: 100%; max-width: 1300px !important; margin: 0 auto; 
-    background-color: #000; overflow: hidden; border-radius: 8px; touch-action: none; user-select: none;
-    display: flex; justify-content: center; align-items: center;
-}
-#will-inner-container { position: relative; width: 100%; aspect-ratio: 1741 / 713; max-width: min(100%, calc(85vh * (1741 / 713))); margin: 0 auto; }
-#willCanvas { width: 100%; height: 100%; display: block; touch-action: none; background: #000; }
-#will-status-container { position: absolute; top: 5%; left: 50%; transform: translateX(-50%); text-align: center; z-index: 100; pointer-events: none; width: 100%; }
-#will-status { font-weight: bold; font-size: 28px; color: #2ecc71; text-shadow: 2px 2px 4px #000, 0 0 10px #000; margin-bottom: 5px; }
-#will-timer { font-weight: bold; color: #fff; font-size: 18px; text-shadow: 2px 2px 4px #000; margin-top: 5px; }
-#tab-will .will-z-1000 { z-index: 1000 !important; } 
-#tab-will .will-font-20 { font-size: 20px !important; }
-#tab-will .will-mt-3 { margin-top: 3px; }
-#tab-will .will-ml-4 { margin-left: 4px; }
-
-#ms-player-hud { position: absolute; top: 0; left: 0; z-index: 150; pointer-events: none; display: flex; flex-direction: column; gap: 2px; font-family: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; letter-spacing: 0.5px; background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 75%, transparent 100%); padding: 12px 40px 12px 12px; border-radius: 0; }
-.ms-lv, #ms-name-text, .ms-stat-text { text-shadow: -1px -1px 0 #111, 1px -1px 0 #111, -1px 1px 0 #111, 1px 1px 0 #111, 0px 2px 2px rgba(0,0,0,0.8) !important; -webkit-text-stroke: 0px transparent !important; }
-.ms-hud-name-row { font-weight: 900; margin-bottom: 2px; display: flex; gap: 6px; align-items: baseline; }
-.ms-lv { color: #ffdf00; font-size: 16px; } 
-#ms-name-text { color: #ffffff; font-size: 18px; }
-.ms-bar-row { position: relative; width: 175px; height: 12px; display: flex; align-items: center; margin-bottom: 1px; }
-.ms-bar-bg { width: 100%; height: 90%; background-color: #222; border: 1px solid #000; border-radius: 2px; box-shadow: 0 1px 20px rgba(0,0,0,0.5); overflow: hidden; }
-.ms-hp-fill { width: 100%; height: 100%; background: linear-gradient(to right, #d90000 0%, #ff4444 100%); border-right: none; }
-.ms-mp-fill { width: 100%; height: 100%; background: linear-gradient(to right, #0077dd 0%, #22bbff 100%); border-right: none; }
-.ms-bar-text { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); color: white; font-size: 14px; line-height: 1; font-weight: 100; font-family: Tahoma, Arial, sans-serif; letter-spacing: 0px; text-shadow: -1px -1px 0 #111, 1px -1px 0 #111, -1px 1px 0 #111, 1px 1px 0 #111, 1px 1px 1px rgba(0,0,0,0.9) !important; -webkit-text-stroke: 0px transparent !important; }
-.ms-stat-row { display: flex; align-items: center; gap: 5px; margin-top: 1px; }
-.ms-stat-text { color: #ffffff; font-size: 14px; font-weight: bold; }
-.ms-dark-pill { background: linear-gradient(to right, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 60%, transparent 100%); border-radius: 12px 0 0 12px; padding: 2px 40px 2px 2px; align-self: flex-start; }
-.ms-hit-pill { background: linear-gradient(to right, rgba(80,0,0,0.65) 0%, rgba(60,0,0,0.25) 60%, transparent 100%); margin-top: 2px; }
-
-.ms-icon { width: 16px; height: 16px; background-color: #555; border: 1px solid #111; border-radius: 4px; box-shadow: inset 0 1px 2px rgba(255,255,255,0.2); background-size: 75%; background-position: center; background-repeat: no-repeat; }
-.ms-icon-cp { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 2l3 3-1 1-3-3-1 1 3 3-1 1-3-3L2 6l5-5 1 1zm12 0l-3 3 1 1 3-3 1 1-3 3 1 1-3 3 1-1-5-5-1 1zM3 21l3-3 1 1-3 3-1-1zm18 0l-3-3-1 1 3 3 1-1zM12 10l-2 2 2 2 2-2-2-2z'/%3E%3C/svg%3E"); }
-.ms-icon-map { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E"); }
-.ms-icon-hit { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b6b'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E"); }
-
-.glass-panel { position: absolute; background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); border-top: 1px solid rgba(255,255,255,0.4); border-left: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); border-radius: 12px; display: flex; gap: 10px; padding: 6px 10px; z-index: 1000 !important; }
-#glass-controls-top { top: 15px; right: 15px; }
-#glass-controls-mid { top: 50%; right: 15px; transform: translateY(-50%); }
-#glass-controls-bottom { bottom: 15px; right: 15px; }
-.glass-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); border-radius: 8px; width: 36px; height: 36px; font-size: 16px; font-family: Arial, sans-serif !important; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s; box-shadow: inset 0 0 8px rgba(255,255,255,0.05), 0 4px 10px rgba(0,0,0,0.1); pointer-events: auto !important; }
-.glass-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); color: #fff; box-shadow: inset 0 0 10px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.2); }
-.glass-btn:active { transform: translateY(1px) scale(0.95); background: rgba(255,255,255,0.2); }
-.glass-btn-restart { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.08) !important; border: 1px solid rgba(255, 255, 255, 0.2) !important; border-top: 1px solid rgba(255, 255, 255, 0.5) !important; border-left: 1px solid rgba(255, 255, 255, 0.5) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; padding: 14px 35px; font-size: 20px; font-weight: bold; border-radius: 12px; cursor: pointer; z-index: 1000 !important; box-shadow: 0 8px 32px rgba(0,0,0,0.5); transition: all 0.3s ease; pointer-events: auto !important; }
-.glass-btn-restart:hover { background: rgba(255, 255, 255, 0.2) !important; transform: translate(-50%, -52%); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
-.glass-btn-restart:active { transform: translate(-50%, -49%) scale(0.95); }
-.hint-bulb-btn { filter: grayscale(1) opacity(0.5); transition: all 0.3s ease !important; }
-.hint-bulb-btn.active-hint { filter: grayscale(0) opacity(1) drop-shadow(0 0 6px #f1c40f) !important; color: #f1c40f !important; }
-#joystick-base { position: absolute; bottom: 10%; left: 5%; width: 130px; height: 130px; border-radius: 50%; z-index: 100; display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); border-top: 1px solid rgba(255,255,255,0.4); border-left: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.05); }
-#joystick-stick { width: 55px; height: 55px; border-radius: 50%; pointer-events: none; transition: transform 0.1s; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%); border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 2px 10px rgba(255,255,255,0.4); }
-
-#tab-will .instructions-panel { display: block !important; visibility: visible !important; opacity: 1 !important; }
-
-/* 🌟 威爾練習機底部面板替換為變數，完美吃夜間設定 */
-#tab-will .settings-panel,
-#tab-will .instructions-panel {
-    background: var(--glass-bg); 
-    backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: 1px solid var(--glass-border); 
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1), inset 0 0 12px var(--glass-border); 
-    border-radius: 16px; padding: 25px; 
-    font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
-    position: relative; z-index: 10; color: var(--text-main);
-    max-width: 1000px !important; margin: 10px auto !important; box-sizing: border-box;
-}
-
-#tab-will .container, 
-#tab-will > div {max-width: 100% !important; width: 100% !important;}
-#tab-will .inst-btn-grid {display: grid !important;grid-template-columns: repeat(2, 1fr) !important;gap: 10px !important;width: 100% !important;}
-#tab-will .inst-btn-grid > div:nth-child(5),
-#tab-will .inst-btn-grid > div:nth-child(6) {grid-column: span 2 !important;}
-
-#tab-will .settings-title { margin-top: 0; margin-bottom: 12px; font-size: 18px; color: var(--text-main); font-weight: 900; border-bottom: none; text-shadow: none; }
-#tab-will .setting-row { display: flex; align-items: center; flex-wrap: wrap; font-weight: bold; color: var(--text-main); border-bottom: 1px solid rgba(178, 187, 237, 0.2); padding-bottom: 12px; margin-top: 15px; gap: 8px; }
-#tab-will .setting-row:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-#tab-will .setting-label { margin-right: 0px; color: var(--text-main); font-weight: bold; }
-#tab-will .setting-opt { cursor: pointer; display: flex; align-items: center; gap: 5px; color: var(--text-main); font-weight: bold; }
-#tab-will .custom-num-input { width: 40px; text-align: center; border: 1px solid var(--glass-border); border-radius: 6px; padding: 3px; font-weight: bold; font-size: 14px; background: var(--input-bg); color: var(--text-main); outline: none; transition: all 0.3s; box-shadow: none; }
-#tab-will .custom-num-input:focus { border-color: #9CEAFE; box-shadow: 0 0 5px rgba(156,234,254,0.5); }
-#tab-will .will-vol-group-wrapper { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap !important; }
-#tab-will .vol-group { display: flex; align-items: center; gap: 8px; border-left: 2px solid rgba(178, 187, 237, 0.2); padding-left: 12px; margin-left: 5px; white-space: nowrap !important; }
-
-#tab-will .inst-section { margin-bottom: 10px; background: var(--card-bg); border-radius: 12px; padding: 15px 20px; border: 1px solid var(--glass-border); }
-#tab-will .inst-section:last-child { margin-bottom: 0 !important; }
-#tab-will .inst-subtitle { color: var(--text-main); font-size: 15px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(178, 187, 237, 0.2); padding-bottom: 8px; }
-#tab-will .inst-list { color: var(--text-muted); font-size: clamp(12px, 3vw, 14px); line-height: 1.8; padding-left: 22px; margin: 0; }
-#tab-will .inst-list b { color: #C88DDD; }
-#tab-will .inst-section-compact { margin-bottom: 8px !important; padding: 12px 15px !important; }
-#tab-will .inst-subtitle-compact { margin-bottom: 6px !important; padding-bottom: 4px !important; font-size: 14px !important; }
-#tab-will .inst-list-compact { line-height: 1.5 !important; gap: 2px !important; }
-#tab-will .inst-list-compact li { font-size: clamp(12px, 3vw, 13px) !important; }
-#tab-will .mock-btn { flex-shrink: 0; pointer-events: none; width: clamp(28px, 8vw, 36px); height: clamp(28px, 8vw, 36px); font-size: clamp(14px, 4vw, 18px); display: flex; justify-content: center; align-items: center; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-#tab-will .inst-mock-glass-panel { display: flex; gap: clamp(2px, 1vw, 4px); padding: 3px; justify-content: center; align-items: center; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 8px; margin-right: clamp(2px, 1vw, 5px); flex-shrink: 0; }
-#tab-will .inst-mock-glass-panel .mock-btn { width: clamp(24px, 6vw, 30px); height: clamp(24px, 6vw, 30px); font-size: clamp(12px, 3vw, 14px); box-shadow: none; border-color: rgba(0, 0, 0, 0.05); background: var(--input-bg); }
-#tab-will .inst-zoom-text { font-size: clamp(10px, 2.5vw, 12px); color: var(--text-main); font-family: monospace; font-weight: bold; display: flex; justify-content: center; align-items: center; line-height: 1; padding: 0; margin: 0; }
-#tab-will .inst-btn-item { display: flex; align-items: center; gap: clamp(8px, 2vw, 12px); padding: 8px 10px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--glass-border); transition: all 0.3s ease; overflow: hidden; }
-#tab-will .inst-btn-text { color: var(--text-main); font-size: clamp(12px, 3.5vw, 14px); line-height: 1.2; white-space: nowrap; }
-#tab-will .span-special .inst-btn-text { white-space: normal; line-height: 1.4; }
-#tab-will .span-special .inst-btn-text span { color: var(--text-muted); font-size: clamp(11px, 3vw, 12px); }
-
-.will-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-#will-result-overlay { z-index: 600; display: none; }
-.zoom-text { color: rgba(255, 255, 255, 0.9); font-weight: bold; font-size: 15px; font-family: monospace; display: flex; align-items: center; min-width: 40px; justify-content: center; text-shadow: none; }
-.start-card { background: rgba(15, 15, 20, 0.45) !important; backdrop-filter: blur(16px) saturate(120%) !important; -webkit-backdrop-filter: blur(16px) saturate(120%) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-top: 1px solid rgba(255, 255, 255, 0.4) !important; border-left: 1px solid rgba(255, 255, 255, 0.4) !important; box-shadow: 0 8px 25px rgba(0,0,0,0.25), inset 0 0 20px rgba(255,255,255,0.05) !important; border-radius: 16px !important; padding: 30px !important; text-align: center; display: flex; flex-direction: column; align-items: center; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-width: 450px; width: 90%; pointer-events: auto; }
-.will-game-title { font-size: 26px; font-weight: bold; color: white; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px; text-align: center; }
-.will-rule-box { font-size: 14px; color: #bdc3c7; text-shadow: 0 1px 4px rgba(0,0,0,0.8); background: rgba(0, 0, 0, 0.4); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); display: grid; grid-template-columns: auto auto; justify-content: center; gap: 8px 6px; text-align: left; align-items: center; width: 100%; max-width: 250px; box-sizing: border-box; margin: 0 auto 16px auto; }
-.will-rule-green { color: #2ecc71; font-weight: bold; white-space: nowrap; }
-.will-rule-red { color: #e74c3c; font-weight: bold; white-space: nowrap; }
-.will-rule-highlight { color: white; font-weight: bold; margin: 0 2px; }
-.green-line { border-bottom: 1px solid #2ecc71; }
-.red-line { border-bottom: 1px solid #e74c3c; }
-.will-input-group { display: flex; flex-direction: row; gap: 8px; width: 100%; max-width: 250px; justify-content: center; align-items: center; margin: 0 auto; }
-
-.glass-input, .glass-btn-start { box-sizing: border-box !important; height: 50px !important; margin: 0 !important; }
-.glass-input { flex: none !important; width: 100% !important; max-width: 100% !important; text-align: center; font-weight: bold; font-size: 16px; background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.2) !important; border-top: 1px solid rgba(255,255,255,0.4) !important; border-left: 1px solid rgba(255,255,255,0.4) !important; color: white !important; padding: 0 15px !important; border-radius: 8px !important; outline: none; box-shadow: inset 0 0 8px rgba(0,0,0,0.2) !important; transition: all 0.3s ease; pointer-events: auto !important; }
-.glass-input::placeholder { color: rgba(255,255,255,0.5); font-weight: normal; }
-.glass-input:focus { background: rgba(255,255,255,0.1) !important; border-color: rgba(255,255,255,0.6) !important; box-shadow: 0 0 10px rgba(255,255,255,0.2), inset 0 0 8px rgba(0,0,0,0.2) !important; }
-.glass-btn-start { flex: 0 0 auto !important; display: flex !important; align-items: center !important; justify-content: center !important; white-space: nowrap !important; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-top: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); color: white; padding: 0 25px !important; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-shadow: 0 2px 4px rgba(0,0,0,0.5); pointer-events: auto !important; }
-.glass-btn-start:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-.glass-btn-start:active { transform: translateY(1px) scale(0.95); background: rgba(255,255,255,0.15); }
-.start-card .start-custom-input { flex: 1 !important; min-width: 0 !important; max-width: none !important; height: 40px !important; font-size: 14px !important; padding: 0 12px !important; margin: 0 !important; }
-.start-card .start-custom-btn { flex-shrink: 0 !important; height: 40px !important; font-size: 15px !important; padding: 0 16px !important; margin: 0 !important; }
-
-.result-card { background: rgba(15, 15, 20, 0.45) !important; backdrop-filter: blur(16px) saturate(120%) !important; -webkit-backdrop-filter: blur(16px) saturate(120%) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-top: 1px solid rgba(255, 255, 255, 0.4) !important; border-left: 1px solid rgba(255, 255, 255, 0.4) !important; box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05) !important; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; box-sizing: border-box !important; width: 90% !important; max-width: 320px !important; height: auto !important; border-radius: 16px !important; padding: 20px 25px !important; display: flex; flex-direction: column; justify-content: space-between; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: auto; }
-.result-stat { display: grid !important; grid-template-columns: 70px 1fr !important; gap: 10px !important; align-items: center; font-size: 14px !important; margin-bottom: 8px !important; }
-.stat-label { color: #95a5a6 !important; font-weight: bold; text-align: left !important; line-height: 1.2 !important; }
-.stat-value, div.result-stat:nth-child(1) .stat-value { color: #ffffff !important; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); text-align: center !important; word-break: break-all; white-space: normal; line-height: 1.3 !important; }
-.result-total { margin-top: 5px !important; border-top: 1px solid rgba(255,255,255,0.15) !important; padding-top: 12px !important; margin-bottom: 15px !important; display: flex !important; justify-content: center; gap: 30px !important; align-items: center; }
-.result-total .stat-label { padding-left: 0 !important; }
-.will-res-title { font-size: 16px; color: #ffffff !important; }
-.will-res-hit-val { color: #ff6b6b !important; font-weight: 900; font-size: 18px; text-shadow: 0 2px 10px rgba(255,107,107,0.4); }
-.will-res-hit-num { font-size: 32px; }
-.will-res-btn-group { display: flex; gap: 15px; margin-top: auto !important; width: 100%; justify-content: center; }
-.btn-res-secondary, .btn-res-primary { flex: 1 !important; max-width: none !important; height: 36px !important; font-size: 14px !important; padding: 0 !important; margin: 0 !important; border-radius: 8px !important; font-weight: bold !important; cursor: pointer !important; transition: all 0.3s !important; display: flex; justify-content: center; align-items: center; border: none !important; pointer-events: auto !important; z-index: 1000 !important;}
-.btn-res-secondary { background: rgba(255,255,255,0.05) !important; color: rgba(255,255,255,0.8) !important; border: 1px solid rgba(255,255,255,0.2) !important; }
-.btn-res-secondary:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
-.btn-res-primary { background: rgba(52, 152, 219, 0.3) !important; color: white !important; border: 1px solid rgba(52, 152, 219, 0.5) !important; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3) !important; }
-.btn-res-primary:hover { background: rgba(52, 152, 219, 0.5) !important; box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5) !important; }
-.mode-title-wrapper {position: relative;display: inline-block; }
-.mode-subtitle {position: absolute;left: 100%;top: 50%;transform: translateY(-50%);margin-left: 8px;font-size: 11px;font-weight: normal;text-shadow: none;white-space: nowrap;}
-.note-gray { color: #bdc3c7; }
-.note-red { color: #ff6b6b; }
-.hit-danger, .hit-danger * {color: #ff6b6b !important;text-shadow: 0 2px 10px rgba(255, 107, 107, 0.4) !important;}
-.hit-success, .hit-success * {color: #2ecc71 !important;text-shadow: 0 2px 10px rgba(46, 204, 113, 0.4) !important;}
-
-#will-game-wrapper.fake-fullscreen { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100dvh !important; border-radius: 0 !important; z-index: 9999 !important; background-color: #000 !important; display: flex !important; justify-content: center !important; align-items: center !important; margin: 0 !important; padding: 0 !important; }
-#will-game-wrapper.fake-fullscreen canvas { width: auto !important; height: auto !important; max-width: 100vw !important; max-height: 100dvh !important; object-fit: contain !important; }
-body.body-no-scroll { overflow: hidden !important; touch-action: none !important; }
-#will-game-wrapper:fullscreen #will-inner-container, #will-game-wrapper:-webkit-full-screen #will-inner-container, #will-game-wrapper.fake-fullscreen #will-inner-container { max-width: min(100vw, calc(100dvh * (1741 / 713))) !important; max-height: 100dvh !important; }
-#will-game-wrapper:fullscreen canvas, #will-game-wrapper:-webkit-full-screen canvas, #will-game-wrapper.fake-fullscreen canvas { width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: fill !important; }
-
-/* ========================================== */
-/* 🛡️ 9. 無視防禦計算機 (日夜雙模 全面玻璃化升級) */
-/* ========================================== */
-
-/* --- 1. 卡片本體 (左側輸入區) 共用玻璃化 --- */
-.equip-card {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-width: 1.5px !important;
-}
-/* 夜間專屬卡片底色微調 */
-[data-theme="dark"] .bg-armor { border-color: rgba(0, 122, 255, 0.4) !important; background: rgba(0, 122, 255, 0.08) !important; }
-[data-theme="dark"] .bg-weapon { border-color: rgba(255, 59, 48, 0.4) !important; background: rgba(255, 59, 48, 0.08) !important; }
-[data-theme="dark"] .bg-acc { border-color: rgba(175, 82, 222, 0.4) !important; background: rgba(175, 82, 222, 0.08) !important; }
-[data-theme="dark"] .bg-ability { border-color: rgba(52, 199, 89, 0.4) !important; background: rgba(52, 199, 89, 0.08) !important; }
-[data-theme="dark"] .bg-special { border-color: rgba(255, 149, 0, 0.4) !important; background: rgba(255, 149, 0, 0.08) !important; }
-
-/* --- 2. 輸入框 (日間與夜間) --- */
-/* 日間：白透玻璃框 */
-.equip-card .card-input-wrapper input {
-    background: rgba(255, 255, 255, 0.7) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
-    backdrop-filter: blur(4px);
-}
-/* 日間：保留專屬字體顏色 */
-.bg-armor .card-input-wrapper input { color: #007AFF !important; }
-.bg-weapon .card-input-wrapper input { color: #FF3B30 !important; }
-.bg-acc .card-input-wrapper input { color: #AF52DE !important; }
-.bg-ability .card-input-wrapper input { color: #34C759 !important; }
-.bg-special .card-input-wrapper input { color: #FF9500 !important; }
-
-/* 日間：點擊高光 */
-.bg-armor .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(0, 122, 255, 0.3) !important; border-color: #007AFF !important; background: #fff !important; }
-.bg-weapon .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(255, 59, 48, 0.3) !important; border-color: #FF3B30 !important; background: #fff !important; }
-.bg-acc .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(175, 82, 222, 0.3) !important; border-color: #AF52DE !important; background: #fff !important; }
-.bg-ability .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(52, 199, 89, 0.3) !important; border-color: #34C759 !important; background: #fff !important; }
-.bg-special .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(255, 149, 0, 0.3) !important; border-color: #FF9500 !important; background: #fff !important; }
-
-/* 夜間：深色透光框與螢光字體 */
-[data-theme="dark"] .equip-card .card-input-wrapper input {
-    background: rgba(0, 0, 0, 0.4) !important;
-}
-[data-theme="dark"] .bg-armor .card-input-wrapper input { color: #66b3ff !important; border-color: rgba(0, 122, 255, 0.3) !important; }
-[data-theme="dark"] .bg-weapon .card-input-wrapper input { color: #ff8080 !important; border-color: rgba(255, 59, 48, 0.3) !important; }
-[data-theme="dark"] .bg-acc .card-input-wrapper input { color: #d896ff !important; border-color: rgba(175, 82, 222, 0.3) !important; }
-[data-theme="dark"] .bg-ability .card-input-wrapper input { color: #80ff99 !important; border-color: rgba(52, 199, 89, 0.3) !important; }
-[data-theme="dark"] .bg-special .card-input-wrapper input { color: #ffcc80 !important; border-color: rgba(255, 149, 0, 0.3) !important; }
-
-/* 夜間：點擊高光 */
-[data-theme="dark"] .bg-armor .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(0, 122, 255, 0.5) !important; border-color: #66b3ff !important; }
-[data-theme="dark"] .bg-weapon .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(255, 59, 48, 0.5) !important; border-color: #ff8080 !important; }
-[data-theme="dark"] .bg-acc .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(175, 82, 222, 0.5) !important; border-color: #d896ff !important; }
-[data-theme="dark"] .bg-ability .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(52, 199, 89, 0.5) !important; border-color: #80ff99 !important; }
-[data-theme="dark"] .bg-special .card-input-wrapper input:focus { box-shadow: 0 0 8px rgba(255, 149, 0, 0.5) !important; border-color: #ffcc80 !important; }
-
-/* --- 3. 右側套組選擇區 (日/夜玻璃化) --- */
-/* 日間未選中 */
-.radio-label {
-    background: rgba(255, 255, 255, 0.5) !important;
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    color: var(--text-muted) !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.02) !important;
-}
-.radio-label:hover { background: rgba(255, 255, 255, 0.8) !important; }
-
-/* 夜間未選中 */
-[data-theme="dark"] .radio-label {
-    background: rgba(15, 20, 30, 0.6) !important;
-    border-color: rgba(178, 187, 237, 0.2) !important;
-    color: #A1A1A6 !important;
-}
-[data-theme="dark"] .radio-label:hover { background: rgba(25, 30, 45, 0.8) !important; }
-
-/* 日間選中 (航海師) */
-.absolab-group .radio-label:has(input:checked) {
-    background: rgba(0, 122, 255, 0.1) !important;
-    border-color: rgba(0, 122, 255, 0.4) !important; color: #007AFF !important;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15), inset 0 0 8px rgba(255,255,255,0.8) !important;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-}
-/* 夜間選中 (航海師) */
-[data-theme="dark"] .absolab-group .radio-label:has(input:checked) {
-    background: rgba(0, 122, 255, 0.15) !important;
-    color: #66b3ff !important; border-color: #66b3ff !important;
-    box-shadow: inset 0 0 10px rgba(0, 122, 255, 0.1), 0 4px 10px rgba(0, 122, 255, 0.1) !important;
-    text-shadow: 0 0 8px rgba(102, 179, 255, 0.8);
-}
-
-/* 日間選中 (神秘) */
-.arcane-group .radio-label:has(input:checked) {
-    background: rgba(175, 82, 222, 0.1) !important;
-    border-color: rgba(175, 82, 222, 0.4) !important; color: #AF52DE !important;
-    box-shadow: 0 4px 12px rgba(175, 82, 222, 0.15), inset 0 0 8px rgba(255,255,255,0.8) !important;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-}
-/* 夜間選中 (神秘) */
-[data-theme="dark"] .arcane-group .radio-label:has(input:checked) {
-    background: rgba(175, 82, 222, 0.15) !important;
-    color: #d896ff !important; border-color: #d896ff !important;
-    box-shadow: inset 0 0 10px rgba(175, 82, 222, 0.1), 0 4px 10px rgba(175, 82, 222, 0.1) !important;
-    text-shadow: 0 0 8px rgba(216, 150, 255, 0.8);
-}
-
-/* --- 4. 總無視防禦計算結果面板 (日/夜玻璃化) --- */
-/* 日間 */
-.result-gradient {
-    background: rgba(255, 255, 255, 0.6) !important;
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 113, 227, 0.3) !important;
-    color: #0071E3 !important;
-    box-shadow: 0 8px 24px rgba(0, 113, 227, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.9) !important;
-}
-/* 夜間 */
-[data-theme="dark"] .result-gradient {
-    background: rgba(10, 15, 25, 0.6) !important;
-    border-color: rgba(156, 234, 254, 0.3) !important;
-    color: #9CEAFE !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(156, 234, 254, 0.15) !important;
-    text-shadow: 0 0 10px rgba(156, 234, 254, 0.6);
-}
-
-/* --- 5. 清除重置按鈕 (日/夜玻璃化) --- */
-/* 日間 */
-.btn-clear {
-    background: rgba(255, 59, 48, 0.08) !important;
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 59, 48, 0.2) !important;
-    color: #FF3B30 !important;
-}
-.btn-clear:hover {
-    background: rgba(255, 59, 48, 0.15) !important;
-    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15);
-}
-/* 夜間 */
-[data-theme="dark"] .btn-clear {
-    background: rgba(255, 59, 48, 0.15) !important;
-    color: #ff6b6b !important;
-    border-color: rgba(255, 59, 48, 0.4) !important;
-    box-shadow: inset 0 0 8px rgba(255, 59, 48, 0.1);
-}
-[data-theme="dark"] .btn-clear:hover {
-    background: rgba(255, 59, 48, 0.25) !important;
-    box-shadow: 0 0 15px rgba(255, 59, 48, 0.3), inset 0 0 10px rgba(255, 59, 48, 0.2);
-}
-
-/* ========================================== */
-/* 🛡️ 9.1 無視防禦計算機：外框連動發光與懸停效果 */
-/* ========================================== */
-
-/* 讓外框的顏色與陰影變化更滑順 */
-.equip-card {
-    transition: all 0.3s ease !important;
-}
-
-/* --- 🌞 日間模式：滑鼠移過 (Hover) 外框微亮 --- */
-.bg-armor:hover { box-shadow: 0 4px 15px rgba(0, 122, 255, 0.25) !important; border-color: rgba(0, 122, 255, 0.5) !important; }
-.bg-weapon:hover { box-shadow: 0 4px 15px rgba(255, 59, 48, 0.25) !important; border-color: rgba(255, 59, 48, 0.5) !important; }
-.bg-acc:hover { box-shadow: 0 4px 15px rgba(175, 82, 222, 0.25) !important; border-color: rgba(175, 82, 222, 0.5) !important; }
-.bg-ability:hover { box-shadow: 0 4px 15px rgba(52, 199, 89, 0.25) !important; border-color: rgba(52, 199, 89, 0.5) !important; }
-.bg-special:hover { box-shadow: 0 4px 15px rgba(255, 149, 0, 0.25) !important; border-color: rgba(255, 149, 0, 0.5) !important; }
-
-/* --- 🌞 日間模式：點擊輸入框 (Focus) 外框強烈發光 --- */
-.bg-armor:focus-within { box-shadow: 0 0 15px rgba(0, 122, 255, 0.5), inset 0 0 10px rgba(0, 122, 255, 0.1) !important; border-color: #007AFF !important; transform: translateY(-2px); }
-.bg-weapon:focus-within { box-shadow: 0 0 15px rgba(255, 59, 48, 0.5), inset 0 0 10px rgba(255, 59, 48, 0.1) !important; border-color: #FF3B30 !important; transform: translateY(-2px); }
-.bg-acc:focus-within { box-shadow: 0 0 15px rgba(175, 82, 222, 0.5), inset 0 0 10px rgba(175, 82, 222, 0.1) !important; border-color: #AF52DE !important; transform: translateY(-2px); }
-.bg-ability:focus-within { box-shadow: 0 0 15px rgba(52, 199, 89, 0.5), inset 0 0 10px rgba(52, 199, 89, 0.1) !important; border-color: #34C759 !important; transform: translateY(-2px); }
-.bg-special:focus-within { box-shadow: 0 0 15px rgba(255, 149, 0, 0.5), inset 0 0 10px rgba(255, 149, 0, 0.1) !important; border-color: #FF9500 !important; transform: translateY(-2px); }
-
-
-/* --- 🌙 夜間模式：滑鼠移過 (Hover) 霓虹光暈 --- */
-[data-theme="dark"] .bg-armor:hover { box-shadow: 0 4px 15px rgba(102, 179, 255, 0.35) !important; border-color: #66b3ff !important; }
-[data-theme="dark"] .bg-weapon:hover { box-shadow: 0 4px 15px rgba(255, 128, 128, 0.35) !important; border-color: #ff8080 !important; }
-[data-theme="dark"] .bg-acc:hover { box-shadow: 0 4px 15px rgba(216, 150, 255, 0.35) !important; border-color: #d896ff !important; }
-[data-theme="dark"] .bg-ability:hover { box-shadow: 0 4px 15px rgba(128, 255, 153, 0.35) !important; border-color: #80ff99 !important; }
-[data-theme="dark"] .bg-special:hover { box-shadow: 0 4px 15px rgba(255, 204, 128, 0.35) !important; border-color: #ffcc80 !important; }
-
-/* --- 🌙 夜間模式：點擊輸入框 (Focus) 外框強烈霓虹發光 --- */
-[data-theme="dark"] .bg-armor:focus-within { box-shadow: 0 0 15px rgba(102, 179, 255, 0.6), inset 0 0 10px rgba(102, 179, 255, 0.2) !important; border-color: #66b3ff !important; transform: translateY(-2px); }
-[data-theme="dark"] .bg-weapon:focus-within { box-shadow: 0 0 15px rgba(255, 128, 128, 0.6), inset 0 0 10px rgba(255, 128, 128, 0.2) !important; border-color: #ff8080 !important; transform: translateY(-2px); }
-[data-theme="dark"] .bg-acc:focus-within { box-shadow: 0 0 15px rgba(216, 150, 255, 0.6), inset 0 0 10px rgba(216, 150, 255, 0.2) !important; border-color: #d896ff !important; transform: translateY(-2px); }
-[data-theme="dark"] .bg-ability:focus-within { box-shadow: 0 0 15px rgba(128, 255, 153, 0.6), inset 0 0 10px rgba(128, 255, 153, 0.2) !important; border-color: #80ff99 !important; transform: translateY(-2px); }
-[data-theme="dark"] .bg-special:focus-within { box-shadow: 0 0 15px rgba(255, 204, 128, 0.6), inset 0 0 10px rgba(255, 204, 128, 0.2) !important; border-color: #ffcc80 !important; transform: translateY(-2px); }
-
-/* ========================================== */
-/* 🌟 10. 六轉進度計算機 (顏色精準校正 + 全玻璃發光升級) */
-/* ========================================== */
-
-/* --- 1. 透過 nth-child 精準定位 14 個格子的專屬色彩 (還原原版四色) --- */
-
-/* 啟源技能 (第 1~2 格) : 深靛紫 */
-.prog-item:nth-child(1), .prog-item:nth-child(2) {
-    --hx-color-light: #673AB7; --hx-bg-light: rgba(103, 58, 183, 0.05); --hx-glow-light: rgba(103, 58, 183, 0.35);
-    --hx-color-dark: #9575CD;  --hx-bg-dark: rgba(149, 117, 205, 0.1); --hx-glow-dark: rgba(149, 117, 205, 0.6);
-}
-/* 精通核心 (第 3~6 格) : 粉紫色 */
-.prog-item:nth-child(n+3):nth-child(-n+6) {
-    --hx-color-light: #D279E6; --hx-bg-light: rgba(210, 121, 230, 0.05); --hx-glow-light: rgba(210, 121, 230, 0.35);
-    --hx-color-dark: #E1BEE7;  --hx-bg-dark: rgba(225, 190, 231, 0.1); --hx-glow-dark: rgba(225, 190, 231, 0.6);
-}
-/* 強化核心 (第 7~10 格) : 亮天藍 */
-.prog-item:nth-child(n+7):nth-child(-n+10) {
-    --hx-color-light: #00BFFF; --hx-bg-light: rgba(0, 191, 255, 0.05); --hx-glow-light: rgba(0, 191, 255, 0.35);
-    --hx-color-dark: #80D8FF;  --hx-bg-dark: rgba(128, 216, 255, 0.1); --hx-glow-dark: rgba(128, 216, 255, 0.6);
-}
-/* 共通核心 (第 11~14 格) : 淺灰藍 */
-.prog-item:nth-child(n+11):nth-child(-n+14) {
-    --hx-color-light: #90A4AE; --hx-bg-light: rgba(144, 164, 174, 0.05); --hx-glow-light: rgba(144, 164, 174, 0.35);
-    --hx-color-dark: #CFD8DC;  --hx-bg-dark: rgba(207, 216, 220, 0.1); --hx-glow-dark: rgba(207, 216, 220, 0.5);
-}
-
-/* --- 2. 日間模式卡片本體 --- */
-.prog-item {
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    /* 🌟 強制覆蓋，讓四個邊框都套用專屬色！ */
-    border: 1.5px solid var(--hx-color-light) !important; 
-    background: var(--hx-bg-light) !important;
-    transition: all 0.3s ease !important;
-}
-.prog-item label { color: var(--hx-color-light) !important; font-weight: 800 !important; }
-/* 日間懸停與點擊發光 */
-.prog-item:hover { box-shadow: 0 4px 15px var(--hx-glow-light) !important; transform: translateY(-2px); }
-.prog-item:focus-within { box-shadow: 0 0 15px var(--hx-glow-light), inset 0 0 8px var(--hx-bg-light) !important; transform: translateY(-2px); }
-
-/* --- 3. 夜間模式卡片本體 --- */
-[data-theme="dark"] .prog-item {
-    border-color: var(--hx-color-dark) !important;
-    background: var(--hx-bg-dark) !important;
-}
-[data-theme="dark"] .prog-item label { color: var(--hx-color-dark) !important; text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important; }
-/* 夜間懸停與點擊發光 */
-[data-theme="dark"] .prog-item:hover { box-shadow: 0 4px 15px var(--hx-glow-dark) !important; }
-[data-theme="dark"] .prog-item:focus-within { box-shadow: 0 0 15px var(--hx-glow-dark), inset 0 0 10px var(--hx-bg-dark) !important; }
-
-/* --- 4. 日間模式輸入框 (下拉選單) --- */
-.prog-item select {
-    background: rgba(255, 255, 255, 0.7) !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    color: var(--hx-color-light) !important;
-    backdrop-filter: blur(4px); transition: all 0.3s ease;
-}
-.prog-item select:focus { background: #fff !important; border-color: var(--hx-color-light) !important; box-shadow: 0 0 8px var(--hx-glow-light) !important; }
-
-/* --- 5. 夜間模式輸入框 (下拉選單) --- */
-[data-theme="dark"] .prog-item select {
-    background: rgba(0, 0, 0, 0.4) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: var(--hx-color-dark) !important;
-}
-[data-theme="dark"] .prog-item select:focus {
-    background: rgba(0, 0, 0, 0.6) !important;
-    border-color: var(--hx-color-dark) !important;
-    box-shadow: 0 0 8px var(--hx-glow-dark) !important;
-}
-
-/* --- 6. 鎖定狀態 (未解鎖的灰暗處理) --- */
-/* 當裡面的選單被 disabled 時，整張卡片變暗，不發光 */
-.prog-item:has(select:disabled) {
-    border-color: rgba(134, 134, 139, 0.3) !important;
-    background: rgba(134, 134, 139, 0.05) !important;
-    box-shadow: none !important; transform: none !important;
-}
-.prog-item:has(select:disabled) label { color: #86868B !important; }
-
-[data-theme="dark"] .prog-item:has(select:disabled) {
-    border-color: rgba(255, 255, 255, 0.1) !important;
-    background: rgba(255, 255, 255, 0.02) !important;
-}
-[data-theme="dark"] .prog-item:has(select:disabled) label { color: rgba(255, 255, 255, 0.3) !important; }
-[data-theme="dark"] .prog-item select:disabled { color: rgba(255,255,255,0.3) !important; background: rgba(0,0,0,0.2) !important; }
-
-/* ================================================= */
-/* 🔮 HEXA 區塊手機版適應 (解壓縮寬敞版)                 */
-/* ================================================= */
-@media (max-width: 768px) {
-    /* 大廳與無視計算機解除並排，改為單欄以防止爆框 */
-    .app-grid { grid-template-columns: 1fr; gap: 12px; }
-    .ignore-layout-wrapper { flex-direction: column; }
-    .ignore-left-panel, .ignore-right-panel { width: 100%; flex: none; }
-    .inst-btn-grid { grid-template-columns: repeat(2, 1fr); }
-    .inst-btn-item { grid-column: span 1; }
-    .span-special { grid-column: 1 / -1 !important; }
-    #will-game-wrapper,
-    #tab-will .settings-panel,
-    #tab-will .instructions-panel {
-        width: calc(100% - 16px) !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
-}
-
-@media (max-width: 500px) {
-    body { padding: 4px; }
-    .container { padding: 12px 8px; border-radius: 16px; }
-    .panel, .detail-box { padding: 10px 6px; border-radius: 12px; }
-
-    .lazy-table th, .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 10px 4px; }
-    .lazy-table th { white-space: nowrap; }
-    .mobile-br { display: block; }
-    .desktop-space { display: none; }
-    .tag { font-size: 11px; padding: 4px 6px; line-height: 1.3; }
-    .core-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .dynamic-lv-overlay { transform: scale(0.85); transform-origin: bottom right; bottom: 3px; right: 3px; }
-
-    /* 鐵匠鋪手機版適應 */
-    .forge-sidebar { display: none; }
-    .sec-white { min-height: 50px; padding: 10px 0; }
-    .sec-grey-mid { padding: 15px 10px; }
-    .scroll-mode-active .sec-middle { padding: 20px 10px !important; }
-    .lv-arrow { margin: 0 10px; font-size: 18px; }
-    .lv-text, .lv-next { font-size: 18px; }
-    .rate-title { font-size: 16px; }
-    .rate-highlight { font-size: 18px; }
-    .rate-detail { font-size: 12px; }
-    .bonus-row { width: 65%; font-size: 13px; }
-    hr.divider { margin: 10px 0 15px 0; width: calc(100% + 20px); }
-    .desc-text { width: 95%; font-size: 11px; }
-
-    .modal-box { width: 95%; max-width: 340px; }
-    .m-enh-white-mid { padding: 12px; }
-    .m-scr-white-body { padding: 24px 12px; }
-    .m-scr-grey-box { width: 95%; font-size: 14px; padding: 12px; }
-
-    /* 超越模擬器特定 */
-    .sec-top { padding: 15px 5px; gap: 10px; justify-content: center; align-items: flex-start; flex-wrap: nowrap !important; }
-    .item-col { width: 110px; }
-    .img-box { width: 70px; height: 70px; margin-bottom: 5px; }
-    .plus-sign { font-size: 30px; margin-top: 15px; }
-    .equip-name { width: 100%; font-size: 11px; white-space: nowrap; overflow: visible; word-break: break-word; line-height: 1.3; margin-top: 5px; }
+    let shortfallFrag = Math.max(0, remainingFrag - invFrag);
+    let shortfallEnergy = Math.max(0, remainingEnergy - currentBagEnergy);
+
+    let hrsPerDay = parseFloat(document.getElementById('farm-hours').value) || 0;
+    let farmFragHr = parseFloat(document.getElementById('farm-frag-hr').value) || 0;
+    let farmNrgHr = parseFloat(document.getElementById('farm-nrg-hr').value) || 0;
+    let farmWeakHr = parseFloat(document.getElementById('farm-weak-hr').value) || 0;
     
-    /* 防止底部按鈕過大撐破外框 */
-    .coin-box { width: 140px; font-size: 14px; padding: 8px 10px; }
-    .btn-action-tr { width: 110px; font-size: 15px; padding: 10px 0; }
-    .sec-bottom { gap: 10px; padding: 15px 0; }
+    let farmFragWk = parseFloat(document.getElementById('farm-frag-wk').value) || 0;
+    let farmConcWk = parseFloat(document.getElementById('farm-conc-wk').value) || 0;
+    let farmNrgWk = parseFloat(document.getElementById('farm-nrg-wk').value) || 0;
+    let farmWeakWk = parseFloat(document.getElementById('farm-weak-wk').value) || 0;
 
-    /* 製作模擬器特定 */
-    #cr-game-ui-container .sec-top { gap: 5px !important; padding: 15px 0px 10px 0px !important; } 
-    #cr-game-ui-container .item-col { width: 75px !important; min-width: 75px !important; max-width: 75px !important; flex: 0 0 75px !important; }
-    #cr-game-ui-container .img-box { width: 70px !important; height: 70px !important; }
-    #cr-game-ui-container .plus-sign { width: 20px !important; min-width: 20px !important; flex: 0 0 20px !important; font-size: 26px !important; margin-top: 22px !important; }
-    #cr-game-ui-container .item-col:nth-child(3) { margin-right:40px !important; }
-    #cr-game-ui-container .equip-name { font-size: 12px !important; transform: none !important; }
-    #cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 10px !important; letter-spacing: -0.5px !important; transform: none !important; }
-    #cr-game-ui-container .forge-main { height: 415px !important; }
-    #cr-game-ui-container .sec-grey-mid { padding-top: 4px !important; }
-    #cr-chaos-tier-list { font-size: 12px !important; margin-top: 8px !important; margin-bottom: 0px !important; }
+    let dailyFrag = (farmFragHr * hrsPerDay) + (farmFragWk / 7);
+    let daysFrag = dailyFrag > 0 ? shortfallFrag / dailyFrag : (shortfallFrag > 0 ? Infinity : 0);
+    let grindHoursFrag = daysFrag * hrsPerDay;
 
-    /* 針對 HEXA 模擬器下方的設定行進行微壓縮，防止極限運算掉到下一行 */
-    .setting-row { 
-        gap: 6px !important; /* 縮小項目之間的間距 */
-        font-size: 13px !important; /* 稍微縮小字體 */
-    }
-    .setting-row label { 
-        font-size: 13px !important; 
-    }
-    .checkbox-label { 
-        font-size: 13px !important; 
-        letter-spacing: -0.5px !important; /* 把字稍微擠緊一點點 */
+    let dailyEnergy = ((farmNrgHr * 200) + (farmWeakHr * 10)) * hrsPerDay + ((farmConcWk * 500) + (farmNrgWk * 200) + (farmWeakWk * 10)) / 7;
+    let daysEnergy = dailyEnergy > 0 ? shortfallEnergy / dailyEnergy : (shortfallEnergy > 0 ? Infinity : 0);
+    let grindHoursEnergy = daysEnergy * hrsPerDay;
+
+    document.getElementById('result-hexa-prog').style.display = 'block';
+
+    let fragPct = totalSmallNeeded > 0 ? ((investedSmall + Math.min(invFrag, remainingFrag)) / totalSmallNeeded) * 100 : 100;
+    let energyTotalNeeded = totalBigNeeded * 1000;
+    let energyInvested = investedBig * 1000;
+    let solPct = energyTotalNeeded > 0 ? ((energyInvested + Math.min(currentBagEnergy, remainingEnergy)) / energyTotalNeeded) * 100 : 100;
+
+    document.getElementById('prog-bar-frag').style.width = fragPct.toFixed(1) + '%';
+    document.getElementById('prog-bar-frag').innerText = fragPct.toFixed(1) + '%';
+    document.getElementById('prog-txt-frag').innerText = `${(investedSmall).toLocaleString()} / ${totalSmallNeeded.toLocaleString()} (短缺: ${shortfallFrag.toLocaleString()})`;
+
+    document.getElementById('prog-bar-sol').style.width = solPct.toFixed(1) + '%';
+    document.getElementById('prog-bar-sol').innerText = solPct.toFixed(1) + '%';
+    document.getElementById('prog-txt-sol').innerText = `${investedBig.toLocaleString()} / ${totalBigNeeded.toLocaleString()} (氣息短缺: ${shortfallEnergy.toLocaleString()})`;
+
+    let timeBox = document.getElementById('prog-time-result');
+    
+    function formatTime(days, hours) {
+        if (days === Infinity) return "無限期 (請填寫獲取速度)";
+        if (days <= 0) return "✅ 庫存已可畢業";
+        
+        let gradDate = new Date();
+        gradDate.setDate(gradDate.getDate() + Math.ceil(days));
+        let m = gradDate.getMonth() + 1;
+        let d = gradDate.getDate();
+        let dateString = `${gradDate.getFullYear()}/${m.toString().padStart(2, '0')}/${d.toString().padStart(2, '0')}`;
+
+        return `約 ${Math.ceil(days)} 天 (共需掛機 ${Math.ceil(hours).toLocaleString()} 小時) - 預計 ${dateString}`;
     }
 
-/* 確保彈出動畫存在 */
-@keyframes hexaResultPop {
-    0% { transform: translateY(15px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+    if (totalBigNeeded === 0 && totalSmallNeeded === 0) {
+        timeBox.innerHTML = `⚠️ 請先在上方勾選要養成的核心。`;
+    } else {
+        timeBox.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 10px; color: #444;">預估畢業時間</div>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size: 15px;">
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/icon-Sol Erda Fragment.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
+            </div>
+        `;
+    }
 }
 
-/* ================================================= */
-    /* 🔮 HEXA 區塊手機版適應 (同排防錯位版)                 */
-    /* ================================================= */
-    #tab-hexa-visual .visual-container { padding: 15px 12px !important; }
+/* ========================================== */
+/* 3. 無視防禦計算機                           */
+/* ========================================== */
+const equipCategories = [
+    { title: "防具類", type: "armor", items: ["帽子", "手套", "套服", "護肩", "鞋子", "腰帶", "披風"] },
+    { title: "武器類", type: "weapon", items: ["副武", "三武"] },
+    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書"] }, 
+    { title: "能力類", type: "ability", items: ["HEXA屬性"] },
+    // 👇 1. 將這裡加上數字，確保 ID 唯一
+    { title: "特殊", type: "special", items: ["活動", "預留1", "預留2", "預留3"] }
+];
+
+const equipments = equipCategories.flatMap(cat => cat.items);
+
+function initIgnoreGrid() {
+    const grid = document.getElementById('equip-grid');
+    if (!grid) return;
+    grid.innerHTML = ''; 
+
+    equipCategories.forEach(category => {
+        category.items.forEach(equip => {
+            const card = document.createElement('div');
+            card.className = `equip-card bg-${category.type}`;
+            
+            // 👇 2. 關鍵：如果名字結尾有數字（如預留1），在畫面上把數字去掉，保持視覺乾淨
+            const displayTitle = equip.replace(/\d+$/, '');
+            
+            card.innerHTML = `
+                <div class="card-title">${displayTitle}</div>
+                <div class="card-input-wrapper">
+                    <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="">
+                    <span class="card-percent">%</span>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    });
+}
+
+function calculateIgnore() {
+    let values = [];
     
-    /* 1. 頂部資訊保持左右排列，但微縮字體 */
-    #tab-hexa-visual .visual-header-top { 
-        flex-direction: row !important; 
-        align-items: center !important; 
-        padding-bottom: 10px !important;
-    }
-    #tab-hexa-visual .v-fragment-text { font-size: 12px !important; white-space: nowrap !important; }
-    #tab-hexa-visual .v-btn-top { padding: 6px 7px !important; font-size: 11px !important; }
+    equipments.forEach(equip => {
+        let inputElem = document.getElementById('input-' + equip);
+        if(inputElem) {
+            let cleanVal = inputElem.value.replace(/[^\d.]/g, ''); 
+            if (cleanVal !== "" && !isNaN(cleanVal)) {
+                values.push(parseFloat(cleanVal));
+            }
+        }
+    });
 
-    /* 2. 核心屬性區塊微調 */
-    #tab-hexa-visual .visual-box { padding: 10px 8px !important; gap: 8px !important; border-radius: 12px !important; }
-    #tab-hexa-visual .hexa-img { width: 38px !important; height: 38px !important; }
+    const absolabElem = document.querySelector('input[name="absolab"]:checked');
+    const arcaneElem = document.querySelector('input[name="arcane"]:checked');
+    const absolabVal = absolabElem ? parseFloat(absolabElem.value) : 0;
+    const arcaneVal = arcaneElem ? parseFloat(arcaneElem.value) : 0;
     
-    /* 3. 🌟 讓機率文字保持在右邊同行，限制左邊寬度防止覆蓋 */
-    #tab-hexa-visual .v-header-row { 
-        flex-direction: row !important; 
-        justify-content: space-between !important; 
-        align-items: flex-end !important; 
-        flex-wrap: nowrap !important;
+    const setEffectSum = absolabVal + arcaneVal;
+    if (setEffectSum > 0) values.push(setEffectSum);
+
+    let multiplier = 1.0;
+    values.forEach(v => { 
+        multiplier *= (1.0 - (v / 100.0)); 
+    });
+    let totalIgnore = (1.0 - multiplier) * 100.0;
+
+    let resultElem = document.getElementById('result-ignore');
+    if (resultElem) {
+        resultElem.innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
     }
-    #tab-hexa-visual .v-title-main, #tab-hexa-visual .v-title-sub { font-size: 12px !important; margin-bottom: 2px !important; }
-    /* 左邊屬性名稱限制最大寬度，超出的字會自動變成... */
-    #tab-hexa-visual .v-stat-name { font-size: 12px !important; letter-spacing: 0 !important; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    /* 右邊機率文字 */
-    #tab-hexa-visual .v-prob { font-size: 11px !important; white-space: nowrap !important; margin-left: 5px !important;}
+}
 
-    /* 4. 底部按鈕控制區 */
-    #tab-hexa-visual .visual-controls { flex-direction: column !important; align-items: stretch !important; padding: 15px 12px !important; gap: 15px !important; border-radius: 12px !important;}
-    #tab-hexa-visual .v-control-group { width: 100% !important; justify-content: space-between !important; }
-    #tab-hexa-visual .v-btn-10x, #tab-hexa-visual .v-btn { flex: 1 !important; padding: 12px 10px !important; font-size: 15px !important; text-align: center !important; border-radius: 8px !important;}
+function clearIgnore() {
+    equipments.forEach(equip => {
+        let inputElem = document.getElementById('input-' + equip);
+        if (inputElem) inputElem.value = ''; 
+    });
 
-@media (max-width: 768px) and (orientation: portrait) {
-    /* --- 1. 輔助 UI 與狀態列 --- */
-    #ms-player-hud { transform: scale(0.6) !important; transform-origin: top left; }
-    .glass-panel { padding: 3px 6px !important; gap: 4px !important; border-radius: 6px !important; }
-    .glass-btn { font-size: 12px !important; width: 26px !important; height: 26px !important; padding: 0 !important; }
-    #glass-controls-top { top: 4px !important; right: 4px !important; }
-    #glass-controls-mid { right: 4px !important; }
-    #glass-controls-bottom { bottom: 4px !important; right: 4px !important; }
+    let absolabRadios = document.getElementsByName('absolab');
+    absolabRadios.forEach(radio => {
+        if (radio.value === "0") radio.checked = true;
+    });
+
+    let arcaneRadios = document.getElementsByName('arcane');
+    arcaneRadios.forEach(radio => {
+        if (radio.value === "0") radio.checked = true;
+    });
+
+    calculateIgnore();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initIgnoreGrid === 'function') {
+        initIgnoreGrid();
+    }
+});
+
+/* ========================================== */
+/* 4. 超越強化模擬器                           */
+/* ========================================== */
+let tr_lv = 30;
+let tr_fails = 0;
+let tr_bonus = 0.0;
+let tr_stat_normal = 0;
+let tr_stat_radiant = 0;
+let tr_stat_chaos = 0;
+let tr_stat_scrolls = 0;
+let tr_ev_stones_achieved = 0;
+let tr_ev_scrolls_achieved = 0;
+let tr_current_level_stones = 0; 
+let tr_current_fail_scrolls = 0;
+let tr_isAnimating = false;
+let tr_isMuted = false; 
+
+const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
+const tr_sfxFail = new Audio('assets/AugmentFail.wav');
+
+function tr_getStoneEV(baseRate) {
+    let expected = 0;
+    let cumulativeFailProb = 1.0;
+    let currentBonus = 0;
+    let bonusStep = Math.max(5, Math.floor(baseRate * 0.2)); 
     
-    /* --- 2. 搖桿與狀態文字 --- */
-    #joystick-base { width: 45px !important; height: 45px !important; bottom: 5% !important; left: 2% !important; border-width: 1px !important; }
-    #joystick-stick { width: 18px !important; height: 18px !important; }
-    #will-status { font-size: 14px !important; margin-bottom: 2px !important; }
-    #will-timer { font-size: 10px !important; margin-top: 0 !important; }
-    #tab-will .custom-num-input { width: 25px !important; padding: 2px !important; font-size: 12px !important; }
+    for (let attempts = 1; attempts <= 40; attempts++) {
+        let rate = Math.min(100, baseRate + currentBonus) / 100.0;
+        let probSuccess = cumulativeFailProb * rate;
+        expected += attempts * probSuccess;
+        cumulativeFailProb *= (1 - rate);
+        currentBonus = Math.min(50, currentBonus + bonusStep);
+        if (cumulativeFailProb < 0.0001) break;
+    }
+    return expected;
+}
+
+function tr_toggleSound() {
+    tr_isMuted = !tr_isMuted;
+    const soundBtn = document.getElementById('btn-sound-toggle');
+    if (tr_isMuted) {
+        soundBtn.innerText = "🔇 音效：關閉";
+        soundBtn.classList.add('muted');
+    } else {
+        soundBtn.innerText = "🔊 音效：開啟";
+        soundBtn.classList.remove('muted');
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', {
+            'simulator': 'transcend',
+            'sound_status': tr_isMuted ? 'off' : 'on'});
+    }
+}
+
+function tr_playSound(isSuccess) {
+    if (tr_isMuted) return;
+    if (isSuccess) {
+        try { tr_sfxSuccess.currentTime = 0; tr_sfxSuccess.play(); } catch(e){}
+    } else {
+        try { tr_sfxFail.currentTime = 0; tr_sfxFail.play(); } catch(e){}
+    }
+}
+
+function tr_validateCustomRate(inputElem) {
+    document.querySelector(`input[name="${inputElem.dataset.group}"][value="custom"]`).checked = true;
+    if (inputElem.value !== "") {
+        let val = parseInt(inputElem.value);
+        if (val > 100) inputElem.value = 100;
+    }
+    tr_updateUI();
+}
+
+function tr_onBlurCustomRate(inputElem) {
+    let val = parseInt(inputElem.value);
+    if (isNaN(val) || val < 1 || inputElem.value === "") {
+        inputElem.value = 1;
+    }
+    tr_updateUI();
+}
+
+function tr_getSelectedRate(groupName, customInputId) {
+    let radios = document.getElementsByName(groupName);
+    let val = Array.from(radios).find(r => r.checked).value;
+    if (val === 'custom') {
+        let customVal = parseInt(document.getElementById(customInputId).value);
+        return (isNaN(customVal) || customVal < 1) ? 1 : customVal;
+    }
+    return parseFloat(val);
+}
+
+function tr_forceStateChange() {
+    if(tr_isAnimating) return;
+    let newLv = parseInt(document.getElementById('input-equip-lv').value);
+    if (newLv !== tr_lv) tr_bonus = 0.0; 
+    tr_lv = newLv;
+    tr_fails = parseInt(document.getElementById('input-fail-count').value);
+    tr_current_level_stones = 0;
+    tr_updateUI();
+}
+
+function tr_switchMode(mode) {
+    if (tr_isAnimating) return;
+    let enhanceRadio = document.querySelector('input[name="sim-mode"][value="enhance"]');
+    let scrollRadio = document.querySelector('input[name="sim-mode"][value="scroll"]');
+    if (mode === 'enhance') enhanceRadio.checked = true;
+    else if (mode === 'scroll') scrollRadio.checked = true;
+    tr_updateUI();
+}
+
+function tr_updateUI() {
+    let modeElem = document.querySelector('input[name="sim-mode"]:checked');
+    if (!modeElem) return;
+    let mode = modeElem.value;
+    let container = document.getElementById('game-ui-container');
+    if (!container) return;
+
+    document.getElementById('input-equip-lv').value = tr_lv;
+    document.getElementById('input-fail-count').value = tr_fails;
+    document.getElementById('ui-lv-curr').innerText = tr_lv;
+    document.getElementById('ui-overlay-lv').innerText = tr_lv;
+    document.getElementById('ui-lv-next').innerText = (tr_lv >= 70) ? "MAX" : tr_lv + 2;
+
+    let failTextDOM = document.getElementById('ui-fails');
+    failTextDOM.innerText = `失敗次數 ${tr_fails} / 7`;
+    failTextDOM.style.color = (tr_fails >= 7) ? "#e74c3c" : "#888";
+
+    let stoneImg = document.getElementById('ui-stone-img');
+    let stoneNameDOM = document.getElementById('ui-stone-name');
+    let btnMain = document.getElementById('btn-main-action');
+
+    let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+    let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
+
+    if (mode === 'enhance') {
+        document.getElementById('menu-enhance').classList.add('active');
+        document.getElementById('menu-scroll').classList.remove('active');
+        container.classList.remove('scroll-mode-active');
+        document.getElementById('ui-coin-box').style.display = 'flex';
+
+        let totalRate = baseRate + tr_bonus;
+        let stoneName = "超越石"; let imgSrc = "assets/超越石.png";
+        
+        if (tr_lv >= 40 && tr_lv < 50) { stoneName = "發光超越石"; imgSrc = "assets/發光超越石.png"; }
+        if (tr_lv >= 50 && tr_lv <= 70) { stoneName = "混沌超越石"; imgSrc = "assets/混沌超越石.png"; }
+        
+        stoneNameDOM.innerText = `${stoneName} ${baseRate}%`;
+        stoneImg.src = imgSrc;
+
+        document.getElementById('ui-total-rate').innerText = `${totalRate.toFixed(0)}%`;
+        document.getElementById('ui-base-rate').innerText = `${baseRate}%`;
+        document.getElementById('ui-bonus-rate').innerText = `${tr_bonus.toFixed(0)}%`;
+        document.getElementById('ui-add-rate').innerText = `+${bonusStep}%`;
+
+        btnMain.innerText = "超越";
+        btnMain.disabled = (tr_lv >= 70 || tr_fails >= 7 || tr_isAnimating);
+
+    } else {
+        document.getElementById('menu-enhance').classList.remove('active');
+        document.getElementById('menu-scroll').classList.add('active');
+        container.classList.add('scroll-mode-active');
+        document.getElementById('ui-coin-box').style.display = 'none';
+        
+        let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+        let imgSrc = (scrollRate < 70) ? "assets/超越失敗扣除卷軸A.png" : "assets/超越失敗扣除卷軸B.png";
+        
+        stoneNameDOM.innerText = `超越失敗扣除卷軸 ${scrollRate}%`;
+        stoneImg.src = imgSrc;
+
+        btnMain.innerText = "套用";
+        btnMain.disabled = (tr_fails <= 0 || tr_isAnimating);
+    }
+
+    document.getElementById('stat-stone-normal').innerText = tr_stat_normal;
+    document.getElementById('stat-stone-radiant').innerText = tr_stat_radiant;
+    document.getElementById('stat-stone-chaos').innerText = tr_stat_chaos;
+    let totalStones = tr_stat_normal + tr_stat_radiant + tr_stat_chaos;
+    document.getElementById('stat-stones-total').innerText = totalStones;
     
-    /* --- 3. 恢復黑色外框 --- */
-    #will-game-wrapper { 
-        min-height: auto !important; 
-        overflow: hidden !important; /* 鎖死結界 */
+    let current_stone_ev = tr_current_level_stones > 0 ? tr_getStoneEV(baseRate) : 0;
+    document.getElementById('stat-stones-ev').innerText = (tr_ev_stones_achieved + current_stone_ev).toFixed(2);
+
+    document.getElementById('stat-scrolls-total').innerText = tr_stat_scrolls;
+    document.getElementById('stat-scrolls-total-bottom').innerText = tr_stat_scrolls;
+    
+    let sRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+    let current_scroll_ev = (tr_current_fail_scrolls > 0 && sRate > 0) ? (100 / sRate) : 0;
+    document.getElementById('stat-scrolls-ev').innerText = (tr_ev_scrolls_achieved + current_scroll_ev).toFixed(2);
+}
+
+function tr_execute_action() {
+    if (tr_isAnimating) return;
+    let mode = document.querySelector('input[name="sim-mode"]:checked').value;
+    if (mode === 'enhance') tr_action_transcend();
+    else tr_action_scroll();
+}
+
+function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFails, newFails) {
+    document.getElementById('result-modal').classList.add('active');
+    
+    if (type === 'enhance') {
+        document.getElementById('modal-box-enhance').style.display = 'flex';
+        document.getElementById('modal-box-scroll').style.display = 'none';
+        document.getElementById('m-enh-item-lv').innerText = newLv; 
+        document.getElementById('m-enh-old-lv').innerText = oldLv;
+        document.getElementById('m-enh-new-lv').innerText = newLv;
+        
+        let header = document.getElementById('m-enh-title');
+        let failContainer = document.getElementById('m-enh-fail-text-container');
+        let statusTitle = document.getElementById('m-enh-status-title');
+        let bonusSection = document.getElementById('m-enh-bonus-section');
+
+        if (isSuccess) {
+            header.innerText = "超越成功";
+            failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>`;
+            failContainer.style.color = "#777";
+            failContainer.style.fontWeight = "normal";
+            statusTitle.innerText = "超越成功。"; 
+            bonusSection.style.display = 'block';
+            document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率重置";
+            document.getElementById('m-enh-bonus-rate').innerText = "0%"; 
+            document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
+            document.getElementById('m-enh-bonus-hint').innerText = "";
+        } else {
+            header.innerText = "超越失敗";
+            if (oldFails === 6 && newFails >= 7) {
+                failContainer.innerHTML = `已達最大超越次數。`;
+                failContainer.style.color = "#e74c3c";
+                failContainer.style.fontWeight = "bold";
+            } else {
+                failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change">(+1)</span>`;
+                failContainer.style.color = "#777";
+                failContainer.style.fontWeight = "normal";
+            }
+            statusTitle.innerText = "超越失敗。"; 
+            if (newBonus === 0 || oldBonus === newBonus) {
+                bonusSection.style.display = 'none';
+            } else {
+                bonusSection.style.display = 'block';
+                document.getElementById('m-enh-status-sub').innerText = "追加超越成功機率獲得";
+                document.getElementById('m-enh-bonus-rate').innerText = `獎勵機率 ${oldBonus.toFixed(0)}% > ${newBonus.toFixed(0)}%`; 
+                document.getElementById('m-enh-bonus-rate').style.color = "#f3724c";
+                document.getElementById('m-enh-bonus-hint').innerText = "獎勵機率最高可累積至50%。";
+            }
+        }
+    } else {
+        document.getElementById('modal-box-enhance').style.display = 'none';
+        document.getElementById('modal-box-scroll').style.display = 'flex';
+        document.getElementById('m-scr-item-lv').innerText = oldLv;
+
+        let topText = document.getElementById('m-scr-top-text');
+        let resultBox = document.getElementById('m-scr-result-box');
+
+        if (isSuccess) {
+            topText.innerText = "該裝備的超越失敗次數已扣除1。";
+            resultBox.innerText = "失敗次數扣除成功！";
+            resultBox.className = "m-scr-grey-box m-scr-text-orange";
+        } else {
+            topText.innerText = "該裝備的超越失敗次數未扣除。";
+            resultBox.innerText = "失敗次數扣除失敗";
+            resultBox.className = "m-scr-grey-box m-scr-text-grey";
+        }
     }
-    #will-inner-container { 
-        height: auto !important; 
-        aspect-ratio: 1741 / 713 !important; 
-    }
-    #willCanvas { 
-        position: relative !important; 
-        top: auto !important; 
-        transform: none !important; 
-        height: 100% !important; 
+}
+
+function tr_closeModal() {
+    document.getElementById('result-modal').classList.remove('active');
+    tr_isAnimating = false; 
+    tr_updateUI(); 
+}
+
+function tr_action_transcend() {
+    if (tr_isAnimating || tr_lv >= 70 || tr_fails >= 7) return;
+
+    tr_isAnimating = true;  
+    tr_current_level_stones++;
+    if (tr_lv < 40) tr_stat_normal++;
+    else if (tr_lv < 50) tr_stat_radiant++;
+    else tr_stat_chaos++;
+    
+    tr_updateUI();
+
+    let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
+    let totalRate = baseRate + tr_bonus;
+    let roll = Math.random() * 100; 
+    let isSuccess = roll < totalRate;
+
+    let oldLv = tr_lv, oldBonus = tr_bonus, oldFails = tr_fails;
+
+    tr_playSound(isSuccess);
+    document.getElementById('ui-lightning').classList.add('active'); 
+
+    setTimeout(() => {
+        document.getElementById('ui-lightning').classList.remove('active');
+
+        if (isSuccess) {
+            tr_lv += 2; 
+            tr_bonus = 0.0; 
+            tr_ev_stones_achieved += tr_getStoneEV(baseRate); 
+            tr_current_level_stones = 0; 
+        } else {
+            tr_fails++;
+            let bonusStep = Math.max(5, Math.floor(baseRate * 0.2));
+            tr_bonus = Math.min(50, tr_bonus + bonusStep); 
+        }
+        tr_showModal('enhance', isSuccess, oldLv, tr_lv, oldBonus, tr_bonus, oldFails, tr_fails);
+    }, 200); 
+}
+
+function tr_action_scroll() {
+    if (tr_isAnimating || tr_fails <= 0) return;
+
+    tr_isAnimating = true;  
+    tr_stat_scrolls++;
+    tr_current_fail_scrolls++;
+    tr_updateUI();
+
+    let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
+    let roll = Math.random() * 100;
+    let isSuccess = roll < scrollRate;
+
+    let oldLv = tr_lv, oldFails = tr_fails;
+    tr_playSound(isSuccess);
+
+    setTimeout(() => {
+        if (isSuccess) {
+            tr_fails--;
+            tr_ev_scrolls_achieved += (100 / scrollRate);
+            tr_current_fail_scrolls = 0;
+        }
+        tr_showModal('scroll', isSuccess, oldLv, oldLv, 0, 0, oldFails, tr_fails);
+    }, 200); 
+}
+
+function tr_action_reset() {
+    if (tr_isAnimating) return;
+    tr_lv = 30; tr_fails = 0; tr_bonus = 0.0; 
+    tr_stat_normal = 0; tr_stat_radiant = 0; tr_stat_chaos = 0; tr_stat_scrolls = 0;
+    tr_ev_stones_achieved = 0; tr_ev_scrolls_achieved = 0;
+    tr_current_level_stones = 0; tr_current_fail_scrolls = 0;
+    document.querySelector('input[name="sim-mode"][value="enhance"]').checked = true;
+    tr_updateUI();
+}
+
+/* ========================================== */
+/* 5. HEXA 屬性模擬器 (Visual Simulator)         */
+/* ========================================== */
+function getHexaProb(level) {
+    if (level <= 2) return 0.35;
+    if (level <= 5) return 0.20;
+    if (level == 6) return 0.20;
+    if (level == 7) return 0.15;
+    if (level == 8) return 0.10;
+    if (level == 9) return 0.05;
+    return 0.0;
+}
+
+function getHexaCost(level) {
+    if (level <= 2) return 10;
+    if (level <= 5) return 20;
+    if (level == 6) return 30;
+    if (level == 7) return 30;
+    if (level == 8) return 30;
+    if (level == 9) return 50;
+    return 50;
+}
+
+let vA = 0, vB = 0, vC = 0, vClicks = 0;
+let totalFragmentsUsed = 0; 
+let isMuted = false;
+let resetCountTracker = 0;
+const enhanceSound = new Audio('assets/HexaCoreEnforcement.mp3');
+
+function initVisualBars() {
+    ['a', 'b', 'c'].forEach(type => {
+        const container = document.getElementById('vbar-' + type);
+        if(!container) return;
+        container.innerHTML = ''; 
+        for(let i=0; i<10; i++) {
+            let segment = document.createElement('div');
+            segment.className = 'v-segment';
+            container.appendChild(segment);
+        }
+    });
+    updateVisualUI();
+}
+
+function formatProb(p) {
+    let pct = p * 100;
+    return Number.isInteger(pct) ? pct + '%' : pct.toFixed(1) + '%';
+}
+
+function updateVisualUI() {
+    let levels = { 'a': vA, 'b': vB, 'c': vC };
+    
+    ['a', 'b', 'c'].forEach(type => {
+        const container = document.getElementById('vbar-' + type);
+        if(!container) return;
+        const segments = container.children;
+        const activeClass = (type === 'a') ? 'active-main' : 'active-sub';
+
+        for(let i=0; i<10; i++) {
+            if(i < levels[type]) segments[i].classList.add(activeClass);
+            else segments[i].classList.remove(activeClass);
+        }
+    });
+
+    let probA = getHexaProb(vA);
+    let probB = 0, probC = 0;
+    
+    if (vA === 10) probA = 0;
+    
+    let remProb = 1.0 - probA;
+    if (vB === 10 && vC === 10) {
+        probB = 0; probC = 0;
+    } else if (vB === 10) {
+        probB = 0; probC = remProb;
+    } else if (vC === 10) {
+        probC = 0; probB = remProb;
+    } else {
+        probB = remProb / 2;
+        probC = remProb / 2;
     }
 
-    /* --- 4. 疊加層與卡片 (找回等比例縮小魔法) --- */
-    #will-start-overlay, #will-result-overlay { 
-        position: absolute !important; 
-        width: 100% !important; 
-        height: 100% !important; 
-        border-radius: 8px !important; 
-    }
+    document.getElementById('vprob-a').innerText = '強化機率：' + (vA < 10 ? formatProb(probA) : 'MAX');
+    document.getElementById('vprob-b').innerText = '強化機率：' + (vB < 10 ? formatProb(probB) : 'MAX');
+    document.getElementById('vprob-c').innerText = '強化機率：' + (vC < 10 ? formatProb(probC) : 'MAX');
 
-    #will-start-overlay .start-card { 
-        width: 90% !important; 
-        max-width: 250px !important; 
-        height: auto !important; 
-        padding: 25px 25px !important; 
-        transform-origin: center center !important;
-        overflow-y: visible !important; 
-        max-height: none !important;
-        animation: popInPortraitStart 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
-    }
+    document.getElementById('v-clicks').innerText = vClicks;
 
-    #will-result-overlay .result-card { 
-        width: 95% !important; 
-        max-width: 260px !important; 
-        height: auto !important; 
-        padding: 25px 20px !important; 
-        transform-origin: center center !important;
-        overflow-y: visible !important; 
-        max-height: none !important;
-        animation: popInPortraitResult 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important; 
+    let resetBtn = document.getElementById('btn-reset-v');
+    if (vClicks >= 10) {
+        resetBtn.classList.add('highlight');
+        resetBtn.disabled = false;
+        resetBtn.style.opacity = '1';
+        resetBtn.style.cursor = 'pointer';
+    } else {
+        resetBtn.classList.remove('highlight');
+        resetBtn.disabled = true;
+        resetBtn.style.opacity = '0.5';
+        resetBtn.style.cursor = 'not-allowed';
     }
     
-    /* 內部細節壓縮 */
-    #will-start-overlay .will-game-title { font-size: 16px !important; margin-bottom: 5px !important; letter-spacing: 1px !important; }
-    #will-start-overlay .will-rule-box { padding: 6px !important; font-size: 11px !important; gap: 2px 4px !important; margin-bottom: 6px !important; width: 100% !important; max-width: 240px !important;}
-    #will-start-overlay .glass-input, #will-start-overlay .glass-btn-start { height: 32px !important; font-size: 13px !important; }
-    
-    .result-stat { margin-bottom: 3px !important; gap: 4px !important; font-size: 12px !important; }
-    .result-total { margin-top: 2px !important; padding-top: 5px !important; margin-bottom: 6px !important; gap: 10px !important;}
-    .will-res-hit-num { font-size: 20px !important; }
-    
-    /* 防止結算按鈕斷行 */
-    .will-res-btn-group { flex-wrap: nowrap !important; gap: 8px !important; }
-    .btn-res-secondary, .btn-res-primary { 
-        height: 28px !important; 
-        font-size: 12px !important; 
-        padding: 0 8px !important; 
-        white-space: nowrap !important; 
+    let enhance10xBtn = document.getElementById('btn-enhance-10x');
+    let enhance1Btn = document.getElementById('btn-enhance-1');
+    if (vClicks >= 20) {
+        enhance10xBtn.style.opacity = '0.5'; enhance10xBtn.style.cursor = 'not-allowed';
+        enhance1Btn.style.opacity = '0.5'; enhance1Btn.style.cursor = 'not-allowed';
+    } else {
+        enhance10xBtn.style.opacity = '1'; enhance10xBtn.style.cursor = 'pointer';
+        enhance1Btn.style.opacity = '1'; enhance1Btn.style.cursor = 'pointer';
     }
-
-    /* ================================================= */
-    /* 🛠️ 威爾設定區精準修復 (維持390px內，還原你的完美排版)  */
-    /* ================================================= */
-    #tab-will .settings-panel { padding: 15px !important; }
-    
-    /* 1. 音量控制：還原「不換行」，自動適應 390px */
-    #tab-will .will-vol-group-wrapper { 
-        flex-wrap: nowrap !important; 
-        gap: 5px !important; 
-    }
-    #tab-will .vol-group { 
-        border-left: none !important; 
-        padding-left: 0 !important; 
-        margin-left: 0 !important; 
-        width: auto !important; 
-        flex: 1 !important; 
-    }
-    #tab-will .vol-group input[type="range"] {
-        width: 100% !important;
-        min-width: 40px !important; 
-    }
-    #tab-will .vol-group label {
-        white-space: nowrap !important; 
-    }
-
-    .memo-content { 
-        flex-direction: column !important; 
-        gap: 15px !important; 
-        align-items: center !important; 
-        text-align: center !important;
-    }
-    .memo-apng { 
-        width: 100% !important; 
-        max-width: 250px !important; 
-    }
-
-    /* 3. 還原你的神級排版：前四個左右排列，後兩個自己一列 */
-    #tab-will .inst-btn-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px !important;
-        width: 100% !important;
-    }
-    #tab-will .inst-btn-grid > div:nth-child(5),
-    #tab-will .inst-btn-grid > div:nth-child(6) {
-        grid-column: span 2 !important;
-    }
-} /* 👈 這是 @media 的結尾括號，請確保它有被包含進去！ */
-
-/* 🌟 專屬縮放動畫 (必須放在 @media 結尾大括號的外面！) */
-@keyframes popInPortraitStart {
-    0% { opacity: 0; transform: scale(0.2); }
-    100% { opacity: 1; transform: scale(0.52); } 
-}
-@keyframes popInPortraitResult {
-    0% { opacity: 0; transform: scale(0.2); }
-    100% { opacity: 1; transform: scale(0.46); } 
 }
 
+function toggleMute() {
+    isMuted = !isMuted;
+    const muteBtn = document.getElementById('btn-mute-v');
+    if (isMuted) {
+        muteBtn.innerText = '🔇 聲音：關';
+        muteBtn.classList.add('muted-active');
+    } else {
+        muteBtn.innerText = '🔊 聲音：開';
+        muteBtn.classList.remove('muted-active');
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', {
+            'simulator': 'hexa-visual',
+            'sound_status': isMuted ? 'off' : 'on'});
+    }
+}
 
+function clickVisualEnhance() {
+    if (vClicks >= 20) return;
+
+    if (!isMuted) {
+        enhanceSound.currentTime = 0;
+        enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+    }
+
+    let cost = getHexaCost(vA);
+    totalFragmentsUsed += cost;
+    document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+
+    let probA = getHexaProb(vA);
+
+    if (vA < 10 && Math.random() < probA) {
+        vA++;
+    } else {
+        if (vB < 10 && vC < 10) {
+            if (Math.random() < 0.5) vB++; else vC++;
+        } else if (vB < 10) {
+            vB++; 
+        } else if (vC < 10) {
+            vC++; 
+        }
+    }
+    vClicks++;
+    updateVisualUI();
+}
+
+function clickVisualEnhance10x() {
+    if (vClicks >= 20) return;
+    let rolls = Math.min(10, 20 - vClicks);
+
+    if (!isMuted) {
+        enhanceSound.currentTime = 0;
+        enhanceSound.play().catch(error => { console.log("音效撥放失敗：", error); });
+    }
+
+    for (let i = 0; i < rolls; i++) {
+        let cost = getHexaCost(vA);
+        totalFragmentsUsed += cost;
+        let probA = getHexaProb(vA);
+
+        if (vA < 10 && Math.random() < probA) {
+            vA++;
+        } else {
+            if (vB < 10 && vC < 10) {
+                if (Math.random() < 0.5) vB++; else vC++;
+            } else if (vB < 10) {
+                vB++; 
+            } else if (vC < 10) {
+                vC++; 
+            }
+        }
+        vClicks++;
+    }
+    
+    document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+    updateVisualUI();
+}
+
+function resetVisual() {
+    if (vClicks < 10) {
+        alert("⚠️ 依據真實遊戲設定，必須點滿 10 次才能重置喔！");
+        return;
+    }
+    resetCountTracker++;
+    document.getElementById('v-reset-count').innerText = resetCountTracker;
+    vA = 0; vB = 0; vC = 0; vClicks = 0;
+    updateVisualUI();
+}
+
+function resetFragments() {
+    totalFragmentsUsed = 0;
+    resetCountTracker = 0;
+    document.getElementById('v-fragments').innerText = totalFragmentsUsed;
+    document.getElementById('v-reset-count').innerText = resetCountTracker;
+}
+
+/* ========================================== */
+/* 6. HEXA 懶人決策表                          */
+/* ========================================== */
+let currentSort = { col: 'winRate', asc: false }; 
+
+function generateLazyTable() {
+    const trialsOccur = 100000;
+    let occurrences = {};
+
+    for (let i = 0; i < trialsOccur; i++) {
+        let a = 0, b = 0, c = 0;
+        for (let r = 0; r < 10; r++) {
+            if (Math.random() < getHexaProb(a) && a < 10) a++;
+            else {
+                if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                else { if (c < 10) c++; else b++; }
+            }
+        }
+        let maxSub = Math.max(b, c);
+        let minSub = Math.min(b, c);
+        let key = `${a}_${maxSub}_${minSub}`;
+        occurrences[key] = (occurrences[key] || 0) + 1;
+    }
+
+    let results = [];
+    const trialsWin = 15000; 
+
+    for (let key in occurrences) {
+        let occProb = (occurrences[key] / trialsOccur) * 100;
+        if (occProb > 0.05) { 
+            let parts = key.split('_');
+            let startA = parseInt(parts[0]);
+            let startB = parseInt(parts[1]);
+            let startC = parseInt(parts[2]);
+            let success = 0;
+            for (let i = 0; i < trialsWin; i++) {
+                let a = startA, b = startB, c = startC;
+                for (let r = 0; r < 10; r++) {
+                    if (Math.random() < getHexaProb(a) && a < 10) a++;
+                    else {
+                        if (Math.random() < 0.5) { if (b < 10) b++; else c++; } 
+                        else { if (c < 10) c++; else b++; }
+                    }
+                }
+                if (a >= 8 || b === 10 || c === 10) success++;
+            }
+            let winRate = (success / trialsWin) * 100;
+            if (winRate > 5.0) {
+                results.push({ a: startA, maxSub: startB, minSub: startC, winRate: winRate, occProb: occProb });
+            }
+        }
+    }
+
+    results.sort((x, y) => {
+        let diff = x[currentSort.col] - y[currentSort.col];
+        return currentSort.asc ? diff : -diff;
+    });
+    
+    renderTable(results);
+}
+
+function renderTable(results) {
+    let arrow = currentSort.asc ? " ▲" : " ▼";
+    let html = `
+        <table class="lazy-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('a')" style="cursor:pointer; background-color:#003d99;">主屬性${currentSort.col==='a'?arrow:''}</th>
+                    <th>較高附屬</th>
+                    <th>較低附屬</th>
+                    <th onclick="sortTable('occProb')" style="cursor:pointer; background-color:#003d99;">發生機率${currentSort.col==='occProb'?arrow:''}</th>
+                    <th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col==='winRate'?arrow:''}</th>
+                    <th>建議決策</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    results.forEach(r => {
+        let tagHtml = "";
+        if (r.winRate > 50) tagHtml = `<span class="tag tag-green">極佳<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
+        else if (r.winRate > 35) tagHtml = `<span class="tag tag-green">普通<span class="desktop-space"> </span><br class="mobile-br">(保留)</span>`;
+        else if (r.winRate > 15) tagHtml = `<span class="tag tag-yellow">偏弱<span class="desktop-space"> </span><br class="mobile-br">(建議重置)</span>`;
+        else tagHtml = `<span class="tag tag-red">無法達成<span class="desktop-space"> </span><br class="mobile-br">(立刻重置)</span>`;
+
+        html += `<tr>
+            <td><strong>${r.a}</strong></td>
+            <td>${r.maxSub}</td>
+            <td>${r.minSub}</td>
+            <td style="color:#7f8c8d;">${r.occProb.toFixed(2)}%</td>
+            <td><strong>${r.winRate.toFixed(1)}%</strong></td>
+            <td>${tagHtml}</td>
+        </tr>`;
+    });
+    html += `</tbody></table>`;
+    document.getElementById('lazy-table-wrapper').innerHTML = html;
+}
+
+function sortTable(col) {
+    if (currentSort.col === col) {
+        currentSort.asc = !currentSort.asc;
+    } else {
+        currentSort.col = col;
+        currentSort.asc = false;
+    }
+    generateLazyTable(); 
+}
+
+/* ========================================== */
+/* 7. HEXA 重置決策邏輯 (Reset Decision Sim)  */
+/* ========================================== */
+function checkHexaReset() {
+    let a = parseInt(document.getElementById('reset-a').value) || 0;
+    let b = parseInt(document.getElementById('reset-b').value) || 0;
+    let c = parseInt(document.getElementById('reset-c').value) || 0;
+    let rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
+    let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
+    let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+    
+    let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
+
+    let mainPanel = document.getElementById('res-main-panel');
+    let detailPanel = document.getElementById('res-detail-panel');
+    let mainBox = document.getElementById('result-hexa-reset-main');
+    let detailBox = document.getElementById('result-hexa-reset-details');
+
+    if (a + b + c + rolls !== 20) {
+        mainPanel.style.display = 'block';
+        detailPanel.style.display = 'none';
+        // 👇 換成這種排版結構
+        mainBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div style="display: inline-block; text-align: left;">目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。</div>
+            </div>`;
+        detailBox.innerHTML = "";
+        return;
+    }
+
+    if (targetA === 0 && targetSub === 0) {
+        mainPanel.style.display = 'block';
+        detailPanel.style.display = 'none';
+        mainBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div>請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！</div>
+            </div>`;
+        detailBox.innerHTML = "";
+        return;
+    }
+    const trials = useMillionReset ? 1000000 : 30000;
+    let gradSuccess = 0; 
+    let baseSuccess = 0; 
+    
+    let countA = new Array(11).fill(0);
+    let countB = new Array(11).fill(0);
+    let countC = new Array(11).fill(0);
+
+    for (let i = 0; i < trials; i++) {
+        let simA = a, simB = b, simC = c;
+        for (let roll = 0; roll < rolls; roll++) { 
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else {
+                if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
+                else { if (simC < 10) simC++; else simB++; }
+            }
+        }
+        
+        let maxSub = Math.max(simB, simC);
+        let passedA = (targetA > 0 && simA >= targetA);
+        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        if (passedA || passedSub) gradSuccess++;
+        
+        countA[simA]++; countB[simB]++; countC[simC]++;
+    }
+
+    for (let i = 0; i < trials; i++) {
+        let simA = 0, simB = 0, simC = 0;
+        for (let roll = 0; roll < 20; roll++) {
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else {
+                if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } 
+                else { if (simC < 10) simC++; else simB++; }
+            }
+        }
+        let maxSub = Math.max(simB, simC);
+        let passedA = (targetA > 0 && simA >= targetA);
+        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        if (passedA || passedSub) baseSuccess++;
+    }
+
+    let winRate = (gradSuccess / trials) * 100;
+    let baseWinRate = (baseSuccess / trials) * 100;
+    let suggestion = "";
+    
+    if (winRate === 0) {
+        suggestion = "無法達成 (機率為 0%)，請立刻重置。";
+    } else if (winRate >= baseWinRate * 3) {
+        suggestion = `歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
+    } else if (winRate >= baseWinRate) {
+        suggestion = `狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+    } else if (winRate >= baseWinRate * 0.5) {
+        suggestion = `狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
+    } else {
+        suggestion = `狀態極差 (機率遠低於從頭來過，立刻重置)`;
+    }
+
+    mainPanel.style.display = 'block';
+    detailPanel.style.display = 'block';
+    
+    mainBox.innerHTML = `
+        <div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">預估畢業勝率：${winRate.toFixed(2)}%</div>
+        <div style="font-size: 15px; color: ${winRate >= baseWinRate ? '#34C759' : '#FF3B30'}; font-weight: 600;">${suggestion}</div>
+    `;
+    
+    let htmlA = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#007AFF; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【主屬性 (A)】</div>`;
+    for(let i = Math.max(0, a); i <= 10; i++) htmlA += `<div style="margin-bottom: 4px;">• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%</div>`;
+    htmlA += `</div>`;
+
+    let htmlB = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF3B30; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (B)】</div>`;
+    for(let i = Math.max(0, b); i <= 10; i++) htmlB += `<div style="margin-bottom: 4px;">• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%</div>`;
+    htmlB += `</div>`;
+
+    let htmlC = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF9500; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (C)】</div>`;
+    for(let i = Math.max(0, c); i <= 10; i++) htmlC += `<div style="margin-bottom: 4px;">• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%</div>`;
+    htmlC += `</div>`;
+
+    detailBox.innerHTML = `
+        <div style="width:100%; text-align: left; font-size: 14px; color: var(--text-main, #333);">
+            <strong style="display:block; margin-bottom: 6px; font-size: 15px;">點完後可能性的機率分佈：</strong>
+            <span style="font-size: 13px; color: var(--text-muted, #888); display: block; margin-bottom: 15px;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
+                ${htmlA}${htmlB}${htmlC}
+            </div>
+        </div>
+    `;
+}
+
+/* ========================================== */
+/* 8. HEXA 目標屬性模擬邏輯 (Target Goal Sim) */
+/* ========================================== */
+function runHexaSimulation() {
+    let valA = document.getElementById('sim-a').value;
+    let valB = document.getElementById('sim-b').value;
+    let valC = document.getElementById('sim-c').value;
+    let valRolls = document.getElementById('sim-rolls').value;
+
+    let sA = valA === "" ? 0 : parseInt(valA);
+    let sB = valB === "" ? 0 : parseInt(valB);
+    let sC = valC === "" ? 0 : parseInt(valC);
+    let rolls = valRolls === "" ? 20 : parseInt(valRolls);
+
+    let valTa = document.getElementById('target-a').value;
+    let valTsub = document.getElementById('target-sub').value;
+    let tA = valTa === "" ? 0 : parseInt(valTa);
+    let tSub = valTsub === "" ? 0 : parseInt(valTsub);
+
+    let useStopLoss = document.getElementById('sim-stoploss').checked;
+    let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
+    let resBox = document.getElementById('result-hexa-sim');
+
+    if (sA + sB + sC + rolls !== 20) {
+        resBox.style.display = 'block'; 
+        // 👇 換成這種排版結構
+        resBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div style="display: inline-block; text-align: left;">目前等級總和 (${sA + sB + sC}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。</div>
+            </div>`; 
+        return;
+    }
+
+    if (tA === 0 && tSub === 0) {
+        resBox.style.display = 'block'; 
+        resBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
+                <div>請至少設定一項目標屬性等級 (>0) 才能進行模擬！</div>
+            </div>`; 
+        return;
+    }
+
+    const trials = useMillion ? 1000000 : 100000;
+    let cSuccess = 0, cHitA = 0, cHitSub = 0, cHitBoth = 0, tFrag = 0; 
+    let isGolden = (useStopLoss && tSub === 0 && (tA === 10 || tA === 9));
+
+    for (let i = 0; i < trials; i++) {
+        let a = sA, b = sB, c = sC, attFrag = 0, success = false;
+        
+        if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
+            success = true;
+        }
+
+        for (let r = 0; r < rolls && !success; r++) {
+            let currMax = Math.max(b, c);
+            let currentTotalRolls = sA + sB + sC + r; 
+
+            if (useStopLoss) {
+                let rem = rolls - r;
+                let canHitA = (tA > 0) ? (a + rem >= tA) : false;
+                let canHitSub = (tSub > 0) ? (currMax + rem >= tSub) : false;
+                
+                let possible = false;
+                if (tA > 0 && tSub > 0) possible = (canHitA || canHitSub);
+                else if (tA > 0) possible = canHitA;
+                else if (tSub > 0) possible = canHitSub;
+
+                if (!possible) break; 
+
+                if (currentTotalRolls === 10 && tSub === 0) {
+                    if (tA === 10 && a < 5) break; 
+                    if (tA === 9 && a < 4) break;  
+                }
+            }
+
+            attFrag += getHexaCost(a);
+            if (Math.random() < getHexaProb(a) && a < 10) {
+                a++;
+            } else {
+                if (Math.random() < 0.5) { 
+                    if (b < 10) b++; else c++; 
+                } else { 
+                    if (c < 10) c++; else b++; 
+                }
+            }
+
+            if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
+                success = true;
+            }
+        }
+        tFrag += attFrag;
+        if (success) {
+            cSuccess++;
+            let finalMaxSub = Math.max(b, c);
+            let passA = (tA > 0 && a >= tA);
+            let passSub = (tSub > 0 && finalMaxSub >= tSub);
+            if (passA) cHitA++;
+            if (passSub) cHitSub++;
+            if (passA && passSub) cHitBoth++;
+        }
+    }
+    
+    let prob = (cSuccess / trials) * 100;
+    let avgCost = cSuccess > 0 ? (tFrag / cSuccess) : 0;
+    
+    let htmlOutput = `<div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">【 模擬 ${trials.toLocaleString()} 次結果 】</div>`;
+    
+    if (useStopLoss) {
+        htmlOutput += `<div style="color:${isGolden ? '#34C759' : 'var(--text-muted, #888)'}; font-size: 13px; margin-bottom: 15px;">`;
+        if (isGolden) htmlOutput += `(套用提早停損及重置決策：前十次未達主屬${tA===10?'5':'4'}時直接重置)`;
+        else htmlOutput += `(僅套用提早停損)`;
+        htmlOutput += `</div>`;
+    } else {
+        htmlOutput += `<div style="margin-bottom: 15px;"></div>`;
+    }
+    
+    htmlOutput += `<div style="text-align: left; line-height: 1.8; color: var(--text-main, #333); font-size: 15px;">`;
+    
+    if (tA > 0) htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#007AFF; font-size: 16px;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
+    if (tSub > 0) htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#FF3B30; font-size: 16px;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
+    
+    if (tA > 0 && tSub > 0) {
+        htmlOutput += `<div style="margin-top: 6px;">• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#34C759; font-size: 16px;">${prob.toFixed(2)} %</strong></div>`;
+        htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong style="color:#AF52DE; font-size: 16px;">${((cHitBoth / trials) * 100).toFixed(2)} %</strong>`;
+    }
+    htmlOutput += `</div>`;
+    
+    htmlOutput += `<div style="width: 100%; height: 1px; background-color: var(--glass-border, #eee); margin: 20px 0;"></div>`;
+    
+    if (cSuccess > 0) {
+        htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">預估碎片需求：平均準備約 <strong style="font-size: 19px; color:#FF3B30;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標</div>`;
+    } else {
+        htmlOutput += `<div style="color: #FF3B30; font-size: 15px; font-weight: bold;">起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。</div>`;
+    }
+
+    resBox.style.display = 'block';
+    resBox.innerHTML = htmlOutput;
+}
+/* ========================================== */
+/* 9. 製作模擬器邏輯 (Craft Simulator)           */
+/* ========================================== */
+let cr_fails = 0;
+let cr_successes = 0; 
+let cr_crystals_used = 0;
+let cr_scrolls_used = 0;
+let cr_isAnimating = false;
+let cr_isMuted = false;
+let cr_ev_achieved = 0;
+let cr_current_attempts = 0;
+let cr_mythic_type = 'necro'; 
+
+const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
+const cr_sfx_fail = new Audio('assets/AncientFail.wav');
+
+const CRAFT_DATA = {
+    mythic_inherit: {
+        baseRate: 30, additionalRate: 0,
+        fromText: "神話", toText: "古代",
+        fromColor: "#E42123", toColor: "#1cd1ed",
+        desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。",
+        meso: "1,204", equipName: "獅子心形克拉", toEquipName: "獅子心形克拉",          
+        crystalName: "古代武器結晶", fromImg: "assets/獅子心形克拉.png", toImg: "assets/獅子心形克拉.webp", 
+        crystalImg: "assets/古代武器結晶.png", crystalReq: 1,                   
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
+        confirmCustomHTML: `
+            要進行古代級道具<span style="color:#ED7245; font-weight:bold;">繼承製作</span>嗎？<br>
+            製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
+            並且會顯示為能力下降。<br>
+            原有裝備的基本能力值會以相同比例維持。<br><br>
+            死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
+            繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
+        `,
+        confirmHighlight: "古代", confirmTier: "古代級", confirmTierColor: "#ed7245", 
+        successFromText: "神話", successFromColor: "#E42123", successToText: "古代", successToColor: "#1cd1ed",
+        failFromText: "神話", failFromColor: "#E42123", failToText: "神話", failToColor: "#E42123"
+    },
+    mythic_necro: {
+        baseRate: 4, additionalRate: 4,
+        fromText: "神話", toText: "古代",
+        fromColor: "#E42123", toColor: "#1cd1ed",
+        desc: "對選擇的裝備進行死靈轉換製作。<br><br>製作成功時可獲得<span class='txt-sharp' style='color:#1cd1ed;'>古代</span>死靈道具。<br>把神話鍊成道具作為基本使用時，製作成功機率會提高。<br>",
+        meso: "1,204", equipName: "獅子心形克拉", toEquipName: "死靈克拉",             
+        crystalName: "古代武器結晶", fromImg: "assets/獅子心形克拉.png", toImg: "assets/死靈克拉.webp",
+        crystalImg: "assets/古代武器結晶.png", crystalReq: 1,                   
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
+        confirmCustomHTML: `
+            要進行古代級道具<span style="color:#ed7245; font-weight:bold;">死靈轉換製作</span>嗎？<br>
+            製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
+            並且會顯示為能力下降。<br>
+            原有裝備的基本能力值會以相同比例維持。<br><br>
+            死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
+            繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
+        `,
+        confirmHighlight: "死靈", confirmTier: "死靈級", confirmTierColor: "#1cd1ed",
+        successFromText: "神話", successFromColor: "#E42123", successToText: "死靈", successToColor: "#1cd1ed",
+        failFromText: "神話", failFromColor: "#E42123", failToText: "神話", failToColor: "#E42123"
+    },
+    absolab: {
+        baseRate: 12, additionalRate: 0,
+        fromText: "死靈", toText: "航海師",
+        fromColor: "#1cd1ed", toColor: "#CC9ED8",   
+        desc: "以<span class='txt-sharp' style='color:#1cd1ed;'>在死靈裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
+        meso: "1,204", equipName: "死靈克拉", toEquipName: "航海師克拉", 
+        crystalName: "烙印武器結晶", fromImg: "assets/死靈克拉.webp", toImg: "assets/航海師克拉.webp",
+        crystalImg: "assets/烙印武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",      
+        successFromText: "古代", successFromColor: "#1cd1ed", successToText: "混沌", successToColor: "#CC9ED8",   
+        failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
+    },
+    arcane: {
+        baseRate: 10, additionalRate: 0,
+        fromText: "航海師", toText: "神秘冥界幽靈",
+        fromColor: "#CC9ED8", toColor: "#CC9ED8",   
+        desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
+        meso: "1,204", equipName: "航海師克拉", toEquipName: "神秘冥界幽靈克拉",
+        crystalName: "夏德貝爾結晶(武器)", fromImg: "assets/航海師克拉.webp", toImg: "assets/神秘冥界幽靈克拉.webp",
+        crystalImg: "assets/夏德貝爾結晶(武器).png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        confirmHighlight: "神秘冥界幽靈", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D", 
+        successFromText: "混沌", successFromColor: "#CC9ED8", successToText: "混沌", successToColor: "#CC9ED8",   
+        failFromText: "混沌", failFromColor: "#CC9ED8", failToText: "混沌", failToColor: "#CC9ED8"
+    }
+};
+
+let cr_stage = 'arcane'; 
+
+function cr_toggleSound() {
+    cr_isMuted = !cr_isMuted;
+    document.getElementById('btn-sound-toggle-cr').innerText = cr_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
+    document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', {
+            'simulator': 'craft',
+            'sound_status': cr_isMuted ? 'off' : 'on'});
+    }
+}
+
+function cr_changeMythicSub(type) {
+    cr_mythic_type = type;
+    cr_updateUI();
+}
+
+function cr_getScrollRate() {
+    if (cr_stage === 'necro') { 
+        let n1 = document.getElementById('cr-scroll-n1');
+        let n2 = document.getElementById('cr-scroll-n2');
+        let v1 = n1 ? parseInt(n1.value) : 0;
+        let v2 = n2 ? parseInt(n2.value) : 0;
+        let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0); 
+        let firstRate = (v1 > 0) ? v1 : v2; 
+        return { rate: (v1 + v2), count: count, firstRate: firstRate };
+    } else {
+        let scrollElem = document.getElementById('cr-scroll-c1');
+        let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
+        return { rate: v1, count: v1 > 0 ? 1 : 0, firstRate: v1 };
+    }
+}
+
+function cr_forceStageChange() {
+    if(cr_isAnimating) return;
+    
+    let stageRadio = document.querySelector('input[name="cr-stage"]:checked');
+    if(stageRadio) cr_stage = stageRadio.value;
+    
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0;
+    cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
+    
+    if(cr_stage === 'necro') {
+        let necroDiv = document.getElementById('cr-scroll-necro-div');
+        let chaosDiv = document.getElementById('cr-scroll-chaos-div');
+        if(necroDiv) necroDiv.style.display = 'flex';
+        if(chaosDiv) chaosDiv.style.display = 'none';
+        
+        let n1 = document.getElementById('cr-scroll-n1');
+        let n2 = document.getElementById('cr-scroll-n2');
+        if(n1) n1.value = "0";
+        if(n2) n2.value = "0";
+    } else {
+        let necroDiv = document.getElementById('cr-scroll-necro-div');
+        let chaosDiv = document.getElementById('cr-scroll-chaos-div');
+        if(necroDiv) necroDiv.style.display = 'none';
+        if(chaosDiv) chaosDiv.style.display = 'flex';
+        
+        let c1 = document.getElementById('cr-scroll-c1');
+        if(c1) c1.value = "0";
+    }
+    cr_updateUI();
+}
+
+function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
+    if (!firstRate || firstRate === 0) return defaultImg; 
+    let folder = 'assets/';
+
+    if (stage === 'necro') {
+        // 1. 死靈 1%~6% (注意：有把 % 補上去了！)
+        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}.png`; 
+        
+        // 2. 死靈 10% 和 15% 共用 5_10 這張
+        if (firstRate === 10 || firstRate === 15) return `${folder}幸運的古代製作卷軸5_10.png`; 
+
+    } else {
+        // 3. 混沌 3%, 5%, 7% 共用一張圖
+        if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;   
+        
+        // 4. 混沌 10% (注意：有把 % 補上去了！)
+        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸_武器_10.png`;
+    }
+    
+    return defaultImg; 
+}
+
+function cr_updateUI() {
+    let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+    let data = CRAFT_DATA[activeKey];
+    let scrollInfo = cr_getScrollRate();
+    let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
+
+    let equipImgElem = document.getElementById('cr-equip-from-img');
+    let equipNameElem = document.getElementById('cr-equip-from-name');
+    let overlayLvElem = document.getElementById('cr-overlay-lv'); 
+
+    if(equipImgElem) {
+        equipImgElem.style.display = ''; 
+        equipImgElem.src = data.fromImg;
+    }
+    if(equipNameElem) equipNameElem.innerHTML = data.equipName;
+    if(overlayLvElem) {
+        let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+        overlayLvElem.innerText = startLv;
+    }
+
+    let crystalImgElem = document.getElementById('cr-crystal-img');
+    let crystalNameElem = document.getElementById('cr-crystal-name');
+    if(crystalImgElem) {
+        crystalImgElem.style.display = ''; 
+        crystalImgElem.src = data.crystalImg;
+    }
+    if(crystalNameElem) crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
+
+    let fromTextElem = document.getElementById('cr-stage-from-text');
+    let toTextElem = document.getElementById('cr-stage-to-text');
+    if(fromTextElem) { fromTextElem.innerText = data.fromText; fromTextElem.style.color = data.fromColor; }
+    if(toTextElem) { toTextElem.innerText = data.toText; toTextElem.style.color = data.toColor; }
+
+    let descElem = document.getElementById('cr-desc-text');
+    let descParent = descElem ? descElem.parentElement : null;
+    let midGreySection = document.querySelector('#cr-game-ui-container .sec-grey-mid');
+
+    if (cr_stage === 'necro') {
+        if (descParent) { descParent.style.padding = '0'; descParent.style.backgroundColor = '#F0F0F0'; descParent.style.borderBottom = 'none'; }
+        if (midGreySection) midGreySection.style.padding = '0';
+    } else {
+        if (descParent) { descParent.style.padding = '8px 0 8px 0'; descParent.style.backgroundColor = '#ffffff'; descParent.style.borderBottom = '1px solid #e1e4e8'; }
+        if (midGreySection) midGreySection.style.padding = '12px 0 0 0'; 
+    }
+
+    if(descElem) {
+        let descHTML = "";
+        if (cr_stage === 'necro') {
+            descHTML += `
+                <div style="background-color: #FFFFFF; border-bottom: 1px solid #e1e4e8; padding: 4px 0; display: flex; justify-content: center;">
+                    <div style="display: flex; gap: 110px; width: 400px; padding-left: 0px;">
+                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #333;">
+                            <input type="checkbox" ${cr_mythic_type === 'inherit' ? 'checked' : ''} onchange="cr_changeMythicSub('inherit')" style="margin-right: 8px; width: 18px; height: 18px; accent-color: #3498db; cursor: pointer;"> 繼承
+                        </label>
+                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #333;">
+                            <input type="checkbox" ${cr_mythic_type === 'necro' ? 'checked' : ''} onchange="cr_changeMythicSub('necro')" style="margin-right: 8px; width: 18px; height: 18px; accent-color: #3498db; cursor: pointer;"> 死靈轉換
+                        </label>
+                    </div>
+                </div>
+                <div style="background-color: #F0F0F0; padding: 15px 20px; font-size: 13px; color: #333; line-height: 1.6; text-align: center; font-weight: normal;">
+                    ${data.desc}
+                </div>
+            `;
+        } else {
+            descHTML = data.desc;
+        }
+        descElem.innerHTML = descHTML;
+    }
+
+    let chaosTierList = document.getElementById('cr-chaos-tier-list');
+    if (chaosTierList) {
+        if (cr_stage === 'necro') chaosTierList.style.display = 'none';  
+        else chaosTierList.style.display = 'block'; 
+    }
+
+    let scrollCol = document.getElementById('cr-scroll-col');
+    let scrollName = document.getElementById('cr-scroll-name');
+    let scrollImgElem = document.getElementById('cr-scroll-img');
+    
+    if(scrollImgElem) {
+        scrollImgElem.style.display = ''; 
+        scrollImgElem.src = cr_getDynamicScrollImg(cr_stage, scrollInfo.firstRate, data.scrollImg);
+    }
+    
+    if (scrollCol && scrollName) {
+        if (scrollInfo.rate > 0 || scrollInfo.count > 0) {
+            scrollCol.style.opacity = '1';
+            scrollName.style.color = '#333';
+            scrollName.style.fontWeight = 'bold';
+            let scrollDisplayName = (cr_stage === 'necro') ? `${data.scrollName}` : `${data.scrollName}${scrollInfo.rate}%`;
+            scrollName.innerHTML = `${scrollDisplayName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">${scrollInfo.count}/${data.scrollReq}</span>`;
+        } else {
+            scrollCol.style.opacity = '0.3';
+            scrollName.style.color = '#888';
+            scrollName.style.fontWeight = 'normal';
+            scrollName.innerHTML = `卷軸`; 
+        }
+    }
+
+    let rateBox = document.querySelector('#cr-game-ui-container .rate-box');
+    if (rateBox) {
+        rateBox.style.marginTop = 'auto'; 
+        rateBox.style.width = '100%';
+
+        if (cr_stage === 'necro' && cr_mythic_type === 'necro') {
+            rateBox.innerHTML = `
+                <div style="background-color: #ffffff; width: 100%; padding: 6px 0; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8;">
+                    <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">
+                        追加死靈轉換製作成功機率 : ${data.additionalRate}%
+                    </div>
+                </div>
+                <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
+                    <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
+                        死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}
+                    </div>
+                </div>
+            `;
+        } else if (cr_stage === 'necro' && cr_mythic_type === 'inherit') {
+            rateBox.innerHTML = `
+                <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;"> <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
+                        繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}
+                    </div>
+                </div>
+            `;
+        } else {
+            rateBox.innerHTML = `
+                <div class="txt-sharp" style="color: #ED7245; font-size: 15px; padding-bottom: 10px; margin-bottom: 0;"> <span id="cr-stage-to-name-color">${data.toText}</span>製作成功率 : 
+                    <span id="cr-total-rate" style="margin-left: 2px;">${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + ' %'}</span>
+                </div>
+            `;
+        }
+    }
+
+    let mesoElem = document.getElementById('cr-meso-cost');
+    if(mesoElem) mesoElem.innerText = data.meso;
+
+    let statSuccess = document.getElementById('cr-stat-success');
+    let statFails = document.getElementById('cr-stat-fails');
+    let statCrys = document.getElementById('cr-stat-crystals');
+    let statScr = document.getElementById('cr-stat-scrolls');
+    let statTotalUsed = document.getElementById('cr-stat-total-used');
+    let evAtmpt = document.getElementById('cr-ev-attempts');
+
+    if(statSuccess) statSuccess.innerText = cr_successes;
+    if(statFails) statFails.innerText = cr_fails;
+    if(statCrys) statCrys.innerText = cr_crystals_used;
+    if(statScr) statScr.innerText = cr_scrolls_used;
+    if(statTotalUsed) statTotalUsed.innerText = cr_crystals_used;
+
+    let current_ev = (cr_current_attempts > 0) ? (100 / totalRate) : 0;
+    if(evAtmpt) evAtmpt.innerText = (cr_ev_achieved + current_ev).toFixed(2);
+}
+
+function cr_showConfirm() {
+    if(cr_isAnimating) return;
+    let modal = document.getElementById('cr-confirm-modal');
+    if(modal) {
+        let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+        let data = CRAFT_DATA[activeKey];
+        
+        let confirmBody = modal.querySelector('.cr-confirm-body');
+        if (confirmBody) {
+            if (data.confirmCustomHTML) {
+                confirmBody.innerHTML = data.confirmCustomHTML;
+            } else {
+                let highlightColor = data.confirmHighlightColor || data.toColor; 
+                confirmBody.innerHTML = `
+                    要製作<span style="color:${highlightColor}; font-weight:bold;">${data.confirmHighlight}</span>道具嗎？<br>
+                    裝備等級會重置，能力可能會顯示下降。<br>
+                    原有裝備持有的基本能力會以相同比例維持。<br><br>
+                    ${data.confirmHighlight} 製作：<span style="color:${data.confirmTierColor}; font-weight:bold;">${data.confirmTier}</span>的${data.confirmHighlight}製作
+                `;
+            }
+        }
+        modal.classList.add('active');
+    }
+}
+
+function cr_cancelConfirm() {
+    let modal = document.getElementById('cr-confirm-modal');
+    if(modal) modal.classList.remove('active');
+}
+
+function cr_executeCraft() {
+    let confirmModal = document.getElementById('cr-confirm-modal');
+    if(confirmModal) confirmModal.classList.remove('active');
+    cr_isAnimating = true;
+    
+    if (typeof gtag === 'function') {
+        gtag('event', 'action_craft', {
+            'craft_stage': cr_stage});
+    }
+
+    try {
+        let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+        let data = CRAFT_DATA[activeKey];
+        let scrollInfo = cr_getScrollRate();
+        let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
+
+        cr_current_attempts++; cr_crystals_used++; cr_scrolls_used += scrollInfo.count;
+        cr_updateUI();
+
+        let isSuccess = (Math.random() * 100) < totalRate;
+        let animOverlay = document.getElementById('cr-anim-overlay');
+        
+        if (animOverlay) {
+            if (cr_stage === 'necro') {
+                animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success-gold' : 'cr-anim-fail-gold');
+            } else {
+                animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success' : 'cr-anim-fail');
+            }
+            
+            if (!cr_isMuted) {
+                let sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
+                sfx.currentTime = 0;
+                sfx.play().catch(e => console.log("音效播放被阻擋：", e));
+            }
+
+            setTimeout(() => {
+                animOverlay.className = 'lightning-overlay'; 
+                if (isSuccess) {
+                    cr_successes++; 
+                    let attempts_taken = cr_current_attempts; 
+                    cr_fails = 0; cr_ev_achieved += (100 / totalRate); cr_current_attempts = 0; 
+                    cr_showResult(true, attempts_taken); 
+                } else {
+                    cr_fails++;
+                    cr_showResult(false);
+                }
+            }, 1260);
+        }
+    } catch (e) {
+        console.error("製作發生錯誤：", e);
+        cr_isAnimating = false;
+        alert("UI 發生異常！系統已強制解鎖。");
+    }
+}
+
+function cr_showResult(isSuccess, attempts_taken = 0) {
+    let modal = document.getElementById('cr-result-modal');
+    if(!modal) return;
+    modal.classList.add('active');
+    
+    let statsBox = document.getElementById('cr-m-stats-box');
+    let lvTag = document.getElementById('cr-m-lv-tag');
+    let lvText = document.getElementById('cr-m-lv');
+    let failCont = document.getElementById('cr-m-fail-text-container');
+    
+    let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+    let data = CRAFT_DATA[activeKey]; 
+    
+    let stageFromElem = document.getElementById('cr-m-stage-from-color');
+    let stageToElem = document.getElementById('cr-m-stage-to-color');
+    let resultImgElem = document.getElementById('cr-m-equip-img');
+
+    if (isSuccess) {
+        if (stageFromElem && stageToElem) {
+            stageFromElem.innerText = data.successFromText; stageFromElem.style.color = data.successFromColor;
+            stageToElem.innerText = data.successToText; stageToElem.style.color = data.successToColor;
+        }
+
+        document.getElementById('cr-m-title').innerText = "製作成功";
+        if (resultImgElem) { resultImgElem.style.display = ''; resultImgElem.src = data.toImg; }
+        
+        document.getElementById('cr-m-equip-name').innerText = data.toEquipName; 
+        if(lvTag) lvTag.style.display = "block";
+        if(lvText) lvText.innerText = "1"; 
+        
+        if(failCont) {
+            failCont.style.display = "block";
+            failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`;
+        }
+        if(statsBox) {
+            statsBox.innerHTML = `
+                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#ED7245;">1,204 <span style="color:#02f53b;">(▲1,204)</span></span></div>
+                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1,204</span></div>
+                <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1,204</span></div>
+            `;
+        }
+    } else {
+        if (stageFromElem && stageToElem) {
+            stageFromElem.innerText = data.failFromText; stageFromElem.style.color = data.failFromColor;
+            stageToElem.innerText = data.failToText; stageToElem.style.color = data.failToColor;
+        }
+
+        document.getElementById('cr-m-title').innerText = "製作失敗";
+        if (resultImgElem) { resultImgElem.style.display = ''; resultImgElem.src = data.fromImg; }
+        document.getElementById('cr-m-equip-name').innerText = data.equipName;
+        
+        if(lvTag) lvTag.style.display = "block";
+        if(lvText) {
+            let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+            lvText.innerText = failLv; 
+        }
+        
+        if(failCont) {
+            failCont.style.display = "block";
+            failCont.innerHTML = `製作失敗次數 <span style="color:#c0392b; font-weight:bold;">${cr_fails}</span> / 5`;
+        }
+        
+        if(statsBox) {
+            statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px; font-weight:bold;">能力值沒有變化。</div>`;
+        }
+    }
+}
+
+function cr_closeResult() {
+    let modal = document.getElementById('cr-result-modal');
+    if(modal) modal.classList.remove('active');
+    cr_isAnimating = false; cr_updateUI();
+}
+
+function cr_action_reset() {
+    if (cr_isAnimating) return;
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0;
+    cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
+    cr_updateUI();
+}
+
+/* ========================================== */
+/* 10. 威爾一階特訓模擬引擎 (終極淨化版)         */
+/* ========================================== */
+const wCanvas = document.getElementById('willCanvas');
+const wCtx = wCanvas ? wCanvas.getContext('2d') : null;
+
+const WORLD_W = 1741;
+const WORLD_H = 713;
+const WORLD_CENTER = 870;
+
+const CONFIG = {
+    camera: { zoom: 1.3, offsetY: 100 },
+    scale: { player: 1, boss: 1, legTop: 1, legBot: 1, crack: 0.85, hitEffect: 1 },
+    pos: { floorY: 445, bossY: 600, crackX: 820, crackY: 450, legTopY: -280, legBotY: 1100, legTopOffsetX: 100, legBotOffsetX: 50 },
+    time: { warn: 900, strike: 900, idle: 300 },
+    player: { speed: 7, nativeFacingLeft: true, hitBot: 110, hitTop: 140 },
+    boss: {speed: 2.5, followDistance: 30 }
+};
+
+const POS = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
+
+function will_togglePause(forceState) {
+    wGame.isPaused = forceState;
+    if (wGame.isPaused) will_updateUI("⏸ 遊戲暫停", "#f1c40f", "點擊 ▶ 繼續");
+    else will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備...");
+}
+
+function will_zoomStep(amount) {
+    let newZoom = Math.max(1.0, Math.min(2.5, CONFIG.camera.zoom + amount));
+    CONFIG.camera.zoom = Number(newZoom.toFixed(1));
+    const display = document.getElementById('zoom-glass-val');
+    if(display) display.innerText = CONFIG.camera.zoom.toFixed(1) + 'x';
+}
+
+// =========================================================================
+// 🖼️ 【修改素材區】
+// =========================================================================
+const wAssets = {
+    bgSmooth: new Image(), bgCrack: new Image(), boss: new Image(),
+    pWalk: new Image(), pIdle: new Image(), legTop: new Image(), legBot: new Image(), crack: new Image()
+};
+
+wAssets.bgSmooth.src = 'assets/bg_Deep_Mirror.png';       
+wAssets.bgCrack.src  = 'assets/bg_Deep_Mirror.png';       
+wAssets.crack.src    = 'assets/screen_crack.png';         
+wAssets.pWalk.src    = 'assets/player_walk.png';          
+wAssets.pIdle.src    = 'assets/player_idle.png';          
+wAssets.boss.src     = 'assets/boss_will.png';            
+wAssets.legTop.src   = 'assets/spider_leg_top.png';       
+wAssets.legBot.src   = 'assets/spider_leg_bottom.png'; 
+wAssets.hitEffect = new Image();
+wAssets.hitEffect.src = 'assets/spider_leg_hit.png';   
+
+const wSprites = {
+    pWalk:  { cols: 6, rows: 7, frames: 37, speed: 60, curr: 0, tick: 0 },
+    pIdle:  { cols: 9, rows: 9, frames: 80, speed: 60, curr: 0, tick: 0 },
+    boss:   { cols: 4, rows: 4, frames: 16, speed: 60, curr: 0, tick: 0 },
+    legTop: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
+    legBot: { cols: 5, rows: 6, frames: 30, speed: 60, curr: 0, tick: 0 },
+    crack:  { cols: 3, rows: 3, frames: 8,  speed: 60, curr: 0, tick: 0 },
+    hitEffect: { cols: 3, rows: 3, frames: 9, speed: 80, curr: 0, tick: 0, active: false, hitX: 0, hitY: 0 }
+};
+
+// =========================================================================
+// 🕷️ 終極 1:1 蜘蛛角陣型題庫設定
+// =========================================================================
+const WILL_PATTERNS = [
+    { 
+        name: "困難混沌無地裂1 (中 ➔ 小左 ➔ 中)", crack: false, hint: "中 ➔ 小左 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] },
+            { safe: POS.L1, bot: [POS.LL-150, POS.M, POS.R1, POS.R2, POS.RR, POS.RR+200], top: [POS.L2] },
+            { safe: POS.M,  bot: [POS.LL, POS.L2, POS.L1], top: [POS.R1, POS.R2, POS.RR] }
+        ]
+    },
+    { 
+        name: "困難混沌無地裂2 (中 ➔ 小右 ➔ 大右 ➔ 中)", crack: false, hint: "中 ➔ 小右 ➔ 大右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.L2, POS.R1, POS.L2, POS.RR], top: [POS.L1-50, POS.LL, POS.R2] }, 
+            { safe: POS.R1, bot: [POS.L1, POS.R2], top: [POS.L2-50, POS.M-50, POS.RR-50] }, 
+            { safe: POS.R2, bot: [POS.M-30, POS.RR ], top: [POS.R1-50,POS.L1-50 ] }, 
+        ]
+    },
+    { 
+        name: "混沌無地裂3 (中 ➔ 大右 ➔ 小右 ➔ 中)", crack: false, hint: "中 ➔ 大右 ➔ 小右(中) ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.L2, POS.L1+130, POS.RR+50], top: [POS.LL, POS.L1-80, ] },
+            { safe: POS.R2, bot: [POS.LL, POS.L1-30, POS.RR-30], top: [POS.L2-50, POS.M-130, POS.M+50] },
+            { safe: POS.R1, bot: [POS.RR-50], top: [POS.LL,POS.M-120,POS.R2-90,POS.RR+50] },
+        ]
+    },
+    { 
+        name: "混沌無地裂4 (中 ➔ 大左 ➔ 不動 ➔ 中) ", crack: false, hint: "中 ➔ 大左 ➔ 不動 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL-70, POS.M-80,POS.M+100,POS.RR-80, POS.RR+80], top: [POS.L2-50,POS.R1+90], noDeduct: true },
+            { safe: POS.L2, bot: [POS.RR-50], top: [POS.LL-100, POS.M-100, POS.R1-120,POS.R2-150] },
+            { safe: POS.L2, bot: [POS.R1-90,POS.R1+90], top: [POS.LL-20, POS.M-80,POS.R2-10] }, 
+        ]
+    },
+    { 
+        name: "混沌地裂1 (中 ➔ 大左 ➔ 更大左 ➔ 中)", crack: true, hint: "中 ➔ 大左 ➔ 更大左 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.M, POS.R1+50, POS.R2+100 ], top: [POS.RR+30] },
+            { safe: POS.L2, bot: [POS.LL], top: [POS.L2+100] },
+            { safe: POS.LL, bot: [POS.LL, POS.R1-50], top: [POS.L2-50, POS.R1] },
+        ]
+    },
+    { 
+        name: "混沌地裂2-型態1 (中 ➔ 大右 ➔ 中)", crack: true, hint: "中 ➔ 大右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.M,POS.R1], top: [POS.LL-150, POS.LL+50] },
+            { safe: POS.R2, bot: [POS.L2-80, POS.L2+120], top: [POS.R1+80, POS.R2+30] },
+            { safe: POS.M,  bot: [POS.LL-150, POS.LL+50], top: [POS.M-30,POS.R1-40] }
+        ]
+    },
+    { 
+        name: "混沌地裂3-型態2 (中 ➔ 大右 ➔ 中)", crack: true, hint: "中 ➔ 大右 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL-100, POS.M ], top: [POS.LL, POS.R1-80] },
+            { safe: POS.R2, bot: [POS.L2+70, POS.R2+50], top: [POS.LL+70, POS.R1+70] },
+            { safe: POS.M,  bot: [POS.L1-30, POS.RR-80], top: [POS.M-30, POS.RR+70] }
+        ]
+    },
+    { 
+        name: "困難混沌有地裂 (中 ➔ 大左 ➔ 中)", crack: true, hint: "中 ➔ 大左 ➔ 中",
+        strikes: [
+            { safe: POS.M,  bot: [POS.LL-100, POS.M ], top: [POS.LL, POS.R1-80] },
+            { safe: POS.R2, bot: [POS.L2+70, POS.R2+50], top: [POS.LL+70, POS.R1+70] },
+            { safe: POS.M,  bot: [POS.L1-30, POS.RR-80], top: [POS.M-30, POS.RR+70] }
+        ]
+    }
+];
+
+let wPlayer = { x: WORLD_CENTER, y: CONFIG.pos.floorY, radius: 15, targetX: null, facing: 'right' };
+let wBoss = { x: WORLD_CENTER, facing: 'left' };
+let wKeys = { ArrowLeft: false, ArrowRight: false, a: false, d: false };
+let wLastTime = 0; let cameraX = 0;
+let mTouchLeft = false; let mTouchRight = false; let isJoyDragging = false; 
+
+// 🌟 遊戲核心狀態 (包含防作弊機制與抽籤袋)
+let wGame = { 
+    hits: 0, 
+    questionsAnswered: 0, 
+    totalQuestions: 7, 
+    currentPatternIdx: 0, 
+    phase: 'stopped', 
+    strikeIndex: 0, timer: 0, flashRed: 0, hasEvaluated: false, isPaused: false,
+    playerName: "",
+    maxHp: 1204000, 
+    currentHp: 1204000,
+    targetHp: 1204000, 
+    healTimer: 0,
+    patternBag: [], // 抽籤袋
+    hasUsedHintThisGame: false // 🌟 防作弊追蹤器
+};
+
+// 🌟 背景音樂管理
+let willBgm = new Audio('assets/MirrorCage.mp3');
+willBgm.loop = true; 
+willBgm.volume = 0.3; 
+let isBgmPlaying = false;
+
+// 🌟 設定狀態
+let wSettings = {
+    mode: 'chaos', 
+    endless: false,
+    isCustom: false, 
+    customRounds: 2, 
+    hint: false,
+    bgm: true 
+};
+
+function will_drawSprite(ctx, img, cfg, x, y, scale = 1, flip = false, align = 'bottom-center') {
+    if (!img.complete || img.naturalWidth === 0) return;
+    const fw = img.naturalWidth / cfg.cols; const fh = img.naturalHeight / cfg.rows;
+    const col = cfg.curr % cfg.cols; const row = Math.floor(cfg.curr / cfg.cols);
+    ctx.save(); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+    ctx.translate(x, y); if (flip) ctx.scale(-1, 1);
+    let drawX = -fw / 2; let drawY = -fh / 2;
+    if (align === 'bottom-center') drawY = -fh;   
+    if (align === 'top-center') drawY = 0;        
+    ctx.drawImage(img, col * fw, row * fh, fw, fh, drawX * scale, drawY * scale, fw * scale, fh * scale);
+    ctx.restore();
+}
+
+function tickSprite(cfg, dt, loop = true) {
+    cfg.tick += dt;
+    if (cfg.tick >= cfg.speed) {
+        cfg.tick = 0; cfg.curr++;
+        if (cfg.curr >= cfg.frames) cfg.curr = loop ? 0 : cfg.frames - 1;
+    }
+}
+
+// 🌟 更新設定面板
+window.will_updateSettings = function() {
+    let modeRadio = document.querySelector('input[name="will-mode"]:checked');
+    let lengthRadio = document.querySelector('input[name="will-length"]:checked');
+    let hintCheck = document.getElementById('will-hint-toggle');
+    let bgmCheck = document.getElementById('will-bgm-toggle');
+    let customInput = document.getElementById('will-custom-rounds'); 
+    
+    if(modeRadio) wSettings.mode = modeRadio.value;
+    if(lengthRadio) {
+        wSettings.endless = (lengthRadio.value === 'endless');
+        wSettings.isCustom = (lengthRadio.value === 'custom'); 
+    }
+    
+    if(customInput) {
+        wSettings.customRounds = parseInt(customInput.value) || 1;
+        if(wSettings.customRounds < 1) wSettings.customRounds = 1; 
+    }
+    
+    if(hintCheck) wSettings.hint = hintCheck.checked;
+    
+    // 🎵 處理背景音樂
+    if(bgmCheck) {
+        wSettings.bgm = bgmCheck.checked;
+        if (!wSettings.bgm && isBgmPlaying) {
+            willBgm.pause(); isBgmPlaying = false;
+        }
+        if (wSettings.bgm && !isBgmPlaying && wGame.phase !== 'stopped') {
+            willBgm.play().then(() => { isBgmPlaying = true; }).catch(e=>console.log(e));
+        }
+    }
+    
+    const hintBtn = document.getElementById('btn-will-hint');
+    if(hintBtn) {
+        if(wSettings.hint) hintBtn.classList.add('active-hint');
+        else hintBtn.classList.remove('active-hint');
+    }
+};
+
+// 🌟 點擊遊戲內暫停按鈕
+window.will_togglePauseState = function() {
+    if (wGame.phase === 'stopped') return;
+    wGame.isPaused = !wGame.isPaused;
+    
+    const pauseBtn = document.getElementById('btn-will-pause');
+    if (wGame.isPaused) {
+        if (pauseBtn) pauseBtn.innerText = '►'; 
+        will_updateUI("⏸ 遊戲暫停", "#f1c40f", "點擊右上角 ► 繼續");
+        
+        // 🌟 音樂連動：遊戲暫停時，暫停音樂 (不洗掉播放進度)
+        if (isBgmPlaying) {
+            willBgm.pause();
+        }
+    } else {
+        if (pauseBtn) pauseBtn.innerText = '❚❚'; 
+        will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備...");
+        
+        // 🌟 音樂連動：遊戲繼續時，如果設定有開音樂，就「接續」播放
+        if (wSettings.bgm) {
+            willBgm.play().then(() => { isBgmPlaying = true; }).catch(e => console.log(e));
+        }
+    }
+};
+
+// 🌟 點擊遊戲內燈泡切換提示 (結合防作弊)
+window.will_toggleHintClick = function() {
+    if (wGame.phase === 'stopped') return; 
+    let hintCheck = document.getElementById('will-hint-toggle');
+    if (hintCheck) {
+        hintCheck.checked = !hintCheck.checked; 
+    }
+    will_updateSettings();
+    
+    // 🛡️ 防作弊核心：只要這局被打開過，永遠標記作弊
+    if (wSettings.hint === true) {
+        wGame.hasUsedHintThisGame = true;
+    }
+};
+
+// 🌟 顯示開始畫面 (重置並停止音樂)
+window.will_showStartScreen = function() {
+    wGame.phase = 'stopped';
+    willBgm.pause();
+    isBgmPlaying = false;
+
+    // 🎯 呼叫總指揮：切換到 START 狀態
+    will_updateUIState('START');
+};
+
+// 🌟 按下「開始」按鈕 (結合題數與防作弊初始化)
+window.will_startGame = function() {
+    will_updateSettings(); 
+    let nameInput = document.getElementById('will-player-name').value.trim();
+    wGame.playerName = nameInput !== "" ? nameInput : "nickname1204";
+    
+    const hudName = document.getElementById('ms-name-text');
+    if (hudName) hudName.innerText = wGame.playerName;
+
+    wPlayer.x = WORLD_CENTER; wPlayer.targetX = null;
+    wBoss.x = WORLD_CENTER; wBoss.facing = 'left';
+    wGame.hits = 0; 
+    wGame.questionsAnswered = 0;
+    
+    wGame.hasUsedHintThisGame = wSettings.hint; 
+    
+    let baseQuestions = (wSettings.mode === 'hard') ? 3 : 7;
+    
+    if (wSettings.endless) {
+        wGame.totalQuestions = Infinity;
+    } else if (wSettings.isCustom) {
+        wGame.totalQuestions = wSettings.customRounds * baseQuestions;
+    } else {
+        wGame.totalQuestions = baseQuestions; 
+    }
+    
+    wGame.currentHp = wGame.maxHp; 
+    wGame.targetHp = wGame.maxHp; 
+    wGame.healTimer = 0;
+    
+    const hitHud = document.getElementById('ms-hit-text');
+    if (hitHud) hitHud.innerText = `被擊中次數: 0`;
+    const hpBar = document.getElementById('ms-hp-bar');
+    const hpText = document.getElementById('ms-hp-text');
+    if (hpBar) hpBar.style.width = `100%`;
+    if (hpText) hpText.innerText = wGame.maxHp.toLocaleString();
+    
+    wGame.patternBag = []; 
+    
+    wGame.currentPatternIdx = will_pickNextPattern();
+    wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 2000; 
+    wGame.flashRed = 0; wGame.hasEvaluated = false; wGame.isPaused = false;
+    
+    const pauseBtn = document.getElementById('btn-will-pause');
+    if (pauseBtn) pauseBtn.innerText = '❚❚';
+    
+    // 🎯 呼叫總指揮：切換到 PLAYING 狀態 (取代了原本好幾行手動隱藏的代碼)
+    will_updateUIState('PLAYING');
+    
+    will_updateUI("練習開始", "#2ecc71", "準備...");
+    
+    willBgm.currentTime = 0;
+    if (wSettings.bgm) {
+        willBgm.play().then(() => { isBgmPlaying = true; }).catch(e => console.log("需互動"));
+    } else {
+        isBgmPlaying = false;
+    }
+
+    wLastTime = performance.now();
+};
+
+// 🌟 顯示成績單 (純淨版：JS 僅負責邏輯，外觀交給 CSS Class)
+window.will_showResultScreen = function() {
+    document.getElementById('res-name').innerText = wGame.playerName || "nickname1204";
+    
+    let diffStr = "混沌";
+    if (wSettings.mode === 'hard') diffStr = "困難";
+    else if (wSettings.mode === 'random') diffStr = "動態隨機"; 
+
+    document.getElementById('res-diff').innerText = diffStr;
+    
+    let modeStr = "全機制1次";
+    if (wSettings.isCustom) {
+        modeStr = `全機制${wSettings.customRounds}次`;
+    }
+
+    // 🛡️ JS 僅負責套用乾淨的 HTML 結構與 Class，不再寫死 Style
+    if (wSettings.endless) {
+        modeStr = `<span class="mode-title-wrapper">無限練習<span class="mode-subtitle note-gray">(完成 ${wGame.questionsAnswered} 題)</span></span>`;
+    } else if (wGame.questionsAnswered < wGame.totalQuestions) {
+        modeStr = `<span class="mode-title-wrapper">${modeStr}<span class="mode-subtitle note-red">(未完成)</span></span>`;
+    }
+    
+    document.getElementById('res-mode').innerHTML = modeStr;
+    document.getElementById('res-hint').innerText = wGame.hasUsedHintThisGame ? "已開啟" : "未開啟";
+    
+    // 🌟 完美通關變色處理 (必須 0次 + 完整通關 才亮綠色)
+    const hitValueElem = document.getElementById('res-hits');
+    hitValueElem.innerText = wGame.hits;
+    
+    const hitWrapper = hitValueElem.parentElement;
+    hitWrapper.removeAttribute('style'); 
+    
+    // 🛡️ 新增嚴格判斷：0次 且 (是無限模式 或 答題數達到總題數) 才算真正完美
+    let isPerfectClear = (wGame.hits === 0) && (wSettings.endless || wGame.questionsAnswered >= wGame.totalQuestions);
+    
+    if (isPerfectClear) {
+        hitWrapper.classList.remove('hit-danger');
+        hitWrapper.classList.add('hit-success');
+    } else {
+        // 有被擊中，或者「雖然 0 次但未完成」，一律給紅色！
+        hitWrapper.classList.remove('hit-success');
+        hitWrapper.classList.add('hit-danger');
+    }
+    
+    // 🎯 呼叫總指揮：切換到 RESULT 狀態
+    will_updateUIState('RESULT');
+};
+
+// 🌟 🏁 提早結算功能 (純結算，不強制增加擊中次數)
+window.will_forceEndGame = function() {
+    if (wGame.phase === 'stopped' || wGame.phase === 'victory') return;
+    
+    wGame.phase = 'victory'; 
+    will_updateUI("提早結算", "#f1c40f", "計算成績中...");
+    
+    setTimeout(() => {
+        will_showResultScreen();
+    }, 800); 
+};
+
+window.will_playAgain = function() {
+    document.getElementById('will-result-overlay').style.display = 'none';
+    will_startGame();
+};
+
+window.will_updateVolume = function() {
+    let volSlider = document.getElementById('will-bgm-volume');
+    if (volSlider && typeof willBgm !== 'undefined') {
+        willBgm.volume = parseFloat(volSlider.value);
+    }
+};
+
+// 🌟 遊戲初始化綁定
+function will_init() {
+    if (!wCanvas) return;
+    wCanvas.width = WORLD_W; wCanvas.height = WORLD_H;
+    
+    window.addEventListener('keydown', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = true; });
+    window.addEventListener('keyup', e => { if(wKeys.hasOwnProperty(e.key)) wKeys[e.key] = false; });
+    
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const joyBase = document.getElementById('joystick-base');
+    if (joyBase) {
+        if (!isTouchDevice) joyBase.style.display = 'none';
+        else {
+            joyBase.addEventListener('touchstart', joyStart, { passive: false });
+            joyBase.addEventListener('touchmove', joyMove, { passive: false });
+            joyBase.addEventListener('touchend', joyEnd);
+            joyBase.addEventListener('touchcancel', joyEnd);
+        }
+    }
+    
+    will_updateSettings();
+    will_showStartScreen();
+    requestAnimationFrame(will_gameLoop);
+}
+
+// 🌟 智慧選題系統 (支援原有固定題庫與全新動態隨機模式)
+function will_pickNextPattern() {
+    
+    // =========================================================================
+    // 🌟 新增：如果玩家選取了全新的「動態隨機」模式
+    // =========================================================================
+    if (wSettings.mode === 'random') {
+        const lanes = [POS.LL, POS.L2, POS.L1, POS.M, POS.R1, POS.R2, POS.RR];
+        const isCrack = Math.random() < 0.5; // 50% 機率有地裂，50% 無地裂
+        let randomStrikes = [];
+        let lastSafeIdx = 3; // 第一波安全區從中央(M)開始算，防暴走
+
+        for (let s = 0; s < 3; s++) {
+            // 演算法防呆：下一波的安全軌道，只能在上一波的左右一格內 (-1, 0, 1)
+            let shift = Math.floor(Math.random() * 3) - 1; 
+            let currentSafeIdx = lastSafeIdx + shift;
+            if (currentSafeIdx < 0) currentSafeIdx = 0;
+            if (currentSafeIdx > 6) currentSafeIdx = 6;
+            
+            lastSafeIdx = currentSafeIdx;
+            let safeX = lanes[currentSafeIdx];
+            let botLegs = [];
+            let topLegs = [];
+
+            if (isCrack === false) {
+                // 【無地裂模式：閃躲腳】安全區絕不生腳，其餘軌道 40% 機率長蜘蛛腳
+                for (let i = 0; i < lanes.length; i++) {
+                    if (i === currentSafeIdx) continue;
+                    if (Math.random() < 0.4) botLegs.push(lanes[i]);
+                    if (Math.random() < 0.4) topLegs.push(lanes[i]);
+                }
+            } else {
+                // 【有地裂模式：接住腳】安全區必生蜘蛛腳讓玩家踩，其餘軌道 15% 機率生出干擾干擾腳
+                let legType = Math.random();
+                if (legType < 0.4) botLegs.push(safeX);
+                else if (legType < 0.8) topLegs.push(safeX);
+                else { botLegs.push(safeX); topLegs.push(safeX); }
+                
+                for (let i = 0; i < lanes.length; i++) {
+                    if (i === currentSafeIdx) continue;
+                    if (Math.random() < 0.15) {
+                        if (Math.random() < 0.5) botLegs.push(lanes[i]);
+                        else topLegs.push(lanes[i]);
+                    }
+                }
+            }
+
+            randomStrikes.push({ safe: safeX, bot: botLegs, top: topLegs });
+        }
+
+        // 🎯 核心防爆技巧：把現場臨時印製的隨機題目塞到第 8 號虛擬槽位，0~7 號原本題庫動都不會動！
+        WILL_PATTERNS[8] = {
+            name: `動態隨機機制 (${isCrack ? "有地裂" : "無地裂"})`,
+            crack: isCrack,
+            hint: isCrack ? "請找腳踩進去！" : "請避開所有腳！",
+            strikes: randomStrikes
+        };
+        return 8; // 叫遊戲引擎直接去讀取第 8 號槽位
+    }
+
+    // =========================================================================
+    // 🔒 原本的固定題庫邏輯，100% 完整保留，完全沒變動！
+    // =========================================================================
+    let allowedIndices = (wSettings.mode === 'hard') ? [0, 1, 7] : [0, 1, 2, 3, 4, 5, 6];
+
+    if (!wGame.patternBag || wGame.patternBag.length === 0) {
+        wGame.patternBag = [...allowedIndices]; 
+        for (let i = wGame.patternBag.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [wGame.patternBag[i], wGame.patternBag[j]] = [wGame.patternBag[j], wGame.patternBag[i]];
+        }
+    }
+    return wGame.patternBag.pop();
+}
+
+let activeTouchId = null;
+function joyStart(e) { 
+    if (typeof willGameActive !== 'undefined' && !willGameActive) return; 
+    if (wGame.phase === 'stopped') return; 
+    e.preventDefault(); 
+    if (isJoyDragging) return; 
+    const touch = e.changedTouches[0];
+    activeTouchId = touch.identifier;
+    isJoyDragging = true; 
+    const stick = document.getElementById('joystick-stick');
+    stick.style.transition = 'none'; 
+    joyUpdate(touch); 
+}
+
+function joyMove(e) { 
+    if (!isJoyDragging) return; 
+    e.preventDefault();
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === activeTouchId) {
+            joyUpdate(e.changedTouches[i]);
+            break;
+        }
+    }
+}
+
+function joyEnd(e) {
+    if (!isJoyDragging) return; 
+    let isOurTouchReleased = false;
+    for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === activeTouchId) { isOurTouchReleased = true; break; }
+    }
+    if (!isOurTouchReleased) return; 
+    isJoyDragging = false; activeTouchId = null;
+    const stick = document.getElementById('joystick-stick');
+    stick.style.transform = `translate(0px, 0px)`; 
+    stick.style.transition = 'transform 0.2s ease-out';
+    mTouchLeft = false; mTouchRight = false;
+}
+
+function joyUpdate(touch) {
+    const rect = document.getElementById('joystick-base').getBoundingClientRect();
+    const stick = document.getElementById('joystick-stick');
+    let dx = touch.clientX - (rect.left + rect.width / 2); 
+    let dy = touch.clientY - (rect.top + rect.height / 2);
+    let dist = Math.sqrt(dx * dx + dy * dy); 
+    let maxR = (rect.width / 2) - (stick.offsetWidth / 2);
+    if (dist > maxR) { dx = (dx / dist) * maxR; dy = (dy / dist) * maxR; }
+    stick.style.transform = `translate(${dx}px, ${dy}px)`;
+    let threshold = maxR * 0.4; 
+    mTouchLeft = dx < -threshold; 
+    mTouchRight = dx > threshold;
+}
+
+function will_updateUI(text, color, subtext = "") {
+    const statusEl = document.getElementById('will-status');
+    const timerEl = document.getElementById('will-timer');
+    if(statusEl) { statusEl.innerText = text; statusEl.style.color = color; }
+    if(timerEl) timerEl.innerText = subtext;
+}
+
+// 🌟 智慧型提示文字動態翻譯機
+function will_getHintText(currPattern) {
+    if (!wSettings.hint) return " ";
+    // 如果是原本的固定模式，直接回傳原廠寫好的 hint 即可
+    if (wSettings.mode !== 'random') return `提示: ${currPattern.hint}`;
+    
+    // 如果是全新的動態隨機模式，自動將隨機座標 (870, 440) 翻譯成精美文字路徑！
+    let pathNames = currPattern.strikes.map(s => {
+        if (s.safe === POS.M) return "中";
+        if (s.safe === POS.L1) return "小左";
+        if (s.safe === POS.L2) return "大左";
+        if (s.safe === POS.LL) return "極左";
+        if (s.safe === POS.R1) return "小右";
+        if (s.safe === POS.R2) return "大右";
+        if (s.safe === POS.RR) return "極右";
+        return "未知";
+    }).join(" ➔ ");
+    
+    return `提示 [${currPattern.crack ? "接腳" : "躲腳"}]: ${pathNames}`;
+}
+
+// =========================================================================
+// 🎮 遊戲 UI 狀態中央控制器 (純淨防誤殺版)
+// =========================================================================
+function will_updateUIState(state) {
+    const startOverlay = document.getElementById('will-start-overlay');
+    const resultOverlay = document.getElementById('will-result-overlay');
+    const joystick = document.getElementById('joystick-base');
+    const hud = document.getElementById('ms-player-hud');
+    
+    const pnlMid = document.getElementById('glass-controls-mid');
+    const pnlBot = document.getElementById('glass-controls-bottom');
+    const btnPause = document.getElementById('btn-will-pause');
+    const btnRestart = document.getElementById('btn-will-restart');
+    const btnEnd = document.getElementById('btn-will-end');
+    
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+    if (state === 'START') {
+        if(startOverlay) startOverlay.style.display = 'flex';
+        if(resultOverlay) resultOverlay.style.display = 'none';
+        if(hud) hud.style.display = 'none';
+        if(joystick) joystick.style.display = 'none';
+        
+        const statusEl = document.getElementById('will-status');
+        const timerEl = document.getElementById('will-timer');
+        if(statusEl) statusEl.innerText = '';
+        if(timerEl) timerEl.innerText = '';
+        
+        if(pnlMid) pnlMid.style.display = 'none'; 
+        if(pnlBot) pnlBot.style.display = 'none'; 
+        if(btnPause) btnPause.style.display = 'none';
+        if(btnRestart) btnRestart.style.display = 'none';
+        if(btnEnd) btnEnd.style.display = 'none';
+    } 
+    else if (state === 'PLAYING') {
+        if(startOverlay) startOverlay.style.display = 'none';
+        if(resultOverlay) resultOverlay.style.display = 'none';
+        if(hud) hud.style.display = 'flex';
+        if(joystick && isTouchDevice) joystick.style.display = 'flex';
+        
+        if(pnlMid) pnlMid.style.display = 'flex';
+        if(pnlBot) pnlBot.style.display = 'flex';
+        if(btnPause) btnPause.style.display = '';
+        if(btnRestart) btnRestart.style.display = '';
+        if(btnEnd) btnEnd.style.display = '';
+    } 
+    else if (state === 'RESULT') {
+        if(startOverlay) startOverlay.style.display = 'none';
+        if(resultOverlay) resultOverlay.style.display = 'flex';
+        if(hud) hud.style.display = 'none';
+        if(joystick) joystick.style.display = 'none';
+        
+        if(pnlMid) pnlMid.style.display = 'none';
+        if(pnlBot) pnlBot.style.display = 'none';
+        if(btnPause) btnPause.style.display = 'none';
+        if(btnRestart) btnRestart.style.display = ''; 
+        if(btnEnd) btnEnd.style.display = 'none';
+    }
+}
+
+function will_nextQuestion() {
+    wGame.questionsAnswered++;
+    
+    if (!wSettings.endless && wGame.questionsAnswered >= wGame.totalQuestions) {
+        wGame.phase = 'victory';
+        will_updateUI("練習完成", "#f1c40f", "計算成績中...");
+        
+        setTimeout(() => {
+            will_showResultScreen();
+        }, 800); 
+        return;
+    }
+    
+    wGame.currentPatternIdx = will_pickNextPattern();
+    wGame.strikeIndex = 0; wGame.phase = 'ready'; wGame.timer = 1500; wPlayer.targetX = null; 
+}
+
+function will_update(dt) {
+    if (wGame.isPaused || wGame.phase === 'stopped') return;
+
+    let dx = 0;
+    if (wKeys.ArrowLeft || wKeys.a || mTouchLeft) dx -= 1;
+    if (wKeys.ArrowRight || wKeys.d || mTouchRight) dx += 1;
+
+    let moveDistance = CONFIG.player.speed * (dt / 16.666);
+    if (dx !== 0) {
+        wPlayer.targetX = null; wPlayer.x += dx * moveDistance; wPlayer.facing = dx > 0 ? 'right' : 'left';
+    }
+    wPlayer.x = Math.max(0, Math.min(WORLD_W, wPlayer.x));
+
+    let isMoving = (dx !== 0);
+    if (isMoving) { tickSprite(wSprites.pWalk, dt); wSprites.pIdle.curr = 0; }
+    else { tickSprite(wSprites.pIdle, dt); wSprites.pWalk.curr = 0; }
+    tickSprite(wSprites.boss, dt); 
+
+    // ============================================
+    // 🌟 在這裡貼上這段：更新受擊特效 (播完就自動關閉)
+    // ============================================
+    if (wSprites.hitEffect.active) {
+        wSprites.hitEffect.tick += dt;
+        if (wSprites.hitEffect.tick >= wSprites.hitEffect.speed) {
+            wSprites.hitEffect.tick = 0;
+            wSprites.hitEffect.curr++;
+            if (wSprites.hitEffect.curr >= wSprites.hitEffect.frames) {
+                wSprites.hitEffect.active = false; // 9幀播完，關閉特效
+            }
+        }
+    }
+
+    // ============================================
+    // 🌟 新增：Boss 自動追蹤玩家系統
+    // ============================================
+    let distToPlayer = wPlayer.x - wBoss.x;
+    let absDist = Math.abs(distToPlayer);
+
+    // 當距離超過我們設定的「保持距離」時，Boss 才會開始移動
+    if (absDist > CONFIG.boss.followDistance) {
+        let dir = distToPlayer > 0 ? 1 : -1; // 1 代表往右走，-1 代表往左走
+        let moveDistance = CONFIG.boss.speed * (dt / 16.666);
+        
+        // 防抖動處理：如果王已經快貼到保持距離了，就直接定位，避免前後瘋狂抽搐
+        if (absDist - CONFIG.boss.followDistance < moveDistance) {
+            wBoss.x = wPlayer.x - (dir * CONFIG.boss.followDistance);
+        } else {
+            wBoss.x += dir * moveDistance; // Boss 移動
+        }
+    }
+    
+    // 讓王永遠盯著玩家的方向看
+    wBoss.facing = distToPlayer > 0 ? 'right' : 'left';
+
+    if (wGame.flashRed > 0) wGame.flashRed -= dt;
+
+    if (wGame.healTimer > 0) {
+        wGame.healTimer -= dt;
+        if (wGame.healTimer <= 0) {
+            wGame.targetHp = wGame.maxHp; 
+        }
+    }
+
+    if (wGame.currentHp > wGame.targetHp) {
+        wGame.currentHp -= (wGame.maxHp / 500) * dt; 
+        if (wGame.currentHp < wGame.targetHp) wGame.currentHp = wGame.targetHp;
+    } else if (wGame.currentHp < wGame.targetHp) {
+        wGame.currentHp += (wGame.maxHp / 300) * dt; 
+        if (wGame.currentHp > wGame.targetHp) wGame.currentHp = wGame.targetHp;
+    }
+
+    if (wGame.phase !== 'victory' && wGame.phase !== 'stopped') {
+        wGame.timer -= dt;
+        let currPattern = WILL_PATTERNS[wGame.currentPatternIdx];
+
+        if (wGame.phase === 'ready' && wGame.timer <= 0) {
+            wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn;
+            wSprites.crack.curr = 0; wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; 
+            wSprites.crack.tick = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+            
+            let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/${wGame.totalQuestions}`;
+            let hintStr = will_getHintText(currPattern);
+            will_updateUI(`第 ${qNumStr} 題`, "white", hintStr);
+        }
+
+        if (wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') {
+            tickSprite(wSprites.legTop, dt, false); tickSprite(wSprites.legBot, dt, false);
+            if (currPattern.crack) tickSprite(wSprites.crack, dt, false);
+        }
+
+        if (wGame.phase === 'warn' && wGame.timer <= 0) {
+            wGame.phase = 'strike'; wGame.timer = CONFIG.time.strike; wGame.hasEvaluated = false; 
+        }
+        else if (wGame.phase === 'strike') {
+            if (!wGame.hasEvaluated && wSprites.legBot.curr >= 22 && wSprites.legBot.curr <= 25) {
+                wGame.hasEvaluated = true; 
+                let currentStrike = currPattern.strikes[wGame.strikeIndex];
+                let inDangerZone = false;
+                
+                currentStrike.bot.forEach(dangerX => { if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitBot) inDangerZone = true; });
+                currentStrike.top.forEach(dangerX => { if (Math.abs(wPlayer.x - dangerX) <= CONFIG.player.hitTop) inDangerZone = true; });
+
+                let isHit = currPattern.crack ? !inDangerZone : inDangerZone;
+                
+               if (isHit) {
+                    // 🌟 觸發特效：每次被打中都從第 0 幀開始播
+                    wSprites.hitEffect.active = true;
+                    wSprites.hitEffect.curr = 0;
+                    wSprites.hitEffect.tick = 0;
+
+                    wSprites.hitEffect.hitX = wPlayer.x;
+                    // 同時鎖定 Y 軸，這樣就算之後王飄高了，特效依然在原地爆炸
+                    wSprites.hitEffect.hitY = CONFIG.pos.floorY - 70;
+
+                    if (currentStrike.noDeduct) {
+                        wGame.flashRed = 500; 
+                        will_updateUI("此被擊中次數不增加", "#f39c12", " ");
+                    } else {
+                        wGame.hits++; 
+                        wGame.flashRed = 500;
+
+                        wGame.targetHp = 1204;
+                        wGame.healTimer = 600; 
+                        
+                        const hitHud = document.getElementById('ms-hit-text');
+                        if (hitHud) hitHud.innerText = `被擊中次數: ${wGame.hits}`;
+                    }
+                } 
+            }
+            if (wGame.timer <= 0) { 
+                wGame.phase = 'idle'; 
+                wGame.timer = CONFIG.time.idle; 
+                // 🌟 這裡保持乾淨！不要在這裡洗掉文字，讓提示文字可以「活過」接下來的 300ms 
+            }
+        }
+        else if (wGame.phase === 'idle' && wGame.timer <= 0) {
+            
+            // ============================================
+            // 🌟 核心修正：搬到這裡！等 300ms 空窗期「結束」，下一波蜘蛛腳準備出來前才洗掉文字
+            // ============================================
+            let currPattern = WILL_PATTERNS[wGame.currentPatternIdx];
+            let qNumStr = wSettings.endless ? `${wGame.questionsAnswered + 1}` : `${wGame.questionsAnswered + 1}/${wGame.totalQuestions}`;
+            let hintStr = will_getHintText(currPattern);
+            will_updateUI(`第 ${qNumStr} 題`, "white", hintStr);
+
+            wGame.strikeIndex++;
+            if (wGame.strikeIndex >= currPattern.strikes.length) {
+                will_updateUI("✅ 本題結束！", "#2ecc71", " "); 
+                wGame.phase = 'next_wait'; wGame.timer = 1000;
+            } else {
+                wGame.phase = 'warn'; wGame.timer = CONFIG.time.warn; 
+                wSprites.legTop.curr = 0; wSprites.legBot.curr = 0; wSprites.legTop.tick = 0; wSprites.legBot.tick = 0; 
+            }
+        }
+        else if (wGame.phase === 'next_wait' && wGame.timer <= 0) { will_nextQuestion(); }
+    }
+}
+
+function will_draw() {
+    wCtx.clearRect(0, 0, wCanvas.width, wCanvas.height);
+    wCtx.imageSmoothingEnabled = true; wCtx.imageSmoothingQuality = 'high';
+
+    const renderScale = 1 * CONFIG.camera.zoom; 
+    
+    let cameraX = wPlayer.x - ((wCanvas.width / renderScale) / 2);
+    let maxCameraX = WORLD_W - (wCanvas.width / renderScale);
+    cameraX = Math.max(0, Math.min(Math.max(0, maxCameraX), cameraX));
+
+    let focusY = CONFIG.pos.floorY - 120; 
+    let cameraY = focusY - ((wCanvas.height / renderScale) / 2);
+    let maxCameraY = WORLD_H - (wCanvas.height / renderScale);
+    cameraY = Math.max(0, Math.min(Math.max(0, maxCameraY), cameraY));
+
+    wCtx.save();
+    wCtx.scale(renderScale, renderScale); 
+    wCtx.translate(-cameraX, -cameraY);          
+
+    let currPattern = WILL_PATTERNS[wGame.currentPatternIdx] || WILL_PATTERNS[0];
+    let bgImg = (wGame.phase !== 'ready' && wGame.phase !== 'victory' && wGame.phase !== 'stopped' && currPattern.crack) ? wAssets.bgCrack : wAssets.bgSmooth;
+    if (bgImg.complete && bgImg.naturalWidth > 0) wCtx.drawImage(bgImg, 0, 0, WORLD_W, WORLD_H);
+
+    if (wGame.phase !== 'ready' && wGame.phase !== 'victory' && wGame.phase !== 'stopped' && currPattern.crack) {
+        will_drawSprite(wCtx, wAssets.crack, wSprites.crack, CONFIG.pos.crackX, CONFIG.pos.crackY, CONFIG.scale.crack, false, 'center');
+    }
+
+    // 🌟 將原本寫死的 WORLD_CENTER 改成 wBoss.x，並加上轉身機制
+    let isBossFlipped = (wBoss.facing === 'right'); // 假設你的王圖預設是面向左
+    will_drawSprite(wCtx, wAssets.boss, wSprites.boss, wBoss.x, CONFIG.pos.bossY, CONFIG.scale.boss, isBossFlipped, 'bottom-center');
+
+    if ((wGame.phase === 'warn' || wGame.phase === 'strike' || wGame.phase === 'idle') && wGame.strikeIndex < currPattern.strikes.length) {
+        let currentStrike = currPattern.strikes[wGame.strikeIndex];
+        currentStrike.top.forEach(xPos => { will_drawSprite(wCtx, wAssets.legTop, wSprites.legTop, xPos + CONFIG.pos.legTopOffsetX, CONFIG.pos.legTopY, CONFIG.scale.legTop, false, 'top-center'); });
+        currentStrike.bot.forEach(xPos => { will_drawSprite(wCtx, wAssets.legBot, wSprites.legBot, xPos + CONFIG.pos.legBotOffsetX, CONFIG.pos.legBotY, CONFIG.scale.legBot, false, 'bottom-center'); });
+    }
+
+    //if (!(wGame.flashRed > 0 && Math.floor(wGame.flashRed / 100) % 2 === 0)) {
+        let isMoving = (wKeys.ArrowLeft || wKeys.ArrowRight || wKeys.a || wKeys.d || mTouchLeft || mTouchRight);
+        let pImg = isMoving ? wAssets.pWalk : wAssets.pIdle;
+        let pCfg = isMoving ? wSprites.pWalk : wSprites.pIdle;
+        let isFlipped = CONFIG.player.nativeFacingLeft ? (wPlayer.facing === 'right') : (wPlayer.facing === 'left');  
+        will_drawSprite(wCtx, pImg, pCfg, wPlayer.x, CONFIG.pos.floorY, CONFIG.scale.player, isFlipped, 'bottom-center');
+    //}
+
+    // ============================================
+    // 🌟 貼上這段：畫出受擊特效
+    // ============================================
+    if (wSprites.hitEffect.active) {
+        // 使用 'center' 對齊，並將 Y 軸設定在 floorY - 70 (大約是玩家身體中心點)
+        will_drawSprite(wCtx, wAssets.hitEffect, wSprites.hitEffect, wSprites.hitEffect.hitX, wSprites.hitEffect.hitY, CONFIG.scale.hitEffect, false, 'center');
+    }
+
+    wCtx.restore(); 
+
+    if (wGame.phase !== 'stopped') {
+        const hpBar = document.getElementById('ms-hp-bar');
+        const hpText = document.getElementById('ms-hp-text');
+        if (hpBar) hpBar.style.width = `${(wGame.currentHp / wGame.maxHp) * 100}%`;
+        if (hpText) hpText.innerText = Math.floor(wGame.currentHp).toLocaleString();
+    }
+
+    /*if (wGame.flashRed > 0) {
+        wCtx.fillStyle = 'rgba(231, 76, 60, 0.3)';
+        wCtx.fillRect(0, 0, wCanvas.width, wCanvas.height);
+    }*/
+}
+
+function will_gameLoop(timestamp) {
+    if (typeof willGameActive !== 'undefined' && !willGameActive) return; 
+    if (!wLastTime) wLastTime = timestamp; 
+    const dt = timestamp - wLastTime;
+    wLastTime = timestamp;
+    
+    if (dt > 0 && dt < 100) {
+        will_update(dt);
+    }
+    
+    will_draw();
+    requestAnimationFrame(will_gameLoop);
+}
