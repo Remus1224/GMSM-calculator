@@ -223,7 +223,33 @@ body {
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); 
 }
 
+/* ========================================== */
+/* 🎯 修正：實體化輸入框，消滅「被染色」的半透明感 */
+/* ========================================== */
 
+/* 🌞 日間模式：純淨無瑕的白底與微內凹 */
+.input-group input, 
+.setting-row input[type="text"], 
+.setting-row input[type="number"], 
+.setting-row select, 
+.hexa-inputs input, 
+.inv-grid input { 
+    background: #FFFFFF !important; /* 強制純白實底，絕不透色 */
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.04) !important; /* 微弱內凹陰影，增加立體感 */
+}
+
+/* 🌙 夜間模式：深邃的獨立暗格 */
+[data-theme="dark"] .input-group input, 
+[data-theme="dark"] .setting-row input[type="text"], 
+[data-theme="dark"] .setting-row input[type="number"], 
+[data-theme="dark"] .setting-row select, 
+[data-theme="dark"] .hexa-inputs input, 
+[data-theme="dark"] .inv-grid input {
+    background: rgba(10, 12, 20, 0.95) !important; /* 極深色的實體暗底，切斷透色 */
+    border: 1px solid rgba(156, 234, 254, 0.3) !important; /* 搭配科技冰藍微光邊框 */
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.6) !important; /* 強烈的內凹陰影，讓格子非常明確 */
+    color: #9CEAFE !important; /* 確保輸入的數字是發光的冰藍色 */
+}
 
 /* ========================================== */
 /* 🌟 11. 日夜切換按鈕 (滑動膠囊 - 100% 絕對置中版) */
@@ -420,12 +446,36 @@ input:focus, select:focus { outline: none !important; border-color: rgba(200, 14
 /* 🌟 卡片本體玻璃化與日夜色彩統一 */
 .equip-card { border-radius: 12px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: all 0.3s ease !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-style: solid; border-width: 1.5px; }
 
-/* 日間卡片底色與框線 */
-#equip-grid .bg-armor { background: rgba(0, 122, 255, 0.06) !important; border-color: rgba(0, 122, 255, 0.2) !important; }
-#equip-grid .bg-weapon { background: rgba(255, 59, 48, 0.06) !important; border-color: rgba(255, 59, 48, 0.2) !important; }
-#equip-grid .bg-acc { background: rgba(175, 82, 222, 0.06) !important; border-color: rgba(175, 82, 222, 0.2) !important; }
-#equip-grid .bg-ability { background: rgba(52, 199, 89, 0.06) !important; border-color: rgba(52, 199, 89, 0.2) !important; }
-#equip-grid .bg-special { background: rgba(255, 149, 0, 0.06) !important; border-color: rgba(255, 149, 0, 0.2) !important; }
+/* ========================================== */
+/* 🎯 修正：無視防禦計算機「日間輸入框全白消失」問題 */
+/* ========================================== */
+
+/* 1. 讓日間模式的輸入框擁有純白實體感與內凹槽 */
+:not([data-theme="dark"]) #equip-grid .card-input-wrapper input {
+    background: #FFFFFF !important; /* 實心純白底 */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05) !important; /* 內凹陰影，產生溝槽感 */
+}
+
+/* 2. 為每個輸入框加上對應裝備顏色的「淡色實線邊框」，完美切分卡片與格子 */
+:not([data-theme="dark"]) #equip-grid .bg-armor .card-input-wrapper input { border: 1px solid rgba(0, 122, 255, 0.3) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-weapon .card-input-wrapper input { border: 1px solid rgba(255, 59, 48, 0.3) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-acc .card-input-wrapper input { border: 1px solid rgba(175, 82, 222, 0.3) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-ability .card-input-wrapper input { border: 1px solid rgba(52, 199, 89, 0.3) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-special .card-input-wrapper input { border: 1px solid rgba(255, 149, 0, 0.3) !important; }
+
+/* 3. 點擊時的高級琉璃光圈 (同步覆蓋原本厚重的舊版發光) */
+:not([data-theme="dark"]) #equip-grid .bg-armor .card-input-wrapper input:focus { border-color: #007AFF !important; box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-weapon .card-input-wrapper input:focus { border-color: #FF3B30 !important; box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.15), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-acc .card-input-wrapper input:focus { border-color: #AF52DE !important; box-shadow: 0 0 0 3px rgba(175, 82, 222, 0.15), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-ability .card-input-wrapper input:focus { border-color: #34C759 !important; box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.15), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
+:not([data-theme="dark"]) #equip-grid .bg-special .card-input-wrapper input:focus { border-color: #FF9500 !important; box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.15), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
+
+/* 僅保留邊框的分類顏色，讓畫面保有秩序且不花稍 */
+#equip-grid .bg-armor { border-color: rgba(0, 122, 255, 0.3) !important; }
+#equip-grid .bg-weapon { border-color: rgba(255, 59, 48, 0.3) !important; }
+#equip-grid .bg-acc { border-color: rgba(175, 82, 222, 0.3) !important; }
+#equip-grid .bg-ability { border-color: rgba(52, 199, 89, 0.3) !important; }
+#equip-grid .bg-special { border-color: rgba(255, 149, 0, 0.3) !important; }
 
 /* 夜間卡片底色與框線 */
 [data-theme="dark"] #equip-grid .bg-armor { background: rgba(0, 122, 255, 0.12) !important; border-color: rgba(0, 122, 255, 0.6) !important; }
@@ -652,6 +702,8 @@ input:focus, select:focus { outline: none !important; border-color: rgba(200, 14
 #tab-hexa-visual .v-btn-reset:active { transform: scale(0.95) !important; }
 #tab-hexa-visual .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400) !important; box-shadow: 0 0 10px rgba(230, 126, 34, 0.5) !important; border-color: transparent !important;}
 #tab-hexa-visual .v-btn-reset.highlight:hover { filter: brightness(1.2) !important; transform: none !important;}
+
+
 
 /* ========================================== */
 /* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
@@ -962,8 +1014,6 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 body.body-no-scroll { overflow: hidden !important; touch-action: none !important; }
 #will-game-wrapper:fullscreen #will-inner-container, #will-game-wrapper:-webkit-full-screen #will-inner-container, #will-game-wrapper.fake-fullscreen #will-inner-container { max-width: min(100vw, calc(100dvh * (1741 / 713))) !important; max-height: 100dvh !important; }
 #will-game-wrapper:fullscreen canvas, #will-game-wrapper:-webkit-full-screen canvas, #will-game-wrapper.fake-fullscreen canvas { width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; object-fit: fill !important; }
-
-
 
 
 /* ================================================= */
