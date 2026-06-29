@@ -50,45 +50,75 @@
 [data-theme="dark"] .nav-title-glass {
     background-image: linear-gradient(rgba(10, 15, 25, 0.7), rgba(10, 15, 25, 0.4)), linear-gradient(135deg, #55C3FF 0%, #C88DDD 100%) !important; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), -4px 0 12px rgba(85, 195, 255, 0.7), 4px 0 12px rgba(200, 141, 221, 0.7), inset 0 0 6px rgba(255, 255, 255, 0.4) !important; 
-    text-shadow: 0 0 4px rgba(178, 187, 237, 0.8); color: #FFFFFF !important;
+    text-shadow: 0 0 4px rgba(178, 187, 237, 0.8); 
+    color: #FFFFFF !important;
 }
 
 /* 2. 左右小按鈕 (收緊 Hover 光暈) */
-[data-theme="dark"] .nav-btn { background: rgba(15, 20, 30, 0.6) !important; color: #E0F2FE !important; border-color: rgba(178, 187, 237, 0.2) !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 0 6px rgba(178, 187, 237, 0.1) !important; }
-[data-theme="dark"] .nav-btn:hover { background: rgba(25, 35, 55, 0.8) !important; box-shadow: -3px 0 10px rgba(85, 195, 255, 0.6), 3px 0 10px rgba(200, 141, 221, 0.6), inset 0 0 6px rgba(178, 187, 237, 0.2) !important; }
+[data-theme="dark"] .nav-btn { 
+    background: rgba(15, 20, 30, 0.6) !important; 
+    color: #E0F2FE !important; 
+    border-color: rgba(178, 187, 237, 0.2) !important; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 0 6px rgba(178, 187, 237, 0.1) !important; 
+}
+[data-theme="dark"] .nav-btn:hover { 
+    background: rgba(25, 35, 55, 0.8) !important; 
+    box-shadow: -3px 0 10px rgba(85, 195, 255, 0.6), 3px 0 10px rgba(200, 141, 221, 0.6), inset 0 0 6px rgba(178, 187, 237, 0.2) !important; 
+}
 
 /* 3. 首頁大標題 (文字光芒集中) */
-[data-theme="dark"] .main-site-title { color: #FFFFFF !important; text-shadow: -2px 0 8px rgba(85, 195, 255, 0.8), 2px 0 8px rgba(200, 141, 221, 0.8); }
+[data-theme="dark"] .main-site-title { 
+    color: #FFFFFF !important; 
+    text-shadow: -2px 0 8px rgba(85, 195, 255, 0.8), 2px 0 8px rgba(200, 141, 221, 0.8); 
+}
 
 /* 4. 主選單工具卡片 (移除光害，改為銳利邊框發光) */
-[data-theme="dark"] .app-card { border: 1px solid rgba(178, 187, 237, 0.2); }
-[data-theme="dark"] .app-card:hover { border-color: rgba(178, 187, 237, 0.6); box-shadow: -4px 0 15px rgba(85, 195, 255, 0.4), 4px 0 15px rgba(200, 141, 221, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.15); }
-[data-theme="dark"] .app-icon { background: linear-gradient(135deg, rgba(85, 195, 255, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%); border-color: rgba(178, 187, 237, 0.3); }
-[data-theme="dark"] .app-card:hover .app-icon { background: linear-gradient(135deg, rgba(85, 195, 255, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%); box-shadow: -3px 0 10px rgba(85, 195, 255, 0.5), 3px 0 10px rgba(200, 141, 221, 0.5); }
+[data-theme="dark"] .app-card { 
+    border: 1px solid rgba(178, 187, 237, 0.2); 
+}
+[data-theme="dark"] .app-card:hover { 
+    border-color: rgba(178, 187, 237, 0.6); 
+    box-shadow: -4px 0 15px rgba(85, 195, 255, 0.4), 4px 0 15px rgba(200, 141, 221, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.15); 
+}
+[data-theme="dark"] .app-icon { 
+    background: linear-gradient(135deg, rgba(85, 195, 255, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%); 
+    border-color: rgba(178, 187, 237, 0.3); 
+}
+[data-theme="dark"] .app-card:hover .app-icon { 
+    background: linear-gradient(135deg, rgba(85, 195, 255, 0.4) 0%, rgba(200, 141, 221, 0.4) 100%); 
+    box-shadow: -3px 0 10px rgba(85, 195, 255, 0.5), 3px 0 10px rgba(200, 141, 221, 0.5); 
+}
 
 /* 5. 全局獨立面板套用夜間科技玻璃 */
-[data-theme="dark"] .settings-panel, [data-theme="dark"] .instructions-panel, [data-theme="dark"] .memo-card, [data-theme="dark"] .panel, [data-theme="dark"] .detail-box {
-    /* 維持原本的高級深色漸層底 */
+[data-theme="dark"] .settings-panel, 
+[data-theme="dark"] .instructions-panel, 
+[data-theme="dark"] .memo-card, 
+[data-theme="dark"] .panel, 
+[data-theme="dark"] .detail-box {
     background: linear-gradient(135deg, rgba(20, 25, 35, 0.85) 0%, rgba(10, 15, 25, 0.7) 100%) !important; 
     border: 1px solid rgba(178, 187, 237, 0.2) !important; 
-    
-    /* 🌟 關鍵修正：將頂部高光替換為純淨藍 */
     border-top: 1px solid rgba(85, 195, 255, 0.4) !important; 
-    
-    /* 🌟 關鍵修正：將內側大面積微光替換為純淨藍，徹底消滅墨綠色 */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(85, 195, 255, 0.08) !important; 
-    
     color: #E0F2FE !important;
 }
 
 /* 6. 布告欄夜間專屬標題與底線 */
-[data-theme="dark"] #tab-home .memo-title { color: #ff6b6b !important; text-shadow: 0 0 8px rgba(255,107,107,0.4); }
-[data-theme="dark"] .section-title { border-bottom: 1px solid rgba(178, 187, 237, 0.25) !important; }
+[data-theme="dark"] #tab-home .memo-title { 
+    color: #ff6b6b !important; 
+    text-shadow: 0 0 8px rgba(255,107,107,0.4); 
+}
+[data-theme="dark"] .section-title { 
+    border-bottom: 1px solid rgba(178, 187, 237, 0.25) !important; 
+}
 
 /* 7. 夜間模式：所有隱形文字強制提亮 (精準排除無視卡片與六轉卡片) */
-[data-theme="dark"] .stats-text { background: rgba(15, 20, 30, 0.6) !important; border: 1px solid rgba(178, 187, 237, 0.2) !important; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2) !important; color: #E0F2FE !important; }
+[data-theme="dark"] .stats-text { 
+    background: rgba(15, 20, 30, 0.6) !important; 
+    border: 1px solid rgba(178, 187, 237, 0.2) !important; 
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2) !important; 
+    color: #E0F2FE !important; 
+}
 
-/* ⬇️ 關鍵修復：拿掉此處的 !important，讓你的紅色、橘色、藍色警告字體能順利透出來 */
 [data-theme="dark"] .stats-text legend, 
 [data-theme="dark"] .stats-text span, 
 [data-theme="dark"] .stats-text div, 
@@ -107,28 +137,56 @@
     color: #E0F2FE; 
 }
 
-[data-theme="dark"] .target-divider { background-color: rgba(178, 187, 237, 0.2) !important; }
+[data-theme="dark"] .target-divider { 
+    background-color: rgba(178, 187, 237, 0.2) !important; 
+}
 
 /* ========================================== */
 /* 1. 基礎全域設定與導覽 (Global & Layout)       */
 /* ========================================== */
-html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
-html { box-sizing: border-box; }
-*, *:before, *:after { box-sizing: inherit; }
+html, body { 
+    width: 100%; 
+    max-width: 100%; 
+    overflow-x: hidden; 
+}
+html { 
+    box-sizing: border-box; 
+}
+*, *:before, *:after { 
+    box-sizing: inherit; 
+}
 
-button, input, select, label, .btn-action { touch-action: manipulation; font-family: inherit; }
+button, input, select, label, .btn-action { 
+    touch-action: manipulation; 
+    font-family: inherit; 
+}
 
-.txt-sharp { font-weight: 800 !important; -webkit-text-stroke: 0px transparent !important; -webkit-font-smoothing: antialiased !important; -moz-osx-font-smoothing: grayscale !important; text-shadow: none !important; }
+.txt-sharp { 
+    font-weight: 800 !important; 
+    -webkit-text-stroke: 0px transparent !important; 
+    -webkit-font-smoothing: antialiased !important; 
+    -moz-osx-font-smoothing: grayscale !important; 
+    text-shadow: none !important; 
+}
 
 body { 
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
     background-color: var(--bg-base); 
     background-image: radial-gradient(circle at 15% 40%, var(--bg-grad-1) 0%, transparent 55%), radial-gradient(circle at 85% 60%, var(--bg-grad-2) 0%, transparent 55%), radial-gradient(circle at 50% 10%, var(--bg-grad-3) 0%, transparent 40%);
-    background-attachment: fixed; color: var(--text-main); 
-    display: flex; justify-content: center; padding: 20px; 
-    user-select: none; -webkit-user-select: none; margin: 0; 
-    min-height: 100vh; align-items: flex-start;
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+    background-attachment: fixed; 
+    color: var(--text-main); 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px; 
+    user-select: none; 
+    -webkit-user-select: none; 
+    margin: 0; 
+    min-height: 100vh; 
+    align-items: flex-start;
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale; 
+    -webkit-text-size-adjust: 100%; 
+    text-size-adjust: 100%;
 }
 
 .top-header-section { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
@@ -140,22 +198,57 @@ body {
 
 /* 🌟 導航列按鈕與返回切換修復 */
 .nav-btn {
-    background: rgba(255, 255, 255, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    padding: 8px 18px !important; border-radius: 20px !important; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;
-    margin: 0; white-space: nowrap; color: #2c3e50 !important; cursor: pointer; transition: all 0.3s ease; 
+    background: rgba(255, 255, 255, 0.6) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important; 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 18px !important; 
+    border-radius: 20px !important; 
+    font-size: 14px; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 0; 
+    white-space: nowrap; 
+    color: #2c3e50 !important; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
 }
-.nav-btn:hover { background: rgba(255, 255, 255, 0.95) !important; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(156, 234, 254, 0.3) !important; }
+.nav-btn:hover { 
+    background: rgba(255, 255, 255, 0.95) !important; 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 16px rgba(85, 195, 255, 0.3) !important; 
+}
+
 /* 修正：主選單按鈕點擊後瞬間隱藏，不延遲 */
-.nav-btn[style*="visibility: hidden"], .nav-btn[style*="opacity: 0"], .nav-btn[style*="display: none"], .home-hide { transition: none !important; }
+.nav-btn[style*="visibility: hidden"], 
+.nav-btn[style*="opacity: 0"], 
+.nav-btn[style*="display: none"], 
+.home-hide { 
+    transition: none !important; 
+}
 
 .nav-title-glass {
-    padding: 8px 24px !important; font-size: 15px; font-weight: 900; color: #2c3e50 !important;
-    border-radius: 20px !important; display: flex; align-items: center; justify-content: center; margin: 0 10px; white-space: nowrap; cursor: default; border: 2px solid transparent !important;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)), linear-gradient(135deg, #9CEAFE 0%, #C88DDD 100%) !important;        
-    background-origin: border-box !important; background-clip: padding-box, border-box !important;
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 0 15px rgba(156, 234, 254, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.9) !important;  
+    padding: 8px 24px !important; 
+    font-size: 15px; 
+    font-weight: 900; 
+    color: #2c3e50 !important;
+    border-radius: 20px !important; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 0 10px; 
+    white-space: nowrap; 
+    cursor: default; 
+    border: 2px solid transparent !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)), linear-gradient(135deg, #55C3FF 0%, #C88DDD 100%) !important;        
+    background-origin: border-box !important; 
+    background-clip: padding-box, border-box !important;
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 0 15px rgba(85, 195, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.9) !important;  
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); 
 }
 
@@ -171,28 +264,24 @@ body {
     background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2)); box-shadow: 0 2px 6px rgba(200, 141, 221, 0.4);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1;
 }
-.theme-toggle .icon-sun, .theme-toggle .icon-moon { position: relative; z-index: 2; font-size: 15px; width: 32px; height: 100%; display: flex; justify-content: center; align-items: center; transition: all 0.4s ease; }
+.theme-toggle .icon-sun, .theme-toggle .icon-moon { 
+    position: relative; z-index: 2; font-size: 15px; width: 32px; height: 100%; display: flex; justify-content: center; align-items: center; transition: all 0.4s ease; 
+}
 .theme-toggle .icon-sun { opacity: 1; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); transform: scale(1.05); }
 .theme-toggle .icon-moon { opacity: 0.4; filter: grayscale(1); transform: scale(0.9); }
-/* --- 🌙 夜間模式切換 --- */
 
-/* 夜間軌道：暗色玻璃 */
+/* --- 🌙 夜間模式切換 --- */
 [data-theme="dark"] .theme-toggle {
     background: rgba(10, 15, 25, 0.6);
     border: 1px solid rgba(178, 187, 237, 0.3);
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 4px 15px rgba(0,0,0,0.4);
 }
-
-/* 夜間滑塊：向右滑動，變成純淨藍玻璃框 */
 [data-theme="dark"] .theme-toggle::before {
-    /* 精準數學：72(總寬) - 2(邊框) - 4(左右留白) - 32(滑塊寬) = 正好 34px！ */
     transform: translateX(34px); 
-    background: rgba(85, 195, 255, 0.15); /* 🌟 替換為純淨藍 */
-    border: 1px solid rgba(85, 195, 255, 0.4); /* 🌟 替換為純淨藍 */
-    box-shadow: inset 0 0 8px rgba(85, 195, 255, 0.2), 0 0 10px rgba(85, 195, 255, 0.3); /* 🌟 替換為純淨藍 */
+    background: rgba(85, 195, 255, 0.15); 
+    border: 1px solid rgba(85, 195, 255, 0.4); 
+    box-shadow: inset 0 0 8px rgba(85, 195, 255, 0.2), 0 0 10px rgba(85, 195, 255, 0.3); 
 }
-
-/* 夜間狀態：太陽變暗，月亮發出純淨藍光 */
 [data-theme="dark"] .theme-toggle .icon-sun {
     opacity: 0.3;
     filter: grayscale(1);
@@ -200,41 +289,52 @@ body {
 }
 [data-theme="dark"] .theme-toggle .icon-moon {
     opacity: 1;
-    filter: drop-shadow(0 0 4px rgba(85, 195, 255, 0.8)); /* 🌟 替換為純淨藍 */
+    filter: drop-shadow(0 0 4px rgba(85, 195, 255, 0.8)); 
     transform: scale(1.05);
 }
-
-/* 懸停 (Hover) 的微浮起特效 */
-.theme-toggle:hover { transform: translateY(-2px); box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 6px 15px rgba(200, 141, 221, 0.2); }
-[data-theme="dark"] .theme-toggle:hover {
-    border-color: rgba(85, 195, 255, 0.6); /* 🌟 替換為純淨藍 */
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(85, 195, 255, 0.2); /* 🌟 替換為純淨藍 */
+.theme-toggle:hover { 
+    transform: translateY(-2px); 
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 6px 15px rgba(200, 141, 221, 0.2); 
 }
-[data-theme="dark"] .theme-toggle:hover { border-color: rgba(85, 195, 255, 0.6); box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(85, 195, 255, 0.2); }
+[data-theme="dark"] .theme-toggle:hover {
+    border-color: rgba(85, 195, 255, 0.6); 
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(85, 195, 255, 0.2); 
+}
 
 /* ========================================== */
 /* 🌟 日間模式：清除/重置按鈕 (科技霓虹紅)     */
 /* ========================================== */
-
-.btn-reset-tr,.action-btn.clear-btn { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s; background: rgba(255, 59, 48, 0.08) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 59, 48, 0.2) !important; color: #FF3B30 !important; }
-.btn-reset-tr:hover ,.action-btn.clear-btn:hover{ background: rgba(255, 59, 48, 0.15) !important; box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15); transform: translateY(-2px); }
-
+.btn-reset-tr, .action-btn.clear-btn { 
+    width: 100%; 
+    padding: 14px; 
+    font-size: 17px; 
+    font-weight: bold; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+    background: rgba(255, 59, 48, 0.08) !important; 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    border: 1px solid rgba(255, 59, 48, 0.2) !important; 
+    color: #FF3B30 !important; 
+}
+.btn-reset-tr:hover, .action-btn.clear-btn:hover { 
+    background: rgba(255, 59, 48, 0.15) !important; 
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15); 
+    transform: translateY(-2px); 
+}
 
 /* ========================================== */
 /* 🌙 夜間模式：清除/重置按鈕 (科技霓虹紅)     */
 /* ========================================== */
-
-/* 1. 按鈕平時狀態：微紅玻璃質感 */
-[data-theme="dark"] .btn-reset-tr ,
-[data-theme="dark"] .action-btn.clear-btn{
+[data-theme="dark"] .btn-reset-tr,
+[data-theme="dark"] .action-btn.clear-btn {
     background: rgba(255, 75, 114, 0.1) !important; 
     border: 1px solid rgba(255, 75, 114, 0.4) !important;
-    color: #FF6B8B !important; /* 柔和但清晰的霓虹紅 */
+    color: #FF6B8B !important; 
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.5) !important;
     transition: all 0.3s ease !important;
 }
-
-/* 2. 按鈕點擊發光狀態：霓虹紅空氣光暈 */
 [data-theme="dark"] .btn-reset-tr:hover, 
 [data-theme="dark"] .btn-reset-tr:focus,
 [data-theme="dark"] .action-btn.clear-btn:hover,
@@ -243,7 +343,7 @@ body {
     border-color: rgba(255, 75, 114, 0.8) !important;
     box-shadow: 0 0 10px rgba(255, 75, 114, 0.3), inset 0 2px 6px rgba(0,0,0,0.6) !important;
     transform: translateY(-1px) !important;
-    color: #FFFFFF !important; /* 滑鼠移過去時字體變白，加強辨識度 */
+    color: #FFFFFF !important; 
 }
 
 /* 全局容器與卡片 */
@@ -267,13 +367,13 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 
 .app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin-top: 10px; }
 .app-card { background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-.app-card:hover { background: var(--card-hover); transform: translateY(-4px); border-color: rgba(200, 141, 221, 0.8); box-shadow: -8px 0 25px rgba(156, 234, 254, 0.6), 8px 0 25px rgba(200, 141, 221, 0.6), 0 8px 15px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.9); }
+.app-card:hover { background: var(--card-hover); transform: translateY(-4px); border-color: rgba(200, 141, 221, 0.8); box-shadow: -8px 0 25px rgba(85, 195, 255, 0.6), 8px 0 25px rgba(200, 141, 221, 0.6), 0 8px 15px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.9); }
 .app-card:active { transform: translateY(-1px) scale(0.98); }
 .app-card-highlight { background: rgba(200, 141, 221, 0.05); border-color: rgba(200, 141, 221, 0.2); }
 .app-card-highlight:hover { border-color: rgba(200, 141, 221, 0.6); }
 
-.app-icon { font-size: 26px; width: 46px; height: 46px; background: linear-gradient(135deg, rgba(156, 234, 254, 0.3), rgba(200, 141, 221, 0.3)); border: 1px solid rgba(200, 141, 221, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; overflow: hidden; }
-.app-card:hover .app-icon { background: linear-gradient(135deg, rgba(156, 234, 254, 0.6), rgba(200, 141, 221, 0.6)); transform: scale(1.05); }
+.app-icon { font-size: 26px; width: 46px; height: 46px; background: linear-gradient(135deg, rgba(85, 195, 255, 0.3), rgba(200, 141, 221, 0.3)); border: 1px solid rgba(200, 141, 221, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; overflow: hidden; }
+.app-card:hover .app-icon { background: linear-gradient(135deg, rgba(85, 195, 255, 0.6), rgba(200, 141, 221, 0.6)); transform: scale(1.05); }
 .app-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
 .app-info h3 { margin: 0; font-size: 15.5px; font-weight: 600; color: var(--text-main); letter-spacing: -0.2px; }
 .app-info p { margin: 0; font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -307,8 +407,8 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 [data-theme="dark"] .hexa-inputs input, 
 [data-theme="dark"] .inv-grid input {
     background: rgba(10, 12, 20, 0.95) !important; 
-    border: 1px solid rgba(85, 195, 255, 0.4) !important; /* 替換為純淨藍 */
-    color: #55C3FF !important; /* 替換為純淨藍 */
+    border: 1px solid rgba(85, 195, 255, 0.4) !important; 
+    color: #55C3FF !important; 
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.6) !important;
 }
 
@@ -321,8 +421,8 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 [data-theme="dark"] input:focus, 
 [data-theme="dark"] select:focus {
     background: rgba(10, 12, 20, 0.95) !important; 
-    border-color: rgba(85, 195, 255, 0.8) !important; /* 替換為純淨藍 */
-    box-shadow: 0 0 10px rgba(85, 195, 255, 0.4), inset 0 2px 6px rgba(0,0,0,0.6) !important; /* 替換為純淨藍光暈 */
+    border-color: rgba(85, 195, 255, 0.8) !important; 
+    box-shadow: 0 0 10px rgba(85, 195, 255, 0.4), inset 0 2px 6px rgba(0,0,0,0.6) !important; 
     transform: translateY(-1px) !important;
 }
 
@@ -343,7 +443,6 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 #tab-home .memo-title { font-size: 16px; font-weight: 900; color: #c0392b; margin-bottom: 8px; transition: color 0.3s;}
 #tab-home .memo-text-area p { margin: 0 0 6px 0; }
 #tab-home .memo-simple-text { margin-top: 5px !important; }
-
 
 /* ========================================== */
 /* 2. 無視防禦計算機 (全玻璃化與連動發光升級)    */
@@ -452,7 +551,6 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .ignore-left-panel { flex: 1.4; margin: 0; display: flex; flex-direction: column; }
 .ignore-right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
 
-
 /* ========================================== */
 /* 🌟 3. 六轉進度與懶人決策 (四色玻璃全框發光)   */
 /* ========================================== */
@@ -553,7 +651,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 #tab-hexa-visual .v-stat-name { font-size: 16px; font-weight: bold; color: #ffffff !important; letter-spacing: 1px; margin-top: 2px;}
 #tab-hexa-visual .v-prob { color: #b3c2d1 !important; font-size: 14px; }
 #tab-hexa-visual .v-bar { display: flex; width: 100%; height: 14px; background-color: #050a15 !important; border: 2px solid #0a1128 !important; border-radius: 2px; gap: 2px; padding: 1px; }
-#tab-hexa-visual .v-segment { flex: 1; background-color: #0b132b !important; transition: all 0.2s ease-in-out; border-radius: 0 !important; }
+#tab-hexa-visual .v-segment { flex: 1; background-color: #0b132b !important; transition: all 0.05s ease-in-out; border-radius: 0 !important; }
 #tab-hexa-visual .v-segment.active-main { background: linear-gradient(180deg, #e499ff 0%, #b854d4 100%) !important; box-shadow: 0 0 8px #d094ff !important; border-top: 1px solid #ffccff !important; }
 #tab-hexa-visual .v-segment.active-sub { background: linear-gradient(180deg, #66eeff 0%, #15a0d3 100%) !important; box-shadow: 0 0 8px #66eeff !important; border-top: 1px solid #b3ffff !important; }
 
@@ -570,7 +668,6 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 #tab-hexa-visual .v-btn-reset:active { transform: scale(0.95) !important; }
 #tab-hexa-visual .v-btn-reset.highlight { background: linear-gradient(135deg, #e67e22, #d35400) !important; box-shadow: 0 0 10px rgba(230, 126, 34, 0.5) !important; border-color: transparent !important;}
 #tab-hexa-visual .v-btn-reset.highlight:hover { filter: brightness(1.2) !important; transform: none !important;}
-
 
 /* ========================================== */
 /* 5. 鐵匠鋪共用UI (Transcend & Craft)           */
@@ -629,8 +726,6 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .setting-row input[type="number"], .setting-row select { font-weight: bold;}
 .setting-row label { cursor: pointer; display: flex; align-items: center; gap: 4px; color: var(--text-main) !important; }
 .stats-text { font-size: 14px; color: var(--text-main) !important; text-align: left; background: var(--glass-bg) !important; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05) !important; margin-top: 15px;}
-.btn-reset-tr { width: 100%; padding: 12px; margin-top: 15px; background: rgba(0,0,0,0.05); color: var(--text-main); border: none; border-radius: 10px; font-weight: 600; transition: 0.2s; cursor: pointer; }
-.btn-reset-tr:hover { background: rgba(0,0,0,0.08); }
 .btn-sound { background: #fff; border: 1px solid #bdc3c7; padding: 6px 12px; border-radius: 8px; font-size: 13px; transition: 0.2s; font-weight: bold; color: #2c3e50;}
 .btn-sound.muted { background: #FF3B30; color: white; border-color: #FF3B30; }
 
@@ -708,7 +803,6 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 .cr-anim-success-gold { display: block !important; animation: cr-flash-success-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
 .cr-anim-fail-gold { display: block !important; animation: cr-flash-fail-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
 
-
 /* ========================================== */
 /* 🌟 8. 威爾練習機 (全面變數玻璃化) */
 /* ========================================== */
@@ -780,7 +874,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 #tab-will .setting-label { margin-right: 0px; color: var(--text-main); font-weight: bold; }
 #tab-will .setting-opt { cursor: pointer; display: flex; align-items: center; gap: 5px; color: var(--text-main); font-weight: bold; }
 #tab-will .custom-num-input { width: 40px; text-align: center; border: 1px solid var(--glass-border); border-radius: 6px; padding: 3px; font-weight: bold; font-size: 14px; background: var(--input-bg); color: var(--text-main); outline: none; transition: all 0.3s; box-shadow: none; }
-#tab-will .custom-num-input:focus { border-color: #9CEAFE; box-shadow: 0 0 5px rgba(156,234,254,0.5); }
+#tab-will .custom-num-input:focus { border-color: #55C3FF; box-shadow: 0 0 5px rgba(85,195,255,0.5); }
 #tab-will .will-vol-group-wrapper { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap !important; }
 #tab-will .vol-group { display: flex; align-items: center; gap: 8px; border-left: 2px solid rgba(178, 187, 237, 0.2); padding-left: 12px; margin-left: 5px; white-space: nowrap !important; }
 
