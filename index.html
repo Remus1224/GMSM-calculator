@@ -9,11 +9,11 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/" />
     <link rel="stylesheet" href="style.css">
-    
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-FSW7VLPBYS');
     </script>
@@ -23,132 +23,130 @@
 <div class="container">
 
     <div class="top-header-section">
-        
         <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
 
         <div class="top-nav-bar">
-        
-        <div class="nav-side left-side">
-            <button id="btn-home" onclick="switchTab('home')" class="nav-btn">主選單</button>
-        </div>
+            <div class="nav-side left-side">
+                <button id="btn-home" onclick="switchTab('home')" class="nav-btn">主選單</button>
+            </div>
 
-        <div id="sub-page-title" class="nav-title-glass">主選單</div>
+            <div id="sub-page-title" class="nav-title-glass">主選單</div>
 
-        <div class="nav-side right-side">
-            <button  class="theme-toggle" onclick="toggleTheme()">
-                 <span class="icon-sun">☀️</span>
-                 <span class="icon-moon">🌙</span>
-            </button>
+            <div class="nav-side right-side">
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+            </div>
         </div>
     </div>
 
     <div id="tab-home" class="tab-content active">
         <div class="app-grid">
-        
-        <div class="app-card" onclick="switchTab('notice')">
-            <div class="app-icon">
-                <img src="assets/icon_公告.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('notice')">
+                <div class="app-icon">
+                    <img src="assets/icon_公告.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>布告欄</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>布告欄</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('transcend')">
-            <div class="app-icon">
-                <img src="assets/icon_超越模擬器.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('transcend')">
+                <div class="app-icon">
+                    <img src="assets/icon_超越模擬器.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>超越模擬器</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>超越模擬器</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('craft')">
-            <div class="app-icon">
-                <img src="assets/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('craft')">
+                <div class="app-icon">
+                    <img src="assets/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>製作模擬器</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>製作模擬器</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('will')">
-            <div class="app-icon">
-                <img src="assets/Collection_Will.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('will')">
+                <div class="app-icon">
+                    <img src="assets/Collection_Will.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>威爾二階練習機</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>威爾二階練習機</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('ignore')">
-            <div class="app-icon">
-                <img src="assets/icon_無視防禦計算機.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('ignore')">
+                <div class="app-icon">
+                    <img src="assets/icon_無視防禦計算機.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>無視防禦計算機</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>無視防禦計算機</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('hexa-prog')">
-            <div class="app-icon">
-                <img src="assets/icon_六轉計算機.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('hexa-prog')">
+                <div class="app-icon">
+                    <img src="assets/icon_六轉計算機.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>六轉進度計算機</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>六轉進度計算機</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('hexa-visual')">
-            <div class="app-icon">
-                <img src="assets/icon-purple HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('hexa-visual')">
+                <div class="app-icon">
+                    <img src="assets/icon-purple HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>HEXA 屬性模擬器</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>HEXA 屬性模擬器</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('hexa-lazy')">
-            <div class="app-icon">
-                <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('hexa-lazy')">
+                <div class="app-icon">
+                    <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>HEXA 懶人重製表</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>HEXA 懶人重製表</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('hexa-reset')">
-            <div class="app-icon">
-                <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('hexa-reset')">
+                <div class="app-icon">
+                    <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>HEXA 重置決策模擬</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>HEXA 重置決策模擬</h3>
-            </div>
-        </div>
 
-        <div class="app-card" onclick="switchTab('hexa-sim')">
-            <div class="app-icon">
-                <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+            <div class="app-card" onclick="switchTab('hexa-sim')">
+                <div class="app-icon">
+                    <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+                </div>
+                <div class="app-info">
+                    <h3>HEXA 目標策略模擬</h3>
+                </div>
             </div>
-            <div class="app-info">
-                <h3>HEXA 目標策略模擬</h3>
-            </div>
-        </div>
+        </div> 
 
-    </div> <div class="settings-panel instructions-panel memo-card">
-        <div class="memo-content">
-            <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
-            <div class="memo-text-area">
-                <div class="memo-title">Bug 告知</div>
-                <p>如果有發現什麼 Bug 可以加我的 Discord </p>
-                <p class="memo-simple-text">紙條：露娜-迷你安安 <br class="mobile-br">（留言 Discord 名稱我方便確認好友）</span></p>
+        <div class="settings-panel instructions-panel memo-card">
+            <div class="memo-content">
+                <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
+                <div class="memo-text-area">
+                    <div class="memo-title">Bug 告知</div>
+                    <p>如果有發現什麼 Bug 可以加我的 Discord </p>
+                    <p class="memo-simple-text">紙條：露娜-迷你安安 <br class="mobile-br">（留言 Discord 名稱我方便確認好友）</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <div id="tab-notice" class="tab-content">
-        
         <div class="panel" style="animation: appleFadeIn 0.4s ease;">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list" style="font-size: 14.5px;">
@@ -158,7 +156,7 @@
                 <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
                 <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
                 <li><strong>2026/05/23</strong>：加了一點HEXA相關功能,少走一點HEXA屬性的冤枉路。</li>
-                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的东西。</li>
+                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
             </ul>
         </div>
 
@@ -182,7 +180,7 @@
                 <p>這裡面 <strong>99.9% 的程式碼都是 AI (如 Gemini / ChatGPT) 寫出來的</strong>！我只是一個「出一張嘴」的非本科小白，主要負責通靈需求、提供公式、還有在旁邊喊加油。</p>
                 <p>把這些東西一點一滴拼湊成網頁，對我來說挺有趣的。但如果哪天你發現程式碼寫得不夠優雅，或是算出來的機率害你非到懷疑人生......<br>
                 <strong>👉 請深呼吸，放下鍵盤，並在心裡默念：「Pro遊戲」</strong> </p>
-                <p style="margin-bottom: 0; font-weight: bold; color: #2c3e50;">祝大家超越隨便超，製作隨便過！</p>
+                <p style="margin-bottom: 0; font-weight: bold; color: var(--text-main);">祝大家超越隨便超，製作隨便過！</p>
             </div>
         </div>
 
@@ -192,7 +190,6 @@
                 <p style="margin: 0; color: #555; font-size: 14px;">本網站為玩家自製的非營利實用工具，僅供社群交流與學習使用。網站內所使用的所有遊戲圖像、圖示、名稱與相關素材，其著作權與商標權皆歸原遊戲公司 (Nexon) 所有。本站並無任何營利行為，若有侵權疑慮，請來信告知，將立即移除相關內容。</p>
             </div>
         </div>
-        
     </div>
 
     <div id="tab-ignore" class="tab-content">
@@ -317,11 +314,11 @@
             <div class="setting-row" style="margin-top: 15px;">
                 <label>裝備等級：</label>
                 <select id="input-equip-lv" onchange="tr_forceStateChange()">
-                    <script>for(let i=30; i<=68; i+=2) document.write(`<option value="${i}">${i}</option>`);</script>
+                    <script>for (let i = 30; i <= 68; i += 2) document.write(`<option value="${i}">${i}</option>`);</script>
                 </select>
                 <label style="margin-left: 20px;">失敗次數：</label>
                 <select id="input-fail-count" onchange="tr_forceStateChange()">
-                    <script>for(let i=0; i<=7; i++) document.write(`<option value="${i}">${i}</option>`);</script>
+                    <script>for (let i = 0; i <= 7; i++) document.write(`<option value="${i}">${i}</option>`);</script>
                 </select>
             </div>
             <div class="setting-row">
@@ -505,7 +502,7 @@
                 <button id="btn-sound-toggle-cr" class="btn-sound" onclick="cr_toggleSound()">🔊 音效：開啟</button>
             </div>
             
-            <div class="setting-row" style="font-weight: bold; color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+            <div class="setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
                 <label>選擇製作階段：</label>
                 <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話 ➔ 古代</label>
                 <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈 ➔ 航海師</label>
@@ -760,7 +757,7 @@
             </div>
             
             <div class="target-divider"></div>
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--text-main);">畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub" min="0" max="10" value=""></div>
@@ -794,7 +791,7 @@
         <div class="panel">
             <div class="section-title">設定模擬條件</div>
             
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">目前狀態</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--text-main);">目前狀態</div>
             <div class="hexa-inputs">
                 <div><label>主屬 (A)</label><input type="text" inputmode="decimal" id="sim-a" min="0" max="10" value=""></div>
                 <div><label>附屬 (B)</label><input type="text" inputmode="decimal" id="sim-b" min="0" max="10" value=""></div>
@@ -804,7 +801,7 @@
 
             <div class="target-divider"></div>
             
-            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555;">畢業目標 (輸入 0 代表不要求該屬性)</div>
+            <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--text-main);">畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="target-sub" min="0" max="10" value=""></div>
@@ -1002,8 +999,8 @@
                 <div class="inst-section inst-section-compact">
                     <div class="inst-subtitle inst-subtitle-compact">威爾難度</div>
                     <ul class="inst-list inst-list-compact">
-                        <li><b>混沌：</b>完整7種題庫。</li>
-                        <li><b>困難：</b>完整3種題庫。</li>
+                        <li><b>混沌：</b>完整 7 種題庫。</li>
+                        <li><b>困難：</b>完整 3 種題庫。</li>
                         <li><b>動態隨機：</b>每次的蜘蛛腳都是由演算法當場生成，依造遊戲原始機制體驗。<br>
                         <span class="will-inst-hint">（💡 備註：此模式為演算法即時運算，以體驗隨機樂趣為主。若偶遇極端陣型或非預期的小 Bug，敬請見諒！）</span></li>
                     </ul>
@@ -1053,8 +1050,6 @@
                     </div>
                 </div>
             </div>
-            
-            
         </div> 
     </div>
 
