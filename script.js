@@ -3770,6 +3770,7 @@ let emb_attempts = 0;
 let emb_successes = 0;
 let emb_fails = 0;
 let emb_current_level_attempts = 0;
+let emb_total_mats_used = 0;
 let emb_isMuted = false; 
 let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
 
@@ -3954,6 +3955,9 @@ function emb_updateUI() {
             <span>總嘗試：<span class="val-try">${emb_attempts}</span></span>
             <span>成功：<span class="val-success">${emb_successes}</span></span>
             <span>失敗：<span class="val-fail">${emb_fails}</span></span>
+        </div>
+        <div style="text-align: right; font-size: 13px; font-weight: bold; color: #555; margin-top: 6px;">
+            總消耗材料：<span style="color: #8e44ad;">${emb_total_mats_used}</span> 個
         </div>`;
         
         statsContainer.innerHTML = statsHtmlContent;
@@ -3973,7 +3977,9 @@ function emb_executeEnhance() {
     emb_attempts++;
     emb_current_level_attempts++;
     let oldLv = emb_lv;
-    
+
+    emb_total_mats_used += emb_mat_count; 
+
     emb_stats_history[oldLv].attempts++;
     if (!isSuccess) {
         emb_stats_history[oldLv].fails++;
@@ -4081,32 +4087,29 @@ function emb_closeResult() {
     emb_updateUI();
 }
 
-function acc_reset() {
-    if (acc_isAnimating) return;
-    
-    // 1. 變數歸零
-    acc_stars = 0;
-    acc_attempts = 0;
-    acc_successes = 0;
-    acc_fails = 0;
-    acc_current_emblem = ""; 
-    acc_current_level_attempts = 0;
-    acc_stats_history = Array.from({length: 10}, () => ({ attempts: 0, fails: 0 }));
-    
-    // 2. 星數選單歸零
-    let starSel = document.getElementById('acc-star-select');
-    if (starSel) {
-        let opt10 = starSel.querySelector('option[value="10"]');
-        if (opt10) opt10.remove(); 
-        starSel.value = "0";
-    }
+function emb_reset() {
+    if (emb_isAnimating) return;
 
-    // 🌟 3. 關鍵新增：強制將裝備選單切回第一項「請選擇飾品」
-    let itemSel = document.getElementById('acc-item-select');
-    if (itemSel) {
-        itemSel.value = "0"; 
+    // 1. 重設 JavaScript 變數
+    emb_lv = 1;
+    emb_mat_count = 1;
+    emb_attempts = 0;
+    emb_successes = 0;
+    emb_fails = 0;
+    emb_current_level_attempts = 0;
+    emb_total_mats_used = 0; // 🌟 材料總數歸零
+    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+    
+    // 2. 強制同步 HTML 選單狀態
+    let selectElem = document.getElementById('emb-lv-select');
+    if (selectElem) {
+        selectElem.value = "1"; // 強制選單歸零回 Lv.1
+        
+        // 確保 Lv.15 選項被移除
+        let opt15 = selectElem.querySelector('option[value="15"]');
+        if (opt15) opt15.remove();
     }
-
-    // 4. 更新畫面
-    acc_forceStateChange();
+    
+    // 3. 最後再呼叫更新畫面
+    emb_forceStateChange();
 }
