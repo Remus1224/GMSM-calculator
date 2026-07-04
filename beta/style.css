@@ -1376,7 +1376,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-m-diamond-badge    { top: 14px !important; left: -3px !important; width: 27px; }
 
     /* 👇 等級遮罩：手機版個別位置微調 */
-    #cr-m-lv-badge { bottom: 4px !important; right: 4px !important; }
+    #cr-m-lv-badge { bottom: 4px !important; right: 4px !important; padding: 1px 6px !important; min-width: 16px !important;}
     #tr-m-lv-badge, #tr-m-scr-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 5px !important;}
     #emb-m-lv-badge { bottom: 3px !important; right: 3px !important; }
 
