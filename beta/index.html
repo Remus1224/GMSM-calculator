@@ -70,6 +70,15 @@
                 </div>
             </div>
 
+             <div class="app-card" onclick="switchTab('emb-enhance')">
+                <div class="app-icon">
+                    <img src="assets/icon_紋章模擬.png" class="menu-custom-img" alt="icon" >
+                </div>
+                <div class="app-info">
+                    <h3>紋章模擬器</h3>
+                </div>
+            </div>
+
             <div class="app-card" onclick="switchTab('acc-enhance')">
                 <div class="app-icon">
                     <img src="assets/icon_飾品模擬.png" class="menu-custom-img" alt="icon" >
@@ -79,12 +88,12 @@
                  </div>
              </div>
 
-             <div class="app-card" onclick="switchTab('emb-enhance')">
+            <div class="app-card" onclick="switchTab('star')">
                 <div class="app-icon">
-                    <img src="assets/icon_紋章模擬.png" class="menu-custom-img" alt="icon" >
+                    <img src="assets/icon_星力模擬.png" class="menu-custom-img" alt="icon" >
                 </div>
                 <div class="app-info">
-                    <h3>紋章模擬器</h3>
+                    <h3>星力強化模擬器</h3>
                 </div>
             </div>
 
@@ -399,7 +408,7 @@
                         <img id="tr-m-img" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
                         <div id="tr-m-diamond-badge" class="emb-diamond-badge emb-bg-purple"><span>15</span></div>
                         <div id="tr-m-star-badge" class="equip-badge-star" style="top: 0px; right: -3px; height: 24px;"><span>M</span></div>
-                        <div id="tr-m-lv-badge" class="equip-badge-lv" style="bottom: 2px; right: 2px;"><span>Lv.30</span></div>
+                        <div id="tr-m-lv-badge" class="equip-badge-lv" style="bottom: 3px;right: 3px;display: block;"><span>Lv.30</span></div>
                     </div>
                     <div class="m-item-name" id="tr-m-equip-name">神秘冥界幽靈天之星光權杖</div>
                     <div class="m-fail-text" id="m-enh-fail-text-container">
@@ -481,7 +490,7 @@
                         </div>
                         <div class="item-col" id="cr-scroll-col" style="opacity: 0.3; transition: 0.3s;">
                             <div class="img-box" style="background-color: #f1f2f6;">
-                                <img id="cr-scroll-img" src="assets/幸運的製作卷軸.png" alt="scroll">
+                                <img id="cr-scroll-img" src="" alt="scroll">
                             </div>
                             <div class="equip-name" id="cr-scroll-name" style="font-weight: normal; color: #888; font-size: 11px;">卷軸</div>
                         </div>
@@ -613,7 +622,7 @@
                         <img id="cr-m-equip-img" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
                         <div id="cr-m-diamond-badge" class="emb-diamond-badge emb-bg-purple"><span>15</span></div>
                         <div id="cr-m-star-badge" class="equip-badge-star" style="top: -1px; right: -4px; height: 24px;"><span>M</span></div>
-                        <div id="cr-m-lv-badge" class="equip-badge-lv" style="bottom: 2px; right: 2px;"><span>Lv.1</span></div>
+                        <div id="cr-m-lv-badge" class="equip-badge-lv" bottom: 3px;right: 3px;padding: 1px 7px !important;display: block;"><span>Lv.1</span></div>
                     </div>
                     <div class="m-item-name" id="cr-m-equip-name" style="font-size: 15px; margin-top: 15px;">神秘冥界幽靈手杖</div>
                     <div class="m-fail-text" id="cr-m-fail-text-container" style="display: none; margin-top: 5px;"></div>
@@ -1095,6 +1104,21 @@
         </div> 
     </div>
 
+    <div id="tab-star" class="tab-content">
+        <div class="sarcasm-banner">
+            <div class="sarcasm-title">⚠️ 開發者筆記</div>
+            <div class="sarcasm-content">
+                星力模擬器遇到了無法突破的技術瓶頸。<br>
+                原因在於：<br class="mobile-br">我們根本不知道星力強化的<span class="highlight-red">真實機率</span>。<br><br>
+                所以我放棄了。<br>
+                畢竟任何正常的隨機亂數，<br class="mobile-br">都無法完美還原那種<span class="highlight-red">充滿惡意</span>……<br>
+                啊不是，是充滿<span class="highlight-gold">「驚喜」</span>的遊戲體驗。
+            </div>
+        
+            <img src="assets/starui.png" class="sarcasm-img" alt="starui">
+        </div>
+    </div>
+
     <div id="tab-acc-enhance" class="tab-content">
         <div class="msm-forge-ui" id="acc-game-ui-container">
 
@@ -1116,7 +1140,7 @@
                 <div class="forge-main">
                     
                     <div id="acc-anim-overlay" class="lightning-overlay">
-                        <img class="lightning-img" src="assets/lightning.png" onerror="this.style.display='none'">
+                        <img class="lightning-img" src="" onerror="this.style.display='none'">
                     </div>
 
                     <div class="sec-top">
@@ -1273,7 +1297,7 @@
                 <div class="forge-main">
                     
                     <div id="emb-anim-overlay" class="lightning-overlay">
-                        <img class="lightning-img" src="assets/lightning.png" alt="lightning">
+                        <img class="lightning-img" src="" alt="lightning">
                     </div>
 
                     <div class="emb-tabs">
@@ -1284,7 +1308,7 @@
                     <div class="emb-top-section">
                         <div class="emb-equip-col">
                             <div class="emb-img-box">
-                                <img id="emb-ui-img-equip" src="assets/equipment/航海師十字鎚.png" alt="equip">
+                                <img id="emb-ui-img-equip" src="" alt="equip">
                                 <div id="emb-ui-diamond-badge" class="emb-diamond-badge emb-bg-blue">
                                     <span id="emb-ui-diamond-lv">5</span>
                                 </div>
@@ -1391,12 +1415,12 @@
                 
                 <div class="m-enh-grey-top">
                     <div class="emb-img-box" style="width: 80px; height: 80px; margin-bottom: 8px;">
-                        <img id="emb-m-img" src="assets/equipment/航海師十字鎚.png" alt="equip">
+                        <img id="emb-m-img" src="" alt="equip">
                         <div id="emb-m-diamond-badge" class="emb-diamond-badge emb-bg-blue" style="top: 25px; left: -8px;">
                             <span id="emb-m-diamond-lv">6</span>
                         </div>
                         <div id="emb-m-star-badge" class="equip-badge-star" style="top: -5px; right: -3px; display: flex;"><span>M</span></div>
-                        <div id="emb-m-lv-badge" class="equip-badge-lv" style="bottom: 5px;right: 4px;min-width: 26px;display: block;font-size: 7px;"><span>Lv.70</span></div>
+                        <div id="emb-m-lv-badge" class="equip-badge-lv" style="bottom: 5px;right: 4px;min-width: 26px;display: block;font-size: 9px;"><span>Lv.70</span></div>
                     </div>
                     <div class="m-item-name" id="emb-m-equip-name">航海師十字鎚</div>
                     <div class="m-fail-text acc-m-attempts" id="emb-m-attempts-text">累積強化 <span class="acc-m-attempts-num">0</span> 次</div>
