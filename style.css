@@ -1024,17 +1024,17 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 .acc-stats-hint, .acc-stats-hint-ev { font-size: 11px; color: var(--text-muted) !important; font-weight: normal; margin-left: 2px; }
 .acc-stats-body { display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
 .acc-stat-hist-row { display: grid; grid-template-columns: 75px 1fr 50px; gap: 5px; align-items: center; color: var(--text-main); }
-.acc-hist-lv { display: flex; align-items: center; justify-content: center; }
+.acc-hist-lv {  align-items: center; justify-content: center; }
 .acc-hist-lv .arr { color: #888 !important; margin: 0 4px; width: 14px; text-align: center; }
 .acc-hist-main { text-align: right; white-space: nowrap; }
-.acc-hist-main .val-try { color: #f3724c !important; font-weight: bold; display: inline-block; width: 32px; text-align: center; margin: 0 2px; }
+.acc-hist-main .val-try { color: #f3724c !important; font-weight: bold; display: inline-block; width: 20px; text-align: center; margin: 0 2px; }
 .acc-hist-ev { text-align: right; color: var(--text-muted) !important; font-size: 12px; font-family: monospace; }
 .acc-stat-hist-row.current-lv { color: #0071E3 !important; font-weight: bold; }
 .acc-stat-hist-row.current-lv .acc-hist-lv .arr { color: #0071E3 !important; }
 .acc-hist-lv .lv-num, .acc-hist-lv .lv-next-num { display: inline-block; width: 22px; text-align: center; font-weight: bold; }
 [data-theme="dark"] .acc-stat-hist-row.current-lv { color: #55C3FF !important; }
 [data-theme="dark"] .acc-stat-hist-row.current-lv .acc-hist-lv .arr { color: #55C3FF !important; }
-.acc-stats-footer { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--glass-border); font-size: 13px; font-weight: bold; display: flex; justify-content: space-between; }
+.acc-stats-footer { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--glass-border); font-size: 13px; font-weight: bold; display: flex; justify-content: center; gap: 20px; }
 .acc-stats-footer .val-try { color: #f3724c !important; }
 .acc-stats-footer .val-success { color: #27ae60 !important; }
 .acc-stats-footer .val-fail { color: #c0392b !important; }
