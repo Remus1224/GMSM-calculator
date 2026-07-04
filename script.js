@@ -3491,7 +3491,6 @@ function acc_updateUI() {
         statsHtmlContent += `</div>
         <div class="acc-stats-footer">
             <span>總嘗試：<span class="val-try">${acc_attempts}</span></span>
-            <span>成功：<span class="val-success">${acc_successes}</span></span>
             <span>失敗：<span class="val-fail">${acc_fails}</span></span>
         </div>`;
         
@@ -3763,16 +3762,17 @@ const emb_sfxSuccess = new Audio('assets/Enchant.wav');
 const emb_sfxFail = new Audio('assets/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
 
 // 狀態變數
-let emb_lv = 5; 
+let emb_lv = 1; 
 let emb_mat_count = 1;
 let emb_isAnimating = false;
 let emb_attempts = 0;
 let emb_successes = 0;
 let emb_fails = 0;
 let emb_current_level_attempts = 0;
-let emb_total_mats_used = 0;
+let emb_mats_normal_used = 0;
+let emb_mats_chaos_used = 0;
 let emb_isMuted = false; 
-let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0, mats: 0, lastMatCount: 1 }));
 
 function emb_toggleSound() {
     emb_isMuted = !emb_isMuted;
@@ -3807,6 +3807,9 @@ function emb_forceStateChange() {
     emb_updateUI();
 }
 
+// ==========================================
+// 🔄 紋章模擬器：更新 UI 畫面 (最終純淨版)
+// ==========================================
 function emb_updateUI() {
     let selectElem = document.getElementById('emb-lv-select');
     if (selectElem) {
@@ -3817,50 +3820,11 @@ function emb_updateUI() {
         selectElem.value = emb_lv; // 設定目前選中的值
     }
     
-    // 剩下的邏輯保持不變
     let currData = emb_stats_data[emb_lv - 1];
     let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
     
     // 更新介面數值
     if (document.getElementById('emb-ui-curr-lv')) document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
-    
-    // ... (後續的渲染邏輯保持你原本寫的即可) ...
-    // ...
-}
-
-function emb_changeMat(amount) {
-    if (emb_lv >= 15 || emb_isAnimating) return;
-    let max = emb_rate_data[emb_lv - 1].maxMat;
-    emb_mat_count += amount;
-    if (emb_mat_count < 1) emb_mat_count = 1;
-    if (emb_mat_count > max) emb_mat_count = max;
-    emb_updateUI();
-}
-
-function emb_setMaxMat() {
-    if (emb_lv >= 15 || emb_isAnimating) return;
-    emb_mat_count = emb_rate_data[emb_lv - 1].maxMat;
-    emb_updateUI();
-}
-
-function emb_updateUI() {
-    let selectElem = document.getElementById('emb-lv-select');
-    if (selectElem) {
-        // 動態解鎖 Lv.15 選項
-        if (emb_lv === 15 && !selectElem.querySelector('option[value="15"]')) {
-            selectElem.insertAdjacentHTML('beforeend', `<option value="15">Lv.15</option>`);
-        }
-        selectElem.value = emb_lv; // 設定目前選中的值
-    }
-    
-    // 剩下的邏輯保持不變
-    let currData = emb_stats_data[emb_lv - 1];
-    let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
-    
-    // 更新介面數值
-    if (document.getElementById('emb-ui-curr-lv')) document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
-    
-    document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
     
     let diamondLvElem = document.getElementById('emb-ui-diamond-lv');
     let diamondBadgeElem = document.getElementById('emb-ui-diamond-badge');
@@ -3875,7 +3839,6 @@ function emb_updateUI() {
     if (nextLvElem) nextLvElem.innerText = emb_lv >= 15 ? "MAX" : (emb_lv + 1);
     
     let statHtml = '';
-    
     if (nextData.maxDmg > 0 || currData.maxDmg > 0) {
         let increase = nextData.maxDmg - currData.maxDmg;
         statHtml += `
@@ -3925,12 +3888,13 @@ function emb_updateUI() {
         if (btnAction) btnAction.disabled = false;
     }
 
+    // 📊 下方動態統計面板渲染
     let statsContainer = document.getElementById('emb-stats-container');
     if (statsContainer) {
         let statsHtmlContent = `
             <div class="acc-stats-header">
                 <div>各星級消耗 <span class="acc-stats-hint">(隱藏未點擊)</span></div>
-                <div class="acc-stats-hint-ev">理論期望</div>
+                <div class="acc-stats-hint-ev">當前期望</div>
             </div>
             <div class="acc-stats-body">
         `;
@@ -3938,31 +3902,62 @@ function emb_updateUI() {
         for (let i = 1; i < 15; i++) {
             let hist = emb_stats_history[i];
             let rateInfo = emb_rate_data[i - 1];
-            let ev = rateInfo.baseRate > 0 ? (100 / rateInfo.baseRate).toFixed(2) : "∞";
+            
+            let matToUse = (i === emb_lv) ? emb_mat_count : hist.lastMatCount;
+            let currentSuccessRate = Math.min(100, rateInfo.baseRate * matToUse); 
+            
+            let evText = "∞";
+            if (currentSuccessRate > 0) {
+                let evAttempts = 100 / currentSuccessRate; 
+                let evMats = evAttempts * matToUse;
+                
+                // 單行期望值，沒有 <br>
+                evText = `${evAttempts.toFixed(1)}次 <span style="font-size: 11px; color:#888;">(約${evMats.toFixed(1)}個)</span>`;
+            }
             
             if (hist.attempts > 0 || i === emb_lv) {
                 let isCurrent = (i === emb_lv) ? 'current-lv' : '';
+                
+                // 🌟 1. 將網格改為 1fr auto 1fr (左右平分，中間自適應)
                 statsHtmlContent += `
-                <div class="acc-stat-hist-row ${isCurrent}">
-                    <div class="acc-hist-lv"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
-                    <div class="acc-hist-main">嘗試 <span class="val-try">${hist.attempts}</span> 次</div>
-                    <div class="acc-hist-ev">${ev}</div>
+                <div class="acc-stat-hist-row ${isCurrent}" style="grid-template-columns: 1fr auto 1fr; align-items: center;">
+                    
+                    <div class="acc-hist-lv" style="text-align: left;"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
+                    
+                    <div class="acc-hist-main" style="text-align: center;">消耗 <span class="val-try">${hist.mats}</span> 個</div>
+                    
+                    <div class="acc-hist-ev" style="text-align: right;">${evText}</div>
+                    
                 </div>`;
             }
         }
+        
+        // 🌟 完全移除嘗試/成功/失敗，只保留置中的材料總結
         statsHtmlContent += `</div>
-        <div class="acc-stats-footer">
-            <span>總嘗試：<span class="val-try">${emb_attempts}</span></span>
-            <span>成功：<span class="val-success">${emb_successes}</span></span>
-            <span>失敗：<span class="val-fail">${emb_fails}</span></span>
-        </div>
-        <div style="text-align: right; font-size: 13px; font-weight: bold; color: #555; margin-top: 6px;">
-            總消耗材料：<span style="color: #8e44ad;">${emb_total_mats_used}</span> 個
+        <div style="display: flex; justify-content: center; gap: 25px; font-size: 14px; font-weight: bold; color: #555; margin-top: 15px; margin-bottom: 5px;">
+            <div>一般痕跡：<span style="color: #f3724c; font-size: 16px;">${emb_mats_normal_used}</span></div>
+            <div>混沌痕跡：<span style="color: #8e44ad; font-size: 16px;">${emb_mats_chaos_used}</span></div>
         </div>`;
         
         statsContainer.innerHTML = statsHtmlContent;
     }
 }
+
+function emb_changeMat(amount) {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    let max = emb_rate_data[emb_lv - 1].maxMat;
+    emb_mat_count += amount;
+    if (emb_mat_count < 1) emb_mat_count = 1;
+    if (emb_mat_count > max) emb_mat_count = max;
+    emb_updateUI();
+}
+
+function emb_setMaxMat() {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    emb_mat_count = emb_rate_data[emb_lv - 1].maxMat;
+    emb_updateUI();
+}
+
 
 function emb_executeEnhance() {
     if (emb_lv >= 15 || emb_isAnimating) return;
@@ -3978,7 +3973,15 @@ function emb_executeEnhance() {
     emb_current_level_attempts++;
     let oldLv = emb_lv;
 
-    emb_total_mats_used += emb_mat_count; 
+    emb_stats_history[oldLv].mats += emb_mat_count;
+
+    emb_stats_history[oldLv].lastMatCount = emb_mat_count;
+
+    if (rateInfo.matName === "紋章的痕跡") {
+        emb_mats_normal_used += emb_mat_count;
+    } else {
+        emb_mats_chaos_used += emb_mat_count;
+    } 
 
     emb_stats_history[oldLv].attempts++;
     if (!isSuccess) {
@@ -4097,10 +4100,12 @@ function emb_reset() {
     emb_successes = 0;
     emb_fails = 0;
     emb_current_level_attempts = 0;
-    emb_total_mats_used = 0; // 🌟 材料總數歸零
-    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+    emb_mats_normal_used = 0;
+    emb_mats_chaos_used = 0; 
     
-    // 2. 強制同步 HTML 選單狀態
+    // 🌟 同步更新：確保清除狀態時，這個新欄位也回到預設值 1
+    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0, mats: 0, lastMatCount: 1 }));
+    
     let selectElem = document.getElementById('emb-lv-select');
     if (selectElem) {
         selectElem.value = "1"; // 強制選單歸零回 Lv.1
