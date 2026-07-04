@@ -1195,7 +1195,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* 🔨 製作模擬器 */
 #cr-ui-diamond-badge   { top: 14px !important; left: -3px !important; } 
 #cr-m-diamond-badge    { top: 13px !important; left: -3px !important; }
-#cr-m-lv-badge { bottom: 3px !important; right: 4px !important; }   
+#cr-m-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 7px !important;}   
 
 /* ⭐ 星星遮罩通用微調 */
 #tr-m-star-badge, #cr-m-star-badge { top: -2px !important; right: -4px !important; }
