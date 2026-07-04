@@ -1007,30 +1007,24 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     background-size: contain; background-position: center; background-repeat: no-repeat; 
 }
 .acc-star-badge span {
-    position: relative;
-    z-index: 1;
-    color: #222222;
-    font-size: 12px;
-    font-weight: 500;
-    font-family: Arial, sans-serif;
-    margin-top: 3.5px;
-    margin-right: -1px;
-    letter-spacing: 0.5px;
+    position: relative; z-index: 1; color: #222222; font-size: 12px;
+    font-weight: 500; font-family: Arial, sans-serif;
+    margin-top: 3.5px; margin-right: -1px; letter-spacing: 0.5px;
 }
 
 /* 飾品消耗統計面板 */
 .acc-stats-header { font-weight: bold; color: var(--text-main); margin-bottom: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-end; }
-.acc-stats-hint { font-size: 11px; color: var(--text-muted) !important; font-weight: normal; margin-left: 2px; }
-.acc-stats-hint-ev { font-size: 11px; color: var(--text-muted) !important; font-weight: normal; }
+.acc-stats-hint, .acc-stats-hint-ev { font-size: 11px; color: var(--text-muted) !important; font-weight: normal; margin-left: 2px; }
 .acc-stats-body { display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
-.acc-stat-hist-row { display: grid; grid-template-columns: 70px 1fr 50px; gap: 5px; align-items: center; color: var(--text-main); }
-.acc-hist-lv { text-align: left; }
-.acc-hist-lv .arr { color: #888 !important; margin: 0 4px; }
+.acc-stat-hist-row { display: grid; grid-template-columns: 75px 1fr 50px; gap: 5px; align-items: center; color: var(--text-main); }
+.acc-hist-lv { display: flex; align-items: center; justify-content: center; }
+.acc-hist-lv .arr { color: #888 !important; margin: 0 4px; width: 14px; text-align: center; }
 .acc-hist-main { text-align: right; white-space: nowrap; }
 .acc-hist-main .val-try { color: #f3724c !important; font-weight: bold; display: inline-block; width: 32px; text-align: center; margin: 0 2px; }
 .acc-hist-ev { text-align: right; color: var(--text-muted) !important; font-size: 12px; font-family: monospace; }
 .acc-stat-hist-row.current-lv { color: #0071E3 !important; font-weight: bold; }
 .acc-stat-hist-row.current-lv .acc-hist-lv .arr { color: #0071E3 !important; }
+.acc-hist-lv .lv-num, .acc-hist-lv .lv-next-num { display: inline-block; width: 22px; text-align: center; font-weight: bold; }
 [data-theme="dark"] .acc-stat-hist-row.current-lv { color: #55C3FF !important; }
 [data-theme="dark"] .acc-stat-hist-row.current-lv .acc-hist-lv .arr { color: #55C3FF !important; }
 .acc-stats-footer { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--glass-border); font-size: 13px; font-weight: bold; display: flex; justify-content: space-between; }
@@ -1062,10 +1056,10 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 .emb-lv-arrow { font-size: 20px; color: #f3724c; transform: scaleX(1.5); }
 .emb-lv-next { font-size: 16px; font-weight: bold; color: #f3724c; }
 
-.emb-stat-list { display: flex; flex-direction: column; gap: 4px; }
+.emb-stat-list { display: flex; flex-direction: column;}
 .emb-stat-item { display: flex; justify-content: space-between; font-size: 12px; }
 .emb-stat-label { color: #555; font-weight: bold; }
-.emb-stat-val { color: #777; font-family: Tahoma, sans-serif; font-weight: bold; }
+.emb-stat-val { color: #777; font-family: "微軟正黑體", Arial, sans-serif; font-weight: bold; }
 .emb-val-highlight { color: #58C701; }
 
 .emb-mid-section { background-color: #F0F0F0; flex: 1; display: flex; flex-direction: column; align-items: stretch; padding-bottom: 25px; }
@@ -1074,7 +1068,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 .emb-mat-area { align-self: center; display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
 .emb-mat-box { width: 65px; height: 65px; background: #dcdde1; border-radius: 4px; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
 .emb-mat-box img {width: 100%;height: 100%;object-fit: contain;}
-.emb-rate-col { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+.emb-rate-col { display: flex; flex-direction: column; gap: 2px; justify-content: center; }
 .emb-rate-row { display: flex; align-items: baseline; gap: 15px; min-width: 120px;}
 .emb-rate-label { font-size: 16px; font-weight: bold; color: #555; width: 70px; text-align: left; }
 .emb-rate-val-s, .emb-rate-val-m { font-size: 18px; font-weight: bold; color: #f3724c; } 
@@ -1094,8 +1088,6 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 #emb-result-modal .m-item-name { margin-top: 5px; font-size: 14px; color: #333; }
 #emb-result-modal .acc-m-attempts { margin-top: 4px; margin-bottom: 15px; }
 #emb-result-modal .emb-img-box { width: 80px; height: 80px; margin-bottom: 8px; }
-#emb-result-modal .emb-diamond-badge { top: 25px; left: -8px; }
-#emb-m-star-badge { top: -5px !important; right: -5px !important; }
 #emb-m-new-lv-color { color: #f3724c; }
 
 .emb-m-lv-row { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 0 0 20px 0; margin: 0; }
@@ -1103,7 +1095,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 .emb-m-lv-arr { font-size: 22px; color: #f3724c; font-weight: 900; transform: scaleX(1.2); }
 .emb-m-lv-new { font-size: 18px; font-weight: bold; color: #f3724c; } 
 
-.emb-m-stat-list { padding: 20px 25px; display: flex; flex-direction: column; gap: 12px; }
+.emb-m-stat-list { padding: 20px 25px; display: flex; flex-direction: column; }
 .emb-m-stat-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; }
 .emb-m-stat-label { color: #555; }
 .emb-m-stat-label.success { color: #58C701; }
@@ -1116,15 +1108,14 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 #emb-result-modal .m-enh-grey-bot { background-color: #F4F4F4; }
 
 /* 修復下拉選單過長的問題 */
-#emb-equip-select, #tr-equip-select {
-    width: auto !important; min-width: 180px; max-width: 100%; cursor: pointer;
-}
+#emb-equip-select, #tr-equip-select { width: auto !important; min-width: 180px; max-width: 100%; cursor: pointer; }
+
 
 /* ========================================================= */
 /* 🌟 全域通用組件：裝備遮罩 (星力、等級、菱形紋章) */
 /* ========================================================= */
 
-/* 1. 星力遮罩 (已修正分號與對齊) */
+/* 1. 星力遮罩 */
 .equip-badge-star {
     position: absolute; top: -1px; right: -3px; width: 29px; height: 23px;
     display: flex; align-items: center; justify-content: center; z-index: 15;
@@ -1140,124 +1131,109 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 .equip-badge-lv {
     position: absolute; bottom: 4px; right: 3px;
     background-color: rgba(17, 17, 17, 0.9); color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 600;
-    letter-spacing: -0.1px; line-height: 1.2; padding: 1px 0px;
-    border-radius: 10px; border: none; z-index: 15; min-width: 36px;
-    text-align: center; box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif; font-size: 10px;
+    letter-spacing: -0.1px; line-height: 1.2; 
+    border-radius: 10px; border: none; z-index: 15; text-align: center; box-sizing: border-box;
+    min-width: auto !important; 
+    padding: 1px 6px !important; 
 }
 
-/* 3. 菱形紋章遮罩 (已合併 SVG 與自訂底圖衝突) */
+/* 3. 菱形紋章遮罩 */
 .emb-diamond-badge {
-    position: absolute;
-    top: 15px;
-    left: -4.5px;
-    width: 25px;
-    height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    position: absolute; top: 15px; left: -4.5px; width: 25px; height: 34px;
+    display: flex; align-items: center; justify-content: center; z-index: 10;
+    background-size: contain; background-position: center; background-repeat: no-repeat;
     background-color: transparent !important;
 }
+
 /* ========================================================= */
 /* 🌟 菱形紋章數字設定 (分離紫/藍色邊框) */
 /* ========================================================= */
 
-/* 1. 共通的文字基礎設定 (拔除 text-shadow，只留排版) */
+/* 共通文字設定 */
 .emb-diamond-badge span {
-    position: relative;
-    z-index: 1;
-    color: #ffffff !important;
-    font-size: 13px !important;
-    font-family: Arial, Tahoma, sans-serif !important;
-    letter-spacing: -1.2px !important;
-    margin-top: -1px !important;
-    margin-left: 0px !important;
+    position: relative; z-index: 1; color: #ffffff !important;
+    font-size: 13px !important; font-family: Arial, Tahoma, sans-serif !important;
+    letter-spacing: -1.2px !important; margin-top: -1px !important; margin-left: 0px !important;
 }
 
-/* 2. 紫色紋章的數字外框 (紫色邊線 #5b277b) */
+/* 紫/藍色紋章文字外框 */
 .emb-bg-purple span {
-    text-shadow: 
-        -1px -1px 0 #5b277b,  
-         1px -1px 0 #5b277b,
-        -1px  1px 0 #5b277b,
-         1px  1px 0 #5b277b,
-         0px  2px 0 rgba(0, 0, 0, 0.8) !important;
+    text-shadow: -1px -1px 0 #5b277b, 1px -1px 0 #5b277b, -1px 1px 0 #5b277b, 1px 1px 0 #5b277b, 0px 2px 0 rgba(0, 0, 0, 0.8) !important;
 }
-
-/* 3. 藍色紋章的數字外框 (藍色邊線，可自行替換色碼) */
 .emb-bg-blue span {
-    text-shadow: 
-        -1px -1px 0 #1b3b6f,  /* 👈 這裡我先幫你配了一個深藍色 */
-         1px -1px 0 #1b3b6f,
-        -1px  1px 0 #1b3b6f,
-         1px  1px 0 #1b3b6f,
-         0px  2px 0 rgba(0, 0, 0, 0.8) !important;
+    text-shadow: -1px -1px 0 #1b3b6f, 1px -1px 0 #1b3b6f, -1px 1px 0 #1b3b6f, 1px 1px 0 #1b3b6f, 0px 2px 0 rgba(0, 0, 0, 0.8) !important;
 }
 
-/* 🌟 當帶有 .is-double 標籤時 (雙位數 10~15)：專屬向左微調 2px */
-.emb-diamond-badge.is-double span {
-    margin-left: -2px !important;
-}
+/* 雙位數專屬微調 */
+.emb-diamond-badge.is-double span { margin-left: -2px !important; }
+
+/* 紋章底圖 */
 .emb-bg-blue { background-image: url('assets/icon_藍紋章等級.png') !important; }
 .emb-bg-purple { background-image: url('assets/icon_紫紋章等級.png') !important; }
 
-#tr-ui-diamond-badge { top: 16px !important;left: -3.5px !important; }
-
 /* ========================================================= */
-/* 🎯 終極防跑版：各模擬器遮罩「獨立位置控制台」 */
+/* 🎯 終極防跑版：各模擬器遮罩「獨立位置控制台」 (電腦版) */
 /* ========================================================= */
-
-/* ---------------------------------------------------------
-   🖥️ 【電腦版 / 通用】絕對位置微調區 
---------------------------------------------------------- */
 /* 💍 紋章強化模擬器 */
-#emb-ui-diamond-badge  {top: 14px !important;left: -2.5px !important;} /* 主畫面 */
-#emb-m-diamond-badge   {top: 14px !important;left: -2px !important;}   /* 彈出視窗 */
+#emb-ui-diamond-badge  { top: 14px !important; left: -2.5px !important; } 
+#emb-m-diamond-badge   { top: 14px !important; left: -2px !important; }   
+#emb-result-modal .emb-diamond-badge { top: 25px !important; left: -8px !important; }
 
 /* ⚔️ 超越強化模擬器 */
-#tr-ui-diamond-badge   { top: 16px !important; left: -3.5px !important; } /* 主畫面 */
-#tr-m-diamond-badge    {top: 14px !important;left: -3px !important;}   /* 成功/失敗彈出視窗 */
-#tr-m-scr-diamond-badge{ top: 22px !important; left: -6px !important; }   /* 卷軸彈出視窗 */
+#tr-ui-diamond-badge   { top: 16px !important; left: -3.5px !important; } 
+#tr-m-diamond-badge    { top: 14px !important; left: -3px !important; }   
+#tr-m-scr-diamond-badge{ top: 22px !important; left: -6px !important; }   
 
 /* 🔨 製作模擬器 */
-#cr-ui-diamond-badge   {top: 14px !important;left: 3px !important;} /* 主畫面 */
-#cr-m-diamond-badge    {top: 13px !important;left: -3px !important;}   /* 彈出視窗 */
+#cr-ui-diamond-badge   { top: 14px !important; left: -3px !important; } 
+#cr-m-diamond-badge    { top: 13px !important; left: -3px !important; }   
 
-/* ⭐ 星星與等級遮罩的微調 (如果有個別跑掉，也可以比照辦理加在這裡) */
-#tr-m-star-badge, #emb-m-star-badge, #cr-m-star-badge {top: -2px !important;right: -4px !important;}
+/* ⭐ 星星遮罩通用微調 */
+#tr-m-star-badge, #cr-m-star-badge { top: -2px !important; right: -4px !important; }
+#emb-m-star-badge { top: -5px !important; right: -5px !important; }
+
 
 /* ========================================================= */
-/* 🚀 修復：彈出視窗動畫結束時，文字與遮罩瞬間「跳動/閃移」的問題 */
+/* 🚀 修復：彈出視窗動畫結束跳動/閃移 */
 /* ========================================================= */
-
-/* 1. 強制彈出視窗啟用 3D 硬體加速，防止動畫結束時的像素重繪 */
 .modal-box {
     will-change: transform, opacity;
     backface-visibility: hidden !important;
     -webkit-backface-visibility: hidden !important;
-    transform: translateZ(0); /* 觸發 GPU 渲染 */
+    transform: translateZ(0);
 }
-
-/* 2. 針對所有絕對定位的遮罩和裡面的數字，鎖定渲染層 */
-.equip-badge-star,
-.equip-badge-star span,
-.emb-diamond-badge,
-.emb-diamond-badge span,
-.equip-badge-lv {
+.equip-badge-star, .equip-badge-star span,
+.emb-diamond-badge, .emb-diamond-badge span, .equip-badge-lv {
     backface-visibility: hidden !important;
     -webkit-backface-visibility: hidden !important;
     transform: translateZ(0); 
-    -webkit-font-smoothing: subpixel-antialiased; /* 保持文字邊緣平滑，防止抖動 */
+    -webkit-font-smoothing: subpixel-antialiased;
 }
 
+/* ========================================================= */
+/* 🎭 星力模擬器：嘲諷公告 (現代毛玻璃風格) */
+/* ========================================================= */
+.sarcasm-banner {
+    max-width: 550px; margin: 15px auto; 
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-left: 6px solid #ff4757; border-radius: 12px;
+    padding: 35px 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center; font-family: sans-serif;
+}
+.sarcasm-title { color: #ff4757; font-size: 20px; font-weight: 900; margin-bottom: 20px; letter-spacing: 2px; }
+.sarcasm-content { color: #2f3542; font-size: 15px; line-height: 1.8; }
+.highlight-red { color: #e84118; font-weight: bold; text-decoration: underline; white-space: nowrap; }
+.highlight-gold { color: #e58e26; font-weight: bold; font-size: 17px; white-space: nowrap; }
+.sarcasm-img { max-width: 100%; margin-top: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); }
+
 
 /* ================================================= */
-/* 📱 響應式佈局 (Mobile & Tablet RWD)                 */
+/* 📱 響應式佈局 (Mobile & Tablet RWD)               */
 /* ================================================= */
+
 @media (max-width: 768px) {
     .app-grid { grid-template-columns: 1fr; gap: 12px; }
     .ignore-layout-wrapper { flex-direction: column; }
@@ -1265,12 +1241,9 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .inst-btn-grid { grid-template-columns: repeat(2, 1fr); }
     .inst-btn-item { grid-column: span 1; }
     .span-special { grid-column: 1 / -1 !important; }
-    #will-game-wrapper,
-    #tab-will .settings-panel,
-    #tab-will .instructions-panel {
+    #will-game-wrapper, #tab-will .settings-panel, #tab-will .instructions-panel {
         width: calc(100% - 16px) !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+        margin-left: auto !important; margin-right: auto !important;
     }
 }
 
@@ -1279,6 +1252,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .container { padding: 12px 8px; border-radius: 16px; }
     .panel, .detail-box { padding: 10px 6px; border-radius: 12px; }
 
+    /* 通用與其他模擬器微調 */
     .lazy-table th, .lazy-table td { font-size: clamp(10px, 3.2vw, 14px); padding: 10px 4px; }
     .lazy-table th { white-space: nowrap; }
     .mobile-br { display: block; }
@@ -1342,6 +1316,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #tab-hexa-visual .visual-controls { flex-direction: column !important; align-items: stretch !important; padding: 15px 12px !important; gap: 15px !important; border-radius: 12px !important;}
     #tab-hexa-visual .v-control-group { width: 100% !important; justify-content: space-between !important; }
     #tab-hexa-visual .v-btn-10x, #tab-hexa-visual .v-btn { flex: 1 !important; padding: 12px 10px !important; font-size: 15px !important; text-align: center !important; border-radius: 8px !important;}
+    
     /* 飾品強化 */
     .acc-stat-wrapper { font-size: 11px !important; }
     #acc-stat-detail { flex-direction: row !important; justify-content: space-between !important; font-size: 11px !important; }
@@ -1356,95 +1331,54 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #tab-acc-enhance .acc-star-badge { top: -5px !important; right: 0px !important; width: 20px; }
     #tab-acc-enhance .acc-star-badge span { margin-top: 2px !important; }
     
-    /* 紋章強化：保持左右並排 (覆蓋舊的上下排設定) */
+    /* 紋章強化：保持左右並排 */
     .emb-top-section { flex-direction: row !important; align-items: stretch !important; }
     .emb-equip-col { width: 110px !important; padding: 12px 5px !important; border-right: none; border-bottom: 1px solid #e1e4e8; }
     .emb-equip-col::after { display: block !important; }
     .emb-img-box { width: 70px !important; height: 70px !important; }
-    
     .emb-stat-col { padding: 12px 10px !important; min-width: 0; }
     .emb-stat-inner-box { padding: 8px 10px !important; }
     .emb-stat-item { font-size: 11px !important; }
-    
-    .emb-lv-row, .emb-m-lv-row {gap: 8px !important;white-space: nowrap !important;margin-bottom: 8px;}
+    .emb-lv-row, .emb-m-lv-row {gap: 8px !important; white-space: nowrap !important; margin-bottom: 8px;}
     .emb-m-lv-old, .emb-m-lv-new { font-size: 15px !important; }
     .emb-m-lv-arr { font-size: 18px !important; }
-
     .emb-mat-section { margin: 0 10px; padding: 15px; flex-direction: column; gap: 10px; }
     .emb-rate-row { min-width: 150px; }
 
-    /* ---------------------------------------------------------
-   📱 【手機版】專屬縮放與位置微調區 (max-width: 500px)
---------------------------------------------------------- */
-    /* 🌟 魔法招式：等比例縮小！
-       不要再去改 height、width 和 font-size 了，
-       直接用 scale 讓整個菱形和星星等比例縮小 15% (0.85)，數字絕對不會跑位！ */
-    .emb-diamond-badge {
-        transform: scale(0.9) !important;
-        transform-origin: top left !important; /* 以左上角為基準縮小 */
-    }
-    .equip-badge-star {
-        transform: scale(0.9) !important;
-        transform-origin: top right !important; /* 以右上角為基準縮小 */
-    }
+    /* 🌟 星力嘲諷公告：手機版優化 */
+    .sarcasm-banner { padding: 25px 15px; margin: 10px auto; }
+    .sarcasm-content { font-size: 14px; }
+    .sarcasm-img { margin-top: 20px; }
 
-    /* 👇 手機版個別位置微調 (因為裝備框縮小到 70px，所以座標要微調) */
-    
-    /* 💍 紋章強化 (手機版) */
+    /* ---------------------------------------------------------
+       📱 【手機版】裝備遮罩：縮放與獨立位置控制台
+    --------------------------------------------------------- */
+    /* 🌟 魔法招式：等比例縮小！ */
+    .emb-diamond-badge { transform: scale(0.9) !important; transform-origin: top left !important; }
+    .equip-badge-star { transform: scale(0.9) !important; transform-origin: top right !important; }
+    .equip-badge-lv { transform: scale(1) !important; transform-origin: bottom right !important; bottom: 3px !important; right: 3px !important; }
+
+    /* 👇 菱形遮罩：手機版個別位置微調 */
     #emb-ui-diamond-badge  { top: 10px !important; left: -3px !important; }
     #emb-m-diamond-badge   { top: 11px !important; left: -1px !important; }
+    #tr-ui-diamond-badge   { top: 11px !important; left: -4px !important; }
+    #tr-m-diamond-badge    { top: 15px !important; left: -2px !important; }
+    #tr-m-scr-diamond-badge{ top: 18px !important; left: -4px !important; width: 21px; }
+    #cr-ui-diamond-badge   { top: 10px !important; left: -4px !important; }
+    #cr-m-diamond-badge    { top: 14px !important; left: -3px !important; width: 27px; }
 
-    /* ⚔️ 超越強化 (手機版) */
-    #tr-ui-diamond-badge   {top: 11px !important;left: -4px !important;}
-    #tr-m-diamond-badge    {top: 15px !important;left: -2px !important;}
-    #tr-m-scr-diamond-badge{ top: 18px !important; left: -4px !important; width: 21px;}
+    /* 👇 等級遮罩：手機版個別位置微調 */
+    #cr-m-lv-badge { bottom: 4px !important; right: 5px !important; }
+    #tr-m-lv-badge, #tr-m-scr-lv-badge { bottom: 4px !important; right: 5px !important; }
+    #emb-m-lv-badge { bottom: 3px !important; right: 3px !important; }
 
-    /* 🔨 製作模擬器 (手機版) */
-    #cr-ui-diamond-badge   {top: 10px !important;left: -4px !important;}
-    #cr-m-diamond-badge    {top: 14px !important;left: -3px !important; width: 27px;}
-    .equip-badge-lv {        top: 56px !important;
-        left: 39px !important;
-        font-size: 8px;
-        line-height: 1;
-        min-width: 10px;}
-
-    /* ========================================================= */
-    /* ⭐ 手機版專屬：星星遮罩位置微調區 */
-    /* ========================================================= */
-
-    /* ⚔️ 超越強化 (手機版星星) */
-    #tr-ui-star-badge { 
-        top: -1px !important;     /* 數值越大越往下 */
-        right: -3px !important;  /* 數值越小(越負)越往右 */
-    }
-    #tr-m-star-badge, 
-    #tr-m-scr-star-badge {
-        top: 0px !important;
-        right: -2px !important;
-        height: 21px;
-    }
-
-    /* 💍 紋章強化 (手機版星星) */
-    #emb-ui-star-badge {
-        top: 0px !important;
-        right: -3px !important;
-    }
-    #emb-m-star-badge { 
-        top: -1px !important; 
-        right: -0px !important; 
-        width: 21px;
-    }
-
-    /* 🔨 製作模擬器 (手機版星星) */
-    #cr-ui-star-badge {
-        top: -1px !important;
-        right: -4px !important;
-    }
-    #cr-m-star-badge {
-        top: -1px !important;
-        right: -2px !important;
-    }
-
+    /* 👇 星星遮罩：手機版個別位置微調 */
+    #tr-ui-star-badge      { top: -1px !important; right: -3px !important; }
+    #tr-m-star-badge, #tr-m-scr-star-badge { top: 0px !important; right: -2px !important; height: 21px; }
+    #emb-ui-star-badge     { top: 0px !important; right: -3px !important; }
+    #emb-m-star-badge      { top: -1px !important; right: 0px !important; width: 21px; }
+    #cr-ui-star-badge      { top: -1px !important; right: -4px !important; }
+    #cr-m-star-badge       { top: -1px !important; right: -2px !important; }
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
@@ -1497,3 +1431,36 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 @keyframes hexaResultPop { 0% { transform: translateY(15px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
 @keyframes popInPortraitStart { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.52); } }
 @keyframes popInPortraitResult { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.46); } }
+
+/* ========================================================= */
+/* 🚧 系統更新中：卡片禁用狀態 */
+/* ========================================================= */
+/*.app-card{
+    opacity: 0.5; 
+    cursor: not-allowed; 
+    pointer-events: none; 
+    filter: grayscale(80%); 
+}
+
+.updating-badge {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #fff;
+    background-color: #747d8c;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+
+/*
+<div id="tab-home" class="tab-content active">
+    
+    <div style="text-align: center; margin: 50px auto; color: #555;">
+        <h2>🚧 更新中 🚧</h2>
+        <p>請稍後再回來看看！</p>
+    </div>
+
+</div>
