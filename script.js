@@ -119,6 +119,9 @@ function switchTab(tabId) {
     if (tabId === 'craft') {
         cr_updateUI();
     }
+
+    if (tabId === 'acc-enhance') { acc_updateUI(); }
+
     if (tabId === 'hexa-prog' && !progInitialized) {
         initHexaProg();
         progInitialized = true;
@@ -157,7 +160,9 @@ function switchTab(tabId) {
             'hexa-lazy': 'HEXA懶人決策表',
             'hexa-reset': 'HEXA重置決策模擬',
             'hexa-sim': 'HEXA目標策略模擬',
-            'will': '威爾二階練習機'
+            'will': '威爾二階練習機',
+            'acc-enhance': '飾品強化模擬器',
+            'star': '星力強化模擬器',
         };
 
         if (titleMap[tabId]) {
@@ -219,6 +224,115 @@ window.toggleWillFullscreen = function() {
         window.scrollTo(0, 0);
     }
 };
+
+// ⚔️ 系統共通裝備資料庫 (供紋章與超越模擬器使用)
+const shared_equip_items = [
+    { 
+        name: "神秘冥界幽靈天之星光權杖", 
+        img: "assets/equipment/神秘冥界幽靈天之星光權杖.webp", 
+        hasStar: true, starText: "M", 
+        hasLv: true, lvText: "Lv.70",
+        hasEmblem: true // 🌟 新增：控制菱形紋章顯示
+    },
+    { 
+        name: "神秘冥界幽靈克拉", 
+        img: "assets/equipment/神秘冥界幽靈克拉.webp", 
+        hasStar: false, starText: "M", 
+        hasLv: true, lvText: "Lv.70",
+        hasEmblem: true // 🌟 新增：控制菱形紋章顯示
+    }
+];
+
+let emb_equip_idx = 0; // 紋章預設裝備 (星光權杖)
+let tr_equip_idx = 0;  // 超越預設裝備 (星光權杖)
+
+// 網頁載入時，自動填入裝備選單
+document.addEventListener('DOMContentLoaded', () => {
+    let embSelect = document.getElementById('emb-equip-select');
+    let trSelect = document.getElementById('tr-equip-select');
+    
+    let optionsHtml = '';
+    shared_equip_items.forEach((item, index) => {
+        optionsHtml += `<option value="${index}">${item.name}</option>`;
+    });
+
+    if (embSelect) {
+        embSelect.innerHTML = optionsHtml;
+        embSelect.value = emb_equip_idx;
+        emb_changeEquip(); // 初始化紋章圖片
+    }
+    if (trSelect) {
+        trSelect.innerHTML = optionsHtml;
+        trSelect.value = tr_equip_idx;
+        tr_changeEquip(); // 初始化超越圖片
+    }
+});
+
+// 🌟 紋章裝備切換邏輯
+function emb_changeEquip() {
+    let select = document.getElementById('emb-equip-select');
+    if (!select) return;
+    
+    emb_equip_idx = parseInt(select.value) || 0;
+    let item = shared_equip_items[emb_equip_idx];
+    
+    // 更新主畫面
+    let uiImg = document.getElementById('emb-ui-img-equip');
+    let uiName = document.getElementById('emb-ui-equip-name');
+    if (uiImg) uiImg.src = item.img;
+    if (uiName) uiName.innerText = item.name;
+
+    // 動態控制主畫面遮罩
+    let uiStar = document.getElementById('emb-ui-star-badge');
+    let uiLv = document.getElementById('emb-ui-lv-badge');
+    if (uiStar) { uiStar.style.display = item.hasStar ? 'flex' : 'none'; uiStar.innerHTML = `<span>${item.starText}</span>`; }
+    if (uiLv) { uiLv.style.display = item.hasLv ? 'block' : 'none'; uiLv.innerHTML = `<span>${item.lvText}</span>`; }
+
+    // 更新彈出視窗
+    let mImg = document.getElementById('emb-m-img');
+    let mName = document.getElementById('emb-m-equip-name');
+    if (mImg) mImg.src = item.img;
+    if (mName) mName.innerText = item.name;
+
+    // 動態控制彈出視窗遮罩
+    let mStar = document.getElementById('emb-m-star-badge');
+    let mLv = document.getElementById('emb-m-lv-badge');
+    if (mStar) { mStar.style.display = item.hasStar ? 'flex' : 'none'; mStar.innerHTML = `<span>${item.starText}</span>`; }
+    if (mLv) { mLv.style.display = item.hasLv ? 'block' : 'none'; mLv.innerHTML = `<span>${item.lvText}</span>`; }
+}
+
+// 🌟 超越裝備切換邏輯
+function tr_changeEquip() {
+    let select = document.getElementById('tr-equip-select');
+    if (!select) return;
+
+    tr_equip_idx = parseInt(select.value) || 0;
+    let item = shared_equip_items[tr_equip_idx];
+    
+    // 更新主畫面
+    let uiImg = document.getElementById('tr-ui-img-equip');
+    let uiName = document.getElementById('tr-ui-equip-name');
+    if (uiImg) uiImg.src = item.img;
+    if (uiName) uiName.innerText = item.name;
+
+    // 動態控制主畫面遮罩
+    let uiStar = document.getElementById('tr-ui-star-badge');
+    let uiLv = document.getElementById('tr-ui-lv-badge');
+    if (uiStar) { uiStar.style.display = item.hasStar ? 'flex' : 'none'; uiStar.innerHTML = `<span>${item.starText}</span>`; }
+    if (uiLv) { uiLv.style.display = item.hasLv ? 'block' : 'none'; uiLv.innerHTML = `<span>${item.lvText}</span>`; } // 初始文字，可能會被超越的 JS 覆寫
+
+    // 更新彈出視窗
+    let mImg = document.getElementById('tr-m-img');
+    let mName = document.getElementById('tr-m-equip-name');
+    if (mImg) mImg.src = item.img;
+    if (mName) mName.innerText = item.name;
+
+    // 動態控制彈出視窗遮罩
+    let mStar = document.getElementById('tr-m-star-badge');
+    let mLv = document.getElementById('tr-m-lv-badge');
+    if (mStar) { mStar.style.display = item.hasStar ? 'flex' : 'none'; mStar.innerHTML = `<span>${item.starText}</span>`; }
+    if (mLv) { mLv.style.display = item.hasLv ? 'block' : 'none'; mLv.innerHTML = `<span>${item.lvText}</span>`; }
+}
 
 /* ========================================== */
 /* 2. 六轉進度計算機引擎                       */
@@ -630,12 +744,17 @@ function tr_updateUI() {
     document.getElementById('input-equip-lv').value = tr_lv;
     document.getElementById('input-fail-count').value = tr_fails;
     document.getElementById('ui-lv-curr').innerText = tr_lv;
-    document.getElementById('ui-overlay-lv').innerText = tr_lv;
     document.getElementById('ui-lv-next').innerText = (tr_lv >= 70) ? "MAX" : tr_lv + 2;
+
+    // 🌟 修正 1：主畫面等級遮罩
+    let uiLvBadge = document.getElementById('tr-ui-lv-badge');
+    if (uiLvBadge) {
+        uiLvBadge.innerHTML = `<span>Lv.${tr_lv}</span>`;
+    }
 
     let failTextDOM = document.getElementById('ui-fails');
     failTextDOM.innerText = `失敗次數 ${tr_fails} / 7`;
-    failTextDOM.style.color = (tr_fails >= 7) ? "#e74c3c" : "#888";
+    failTextDOM.style.color = (tr_fails >= 7) ? "#E42123" : "#888";
 
     let stoneImg = document.getElementById('ui-stone-img');
     let stoneNameDOM = document.getElementById('ui-stone-name');
@@ -715,9 +834,15 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
     if (type === 'enhance') {
         document.getElementById('modal-box-enhance').style.display = 'flex';
         document.getElementById('modal-box-scroll').style.display = 'none';
-        document.getElementById('m-enh-item-lv').innerText = newLv;
+        
         document.getElementById('m-enh-old-lv').innerText = oldLv;
         document.getElementById('m-enh-new-lv').innerText = newLv;
+
+        // 🌟 修正 2：超越成功彈出視窗的等級遮罩
+        let mLvBadge = document.getElementById('tr-m-lv-badge');
+        if (mLvBadge) {
+            mLvBadge.innerHTML = `<span>Lv.${newLv}</span>`;
+        }
 
         let header = document.getElementById('m-enh-title');
         let failContainer = document.getElementById('m-enh-fail-text-container');
@@ -739,7 +864,7 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
             header.innerText = "超越失敗";
             if (oldFails === 6 && newFails >= 7) {
                 failContainer.innerHTML = `已達最大超越次數。`;
-                failContainer.style.color = "#e74c3c";
+                failContainer.style.color = "#E42123";
                 failContainer.style.fontWeight = "bold";
             } else {
                 failContainer.innerHTML = `失敗次數 <span id="m-enh-fail-count">${oldFails} / 7</span><span id="m-enh-fail-change" class="m-fail-change">(+1)</span>`;
@@ -760,7 +885,12 @@ function tr_showModal(type, isSuccess, oldLv, newLv, oldBonus, newBonus, oldFail
     } else {
         document.getElementById('modal-box-enhance').style.display = 'none';
         document.getElementById('modal-box-scroll').style.display = 'flex';
-        document.getElementById('m-scr-item-lv').innerText = oldLv;
+        
+        // 🌟 修正 3：卷軸彈出視窗的等級遮罩
+        let mScrLvBadge = document.getElementById('tr-m-scr-lv-badge');
+        if (mScrLvBadge) {
+            mScrLvBadge.innerHTML = `<span>Lv.${oldLv}</span>`;
+        }
 
         let topText = document.getElementById('m-scr-top-text');
         let resultBox = document.getElementById('m-scr-result-box');
@@ -1538,6 +1668,28 @@ function runHexaSimulation() {
 /* ========================================== */
 /* 9. 製作模擬器邏輯 (Craft Simulator)           */
 /* ========================================== */
+
+// 🌟 製作模擬器的資料庫也要補上 hasEmblem
+const cr_equip_db = [
+    {
+        label: "天之星光權杖",
+        mythic: { name: "龍尾巴天之星光權杖", img: "assets/equipment/龍尾巴天之星光權杖.png", hasEmblem: true },
+        ancient: { name: "龍尾巴天之星光權杖", img: "assets/equipment/龍尾巴天之星光權杖.webp", hasEmblem: true },
+        necro: { name: "死靈天之星光權杖", img: "assets/equipment/死靈天之星光權杖.webp", hasEmblem: true },
+        absolab: { name: "航海師天之星光權杖", img: "assets/equipment/航海師天之星光權杖.webp", hasEmblem: true },
+        arcane: { name: "神秘冥界幽靈天之星光權杖", img: "assets/equipment/神秘冥界幽靈天之星光權杖.webp", hasEmblem: true }
+    },
+    {
+        label: "克拉",
+        mythic: { name: "獅子心形克拉", img: "assets/equipment/獅子心形克拉.png", hasEmblem: true },
+        ancient: { name: "獅子心形克拉", img: "assets/equipment/獅子心形克拉.webp", hasEmblem: true },
+        necro: { name: "死靈克拉", img: "assets/equipment/死靈克拉.webp", hasEmblem: true },
+        absolab: { name: "航海師克拉", img: "assets/equipment/航海師克拉.webp", hasEmblem: true },
+        arcane: { name: "神秘冥界幽靈克拉", img: "assets/equipment/神秘冥界幽靈克拉.webp", hasEmblem: true }
+    }
+];
+
+let cr_equip_idx = 0; // 預設為權杖
 let cr_fails = 0;
 let cr_successes = 0;
 let cr_crystals_used = 0;
@@ -1547,167 +1699,99 @@ let cr_isMuted = false;
 let cr_ev_achieved = 0;
 let cr_current_attempts = 0;
 let cr_mythic_type = 'necro';
+let cr_stage = 'arcane';
 
 const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
 const cr_sfx_fail = new Audio('assets/AncientFail.wav');
 
+// 🌟 修改：將寫死的圖片與名稱移除，改為 fromKey 與 toKey 指向資料庫
 const CRAFT_DATA = {
     mythic_inherit: {
-        baseRate: 30,
-        additionalRate: 0,
-        fromText: "神話",
-        toText: "古代",
-        fromColor: "#E42123",
-        toColor: "#1cd1ed",
+        fromKey: 'mythic', toKey: 'ancient',
+        baseRate: 30, additionalRate: 0,
+        fromText: "神話", toText: "古代", fromColor: "#E42123", toColor: "#1cd1ed",
         desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。",
-        meso: "1,204",
-        equipName: "獅子心形克拉",
-        toEquipName: "獅子心形克拉",
-        crystalName: "古代武器結晶",
-        fromImg: "assets/獅子心形克拉.png",
-        toImg: "assets/獅子心形克拉.webp",
-        crystalImg: "assets/古代武器結晶.png",
-        crystalReq: 1,
-        scrollName: "幸運的古代製作卷軸",
-        scrollImg: "assets/卷軸空格.png",
-        scrollReq: 2,
+        meso: "1,204", crystalName: "古代武器結晶", crystalImg: "assets/古代武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
         confirmCustomHTML: `
-            要進行古代級道具<span style="color:#ED7245; font-weight:bold;">繼承製作</span>嗎？<br>
-            製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
-            並且會顯示為能力下降。<br>
+            要進行古代級道具<span style="color:#f3724c; font-weight:bold;">繼承製作</span>嗎？<br>
+            製作Lv.31以上的裝備成功時，裝備等級會重置，並且會顯示為能力下降。<br>
             原有裝備的基本能力值會以相同比例維持。<br><br>
             死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
             繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
         `,
-        confirmHighlight: "古代",
-        confirmTier: "古代級",
-        confirmTierColor: "#ed7245",
-        successFromText: "神話",
-        successFromColor: "#E42123",
-        successToText: "古代",
-        successToColor: "#1cd1ed",
-        failFromText: "神話",
-        failFromColor: "#E42123",
-        failToText: "神話",
-        failToColor: "#E42123"
+        confirmHighlight: "古代", confirmTier: "古代級", confirmTierColor: "#ed7245",
+        successFromText: "神話", successFromColor: "#E42123", successToText: "古代", successToColor: "#1cd1ed",
+        failFromText: "神話", failFromColor: "#E42123", failToText: "神話", failToColor: "#E42123"
     },
     mythic_necro: {
-        baseRate: 4,
-        additionalRate: 4,
-        fromText: "神話",
-        toText: "古代",
-        fromColor: "#E42123",
-        toColor: "#1cd1ed",
+        fromKey: 'mythic', toKey: 'necro',
+        baseRate: 4, additionalRate: 4,
+        fromText: "神話", toText: "古代", fromColor: "#E42123", toColor: "#1cd1ed",
         desc: "對選擇的裝備進行死靈轉換製作。<br><br>製作成功時可獲得<span class='txt-sharp' style='color:#1cd1ed;'>古代</span>死靈道具。<br>把神話鍊成道具作為基本使用時，製作成功機率會提高。<br>",
-        meso: "1,204",
-        equipName: "獅子心形克拉",
-        toEquipName: "死靈克拉",
-        crystalName: "古代武器結晶",
-        fromImg: "assets/獅子心形克拉.png",
-        toImg: "assets/死靈克拉.webp",
-        crystalImg: "assets/古代武器結晶.png",
-        crystalReq: 1,
-        scrollName: "幸運的古代製作卷軸",
-        scrollImg: "assets/卷軸空格.png",
-        scrollReq: 2,
+        meso: "1,204", crystalName: "古代武器結晶", crystalImg: "assets/古代武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
         confirmCustomHTML: `
-            要進行古代級道具<span style="color:#ed7245; font-weight:bold;">死靈轉換製作</span>嗎？<br>
-            製作Lv.31以上的裝備成功時，裝備等級會重置，<br>
-            並且會顯示為能力下降。<br>
+            要進行古代級道具<span style="color:#f3724c; font-weight:bold;">死靈轉換製作</span>嗎？<br>
+            製作Lv.31以上的裝備成功時，裝備等級會重置，並且會顯示為能力下降。<br>
             原有裝備的基本能力值會以相同比例維持。<br><br>
             死靈轉換製作：製作<span style="color:#1cd1ed; font-weight:bold;">古代級</span>的死靈道具<br>
             繼承製作：獲得相同類別的<span style="color:#1cd1ed; font-weight:bold;">古代</span>道具
         `,
-        confirmHighlight: "死靈",
-        confirmTier: "死靈級",
-        confirmTierColor: "#1cd1ed",
-        successFromText: "神話",
-        successFromColor: "#E42123",
-        successToText: "死靈",
-        successToColor: "#1cd1ed",
-        failFromText: "神話",
-        failFromColor: "#E42123",
-        failToText: "神話",
-        failToColor: "#E42123"
+        confirmHighlight: "死靈", confirmTier: "死靈級", confirmTierColor: "#1cd1ed",
+        successFromText: "神話", successFromColor: "#E42123", successToText: "死靈", successToColor: "#1cd1ed",
+        failFromText: "神話", failFromColor: "#E42123", failToText: "神話", failToColor: "#E42123"
     },
     absolab: {
-        baseRate: 12,
-        additionalRate: 0,
-        fromText: "死靈",
-        toText: "航海師",
-        fromColor: "#1cd1ed",
-        toColor: "#CC9ED8",
+        fromKey: 'necro', toKey: 'absolab',
+        baseRate: 12, additionalRate: 0,
+        fromText: "死靈", toText: "航海師", fromColor: "#1cd1ed", toColor: "#CC9ED8",
         desc: "以<span class='txt-sharp' style='color:#1cd1ed;'>在死靈裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
-        meso: "1,204",
-        equipName: "死靈克拉",
-        toEquipName: "航海師克拉",
-        crystalName: "烙印武器結晶",
-        fromImg: "assets/死靈克拉.webp",
-        toImg: "assets/航海師克拉.webp",
-        crystalImg: "assets/烙印武器結晶.png",
-        crystalReq: 1,
-        scrollName: "幸運的混沌製作卷軸(武器)",
-        scrollImg: "assets/卷軸空格.png",
-        scrollReq: 1,
-        confirmHighlight: "航海師",
-        confirmHighlightColor: "#ed7245",
-        confirmTier: "混沌級",
-        confirmTierColor: "#D02E9D",
-        successFromText: "古代",
-        successFromColor: "#1cd1ed",
-        successToText: "混沌",
-        successToColor: "#CC9ED8",
-        failFromText: "古代",
-        failFromColor: "#1cd1ed",
-        failToText: "古代",
-        failToColor: "#1cd1ed"
+        meso: "1,204", crystalName: "烙印武器結晶", crystalImg: "assets/烙印武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
+        successFromText: "古代", successFromColor: "#1cd1ed", successToText: "混沌", successToColor: "#CC9ED8",
+        failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
     },
     arcane: {
-        baseRate: 10,
-        additionalRate: 0,
-        fromText: "航海師",
-        toText: "神秘冥界幽靈",
-        fromColor: "#CC9ED8",
-        toColor: "#CC9ED8",
+        fromKey: 'absolab', toKey: 'arcane',
+        baseRate: 10, additionalRate: 0,
+        fromText: "航海師", toText: "神秘冥界幽靈", fromColor: "#CC9ED8", toColor: "#CC9ED8",
         desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
-        meso: "1,204",
-        equipName: "航海師克拉",
-        toEquipName: "神秘冥界幽靈克拉",
-        crystalName: "夏德貝爾結晶(武器)",
-        fromImg: "assets/航海師克拉.webp",
-        toImg: "assets/神秘冥界幽靈克拉.webp",
-        crystalImg: "assets/夏德貝爾結晶(武器).png",
-        crystalReq: 1,
-        scrollName: "幸運的混沌製作卷軸(武器)",
-        scrollImg: "assets/卷軸空格.png",
-        scrollReq: 1,
-        confirmHighlight: "神秘冥界幽靈",
-        confirmHighlightColor: "#ed7245",
-        confirmTier: "混沌級",
-        confirmTierColor: "#D02E9D",
-        successFromText: "混沌",
-        successFromColor: "#CC9ED8",
-        successToText: "混沌",
-        successToColor: "#CC9ED8",
-        failFromText: "混沌",
-        failFromColor: "#CC9ED8",
-        failToText: "混沌",
-        failToColor: "#CC9ED8"
+        meso: "1,204", crystalName: "夏德貝爾結晶(武器)", crystalImg: "assets/夏德貝爾結晶(武器).png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        confirmHighlight: "神秘冥界幽靈", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
+        successFromText: "混沌", successFromColor: "#CC9ED8", successToText: "混沌", successToColor: "#CC9ED8",
+        failFromText: "混沌", failFromColor: "#CC9ED8", failToText: "混沌", failToColor: "#CC9ED8"
     }
 };
 
-let cr_stage = 'arcane';
+// 網頁載入時自動初始化選單
+document.addEventListener('DOMContentLoaded', () => {
+    let selectElem = document.getElementById('cr-equip-select');
+    if (selectElem) {
+        let optionsHtml = '';
+        cr_equip_db.forEach((item, index) => {
+            optionsHtml += `<option value="${index}">${item.label}</option>`;
+        });
+        selectElem.innerHTML = optionsHtml;
+        selectElem.value = cr_equip_idx;
+        cr_updateUI(); 
+    }
+});
+
+function cr_changeEquip() {
+    let select = document.getElementById('cr-equip-select');
+    if (select) {
+        cr_equip_idx = parseInt(select.value) || 0;
+        cr_updateUI();
+    }
+}
 
 function cr_toggleSound() {
     cr_isMuted = !cr_isMuted;
     document.getElementById('btn-sound-toggle-cr').innerText = cr_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
     document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
-    if (typeof gtag === 'function') {
-        gtag('event', 'toggle_sound', {
-            'simulator': 'craft',
-            'sound_status': cr_isMuted ? 'off' : 'on'
-        });
-    }
 }
 
 function cr_changeMythicSub(type) {
@@ -1737,12 +1821,7 @@ function cr_forceStageChange() {
     let stageRadio = document.querySelector('input[name="cr-stage"]:checked');
     if (stageRadio) cr_stage = stageRadio.value;
 
-    cr_fails = 0;
-    cr_successes = 0;
-    cr_crystals_used = 0;
-    cr_scrolls_used = 0;
-    cr_ev_achieved = 0;
-    cr_current_attempts = 0;
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0; cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
 
     if (cr_stage === 'necro') {
         let necroDiv = document.getElementById('cr-scroll-necro-div');
@@ -1769,27 +1848,13 @@ function cr_forceStageChange() {
 function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
     if (!firstRate || firstRate === 0) return defaultImg;
     let folder = 'assets/';
-
     if (stage === 'necro') {
-        // 1. 死靈 1%~6%
-        if (firstRate >= 1 && firstRate <= 6) {
-            return `${folder}幸運的古代製作卷軸${firstRate}.png`;
-        }
-        // 2. 死靈 10% 和 15% 共用 5_10 這張
-        if (firstRate === 10 || firstRate === 15) {
-            return `${folder}幸運的古代製作卷軸5_10.png`;
-        }
+        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}.png`;
+        if (firstRate === 10 || firstRate === 15) return `${folder}幸運的古代製作卷軸5_10.png`;
     } else {
-        // 3. 混沌 3%, 5%, 7% 共用一張圖
-        if (firstRate === 3 || firstRate === 5 || firstRate === 7) {
-            return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;
-        }
-        // 4. 混沌 10%
-        if (firstRate === 10) {
-            return `${folder}幸運的混沌製作卷軸_武器_10.png`;
-        }
+        if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;
+        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸_武器_10.png`;
     }
-
     return defaultImg;
 }
 
@@ -1799,64 +1864,45 @@ function cr_updateUI() {
     let scrollInfo = cr_getScrollRate();
     let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
 
+    // 🌟 從資料庫抓取當前選擇武器的對應圖片與名稱
+    let equipData = cr_equip_db[cr_equip_idx];
+    let fromEquip = equipData[data.fromKey];
+
     let equipImgElem = document.getElementById('cr-equip-from-img');
     let equipNameElem = document.getElementById('cr-equip-from-name');
-    let overlayLvElem = document.getElementById('cr-overlay-lv');
+    let uiLvBadge = document.getElementById('cr-ui-lv-badge');
+    let uiStarBadge = document.getElementById('cr-ui-star-badge');
 
     if (equipImgElem) {
         equipImgElem.style.display = '';
-        equipImgElem.src = data.fromImg;
+        equipImgElem.src = fromEquip.img;
     }
+    if (equipNameElem) equipNameElem.innerHTML = fromEquip.name;
     
-    if (equipNameElem) equipNameElem.innerHTML = data.equipName;
-    
-    if (overlayLvElem) {
-        let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
-        overlayLvElem.innerText = startLv;
-    }
+    // 🌟 動態更新主畫面的遮罩標籤：起始畫面固定為星星 M、對應初始等級
+    let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+    if (uiLvBadge) { uiLvBadge.style.display = 'block'; uiLvBadge.innerHTML = `<span>Lv.${startLv}</span>`; }
+    if (uiStarBadge) { uiStarBadge.style.display = 'flex'; uiStarBadge.innerHTML = `<span>M</span>`; }
 
     let crystalImgElem = document.getElementById('cr-crystal-img');
     let crystalNameElem = document.getElementById('cr-crystal-name');
-    
-    if (crystalImgElem) {
-        crystalImgElem.style.display = '';
-        crystalImgElem.src = data.crystalImg;
-    }
-    
-    if (crystalNameElem) {
-        crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
-    }
+    if (crystalImgElem) { crystalImgElem.style.display = ''; crystalImgElem.src = data.crystalImg; }
+    if (crystalNameElem) crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
 
     let fromTextElem = document.getElementById('cr-stage-from-text');
     let toTextElem = document.getElementById('cr-stage-to-text');
-    
-    if (fromTextElem) { 
-        fromTextElem.innerText = data.fromText; 
-        fromTextElem.style.color = data.fromColor; 
-    }
-    
-    if (toTextElem) { 
-        toTextElem.innerText = data.toText; 
-        toTextElem.style.color = data.toColor; 
-    }
+    if (fromTextElem) { fromTextElem.innerText = data.fromText; fromTextElem.style.color = data.fromColor; }
+    if (toTextElem) { toTextElem.innerText = data.toText; toTextElem.style.color = data.toColor; }
 
     let descElem = document.getElementById('cr-desc-text');
     let descParent = descElem ? descElem.parentElement : null;
     let midGreySection = document.querySelector('#cr-game-ui-container .sec-grey-mid');
 
     if (cr_stage === 'necro') {
-        if (descParent) { 
-            descParent.style.padding = '0'; 
-            descParent.style.backgroundColor = '#F0F0F0'; 
-            descParent.style.borderBottom = 'none'; 
-        }
+        if (descParent) { descParent.style.padding = '0'; descParent.style.backgroundColor = '#F0F0F0'; descParent.style.borderBottom = 'none'; }
         if (midGreySection) midGreySection.style.padding = '0';
     } else {
-        if (descParent) { 
-            descParent.style.padding = '8px 0 8px 0'; 
-            descParent.style.backgroundColor = '#ffffff'; 
-            descParent.style.borderBottom = '1px solid #e1e4e8'; 
-        }
+        if (descParent) { descParent.style.padding = '8px 0 8px 0'; descParent.style.backgroundColor = '#ffffff'; descParent.style.borderBottom = '1px solid #e1e4e8'; }
         if (midGreySection) midGreySection.style.padding = '12px 0 0 0';
     }
 
@@ -1916,33 +1962,25 @@ function cr_updateUI() {
 
     let rateBox = document.querySelector('#cr-game-ui-container .rate-box');
     if (rateBox) {
-        rateBox.style.marginTop = 'auto';
-        rateBox.style.width = '100%';
-
+        rateBox.style.marginTop = 'auto'; rateBox.style.width = '100%';
         if (cr_stage === 'necro' && cr_mythic_type === 'necro') {
             rateBox.innerHTML = `
                 <div style="background-color: #ffffff; width: 100%; padding: 6px 0; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8;">
-                    <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">
-                        追加死靈轉換製作成功機率 : ${data.additionalRate}%
-                    </div>
+                    <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">追加死靈轉換製作成功機率 : ${data.additionalRate}%</div>
                 </div>
                 <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
-                    <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
-                        死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}
-                    </div>
+                    <div class="txt-sharp" style="color: #f3724c; font-size: 15px;">死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}</div>
                 </div>
             `;
         } else if (cr_stage === 'necro' && cr_mythic_type === 'inherit') {
             rateBox.innerHTML = `
                 <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;">
-                    <div class="txt-sharp" style="color: #ED7245; font-size: 15px;">
-                        繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}
-                    </div>
+                    <div class="txt-sharp" style="color: #f3724c; font-size: 15px;">繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}</div>
                 </div>
             `;
         } else {
             rateBox.innerHTML = `
-                <div class="txt-sharp" style="color: #ED7245; font-size: 15px; padding-bottom: 10px; margin-bottom: 0;"> 
+                <div class="txt-sharp" style="color: #f3724c; font-size: 15px; padding-bottom: 10px; margin-bottom: 0;"> 
                     <span id="cr-stage-to-name-color">${data.toText}</span>製作成功率 : 
                     <span id="cr-total-rate" style="margin-left: 2px;">${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + ' %'}</span>
                 </div>
@@ -1973,11 +2011,9 @@ function cr_updateUI() {
 function cr_showConfirm() {
     if (cr_isAnimating) return;
     let modal = document.getElementById('cr-confirm-modal');
-    
     if (modal) {
         let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
         let data = CRAFT_DATA[activeKey];
-
         let confirmBody = modal.querySelector('.cr-confirm-body');
         if (confirmBody) {
             if (data.confirmCustomHTML) {
@@ -2004,14 +2040,7 @@ function cr_cancelConfirm() {
 function cr_executeCraft() {
     let confirmModal = document.getElementById('cr-confirm-modal');
     if (confirmModal) confirmModal.classList.remove('active');
-    
     cr_isAnimating = true;
-
-    if (typeof gtag === 'function') {
-        gtag('event', 'action_craft', {
-            'craft_stage': cr_stage
-        });
-    }
 
     try {
         let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
@@ -2028,16 +2057,10 @@ function cr_executeCraft() {
         let animOverlay = document.getElementById('cr-anim-overlay');
 
         if (animOverlay) {
-            if (cr_stage === 'necro') {
-                animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success-gold' : 'cr-anim-fail-gold');
-            } else {
-                animOverlay.className = 'lightning-overlay ' + (isSuccess ? 'cr-anim-success' : 'cr-anim-fail');
-            }
-
+            animOverlay.className = 'lightning-overlay ' + (isSuccess ? (cr_stage === 'necro' ? 'cr-anim-success-gold' : 'cr-anim-success') : (cr_stage === 'necro' ? 'cr-anim-fail-gold' : 'cr-anim-fail'));
             if (!cr_isMuted) {
                 let sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
-                sfx.currentTime = 0;
-                sfx.play().catch(e => console.log("音效播放被阻擋：", e));
+                sfx.currentTime = 0; sfx.play().catch(e => console.log(e));
             }
 
             setTimeout(() => {
@@ -2045,11 +2068,7 @@ function cr_executeCraft() {
                 if (isSuccess) {
                     cr_successes++;
                     let attempts_taken = cr_current_attempts;
-                    
-                    cr_fails = 0;
-                    cr_ev_achieved += (100 / totalRate);
-                    cr_current_attempts = 0;
-                    
+                    cr_fails = 0; cr_ev_achieved += (100 / totalRate); cr_current_attempts = 0;
                     cr_showResult(true, attempts_taken);
                 } else {
                     cr_fails++;
@@ -2058,9 +2077,7 @@ function cr_executeCraft() {
             }, 1260);
         }
     } catch (e) {
-        console.error("製作發生錯誤：", e);
-        cr_isAnimating = false;
-        alert("UI 發生異常！系統已強制解鎖。");
+        console.error(e); cr_isAnimating = false;
     }
 }
 
@@ -2070,78 +2087,77 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
     modal.classList.add('active');
 
     let statsBox = document.getElementById('cr-m-stats-box');
-    let lvTag = document.getElementById('cr-m-lv-tag');
-    let lvText = document.getElementById('cr-m-lv');
+    let mLvBadge = document.getElementById('cr-m-lv-badge');
+    let mStarBadge = document.getElementById('cr-m-star-badge'); // 🌟 加入星星抓取
     let failCont = document.getElementById('cr-m-fail-text-container');
+    let resultImgElem = document.getElementById('cr-m-equip-img');
 
     let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
     let data = CRAFT_DATA[activeKey];
+    let equipData = cr_equip_db[cr_equip_idx];
+    
+    let toEquip = equipData[data.toKey];
+    let fromEquip = equipData[data.fromKey];
 
     let stageFromElem = document.getElementById('cr-m-stage-from-color');
     let stageToElem = document.getElementById('cr-m-stage-to-color');
-    let resultImgElem = document.getElementById('cr-m-equip-img');
 
     if (isSuccess) {
         if (stageFromElem && stageToElem) {
-            stageFromElem.innerText = data.successFromText;
-            stageFromElem.style.color = data.successFromColor;
-            stageToElem.innerText = data.successToText;
-            stageToElem.style.color = data.successToColor;
+            stageFromElem.innerText = data.successFromText; stageFromElem.style.color = data.successFromColor;
+            stageToElem.innerText = data.successToText; stageToElem.style.color = data.successToColor;
         }
 
         document.getElementById('cr-m-title').innerText = "製作成功";
-        if (resultImgElem) {
-            resultImgElem.style.display = '';
-            resultImgElem.src = data.toImg;
+        if (resultImgElem) { resultImgElem.style.display = ''; resultImgElem.src = toEquip.img; }
+        document.getElementById('cr-m-equip-name').innerText = toEquip.name;
+        
+        // 🌟 成功後等級強制重置為 Lv.1
+        if (mLvBadge) { mLvBadge.style.display = 'block'; mLvBadge.innerHTML = `<span>Lv.1</span>`; }
+
+        // 🌟 成功後星星依照不同階段扣除
+        if (mStarBadge) {
+            let newStar = "M";
+            if (cr_stage === 'necro') newStar = "29";      // 神話 ➔ 古代/死靈 掉星為29
+            else if (cr_stage === 'absolab') newStar = "29"; // 死靈 ➔ 航海師 掉星為29
+            else if (cr_stage === 'arcane') newStar = "34";  // 航海師 ➔ 神秘 掉星為34
+            
+            mStarBadge.style.display = 'flex'; 
+            mStarBadge.innerHTML = `<span>${newStar}</span>`; 
         }
 
-        document.getElementById('cr-m-equip-name').innerText = data.toEquipName;
-        
-        if (lvTag) lvTag.style.display = "block";
-        if (lvText) lvText.innerText = "1";
-
-        if (failCont) {
-            failCont.style.display = "block";
-            failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`;
-        }
-        
+        if (failCont) { failCont.style.display = "block"; failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`; }
         if (statsBox) {
             statsBox.innerHTML = `
-                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#ED7245;">1,204 <span style="color:#02f53b;">(▲1,204)</span></span></div>
+                <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#f3724c;">1,204 <span style="color:#58C701;">(▲1,204)</span></span></div>
                 <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1,204</span></div>
                 <div class="cr-stat-row"><span style="color:#E42123;">最終傷害增加</span><span style="color:#E42123;">1,204</span></div>
             `;
         }
     } else {
         if (stageFromElem && stageToElem) {
-            stageFromElem.innerText = data.failFromText;
-            stageFromElem.style.color = data.failFromColor;
-            stageToElem.innerText = data.failToText;
-            stageToElem.style.color = data.failToColor;
+            stageFromElem.innerText = data.failFromText; stageFromElem.style.color = data.failFromColor;
+            stageToElem.innerText = data.failToText; stageToElem.style.color = data.failToColor;
         }
 
         document.getElementById('cr-m-title').innerText = "製作失敗";
-        if (resultImgElem) {
-            resultImgElem.style.display = '';
-            resultImgElem.src = data.fromImg;
+        if (resultImgElem) { resultImgElem.style.display = ''; resultImgElem.src = fromEquip.img; }
+        document.getElementById('cr-m-equip-name').innerText = fromEquip.name;
+
+        // 🌟 失敗後等級維持原狀 (防呆判斷初始等級)
+        if (mLvBadge) {
+            let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+            mLvBadge.style.display = 'block'; mLvBadge.innerHTML = `<span>Lv.${failLv}</span>`;
         }
         
-        document.getElementById('cr-m-equip-name').innerText = data.equipName;
-
-        if (lvTag) lvTag.style.display = "block";
-        if (lvText) {
-            let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
-            lvText.innerText = failLv;
+        // 🌟 失敗後星星維持原本的 M
+        if (mStarBadge) { 
+            mStarBadge.style.display = 'flex'; 
+            mStarBadge.innerHTML = `<span>M</span>`; 
         }
 
-        if (failCont) {
-            failCont.style.display = "block";
-            failCont.innerHTML = `製作失敗次數 <span style="color:#c0392b; font-weight:bold;">${cr_fails}</span> / 5`;
-        }
-
-        if (statsBox) {
-            statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px; font-weight:bold;">能力值沒有變化。</div>`;
-        }
+        if (failCont) { failCont.style.display = "block"; failCont.innerHTML = `製作失敗次數 <span style="color:#e74c3c; font-weight:bold;">${cr_fails}</span> / 5`; }
+        if (statsBox) { statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px; font-weight:bold;">能力值沒有變化。</div>`; }
     }
 }
 
@@ -2154,14 +2170,7 @@ function cr_closeResult() {
 
 function cr_action_reset() {
     if (cr_isAnimating) return;
-    
-    cr_fails = 0;
-    cr_successes = 0;
-    cr_crystals_used = 0;
-    cr_scrolls_used = 0;
-    cr_ev_achieved = 0;
-    cr_current_attempts = 0;
-    
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0; cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
     cr_updateUI();
 }
 
@@ -2481,7 +2490,7 @@ window.will_startGame = function() {
             'simulator_name': 'will'
         });
     }
-    
+
     wGame.playerName = nameInput !== "" ? nameInput : "nickname1204";
 
     const hudName = document.getElementById('ms-name-text');
@@ -3175,4 +3184,851 @@ function will_gameLoop(timestamp) {
 
     will_draw();
     requestAnimationFrame(will_gameLoop);
+}
+
+
+// ==========================================
+// 💍 飾品強化模擬器邏輯 (終極淨化 100% 邏輯版)
+// ==========================================
+
+// 1. 建立飾品資料庫
+const acc_items = [
+    { name: "請選擇飾品", mat: "", isPlaceholder: true }, 
+    { name: "支配者墜飾", mat: "扭曲的時間碎片" },
+    { name: "口紅控制器標誌", mat: "失去光芒的核心碎片" },
+    { name: "充滿魔力的眼罩", mat: "破滅的劍碎片" },
+    { name: "巨大的恐怖", mat: "巨大的恐怖" }, 
+    { name: "黑色光芒屠殺者：劍士", mat: "黑色光芒的殘骸" },
+    { name: "黑色光芒屠殺者：法師", mat: "黑色光芒的殘骸" },
+    { name: "黑色光芒屠殺者：弓箭手", mat: "黑色光芒的殘骸" },
+    { name: "黑色光芒屠殺者：盜賊", mat: "黑色光芒的殘骸" },
+    { name: "黑色光芒屠殺者：海盜", mat: "黑色光芒的殘骸" },
+    { name: "被詛咒的紅魔導書", mat: "破碎的鏡子碎片" },
+    { name: "被詛咒的藍魔導書", mat: "破碎的鏡子碎片" },
+    { name: "苦痛的根源", mat: "苦痛的根源" },
+    { name: "指揮官力量耳環", mat: "指揮官力量耳環" },
+    { name: "創世胸章", mat: "創世與破壞的氣息" } 
+];
+
+// 2. 預設機率表
+const acc_default_probs = [
+    [100, 0, 0, 0],   // +0 » +1 
+    [60, 40, 0, 0],   // +1 » +2 
+    [30, 70, 0, 0],   // +2 » +3 
+    [20, 80, 0, 0],   // +3 » +4 
+    [16, 84, 0, 0],   // +4 » +5 
+    [12, 88, 0, 0],   // +5 » +6 
+    [10, 90, 0, 0],   // +6 » +7 
+    [8, 92, 0, 0],    // +7 » +8
+    [4, 96, 0, 0],    // +8 » +9
+    [3, 97, 0, 0]     // +9 » +10
+];
+
+// 3. 紋章資料庫
+const acc_emblems = [
+    "Lv.1 殘忍的紋章", 
+    "Lv.1 強力紋章", 
+    "Lv.1 神聖紋章", 
+    "Lv.1 征服紋章", 
+    "Lv.1 機靈紋章", 
+    "Lv.1 銳利紋章"
+];
+
+const acc_sfxSuccess = new Audio('assets/Enchant.wav'); 
+const acc_sfxFail = new Audio('assets/EnchantFail.mp3');
+
+// 狀態變數
+let acc_current_emblem = ""; 
+let acc_selected_idx = 0; 
+let acc_stars = 0;
+let acc_attempts = 0;
+let acc_successes = 0;
+let acc_fails = 0;
+let acc_isAnimating = false;
+let acc_isMuted = false;
+let acc_current_level_attempts = 0; 
+let acc_stats_history = Array.from({length: 10}, () => ({ attempts: 0, fails: 0 }));
+
+function acc_toggleSound() {
+    acc_isMuted = !acc_isMuted;
+    let btn = document.getElementById('btn-sound-toggle-acc');
+    if (btn) {
+        btn.innerText = acc_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
+        btn.className = acc_isMuted ? "btn-sound muted" : "btn-sound";
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', { 'simulator': 'acc_enhance', 'sound_status': acc_isMuted ? 'off' : 'on' });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const selectElem = document.getElementById('acc-item-select');
+    if (selectElem) {
+        let html = '';
+        acc_items.forEach((item, index) => {
+            html += `<option value="${index}" ${index === acc_selected_idx ? 'selected' : ''}>${item.name}</option>`;
+        });
+        selectElem.innerHTML = html;
+    }
+    acc_forceStateChange();
+});
+
+function acc_forceStateChange() {
+    if (acc_isAnimating) return;
+    acc_selected_idx = parseInt(document.getElementById('acc-item-select').value) || 0;
+    
+    let starSel = document.getElementById('acc-star-select');
+
+    if (acc_items[acc_selected_idx].isPlaceholder) {
+        acc_stars = 0;
+        acc_current_emblem = "";
+        if (starSel) starSel.value = "0";
+    } else {
+        acc_stars = parseInt(starSel ? starSel.value : 0) || 0;
+        acc_current_emblem = ""; 
+    }
+
+    if (acc_stars < 10 && starSel) {
+        let opt10 = starSel.querySelector('option[value="10"]');
+        if (opt10) opt10.remove();
+    }
+
+    acc_current_level_attempts = 0;
+
+    if (acc_stars < 10) {
+        let inS = document.getElementById('acc-in-s');
+        let inM = document.getElementById('acc-in-m');
+        let inD = document.getElementById('acc-in-d');
+        let inR = document.getElementById('acc-in-r');
+        
+        if (inS) inS.value = acc_default_probs[acc_stars][0];
+        if (inM) inM.value = acc_default_probs[acc_stars][1];
+        if (inD) inD.value = acc_default_probs[acc_stars][2];
+        if (inR) inR.value = acc_default_probs[acc_stars][3];
+    }
+    acc_updateUI();
+}
+
+function acc_customProbChange() { acc_updateUI(); }
+
+function acc_updateUI() {
+    let item = acc_items[acc_selected_idx];
+    const statDetailElem = document.getElementById('acc-stat-detail');
+    const nameDisp = document.getElementById('acc-equip-name-display');
+    const matDisp = document.getElementById('acc-mat-name-display'); 
+    const lvTextElem = document.getElementById('acc-ui-lv-text'); 
+
+    if (item.isPlaceholder) {
+        if (nameDisp) { nameDisp.innerText = "基本"; nameDisp.className = 'equip-name acc-equip-placeholder'; nameDisp.style.color = ''; }
+        if (matDisp) { matDisp.innerText = "材料"; matDisp.className = 'equip-name acc-equip-placeholder'; matDisp.style.color = ''; }
+
+        document.getElementById('acc-ui-img-main').src = "";
+        document.getElementById('acc-ui-img-mat').src = "";
+        
+        let starOverlay = document.getElementById('acc-overlay-star');
+        if (starOverlay) starOverlay.parentElement.style.display = 'none';
+        if (document.getElementById('acc-star-select')) document.getElementById('acc-star-select').value = "0";
+        
+        if (lvTextElem) lvTextElem.innerHTML = `<span>-</span> <span class="acc-lv-arrow">»</span> <span class="lv-next" style="color: #f3724c;">-</span>`;
+        
+        if (statDetailElem) {
+            statDetailElem.style.removeProperty('flex-direction');
+            statDetailElem.style.removeProperty('align-items');
+            statDetailElem.style.removeProperty('justify-content');
+            statDetailElem.style.removeProperty('gap');
+            statDetailElem.innerHTML = `
+                <div class="acc-placeholder-text">
+                    <div class="acc-placeholder-main">可使用兩個相同的飾品進行星力數值的強化。</div>
+                    <div class="acc-placeholder-sub">請在上方選單說明中確認詳細條件。</div>
+                </div>`;
+        }
+
+        ['s', 'm', 'd', 'r'].forEach(id => {
+            if (document.getElementById(`acc-ui-prob-${id}`)) document.getElementById(`acc-ui-prob-${id}`).innerText = "-";
+            if (document.getElementById(`acc-in-${id}`)) document.getElementById(`acc-in-${id}`).value = "0";
+        });
+
+        if (document.getElementById('btn-acc-action')) document.getElementById('btn-acc-action').disabled = true;
+        let statsContainer = document.getElementById('acc-stats-container');
+        if (statsContainer) statsContainer.innerHTML = "";
+        return; 
+    }
+
+    if (nameDisp) { nameDisp.innerText = item.name; nameDisp.classList.remove('acc-equip-placeholder'); }
+    if (matDisp) { matDisp.innerHTML = `${item.mat}`; matDisp.classList.remove('acc-equip-placeholder'); }
+    
+    let starOverlay = document.getElementById('acc-overlay-star');
+    if (acc_stars >= 10) {
+        document.getElementById('acc-ui-img-main').src = `assets/equipment/紋章${item.name}.png`;
+        if (starOverlay) { starOverlay.parentElement.style.display = 'flex'; starOverlay.innerText = 'M'; }
+    } else {
+        document.getElementById('acc-ui-img-main').src = `assets/equipment/${item.name}.png`;
+        if (starOverlay) { starOverlay.parentElement.style.display = 'flex'; starOverlay.innerText = acc_stars; }
+    }
+    
+    document.getElementById('acc-ui-img-mat').src = `assets/equipment/${item.mat}.png`;
+    document.getElementById('acc-ui-img-main').style.display = '';
+    document.getElementById('acc-ui-img-mat').style.display = '';
+
+    let starSel = document.getElementById('acc-star-select');
+    if (starSel) {
+        if (acc_stars === 10 && !starSel.querySelector('option[value="10"]')) {
+            starSel.insertAdjacentHTML('beforeend', `<option value="10">+ 10</option>`);
+        }
+        starSel.value = acc_stars;
+    }
+    
+    let nextStarText = acc_stars >= 10 ? "MAX" : `+${acc_stars + 1}`;
+    if (lvTextElem) lvTextElem.innerHTML = `+<span id="acc-star-curr">${acc_stars}</span> <span class="acc-lv-arrow">»</span> <span class="lv-next" style="color: #f3724c;"><span id="acc-star-next">${nextStarText}</span></span>`;
+
+    let isCmd = (item.name === "指揮官力量耳環" || item.name === "創世胸章"); 
+    let cumulative_normal = [0, 195000, 520000, 1170000, 2340000, 3900000, 5460000, 7020000, 8580000, 10140000, 11700000];
+    let cumulative_cmd = [0, 292500, 780000, 1755000, 3510000, 5850000, 8190000, 10530000, 12870000, 15210000, 17550000];
+    let inc_normal = [195000, 325000, 650000, 1170000, 1560000, 1560000, 1560000, 1560000, 1560000, 1560000];
+    let inc_cmd = [292500, 487500, 975000, 1755000, 2340000, 2340000, 2340000, 2340000, 2340000, 2340000];
+
+    let current_cumulative = isCmd ? cumulative_cmd[acc_stars] : cumulative_normal[acc_stars];
+    let increase = (acc_stars < 10) ? (isCmd ? inc_cmd[acc_stars] : inc_normal[acc_stars]) : 0;
+    let total_curr = current_cumulative + increase; 
+    
+    if (statDetailElem) {
+        statDetailElem.style.setProperty('flex-direction', 'column', 'important');
+        statDetailElem.style.setProperty('align-items', 'flex-start', 'important');
+        statDetailElem.style.setProperty('justify-content', 'center', 'important');
+        statDetailElem.style.setProperty('gap', '8px', 'important');
+
+        let statHtml = `
+            <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                <span class="acc-stat-title">最大傷害</span> 
+                <div class="acc-stat-values">
+                    <span class="acc-stat-total">${total_curr.toLocaleString()}</span>
+                    <span class="acc-stat-base">(${current_cumulative.toLocaleString()} + ${increase.toLocaleString()})</span>
+                    ${acc_stars < 10 ? `<span class="acc-stat-up">(▲${increase.toLocaleString()})</span>` : ''}
+                </div>
+            </div>`;
+
+        if (acc_stars >= 10 && acc_current_emblem) {
+            statHtml += `
+            <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center;">
+                <span class="acc-stat-title" style="color: #4a5468; display: flex; align-items: center;">
+                    <svg style="width:16px; height:16px; margin-right:6px;" viewBox="0 0 24 24">
+                        <rect x="2" y="2" width="20" height="20" rx="4" fill="#636e82"/>
+                        <path d="M12 6.5 L17.5 12 L12 17.5 L6.5 12 Z" fill="none" stroke="#fff" stroke-width="1.8"/>
+                        <circle cx="12" cy="12" r="2.5" fill="#fff"/>
+                    </svg>
+                    ${acc_current_emblem}
+                </span> 
+            </div>`;
+        }
+        statDetailElem.innerHTML = statHtml;
+    }
+
+    let inS = document.getElementById('acc-in-s');
+    let inM = document.getElementById('acc-in-m');
+    let inD = document.getElementById('acc-in-d');
+    let inR = document.getElementById('acc-in-r');
+
+    let p_s = inS ? parseFloat(inS.value) || 0 : 0;
+    let p_m = Math.max(0, 100 - p_s); 
+    let p_d = inD ? parseFloat(inD.value) || 0 : 0;
+    let p_r = inR ? parseFloat(inR.value) || 0 : 0;
+
+    if (acc_stars >= 10) { p_s = 0; p_m = 0; p_d = 0; p_r = 0; }
+
+    if (inM && acc_stars < 10) inM.value = p_m.toFixed(0); 
+
+    if (document.getElementById('acc-ui-prob-s')) document.getElementById('acc-ui-prob-s').innerText = p_s.toFixed(2) + "%";
+    if (document.getElementById('acc-ui-prob-m')) document.getElementById('acc-ui-prob-m').innerText = p_m.toFixed(2) + "%";
+    if (document.getElementById('acc-ui-prob-d')) document.getElementById('acc-ui-prob-d').innerText = p_d.toFixed(2) + "%";
+    if (document.getElementById('acc-ui-prob-r')) document.getElementById('acc-ui-prob-r').innerText = p_r.toFixed(2) + "%";
+
+    if (document.getElementById('btn-acc-action')) document.getElementById('btn-acc-action').disabled = (acc_stars >= 10 || acc_isAnimating);
+
+    let statsContainer = document.getElementById('acc-stats-container');
+    if (statsContainer && !item.isPlaceholder) {
+        let statsHtmlContent = `
+            <div class="acc-stats-header">
+                <div>各星級消耗 <span class="acc-stats-hint">(隱藏未點擊)</span></div>
+                <div class="acc-stats-hint-ev">理論期望</div>
+            </div>
+            <div class="acc-stats-body">
+        `;
+        
+        for (let i = 0; i < 10; i++) {
+            let s_rate = acc_default_probs[i][0];
+            let ev = s_rate > 0 ? (100 / s_rate).toFixed(2) : "∞";
+            let hist = acc_stats_history[i];
+            
+            if (hist.attempts > 0 || i === acc_stars) {
+                let isCurrent = (i === acc_stars) ? 'current-lv' : '';
+                
+                statsHtmlContent += `
+                <div class="acc-stat-hist-row ${isCurrent}">
+                    <div class="acc-hist-lv"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
+                    <div class="acc-hist-main">嘗試 <span class="val-try">${hist.attempts}</span> 次</div>
+                    <div class="acc-hist-ev">${ev}</div>
+                </div>`;
+            }
+        }
+        statsHtmlContent += `</div>
+        <div class="acc-stats-footer">
+            <span>總嘗試：<span class="val-try">${acc_attempts}</span></span>
+            <span>成功：<span class="val-success">${acc_successes}</span></span>
+            <span>失敗：<span class="val-fail">${acc_fails}</span></span>
+        </div>`;
+        
+        statsContainer.innerHTML = statsHtmlContent;
+    }
+}
+
+function acc_executeEnhance() {
+    if (acc_items[acc_selected_idx].isPlaceholder || acc_isAnimating || acc_stars >= 10) return;
+    acc_isAnimating = true;
+
+    let inS = document.getElementById('acc-in-s');
+    let p_s = inS ? parseFloat(inS.value) || 0 : 0;
+
+    let roll = Math.random() * 100;
+    let isSuccess = false, isMaintain = false, isDecrease = false, isReset = false;
+
+    if (roll < p_s) { isSuccess = true; }
+    else { isMaintain = true; }
+
+    acc_attempts++;
+    acc_current_level_attempts++;
+    let oldStar = acc_stars;
+    
+    if (oldStar < 10) {
+        acc_stats_history[oldStar].attempts++;
+        if (!isSuccess) {
+            acc_stats_history[oldStar].fails++;
+        }
+    }
+    
+    if (!acc_isMuted) {
+        let sfx = isSuccess ? acc_sfxSuccess : acc_sfxFail;
+        sfx.currentTime = 0;
+        sfx.play().catch(e => console.log("音效未啟用", e));
+    }
+
+    let animOverlay = document.getElementById('acc-anim-overlay');
+    
+    if (animOverlay) {
+        animOverlay.style.display = '';
+        animOverlay.classList.add('active');
+
+        setTimeout(() => {
+            animOverlay.classList.remove('active');
+            
+            if (isSuccess) { 
+                acc_stars++; acc_successes++; 
+                if (acc_stars === 10) {
+                    acc_current_emblem = acc_emblems[Math.floor(Math.random() * acc_emblems.length)];
+                }
+            }
+            else if (isMaintain) { acc_fails++; }
+            
+            let statusObj = { isSuccess, isMaintain, isDecrease, isReset };
+            acc_showResult(statusObj, oldStar, acc_stars);
+        }, 200); 
+    } else {
+        if (isSuccess) { 
+            acc_stars++; acc_successes++; 
+            if (acc_stars === 10) acc_current_emblem = acc_emblems[Math.floor(Math.random() * acc_emblems.length)];
+        }
+        else if (isMaintain) { acc_fails++; }
+        
+        let statusObj = { isSuccess, isMaintain, isDecrease, isReset };
+        acc_showResult(statusObj, oldStar, acc_stars);
+    }
+
+    if (typeof gtag === 'function') {
+        gtag('event', 'use_simulator', { 'simulator_name': 'acc_enhance' });
+    }
+}
+
+function acc_showResult(statusObj, oldStar, newStar) {
+    let modal = document.getElementById('acc-result-modal');
+    if (!modal) return;
+
+    let titleElem = document.getElementById('acc-m-title');
+    let colorHex = "#4a5468"; 
+    let titleStr = "";
+
+    if (statusObj.isSuccess) { titleStr = "強化成功"; colorHex = "#4a5468"; }
+    else if (statusObj.isMaintain) { titleStr = "等級維持"; colorHex = "#4a5468"; }
+    else if (statusObj.isDecrease) { titleStr = "強化下降"; colorHex = "#c0392b"; }
+    else if (statusObj.isReset) { titleStr = "裝備破壞"; colorHex = "#8e44ad"; }
+
+    titleElem.innerText = titleStr;
+    titleElem.style.backgroundColor = colorHex;
+
+    let item = acc_items[acc_selected_idx];
+    let isCmd = (item.name === "指揮官力量耳環" || item.name === "創世胸章"); 
+    let cumulative_normal = [0, 195000, 520000, 1170000, 2340000, 3900000, 5460000, 7020000, 8580000, 10140000, 11700000];
+    let cumulative_cmd = [0, 292500, 780000, 1755000, 3510000, 5850000, 8190000, 10530000, 12870000, 15210000, 17550000];
+    let inc_normal = [195000, 325000, 650000, 1170000, 1560000, 1560000, 1560000, 1560000, 1560000, 1560000];
+    let inc_cmd = [292500, 487500, 975000, 1755000, 2340000, 2340000, 2340000, 2340000, 2340000, 2340000];
+
+    let emblemHtml = '';
+    if (newStar >= 10 && acc_current_emblem) {
+        emblemHtml = `
+        <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center; margin-top: 8px;">
+            <span class="acc-stat-title" style="color: #4a5468; display: flex; align-items: center;">
+                <svg style="width:16px; height:16px; margin-right:6px;" viewBox="0 0 24 24">
+                    <rect x="2" y="2" width="20" height="20" rx="4" fill="#636e82"/>
+                    <path d="M12 6.5 L17.5 12 L12 17.5 L6.5 12 Z" fill="none" stroke="#fff" stroke-width="1.8"/>
+                    <circle cx="12" cy="12" r="2.5" fill="#fff"/>
+                </svg>
+                ${acc_current_emblem}
+            </span> 
+        </div>`;
+    }
+
+    let statHtml = '';
+    if (statusObj.isSuccess) {
+        let oldCumulative = isCmd ? cumulative_cmd[oldStar] : cumulative_normal[oldStar];
+        let increase = isCmd ? inc_cmd[oldStar] : inc_normal[oldStar];
+        let newTotal = isCmd ? cumulative_cmd[newStar] : cumulative_normal[newStar];
+        
+        statHtml = `
+            <div class="acc-stat-container acc-modal-stat">
+                <div class="acc-stat-wrapper" style="flex-direction: column; align-items: flex-start; gap: 0;">
+                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="acc-stat-title">最大傷害</span> 
+                        <div class="acc-stat-values">
+                            <span class="acc-stat-total">${newTotal.toLocaleString()}</span>
+                            <span class="acc-stat-base">(${oldCumulative.toLocaleString()} + ${increase.toLocaleString()})</span>
+                            <span class="acc-stat-up">(▲${increase.toLocaleString()})</span>
+                        </div>
+                    </div>
+                    ${emblemHtml}
+                </div>
+            </div>`;
+    } else {
+        let currentCumulative = isCmd ? cumulative_cmd[newStar] : cumulative_normal[newStar];
+        
+        statHtml = `
+            <div class="acc-stat-container acc-modal-stat">
+                <div class="acc-stat-wrapper" style="flex-direction: column; align-items: flex-start; gap: 0;">
+                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="acc-stat-title">最大傷害</span> 
+                        <div class="acc-stat-values">
+                            <span class="acc-stat-total">${currentCumulative.toLocaleString()}</span>
+                            <span class="acc-stat-base">(${currentCumulative.toLocaleString()} + 0)</span>
+                        </div>
+                    </div>
+                    ${emblemHtml}
+                </div>
+            </div>`;
+    }
+    
+    if (document.getElementById('acc-m-white-mid')) document.getElementById('acc-m-white-mid').innerHTML = statHtml;
+
+    let mImg = document.getElementById('acc-m-img');
+    let mStarTag = document.getElementById('acc-m-star-tag');
+
+    if (newStar >= 10) {
+        if (mImg) mImg.src = `assets/equipment/紋章${item.name}.png`;
+        if (mStarTag) {
+            mStarTag.parentElement.style.display = 'flex';
+            mStarTag.innerText = 'M';
+        }
+    } else {
+        if (mImg) mImg.src = `assets/equipment/${item.name}.png`;
+        if (mStarTag) {
+            mStarTag.parentElement.style.display = 'flex';
+            mStarTag.innerText = newStar;
+        }
+    }
+    
+    if (mImg) mImg.style.display = ''; 
+    if (document.getElementById('acc-m-equip-name')) document.getElementById('acc-m-equip-name').innerText = item.name;
+    
+    let attemptsElem = document.getElementById('acc-m-attempts-text');
+    if (attemptsElem) {
+        attemptsElem.innerHTML = `累積強化 <span class="acc-m-attempts-num">${acc_current_level_attempts}</span> 次`;
+    }
+
+    if (document.getElementById('acc-m-old-star')) document.getElementById('acc-m-old-star').innerText = oldStar;
+    if (document.getElementById('acc-m-new-star')) document.getElementById('acc-m-new-star').innerText = newStar;
+    
+    let newColor = (statusObj.isSuccess || statusObj.isMaintain) ? "#f3724c" : (statusObj.isDecrease || statusObj.isReset ? "#c0392b" : "#7f8c8d");
+    if (document.getElementById('acc-m-new-color')) document.getElementById('acc-m-new-color').style.color = newColor;
+
+    if (oldStar !== newStar) {
+        acc_current_level_attempts = 0; 
+        if (newStar < 10) {
+            let inS = document.getElementById('acc-in-s');
+            let inM = document.getElementById('acc-in-m');
+            let inD = document.getElementById('acc-in-d');
+            let inR = document.getElementById('acc-in-r');
+            if(inS) inS.value = acc_default_probs[newStar][0];
+            if(inM) inM.value = acc_default_probs[newStar][1];
+            if(inD) inD.value = acc_default_probs[newStar][2];
+            if(inR) inR.value = acc_default_probs[newStar][3];
+        }
+    }
+
+    modal.classList.add('active');
+    acc_updateUI();
+}
+
+function acc_closeResult() {
+    let modal = document.getElementById('acc-result-modal');
+    if (modal) modal.classList.remove('active');
+    acc_isAnimating = false;
+    acc_updateUI();
+}
+
+function acc_reset() {
+    if (acc_isAnimating) return;
+    acc_stars = 0;
+    acc_attempts = 0;
+    acc_successes = 0;
+    acc_fails = 0;
+    acc_current_emblem = ""; 
+    acc_current_level_attempts = 0;
+    acc_stats_history = Array.from({length: 10}, () => ({ attempts: 0, fails: 0 }));
+    
+    let starSel = document.getElementById('acc-star-select');
+    if (starSel) {
+        let opt10 = starSel.querySelector('option[value="10"]');
+        if (opt10) opt10.remove(); 
+        starSel.value = "0";
+    }
+    acc_forceStateChange();
+}
+
+// ==========================================
+// 🛡️ 紋章強化模擬器邏輯 (Emblem Enhance)
+// ==========================================
+
+// 1. 屬性資料庫 (Lv 1 ~ 15)
+const emb_stats_data = [
+    { lv: 1, maxDmg: 0, critDmg: 5.0 },
+    { lv: 2, maxDmg: 0, critDmg: 8.0 },
+    { lv: 3, maxDmg: 0, critDmg: 11.0 },
+    { lv: 4, maxDmg: 0, critDmg: 15.0 },
+    { lv: 5, maxDmg: 0, critDmg: 20.0 },
+    { lv: 6, maxDmg: 100000, critDmg: 20.8 },
+    { lv: 7, maxDmg: 250000, critDmg: 21.6 },
+    { lv: 8, maxDmg: 420000, critDmg: 22.4 },
+    { lv: 9, maxDmg: 600000, critDmg: 23.2 },
+    { lv: 10, maxDmg: 960000, critDmg: 24.0 },
+    { lv: 11, maxDmg: 1710000, critDmg: 24.8 },
+    { lv: 12, maxDmg: 2760000, critDmg: 25.6 },
+    { lv: 13, maxDmg: 4260000, critDmg: 26.4 },
+    { lv: 14, maxDmg: 6660000, critDmg: 27.2 },
+    { lv: 15, maxDmg: 12000000, critDmg: 28.0 }
+];
+
+// 2. 升級機率與材料資料庫 (升級 "前往" 該等級所需)
+const emb_rate_data = [
+    { baseRate: 80, maxMat: 2, matName: "紋章的痕跡" },       // 1->2
+    { baseRate: 60, maxMat: 2, matName: "紋章的痕跡" },       // 2->3
+    { baseRate: 30, maxMat: 4, matName: "紋章的痕跡" },       // 3->4
+    { baseRate: 20, maxMat: 5, matName: "紋章的痕跡" },       // 4->5
+    { baseRate: 20, maxMat: 5, matName: "紋章的痕跡" },       // 5->6
+    { baseRate: 15, maxMat: 5, matName: "紋章的痕跡" },       // 6->7
+    { baseRate: 100, maxMat: 1, matName: "混沌紋章的痕跡" },   // 7->8
+    { baseRate: 100, maxMat: 1, matName: "混沌紋章的痕跡" },   // 8->9
+    { baseRate: 50, maxMat: 2, matName: "混沌紋章的痕跡" },    // 9->10
+    { baseRate: 25, maxMat: 3, matName: "混沌紋章的痕跡" },    // 10->11
+    { baseRate: 20, maxMat: 3, matName: "混沌紋章的痕跡" },    // 11->12
+    { baseRate: 15, maxMat: 3, matName: "混沌紋章的痕跡" },    // 12->13
+    { baseRate: 10, maxMat: 4, matName: "混沌紋章的痕跡" },    // 13->14
+    { baseRate: 5, maxMat: 6, matName: "混沌紋章的痕跡" }      // 14->15
+];
+
+const emb_sfxSuccess = new Audio('assets/Enchant.wav'); 
+const emb_sfxFail = new Audio('assets/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
+
+// 狀態變數
+let emb_lv = 5; 
+let emb_mat_count = 1;
+let emb_isAnimating = false;
+let emb_attempts = 0;
+let emb_successes = 0;
+let emb_fails = 0;
+let emb_current_level_attempts = 0;
+let emb_isMuted = false; 
+let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+
+function emb_toggleSound() {
+    emb_isMuted = !emb_isMuted;
+    let btn = document.getElementById('btn-sound-toggle-emb');
+    if (btn) {
+        btn.innerText = emb_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
+        btn.className = emb_isMuted ? "btn-sound muted" : "btn-sound";
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', 'toggle_sound', { 'simulator': 'emb_enhance', 'sound_status': emb_isMuted ? 'off' : 'on' });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => { emb_updateUI(); });
+
+function emb_forceStateChange() {
+    if (emb_isAnimating) return;
+    emb_lv = parseInt(document.getElementById('emb-lv-select').value) || 1;
+    emb_mat_count = 1;
+    emb_current_level_attempts = 0;
+    emb_updateUI();
+}
+
+function emb_changeMat(amount) {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    let max = emb_rate_data[emb_lv - 1].maxMat;
+    emb_mat_count += amount;
+    if (emb_mat_count < 1) emb_mat_count = 1;
+    if (emb_mat_count > max) emb_mat_count = max;
+    emb_updateUI();
+}
+
+function emb_setMaxMat() {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    emb_mat_count = emb_rate_data[emb_lv - 1].maxMat;
+    emb_updateUI();
+}
+
+function emb_updateUI() {
+    document.getElementById('emb-lv-select').value = emb_lv;
+    
+    let currData = emb_stats_data[emb_lv - 1];
+    let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
+    
+    document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
+    
+    let diamondLvElem = document.getElementById('emb-ui-diamond-lv');
+    let diamondBadgeElem = document.getElementById('emb-ui-diamond-badge');
+    
+    if (diamondLvElem) diamondLvElem.innerText = emb_lv;
+    if (diamondBadgeElem) {
+        let doubleClass = emb_lv >= 10 ? ' is-double' : '';
+        diamondBadgeElem.className = 'emb-diamond-badge ' + (emb_lv >= 8 ? 'emb-bg-purple' : 'emb-bg-blue') + doubleClass;
+    }
+    
+    let nextLvElem = document.getElementById('emb-ui-next-lv');
+    if (nextLvElem) nextLvElem.innerText = emb_lv >= 15 ? "MAX" : (emb_lv + 1);
+    
+    let statHtml = '';
+    
+    if (nextData.maxDmg > 0 || currData.maxDmg > 0) {
+        let increase = nextData.maxDmg - currData.maxDmg;
+        statHtml += `
+            <div class="emb-stat-item">
+                <span class="emb-stat-label">最大傷害</span>
+                <span class="emb-stat-val">
+                    ${nextData.maxDmg.toLocaleString()}
+                    ${emb_lv < 15 ? `(<span class="emb-val-highlight">▲${increase.toLocaleString()}</span>)` : ''}
+                </span>
+            </div>`;
+    }
+    
+    let critInc = (nextData.critDmg - currData.critDmg).toFixed(1);
+    statHtml += `
+        <div class="emb-stat-item">
+            <span class="emb-stat-label">致命攻擊傷害</span>
+            <span class="emb-stat-val">
+                ${nextData.critDmg.toFixed(1)}%
+                ${emb_lv < 15 ? `(<span class="emb-val-highlight">▲${critInc}%</span>)` : ''}
+            </span>
+        </div>`;
+        
+    if (document.getElementById('emb-ui-stat-list')) document.getElementById('emb-ui-stat-list').innerHTML = statHtml;
+
+    let btnAction = document.getElementById('btn-emb-action');
+    let ctrlWrap = document.getElementById('emb-ui-controller-wrap');
+    
+    if (emb_lv >= 15) {
+        if (document.getElementById('emb-ui-prob-s')) document.getElementById('emb-ui-prob-s').innerText = "0%";
+        if (document.getElementById('emb-ui-prob-m')) document.getElementById('emb-ui-prob-m').innerText = "0%";
+        if (ctrlWrap) ctrlWrap.classList.add('disabled');
+        if (btnAction) btnAction.disabled = true;
+    } else {
+        let rateInfo = emb_rate_data[emb_lv - 1];
+        if (document.getElementById('emb-ui-img-mat')) document.getElementById('emb-ui-img-mat').src = `assets/${rateInfo.matName}.png`;
+        
+        let successRate = Math.min(100, rateInfo.baseRate * emb_mat_count);
+        let maintainRate = 100 - successRate;
+        
+        if (document.getElementById('emb-ui-prob-s')) document.getElementById('emb-ui-prob-s').innerText = successRate + "%";
+        if (document.getElementById('emb-ui-prob-m')) document.getElementById('emb-ui-prob-m').innerText = maintainRate + "%";
+        
+        if (document.getElementById('emb-ui-mat-curr')) document.getElementById('emb-ui-mat-curr').innerText = emb_mat_count;
+        if (document.getElementById('emb-ui-mat-max')) document.getElementById('emb-ui-mat-max').innerText = rateInfo.maxMat;
+        
+        if (ctrlWrap) ctrlWrap.classList.remove('disabled');
+        if (btnAction) btnAction.disabled = false;
+    }
+
+    let statsContainer = document.getElementById('emb-stats-container');
+    if (statsContainer) {
+        let statsHtmlContent = `
+            <div class="acc-stats-header">
+                <div>各星級消耗 <span class="acc-stats-hint">(隱藏未點擊)</span></div>
+                <div class="acc-stats-hint-ev">理論期望</div>
+            </div>
+            <div class="acc-stats-body">
+        `;
+        
+        for (let i = 1; i < 15; i++) {
+            let hist = emb_stats_history[i];
+            let rateInfo = emb_rate_data[i - 1];
+            let ev = rateInfo.baseRate > 0 ? (100 / rateInfo.baseRate).toFixed(2) : "∞";
+            
+            if (hist.attempts > 0 || i === emb_lv) {
+                let isCurrent = (i === emb_lv) ? 'current-lv' : '';
+                statsHtmlContent += `
+                <div class="acc-stat-hist-row ${isCurrent}">
+                    <div class="acc-hist-lv"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
+                    <div class="acc-hist-main">嘗試 <span class="val-try">${hist.attempts}</span> 次</div>
+                    <div class="acc-hist-ev">${ev}</div>
+                </div>`;
+            }
+        }
+        statsHtmlContent += `</div>
+        <div class="acc-stats-footer">
+            <span>總嘗試：<span class="val-try">${emb_attempts}</span></span>
+            <span>成功：<span class="val-success">${emb_successes}</span></span>
+            <span>失敗：<span class="val-fail">${emb_fails}</span></span>
+        </div>`;
+        
+        statsContainer.innerHTML = statsHtmlContent;
+    }
+}
+
+function emb_executeEnhance() {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    emb_isAnimating = true;
+
+    let rateInfo = emb_rate_data[emb_lv - 1];
+    let successRate = Math.min(100, rateInfo.baseRate * emb_mat_count);
+    
+    let roll = Math.random() * 100;
+    let isSuccess = roll < successRate;
+
+    emb_attempts++;
+    emb_current_level_attempts++;
+    let oldLv = emb_lv;
+    
+    emb_stats_history[oldLv].attempts++;
+    if (!isSuccess) {
+        emb_stats_history[oldLv].fails++;
+        emb_fails++;
+    }
+
+    if (!emb_isMuted) {
+        let sfx = isSuccess ? emb_sfxSuccess : emb_sfxFail; 
+        sfx.currentTime = 0;
+        sfx.play().catch(e => console.log("音效未啟用", e));
+    }
+
+    let animOverlay = document.getElementById('emb-anim-overlay');
+    if (animOverlay) {
+        animOverlay.style.display = '';
+        animOverlay.classList.add('active');
+
+        setTimeout(() => {
+            animOverlay.classList.remove('active');
+            
+            if (isSuccess) { 
+                emb_lv++; 
+                emb_successes++; 
+            }
+            emb_showResult(isSuccess, oldLv, emb_lv);
+        }, 200); 
+    } else {
+        if (isSuccess) { emb_lv++; emb_successes++; }
+        emb_showResult(isSuccess, oldLv, emb_lv);
+    }
+}
+
+function emb_showResult(isSuccess, oldLv, newLv) {
+    let modal = document.getElementById('emb-result-modal');
+    if (!modal) return;
+
+    if (document.getElementById('emb-m-title')) document.getElementById('emb-m-title').innerText = isSuccess ? "紋章強化成功" : "紋章強化失敗";
+    if (document.getElementById('emb-m-old-lv')) document.getElementById('emb-m-old-lv').innerText = oldLv;
+    if (document.getElementById('emb-m-new-lv')) document.getElementById('emb-m-new-lv').innerText = newLv;
+    
+    let mDiamondLvElem = document.getElementById('emb-m-diamond-lv');
+    let mDiamondBadgeElem = document.getElementById('emb-m-diamond-badge');
+    
+    if (mDiamondLvElem) mDiamondLvElem.innerText = newLv;
+    if (mDiamondBadgeElem) {
+        let doubleClass = newLv >= 10 ? ' is-double' : '';
+        mDiamondBadgeElem.className = 'emb-diamond-badge ' + (newLv >= 8 ? 'emb-bg-purple' : 'emb-bg-blue') + doubleClass;
+    }
+
+    let oldData = emb_stats_data[oldLv - 1];
+    let newData = emb_stats_data[newLv - 1];
+    let statHtml = '';
+
+    if (oldData.maxDmg > 0 || newData.maxDmg > 0) {
+        let increase = newData.maxDmg - oldData.maxDmg;
+        statHtml += `
+            <div class="emb-m-stat-item">
+                <span class="emb-m-stat-label ${isSuccess ? 'success' : ''}">最大傷害</span>
+                <span class="emb-m-stat-val ${isSuccess ? 'success-val' : 'fail-val'}">
+                    ${isSuccess ? newData.maxDmg.toLocaleString() : oldData.maxDmg.toLocaleString()}
+                    ${isSuccess ? `<span>(▲${increase.toLocaleString()})</span>` : ''}
+                </span>
+            </div>`;
+    }
+
+    let critInc = (newData.critDmg - oldData.critDmg).toFixed(1);
+    statHtml += `
+        <div class="emb-m-stat-item">
+            <span class="emb-m-stat-label">致命攻擊傷害</span>
+            <span class="emb-m-stat-val ${isSuccess ? 'success-val' : 'fail-val'}">
+                ${isSuccess ? newData.critDmg.toFixed(1) : oldData.critDmg.toFixed(1)}%
+                ${isSuccess ? `<span>(▲${critInc}%)</span>` : ''}
+            </span>
+        </div>`;
+        
+    if (document.getElementById('emb-m-stat-list')) document.getElementById('emb-m-stat-list').innerHTML = statHtml;
+
+    let attemptsElem = document.getElementById('emb-m-attempts-text');
+    if (attemptsElem) {
+        attemptsElem.innerHTML = `累積強化 <span class="acc-m-attempts-num">${emb_current_level_attempts}</span> 次`;
+    }
+
+    let costBox = document.getElementById('emb-m-bottom-cost');
+    if (costBox) {
+        if (isSuccess) {
+            costBox.innerHTML = `1,204 <span>(▲1,204)</span>`;
+        } else {
+            costBox.innerHTML = `1,204`;
+        }
+    }
+
+    if (isSuccess) {
+        emb_current_level_attempts = 0; 
+        emb_mat_count = 1; 
+    }
+
+    modal.classList.add('active');
+    emb_updateUI();
+}
+
+function emb_closeResult() {
+    let modal = document.getElementById('emb-result-modal');
+    if (modal) modal.classList.remove('active');
+    emb_isAnimating = false;
+    emb_updateUI();
+}
+
+function emb_reset() {
+    if (emb_isAnimating) return;
+    emb_lv = 1;
+    emb_mat_count = 1;
+    emb_attempts = 0;
+    emb_successes = 0;
+    emb_fails = 0;
+    emb_current_level_attempts = 0;
+    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+    
+    emb_forceStateChange();
 }
