@@ -1456,11 +1456,10 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 
 
 /*
-<div id="tab-home" class="tab-content active">
-    
-    <div style="text-align: center; margin: 50px auto; color: #555;">
-        <h2>🚧 更新中 🚧</h2>
-        <p>請稍後再回來看看！</p>
-    </div>
-
-</div>
+    <div id="tab-home" class="tab-content active">
+            <div style="text-align: center; margin: 50px auto; color: #555;">
+                <h2>🚧 更新中 🚧</h2>
+                <p>請稍後再回來看看！</p>
+            </div>
+            
+        <div class="app-grid">
