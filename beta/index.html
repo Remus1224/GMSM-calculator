@@ -42,6 +42,11 @@
     </div>
 
     <div id="tab-home" class="tab-content active">
+            <div style="text-align: center; margin: 50px auto; color: #555;">
+                <h2>🚧 更新中 🚧</h2>
+                <p>請稍後再回來看看！</p>
+            </div>
+            
         <div class="app-grid">
             <div class="app-card" onclick="switchTab('notice')">
                 <div class="app-icon">
@@ -1106,7 +1111,7 @@
 
     <div id="tab-star" class="tab-content">
         <div class="sarcasm-banner">
-            <div class="sarcasm-title">開發者筆記</div>
+            <div class="sarcasm-title">⚠️ 開發者筆記</div>
             <div class="sarcasm-content">
                 星力模擬器遇到了無法突破的技術瓶頸。<br>
                 原因在於：<br class="mobile-br">我們根本不知道星力強化的<span class="highlight-red">真實機率</span>。<br><br>
@@ -1241,8 +1246,7 @@
                 </div>
             </div>
 
-            <div class="stats-text" id="acc-stats-container">
-                </div>
+            <div class="stats-text" id="acc-stats-container"></div>
 
             <button class="btn-reset-tr" onclick="acc_reset()">重新模擬 (清除狀態)</button>
         </div>
@@ -1297,7 +1301,7 @@
                 <div class="forge-main">
                     
                     <div id="emb-anim-overlay" class="lightning-overlay">
-                        <img class="lightning-img" src="" alt="lightning">
+                        <img class="lightning-img" src="" alt="lightning" onerror="this.style.display='none'">
                     </div>
 
                     <div class="emb-tabs">
@@ -1308,7 +1312,7 @@
                     <div class="emb-top-section">
                         <div class="emb-equip-col">
                             <div class="emb-img-box">
-                                <img id="emb-ui-img-equip" src="" alt="equip">
+                                <img id="emb-ui-img-equip" src="" alt="equip" onerror="this.style.display='none'">
                                 <div id="emb-ui-diamond-badge" class="emb-diamond-badge emb-bg-blue">
                                     <span id="emb-ui-diamond-lv">5</span>
                                 </div>
@@ -1327,8 +1331,7 @@
                             </div>
                             
                             <div class="emb-stat-inner-box">
-                                <div class="emb-stat-list" id="emb-ui-stat-list">
-                                    </div>
+                                <div class="emb-stat-list" id="emb-ui-stat-list"></div>
                             </div>
                         </div>
                     </div>
@@ -1376,7 +1379,7 @@
         <div class="settings-panel">
             <div class="settings-title">
                 <span>⚙️ 紋章模擬器設定</span>
-            <button id="btn-sound-toggle-emb" class="btn-sound" onclick="emb_toggleSound()">🔊 音效：開啟</button>
+                <button id="btn-sound-toggle-emb" class="btn-sound" onclick="emb_toggleSound()">🔊 音效：開啟</button>
             </div>
 
             <div class="setting-row">
@@ -1414,14 +1417,15 @@
                 <div class="modal-header" id="emb-m-title">紋章強化成功</div>
                 
                 <div class="m-enh-grey-top">
-                    <div class="emb-img-box" style="width: 80px; height: 80px; margin-bottom: 8px;">
-                        <img id="emb-m-img" src="" alt="equip">
-                        <div id="emb-m-diamond-badge" class="emb-diamond-badge emb-bg-blue" style="top: 25px; left: -8px;">
+                    <div class="emb-img-box">
+                        <img id="emb-m-img" src="" alt="equip" onerror="this.style.display='none'">
+                        <div id="emb-m-diamond-badge" class="emb-diamond-badge emb-bg-blue">
                             <span id="emb-m-diamond-lv">6</span>
                         </div>
-                        <div id="emb-m-star-badge" class="equip-badge-star" style="top: -5px; right: -3px; display: flex;"><span>M</span></div>
-                        <div id="emb-m-lv-badge" class="equip-badge-lv" style="bottom: 5px;right: 4px;min-width: 26px;display: block;font-size: 9px;"><span>Lv.70</span></div>
+                        <div id="emb-m-star-badge" class="equip-badge-star"><span>M</span></div>
+                        <div id="emb-m-lv-badge" class="equip-badge-lv"><span>Lv.70</span></div>
                     </div>
+                    
                     <div class="m-item-name" id="emb-m-equip-name">航海師十字鎚</div>
                     <div class="m-fail-text acc-m-attempts" id="emb-m-attempts-text">累積強化 <span class="acc-m-attempts-num">0</span> 次</div>
                     
@@ -1433,11 +1437,8 @@
                 </div>
 
                 <div class="emb-modal-body">
-                    <div class="emb-m-stat-list" id="emb-m-stat-list">
-                        </div>
-
-                    <div class="emb-m-bottom-cost" id="emb-m-bottom-cost">
-                        </div>
+                    <div class="emb-m-stat-list" id="emb-m-stat-list"></div>
+                    <div class="emb-m-bottom-cost" id="emb-m-bottom-cost"></div>
                 </div>
 
                 <div class="m-enh-grey-bot">
