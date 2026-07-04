@@ -42,6 +42,10 @@
     </div>
 
     <div id="tab-home" class="tab-content active">
+            <div style="text-align: center; margin: 50px auto; color: #555;">
+                <h2>🚧 更新中 🚧</h2>
+                <p>請稍後再回來看看！</p>
+            </div>
         <div class="app-grid">
             <div class="app-card" onclick="switchTab('notice')">
                 <div class="app-icon">
@@ -67,6 +71,33 @@
                 </div>
                 <div class="app-info">
                     <h3>製作模擬器</h3>
+                </div>
+            </div>
+
+             <div class="app-card" onclick="switchTab('emb-enhance')">
+                <div class="app-icon">
+                    <img src="assets/icon_紋章模擬.png" class="menu-custom-img" alt="icon" >
+                </div>
+                <div class="app-info">
+                    <h3>紋章模擬器</h3>
+                </div>
+            </div>
+
+            <div class="app-card" onclick="switchTab('acc-enhance')">
+                <div class="app-icon">
+                    <img src="assets/icon_飾品模擬.png" class="menu-custom-img" alt="icon" >
+                </div>
+                <div class="app-info">
+                    <h3>飾品強化模擬器</h3>
+                 </div>
+             </div>
+
+            <div class="app-card" onclick="switchTab('star')">
+                <div class="app-icon">
+                    <img src="assets/icon_星力模擬.png" class="menu-custom-img" alt="icon" >
+                </div>
+                <div class="app-info">
+                    <h3>星力強化模擬器</h3>
                 </div>
             </div>
 
@@ -248,22 +279,25 @@
 
                 <div class="forge-main">
                     <div class="lightning-overlay" id="ui-lightning">
-                        <img class="lightning-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Lightning_bolt_with_transparent_background.png/1200px-Lightning_bolt_with_transparent_background.png" alt="lightning" onerror="this.style.display='none'">
+                        <img class="lightning-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Lightning_bolt_with_transparent_background.png/1200px-Lightning_bolt_with_transparent_background.png" alt="lightning">
                     </div>
 
                     <div class="sec-top">
                         <div class="item-col">
-                            <div class="img-box" id="ui-equip-box">
-                                <img src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
-                                <div class="dynamic-lv-overlay">Lv.<span id="ui-overlay-lv">30</span></div>
+                            <!-- 超越主畫面 -->
+                            <div class="img-box" id="ui-equip-box" style="position: relative;">
+                                <img id="tr-ui-img-equip" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
+                                <div id="tr-ui-diamond-badge" class="emb-diamond-badge emb-bg-purple is-double"><span>15</span></div>
+                                <div id="tr-ui-star-badge" class="equip-badge-star"><span>M</span></div>
+                                <div id="tr-ui-lv-badge" class="equip-badge-lv"><span>Lv.30</span></div>
                             </div>
-                            <div class="equip-name" title="神秘冥界幽靈天之星光權杖">神秘冥界幽靈天之星光權杖</div>
+                            <div class="equip-name" id="tr-ui-equip-name" title="神秘冥界幽靈天之星光權杖">神秘冥界幽靈天之星光權杖</div>
                             <div class="fail-text" id="ui-fails">失敗次數 0 / 7</div>
                         </div>
                         <div class="plus-sign" id="ui-plus-sign">+</div>
                         <div class="item-col">
                             <div class="img-box">
-                                <img id="ui-stone-img" src="assets/超越石.png" alt="stone" onerror="this.style.display='none'">
+                                <img id="ui-stone-img" src="assets/超越石.png" alt="stone">
                             </div>
                             <div class="equip-name" id="ui-stone-name" style="font-weight: normal; color: #555;">超越石 50%</div>
                         </div>
@@ -294,7 +328,7 @@
 
                     <div class="sec-bottom" id="ui-sec-bottom">
                         <div class="coin-box" id="ui-coin-box">
-                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 1,204
+                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 1,204
                         </div>
                         <button class="btn-action-tr" id="btn-main-action" onclick="tr_execute_action()">超越</button>
                     </div>
@@ -304,8 +338,12 @@
 
         <div class="settings-panel">
             <div class="settings-title">
-                <span>⚙️ 模擬器設定</span>
+                <span>⚙️ 超越模擬器設定</span>
                 <button id="btn-sound-toggle" class="btn-sound" onclick="tr_toggleSound()">🔊 音效：開啟</button>
+            </div>
+            <div class="setting-row">
+                <label>裝備選擇：</label>
+                <select id="tr-equip-select" onchange="tr_changeEquip()" style="width: 160px;"></select>
             </div>
             <div class="setting-row" style="font-weight: bold; color: #c0392b;">
                 <label><input type="radio" name="sim-mode" value="enhance" checked onchange="tr_updateUI()"> 超越模式</label>
@@ -366,14 +404,17 @@
         </div>
 
         <div class="modal-backdrop" id="result-modal">
+            
             <div class="modal-box" id="modal-box-enhance" style="display: none;">
                 <div class="modal-header" id="m-enh-title">超越成功</div>
                 <div class="m-enh-grey-top">
-                    <div class="img-box" style="margin: 0 auto;">
-                        <img src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
-                        <div class="dynamic-lv-overlay">Lv.<span id="m-enh-item-lv">30</span></div>
+                    <div class="img-box" style="margin: 0 auto; width: 80px; height: 80px; margin-bottom: 8px; position: relative;">
+                        <img id="tr-m-img" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
+                        <div id="tr-m-diamond-badge" class="emb-diamond-badge emb-bg-purple"><span>15</span></div>
+                        <div id="tr-m-star-badge" class="equip-badge-star" style="top: 0px; right: -3px; height: 24px;"><span>M</span></div>
+                        <div id="tr-m-lv-badge" class="equip-badge-lv" style="bottom: 3px;right: 3px;display: block;"><span>Lv.30</span></div>
                     </div>
-                    <div class="m-item-name">神秘冥界幽靈天之星光權杖</div>
+                    <div class="m-item-name" id="tr-m-equip-name">神秘冥界幽靈天之星光權杖</div>
                     <div class="m-fail-text" id="m-enh-fail-text-container">
                         失敗次數 <span id="m-enh-fail-count">0 / 7</span><span id="m-enh-fail-change" class="m-fail-change"></span>
                     </div>
@@ -398,14 +439,18 @@
                 <div class="modal-header">道具使用結果</div>
                 <div class="m-scr-white-body">
                     <div id="m-scr-top-text" style="font-size: 14px; font-weight: bold; color: #555; margin-bottom: 15px;"></div>
-                    <div class="img-box" style="margin: 0 auto;">
-                        <img src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
-                        <div class="dynamic-lv-overlay">Lv.<span id="m-scr-item-lv">30</span></div>
+                    <!-- 超越彈出視窗 (卷軸) -->
+                    <div class="img-box" style="margin: 0 auto; width: 80px; height: 80px; margin-bottom: 8px; position: relative;">
+                        <img id="tr-m-scr-img" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
+                        <div id="tr-m-scr-diamond-badge" class="emb-diamond-badge emb-bg-purple"><span>15</span></div>
+                        <div id="tr-m-scr-star-badge" class="equip-badge-star" style="top: -5px; right: -5px;"><span>M</span></div>
+                        <div id="tr-m-scr-lv-badge" class="equip-badge-lv" style="bottom: 2px; right: 2px;"><span>Lv.30</span></div>
                     </div>
                     <div class="m-scr-grey-box" id="m-scr-result-box"></div>
                     <button class="m-btn" onclick="tr_closeModal()" style="margin-top: 15px;">確認</button>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -431,22 +476,25 @@
                 <div class="forge-main">
                     <div class="sec-top">
                         <div class="item-col">
-                            <div class="img-box">
-                                <img id="cr-equip-from-img" src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
-                                <div class="dynamic-lv-overlay">Lv.<span id="cr-overlay-lv">60</span></div>
+                            <!-- 製作主畫面 -->
+                            <div class="img-box" style="position: relative;">
+                                <img id="cr-equip-from-img" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
+                                <div id="cr-ui-diamond-badge" class="emb-diamond-badge emb-bg-purple"><span>15</span></div>
+                                <div id="cr-ui-star-badge" class="equip-badge-star"><span>M</span></div>
+                                <div id="cr-ui-lv-badge" class="equip-badge-lv"><span>Lv.60</span></div>
                             </div>
                             <div class="equip-name" id="cr-equip-from-name">航海師手杖</div>
                         </div>
                         <div class="plus-sign">+</div>
                         <div class="item-col">
                             <div class="img-box">
-                                <img id="cr-crystal-img" src="assets/超越石.png" alt="crystal" onerror="this.style.display='none'">
+                                <img id="cr-crystal-img" src="assets/超越石.png" alt="crystal">
                             </div>
                             <div class="equip-name" id="cr-crystal-name" style="font-weight: normal; color: #555;">夏德貝爾結晶(武器)<br>1/1</div>
                         </div>
                         <div class="item-col" id="cr-scroll-col" style="opacity: 0.3; transition: 0.3s;">
                             <div class="img-box" style="background-color: #f1f2f6;">
-                                <img id="cr-scroll-img" src="assets/幸運的製作卷軸.png" alt="scroll" onerror="this.style.display='none'">
+                                <img id="cr-scroll-img" src="" alt="scroll">
                             </div>
                             <div class="equip-name" id="cr-scroll-name" style="font-weight: normal; color: #888; font-size: 11px;">卷軸</div>
                         </div>
@@ -487,7 +535,7 @@
 
                     <div class="sec-bottom">
                         <div class="coin-box" id="cr-coin-box">
-                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 
                             <span id="cr-meso-cost">1,024</span>
                         </div>
                         <button class="btn-action-tr" id="btn-craft-action" onclick="cr_showConfirm()">製作</button>
@@ -498,10 +546,15 @@
 
         <div class="settings-panel">
             <div class="settings-title">
-                <span>⚙️ 模擬器設定</span>
+                <span>⚙️ 製作模擬器設定</span>
                 <button id="btn-sound-toggle-cr" class="btn-sound" onclick="cr_toggleSound()">🔊 音效：開啟</button>
             </div>
             
+            <div class="setting-row">
+                <label>裝備選擇：</label>
+                <select id="cr-equip-select" onchange="cr_changeEquip()"></select>
+            </div>
+
             <div class="setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
                 <label>選擇製作階段：</label>
                 <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話 ➔ 古代</label>
@@ -569,9 +622,11 @@
             <div class="modal-box" id="cr-modal-box" style="max-width: 340px;">
                 <div class="modal-header" id="cr-m-title">製作成功</div>
                 <div class="m-enh-grey-top">
-                    <div class="img-box" style="margin: 0 auto; background-color: #fff;">
-                        <img id="cr-m-equip-img" src="assets/神秘冥界幽靈天之星光權杖.webp" alt="equip" onerror="this.style.display='none'">
-                        <div class="dynamic-lv-overlay" id="cr-m-lv-tag" style="background: #111111;">Lv.<span id="cr-m-lv">1</span></div>
+                    <div class="img-box" style="margin: 0 auto; background-color: #fff; width: 80px; height: 80px; position: relative; margin-bottom: 8px;">
+                        <img id="cr-m-equip-img" src="assets/equipment/神秘冥界幽靈天之星光權杖.webp" alt="equip">
+                        <div id="cr-m-diamond-badge" class="emb-diamond-badge emb-bg-purple"><span>15</span></div>
+                        <div id="cr-m-star-badge" class="equip-badge-star" style="top: -1px; right: -4px; height: 24px;"><span>M</span></div>
+                        <div id="cr-m-lv-badge" class="equip-badge-lv" bottom: 3px;right: 3px;padding: 1px 7px !important;display: block;"><span>Lv.1</span></div>
                     </div>
                     <div class="m-item-name" id="cr-m-equip-name" style="font-size: 15px; margin-top: 15px;">神秘冥界幽靈手杖</div>
                     <div class="m-fail-text" id="cr-m-fail-text-container" style="display: none; margin-top: 5px;"></div>
@@ -954,7 +1009,7 @@
 
         <div class="will-settings-wrapper">
             <div class="settings-panel">
-                <div class="settings-title">⚙️ 設定</div>
+                <div class="settings-title">⚙️ 威爾練習機設定</div>
                 
                 <div class="setting-row">
                     <span class="setting-label">威爾難度：</span>
@@ -1053,7 +1108,344 @@
         </div> 
     </div>
 
-</div>
+    <div id="tab-star" class="tab-content">
+        <div class="sarcasm-banner">
+            <div class="sarcasm-title">⚠️ 開發者筆記</div>
+            <div class="sarcasm-content">
+                星力模擬器遇到了無法突破的技術瓶頸。<br>
+                原因在於：<br class="mobile-br">我們根本不知道星力強化的<span class="highlight-red">真實機率</span>。<br><br>
+                所以我放棄了。<br>
+                畢竟任何正常的隨機亂數，<br class="mobile-br">都無法完美還原那種<span class="highlight-red">充滿惡意</span>……<br>
+                啊不是，是充滿<span class="highlight-gold">「驚喜」</span>的遊戲體驗。
+            </div>
+        
+            <img src="assets/starui.png" class="sarcasm-img" alt="starui">
+        </div>
+    </div>
+
+    <div id="tab-acc-enhance" class="tab-content">
+        <div class="msm-forge-ui" id="acc-game-ui-container">
+
+            <div class="forge-header">
+                鐵匠鋪 <div class="forge-info-icon"><span>i</span></div>
+            </div>
+
+            <div class="forge-body">
+                <div class="forge-sidebar">
+                    <div class="menu-item">超越</div>
+                    <div class="menu-item">紋章強化</div>
+                    <div class="menu-item">鍊成</div>
+                    <div class="menu-item">輪迴星火</div>
+                    <div class="menu-item">煉金術</div>
+                    <div class="menu-item active">飾品強化</div>
+                    <div class="menu-item">製作</div>
+                </div>
+
+                <div class="forge-main">
+                    
+                    <div id="acc-anim-overlay" class="lightning-overlay">
+                        <img class="lightning-img" src="" onerror="this.style.display='none'">
+                    </div>
+
+                    <div class="sec-top">
+                        <div class="item-col">
+                            <div class="img-box" style="position: relative; overflow: visible;">
+                                <img id="acc-ui-img-main" src="" alt="equip" onerror="this.style.display='none'">
+                                <div class="acc-star-badge" style="display: none;">
+                                    <span id="acc-overlay-star">0</span>
+                                </div>
+                            </div>
+                            <div class="equip-name acc-equip-placeholder" id="acc-equip-name-display">基本</div>
+                        </div>
+
+                        <div class="item-col">
+                            <div class="img-box">
+                                <img id="acc-ui-img-mat" src="" alt="material" onerror="this.style.display='none'">
+                            </div>
+                            <div class="equip-name acc-equip-placeholder" id="acc-mat-name-display">材料</div>
+                        </div>
+                    </div>
+
+                    <div class="sec-white" id="acc-ui-lv-sec">
+                        <div class="lv-text" id="acc-ui-lv-text">
+                            +<span id="acc-star-curr">0</span> 
+                            <span class="acc-lv-arrow">»</span> 
+                            <span class="lv-next">+<span id="acc-star-next">1</span></span>
+                        </div>
+                    </div>
+
+                    <div class="sec-grey-mid" id="acc-ui-grey-sec">
+                        <div class="acc-stat-container">
+                            <div id="acc-stat-detail" class="acc-stat-wrapper">
+                                <div class="acc-placeholder-text">
+                                    <div class="acc-placeholder-main">可使用兩個相同的飾品進行星力數值的強化。</div>
+                                    <div class="acc-placeholder-sub">請在上方選單說明中確認詳細條件。</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="divider">
+                        
+                        <div class="acc-prob-container">
+                            <div class="acc-prob-wrapper">
+                                <div class="acc-prob-row">
+                                    <span class="acc-prob-label-s">成功</span>
+                                    <span id="acc-ui-prob-s" class="val-success">0.00%</span>
+                                </div>
+                                <div class="acc-prob-row">
+                                    <span class="acc-prob-label">維持</span>
+                                    <span id="acc-ui-prob-m" class="val-neutral">0.00%</span>
+                                </div>
+                                <div class="acc-prob-row">
+                                    <span class="acc-prob-label">下降</span>
+                                    <span id="acc-ui-prob-d" class="val-neutral">0.00%</span>
+                                </div>
+                                <div class="acc-prob-row">
+                                    <span class="acc-prob-label">重置</span>
+                                    <span id="acc-ui-prob-r" class="val-neutral">0.00%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sec-bottom">
+                        <div class="coin-box">
+                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <span>1,204</span>
+                        </div>
+                        <button class="btn-action-tr" id="btn-acc-action" onclick="acc_executeEnhance()">強化</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-panel">
+            <div class="settings-title">
+                <span>⚙️ 飾品強化模擬器設定</span>
+                <button id="btn-sound-toggle-acc" class="btn-sound" onclick="acc_toggleSound()">🔊 音效：開啟</button>
+            </div>
+            
+            <div class="setting-row">
+                <label>飾品選擇：</label>
+                <select id="acc-item-select" onchange="acc_forceStateChange()" style="flex: 1; max-width: 250px;"></select>
+            </div>
+            
+            <div class="setting-row">
+                <label>目前星力：</label>
+                <select id="acc-star-select" onchange="acc_forceStateChange()" style="width: 80px;">
+                    <script>for(let i=0; i<=9; i++) document.write(`<option value="${i}">+ ${i}</option>`);</script>
+                </select>
+            </div>
+            
+            <div class="setting-row">
+                <label>自訂機率(%)：</label>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                    <label><input type="text" inputmode="decimal" id="acc-in-s" style="width: 50px;" oninput="acc_customProbChange()"> <span style="color:#f3724c; font-weight:bold;">成功</span></label>
+                    <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">(失敗時自動維持星力)</span>
+                </div>
+            </div>
+
+            <div class="stats-text" id="acc-stats-container"></div>
+
+            <button class="btn-reset-tr" onclick="acc_reset()">重新模擬 (清除狀態)</button>
+        </div>
+
+        <div class="modal-backdrop" id="acc-result-modal">
+            <div class="modal-box acc-modal-box" id="modal-box-acc">
+                <div class="modal-header" id="acc-m-title">強化成功</div>
+                
+                <div class="m-enh-grey-top">
+                    <div class="img-box" style="margin: 0 auto; background-color: #fff; position: relative; overflow: visible;">
+                        <img id="acc-m-img" src="" alt="equip" onerror="this.style.display='none'">
+                        <div class="acc-star-badge">
+                            <span id="acc-m-star-tag">1</span>
+                        </div>
+                    </div>
+                    <div class="m-item-name" id="acc-m-equip-name">黑意志皮帶</div>
+                    <div class="m-fail-text acc-m-attempts" id="acc-m-attempts-text">累積強化 <span class="acc-m-attempts-num">0</span> 次</div>
+                    <div class="lv-text" style="margin-top: 10px; margin-bottom: 10px; font-size: 20px;">
+                        <span style="color: #7f8c8d;">+<span id="acc-m-old-star">0</span></span> 
+                        <span class="lv-arrow">»</span> 
+                        <span id="acc-m-new-color" style="color: #f3724c;">+<span id="acc-m-new-star">1</span></span>
+                    </div>
+                </div>
+
+                <div class="m-enh-white-mid" id="acc-m-white-mid"></div>
+
+                <div class="m-enh-grey-bot">
+                    <button class="m-btn" onclick="acc_closeResult()">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-emb-enhance" class="tab-content">
+        <div class="msm-forge-ui" id="emb-game-ui-container">
+
+            <div class="forge-header">
+                鐵匠鋪 <div class="forge-info-icon"><span>i</span></div>
+            </div>
+
+            <div class="forge-body">
+                <div class="forge-sidebar">
+                    <div class="menu-item">合成</div>
+                    <div class="menu-item">星力強化</div>
+                    <div class="menu-item">變更屬性</div>
+                    <div class="menu-item">附加屬性變更</div>
+                    <div class="menu-item">傳承</div>
+                    <div class="menu-item">超越</div>
+                    <div class="menu-item active">紋章</div>
+                </div>
+
+                <div class="forge-main">
+                    
+                    <div id="emb-anim-overlay" class="lightning-overlay">
+                        <img class="lightning-img" src="" alt="lightning" onerror="this.style.display='none'">
+                    </div>
+
+                    <div class="emb-tabs">
+                        <div class="emb-tab active">強化</div>
+                        <div class="emb-tab inactive">分解</div>
+                    </div>
+
+                    <div class="emb-top-section">
+                        <div class="emb-equip-col">
+                            <div class="emb-img-box">
+                                <img id="emb-ui-img-equip" src="" alt="equip" onerror="this.style.display='none'">
+                                <div id="emb-ui-diamond-badge" class="emb-diamond-badge emb-bg-blue">
+                                    <span id="emb-ui-diamond-lv">5</span>
+                                </div>
+                                <div id="emb-ui-star-badge" class="equip-badge-star"><span>M</span></div>
+                                <div id="emb-ui-lv-badge" class="equip-badge-lv"><span>Lv.70</span></div>
+                            </div>
+                            <div class="emb-equip-name" id="emb-ui-equip-name">航海師十字鎚</div>
+                        </div>
+
+                        <div class="emb-stat-col">
+                            <div class="emb-emblem-name">殘忍的紋章</div>
+                            <div class="emb-lv-row">
+                                <span class="emb-lv-text">Lv.<span id="emb-ui-curr-lv">5</span></span>
+                                <span class="emb-lv-arrow">»</span>
+                                <span class="emb-lv-next">Lv.<span id="emb-ui-next-lv">6</span></span>
+                            </div>
+                            
+                            <div class="emb-stat-inner-box">
+                                <div class="emb-stat-list" id="emb-ui-stat-list"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emb-mid-section">
+                        <div class="emb-mid-hint">
+                            強化時，追加使用楓幣和材料後，<br>可增加成功機率。
+                        </div>
+
+                        <div class="emb-mat-area">
+                            <div class="emb-mat-box">
+                                <img id="emb-ui-img-mat" src="assets/紋章的痕跡.png" alt="material">
+                            </div>
+                            <div class="emb-rate-col">
+                                <div class="emb-rate-row">
+                                    <span class="emb-rate-label">成功機率</span>
+                                    <span class="emb-rate-val-s" id="emb-ui-prob-s">20%</span>
+                                </div>
+                                <div class="emb-rate-row">
+                                    <span class="emb-rate-label">維持率</span>
+                                    <span class="emb-rate-val-m" id="emb-ui-prob-m">80%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="emb-controller-wrap" id="emb-ui-controller-wrap">
+                            <button class="emb-ctrl-btn emb-ctrl-btn-minus" onclick="emb_changeMat(-1)">−</button>
+                            <div class="emb-ctrl-display"><span id="emb-ui-mat-curr">1</span> / <span id="emb-ui-mat-max">5</span></div>
+                            <button class="emb-ctrl-btn emb-ctrl-btn-plus" onclick="emb_changeMat(1)">+</button>
+                            <button class="emb-ctrl-btn emb-ctrl-max" onclick="emb_setMaxMat()">最大</button>
+                        </div>
+                    </div>
+
+                    <div class="sec-bottom" style="background-color: #FCFCFC;">
+                        <div class="coin-box">
+                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <span>1,204</span>
+                        </div>
+                        <button class="btn-action-tr" id="btn-emb-action" onclick="emb_executeEnhance()">紋章強化</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-panel">
+            <div class="settings-title">
+                <span>⚙️ 紋章模擬器設定</span>
+                <button id="btn-sound-toggle-emb" class="btn-sound" onclick="emb_toggleSound()">🔊 音效：開啟</button>
+            </div>
+
+            <div class="setting-row">
+                <label>裝備選擇：</label>
+                <select id="emb-equip-select" onchange="emb_changeEquip()" style="width: 160px;"></select>
+            </div>
+            
+            <div class="setting-row">
+                <label>目前紋章等級：</label>
+                <select id="emb-lv-select" onchange="emb_forceStateChange()" style="width: 80px;">
+                    <option value="1">Lv.1</option>
+                    <option value="2">Lv.2</option>
+                    <option value="3">Lv.3</option>
+                    <option value="4">Lv.4</option>
+                    <option value="5">Lv.5</option>
+                    <option value="6">Lv.6</option>
+                    <option value="7">Lv.7</option>
+                    <option value="8">Lv.8</option>
+                    <option value="9">Lv.9</option>
+                    <option value="10">Lv.10</option>
+                    <option value="11">Lv.11</option>
+                    <option value="12">Lv.12</option>
+                    <option value="13">Lv.13</option>
+                    <option value="14">Lv.14</option>
+                    <option value="15">Lv.15</option>
+                </select>
+            </div>
+
+            <div class="stats-text" id="emb-stats-container"></div>
+            <button class="btn-reset-tr" onclick="emb_reset()">重新模擬 (清除狀態)</button>
+        </div>
+
+        <div class="modal-backdrop" id="emb-result-modal">
+            <div class="modal-box acc-modal-box">
+                <div class="modal-header" id="emb-m-title">紋章強化成功</div>
+                
+                <div class="m-enh-grey-top">
+                    <div class="emb-img-box">
+                        <img id="emb-m-img" src="" alt="equip" onerror="this.style.display='none'">
+                        <div id="emb-m-diamond-badge" class="emb-diamond-badge emb-bg-blue">
+                            <span id="emb-m-diamond-lv">6</span>
+                        </div>
+                        <div id="emb-m-star-badge" class="equip-badge-star"><span>M</span></div>
+                        <div id="emb-m-lv-badge" class="equip-badge-lv"><span>Lv.70</span></div>
+                    </div>
+                    
+                    <div class="m-item-name" id="emb-m-equip-name">航海師十字鎚</div>
+                    <div class="m-fail-text acc-m-attempts" id="emb-m-attempts-text">累積強化 <span class="acc-m-attempts-num">0</span> 次</div>
+                    
+                    <div class="emb-m-lv-row">
+                        <span class="emb-m-lv-old">Lv.<span id="emb-m-old-lv">5</span> 紋章</span>
+                        <span class="emb-m-lv-arr">>></span>
+                        <span class="emb-m-lv-new" id="emb-m-new-lv-color">Lv.<span id="emb-m-new-lv">6</span> 紋章</span>
+                    </div>
+                </div>
+
+                <div class="emb-modal-body">
+                    <div class="emb-m-stat-list" id="emb-m-stat-list"></div>
+                    <div class="emb-m-bottom-cost" id="emb-m-bottom-cost"></div>
+                </div>
+
+                <div class="m-enh-grey-bot">
+                    <button class="m-btn" onclick="emb_closeResult()">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script src="script.js"></script>
 </body>
