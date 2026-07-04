@@ -11,7 +11,7 @@ function toggleTheme() {
 
     if (isDark) {
         // 切換回淺色模式
-        htmlElement.removeAttribute('data-theme');
+        htmlElement.removeAttribute('data-theme'); 
         if (themeBtn) themeBtn.innerText = '🌙';
     } else {
         // 切換到暗色模式
