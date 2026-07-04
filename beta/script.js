@@ -161,7 +161,8 @@ function switchTab(tabId) {
             'hexa-reset': 'HEXA重置決策模擬',
             'hexa-sim': 'HEXA目標策略模擬',
             'will': '威爾二階練習機',
-            'acc-enhance': '飾品強化模擬器'
+            'acc-enhance': '飾品強化模擬器',
+            'star': '星力強化模擬器',
         };
 
         if (titleMap[tabId]) {
@@ -3218,8 +3219,8 @@ const acc_default_probs = [
     [16, 84, 0, 0],   // +4 » +5 
     [12, 88, 0, 0],   // +5 » +6 
     [10, 90, 0, 0],   // +6 » +7 
-    [8, 92, 0, 0],   // +7 » +8
-    [4, 96, 0, 0],   // +8 » +9
+    [8, 92, 0, 0],    // +7 » +8
+    [4, 96, 0, 0],    // +8 » +9
     [3, 97, 0, 0]     // +9 » +10
 ];
 
@@ -3232,11 +3233,12 @@ const acc_emblems = [
     "Lv.1 機靈紋章", 
     "Lv.1 銳利紋章"
 ];
+
+const acc_sfxSuccess = new Audio('assets/Enchant.wav'); 
+const acc_sfxFail = new Audio('assets/EnchantFail.mp3');
+
+// 狀態變數
 let acc_current_emblem = ""; 
-
-const acc_sfxSuccess = new Audio('assets/你的飾品成功音效.wav'); 
-const acc_sfxFail = new Audio('assets/你的飾品失敗音效.wav');
-
 let acc_selected_idx = 0; 
 let acc_stars = 0;
 let acc_attempts = 0;
@@ -3244,6 +3246,8 @@ let acc_successes = 0;
 let acc_fails = 0;
 let acc_isAnimating = false;
 let acc_isMuted = false;
+let acc_current_level_attempts = 0; 
+let acc_stats_history = Array.from({length: 10}, () => ({ attempts: 0, fails: 0 }));
 
 function acc_toggleSound() {
     acc_isMuted = !acc_isMuted;
@@ -3256,9 +3260,6 @@ function acc_toggleSound() {
         gtag('event', 'toggle_sound', { 'simulator': 'acc_enhance', 'sound_status': acc_isMuted ? 'off' : 'on' });
     }
 }
-
-let acc_current_level_attempts = 0; 
-let acc_stats_history = Array.from({length: 10}, () => ({ attempts: 0, fails: 0 }));
 
 document.addEventListener('DOMContentLoaded', () => {
     const selectElem = document.getElementById('acc-item-select');
@@ -3281,7 +3282,7 @@ function acc_forceStateChange() {
     if (acc_items[acc_selected_idx].isPlaceholder) {
         acc_stars = 0;
         acc_current_emblem = "";
-        if(starSel) starSel.value = "0";
+        if (starSel) starSel.value = "0";
     } else {
         acc_stars = parseInt(starSel ? starSel.value : 0) || 0;
         acc_current_emblem = ""; 
@@ -3295,7 +3296,6 @@ function acc_forceStateChange() {
     acc_current_level_attempts = 0;
 
     if (acc_stars < 10) {
-        // 🌟 補回裝飾用的輸入框安全寫入 (不管 HTML 刪了幾個都不會報錯)
         let inS = document.getElementById('acc-in-s');
         let inM = document.getElementById('acc-in-m');
         let inD = document.getElementById('acc-in-d');
@@ -3309,9 +3309,7 @@ function acc_forceStateChange() {
     acc_updateUI();
 }
 
-function acc_customProbChange() {
-    acc_updateUI();
-}
+function acc_customProbChange() { acc_updateUI(); }
 
 function acc_updateUI() {
     let item = acc_items[acc_selected_idx];
@@ -3321,16 +3319,15 @@ function acc_updateUI() {
     const lvTextElem = document.getElementById('acc-ui-lv-text'); 
 
     if (item.isPlaceholder) {
-        if (nameDisp) { nameDisp.innerText = "基本"; nameDisp.classList.add('acc-equip-placeholder'); nameDisp.style.color = ''; }
-        if (matDisp) { matDisp.innerText = "材料"; matDisp.classList.add('acc-equip-placeholder'); matDisp.style.color = ''; }
+        if (nameDisp) { nameDisp.innerText = "基本"; nameDisp.className = 'equip-name acc-equip-placeholder'; nameDisp.style.color = ''; }
+        if (matDisp) { matDisp.innerText = "材料"; matDisp.className = 'equip-name acc-equip-placeholder'; matDisp.style.color = ''; }
 
         document.getElementById('acc-ui-img-main').src = "";
         document.getElementById('acc-ui-img-mat').src = "";
         
         let starOverlay = document.getElementById('acc-overlay-star');
-        if(starOverlay) starOverlay.parentElement.style.display = 'none';
-        
-        if(document.getElementById('acc-star-select')) document.getElementById('acc-star-select').value = "0";
+        if (starOverlay) starOverlay.parentElement.style.display = 'none';
+        if (document.getElementById('acc-star-select')) document.getElementById('acc-star-select').value = "0";
         
         if (lvTextElem) lvTextElem.innerHTML = `<span>-</span> <span class="acc-lv-arrow">»</span> <span class="lv-next" style="color: #f3724c;">-</span>`;
         
@@ -3346,28 +3343,19 @@ function acc_updateUI() {
                 </div>`;
         }
 
-        // 🌟 補回裝飾面板顯示：安全寫入 "-"
-        if (document.getElementById('acc-ui-prob-s')) document.getElementById('acc-ui-prob-s').innerText = "-";
-        if (document.getElementById('acc-ui-prob-m')) document.getElementById('acc-ui-prob-m').innerText = "-";
-        if (document.getElementById('acc-ui-prob-d')) document.getElementById('acc-ui-prob-d').innerText = "-";
-        if (document.getElementById('acc-ui-prob-r')) document.getElementById('acc-ui-prob-r').innerText = "-";
+        ['s', 'm', 'd', 'r'].forEach(id => {
+            if (document.getElementById(`acc-ui-prob-${id}`)) document.getElementById(`acc-ui-prob-${id}`).innerText = "-";
+            if (document.getElementById(`acc-in-${id}`)) document.getElementById(`acc-in-${id}`).value = "0";
+        });
 
         if (document.getElementById('btn-acc-action')) document.getElementById('btn-acc-action').disabled = true;
-
-        // 🌟 補回輸入框：安全寫入 "0"
-        if (document.getElementById('acc-in-s')) document.getElementById('acc-in-s').value = "0";
-        if (document.getElementById('acc-in-m')) document.getElementById('acc-in-m').value = "0";
-        if (document.getElementById('acc-in-d')) document.getElementById('acc-in-d').value = "0";
-        if (document.getElementById('acc-in-r')) document.getElementById('acc-in-r').value = "0";
-        
         let statsContainer = document.getElementById('acc-stats-container');
-        if(statsContainer) statsContainer.innerHTML = "";
-
+        if (statsContainer) statsContainer.innerHTML = "";
         return; 
     }
 
-    if (nameDisp) { nameDisp.innerText = item.name; nameDisp.classList.remove('acc-equip-placeholder'); nameDisp.style.color = ''; }
-    if (matDisp) { matDisp.innerHTML = `${item.mat}`; matDisp.classList.remove('acc-equip-placeholder'); matDisp.style.color = ''; }
+    if (nameDisp) { nameDisp.innerText = item.name; nameDisp.classList.remove('acc-equip-placeholder'); }
+    if (matDisp) { matDisp.innerHTML = `${item.mat}`; matDisp.classList.remove('acc-equip-placeholder'); }
     
     let starOverlay = document.getElementById('acc-overlay-star');
     if (acc_stars >= 10) {
@@ -3435,7 +3423,6 @@ function acc_updateUI() {
         statDetailElem.innerHTML = statHtml;
     }
 
-    // 🌟 智慧聯動：抓取成功機率，自動算出維持機率 (其他裝飾自動抓取或補0)
     let inS = document.getElementById('acc-in-s');
     let inM = document.getElementById('acc-in-m');
     let inD = document.getElementById('acc-in-d');
@@ -3448,7 +3435,6 @@ function acc_updateUI() {
 
     if (acc_stars >= 10) { p_s = 0; p_m = 0; p_d = 0; p_r = 0; }
 
-    // 自動將算好的維持機率寫回輸入框
     if (inM && acc_stars < 10) inM.value = p_m.toFixed(0); 
 
     if (document.getElementById('acc-ui-prob-s')) document.getElementById('acc-ui-prob-s').innerText = p_s.toFixed(2) + "%";
@@ -3458,7 +3444,6 @@ function acc_updateUI() {
 
     if (document.getElementById('btn-acc-action')) document.getElementById('btn-acc-action').disabled = (acc_stars >= 10 || acc_isAnimating);
 
-    // 渲染動態統計區塊
     let statsContainer = document.getElementById('acc-stats-container');
     if (statsContainer && !item.isPlaceholder) {
         let statsHtmlContent = `
@@ -3479,14 +3464,13 @@ function acc_updateUI() {
                 
                 statsHtmlContent += `
                 <div class="acc-stat-hist-row ${isCurrent}">
-                    <div class="acc-hist-lv">+${i} <span class="arr">»</span> +${i+1}</div>
+                    <div class="acc-hist-lv"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
                     <div class="acc-hist-main">嘗試 <span class="val-try">${hist.attempts}</span> 次</div>
                     <div class="acc-hist-ev">${ev}</div>
                 </div>`;
             }
         }
-        statsHtmlContent += `</div>`;
-        statsHtmlContent += `
+        statsHtmlContent += `</div>
         <div class="acc-stats-footer">
             <span>總嘗試：<span class="val-try">${acc_attempts}</span></span>
             <span>成功：<span class="val-success">${acc_successes}</span></span>
@@ -3501,14 +3485,12 @@ function acc_executeEnhance() {
     if (acc_items[acc_selected_idx].isPlaceholder || acc_isAnimating || acc_stars >= 10) return;
     acc_isAnimating = true;
 
-    // 🚨 邏輯瘦身：只讀取成功機率
     let inS = document.getElementById('acc-in-s');
     let p_s = inS ? parseFloat(inS.value) || 0 : 0;
 
     let roll = Math.random() * 100;
     let isSuccess = false, isMaintain = false, isDecrease = false, isReset = false;
 
-    // 🚨 遊戲真實設定：只要沒中成功，就是維持
     if (roll < p_s) { isSuccess = true; }
     else { isMaintain = true; }
 
@@ -3523,8 +3505,7 @@ function acc_executeEnhance() {
         }
     }
     
-    // 🌟 改成讀取飾品專屬的音效變數
-    if (typeof acc_sfxSuccess !== 'undefined' && !acc_isMuted) {
+    if (!acc_isMuted) {
         let sfx = isSuccess ? acc_sfxSuccess : acc_sfxFail;
         sfx.currentTime = 0;
         sfx.play().catch(e => console.log("音效未啟用", e));
@@ -3648,14 +3629,12 @@ function acc_showResult(statusObj, oldStar, newStar) {
     let mStarTag = document.getElementById('acc-m-star-tag');
 
     if (newStar >= 10) {
-        // 🌟 彈出視窗滿星：補上 equipment/ 路徑，星星顯示 M
         if (mImg) mImg.src = `assets/equipment/紋章${item.name}.png`;
         if (mStarTag) {
             mStarTag.parentElement.style.display = 'flex';
             mStarTag.innerText = 'M';
         }
     } else {
-        // 🌟 彈出視窗普通：補上 equipment/ 路徑，顯示當前星數
         if (mImg) mImg.src = `assets/equipment/${item.name}.png`;
         if (mStarTag) {
             mStarTag.parentElement.style.display = 'flex';
@@ -3664,7 +3643,6 @@ function acc_showResult(statusObj, oldStar, newStar) {
     }
     
     if (mImg) mImg.style.display = ''; 
-    
     if (document.getElementById('acc-m-equip-name')) document.getElementById('acc-m-equip-name').innerText = item.name;
     
     let attemptsElem = document.getElementById('acc-m-attempts-text');
@@ -3680,7 +3658,6 @@ function acc_showResult(statusObj, oldStar, newStar) {
 
     if (oldStar !== newStar) {
         acc_current_level_attempts = 0; 
-        
         if (newStar < 10) {
             let inS = document.getElementById('acc-in-s');
             let inM = document.getElementById('acc-in-m');
@@ -3711,7 +3688,6 @@ function acc_reset() {
     acc_successes = 0;
     acc_fails = 0;
     acc_current_emblem = ""; 
-    
     acc_current_level_attempts = 0;
     acc_stats_history = Array.from({length: 10}, () => ({ attempts: 0, fails: 0 }));
     
@@ -3748,7 +3724,6 @@ const emb_stats_data = [
 ];
 
 // 2. 升級機率與材料資料庫 (升級 "前往" 該等級所需)
-// Index 0 是對應 Lv.1 升 Lv.2，以此類推。
 const emb_rate_data = [
     { baseRate: 80, maxMat: 2, matName: "紋章的痕跡" },       // 1->2
     { baseRate: 60, maxMat: 2, matName: "紋章的痕跡" },       // 2->3
@@ -3766,18 +3741,19 @@ const emb_rate_data = [
     { baseRate: 5, maxMat: 6, matName: "混沌紋章的痕跡" }      // 14->15
 ];
 
+const emb_sfxSuccess = new Audio('assets/Enchant.wav'); 
+const emb_sfxFail = new Audio('assets/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
+
 // 狀態變數
-let emb_lv = 5; // 預設從 Lv.5 開始
+let emb_lv = 5; 
 let emb_mat_count = 1;
 let emb_isAnimating = false;
 let emb_attempts = 0;
 let emb_successes = 0;
 let emb_fails = 0;
 let emb_current_level_attempts = 0;
-let emb_isMuted = false; // 🌟 紋章專屬音效狀態
-
-const emb_sfxSuccess = new Audio('assets/你的紋章成功音效.wav'); 
-const emb_sfxFail = new Audio('assets/你的紋章失敗音效.wav');
+let emb_isMuted = false; 
+let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
 
 function emb_toggleSound() {
     emb_isMuted = !emb_isMuted;
@@ -3790,11 +3766,8 @@ function emb_toggleSound() {
         gtag('event', 'toggle_sound', { 'simulator': 'emb_enhance', 'sound_status': emb_isMuted ? 'off' : 'on' });
     }
 }
-let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
 
-document.addEventListener('DOMContentLoaded', () => {
-    emb_updateUI();
-});
+document.addEventListener('DOMContentLoaded', () => { emb_updateUI(); });
 
 function emb_forceStateChange() {
     if (emb_isAnimating) return;
@@ -3822,31 +3795,25 @@ function emb_setMaxMat() {
 function emb_updateUI() {
     document.getElementById('emb-lv-select').value = emb_lv;
     
-    // 渲染屬性區塊
     let currData = emb_stats_data[emb_lv - 1];
     let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
     
     document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
     
-    // 🌟 動態更新主畫面菱形內的數字
-    // 🌟 動態更新主畫面菱形內的數字與底色
     let diamondLvElem = document.getElementById('emb-ui-diamond-lv');
     let diamondBadgeElem = document.getElementById('emb-ui-diamond-badge');
     
     if (diamondLvElem) diamondLvElem.innerText = emb_lv;
     if (diamondBadgeElem) {
-        // 判斷是否大於等於 10 (雙位數)
         let doubleClass = emb_lv >= 10 ? ' is-double' : '';
-        // 組合 Class：基礎 + 藍紫切換 + 雙位數偏移
         diamondBadgeElem.className = 'emb-diamond-badge ' + (emb_lv >= 8 ? 'emb-bg-purple' : 'emb-bg-blue') + doubleClass;
     }
     
     let nextLvElem = document.getElementById('emb-ui-next-lv');
-    nextLvElem.innerText = emb_lv >= 15 ? "MAX" : (emb_lv + 1);
+    if (nextLvElem) nextLvElem.innerText = emb_lv >= 15 ? "MAX" : (emb_lv + 1);
     
     let statHtml = '';
     
-    // 判斷是否顯示最大傷害 (大於 0 顯示)
     if (nextData.maxDmg > 0 || currData.maxDmg > 0) {
         let increase = nextData.maxDmg - currData.maxDmg;
         statHtml += `
@@ -3859,7 +3826,6 @@ function emb_updateUI() {
             </div>`;
     }
     
-    // 致命攻擊傷害
     let critInc = (nextData.critDmg - currData.critDmg).toFixed(1);
     statHtml += `
         <div class="emb-stat-item">
@@ -3870,36 +3836,33 @@ function emb_updateUI() {
             </span>
         </div>`;
         
-    document.getElementById('emb-ui-stat-list').innerHTML = statHtml;
+    if (document.getElementById('emb-ui-stat-list')) document.getElementById('emb-ui-stat-list').innerHTML = statHtml;
 
-    // 渲染材料與機率
     let btnAction = document.getElementById('btn-emb-action');
     let ctrlWrap = document.getElementById('emb-ui-controller-wrap');
     
     if (emb_lv >= 15) {
-        document.getElementById('emb-ui-prob-s').innerText = "0%";
-        document.getElementById('emb-ui-prob-m').innerText = "0%";
-        ctrlWrap.classList.add('disabled');
-        btnAction.disabled = true;
+        if (document.getElementById('emb-ui-prob-s')) document.getElementById('emb-ui-prob-s').innerText = "0%";
+        if (document.getElementById('emb-ui-prob-m')) document.getElementById('emb-ui-prob-m').innerText = "0%";
+        if (ctrlWrap) ctrlWrap.classList.add('disabled');
+        if (btnAction) btnAction.disabled = true;
     } else {
         let rateInfo = emb_rate_data[emb_lv - 1];
-        document.getElementById('emb-ui-img-mat').src = `assets/${rateInfo.matName}.png`;
+        if (document.getElementById('emb-ui-img-mat')) document.getElementById('emb-ui-img-mat').src = `assets/${rateInfo.matName}.png`;
         
         let successRate = Math.min(100, rateInfo.baseRate * emb_mat_count);
         let maintainRate = 100 - successRate;
         
-        document.getElementById('emb-ui-prob-s').innerText = successRate + "%";
-        document.getElementById('emb-ui-prob-m').innerText = maintainRate + "%";
+        if (document.getElementById('emb-ui-prob-s')) document.getElementById('emb-ui-prob-s').innerText = successRate + "%";
+        if (document.getElementById('emb-ui-prob-m')) document.getElementById('emb-ui-prob-m').innerText = maintainRate + "%";
         
-        document.getElementById('emb-ui-mat-curr').innerText = emb_mat_count;
-        document.getElementById('emb-ui-mat-max').innerText = rateInfo.maxMat;
+        if (document.getElementById('emb-ui-mat-curr')) document.getElementById('emb-ui-mat-curr').innerText = emb_mat_count;
+        if (document.getElementById('emb-ui-mat-max')) document.getElementById('emb-ui-mat-max').innerText = rateInfo.maxMat;
         
-        
-        ctrlWrap.classList.remove('disabled');
-        btnAction.disabled = false;
+        if (ctrlWrap) ctrlWrap.classList.remove('disabled');
+        if (btnAction) btnAction.disabled = false;
     }
 
-    // 渲染統計
     let statsContainer = document.getElementById('emb-stats-container');
     if (statsContainer) {
         let statsHtmlContent = `
@@ -3913,21 +3876,19 @@ function emb_updateUI() {
         for (let i = 1; i < 15; i++) {
             let hist = emb_stats_history[i];
             let rateInfo = emb_rate_data[i - 1];
-            // 期望值以單顆材料的 baseRate 計算
             let ev = rateInfo.baseRate > 0 ? (100 / rateInfo.baseRate).toFixed(2) : "∞";
             
             if (hist.attempts > 0 || i === emb_lv) {
                 let isCurrent = (i === emb_lv) ? 'current-lv' : '';
                 statsHtmlContent += `
                 <div class="acc-stat-hist-row ${isCurrent}">
-                    <div class="acc-hist-lv">Lv.${i} <span class="arr">»</span> ${i+1}</div>
+                    <div class="acc-hist-lv"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
                     <div class="acc-hist-main">嘗試 <span class="val-try">${hist.attempts}</span> 次</div>
                     <div class="acc-hist-ev">${ev}</div>
                 </div>`;
             }
         }
-        statsHtmlContent += `</div>`;
-        statsHtmlContent += `
+        statsHtmlContent += `</div>
         <div class="acc-stats-footer">
             <span>總嘗試：<span class="val-try">${emb_attempts}</span></span>
             <span>成功：<span class="val-success">${emb_successes}</span></span>
@@ -3958,9 +3919,8 @@ function emb_executeEnhance() {
         emb_fails++;
     }
 
-    // 🌟 改成讀取紋章專屬的音效變數
-    if (typeof acc_sfxSuccess !== 'undefined' && !emb_isMuted) {
-        let sfx = isSuccess ? emb_sfxSuccess : acc_sfxFail; 
+    if (!emb_isMuted) {
+        let sfx = isSuccess ? emb_sfxSuccess : emb_sfxFail; 
         sfx.currentTime = 0;
         sfx.play().catch(e => console.log("音效未啟用", e));
     }
@@ -3989,26 +3949,19 @@ function emb_showResult(isSuccess, oldLv, newLv) {
     let modal = document.getElementById('emb-result-modal');
     if (!modal) return;
 
-    // 1. 更新標題
-    document.getElementById('emb-m-title').innerText = isSuccess ? "紋章強化成功" : "紋章強化失敗";
-
-    // 2. 更新等級與箭頭區塊
-    document.getElementById('emb-m-old-lv').innerText = oldLv;
-    document.getElementById('emb-m-new-lv').innerText = newLv;
+    if (document.getElementById('emb-m-title')) document.getElementById('emb-m-title').innerText = isSuccess ? "紋章強化成功" : "紋章強化失敗";
+    if (document.getElementById('emb-m-old-lv')) document.getElementById('emb-m-old-lv').innerText = oldLv;
+    if (document.getElementById('emb-m-new-lv')) document.getElementById('emb-m-new-lv').innerText = newLv;
     
-    // 3. 動態更新彈出視窗菱形內的數字
     let mDiamondLvElem = document.getElementById('emb-m-diamond-lv');
     let mDiamondBadgeElem = document.getElementById('emb-m-diamond-badge');
     
     if (mDiamondLvElem) mDiamondLvElem.innerText = newLv;
     if (mDiamondBadgeElem) {
-        // 判斷是否大於等於 10 (雙位數)
         let doubleClass = newLv >= 10 ? ' is-double' : '';
-        // 組合 Class：基礎 + 藍紫切換 + 雙位數偏移
         mDiamondBadgeElem.className = 'emb-diamond-badge ' + (newLv >= 8 ? 'emb-bg-purple' : 'emb-bg-blue') + doubleClass;
     }
 
-    // 4. 更新屬性變化
     let oldData = emb_stats_data[oldLv - 1];
     let newData = emb_stats_data[newLv - 1];
     let statHtml = '';
@@ -4035,23 +3988,22 @@ function emb_showResult(isSuccess, oldLv, newLv) {
             </span>
         </div>`;
         
-    document.getElementById('emb-m-stat-list').innerHTML = statHtml;
+    if (document.getElementById('emb-m-stat-list')) document.getElementById('emb-m-stat-list').innerHTML = statHtml;
 
-    // 5. 更新累積次數
     let attemptsElem = document.getElementById('emb-m-attempts-text');
     if (attemptsElem) {
         attemptsElem.innerHTML = `累積強化 <span class="acc-m-attempts-num">${emb_current_level_attempts}</span> 次`;
     }
 
-    // 6. 更新金幣顯示 (顏色統一由 CSS 管理)
     let costBox = document.getElementById('emb-m-bottom-cost');
-    if (isSuccess) {
-        costBox.innerHTML = `1,204 <span>(▲1,204)</span>`;
-    } else {
-        costBox.innerHTML = `1,204`;
+    if (costBox) {
+        if (isSuccess) {
+            costBox.innerHTML = `1,204 <span>(▲1,204)</span>`;
+        } else {
+            costBox.innerHTML = `1,204`;
+        }
     }
 
-    // 7. 如果成功，重置當前等級的累積次數與材料數量
     if (isSuccess) {
         emb_current_level_attempts = 0; 
         emb_mat_count = 1; 
