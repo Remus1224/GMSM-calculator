@@ -1137,8 +1137,8 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* 2. 裝備等級遮罩 */
 .equip-badge-lv {
     position: absolute; bottom: 4px; right: 3px;
+    font-size: 10px;
     background-color: rgba(17, 17, 17, 1); color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif; font-size: 10px;
     letter-spacing: -0.1px; line-height: 1.2; 
     border-radius: 11px; border: none; z-index: 15; text-align: center; box-sizing: border-box;
     min-width: auto !important; 
@@ -1364,7 +1364,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     /* 🌟 魔法招式：等比例縮小！ */
     .emb-diamond-badge { transform: scale(0.9) !important; transform-origin: top left !important; }
     .equip-badge-star { transform: scale(0.9) !important; transform-origin: top right !important; }
-    .equip-badge-lv { transform: scale(1) !important; transform-origin: bottom right !important; bottom: 3px !important; right: 3px !important; }
+    .equip-badge-lv { transform: scale(1) !important; transform-origin: bottom right !important; bottom: 3px !important; right: 3px !important;  padding: 1px 3px !important; font-size: 10px;}
 
     /* 👇 菱形遮罩：手機版個別位置微調 */
     #emb-ui-diamond-badge  { top: 10px !important; left: -3px !important; }
@@ -1376,8 +1376,8 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-m-diamond-badge    { top: 14px !important; left: -3px !important; width: 27px; }
 
     /* 👇 等級遮罩：手機版個別位置微調 */
-    #cr-m-lv-badge { bottom: 4px !important; right: 5px !important; }
-    #tr-m-lv-badge, #tr-m-scr-lv-badge { bottom: 4px !important; right: 5px !important; }
+    #cr-m-lv-badge { bottom: 4px !important; right: 4px !important; }
+    #tr-m-lv-badge, #tr-m-scr-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 5px !important;}
     #emb-m-lv-badge { bottom: 3px !important; right: 3px !important; }
 
     /* 👇 星星遮罩：手機版個別位置微調 */
