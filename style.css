@@ -695,7 +695,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .item-col { display: flex; flex-direction: column; align-items: center; width: 140px;}
 .img-box { width: 85px; height: 85px; background-color: #e4e6e9; border: 1px solid #dcdde1; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 45px; margin-bottom: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); position: relative; }
 .img-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; filter: none !important; }
-.dynamic-lv-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(17, 17, 17, 0.9); color: #ffffff !important; font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: -0.1px; line-height: 1; padding: 2px 0px; border-radius: 10px; border: none; z-index: 10; min-width: 36px; text-align: center; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+.dynamic-lv-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(17, 17, 17, 1); color: #ffffff !important; font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: -0.1px; line-height: 1; padding: 2px 0px; border-radius: 10px; border: none; z-index: 10; min-width: 36px; text-align: center; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 .equip-name { font-size: 12px; font-weight: bold; color: #333 !important; margin-bottom: 5px; text-align: center; width: 160px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; }
 
 .fail-text { font-size: 12px; color: #888 !important; }
@@ -818,6 +818,13 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 #tab-will .will-font-20 { font-size: 20px !important; }
 #tab-will .will-mt-3 { margin-top: 3px; }
 #tab-will .will-ml-4 { margin-left: 4px; }
+#tab-will input:focus,
+#tab-will select:focus {
+    /* 強制覆蓋全域的死白背景，改回原本的半透明微黑底色 */
+    background-color: rgba(0, 0, 0, 0.5) !important; 
+    /* 確保打字時的文字依然是清楚的白色 */
+    color: #ffffff !important; 
+}
 
 #ms-player-hud { position: absolute; top: 0; left: 0; z-index: 150; pointer-events: none; display: flex; flex-direction: column; gap: 2px; font-family: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; letter-spacing: 0.5px; background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 75%, transparent 100%); padding: 12px 40px 12px 12px; border-radius: 0; }
 .ms-lv, #ms-name-text, .ms-stat-text { text-shadow: -1px -1px 0 #111, 1px -1px 0 #111, -1px 1px 0 #111, 1px 1px 0 #111, 0px 2px 2px rgba(0,0,0,0.8) !important; -webkit-text-stroke: 0px transparent !important; }
@@ -961,7 +968,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 #acc-ui-lv-sec { padding: 20px 0; }
 #acc-ui-lv-text { display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 24px; }
 .acc-lv-text .acc-lv-next { font-size: inherit !important; color: inherit !important; }
-.acc-lv-arrow { color: #555555; font-size: 24px; margin: 0 100px; }
+.acc-lv-arrow { color: #f3724c; font-size: 24px; margin: 0 100px; }
 
 #acc-ui-grey-sec { padding: 15px 20px; overflow: hidden; }
 #acc-ui-grey-sec .divider { width: calc(100% + 40px) !important; margin-left: -20px !important; }
@@ -1130,12 +1137,12 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* 2. 裝備等級遮罩 */
 .equip-badge-lv {
     position: absolute; bottom: 4px; right: 3px;
-    background-color: rgba(17, 17, 17, 0.9); color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif; font-size: 10px;
+    font-size: 10px;
+    background-color: rgba(17, 17, 17, 1); color: #ffffff;
     letter-spacing: -0.1px; line-height: 1.2; 
-    border-radius: 10px; border: none; z-index: 15; text-align: center; box-sizing: border-box;
+    border-radius: 11px; border: none; z-index: 15; text-align: center; box-sizing: border-box;
     min-width: auto !important; 
-    padding: 1px 6px !important; 
+    padding: 1px 5px !important; 
 }
 
 /* 3. 菱形紋章遮罩 */
@@ -1178,7 +1185,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* 💍 紋章強化模擬器 */
 #emb-ui-diamond-badge  { top: 14px !important; left: -2.5px !important; } 
 #emb-m-diamond-badge   { top: 14px !important; left: -2px !important; }   
-#emb-result-modal .emb-diamond-badge { top: 25px !important; left: -8px !important; }
+#emb-result-modal .emb-diamond-badge { top: 13px !important; left: -3px !important; }
 
 /* ⚔️ 超越強化模擬器 */
 #tr-ui-diamond-badge   { top: 16px !important; left: -3.5px !important; } 
@@ -1187,11 +1194,12 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 
 /* 🔨 製作模擬器 */
 #cr-ui-diamond-badge   { top: 14px !important; left: -3px !important; } 
-#cr-m-diamond-badge    { top: 13px !important; left: -3px !important; }   
+#cr-m-diamond-badge    { top: 13px !important; left: -3px !important; }
+#cr-m-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 7px !important;}   
 
 /* ⭐ 星星遮罩通用微調 */
 #tr-m-star-badge, #cr-m-star-badge { top: -2px !important; right: -4px !important; }
-#emb-m-star-badge { top: -5px !important; right: -5px !important; }
+#emb-m-star-badge { top: -2px !important; right: -4px !important; }
 
 
 /* ========================================================= */
@@ -1322,7 +1330,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #acc-stat-detail { flex-direction: row !important; justify-content: space-between !important; font-size: 11px !important; }
     #acc-stat-detail > div { white-space: nowrap !important; }
     #tab-acc-enhance .lv-text, #tab-acc-enhance .lv-next { font-size: 22px !important; }
-    #tab-acc-enhance .acc-lv-arrow { font-size: 22px !important; margin: 0 40px !important; }
+    #tab-acc-enhance .acc-lv-arrow { font-size: 22px !important; margin: 0 40px !important; color: #f3724c;}
     #tab-acc-enhance .acc-prob-wrapper { -webkit-text-size-adjust: 100%; }
     #tab-acc-enhance .acc-prob-label-s, #tab-acc-enhance .val-success { font-size: 22px !important; }
     #tab-acc-enhance .acc-prob-label, #tab-acc-enhance .val-neutral { font-size: 14px !important; }
@@ -1356,7 +1364,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     /* 🌟 魔法招式：等比例縮小！ */
     .emb-diamond-badge { transform: scale(0.9) !important; transform-origin: top left !important; }
     .equip-badge-star { transform: scale(0.9) !important; transform-origin: top right !important; }
-    .equip-badge-lv { transform: scale(1) !important; transform-origin: bottom right !important; bottom: 3px !important; right: 3px !important; }
+    .equip-badge-lv { transform: scale(1) !important; transform-origin: bottom right !important; bottom: 3px !important; right: 3px !important;  padding: 1px 3px !important; font-size: 10px;}
 
     /* 👇 菱形遮罩：手機版個別位置微調 */
     #emb-ui-diamond-badge  { top: 10px !important; left: -3px !important; }
@@ -1368,9 +1376,9 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #cr-m-diamond-badge    { top: 14px !important; left: -3px !important; width: 27px; }
 
     /* 👇 等級遮罩：手機版個別位置微調 */
-    #cr-m-lv-badge { bottom: 4px !important; right: 5px !important; }
-    #tr-m-lv-badge, #tr-m-scr-lv-badge { bottom: 4px !important; right: 5px !important; }
-    #emb-m-lv-badge { bottom: 3px !important; right: 3px !important; }
+    #cr-m-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 7px !important; min-width: 16px !important;}
+    #tr-m-lv-badge, #tr-m-scr-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 5px !important;}
+    #emb-m-lv-badge { bottom: 2px !important; right: 3px !important; padding: 1px 4px !important; }
 
     /* 👇 星星遮罩：手機版個別位置微調 */
     #tr-ui-star-badge      { top: -1px !important; right: -3px !important; }
@@ -1435,7 +1443,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 /* ========================================================= */
 /* 🚧 系統更新中：卡片禁用狀態 */
 /* ========================================================= */
-.app-card{
+/*.app-card{
     opacity: 0.5; 
     cursor: not-allowed; 
     pointer-events: none; 
@@ -1461,3 +1469,5 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
                 <h2>🚧 更新中 🚧</h2>
                 <p>請稍後再回來看看！</p>
             </div>
+            
+        <div class="app-grid">
