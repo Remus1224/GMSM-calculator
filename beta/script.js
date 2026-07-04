@@ -162,6 +162,7 @@ function switchTab(tabId) {
             'hexa-sim': 'HEXA目標策略模擬',
             'will': '威爾二階練習機',
             'acc-enhance': '飾品強化模擬器',
+            'emb-enhance': '紋章模擬器',
             'star': '星力強化模擬器',
         };
 
@@ -279,7 +280,10 @@ function emb_changeEquip() {
     // 更新主畫面
     let uiImg = document.getElementById('emb-ui-img-equip');
     let uiName = document.getElementById('emb-ui-equip-name');
-    if (uiImg) uiImg.src = item.img;
+    if (uiImg) { 
+        uiImg.src = item.img; 
+        uiImg.style.display = ''; // 👈 補上這行：強制解除 onerror 造成的 display: none
+    }
     if (uiName) uiName.innerText = item.name;
 
     // 動態控制主畫面遮罩
@@ -291,7 +295,10 @@ function emb_changeEquip() {
     // 更新彈出視窗
     let mImg = document.getElementById('emb-m-img');
     let mName = document.getElementById('emb-m-equip-name');
-    if (mImg) mImg.src = item.img;
+    if (mImg) { 
+        mImg.src = item.img; 
+        mImg.style.display = '';
+    }
     if (mName) mName.innerText = item.name;
 
     // 動態控制彈出視窗遮罩
@@ -769,7 +776,7 @@ function tr_updateUI() {
         container.classList.remove('scroll-mode-active');
         document.getElementById('ui-coin-box').style.display = 'flex';
 
-        let totalRate = baseRate + tr_bonus;
+        let totalRate = Math.min(100, baseRate + tr_bonus);
         let stoneName = "超越石"; 
         let imgSrc = "assets/超越石.png";
 
@@ -925,7 +932,7 @@ function tr_action_transcend() {
     tr_updateUI();
 
     let baseRate = tr_getSelectedRate('stone-rate', 'custom-stone-rate');
-    let totalRate = baseRate + tr_bonus;
+    let totalRate = Math.min(100, baseRate + tr_bonus);
     let roll = Math.random() * 100;
     let isSuccess = roll < totalRate;
 
@@ -3309,7 +3316,18 @@ function acc_forceStateChange() {
     acc_updateUI();
 }
 
-function acc_customProbChange() { acc_updateUI(); }
+function acc_customProbChange() {
+    let inS = document.getElementById('acc-in-s');
+    if (inS && inS.value !== "") {
+        let val = parseFloat(inS.value);
+        if (val > 100) {
+            inS.value = 100; // 超過 100 強制降回 100
+        } else if (val < 0) {
+            inS.value = 0;   // 避免玩家輸入負數來搞破壞
+        }
+    }
+    acc_updateUI();
+}
 
 function acc_updateUI() {
     let item = acc_items[acc_selected_idx];
@@ -3771,10 +3789,42 @@ document.addEventListener('DOMContentLoaded', () => { emb_updateUI(); });
 
 function emb_forceStateChange() {
     if (emb_isAnimating) return;
-    emb_lv = parseInt(document.getElementById('emb-lv-select').value) || 1;
+    
+    let selectElem = document.getElementById('emb-lv-select');
+    if (!selectElem) return; // 加入防呆檢查
+
+    emb_lv = parseInt(selectElem.value) || 1;
+    
+    // 如果手動選擇的等級小於 15，確保選單裡沒有 Lv.15
+    if (emb_lv < 15) {
+        let opt15 = selectElem.querySelector('option[value="15"]');
+        if (opt15) opt15.remove();
+    }
+    
     emb_mat_count = 1;
     emb_current_level_attempts = 0;
     emb_updateUI();
+}
+
+function emb_updateUI() {
+    let selectElem = document.getElementById('emb-lv-select');
+    if (selectElem) {
+        // 動態解鎖 Lv.15 選項
+        if (emb_lv === 15 && !selectElem.querySelector('option[value="15"]')) {
+            selectElem.insertAdjacentHTML('beforeend', `<option value="15">Lv.15</option>`);
+        }
+        selectElem.value = emb_lv; // 設定目前選中的值
+    }
+    
+    // 剩下的邏輯保持不變
+    let currData = emb_stats_data[emb_lv - 1];
+    let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
+    
+    // 更新介面數值
+    if (document.getElementById('emb-ui-curr-lv')) document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
+    
+    // ... (後續的渲染邏輯保持你原本寫的即可) ...
+    // ...
 }
 
 function emb_changeMat(amount) {
@@ -3793,10 +3843,21 @@ function emb_setMaxMat() {
 }
 
 function emb_updateUI() {
-    document.getElementById('emb-lv-select').value = emb_lv;
+    let selectElem = document.getElementById('emb-lv-select');
+    if (selectElem) {
+        // 動態解鎖 Lv.15 選項
+        if (emb_lv === 15 && !selectElem.querySelector('option[value="15"]')) {
+            selectElem.insertAdjacentHTML('beforeend', `<option value="15">Lv.15</option>`);
+        }
+        selectElem.value = emb_lv; // 設定目前選中的值
+    }
     
+    // 剩下的邏輯保持不變
     let currData = emb_stats_data[emb_lv - 1];
     let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
+    
+    // 更新介面數值
+    if (document.getElementById('emb-ui-curr-lv')) document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
     
     document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
     
@@ -4022,6 +4083,8 @@ function emb_closeResult() {
 
 function emb_reset() {
     if (emb_isAnimating) return;
+
+    // 1. 重設 JavaScript 變數
     emb_lv = 1;
     emb_mat_count = 1;
     emb_attempts = 0;
@@ -4030,5 +4093,16 @@ function emb_reset() {
     emb_current_level_attempts = 0;
     emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
     
+    // 2. 強制同步 HTML 選單狀態 (關鍵！)
+    let selectElem = document.getElementById('emb-lv-select');
+    if (selectElem) {
+        selectElem.value = "1"; // 強制選單歸零回 Lv.1
+        
+        // 確保 Lv.15 選項被移除
+        let opt15 = selectElem.querySelector('option[value="15"]');
+        if (opt15) opt15.remove();
+    }
+    
+    // 3. 最後再呼叫更新畫面
     emb_forceStateChange();
 }
