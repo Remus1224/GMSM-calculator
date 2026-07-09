@@ -159,7 +159,7 @@ function switchTab(tabId) {
             'hexa-visual': 'HEXA屬性模擬器',
             'hexa-lazy': 'HEXA懶人決策表',
             'hexa-reset': 'HEXA重置決策模擬',
-            'hexa-sim': 'HEXA目標策略模擬',
+            'hexa-sim': 'HEXA目標機率模擬',
             'will': '威爾二階練習機',
             'acc-enhance': '飾品強化模擬器',
             'emb-enhance': '紋章模擬器',
@@ -1369,9 +1369,14 @@ function checkHexaReset() {
     let c = parseInt(document.getElementById('reset-c').value) || 0;
     let rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
     let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
-    let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+    let targetSub1 = parseInt(document.getElementById('reset-target-sub').value) || 0;
+    let targetSub2 = document.getElementById('reset-target-sub2') ? parseInt(document.getElementById('reset-target-sub2').value) || 0 : 0;
 
     let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
+    
+    // 🌟 新增：讀取玩家選擇的是「或(OR)」還是「且(AND)」
+    let conditionRule = document.querySelector('input[name="reset-condition"]:checked');
+    let isAndMode = conditionRule ? (conditionRule.value === 'and') : false;
 
     let mainPanel = document.getElementById('res-main-panel');
     let detailPanel = document.getElementById('res-detail-panel');
@@ -1379,29 +1384,61 @@ function checkHexaReset() {
     let detailBox = document.getElementById('result-hexa-reset-details');
 
     if (a + b + c + rolls !== 20) {
-        mainPanel.style.display = 'block';
-        detailPanel.style.display = 'none';
+        mainPanel.style.display = 'block'; detailPanel.style.display = 'none';
+        mainBox.innerHTML = `<div class="error-msg" style="text-align: center;"><div style="color: #FF3B30; font-weight: bold;">⚠️ 錯誤</div>目前等級總和 + 剩餘次數必須等於 20！</div>`;
+        detailBox.innerHTML = ""; return;
+    }
+
+    if (targetA === 0 && targetSub1 === 0 && targetSub2 === 0) {
+        mainPanel.style.display = 'block'; detailPanel.style.display = 'none';
+        mainBox.innerHTML = `<div class="error-msg" style="text-align: center;"><div style="color: #FF3B30; font-weight: bold;">⚠️ 錯誤</div>請至少設定一項目標屬性！</div>`;
+        detailBox.innerHTML = ""; return;
+    }
+    
+    // ==========================================
+    // 🌟 雙模式動態防呆機制
+    // ==========================================
+    let currMaxStart = Math.max(b, c);
+    let currMinStart = Math.min(b, c);
+    
+    let reqA = targetA > 0 ? Math.max(0, targetA - a) : 0;
+    let reqS1 = targetSub1 > 0 ? Math.max(0, targetSub1 - currMaxStart) : 0;
+    let reqS2 = targetSub2 > 0 ? Math.max(0, targetSub2 - currMinStart) : 0;
+
+    let impossible = false;
+    let reqMsg = "";
+
+    if (isAndMode) {
+        // AND 模式：所有缺口加起來如果大於剩餘次數，絕對不可能達成
+        let totalReq = reqA + reqS1 + reqS2;
+        if (totalReq > rolls) {
+            impossible = true;
+            reqMsg = `您選擇「達成所有目標」，總共還需 <strong>${totalReq}</strong> 級，但只剩 <strong>${rolls}</strong> 次。`;
+        }
+    } else {
+        // OR 模式：最容易的一個目標如果都大於剩餘次數，才不可能達成
+        let arrReq = [];
+        if (targetA > 0) arrReq.push(reqA);
+        if (targetSub1 > 0) arrReq.push(reqS1);
+        if (targetSub2 > 0) arrReq.push(reqS2);
+        let minReq = Math.min(...arrReq);
+        if (minReq > rolls) {
+            impossible = true;
+            reqMsg = `您選擇「達成任一目標」，最容易的目標還需 <strong>${minReq}</strong> 級，但只剩 <strong>${rolls}</strong> 次。`;
+        }
+    }
+
+    if (impossible) {
+        mainPanel.style.display = 'block'; detailPanel.style.display = 'none';
         mainBox.innerHTML = `
             <div class="error-msg" style="text-align: center; line-height: 1.6;">
-                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
-                <div style="display: inline-block; text-align: left;">目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。</div>
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 數學上不可能達成</div>
+                <div style="display: inline-block; text-align: left;">${reqMsg}<br>物理上無法達成，建議立刻重置。</div>
             </div>`;
         detailBox.innerHTML = "";
         return;
     }
 
-    if (targetA === 0 && targetSub === 0) {
-        mainPanel.style.display = 'block';
-        detailPanel.style.display = 'none';
-        mainBox.innerHTML = `
-            <div class="error-msg" style="text-align: center; line-height: 1.6;">
-                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
-                <div>請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！</div>
-            </div>`;
-        detailBox.innerHTML = "";
-        return;
-    }
-    
     const trials = useMillionReset ? 1000000 : 30000;
     let gradSuccess = 0;
     let baseSuccess = 0;
@@ -1410,52 +1447,68 @@ function checkHexaReset() {
     let countB = new Array(11).fill(0);
     let countC = new Array(11).fill(0);
 
+    // 🌟 1. 模擬「目前狀態」
     for (let i = 0; i < trials; i++) {
         let simA = a, simB = b, simC = c;
-        
         for (let roll = 0; roll < rolls; roll++) {
-            if (Math.random() < getHexaProb(simA) && simA < 10) {
-                simA++;
-            } else {
-                if (Math.random() < 0.5) { 
-                    if (simB < 10) simB++; else simC++; 
-                } else { 
-                    if (simC < 10) simC++; else simB++; 
-                }
-            }
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else { if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } else { if (simC < 10) simC++; else simB++; } }
         }
 
         let maxSub = Math.max(simB, simC);
-        let passedA = (targetA > 0 && simA >= targetA);
-        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        let minSub = Math.min(simB, simC);
         
-        if (passedA || passedSub) gradSuccess++;
+        let passA = targetA > 0 ? (simA >= targetA) : false;
+        let passS1 = targetSub1 > 0 ? (maxSub >= targetSub1) : false;
+        let passS2 = targetSub2 > 0 ? (minSub >= targetSub2) : false;
+        
+        let isSuccess = false;
+        if (isAndMode) {
+            isSuccess = true; // 預設成功，只要有一個要求沒達成，就改為失敗
+            if (targetA > 0 && !passA) isSuccess = false;
+            if (targetSub1 > 0 && !passS1) isSuccess = false;
+            if (targetSub2 > 0 && !passS2) isSuccess = false;
+        } else {
+            isSuccess = passA || passS1 || passS2;
+        }
+        
+        if (isSuccess) gradSuccess++;
 
-        countA[simA]++;
-        countB[simB]++;
-        countC[simC]++;
+        countA[simA]++; countB[simB]++; countC[simC]++;
     }
 
+    // 🌟 2. 模擬「全新核心 (0,0,0)」
     for (let i = 0; i < trials; i++) {
         let simA = 0, simB = 0, simC = 0;
-        
         for (let roll = 0; roll < 20; roll++) {
-            if (Math.random() < getHexaProb(simA) && simA < 10) {
-                simA++;
-            } else {
-                if (Math.random() < 0.5) { 
-                    if (simB < 10) simB++; else simC++; 
-                } else { 
-                    if (simC < 10) simC++; else simB++; 
-                }
-            }
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else { if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } else { if (simC < 10) simC++; else simB++; } }
         }
         
         let maxSub = Math.max(simB, simC);
-        let passedA = (targetA > 0 && simA >= targetA);
-        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        let minSub = Math.min(simB, simC);
         
-        if (passedA || passedSub) baseSuccess++;
+        let passA = targetA > 0 ? (simA >= targetA) : false;
+        let passS1 = targetSub1 > 0 ? (maxSub >= targetSub1) : false;
+        let passS2 = targetSub2 > 0 ? (minSub >= targetSub2) : false;
+        
+        let isSuccess = false;
+        if (isAndMode) {
+            isSuccess = true;
+            if (targetA > 0 && !passA) isSuccess = false;
+            if (targetSub1 > 0 && !passS1) isSuccess = false;
+            if (targetSub2 > 0 && !passS2) isSuccess = false;
+        } else {
+            isSuccess = passA || passS1 || passS2;
+        }
+        
+        if (isSuccess) baseSuccess++;
+    }
+
+    function formatProb(p) {
+        if (p === 0) return "0.00%";
+        if (p < 0.01) return p.toFixed(4) + "%";
+        return p.toFixed(2) + "%";
     }
 
     let winRate = (gradSuccess / trials) * 100;
@@ -1465,11 +1518,11 @@ function checkHexaReset() {
     if (winRate === 0) {
         suggestion = "無法達成 (機率為 0%)，請立刻重置。";
     } else if (winRate >= baseWinRate * 3) {
-        suggestion = `歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
+        suggestion = `歐洲人！(目前勝率 ${formatProb(winRate)} > 全新 ${formatProb(baseWinRate)}，衝！)`;
     } else if (winRate >= baseWinRate) {
-        suggestion = `狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+        suggestion = `狀態不錯！(目前勝率 ${formatProb(winRate)} > 全新 ${formatProb(baseWinRate)}，繼續)`;
     } else if (winRate >= baseWinRate * 0.5) {
-        suggestion = `狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
+        suggestion = `狀態偏弱 (目前勝率 ${formatProb(winRate)} < 全新 ${formatProb(baseWinRate)}，建議重置)`;
     } else {
         suggestion = `狀態極差 (機率遠低於從頭來過，立刻重置)`;
     }
@@ -1477,33 +1530,29 @@ function checkHexaReset() {
     mainPanel.style.display = 'block';
     detailPanel.style.display = 'block';
 
+    let conditionText = isAndMode ? "(達成所有目標)" : "(達成任一目標)";
+
     mainBox.innerHTML = `
-        <div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">預估畢業勝率：${winRate.toFixed(2)}%</div>
+        <div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">預估畢業勝率 <span style="font-size: 14px; font-weight: normal; color: #888;">${conditionText}</span>：${formatProb(winRate)}</div>
         <div style="font-size: 15px; color: ${winRate >= baseWinRate ? '#34C759' : '#FF3B30'}; font-weight: 600;">${suggestion}</div>
     `;
 
     let htmlA = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#007AFF; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【主屬性 (A)】</div>`;
-    for (let i = Math.max(0, a); i <= 10; i++) {
-        htmlA += `<div style="margin-bottom: 4px;">• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%</div>`;
-    }
+    for (let i = Math.max(0, a); i <= 10; i++) { htmlA += `<div style="margin-bottom: 4px;">• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%</div>`; }
     htmlA += `</div>`;
 
     let htmlB = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF3B30; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (B)】</div>`;
-    for (let i = Math.max(0, b); i <= 10; i++) {
-        htmlB += `<div style="margin-bottom: 4px;">• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%</div>`;
-    }
+    for (let i = Math.max(0, b); i <= 10; i++) { htmlB += `<div style="margin-bottom: 4px;">• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%</div>`; }
     htmlB += `</div>`;
 
     let htmlC = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF9500; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (C)】</div>`;
-    for (let i = Math.max(0, c); i <= 10; i++) {
-        htmlC += `<div style="margin-bottom: 4px;">• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%</div>`;
-    }
+    for (let i = Math.max(0, c); i <= 10; i++) { htmlC += `<div style="margin-bottom: 4px;">• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%</div>`; }
     htmlC += `</div>`;
 
     detailBox.innerHTML = `
         <div style="width:100%; text-align: left; font-size: 14px; color: var(--text-main, #333);">
             <strong style="display:block; margin-bottom: 6px; font-size: 15px;">點完後可能性的機率分佈：</strong>
-            <span style="font-size: 13px; color: var(--text-muted, #888); display: block; margin-bottom: 15px;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span>
+            <span style="font-size: 13px; color: var(--text-muted, #888); display: block; margin-bottom: 15px;">(全新核心達成機率約為 ${formatProb(baseWinRate)})</span>
             <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
                 ${htmlA}${htmlB}${htmlC}
             </div>
@@ -1560,23 +1609,26 @@ function runHexaSimulation() {
     let currMaxStart = Math.max(sB, sC);
     let currMinStart = Math.min(sB, sC);
     
-    // 計算為了達到設定的目標，"最少"還需要幾次成功升級？
-    let reqA = tA > 0 ? Math.max(0, tA - sA) : 0;
-    let reqS1 = tSub1 > 0 ? Math.max(0, tSub1 - currMaxStart) : 0;
-    let reqS2 = tSub2 > 0 ? Math.max(0, tSub2 - currMinStart) : 0;
+    // 如果該目標沒有設定，就設為 Infinity (無限大)，讓它不參與最少次數的計算
+    let reqA = tA > 0 ? Math.max(0, tA - sA) : Infinity;
+    let reqS1 = tSub1 > 0 ? Math.max(0, tSub1 - currMaxStart) : Infinity;
+    let reqS2 = tSub2 > 0 ? Math.max(0, tSub2 - currMinStart) : Infinity;
 
-    if (reqA + reqS1 + reqS2 > rolls) {
+    // 找出「最容易達成」的目標，還需要幾次？
+    let minReq = Math.min(reqA, reqS1, reqS2);
+
+    if (minReq > rolls) {
         resBox.style.display = 'block';
         resBox.innerHTML = `
             <div class="error-msg" style="text-align: center; line-height: 1.6;">
                 <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 數學上不可能達成</div>
                 <div style="display: inline-block; text-align: left;">
-                    您的目標總共還需要升級 <strong>${reqA + reqS1 + reqS2}</strong> 級，<br>
-                    但目前只剩下 <strong>${rolls}</strong> 次點擊機會，這在理論上是不可能達成的喔！<br>
+                    您設定的目標中，最容易的一個都還需要 <strong>${minReq}</strong> 級，<br>
+                    但目前只剩下 <strong>${rolls}</strong> 次點擊機會，這在物理上是不可能達成的！<br>
                     請調低目標或重新確認起始狀態。
                 </div>
             </div>`;
-        return; // 直接中斷，連模擬都不用跑了！
+        return; 
     }
 
     const trials = useMillion ? 1000000 : 100000;
