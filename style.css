@@ -189,7 +189,7 @@ body {
     text-size-adjust: 100%;
 }
 
-.top-header-section { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; }
+.top-header-section { display: flex; flex-direction: column; align-items: center; width: 100%;  }
 .main-site-title { margin: 0 0 15px 0; font-size: 26px; font-weight: 900; color: var(--text-main); text-align: center; }
 .top-nav-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0px; width: 100%; margin-bottom: 20px; }
 .left-side { justify-self: end; }
@@ -349,7 +349,7 @@ body {
 /* 全局容器與卡片 */
 .container { 
     background: transparent !important; border: none !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
-    padding: 10px 20px; max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap; gap: 20px; align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 3vh auto 20px auto;
+    padding: 10px 20px; max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap;  align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 3vh auto 20px auto;
 }
 .container:has(#tab-transcend.active), .container:has(#tab-craft.active), .container:has(#tab-hexa-visual.active), .container:has(#tab-ignore.active), .container:has(#tab-acc-enhance.active) { max-width: 900px; }
 
