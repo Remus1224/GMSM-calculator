@@ -11,7 +11,7 @@ function toggleTheme() {
 
     if (isDark) {
         // 切換回淺色模式
-        htmlElement.removeAttribute('data-theme'); 
+        htmlElement.removeAttribute('data-theme');
         if (themeBtn) themeBtn.innerText = '🌙';
     } else {
         // 切換到暗色模式
@@ -1526,9 +1526,12 @@ function runHexaSimulation() {
     let rolls = valRolls === "" ? 20 : parseInt(valRolls);
 
     let valTa = document.getElementById('target-a').value;
-    let valTsub = document.getElementById('target-sub').value;
+    let valTsub1 = document.getElementById('target-sub').value;
+    let valTsub2 = document.getElementById('reset-target-sub2') ? document.getElementById('reset-target-sub2').value : "";
+
     let tA = valTa === "" ? 0 : parseInt(valTa);
-    let tSub = valTsub === "" ? 0 : parseInt(valTsub);
+    let tSub1 = valTsub1 === "" ? 0 : parseInt(valTsub1);
+    let tSub2 = valTsub2 === "" ? 0 : parseInt(valTsub2);
 
     let useStopLoss = document.getElementById('sim-stoploss').checked;
     let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
@@ -1544,7 +1547,7 @@ function runHexaSimulation() {
         return;
     }
 
-    if (tA === 0 && tSub === 0) {
+    if (tA === 0 && tSub1 === 0 && tSub2 === 0) {
         resBox.style.display = 'block';
         resBox.innerHTML = `
             <div class="error-msg" style="text-align: center; line-height: 1.6;">
@@ -1554,45 +1557,89 @@ function runHexaSimulation() {
         return;
     }
 
-    const trials = useMillion ? 1000000 : 100000;
-    let cSuccess = 0;
-    let cHitA = 0;
-    let cHitSub = 0;
-    let cHitBoth = 0;
-    let tFrag = 0;
+    let currMaxStart = Math.max(sB, sC);
+    let currMinStart = Math.min(sB, sC);
     
-    let isGolden = (useStopLoss && tSub === 0 && (tA === 10 || tA === 9));
+    // 計算為了達到設定的目標，"最少"還需要幾次成功升級？
+    let reqA = tA > 0 ? Math.max(0, tA - sA) : 0;
+    let reqS1 = tSub1 > 0 ? Math.max(0, tSub1 - currMaxStart) : 0;
+    let reqS2 = tSub2 > 0 ? Math.max(0, tSub2 - currMinStart) : 0;
+
+    if (reqA + reqS1 + reqS2 > rolls) {
+        resBox.style.display = 'block';
+        resBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 數學上不可能達成</div>
+                <div style="display: inline-block; text-align: left;">
+                    您的目標總共還需要升級 <strong>${reqA + reqS1 + reqS2}</strong> 級，<br>
+                    但目前只剩下 <strong>${rolls}</strong> 次點擊機會，這在理論上是不可能達成的喔！<br>
+                    請調低目標或重新確認起始狀態。
+                </div>
+            </div>`;
+        return; // 直接中斷，連模擬都不用跑了！
+    }
+
+    const trials = useMillion ? 1000000 : 100000;
+    
+    // 統計變數
+    let cHitA = 0;
+    let cHitSub1 = 0;
+    let cHitSub2 = 0;
+    let cHitAny = 0;   // 達成任一目標
+    let cHitAll = 0;   // 同時達成所有目標
+
+    let totalFragFirst = 0; // 達成任一目標所耗費的總碎片
+    let totalFragAll = 0;   // 達成所有目標所耗費的總碎片
+
+    let hasA = tA > 0;
+    let hasS1 = tSub1 > 0;
+    let hasS2 = tSub2 > 0;
+    let targetCount = (hasA ? 1 : 0) + (hasS1 ? 1 : 0) + (hasS2 ? 1 : 0);
 
     for (let i = 0; i < trials; i++) {
-        let a = sA, b = sB, c = sC, attFrag = 0, success = false;
+        let a = sA, b = sB, c = sC;
+        let attFrag = 0;
+        let hitFirstFrag = -1;
 
-        if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
-            success = true;
-        }
+        // 檢查初始狀態是否就已經達標
+        let startHitAny = (hasA && sA >= tA) || (hasS1 && Math.max(sB, sC) >= tSub1) || (hasS2 && Math.min(sB, sC) >= tSub2);
+        let startHitAll = (hasA ? sA >= tA : true) && (hasS1 ? Math.max(sB, sC) >= tSub1 : true) && (hasS2 ? Math.min(sB, sC) >= tSub2 : true);
 
-        for (let r = 0; r < rolls && !success; r++) {
+        if (startHitAny) hitFirstFrag = 0;
+
+        for (let r = 0; r < rolls; r++) {
+            if (startHitAll) break; // 一開始就完美達標，不需要點
+
             let currMax = Math.max(b, c);
-            let currentTotalRolls = sA + sB + sC + r;
+            let currMin = Math.min(b, c);
+
+            let passA = hasA ? (a >= tA) : true;
+            let passS1 = hasS1 ? (currMax >= tSub1) : true;
+            let passS2 = hasS2 ? (currMin >= tSub2) : true;
+
+            // 如果三個目標都達成了，直接收工不浪費碎片
+            if (passA && passS1 && passS2) {
+                break;
+            }
 
             if (useStopLoss) {
-                let rem = rolls - r;
-                let canHitA = (tA > 0) ? (a + rem >= tA) : false;
-                let canHitSub = (tSub > 0) ? (currMax + rem >= tSub) : false;
+                let remaining = rolls - r;
+                
+                // 評估剩下的次數，還有沒有機會救活任何一個目標？
+                let posA = (hasA && !passA) ? (a + remaining >= tA) : false;
+                let posS1 = (hasS1 && !passS1) ? (currMax + remaining >= tSub1) : false;
+                let posS2 = (hasS2 && !passS2) ? (currMin + remaining >= tSub2) : false;
 
-                let possible = false;
-                if (tA > 0 && tSub > 0) {
-                    possible = (canHitA || canHitSub);
-                } else if (tA > 0) {
-                    possible = canHitA;
-                } else if (tSub > 0) {
-                    possible = canHitSub;
+                // 經典主屬 10 次未達 5 退場機制
+                let currentTotalRolls = sA + sB + sC + r;
+                if (currentTotalRolls === 10) {
+                    if (tA === 10 && a < 5) posA = false;
+                    if (tA === 9 && a < 4) posA = false;
                 }
 
-                if (!possible) break;
-
-                if (currentTotalRolls === 10 && tSub === 0) {
-                    if (tA === 10 && a < 5) break;
-                    if (tA === 9 && a < 4) break;
+                // 如果「所有的」目標都徹底沒救了，才提早放棄
+                if (!posA && !posS1 && !posS2) {
+                    break;
                 }
             }
 
@@ -1608,37 +1655,56 @@ function runHexaSimulation() {
                 }
             }
 
-            if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
-                success = true;
+            // 紀錄第一次達標當下的碎片花費
+            if (hitFirstFrag === -1) {
+                let nMax = Math.max(b, c);
+                let nMin = Math.min(b, c);
+                if ((hasA && a >= tA) || (hasS1 && nMax >= tSub1) || (hasS2 && nMin >= tSub2)) {
+                    hitFirstFrag = attFrag;
+                }
             }
         }
+
+        // 最終結算這次模擬的結果
+        let finalMax = Math.max(b, c);
+        let finalMin = Math.min(b, c);
+
+        let finalPassA = hasA && (a >= tA);
+        let finalPassS1 = hasS1 && (finalMax >= tSub1);
+        let finalPassS2 = hasS2 && (finalMin >= tSub2);
+
+        let hitAny = finalPassA || finalPassS1 || finalPassS2;
+        let hitAll = (hasA ? finalPassA : true) && (hasS1 ? finalPassS1 : true) && (hasS2 ? finalPassS2 : true);
+
+        if (finalPassA) cHitA++;
+        if (finalPassS1) cHitSub1++;
+        if (finalPassS2) cHitSub2++;
+
+        if (hitAny) {
+            cHitAny++;
+            if (hitFirstFrag === -1) hitFirstFrag = attFrag; // 防呆
+            totalFragFirst += hitFirstFrag;
+        }
         
-        tFrag += attFrag;
-        
-        if (success) {
-            cSuccess++;
-            let finalMaxSub = Math.max(b, c);
-            let passA = (tA > 0 && a >= tA);
-            let passSub = (tSub > 0 && finalMaxSub >= tSub);
-            
-            if (passA) cHitA++;
-            if (passSub) cHitSub++;
-            if (passA && passSub) cHitBoth++;
+        if (hitAll) {
+            cHitAll++;
+            totalFragAll += attFrag;
         }
     }
 
-    let prob = (cSuccess / trials) * 100;
-    let avgCost = cSuccess > 0 ? (tFrag / cSuccess) : 0;
+    // 智慧機率顯示：低於 0.01% 會展開四位數
+    function formatProb(count) {
+        let p = (count / trials) * 100;
+        if (p === 0) return "0.00 %";
+        if (p < 0.01) return p.toFixed(4) + " %";
+        return p.toFixed(2) + " %";
+    }
 
     let htmlOutput = `<div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">【 模擬 ${trials.toLocaleString()} 次結果 】</div>`;
 
     if (useStopLoss) {
-        htmlOutput += `<div style="color:${isGolden ? '#34C759' : 'var(--text-muted, #888)'}; font-size: 13px; margin-bottom: 15px;">`;
-        if (isGolden) {
-            htmlOutput += `(套用提早停損及重置決策：前十次未達主屬${tA === 10 ? '5' : '4'}時直接重置)`;
-        } else {
-            htmlOutput += `(僅套用提早停損)`;
-        }
+        htmlOutput += `<div style="color:var(--text-muted, #888); font-size: 13px; margin-bottom: 15px;">`;
+        htmlOutput += `(套用智慧停損：只有當「所有設定目標」都無望時，才會提早放棄以節省碎片)`;
         htmlOutput += `</div>`;
     } else {
         htmlOutput += `<div style="margin-bottom: 15px;"></div>`;
@@ -1646,32 +1712,44 @@ function runHexaSimulation() {
 
     htmlOutput += `<div style="text-align: left; line-height: 1.8; color: var(--text-main, #333); font-size: 15px;">`;
 
-    if (tA > 0) {
-        htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#007AFF; font-size: 16px;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
-    }
-    
-    if (tSub > 0) {
-        htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#FF3B30; font-size: 16px;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
-    }
+    if (hasA) htmlOutput += `• 達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#007AFF; font-size: 16px;">${formatProb(cHitA)}</strong><br>`;
+    if (hasS1) htmlOutput += `• 達成 [較高附屬 ${tSub1} 級] 的機率：<strong style="color:#FF3B30; font-size: 16px;">${formatProb(cHitSub1)}</strong><br>`;
+    if (hasS2) htmlOutput += `• 達成 [較低附屬 ${tSub2} 級] 的機率：<strong style="color:#FF9500; font-size: 16px;">${formatProb(cHitSub2)}</strong><br>`;
 
-    if (tA > 0 && tSub > 0) {
-        htmlOutput += `<div style="margin-top: 6px;">• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#34C759; font-size: 16px;">${prob.toFixed(2)} %</strong></div>`;
-        htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong style="color:#AF52DE; font-size: 16px;">${((cHitBoth / trials) * 100).toFixed(2)} %</strong>`;
+    if (targetCount > 1) {
+        htmlOutput += `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ccc;">`;
+        htmlOutput += `• 達成 <strong>【任一目標】</strong> 的機率：<strong style="color:#34C759; font-size: 16px;">${formatProb(cHitAny)}</strong><br>`;
+        htmlOutput += `• 同時達成 <strong>【所有目標】</strong> 的機率：<strong style="color:#AF52DE; font-size: 18px;">${formatProb(cHitAll)}</strong>`;
+        htmlOutput += `</div>`;
     }
     htmlOutput += `</div>`;
-
     htmlOutput += `<div style="width: 100%; height: 1px; background-color: var(--glass-border, #eee); margin: 20px 0;"></div>`;
 
-    if (cSuccess > 0) {
-        htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">預估碎片需求：平均準備約 <strong style="font-size: 19px; color:#FF3B30;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標</div>`;
+    if (cHitAny > 0) {
+        let avgFragFirst = Math.round(totalFragFirst / cHitAny);
+        htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">`;
+        
+        if (targetCount > 1) {
+            let avgFragAllText = cHitAll > 0 ? Math.round(totalFragAll / cHitAll).toLocaleString() : "∞";
+            htmlOutput += `預估碎片需求：<br>`;
+            htmlOutput += `<span style="color:#555; font-size: 14px;">▶ 若達成 <strong>任一目標</strong> 就收手，平均需準備 <strong style="font-size: 17px; color:#34C759;">${avgFragFirst.toLocaleString()}</strong> 個碎片</span><br>`;
+            
+            if (cHitAll > 0) {
+                htmlOutput += `<span style="color:#555; font-size: 14px;">▶ 若追求 <strong>所有目標</strong> 全拿，平均需準備 <strong style="font-size: 17px; color:#AF52DE;">${avgFragAllText}</strong> 個碎片</span>`;
+            } else {
+                htmlOutput += `<span style="color:#555; font-size: 14px;">▶ 追求所有目標的成功率趨近於 0，強烈不建議嘗試。</span>`;
+            }
+        } else {
+             htmlOutput += `預估碎片需求：平均準備約 <strong style="font-size: 19px; color:#FF3B30;">${avgFragFirst.toLocaleString()}</strong> 個碎片能達成目標`;
+        }
+        htmlOutput += `</div>`;
     } else {
-        htmlOutput += `<div style="color: #FF3B30; font-size: 15px; font-weight: bold;">起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。</div>`;
+        htmlOutput += `<div style="color: #FF3B30; font-size: 15px; font-weight: bold;">在目前的起點與剩餘次數下，達成目標的機率為 0%，建議降低標準或重新模擬。</div>`;
     }
 
     resBox.style.display = 'block';
     resBox.innerHTML = htmlOutput;
 }
-
 /* ========================================== */
 /* 9. 製作模擬器邏輯 (Craft Simulator)           */
 /* ========================================== */
