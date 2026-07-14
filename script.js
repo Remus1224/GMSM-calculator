@@ -234,14 +234,14 @@ const shared_equip_items = [
         hasStar: true, starText: "M", 
         hasLv: true, lvText: "Lv.70",
         hasEmblem: true // 🌟 新增：控制菱形紋章顯示
-    },
+    }/*,
     { 
         name: "神秘冥界幽靈克拉", 
         img: "assets/equipment/神秘冥界幽靈克拉.webp", 
         hasStar: false, starText: "M", 
         hasLv: true, lvText: "Lv.70",
         hasEmblem: true // 🌟 新增：控制菱形紋章顯示
-    }
+    }*/
 ];
 
 let emb_equip_idx = 0; // 紋章預設裝備 (星光權杖)
@@ -1815,7 +1815,7 @@ const cr_equip_db = [
         necro: { name: "死靈天之星光權杖", img: "assets/equipment/死靈天之星光權杖.webp", hasEmblem: true },
         absolab: { name: "航海師天之星光權杖", img: "assets/equipment/航海師天之星光權杖.webp", hasEmblem: true },
         arcane: { name: "神秘冥界幽靈天之星光權杖", img: "assets/equipment/神秘冥界幽靈天之星光權杖.webp", hasEmblem: true }
-    },
+    }/*,
     {
         label: "克拉",
         mythic: { name: "獅子心形克拉", img: "assets/equipment/獅子心形克拉.png", hasEmblem: true },
@@ -1823,7 +1823,7 @@ const cr_equip_db = [
         necro: { name: "死靈克拉", img: "assets/equipment/死靈克拉.webp", hasEmblem: true },
         absolab: { name: "航海師克拉", img: "assets/equipment/航海師克拉.webp", hasEmblem: true },
         arcane: { name: "神秘冥界幽靈克拉", img: "assets/equipment/神秘冥界幽靈克拉.webp", hasEmblem: true }
-    }
+    }*/
 ];
 
 let cr_equip_idx = 0; // 預設為權杖
