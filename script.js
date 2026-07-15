@@ -1609,12 +1609,10 @@ function runHexaSimulation() {
     let currMaxStart = Math.max(sB, sC);
     let currMinStart = Math.min(sB, sC);
     
-    // 如果該目標沒有設定，就設為 Infinity (無限大)，讓它不參與最少次數的計算
     let reqA = tA > 0 ? Math.max(0, tA - sA) : Infinity;
     let reqS1 = tSub1 > 0 ? Math.max(0, tSub1 - currMaxStart) : Infinity;
     let reqS2 = tSub2 > 0 ? Math.max(0, tSub2 - currMinStart) : Infinity;
 
-    // 找出「最容易達成」的目標，還需要幾次？
     let minReq = Math.min(reqA, reqS1, reqS2);
 
     if (minReq > rolls) {
@@ -1633,15 +1631,19 @@ function runHexaSimulation() {
 
     const trials = useMillion ? 1000000 : 100000;
     
-    // 統計變數
     let cHitA = 0;
     let cHitSub1 = 0;
     let cHitSub2 = 0;
-    let cHitAny = 0;   // 達成任一目標
-    let cHitAll = 0;   // 同時達成所有目標
+    let cHitAny = 0;   
+    let cHitAll = 0;   
 
-    let totalFragFirst = 0; // 達成任一目標所耗費的總碎片
-    let totalFragAll = 0;   // 達成所有目標所耗費的總碎片
+    // 原本：只計算成功的那顆核心花了多少碎片
+    let totalFragFirst = 0; 
+    let totalFragAll = 0;   
+
+    // 🌟 新增：計算所有失敗墊檔的總碎片 (真實累積期望花費)
+    let globalFragFirst = 0;
+    let globalFragAll = 0;
 
     let hasA = tA > 0;
     let hasS1 = tSub1 > 0;
@@ -1653,14 +1655,13 @@ function runHexaSimulation() {
         let attFrag = 0;
         let hitFirstFrag = -1;
 
-        // 檢查初始狀態是否就已經達標
         let startHitAny = (hasA && sA >= tA) || (hasS1 && Math.max(sB, sC) >= tSub1) || (hasS2 && Math.min(sB, sC) >= tSub2);
         let startHitAll = (hasA ? sA >= tA : true) && (hasS1 ? Math.max(sB, sC) >= tSub1 : true) && (hasS2 ? Math.min(sB, sC) >= tSub2 : true);
 
         if (startHitAny) hitFirstFrag = 0;
 
         for (let r = 0; r < rolls; r++) {
-            if (startHitAll) break; // 一開始就完美達標，不需要點
+            if (startHitAll) break; 
 
             let currMax = Math.max(b, c);
             let currMin = Math.min(b, c);
@@ -1669,27 +1670,22 @@ function runHexaSimulation() {
             let passS1 = hasS1 ? (currMax >= tSub1) : true;
             let passS2 = hasS2 ? (currMin >= tSub2) : true;
 
-            // 如果三個目標都達成了，直接收工不浪費碎片
             if (passA && passS1 && passS2) {
                 break;
             }
 
             if (useStopLoss) {
                 let remaining = rolls - r;
-                
-                // 評估剩下的次數，還有沒有機會救活任何一個目標？
                 let posA = (hasA && !passA) ? (a + remaining >= tA) : false;
                 let posS1 = (hasS1 && !passS1) ? (currMax + remaining >= tSub1) : false;
                 let posS2 = (hasS2 && !passS2) ? (currMin + remaining >= tSub2) : false;
 
-                // 經典主屬 10 次未達 5 退場機制
                 let currentTotalRolls = sA + sB + sC + r;
                 if (currentTotalRolls === 10) {
                     if (tA === 10 && a < 5) posA = false;
                     if (tA === 9 && a < 4) posA = false;
                 }
 
-                // 如果「所有的」目標都徹底沒救了，才提早放棄
                 if (!posA && !posS1 && !posS2) {
                     break;
                 }
@@ -1707,7 +1703,6 @@ function runHexaSimulation() {
                 }
             }
 
-            // 紀錄第一次達標當下的碎片花費
             if (hitFirstFrag === -1) {
                 let nMax = Math.max(b, c);
                 let nMin = Math.min(b, c);
@@ -1717,7 +1712,6 @@ function runHexaSimulation() {
             }
         }
 
-        // 最終結算這次模擬的結果
         let finalMax = Math.max(b, c);
         let finalMin = Math.min(b, c);
 
@@ -1732,19 +1726,24 @@ function runHexaSimulation() {
         if (finalPassS1) cHitSub1++;
         if (finalPassS2) cHitSub2++;
 
+        // 🌟 計算「任一目標就收手」策略的花費
         if (hitAny) {
             cHitAny++;
-            if (hitFirstFrag === -1) hitFirstFrag = attFrag; // 防呆
+            if (hitFirstFrag === -1) hitFirstFrag = attFrag; 
             totalFragFirst += hitFirstFrag;
+            globalFragFirst += hitFirstFrag; // 成功的話，這宇宙花的是成功時的碎片
+        } else {
+            globalFragFirst += attFrag; // 失敗的話，這宇宙陪葬的碎片全部加進去
         }
         
+        // 🌟 計算「追求所有目標」策略的花費
         if (hitAll) {
             cHitAll++;
             totalFragAll += attFrag;
         }
+        globalFragAll += attFrag; // 無論成敗，追求全拿的策略就是砸到最後
     }
 
-    // 智慧機率顯示：低於 0.01% 會展開四位數
     function formatProb(count) {
         let p = (count / trials) * 100;
         if (p === 0) return "0.00 %";
@@ -1777,22 +1776,34 @@ function runHexaSimulation() {
     htmlOutput += `</div>`;
     htmlOutput += `<div style="width: 100%; height: 1px; background-color: var(--glass-border, #eee); margin: 20px 0;"></div>`;
 
+    // 🌟 輸出真實期望花費與單顆造價
     if (cHitAny > 0) {
-        let avgFragFirst = Math.round(totalFragFirst / cHitAny);
+        let winCostFirst = Math.round(totalFragFirst / cHitAny);
+        let trueCostFirst = Math.round(globalFragFirst / cHitAny);
+        
+        // 這裡外層已經設定了 var(--text-main, #333)，裡面的文字只要不寫死顏色就會自動繼承！
         htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">`;
         
         if (targetCount > 1) {
-            let avgFragAllText = cHitAll > 0 ? Math.round(totalFragAll / cHitAll).toLocaleString() : "∞";
-            htmlOutput += `預估碎片需求：<br>`;
-            htmlOutput += `<span style="color:#555; font-size: 14px;">▶ 若達成 <strong>任一目標</strong> 就收手，平均需準備 <strong style="font-size: 17px; color:#34C759;">${avgFragFirst.toLocaleString()}</strong> 個碎片</span><br>`;
+            let winCostAll = cHitAll > 0 ? Math.round(totalFragAll / cHitAll).toLocaleString() : "∞";
+            let trueCostAll = cHitAll > 0 ? Math.round(globalFragAll / cHitAll).toLocaleString() : "∞";
+            
+            htmlOutput += `<div style="margin-bottom:6px; font-weight:bold;">預估累積碎片需求 (包含重製的成本)：</div>`;
+            
+            // 💡 修正點 1：移除了寫死的 #555，小字改用 var(--text-muted, #888)
+            htmlOutput += `<div style="font-size: 14px; margin-bottom:12px;">▶ 若達成 <strong>任一目標</strong> 就收手，平均需準備 <strong style="font-size: 17px; color:#34C759;">${trueCostFirst.toLocaleString()}</strong> 個碎片<br><span style="font-size:12px; color:var(--text-muted, #888);">(其中那顆成功核心本身的造價約為 ${winCostFirst.toLocaleString()} 個)</span></div>`;
             
             if (cHitAll > 0) {
-                htmlOutput += `<span style="color:#555; font-size: 14px;">▶ 若追求 <strong>所有目標</strong> 全拿，平均需準備 <strong style="font-size: 17px; color:#AF52DE;">${avgFragAllText}</strong> 個碎片</span>`;
+                // 💡 修正點 2
+                htmlOutput += `<div style="font-size: 14px;">▶ 若追求 <strong>所有目標</strong> 全拿，平均需準備 <strong style="font-size: 17px; color:#AF52DE;">${trueCostAll}</strong> 個碎片<br><span style="font-size:12px; color:var(--text-muted, #888);">(其中那顆成功核心本身成本約為 ${winCostAll} 個)</span></div>`;
             } else {
-                htmlOutput += `<span style="color:#555; font-size: 14px;">▶ 追求所有目標的成功率趨近於 0，強烈不建議嘗試。</span>`;
+                // 💡 修正點 3
+                htmlOutput += `<div style="font-size: 14px; color:var(--text-muted, #888);">▶ 追求所有目標的成功率趨近於 0，強烈不建議嘗試。</div>`;
             }
         } else {
-             htmlOutput += `預估碎片需求：平均準備約 <strong style="font-size: 19px; color:#FF3B30;">${avgFragFirst.toLocaleString()}</strong> 個碎片能達成目標`;
+             htmlOutput += `<div style="margin-bottom:6px; font-weight:bold;">預估真實累積碎片需求 (包含重製的成本)：</div>`;
+             // 💡 修正點 4
+             htmlOutput += `<div style="font-size: 14px;">平均需準備約 <strong style="font-size: 19px; color:#FF3B30;">${trueCostFirst.toLocaleString()}</strong> 個碎片才能達成目標<br><span style="font-size:13px; color:var(--text-muted, #888);">(其中那顆成功核心本身成本約為 ${winCostFirst.toLocaleString()} 個)</span></div>`;
         }
         htmlOutput += `</div>`;
     } else {
