@@ -1801,7 +1801,7 @@ function runHexaSimulation() {
                 htmlOutput += `<div style="font-size: 14px; color:var(--text-muted, #888);">▶ 追求所有目標的成功率趨近於 0，強烈不建議嘗試。</div>`;
             }
         } else {
-             htmlOutput += `<div style="margin-bottom:6px; font-weight:bold;">預估真實累積碎片需求 (包含重製的成本)：</div>`;
+             htmlOutput += `<div style="margin-bottom:6px; font-weight:bold;">預估累積碎片需求 (包含重製的成本)：</div>`;
              // 💡 修正點 4
              htmlOutput += `<div style="font-size: 14px;">平均需準備約 <strong style="font-size: 19px; color:#FF3B30;">${trueCostFirst.toLocaleString()}</strong> 個碎片才能達成目標<br><span style="font-size:13px; color:var(--text-muted, #888);">(其中那顆成功核心本身成本約為 ${winCostFirst.toLocaleString()} 個)</span></div>`;
         }
