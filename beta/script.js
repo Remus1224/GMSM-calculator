@@ -686,8 +686,8 @@ function calcHexaProg() {
         timeBox.innerHTML = `
             <div style="font-weight: bold; margin-bottom: 10px; color: #444;">預估畢業時間</div>
             <div style="display:flex; flex-direction:column; gap:8px; font-size: 15px;">
-                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
-                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/icon-Sol Erda Fragment.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/hexa/icon_靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
+                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
             </div>
         `;
     }
@@ -813,11 +813,11 @@ const hyperStatSkills = [
 
 const hyperStatLevelCosts = [
     0,
-    1000000, 3000000, 5000000, 10000000, 15000000,
-    20000000, 26000000, 32000000, 38000000, 44000000,
-    50000000, 57000000, 64000000, 71000000, 78000000,
-    85000000, 92000000, 100000000, 110000000, 120000000,
-    130000000, 140000000, 180000000, 230000000, 300000000
+    1000000, 3000000, 5000000, 10000000, 14000000,
+    20000000, 21000000, 22000000, 23000000, 24000000,
+    42000000, 44000000, 46000000, 48000000, 50000000,
+    80000000, 83000000, 85000000, 88000000, 90000000,
+    124000000, 128000000, 130000000, 133000000, 135000000
 ];
 
 const hyperStatCumulativeCosts = hyperStatLevelCosts.map((cost, level) => {
@@ -920,14 +920,15 @@ function renderHyperSkillGrid(profile) {
         const level = clampHyperLevel(hyperStatState.profiles[profile][skill.id]);
         const nextCost = level < 25 ? hyperStatLevelCosts[level + 1] : 0;
         return `
-            <article class="hyper-skill-card" id="hyper-card-${profile}-${skill.id}">
+            <article class="hyper-skill-card${level === 25 ? ' is-max' : ''}" id="hyper-card-${profile}-${skill.id}">
                 <div class="hyper-skill-heading">
                     <h3>${skill.name}</h3>
                     <div class="hyper-skill-heading-actions">
                         <span id="hyper-badge-${profile}-${skill.id}">Lv.${level}</span>
-                        <button class="hyper-max-button" type="button"
-                            onclick="setHyperSkillLevel('${profile}', '${skill.id}', 25, true)"
-                            aria-label="${skill.name}設為最高等級">MAX</button>
+                        <button id="hyper-max-${profile}-${skill.id}"
+                            class="hyper-max-button${level === 25 ? ' is-clear' : ''}" type="button"
+                            onclick="toggleHyperSkillMax('${profile}', '${skill.id}')"
+                            aria-label="${skill.name}${level === 25 ? '歸零' : '設為最高等級'}">${level === 25 ? '歸零' : 'MAX'}</button>
                     </div>
                 </div>
                 <div class="hyper-skill-stepper">
@@ -945,7 +946,7 @@ function renderHyperSkillGrid(profile) {
                 </div>
                 <div class="hyper-skill-cost">
                     <span class="hyper-skill-cost-main">
-                        <img src="assets/金幣.png" alt="" aria-hidden="true">
+                        <img src="assets/common/icon_金幣.png" alt="" aria-hidden="true">
                         <strong id="hyper-cost-${profile}-${skill.id}">${(hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW')}</strong>
                     </span>
                     <small id="hyper-next-${profile}-${skill.id}">
@@ -964,6 +965,8 @@ function updateHyperSkillCard(profile, skillId, syncInput = false) {
     const cost = document.getElementById(`hyper-cost-${profile}-${skillId}`);
     const next = document.getElementById(`hyper-next-${profile}-${skillId}`);
     const card = document.getElementById(`hyper-card-${profile}-${skillId}`);
+    const maxButton = document.getElementById(`hyper-max-${profile}-${skillId}`);
+    const skill = hyperStatSkills.find(item => item.id === skillId);
 
     if (input && syncInput) input.value = level === 0 ? '' : String(level);
     if (badge) badge.textContent = `Lv.${level}`;
@@ -974,6 +977,12 @@ function updateHyperSkillCard(profile, skillId, syncInput = false) {
             : '已達最高等級';
     }
     if (card) card.classList.toggle('is-max', level === 25);
+    if (maxButton) {
+        const isMax = level === 25;
+        maxButton.textContent = isMax ? '歸零' : 'MAX';
+        maxButton.classList.toggle('is-clear', isMax);
+        maxButton.setAttribute('aria-label', `${skill?.name || '技能'}${isMax ? '歸零' : '設為最高等級'}`);
+    }
 }
 
 function setHyperSkillLevel(profile, skillId, value, syncInput = false) {
@@ -987,6 +996,11 @@ function setHyperSkillLevel(profile, skillId, value, syncInput = false) {
 function adjustHyperSkill(profile, skillId, change) {
     const currentLevel = clampHyperLevel(hyperStatState.profiles[profile]?.[skillId]);
     setHyperSkillLevel(profile, skillId, currentLevel + change, true);
+}
+
+function toggleHyperSkillMax(profile, skillId) {
+    const currentLevel = clampHyperLevel(hyperStatState.profiles[profile]?.[skillId]);
+    setHyperSkillLevel(profile, skillId, currentLevel === 25 ? 0 : 25, true);
 }
 
 function setHyperCharacterLevel(value, syncInput = false) {
@@ -1083,37 +1097,43 @@ const runeUpgradeRequirements = [
     156, 202, 262, 340, 442, 574, 746, 1007, 1359
 ];
 
-const runeJourneyCosts = [
-    15000000, 18000000, 21600000, 25920000, 31104000,
-    37324800, 44789760, 53747712, 64497254, 77396705,
-    96745882, 120932352, 151165440, 188956800, 236196000,
-    295245000, 369056250, 461320313, 576650391
-];
-
-const runeStandardCosts = [
-    18000000, 21600000, 25920000, 31104000, 37324800,
-    44789760, 53747712, 64497254, 77396705, 92876046,
-    116095058, 145118822, 181398528, 226748160, 283435200,
-    354294000, 442867500, 553584375, 691980469
+const arcaneRuneCosts = [
+    12600000, 15300000, 18700000, 22700000, 27600000,
+    33600000, 40800000, 49700000, 60400000, 73400000,
+    92900000, 117500000, 148700000, 188200000, 235300000,
+    294100000, 367600000, 459500000, 574300000
 ];
 
 const arcaneRuneSymbols = [
-    { id: 'vanishing', name: '消逝的旅途', short: '旅', tone: 'violet', image: 'assets/消逝的旅途.png', costs: runeJourneyCosts },
-    { id: 'chu-chu', name: '啾啾艾爾蘭', short: '啾', tone: 'aqua', image: 'assets/啾啾艾爾蘭.png', costs: runeStandardCosts },
-    { id: 'lachelein', name: '拉契爾恩', short: '契', tone: 'rose', image: 'assets/拉契爾恩.png', costs: runeStandardCosts },
-    { id: 'arcana', name: '阿爾卡娜', short: '卡', tone: 'indigo', image: 'assets/阿爾卡娜.png', costs: runeStandardCosts },
-    { id: 'morass', name: '魔菈斯', short: '菈', tone: 'amber', image: 'assets/魔菈斯.png', costs: runeStandardCosts },
-    { id: 'esfera', name: '艾斯佩拉', short: '艾', tone: 'blue', image: 'assets/艾斯佩拉.png', costs: runeStandardCosts }
+    { id: 'vanishing', name: '消逝的旅途', short: '旅', tone: 'violet', image: 'assets/runes/icon_消逝的旅途.png', costs: arcaneRuneCosts },
+    { id: 'chu-chu', name: '啾啾艾爾蘭', short: '啾', tone: 'aqua', image: 'assets/runes/icon_啾啾艾爾蘭.png', costs: arcaneRuneCosts },
+    { id: 'lachelein', name: '拉契爾恩', short: '契', tone: 'rose', image: 'assets/runes/icon_拉契爾恩.png', costs: arcaneRuneCosts },
+    { id: 'arcana', name: '阿爾卡娜', short: '卡', tone: 'indigo', image: 'assets/runes/icon_阿爾卡娜.png', costs: arcaneRuneCosts },
+    { id: 'morass', name: '魔菈斯', short: '菈', tone: 'amber', image: 'assets/runes/icon_魔菈斯.png', costs: arcaneRuneCosts },
+    { id: 'esfera', name: '艾斯佩拉', short: '艾', tone: 'blue', image: 'assets/runes/icon_艾斯佩拉.png', costs: arcaneRuneCosts }
 ];
 
 const authenticRuneRequirements = [13, 33, 53, 73, 93, 113, 133, 153, 173, 193];
-const authenticRuneCosts = Array(10).fill(100000000);
+const esetraAuthenticRuneCosts = [
+    7600000, 27000000, 65800000, 132600000, 235000000,
+    381500000, 579900000, 738300000, 1064800000, 1267500000
+];
+const cerniumAuthenticRuneCosts = [...esetraAuthenticRuneCosts];
 const authenticRuneSymbols = [
-    { id: 'esetra', region: '愛琳', name: '埃賽特拉', short: '埃', tone: 'aqua', image: 'assets/埃賽特拉.png' },
-    { id: 'aer', region: '愛琳', name: '阿埃爾（아에르）', short: '阿', tone: 'rose', image: 'assets/阿埃爾.png', locked: true },
-    { id: 'cernium', region: '格蘭蒂斯', name: '賽爾尼溫', short: '賽', tone: 'indigo', image: 'assets/賽爾尼溫.png' },
-    { id: 'arcs', region: '格蘭蒂斯', name: '阿爾克斯', short: '克', tone: 'amber', image: 'assets/阿爾克斯.png', locked: true },
-    { id: 'odium', region: '格蘭蒂斯', name: '奧迪溫', short: '奧', tone: 'blue', image: 'assets/奧迪溫.png', locked: true }
+    { id: 'esetra', region: '愛琳', name: '埃賽特拉', short: '埃', tone: 'aqua', image: 'assets/runes/icon_埃賽特拉.png', costs: esetraAuthenticRuneCosts },
+    { id: 'aer', region: '愛琳', name: '阿埃爾（아에르）', short: '阿', tone: 'rose', image: 'assets/runes/icon_阿埃爾.png', locked: true },
+    {
+        id: 'cernium',
+        region: '格蘭蒂斯',
+        name: '賽爾尼溫',
+        short: '賽',
+        tone: 'indigo',
+        image: 'assets/runes/icon_賽爾尼溫.png',
+        costs: cerniumAuthenticRuneCosts,
+        provisionalCosts: true
+    },
+    { id: 'arcs', region: '格蘭蒂斯', name: '阿爾克斯', short: '克', tone: 'amber', image: 'assets/runes/icon_阿爾克斯.png', locked: true },
+    { id: 'odium', region: '格蘭蒂斯', name: '奧迪溫', short: '奧', tone: 'blue', image: 'assets/runes/icon_奧迪溫.png', locked: true }
 ];
 const runeStorageKey = 'gmsm-rune-calculator-state-v1';
 let runeStateReady = false;
@@ -1180,7 +1200,7 @@ function initRuneCalculator() {
                     <span class="rune-card-meso-line">
                         <span class="rune-card-coin-icon" aria-hidden="true">
                             <span class="rune-coin-fallback">₥</span>
-                            <img src="assets/金幣.png" alt="" onerror="this.style.display='none'">
+                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
                         </span>
                         <strong id="rune-mesos-${symbol.id}">0</strong>
                     </span>
@@ -1392,7 +1412,7 @@ function renderAuthenticRuneCard(symbol) {
                     <span class="rune-card-meso-line">
                         <span class="rune-card-coin-icon" aria-hidden="true">
                             <span class="rune-coin-fallback">₥</span>
-                            <img src="assets/金幣.png" alt="" onerror="this.style.display='none'">
+                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
                         </span>
                         <strong id="authentic-mesos-${symbol.id}">0</strong>
                     </span>
@@ -1481,7 +1501,7 @@ function updateAuthenticRuneCard(runeId) {
     for (let level = currentLevel; level < targetLevel; level++) {
         const index = level - 1;
         rangeSymbols += authenticRuneRequirements[index] || 0;
-        totalMesos += authenticRuneCosts[index] || 0;
+        totalMesos += symbol.costs?.[index] || 0;
     }
 
     const neededSymbols = Math.max(0, rangeSymbols - investedProgress);
@@ -1667,8 +1687,8 @@ let tr_current_fail_scrolls = 0;
 let tr_isAnimating = false;
 let tr_isMuted = false;
 
-const tr_sfxSuccess = new Audio('assets/AugmentSuccess.wav');
-const tr_sfxFail = new Audio('assets/AugmentFail.wav');
+const tr_sfxSuccess = new Audio('assets/audio/AugmentSuccess.wav');
+const tr_sfxFail = new Audio('assets/audio/AugmentFail.wav');
 
 function tr_getStoneEV(baseRate) {
     let expected = 0;
@@ -1797,10 +1817,10 @@ function tr_updateUI() {
 
         let totalRate = Math.min(100, baseRate + tr_bonus);
         let stoneName = "超越石"; 
-        let imgSrc = "assets/超越石.png";
+        let imgSrc = "assets/transcend/Item_超越石.png";
 
-        if (tr_lv >= 40 && tr_lv < 50) { stoneName = "發光超越石"; imgSrc = "assets/發光超越石.png"; }
-        if (tr_lv >= 50 && tr_lv <= 70) { stoneName = "混沌超越石"; imgSrc = "assets/混沌超越石.png"; }
+        if (tr_lv >= 40 && tr_lv < 50) { stoneName = "發光超越石"; imgSrc = "assets/transcend/Item_發光超越石.png"; }
+        if (tr_lv >= 50 && tr_lv <= 70) { stoneName = "混沌超越石"; imgSrc = "assets/transcend/Item_混沌超越石.png"; }
 
         stoneNameDOM.innerText = `${stoneName} ${baseRate}%`;
         stoneImg.src = imgSrc;
@@ -1820,7 +1840,7 @@ function tr_updateUI() {
         document.getElementById('ui-coin-box').style.display = 'none';
 
         let scrollRate = tr_getSelectedRate('scroll-rate', 'custom-scroll-rate');
-        let imgSrc = (scrollRate < 70) ? "assets/超越失敗扣除卷軸A.png" : "assets/超越失敗扣除卷軸B.png";
+        let imgSrc = (scrollRate < 70) ? "assets/transcend/Item_超越失敗扣除卷軸A.png" : "assets/transcend/Item_超越失敗扣除卷軸B.png";
 
         stoneNameDOM.innerText = `超越失敗扣除卷軸 ${scrollRate}%`;
         stoneImg.src = imgSrc;
@@ -2053,7 +2073,7 @@ let vClicks = 0;
 let totalFragmentsUsed = 0;
 let isMuted = false;
 let resetCountTracker = 0;
-const enhanceSound = new Audio('assets/HexaCoreEnforcement.mp3');
+const enhanceSound = new Audio('assets/audio/HexaCoreEnforcement.mp3');
 
 function initVisualBars() {
     ['a', 'b', 'c'].forEach(type => {
@@ -2863,13 +2883,13 @@ let cr_crystals_used = 0;
 let cr_scrolls_used = 0;
 let cr_isAnimating = false;
 let cr_isMuted = false;
-let cr_ev_achieved = 0;
 let cr_current_attempts = 0;
 let cr_mythic_type = 'necro';
 let cr_stage = 'arcane';
+const cr_failure_records = Object.create(null);
 
-const cr_sfx_success = new Audio('assets/AncientSuccess.wav');
-const cr_sfx_fail = new Audio('assets/AncientFail.wav');
+const cr_sfx_success = new Audio('assets/audio/AncientSuccess.wav');
+const cr_sfx_fail = new Audio('assets/audio/AncientFail.wav');
 
 // 🌟 修改：將寫死的圖片與名稱移除，改為 fromKey 與 toKey 指向資料庫
 const CRAFT_DATA = {
@@ -2878,8 +2898,8 @@ const CRAFT_DATA = {
         baseRate: 30, additionalRate: 0,
         fromText: "神話", toText: "古代", fromColor: "#E42123", toColor: "#1cd1ed",
         desc: "<br>對選擇的裝備進行繼承製作。<br><br>可獲得和所選裝備相同類別的<span class='txt-sharp' style='color:#1cd1ed;'>古代裝備</span>。",
-        meso: "1,204", crystalName: "古代武器結晶", crystalImg: "assets/古代武器結晶.png", crystalReq: 1,
-        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
+        meso: "1,204", crystalName: "古代武器結晶", crystalImg: "assets/craft/Item_古代武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/common/Item_卷軸空格.png", scrollReq: 2,
         confirmCustomHTML: `
             要進行古代級道具<span style="color:#f3724c; font-weight:bold;">繼承製作</span>嗎？<br>
             製作Lv.31以上的裝備成功時，裝備等級會重置，並且會顯示為能力下降。<br>
@@ -2896,8 +2916,8 @@ const CRAFT_DATA = {
         baseRate: 4, additionalRate: 4,
         fromText: "神話", toText: "古代", fromColor: "#E42123", toColor: "#1cd1ed",
         desc: "對選擇的裝備進行死靈轉換製作。<br><br>製作成功時可獲得<span class='txt-sharp' style='color:#1cd1ed;'>古代</span>死靈道具。<br>把神話鍊成道具作為基本使用時，製作成功機率會提高。<br>",
-        meso: "1,204", crystalName: "古代武器結晶", crystalImg: "assets/古代武器結晶.png", crystalReq: 1,
-        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/卷軸空格.png", scrollReq: 2,
+        meso: "1,204", crystalName: "古代武器結晶", crystalImg: "assets/craft/Item_古代武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的古代製作卷軸", scrollImg: "assets/common/Item_卷軸空格.png", scrollReq: 2,
         confirmCustomHTML: `
             要進行古代級道具<span style="color:#f3724c; font-weight:bold;">死靈轉換製作</span>嗎？<br>
             製作Lv.31以上的裝備成功時，裝備等級會重置，並且會顯示為能力下降。<br>
@@ -2914,8 +2934,8 @@ const CRAFT_DATA = {
         baseRate: 12, additionalRate: 0,
         fromText: "死靈", toText: "航海師", fromColor: "#1cd1ed", toColor: "#CC9ED8",
         desc: "以<span class='txt-sharp' style='color:#1cd1ed;'>在死靈裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
-        meso: "1,204", crystalName: "烙印武器結晶", crystalImg: "assets/烙印武器結晶.png", crystalReq: 1,
-        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        meso: "1,204", crystalName: "烙印武器結晶", crystalImg: "assets/craft/Item_烙印武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/common/Item_卷軸空格.png", scrollReq: 2,
         confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
         successFromText: "古代", successFromColor: "#1cd1ed", successToText: "混沌", successToColor: "#CC9ED8",
         failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
@@ -2924,14 +2944,121 @@ const CRAFT_DATA = {
         fromKey: 'absolab', toKey: 'arcane',
         baseRate: 10, additionalRate: 0,
         fromText: "航海師", toText: "神秘冥界幽靈", fromColor: "#CC9ED8", toColor: "#CC9ED8",
-        desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
-        meso: "1,204", crystalName: "夏德貝爾結晶(武器)", crystalImg: "assets/夏德貝爾結晶(武器).png", crystalReq: 1,
-        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/卷軸空格.png", scrollReq: 1,
+        desc: "<span class='txt-sharp' style='color:#CC9ED8;'>在航海師裝備</span>上製作<span class='txt-sharp' style='color:#CC9ED8;'>神秘冥界幽靈裝備</span>。",
+        meso: "1,204", crystalName: "夏德貝爾結晶(武器)", crystalImg: "assets/craft/Item_夏德貝爾結晶(武器).png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/common/Item_卷軸空格.png", scrollReq: 2,
         confirmHighlight: "神秘冥界幽靈", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
         successFromText: "混沌", successFromColor: "#CC9ED8", successToText: "混沌", successToColor: "#CC9ED8",
         failFromText: "混沌", failFromColor: "#CC9ED8", failToText: "混沌", failToColor: "#CC9ED8"
     }
 };
+
+function cr_getActiveDataKey() {
+    return (cr_stage === 'necro') ? `mythic_${cr_mythic_type}` : cr_stage;
+}
+
+function cr_getFailureStateKey(activeKey = cr_getActiveDataKey()) {
+    return `${cr_equip_idx}:${activeKey}`;
+}
+
+function cr_getAccumulatedFailures(activeKey = cr_getActiveDataKey()) {
+    return Math.max(0, Number(cr_failure_records[cr_getFailureStateKey(activeKey)]) || 0);
+}
+
+function cr_setAccumulatedFailures(value, activeKey = cr_getActiveDataKey()) {
+    cr_failure_records[cr_getFailureStateKey(activeKey)] = Math.max(0, Math.floor(Number(value) || 0));
+}
+
+function cr_getFailureRewardRate(accumulatedFailures = cr_getAccumulatedFailures()) {
+    return Math.floor(Math.max(0, accumulatedFailures) / 5) * 2;
+}
+
+function cr_getRateBreakdown(data, scrollInfo, accumulatedFailures = cr_getAccumulatedFailures()) {
+    const baseRate = Math.max(0, Number(data?.baseRate) || 0);
+    const alchemyRate = Math.max(0, Number(data?.additionalRate) || 0);
+    const scrollRate = Math.max(0, Number(scrollInfo?.rate) || 0);
+    const failureRewardRate = cr_getFailureRewardRate(accumulatedFailures);
+    const uncappedRate = baseRate + alchemyRate + scrollRate + failureRewardRate;
+
+    return {
+        baseRate,
+        alchemyRate,
+        scrollRate,
+        failureRewardRate,
+        uncappedRate,
+        totalRate: Math.min(100, uncappedRate)
+    };
+}
+
+function cr_formatRateFormula(rateBreakdown) {
+    const parts = [rateBreakdown.baseRate];
+    if (rateBreakdown.scrollRate > 0) parts.push(rateBreakdown.scrollRate);
+    if (rateBreakdown.alchemyRate > 0) parts.push(rateBreakdown.alchemyRate);
+    if (rateBreakdown.failureRewardRate > 0) parts.push(rateBreakdown.failureRewardRate);
+    return parts.length > 1
+        ? `${rateBreakdown.totalRate}(${parts.join(' + ')}) %`
+        : `${rateBreakdown.totalRate}%`;
+}
+
+function cr_calculateExpectedAttempts(fixedRate, startingFailures) {
+    let expectedAttempts = 0;
+    let survivalChance = 1;
+
+    for (let attempt = 0; attempt < 10000 && survivalChance > 0.0000000001; attempt++) {
+        expectedAttempts += survivalChance;
+        const futureFailureReward = cr_getFailureRewardRate(startingFailures + attempt);
+        const attemptRate = Math.min(100, fixedRate + futureFailureReward) / 100;
+        survivalChance *= (1 - attemptRate);
+    }
+
+    return expectedAttempts;
+}
+
+function cr_updateRateDetails(data, rateBreakdown) {
+    const detail = document.getElementById('cr-rate-detail');
+    if (!detail) return;
+    const rateTitle = cr_stage === 'necro'
+        ? (cr_mythic_type === 'necro' ? '死靈轉換' : '繼承')
+        : data.toText;
+
+    detail.innerHTML = `
+        <div class="cr-rate-detail-title">${rateTitle}製作成功機率</div>
+        <div class="cr-rate-detail-row is-total"><span>最終成功機率</span><strong>${rateBreakdown.totalRate}%</strong></div>
+        <div class="cr-rate-detail-row"><span>基本成功機率</span><strong>${rateBreakdown.baseRate}%</strong></div>
+        <div class="cr-rate-detail-row"><span>鍊成獎勵</span><strong>${rateBreakdown.alchemyRate}%</strong></div>
+        <div class="cr-rate-detail-row"><span>製作失敗獎勵</span><strong>${rateBreakdown.failureRewardRate}%</strong></div>
+        <div class="cr-rate-detail-row"><span>幸運製作卷軸</span><strong>${rateBreakdown.scrollRate}%</strong></div>
+    `;
+}
+
+function cr_toggleRateDetails(event) {
+    event?.stopPropagation();
+    const detail = document.getElementById('cr-rate-detail');
+    const button = document.getElementById('cr-rate-info-button');
+    if (!detail || !button) return;
+
+    const shouldOpen = detail.hidden;
+    detail.hidden = !shouldOpen;
+    button.setAttribute('aria-expanded', String(shouldOpen));
+}
+
+function cr_closeRateDetails() {
+    const detail = document.getElementById('cr-rate-detail');
+    const button = document.getElementById('cr-rate-info-button');
+    if (detail) detail.hidden = true;
+    if (button) button.setAttribute('aria-expanded', 'false');
+}
+
+document.addEventListener('click', (event) => {
+    const detail = document.getElementById('cr-rate-detail');
+    const button = document.getElementById('cr-rate-info-button');
+    if (!detail || detail.hidden || detail.contains(event.target) || button?.contains(event.target)) return;
+    cr_closeRateDetails();
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') cr_closeRateDetails();
+});
 
 // 網頁載入時自動初始化選單
 document.addEventListener('DOMContentLoaded', () => {
@@ -2948,6 +3075,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function cr_changeEquip() {
+    if (cr_isAnimating) return;
     let select = document.getElementById('cr-equip-select');
     if (select) {
         cr_equip_idx = parseInt(select.value) || 0;
@@ -2962,6 +3090,7 @@ function cr_toggleSound() {
 }
 
 function cr_changeMythicSub(type) {
+    if (cr_isAnimating) return;
     cr_mythic_type = type;
     cr_updateUI();
 }
@@ -2976,9 +3105,13 @@ function cr_getScrollRate() {
         let firstRate = (v1 > 0) ? v1 : v2;
         return { rate: (v1 + v2), count: count, firstRate: firstRate };
     } else {
-        let scrollElem = document.getElementById('cr-scroll-c1');
-        let v1 = scrollElem ? parseInt(scrollElem.value) : 0;
-        return { rate: v1, count: v1 > 0 ? 1 : 0, firstRate: v1 };
+        let c1 = document.getElementById('cr-scroll-c1');
+        let c2 = document.getElementById('cr-scroll-c2');
+        let v1 = c1 ? parseInt(c1.value) : 0;
+        let v2 = c2 ? parseInt(c2.value) : 0;
+        let count = (v1 > 0 ? 1 : 0) + (v2 > 0 ? 1 : 0);
+        let firstRate = (v1 > 0) ? v1 : v2;
+        return { rate: (v1 + v2), count: count, firstRate: firstRate };
     }
 }
 
@@ -2988,7 +3121,8 @@ function cr_forceStageChange() {
     let stageRadio = document.querySelector('input[name="cr-stage"]:checked');
     if (stageRadio) cr_stage = stageRadio.value;
 
-    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0; cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0; cr_scrolls_used = 0; cr_current_attempts = 0;
+    cr_closeRateDetails();
 
     if (cr_stage === 'necro') {
         let necroDiv = document.getElementById('cr-scroll-necro-div');
@@ -3007,29 +3141,33 @@ function cr_forceStageChange() {
         if (chaosDiv) chaosDiv.style.display = 'flex';
 
         let c1 = document.getElementById('cr-scroll-c1');
+        let c2 = document.getElementById('cr-scroll-c2');
         if (c1) c1.value = "0";
+        if (c2) c2.value = "0";
     }
     cr_updateUI();
 }
 
 function cr_getDynamicScrollImg(stage, firstRate, defaultImg) {
     if (!firstRate || firstRate === 0) return defaultImg;
-    let folder = 'assets/';
+    let folder = 'assets/craft/';
     if (stage === 'necro') {
-        if (firstRate >= 1 && firstRate <= 6) return `${folder}幸運的古代製作卷軸${firstRate}.png`;
-        if (firstRate === 10 || firstRate === 15) return `${folder}幸運的古代製作卷軸5_10.png`;
+        if (firstRate >= 1 && firstRate <= 6) return `${folder}Item_幸運的古代製作卷軸${firstRate}.png`;
+        if (firstRate === 10 || firstRate === 15) return `${folder}Item_幸運的古代製作卷軸5_10.png`;
     } else {
-        if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}幸運的混沌製作卷軸(武器)3_5_7.png`;
-        if (firstRate === 10) return `${folder}幸運的混沌製作卷軸_武器_10.png`;
+        if (firstRate === 3 || firstRate === 5 || firstRate === 7) return `${folder}Item_幸運的混沌製作卷軸(武器)3_5_7.png`;
+        if (firstRate === 10) return `${folder}Item_幸運的混沌製作卷軸_武器_10.png`;
     }
     return defaultImg;
 }
 
 function cr_updateUI() {
-    let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+    let activeKey = cr_getActiveDataKey();
     let data = CRAFT_DATA[activeKey];
     let scrollInfo = cr_getScrollRate();
-    let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
+    let accumulatedFailures = cr_getAccumulatedFailures(activeKey);
+    let rateBreakdown = cr_getRateBreakdown(data, scrollInfo, accumulatedFailures);
+    let rateFormula = cr_formatRateFormula(rateBreakdown);
 
     // 🌟 從資料庫抓取當前選擇武器的對應圖片與名稱
     let equipData = cr_equip_db[cr_equip_idx];
@@ -3054,7 +3192,7 @@ function cr_updateUI() {
     let crystalImgElem = document.getElementById('cr-crystal-img');
     let crystalNameElem = document.getElementById('cr-crystal-name');
     if (crystalImgElem) { crystalImgElem.style.display = ''; crystalImgElem.src = data.crystalImg; }
-    if (crystalNameElem) crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
+    if (crystalNameElem) crystalNameElem.innerHTML = `${data.crystalName}<br><span style="color:#555; font-weight:normal; font-size:0.85em;">1/${data.crystalReq}</span>`;
 
     let fromTextElem = document.getElementById('cr-stage-from-text');
     let toTextElem = document.getElementById('cr-stage-to-text');
@@ -3079,15 +3217,15 @@ function cr_updateUI() {
             descHTML += `
                 <div style="background-color: #FFFFFF; border-bottom: 1px solid #e1e4e8; padding: 4px 0; display: flex; justify-content: center;">
                     <div style="display: flex; gap: 110px; width: 400px; padding-left: 0px;">
-                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #333;">
+                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #555;">
                             <input type="checkbox" ${cr_mythic_type === 'inherit' ? 'checked' : ''} onchange="cr_changeMythicSub('inherit')" style="margin-right: 8px; width: 18px; height: 18px; accent-color: #3498db; cursor: pointer;"> 繼承
                         </label>
-                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #333;">
+                        <label style="cursor: pointer; display: flex; align-items: center; user-select: none; font-size: 14px; font-weight: bold; color: #555;">
                             <input type="checkbox" ${cr_mythic_type === 'necro' ? 'checked' : ''} onchange="cr_changeMythicSub('necro')" style="margin-right: 8px; width: 18px; height: 18px; accent-color: #3498db; cursor: pointer;"> 死靈轉換
                         </label>
                     </div>
                 </div>
-                <div style="background-color: #F0F0F0; padding: 15px 20px; font-size: 13px; color: #333; line-height: 1.6; text-align: center; font-weight: normal;">
+                <div style="background-color: #F0F0F0; padding: 15px 20px; font-size: 13px; color: #555; line-height: 1.6; text-align: center; font-weight: normal;">
                     ${data.desc}
                 </div>
             `;
@@ -3115,13 +3253,13 @@ function cr_updateUI() {
     if (scrollCol && scrollName) {
         if (scrollInfo.rate > 0 || scrollInfo.count > 0) {
             scrollCol.style.opacity = '1';
-            scrollName.style.color = '#333';
+            scrollName.style.color = '#555';
             scrollName.style.fontWeight = 'bold';
             let scrollDisplayName = (cr_stage === 'necro') ? `${data.scrollName}` : `${data.scrollName}${scrollInfo.rate}%`;
-            scrollName.innerHTML = `${scrollDisplayName}<br><span style="color:#888; font-weight:normal; font-size:0.85em;">${scrollInfo.count}/${data.scrollReq}</span>`;
+            scrollName.innerHTML = `${scrollDisplayName}<br><span style="color:#555; font-weight:normal; font-size:0.85em;">${scrollInfo.count}/${data.scrollReq}</span>`;
         } else {
             scrollCol.style.opacity = '0.3';
-            scrollName.style.color = '#888';
+            scrollName.style.color = '#555';
             scrollName.style.fontWeight = 'normal';
             scrollName.innerHTML = `卷軸`;
         }
@@ -3129,37 +3267,59 @@ function cr_updateUI() {
 
     let rateBox = document.querySelector('#cr-game-ui-container .rate-box');
     if (rateBox) {
-        rateBox.style.marginTop = 'auto'; rateBox.style.width = '100%';
+        const rateInfoButtonHTML = `
+            <button id="cr-rate-info-button" class="cr-rate-info-button" type="button"
+                aria-label="查看製作成功率詳情" aria-expanded="false"
+                onclick="cr_toggleRateDetails(event)">!</button>
+        `;
+        const rateInfoPopoverHTML = `<div id="cr-rate-detail" class="cr-rate-detail-popover" hidden></div>`;
+        rateBox.style.marginTop = 'auto';
+        rateBox.style.marginBottom = '12px';
+        rateBox.style.width = '100%';
+        rateBox.style.position = 'relative';
         if (cr_stage === 'necro' && cr_mythic_type === 'necro') {
             rateBox.innerHTML = `
                 <div style="background-color: #ffffff; width: 100%; padding: 6px 0; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8;">
                     <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">追加死靈轉換製作成功機率 : ${data.additionalRate}%</div>
                 </div>
                 <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
-                    <div class="txt-sharp" style="color: #f3724c; font-size: 15px;">死靈轉換製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}</div>
+                    <div class="txt-sharp cr-craft-rate-line" style="color: #f3724c; font-size: 15px;">
+                        死靈轉換製作成功機率 : ${rateFormula}
+                        ${rateInfoButtonHTML}
+                    </div>
                 </div>
+                ${rateInfoPopoverHTML}
             `;
         } else if (cr_stage === 'necro' && cr_mythic_type === 'inherit') {
             rateBox.innerHTML = `
                 <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0 10px 0;">
-                    <div class="txt-sharp" style="color: #f3724c; font-size: 15px;">繼承製作成功機率 : ${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + '%'}</div>
+                    <div class="txt-sharp cr-craft-rate-line" style="color: #f3724c; font-size: 15px;">
+                        繼承製作成功機率 : ${rateFormula}
+                        ${rateInfoButtonHTML}
+                    </div>
                 </div>
+                ${rateInfoPopoverHTML}
             `;
         } else {
             rateBox.innerHTML = `
-                <div class="txt-sharp" style="color: #f3724c; font-size: 15px; padding-bottom: 10px; margin-bottom: 0;"> 
+                <div class="txt-sharp cr-craft-rate-line" style="color: #f3724c; font-size: 15px; padding-bottom: 10px; margin-bottom: 0;"> 
                     <span id="cr-stage-to-name-color">${data.toText}</span>製作成功率 : 
-                    <span id="cr-total-rate" style="margin-left: 2px;">${scrollInfo.rate > 0 ? (data.baseRate + scrollInfo.rate) + '(' + data.baseRate + '+' + scrollInfo.rate + ')%' : data.baseRate + ' %'}</span>
+                    <span id="cr-total-rate" style="margin-left: 2px;">${rateFormula}</span>
+                    ${rateInfoButtonHTML}
                 </div>
+                ${rateInfoPopoverHTML}
             `;
         }
     }
+    cr_updateRateDetails(data, rateBreakdown);
 
     let mesoElem = document.getElementById('cr-meso-cost');
     if (mesoElem) mesoElem.innerText = data.meso;
 
     let statSuccess = document.getElementById('cr-stat-success');
     let statFails = document.getElementById('cr-stat-fails');
+    let statPityFails = document.getElementById('cr-stat-pity-fails');
+    let statFailBonus = document.getElementById('cr-stat-fail-bonus');
     let statCrys = document.getElementById('cr-stat-crystals');
     let statScr = document.getElementById('cr-stat-scrolls');
     let statTotalUsed = document.getElementById('cr-stat-total-used');
@@ -3167,19 +3327,23 @@ function cr_updateUI() {
 
     if (statSuccess) statSuccess.innerText = cr_successes;
     if (statFails) statFails.innerText = cr_fails;
+    if (statPityFails) statPityFails.innerText = accumulatedFailures;
+    if (statFailBonus) statFailBonus.innerText = rateBreakdown.failureRewardRate;
     if (statCrys) statCrys.innerText = cr_crystals_used;
     if (statScr) statScr.innerText = cr_scrolls_used;
     if (statTotalUsed) statTotalUsed.innerText = cr_crystals_used;
 
-    let current_ev = (cr_current_attempts > 0) ? (100 / totalRate) : 0;
-    if (evAtmpt) evAtmpt.innerText = (cr_ev_achieved + current_ev).toFixed(2);
+    const fixedRate = rateBreakdown.baseRate + rateBreakdown.alchemyRate + rateBreakdown.scrollRate;
+    const expectedAttempts = cr_calculateExpectedAttempts(fixedRate, accumulatedFailures);
+    if (evAtmpt) evAtmpt.innerText = expectedAttempts.toFixed(2);
 }
 
 function cr_showConfirm() {
     if (cr_isAnimating) return;
+    cr_closeRateDetails();
     let modal = document.getElementById('cr-confirm-modal');
     if (modal) {
-        let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+        let activeKey = cr_getActiveDataKey();
         let data = CRAFT_DATA[activeKey];
         let confirmBody = modal.querySelector('.cr-confirm-body');
         if (confirmBody) {
@@ -3210,10 +3374,12 @@ function cr_executeCraft() {
     cr_isAnimating = true;
 
     try {
-        let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+        let activeKey = cr_getActiveDataKey();
         let data = CRAFT_DATA[activeKey];
         let scrollInfo = cr_getScrollRate();
-        let totalRate = data.baseRate + data.additionalRate + scrollInfo.rate;
+        let accumulatedFailures = cr_getAccumulatedFailures(activeKey);
+        let rateBreakdown = cr_getRateBreakdown(data, scrollInfo, accumulatedFailures);
+        let totalRate = rateBreakdown.totalRate;
 
         cr_current_attempts++;
         cr_crystals_used++;
@@ -3235,10 +3401,12 @@ function cr_executeCraft() {
                 if (isSuccess) {
                     cr_successes++;
                     let attempts_taken = cr_current_attempts;
-                    cr_fails = 0; cr_ev_achieved += (100 / totalRate); cr_current_attempts = 0;
+                    cr_setAccumulatedFailures(0, activeKey);
+                    cr_current_attempts = 0;
                     cr_showResult(true, attempts_taken);
                 } else {
                     cr_fails++;
+                    cr_setAccumulatedFailures(accumulatedFailures + 1, activeKey);
                     cr_showResult(false);
                 }
             }, 1260);
@@ -3259,7 +3427,7 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
     let failCont = document.getElementById('cr-m-fail-text-container');
     let resultImgElem = document.getElementById('cr-m-equip-img');
 
-    let activeKey = (cr_stage === 'necro') ? 'mythic_' + cr_mythic_type : cr_stage;
+    let activeKey = cr_getActiveDataKey();
     let data = CRAFT_DATA[activeKey];
     let equipData = cr_equip_db[cr_equip_idx];
     
@@ -3293,7 +3461,10 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
             mStarBadge.innerHTML = `<span>${newStar}</span>`; 
         }
 
-        if (failCont) { failCont.style.display = "block"; failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`; }
+        if (failCont) {
+            failCont.style.display = "block";
+            failCont.innerHTML = `累積製作 <span style="color:#e67e22; font-weight:bold;">${attempts_taken}</span> 次`;
+        }
         if (statsBox) {
             statsBox.innerHTML = `
                 <div class="cr-stat-row"><span style="color:#333;">攻擊力</span><span style="color:#f3724c;">1,204 <span style="color:#58C701;">(▲1,204)</span></span></div>
@@ -3323,7 +3494,12 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
             mStarBadge.innerHTML = `<span>M</span>`; 
         }
 
-        if (failCont) { failCont.style.display = "block"; failCont.innerHTML = `製作失敗次數 <span style="color:#e74c3c; font-weight:bold;">${cr_fails}</span> / 5`; }
+        if (failCont) {
+            const accumulatedFailures = cr_getAccumulatedFailures(activeKey);
+            const failureRewardRate = cr_getFailureRewardRate(accumulatedFailures);
+            failCont.style.display = "block";
+            failCont.innerHTML = `累積失敗 <span style="color:#e74c3c; font-weight:bold;">${accumulatedFailures}</span> 次 · 成功率 +${failureRewardRate}%`;
+        }
         if (statsBox) { statsBox.innerHTML = `<div style="text-align:center; padding: 15px 0; color:#555; font-size:14px; font-weight:bold;">能力值沒有變化。</div>`; }
     }
 }
@@ -3337,7 +3513,9 @@ function cr_closeResult() {
 
 function cr_action_reset() {
     if (cr_isAnimating) return;
-    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0; cr_scrolls_used = 0; cr_ev_achieved = 0; cr_current_attempts = 0;
+    Object.keys(cr_failure_records).forEach(key => delete cr_failure_records[key]);
+    cr_fails = 0; cr_successes = 0; cr_crystals_used = 0; cr_scrolls_used = 0; cr_current_attempts = 0;
+    cr_closeRateDetails();
     cr_updateUI();
 }
 
@@ -3386,17 +3564,17 @@ const wAssets = {
     pWalk: new Image(), pIdle: new Image(), legTop: new Image(), legBot: new Image(), crack: new Image()
 };
 
-wAssets.bgSmooth.src = 'assets/bg_Deep_Mirror.png';
-wAssets.bgCrack.src = 'assets/bg_Deep_Mirror.png';
-wAssets.crack.src = 'assets/screen_crack.png';
-wAssets.pWalk.src = 'assets/player_walk.png';
-wAssets.pIdle.src = 'assets/player_idle.png';
-wAssets.boss.src = 'assets/boss_will.png';
-wAssets.legTop.src = 'assets/spider_leg_top.png';
-wAssets.legBot.src = 'assets/spider_leg_bottom.png';
+wAssets.bgSmooth.src = 'assets/will/bg_Deep_Mirror.png';
+wAssets.bgCrack.src = 'assets/will/bg_Deep_Mirror.png';
+wAssets.crack.src = 'assets/will/effect_畫面裂痕.png';
+wAssets.pWalk.src = 'assets/will/sprite_玩家_行走.png';
+wAssets.pIdle.src = 'assets/will/sprite_玩家_待機.png';
+wAssets.boss.src = 'assets/will/sprite_威爾.png';
+wAssets.legTop.src = 'assets/will/sprite_蜘蛛腳_上.png';
+wAssets.legBot.src = 'assets/will/sprite_蜘蛛腳_下.png';
 
 wAssets.hitEffect = new Image();
-wAssets.hitEffect.src = 'assets/spider_leg_hit.png';
+wAssets.hitEffect.src = 'assets/will/effect_蜘蛛腳命中.png';
 
 const wSprites = {
     pWalk: { cols: 6, rows: 7, frames: 37, speed: 60, curr: 0, tick: 0 },
@@ -3509,7 +3687,7 @@ let wGame = {
 };
 
 // 🌟 背景音樂管理
-let willBgm = new Audio('assets/MirrorCage.mp3');
+let willBgm = new Audio('assets/audio/MirrorCage.mp3');
 willBgm.loop = true;
 willBgm.volume = 0.3;
 let isBgmPlaying = false;
@@ -4401,8 +4579,8 @@ const acc_emblems = [
     "Lv.1 銳利紋章"
 ];
 
-const acc_sfxSuccess = new Audio('assets/Enchant.wav'); 
-const acc_sfxFail = new Audio('assets/EnchantFail.mp3');
+const acc_sfxSuccess = new Audio('assets/audio/Enchant.wav'); 
+const acc_sfxFail = new Audio('assets/audio/EnchantFail.mp3');
 
 // 狀態變數
 let acc_current_emblem = ""; 
@@ -4918,12 +5096,13 @@ const emb_rate_data = [
     { baseRate: 5, maxMat: 6, matName: "混沌紋章的痕跡" }      // 14->15
 ];
 
-const emb_sfxSuccess = new Audio('assets/Enchant.wav'); 
-const emb_sfxFail = new Audio('assets/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
+const emb_sfxSuccess = new Audio('assets/audio/Enchant.wav'); 
+const emb_sfxFail = new Audio('assets/audio/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
 
 // 狀態變數
 let emb_lv = 1; 
 let emb_mat_count = 1;
+let emb_premium_mat_count = 0;
 let emb_isAnimating = false;
 let emb_attempts = 0;
 let emb_successes = 0;
@@ -4931,8 +5110,16 @@ let emb_fails = 0;
 let emb_current_level_attempts = 0;
 let emb_mats_normal_used = 0;
 let emb_mats_chaos_used = 0;
+let emb_mats_premium_used = 0;
 let emb_isMuted = false; 
-let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0, mats: 0, lastMatCount: 1 }));
+let emb_stats_history = Array.from({length: 15}, () => ({
+    attempts: 0,
+    fails: 0,
+    mats: 0,
+    premiumMats: 0,
+    lastMatCount: 1,
+    lastPremiumCount: 0
+}));
 
 function emb_toggleSound() {
     emb_isMuted = !emb_isMuted;
@@ -4962,9 +5149,16 @@ function emb_forceStateChange() {
         if (opt15) opt15.remove();
     }
     
-    emb_mat_count = 1;
+    emb_mat_count = emb_lv >= 7 ? 0 : 1;
+    emb_premium_mat_count = 0;
     emb_current_level_attempts = 0;
     emb_updateUI();
+}
+
+function emb_getMaxPremiumMat(rateInfo = emb_rate_data[emb_lv - 1]) {
+    if (!rateInfo || emb_lv < 7 || emb_lv >= 15) return 0;
+    const remainingRate = Math.max(0, 100 - (rateInfo.baseRate * emb_mat_count));
+    return Math.ceil(remainingRate / rateInfo.baseRate);
 }
 
 // ==========================================
@@ -5025,27 +5219,68 @@ function emb_updateUI() {
 
     let btnAction = document.getElementById('btn-emb-action');
     let ctrlWrap = document.getElementById('emb-ui-controller-wrap');
+    let maxMatBtn = document.getElementById('emb-ui-mat-max-btn');
+    let premiumRow = document.getElementById('emb-ui-premium-row');
+    let premiumCtrl = document.getElementById('emb-ui-premium-controller');
+    const setPremiumDisabled = (disabled) => {
+        if (premiumRow) {
+            premiumRow.hidden = false;
+            premiumRow.classList.toggle('is-disabled', disabled);
+            premiumRow.setAttribute('aria-disabled', String(disabled));
+        }
+        if (premiumCtrl) {
+            premiumCtrl.classList.toggle('disabled', disabled);
+            premiumCtrl.querySelectorAll('button').forEach(button => {
+                button.disabled = disabled;
+            });
+        }
+    };
     
     if (emb_lv >= 15) {
         if (document.getElementById('emb-ui-prob-s')) document.getElementById('emb-ui-prob-s').innerText = "0%";
         if (document.getElementById('emb-ui-prob-m')) document.getElementById('emb-ui-prob-m').innerText = "0%";
         if (ctrlWrap) ctrlWrap.classList.add('disabled');
+        if (maxMatBtn) maxMatBtn.hidden = true;
+        emb_premium_mat_count = 0;
+        if (document.getElementById('emb-ui-premium-curr')) {
+            document.getElementById('emb-ui-premium-curr').innerText = "0";
+        }
+        setPremiumDisabled(true);
         if (btnAction) btnAction.disabled = true;
     } else {
         let rateInfo = emb_rate_data[emb_lv - 1];
-        if (document.getElementById('emb-ui-img-mat')) document.getElementById('emb-ui-img-mat').src = `assets/${rateInfo.matName}.png`;
+        if (document.getElementById('emb-ui-img-mat')) document.getElementById('emb-ui-img-mat').src = `assets/emblem/Item_${rateInfo.matName}.png`;
+        if (maxMatBtn) maxMatBtn.hidden = rateInfo.matName === "混沌紋章的痕跡";
         
-        let successRate = Math.min(100, rateInfo.baseRate * emb_mat_count);
+        const premiumAvailable = emb_lv >= 7;
+        const maxPremiumMat = premiumAvailable ? emb_getMaxPremiumMat(rateInfo) : 0;
+        emb_premium_mat_count = Math.min(emb_premium_mat_count, maxPremiumMat);
+
+        setPremiumDisabled(!premiumAvailable || maxPremiumMat === 0);
+        if (document.getElementById('emb-ui-premium-curr')) {
+            document.getElementById('emb-ui-premium-curr').innerText = emb_premium_mat_count;
+        }
+
+        const normalSuccessRate = Math.min(100, rateInfo.baseRate * emb_mat_count);
+        const premiumSuccessRate = Math.min(
+            100 - normalSuccessRate,
+            rateInfo.baseRate * emb_premium_mat_count
+        );
+        let successRate = normalSuccessRate + premiumSuccessRate;
         let maintainRate = 100 - successRate;
         
-        if (document.getElementById('emb-ui-prob-s')) document.getElementById('emb-ui-prob-s').innerText = successRate + "%";
+        if (document.getElementById('emb-ui-prob-s')) {
+            document.getElementById('emb-ui-prob-s').innerHTML = emb_premium_mat_count > 0
+                ? `<span class="emb-rate-success-main">${successRate}</span><span class="emb-rate-breakdown emb-rate-formula">(${normalSuccessRate}+<span class="emb-rate-premium-value">${premiumSuccessRate}</span>)</span><span class="emb-rate-percent">%</span>`
+                : `<span class="emb-rate-success-main">${successRate}</span><span class="emb-rate-percent">%</span>`;
+        }
         if (document.getElementById('emb-ui-prob-m')) document.getElementById('emb-ui-prob-m').innerText = maintainRate + "%";
         
         if (document.getElementById('emb-ui-mat-curr')) document.getElementById('emb-ui-mat-curr').innerText = emb_mat_count;
         if (document.getElementById('emb-ui-mat-max')) document.getElementById('emb-ui-mat-max').innerText = rateInfo.maxMat;
         
         if (ctrlWrap) ctrlWrap.classList.remove('disabled');
-        if (btnAction) btnAction.disabled = false;
+        if (btnAction) btnAction.disabled = (emb_mat_count + emb_premium_mat_count) === 0;
     }
 
     // 📊 下方動態統計面板渲染
@@ -5053,7 +5288,7 @@ function emb_updateUI() {
     if (statsContainer) {
         let statsHtmlContent = `
             <div class="acc-stats-header">
-                <div>各星級消耗 <span class="acc-stats-hint">(隱藏未點擊)</span></div>
+                <div>各等級消耗 <span class="acc-stats-hint">(隱藏未點擊)</span></div>
                 <div class="acc-stats-hint-ev">當前期望</div>
             </div>
             <div class="acc-stats-body">
@@ -5064,12 +5299,14 @@ function emb_updateUI() {
             let rateInfo = emb_rate_data[i - 1];
             
             let matToUse = (i === emb_lv) ? emb_mat_count : hist.lastMatCount;
-            let currentSuccessRate = Math.min(100, rateInfo.baseRate * matToUse); 
+            let premiumToUse = (i === emb_lv) ? emb_premium_mat_count : hist.lastPremiumCount;
+            let totalMatToUse = matToUse + premiumToUse;
+            let currentSuccessRate = Math.min(100, rateInfo.baseRate * totalMatToUse); 
             
             let evText = "∞";
             if (currentSuccessRate > 0) {
                 let evAttempts = 100 / currentSuccessRate; 
-                let evMats = evAttempts * matToUse;
+                let evMats = evAttempts * totalMatToUse;
                 
                 // 單行期望值，沒有 <br>
                 evText = `${evAttempts.toFixed(1)}次 <span style="font-size: 11px; color:#888;">(約${evMats.toFixed(1)}個)</span>`;
@@ -5077,6 +5314,30 @@ function emb_updateUI() {
             
             if (hist.attempts > 0 || i === emb_lv) {
                 let isCurrent = (i === emb_lv) ? 'current-lv' : '';
+                const standardMatsUsed = Math.max(0, hist.mats - hist.premiumMats);
+                const materialParts = [];
+
+                if (standardMatsUsed > 0) {
+                    materialParts.push(`
+                        <span class="emb-hist-material-item" title="${rateInfo.matName}">
+                            <img src="assets/emblem/icon_${rateInfo.matName}.png" alt="${rateInfo.matName}" onerror="this.style.display='none'">
+                            <strong>${standardMatsUsed}</strong>
+                        </span>
+                    `);
+                }
+
+                if (hist.premiumMats > 0) {
+                    materialParts.push(`
+                        <span class="emb-hist-material-item" title="優質混沌紋章的痕跡">
+                            <img src="assets/emblem/icon_優質混沌紋章的痕跡.png" alt="優質混沌紋章的痕跡" onerror="this.style.display='none'">
+                            <strong>${hist.premiumMats}</strong>
+                        </span>
+                    `);
+                }
+
+                const materialUsageHtml = materialParts.length > 0
+                    ? materialParts.join('<span class="emb-hist-material-plus">+</span>')
+                    : '<span class="emb-hist-empty">尚未消耗</span>';
                 
                 // 🌟 1. 將網格改為 1fr auto 1fr (左右平分，中間自適應)
                 statsHtmlContent += `
@@ -5084,7 +5345,7 @@ function emb_updateUI() {
                     
                     <div class="acc-hist-lv" style="text-align: left;"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
                     
-                    <div class="acc-hist-main" style="text-align: center;">消耗 <span class="val-try">${hist.mats}</span> 個</div>
+                    <div class="acc-hist-main emb-hist-materials" style="text-align: center;">${materialUsageHtml}</div>
                     
                     <div class="acc-hist-ev" style="text-align: right;">${evText}</div>
                     
@@ -5094,9 +5355,10 @@ function emb_updateUI() {
         
         // 🌟 完全移除嘗試/成功/失敗，只保留置中的材料總結
         statsHtmlContent += `</div>
-        <div style="display: flex; justify-content: center; gap: 25px; font-size: 14px; font-weight: bold; color: #555; margin-top: 15px; margin-bottom: 5px;">
+        <div class="emb-material-summary">
             <div>一般痕跡：<span style="color: #f3724c; font-size: 16px;">${emb_mats_normal_used}</span></div>
             <div>混沌痕跡：<span style="color: #8e44ad; font-size: 16px;">${emb_mats_chaos_used}</span></div>
+            <div>優質混沌：<span style="color: #d49a13; font-size: 16px;">${emb_mats_premium_used}</span></div>
         </div>`;
         
         statsContainer.innerHTML = statsHtmlContent;
@@ -5106,25 +5368,46 @@ function emb_updateUI() {
 function emb_changeMat(amount) {
     if (emb_lv >= 15 || emb_isAnimating) return;
     let max = emb_rate_data[emb_lv - 1].maxMat;
+    let min = emb_lv >= 7 ? 0 : 1;
     emb_mat_count += amount;
-    if (emb_mat_count < 1) emb_mat_count = 1;
+    if (emb_mat_count < min) emb_mat_count = min;
     if (emb_mat_count > max) emb_mat_count = max;
+    emb_premium_mat_count = Math.min(emb_premium_mat_count, emb_getMaxPremiumMat());
     emb_updateUI();
 }
 
 function emb_setMaxMat() {
     if (emb_lv >= 15 || emb_isAnimating) return;
     emb_mat_count = emb_rate_data[emb_lv - 1].maxMat;
+    emb_premium_mat_count = Math.min(emb_premium_mat_count, emb_getMaxPremiumMat());
+    emb_updateUI();
+}
+
+function emb_changePremiumMat(amount) {
+    if (emb_lv < 7 || emb_lv >= 15 || emb_isAnimating) return;
+    const max = emb_getMaxPremiumMat();
+    emb_premium_mat_count += amount;
+    if (emb_premium_mat_count < 0) emb_premium_mat_count = 0;
+    if (emb_premium_mat_count > max) emb_premium_mat_count = max;
+    emb_updateUI();
+}
+
+function emb_setMaxPremiumMat() {
+    if (emb_lv < 7 || emb_lv >= 15 || emb_isAnimating) return;
+    emb_premium_mat_count = emb_getMaxPremiumMat();
     emb_updateUI();
 }
 
 
 function emb_executeEnhance() {
-    if (emb_lv >= 15 || emb_isAnimating) return;
+    if (emb_lv >= 15 || emb_isAnimating || (emb_mat_count + emb_premium_mat_count) <= 0) return;
     emb_isAnimating = true;
 
     let rateInfo = emb_rate_data[emb_lv - 1];
-    let successRate = Math.min(100, rateInfo.baseRate * emb_mat_count);
+    let successRate = Math.min(
+        100,
+        rateInfo.baseRate * (emb_mat_count + emb_premium_mat_count)
+    );
     
     let roll = Math.random() * 100;
     let isSuccess = roll < successRate;
@@ -5133,15 +5416,18 @@ function emb_executeEnhance() {
     emb_current_level_attempts++;
     let oldLv = emb_lv;
 
-    emb_stats_history[oldLv].mats += emb_mat_count;
+    emb_stats_history[oldLv].mats += emb_mat_count + emb_premium_mat_count;
+    emb_stats_history[oldLv].premiumMats += emb_premium_mat_count;
 
     emb_stats_history[oldLv].lastMatCount = emb_mat_count;
+    emb_stats_history[oldLv].lastPremiumCount = emb_premium_mat_count;
 
     if (rateInfo.matName === "紋章的痕跡") {
         emb_mats_normal_used += emb_mat_count;
     } else {
         emb_mats_chaos_used += emb_mat_count;
-    } 
+    }
+    emb_mats_premium_used += emb_premium_mat_count;
 
     emb_stats_history[oldLv].attempts++;
     if (!isSuccess) {
@@ -5236,7 +5522,8 @@ function emb_showResult(isSuccess, oldLv, newLv) {
 
     if (isSuccess) {
         emb_current_level_attempts = 0; 
-        emb_mat_count = 1; 
+        emb_mat_count = emb_lv >= 7 ? 0 : 1;
+        emb_premium_mat_count = 0;
     }
 
     modal.classList.add('active');
@@ -5256,15 +5543,24 @@ function emb_reset() {
     // 1. 重設 JavaScript 變數
     emb_lv = 1;
     emb_mat_count = 1;
+    emb_premium_mat_count = 0;
     emb_attempts = 0;
     emb_successes = 0;
     emb_fails = 0;
     emb_current_level_attempts = 0;
     emb_mats_normal_used = 0;
-    emb_mats_chaos_used = 0; 
+    emb_mats_chaos_used = 0;
+    emb_mats_premium_used = 0;
     
     // 🌟 同步更新：確保清除狀態時，這個新欄位也回到預設值 1
-    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0, mats: 0, lastMatCount: 1 }));
+    emb_stats_history = Array.from({length: 15}, () => ({
+        attempts: 0,
+        fails: 0,
+        mats: 0,
+        premiumMats: 0,
+        lastMatCount: 1,
+        lastPremiumCount: 0
+    }));
     
     let selectElem = document.getElementById('emb-lv-select');
     if (selectElem) {
