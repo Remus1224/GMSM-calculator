@@ -43,13 +43,19 @@
 
     <div id="tab-home" class="tab-content active">
         <div class="app-grid">
-            <div class="app-card" onclick="switchTab('notice')">
+            <div class="app-card app-card-notice app-card-has-badge" onclick="switchTab('notice')">
                 <div class="app-icon">
                     <img src="assets/menu/icon_公告.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
                     <h3>布告欄</h3>
                 </div>
+                <span id="notice-unread-badge" class="app-status-badge app-status-badge-new app-status-badge-unread" hidden>NEW</span>
+            </div>
+
+            <div class="home-menu-category home-menu-category-simulator" role="heading" aria-level="2">
+                <span>模擬器</span>
+                <small>6</small>
             </div>
 
             <div class="app-card" onclick="switchTab('transcend')">
@@ -61,22 +67,24 @@
                 </div>
             </div>
 
-            <div class="app-card" onclick="switchTab('craft')">
+            <div class="app-card app-card-has-badge" onclick="switchTab('craft')">
                 <div class="app-icon">
                     <img src="assets/menu/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
                     <h3>製作模擬器</h3>
                 </div>
+                <span id="menu-badge-craft" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
             </div>
 
-             <div class="app-card" onclick="switchTab('emb-enhance')">
+             <div class="app-card app-card-has-badge" onclick="switchTab('emb-enhance')">
                 <div class="app-icon">
                     <img src="assets/emblem/icon_紋章模擬.png" class="menu-custom-img" alt="icon" >
                 </div>
                 <div class="app-info">
                     <h3>紋章模擬器</h3>
                 </div>
+                <span id="menu-badge-emb-enhance" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
             </div>
 
             <div class="app-card" onclick="switchTab('acc-enhance')">
@@ -97,16 +105,21 @@
                 </div>
             </div>
 
-            <div class="app-card" onclick="switchTab('hexa-visual')">
+            <div class="app-card" onclick="switchTab('will')">
                 <div class="app-icon">
-                    <img src="assets/menu/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="icon">
+                    <img src="assets/menu/icon_威爾練習機.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
-                    <h3>HEXA 屬性模擬器</h3>
+                    <h3>威爾二階練習機</h3>
                 </div>
             </div>
 
-            <div class="app-card" onclick="switchTab('hyper-stat')">
+            <div class="home-menu-category home-menu-category-calculator" role="heading" aria-level="2">
+                <span>計算機</span>
+                <small>4</small>
+            </div>
+
+            <div class="app-card app-card-has-badge" onclick="switchTab('hyper-stat')">
                 <div class="app-icon">
                     <img src="assets/menu/icon_極限屬性計算機.png" class="menu-custom-img" alt=""
                         onerror="this.style.display='none'">
@@ -114,9 +127,10 @@
                 <div class="app-info">
                     <h3>極限屬性計算機</h3>
                 </div>
+                <span id="menu-badge-hyper-stat" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </div>
 
-            <div class="app-card" onclick="switchTab('rune')">
+            <div class="app-card app-card-has-badge" onclick="switchTab('rune')">
                 <div class="app-icon">
                     <div class="rune-menu-icon" aria-hidden="true">
                         <span>✦</span>
@@ -126,6 +140,7 @@
                 <div class="app-info">
                     <h3>符文計算機</h3>
                 </div>
+                <span id="menu-badge-rune" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </div>
 
             <div class="app-card" onclick="switchTab('ignore')">
@@ -146,12 +161,17 @@
                 </div>
             </div>
 
-            <div class="app-card" onclick="switchTab('will')">
+            <div class="home-menu-category home-menu-category-hexa" role="heading" aria-level="2">
+                <span>HEXA 相關</span>
+                <small>4</small>
+            </div>
+
+            <div class="app-card" onclick="switchTab('hexa-visual')">
                 <div class="app-icon">
-                    <img src="assets/menu/icon_威爾練習機.png" class="menu-custom-img" alt="icon">
+                    <img src="assets/menu/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
-                    <h3>威爾二階練習機</h3>
+                    <h3>HEXA 屬性模擬器</h3>
                 </div>
             </div>
 
@@ -182,6 +202,24 @@
                 </div>
             </div>
         </div> 
+
+        <section class="data-backup-panel" aria-labelledby="data-backup-title">
+            <div class="data-backup-heading">
+                <span class="data-backup-icon" aria-hidden="true">↕</span>
+                <div>
+                    <h2 id="data-backup-title">資料備份與還原</h2>
+                    <p>備份已儲存的計算機輸入，換裝置或清除瀏覽器前都能保留。</p>
+                </div>
+            </div>
+            <div class="data-backup-actions">
+                <button class="data-backup-btn data-backup-export" type="button" onclick="exportSiteDataBackup()">匯出備份</button>
+                <button class="data-backup-btn data-backup-import" type="button" onclick="openSiteDataBackupImport()">匯入備份</button>
+                <button class="data-backup-btn data-backup-clear" type="button" onclick="clearSavedCalculatorData()">清除計算資料</button>
+                <input id="data-backup-file-input" type="file" accept=".json,application/json" hidden
+                    onchange="importSiteDataBackup(this.files[0]); this.value = ''">
+            </div>
+            <p id="data-backup-status" class="data-backup-status" role="status" aria-live="polite"></p>
+        </section>
 
         <div class="settings-panel instructions-panel memo-card">
             <div class="memo-content">

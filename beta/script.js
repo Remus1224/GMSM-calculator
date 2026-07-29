@@ -105,6 +105,264 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
+const latestNoticeVersion = '2026-07-29';
+const noticeReadStorageKey = 'gmsm-notice-last-read';
+const menuToolBadgeConfig = {
+    'craft': {
+        elementId: 'menu-badge-craft',
+        version: '2026-07-29'
+    },
+    'emb-enhance': {
+        elementId: 'menu-badge-emb-enhance',
+        version: '2026-07-29'
+    },
+    'hyper-stat': {
+        elementId: 'menu-badge-hyper-stat',
+        version: '2026-07-29'
+    },
+    'rune': {
+        elementId: 'menu-badge-rune',
+        version: '2026-07-29'
+    }
+};
+const menuToolBadgeStoragePrefix = 'gmsm-menu-badge-seen-v1:';
+
+function updateNoticeUnreadBadge() {
+    const badge = document.getElementById('notice-unread-badge');
+    if (!badge) return;
+
+    let lastReadVersion = '';
+    try {
+        lastReadVersion = localStorage.getItem(noticeReadStorageKey) || '';
+    } catch (error) {
+        console.warn('無法讀取布告欄未讀狀態：', error);
+    }
+
+    badge.hidden = lastReadVersion === latestNoticeVersion;
+}
+
+function markNoticeAsRead() {
+    try {
+        localStorage.setItem(noticeReadStorageKey, latestNoticeVersion);
+    } catch (error) {
+        console.warn('無法儲存布告欄已讀狀態：', error);
+    }
+
+    const badge = document.getElementById('notice-unread-badge');
+    if (badge) badge.hidden = true;
+}
+
+function updateMenuToolBadges() {
+    Object.entries(menuToolBadgeConfig).forEach(([tabId, config]) => {
+        const badge = document.getElementById(config.elementId);
+        if (!badge) return;
+
+        let seenVersion = '';
+        try {
+            seenVersion = localStorage.getItem(menuToolBadgeStoragePrefix + tabId) || '';
+        } catch (error) {
+            console.warn(`無法讀取 ${tabId} 選單標籤狀態：`, error);
+        }
+
+        badge.hidden = seenVersion === config.version;
+    });
+}
+
+function markMenuToolBadgeAsRead(tabId) {
+    const config = menuToolBadgeConfig[tabId];
+    if (!config) return;
+
+    try {
+        localStorage.setItem(menuToolBadgeStoragePrefix + tabId, config.version);
+    } catch (error) {
+        console.warn(`無法儲存 ${tabId} 選單標籤狀態：`, error);
+    }
+
+    const badge = document.getElementById(config.elementId);
+    if (badge) badge.hidden = true;
+}
+
+const siteDataBackupFormat = 'gmsm-calculator-backup';
+const siteDataBackupVersion = 1;
+
+function getSiteDataStorageKeys() {
+    return Array.from(new Set([
+        ...Object.values(calculatorPersistenceConfig).map(config => config.storageKey),
+        'gmsm-hyper-stat-calculator-v1',
+        'gmsm-rune-calculator-state-v1'
+    ]));
+}
+
+function setDataBackupStatus(message, state = '') {
+    const status = document.getElementById('data-backup-status');
+    if (!status) return;
+
+    status.textContent = message;
+    if (state) {
+        status.dataset.state = state;
+    } else {
+        delete status.dataset.state;
+    }
+}
+
+function exportSiteDataBackup() {
+    const data = {};
+
+    try {
+        getSiteDataStorageKeys().forEach(key => {
+            const value = localStorage.getItem(key);
+            if (value !== null) data[key] = value;
+        });
+    } catch (error) {
+        console.warn('無法讀取計算機備份資料：', error);
+        setDataBackupStatus('無法讀取瀏覽器內的計算資料。', 'error');
+        return;
+    }
+
+    const savedItemCount = Object.keys(data).length;
+    if (savedItemCount === 0) {
+        setDataBackupStatus('目前沒有可匯出的計算資料。');
+        return;
+    }
+
+    const exportedAt = new Date();
+    const payload = {
+        format: siteDataBackupFormat,
+        version: siteDataBackupVersion,
+        exportedAt: exportedAt.toISOString(),
+        data
+    };
+    const pad = value => String(value).padStart(2, '0');
+    const fileTimestamp = [
+        exportedAt.getFullYear(),
+        pad(exportedAt.getMonth() + 1),
+        pad(exportedAt.getDate())
+    ].join('-') + '_' + [
+        pad(exportedAt.getHours()),
+        pad(exportedAt.getMinutes())
+    ].join('-');
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const downloadUrl = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = downloadUrl;
+    downloadLink.download = `楓之谷M也許有用的工具_備份_${fileTimestamp}.json`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
+
+    setDataBackupStatus(`已匯出 ${savedItemCount} 項計算資料。`, 'success');
+}
+
+function openSiteDataBackupImport() {
+    const fileInput = document.getElementById('data-backup-file-input');
+    if (fileInput) fileInput.click();
+}
+
+async function importSiteDataBackup(file) {
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        setDataBackupStatus('備份檔案過大，請確認是否選到正確檔案。', 'error');
+        return;
+    }
+
+    let payload;
+    try {
+        payload = JSON.parse(await file.text());
+    } catch (error) {
+        setDataBackupStatus('無法讀取檔案，請選擇本站匯出的 JSON 備份。', 'error');
+        return;
+    }
+
+    if (
+        !payload ||
+        payload.format !== siteDataBackupFormat ||
+        payload.version !== siteDataBackupVersion ||
+        !payload.data ||
+        typeof payload.data !== 'object' ||
+        Array.isArray(payload.data)
+    ) {
+        setDataBackupStatus('備份格式不正確或版本不支援。', 'error');
+        return;
+    }
+
+    const allowedKeys = getSiteDataStorageKeys();
+    const importedEntries = [];
+
+    try {
+        allowedKeys.forEach(key => {
+            if (!Object.prototype.hasOwnProperty.call(payload.data, key)) return;
+
+            const value = payload.data[key];
+            if (typeof value !== 'string') {
+                throw new Error(`Invalid value for ${key}`);
+            }
+            JSON.parse(value);
+            importedEntries.push([key, value]);
+        });
+    } catch (error) {
+        setDataBackupStatus('備份內容損壞，沒有匯入任何資料。', 'error');
+        return;
+    }
+
+    if (importedEntries.length === 0) {
+        setDataBackupStatus('備份內沒有可還原的計算資料。', 'error');
+        return;
+    }
+
+    const shouldImport = window.confirm(
+        `將匯入 ${importedEntries.length} 項計算資料，並覆蓋目前已保存的內容。確定繼續嗎？`
+    );
+    if (!shouldImport) {
+        setDataBackupStatus('已取消匯入。');
+        return;
+    }
+
+    const previousData = {};
+    try {
+        allowedKeys.forEach(key => {
+            const value = localStorage.getItem(key);
+            if (value !== null) previousData[key] = value;
+        });
+
+        allowedKeys.forEach(key => localStorage.removeItem(key));
+        importedEntries.forEach(([key, value]) => localStorage.setItem(key, value));
+    } catch (error) {
+        try {
+            allowedKeys.forEach(key => localStorage.removeItem(key));
+            Object.entries(previousData).forEach(([key, value]) => localStorage.setItem(key, value));
+        } catch (rollbackError) {
+            console.warn('還原匯入前資料時發生錯誤：', rollbackError);
+        }
+
+        console.warn('匯入計算機備份失敗：', error);
+        setDataBackupStatus('匯入失敗，原有資料已盡可能保留。', 'error');
+        return;
+    }
+
+    window.alert('資料匯入完成，頁面將重新載入。');
+    window.location.reload();
+}
+
+function clearSavedCalculatorData() {
+    const shouldClear = window.confirm(
+        '確定要清除所有已保存的計算機輸入嗎？'
+    );
+    if (!shouldClear) return;
+
+    try {
+        getSiteDataStorageKeys().forEach(key => localStorage.removeItem(key));
+    } catch (error) {
+        console.warn('清除計算機資料失敗：', error);
+        setDataBackupStatus('無法清除瀏覽器內的計算資料。', 'error');
+        return;
+    }
+
+    window.alert('計算資料已清除，頁面將重新載入。');
+    window.location.reload();
+}
 
 function switchTab(tabId) {
     // 跨分頁靜音與解除鎖定防護
@@ -131,6 +389,11 @@ function switchTab(tabId) {
 
     const targetTab = document.getElementById('tab-' + tabId);
     if (targetTab) targetTab.classList.add('active');
+
+    if (tabId === 'notice') {
+        markNoticeAsRead();
+    }
+    markMenuToolBadgeAsRead(tabId);
 
     // ... (保留你原本所有的分頁初始化與更新邏輯) ...
     if (tabId === 'hexa-lazy' && !lazyTableGenerated) {
@@ -320,6 +583,8 @@ function restoreCalculatorTabState(tabId) {
 
 // 確保網頁一開啟時，預設執行一次首頁狀態，避免任何跑版
 document.addEventListener("DOMContentLoaded", () => {
+    updateNoticeUnreadBadge();
+    updateMenuToolBadges();
     switchTab('home');
 
     const persistChangedControl = event => {
