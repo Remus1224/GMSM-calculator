@@ -2883,7 +2883,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 
 @media (max-width: 720px) {
     .rune-cards-grid { grid-template-columns: 1fr; }
-    .authentic-rune-list { grid-template-columns: 1fr; }
+    .authentic-rune-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
     .rune-grand-total { grid-template-columns: 1fr; gap: 13px; }
     .rune-grand-results { grid-template-columns: minmax(0, 1.6fr) minmax(160px, 0.7fr); }
     .rune-grand-item:not(.rune-grand-symbols-panel) strong {
@@ -2911,6 +2911,66 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .rune-grand-results { grid-template-columns: 1fr; }
     .rune-grand-symbol-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .rune-bottom-actions .rune-reset-all { min-height: 42px; }
+
+    .authentic-rune-list { gap: 8px; }
+    .authentic-rune-group { gap: 6px; }
+    .authentic-region-cards { gap: 8px; }
+    .authentic-region-tab { padding: 7px 6px; border-radius: 10px; font-size: 11px; }
+    .authentic-rune-card { padding: 10px 8px; border-radius: 14px; }
+    .authentic-rune-card .rune-card-header { gap: 5px; padding-bottom: 7px; }
+    .authentic-rune-card .rune-card-symbol {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+    .authentic-rune-card .rune-card-title h3 { font-size: 11px; }
+    .authentic-rune-card .rune-card-level-badge {
+        padding: 4px 6px;
+        font-size: 8px;
+    }
+    .authentic-rune-card .authentic-locked-badge {
+        padding: 5px 6px;
+        font-size: 8px;
+    }
+    .authentic-rune-card .rune-card-inputs { margin-top: 8px; gap: 6px; }
+    .authentic-rune-card .rune-card-inputs > label { gap: 4px; }
+    .authentic-rune-card .rune-card-inputs > label > span { font-size: 8px; }
+    .authentic-rune-card .rune-card-inputs select,
+    .authentic-rune-card .rune-progress-input { height: 31px; border-radius: 8px; }
+    .authentic-rune-card .rune-card-inputs select { padding: 0 4px; font-size: 10px; }
+    .authentic-rune-card .rune-progress-input input { padding: 0 4px 0 7px; font-size: 10px; }
+    .authentic-rune-card .rune-progress-input > small { padding-right: 6px; font-size: 8px; }
+    .authentic-rune-card .rune-current-requirement { min-height: 11px; font-size: 8px; }
+    .authentic-rune-card .rune-card-results {
+        min-height: 44px;
+        margin-top: 8px;
+        grid-template-columns: minmax(52px, 0.8fr) minmax(0, 1.7fr);
+        border-radius: 9px;
+    }
+    .authentic-rune-card .rune-card-result { padding: 6px 4px; }
+    .authentic-rune-card .rune-card-resource-icon {
+        width: 15px;
+        height: 15px;
+        flex-basis: 15px;
+    }
+    .authentic-rune-card .rune-card-coin-icon {
+        width: 15px;
+        height: 15px;
+        flex-basis: 15px;
+    }
+    .authentic-rune-card .rune-card-resource-line,
+    .authentic-rune-card .rune-card-meso-line { gap: 3px; }
+    .authentic-rune-card .rune-card-resource-line strong,
+    .authentic-rune-card .rune-card-meso-line strong { font-size: 10px; }
+    .authentic-rune-card .rune-card-status {
+        min-height: 12px;
+        margin-top: 5px;
+        overflow: hidden;
+        font-size: 8px;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 /* ========================================================= */
