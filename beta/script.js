@@ -75,8 +75,36 @@ let lazyTableGenerated = false;
 let visualInitialized = false;
 let progInitialized = false;
 let ignoreInitialized = false;
+let hyperStatInitialized = false;
+let runeInitialized = false;
 let willInitialized = false; // 新增這行
 let willGameActive = false;  // 新增這行
+
+const calculatorPersistenceConfig = {
+    'ignore': {
+        tabId: 'tab-ignore',
+        storageKey: 'gmsm-calculator-ignore-v1',
+        afterRestore: () => calculateIgnore()
+    },
+    'hexa-prog': {
+        tabId: 'tab-hexa-prog',
+        storageKey: 'gmsm-calculator-hexa-prog-v1',
+        afterRestore: () => {
+            coreConfig.forEach(core => {
+                if (!core.mandatory) toggleCoreProg(core.id);
+            });
+        }
+    },
+    'hexa-reset': {
+        tabId: 'tab-hexa-reset',
+        storageKey: 'gmsm-calculator-hexa-reset-v1'
+    },
+    'hexa-sim': {
+        tabId: 'tab-hexa-sim',
+        storageKey: 'gmsm-calculator-hexa-sim-v1'
+    }
+};
+const restoredCalculatorTabs = new Set();
 
 function switchTab(tabId) {
     // 跨分頁靜音與解除鎖定防護
@@ -130,6 +158,17 @@ function switchTab(tabId) {
         initIgnoreGrid();
         ignoreInitialized = true;
     }
+    if (tabId === 'hyper-stat' && !hyperStatInitialized) {
+        initHyperStatCalculator();
+        hyperStatInitialized = true;
+    }
+    if (tabId === 'rune' && !runeInitialized) {
+        initRuneCalculator();
+        runeInitialized = true;
+    }
+    if (calculatorPersistenceConfig[tabId]) {
+        setTimeout(() => restoreCalculatorTabState(tabId), 0);
+    }
 
     willGameActive = (tabId === 'will');
     if (tabId === 'will') {
@@ -153,13 +192,15 @@ function switchTab(tabId) {
             'home': '主選單',
             'notice': '布告欄',
             'ignore': '無視防禦計算機',
+            'hyper-stat': '極限屬性計算機',
+            'rune': '符文計算機',
             'transcend': '超越模擬器',
             'craft': '製作模擬器',
             'hexa-prog': '六轉進度計算機',
             'hexa-visual': 'HEXA屬性模擬器',
             'hexa-lazy': 'HEXA懶人決策表',
             'hexa-reset': 'HEXA重置決策模擬',
-            'hexa-sim': 'HEXA目標策略模擬',
+            'hexa-sim': 'HEXA目標機率模擬',
             'will': '威爾二階練習機',
             'acc-enhance': '飾品強化模擬器',
             'emb-enhance': '紋章模擬器',
@@ -187,9 +228,127 @@ function switchTab(tabId) {
     }
 }
 
+function getPersistedCalculatorControls(tabElement) {
+    return Array.from(tabElement.querySelectorAll('input, select, textarea')).filter(control => {
+        const excludedTypes = ['button', 'submit', 'reset', 'hidden'];
+        return !excludedTypes.includes((control.type || '').toLowerCase());
+    });
+}
+
+function getPersistedControlKey(control, index, idCounts) {
+    if (control.id && idCounts.get(control.id) === 1) {
+        return `id:${control.id}`;
+    }
+    if (control.type === 'radio' && control.name) {
+        return `radio:${control.name}:${control.value}`;
+    }
+    if (control.name) {
+        return `name:${control.name}:${index}`;
+    }
+    return `field:${index}`;
+}
+
+function getPersistedControlEntries(tabElement) {
+    const controls = getPersistedCalculatorControls(tabElement);
+    const idCounts = new Map();
+
+    controls.forEach(control => {
+        if (control.id) {
+            idCounts.set(control.id, (idCounts.get(control.id) || 0) + 1);
+        }
+    });
+
+    return controls.map((control, index) => ({
+        control,
+        key: getPersistedControlKey(control, index, idCounts)
+    }));
+}
+
+function saveCalculatorTabState(tabId) {
+    const config = calculatorPersistenceConfig[tabId];
+    const tabElement = config ? document.getElementById(config.tabId) : null;
+    if (!config || !tabElement || !restoredCalculatorTabs.has(tabId)) return;
+
+    const state = {};
+    getPersistedControlEntries(tabElement).forEach(({ control, key }) => {
+        const isCheckable = control.type === 'checkbox' || control.type === 'radio';
+        state[key] = isCheckable
+            ? { kind: 'checked', value: control.checked }
+            : { kind: 'value', value: control.value };
+    });
+
+    try {
+        localStorage.setItem(config.storageKey, JSON.stringify(state));
+    } catch (error) {
+        console.warn(`無法儲存 ${tabId} 計算機資料：`, error);
+    }
+}
+
+function restoreCalculatorTabState(tabId) {
+    if (restoredCalculatorTabs.has(tabId)) return;
+
+    const config = calculatorPersistenceConfig[tabId];
+    const tabElement = config ? document.getElementById(config.tabId) : null;
+    if (!config || !tabElement) return;
+
+    let state = null;
+    try {
+        const savedState = localStorage.getItem(config.storageKey);
+        state = savedState ? JSON.parse(savedState) : null;
+    } catch (error) {
+        console.warn(`無法讀取 ${tabId} 計算機資料：`, error);
+    }
+
+    if (state && typeof state === 'object') {
+        getPersistedControlEntries(tabElement).forEach(({ control, key }) => {
+            const savedControl = state[key];
+            if (!savedControl) return;
+
+            if (savedControl.kind === 'checked') {
+                control.checked = Boolean(savedControl.value);
+            } else if (savedControl.kind === 'value') {
+                control.value = savedControl.value;
+            }
+        });
+    }
+
+    restoredCalculatorTabs.add(tabId);
+    if (typeof config.afterRestore === 'function') {
+        config.afterRestore();
+    }
+}
+
 // 確保網頁一開啟時，預設執行一次首頁狀態，避免任何跑版
 document.addEventListener("DOMContentLoaded", () => {
     switchTab('home');
+
+    const persistChangedControl = event => {
+        const control = event.target;
+        if (!(control instanceof HTMLElement)) return;
+
+        const tabElement = control.closest('.tab-content');
+        if (!tabElement) return;
+
+        const tabId = Object.keys(calculatorPersistenceConfig).find(
+            key => calculatorPersistenceConfig[key].tabId === tabElement.id
+        );
+        if (tabId) saveCalculatorTabState(tabId);
+    };
+
+    document.addEventListener('input', persistChangedControl);
+    document.addEventListener('change', persistChangedControl);
+    document.addEventListener('click', event => {
+        const button = event.target.closest('button');
+        const tabElement = button ? button.closest('.tab-content') : null;
+        if (!tabElement) return;
+
+        const tabId = Object.keys(calculatorPersistenceConfig).find(
+            key => calculatorPersistenceConfig[key].tabId === tabElement.id
+        );
+        if (tabId) {
+            setTimeout(() => saveCalculatorTabState(tabId), 0);
+        }
+    });
 });
 
 // 全新 iOS 友善的全螢幕按鈕邏輯 (鐵桶鎖死版)
@@ -234,14 +393,14 @@ const shared_equip_items = [
         hasStar: true, starText: "M", 
         hasLv: true, lvText: "Lv.70",
         hasEmblem: true // 🌟 新增：控制菱形紋章顯示
-    },
+    }/*,
     { 
         name: "神秘冥界幽靈克拉", 
         img: "assets/equipment/神秘冥界幽靈克拉.webp", 
         hasStar: false, starText: "M", 
         hasLv: true, lvText: "Lv.70",
         hasEmblem: true // 🌟 新增：控制菱形紋章顯示
-    }
+    }*/
 ];
 
 let emb_equip_idx = 0; // 紋章預設裝備 (星光權杖)
@@ -632,7 +791,867 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ========================================== */
-/* 4. 超越強化模擬器                           */
+/* 4. 極限屬性計算機                           */
+/* ========================================== */
+const hyperStatSkills = [
+    { id: 'final-damage', name: '最終傷害' },
+    { id: 'max-damage', name: '最大傷害' },
+    { id: 'physical-damage', name: '物理傷害' },
+    { id: 'magic-damage', name: '魔法傷害' },
+    { id: 'critical-rate', name: '致命攻擊率' },
+    { id: 'critical-damage', name: '致命攻擊傷害' },
+    { id: 'boss-damage', name: 'BOSS攻擊力' },
+    { id: 'exp', name: '經驗值' },
+    { id: 'star-force', name: '星力' },
+    { id: 'party-exp', name: '組隊經驗' },
+    { id: 'knockback-resistance', name: '格擋' },
+    { id: 'fever-duration', name: 'Fever Buff時間' },
+    { id: 'buff-item-duration', name: 'Buff道具時間' },
+    { id: 'ignore-damage-rate', name: '無視傷害率' },
+    { id: 'additional-skill-damage', name: '攻擊時追加技能傷害' }
+];
+
+const hyperStatLevelCosts = [
+    0,
+    1000000, 3000000, 5000000, 10000000, 15000000,
+    20000000, 26000000, 32000000, 38000000, 44000000,
+    50000000, 57000000, 64000000, 71000000, 78000000,
+    85000000, 92000000, 100000000, 110000000, 120000000,
+    130000000, 140000000, 180000000, 230000000, 300000000
+];
+
+const hyperStatCumulativeCosts = hyperStatLevelCosts.map((cost, level) => {
+    let total = 0;
+    for (let index = 1; index <= level; index++) total += hyperStatLevelCosts[index];
+    return total;
+});
+
+const hyperStatStorageKey = 'gmsm-hyper-stat-calculator-v1';
+let hyperStatStateReady = false;
+
+function createEmptyHyperProfile() {
+    return hyperStatSkills.reduce((profile, skill) => {
+        profile[skill.id] = 0;
+        return profile;
+    }, {});
+}
+
+function createDefaultHyperStatState() {
+    return {
+        characterLevel: '',
+        activeProfile: 'boss',
+        profiles: {
+            boss: createEmptyHyperProfile(),
+            farm: createEmptyHyperProfile()
+        }
+    };
+}
+
+let hyperStatState = createDefaultHyperStatState();
+
+function clampHyperLevel(value) {
+    return Math.min(25, Math.max(0, Number.parseInt(value, 10) || 0));
+}
+
+function loadHyperStatState() {
+    let savedState = null;
+    try {
+        const savedJson = localStorage.getItem(hyperStatStorageKey);
+        savedState = savedJson ? JSON.parse(savedJson) : null;
+    } catch (error) {
+        console.warn('無法讀取極限屬性計算機資料：', error);
+    }
+
+    const nextState = createDefaultHyperStatState();
+    if (savedState && typeof savedState === 'object') {
+        const savedCharacterLevel = Number.parseInt(savedState.characterLevel, 10);
+        if (savedState.characterLevel !== '' && Number.isFinite(savedCharacterLevel)) {
+            nextState.characterLevel = Math.min(300, Math.max(1, savedCharacterLevel));
+        }
+        if (savedState.activeProfile === 'farm') {
+            nextState.activeProfile = 'farm';
+        }
+
+        ['boss', 'farm'].forEach(profile => {
+            hyperStatSkills.forEach(skill => {
+                const savedLevel = savedState.profiles?.[profile]?.[skill.id];
+                nextState.profiles[profile][skill.id] = clampHyperLevel(savedLevel);
+            });
+        });
+    }
+
+    hyperStatState = nextState;
+}
+
+function saveHyperStatState() {
+    if (!hyperStatStateReady) return;
+    try {
+        localStorage.setItem(hyperStatStorageKey, JSON.stringify(hyperStatState));
+    } catch (error) {
+        console.warn('無法儲存極限屬性計算機資料：', error);
+    }
+}
+
+function getHyperProfileTotals(profile) {
+    const levels = hyperStatState.profiles[profile];
+    return hyperStatSkills.reduce((totals, skill) => {
+        const level = clampHyperLevel(levels[skill.id]);
+        totals.points += level;
+        totals.mesos += hyperStatCumulativeCosts[level] || 0;
+        return totals;
+    }, { points: 0, mesos: 0 });
+}
+
+function formatHyperNextCost(value) {
+    if (value >= 100000000) {
+        return `${Number((value / 100000000).toFixed(1))}億`;
+    }
+    if (value >= 10000) {
+        return `${(value / 10000).toLocaleString('zh-TW')}萬`;
+    }
+    return value.toLocaleString('zh-TW');
+}
+
+function renderHyperSkillGrid(profile) {
+    const grid = document.getElementById(`hyper-skill-grid-${profile}`);
+    if (!grid) return;
+
+    grid.innerHTML = hyperStatSkills.map(skill => {
+        const level = clampHyperLevel(hyperStatState.profiles[profile][skill.id]);
+        const nextCost = level < 25 ? hyperStatLevelCosts[level + 1] : 0;
+        return `
+            <article class="hyper-skill-card" id="hyper-card-${profile}-${skill.id}">
+                <div class="hyper-skill-heading">
+                    <h3>${skill.name}</h3>
+                    <div class="hyper-skill-heading-actions">
+                        <span id="hyper-badge-${profile}-${skill.id}">Lv.${level}</span>
+                        <button class="hyper-max-button" type="button"
+                            onclick="setHyperSkillLevel('${profile}', '${skill.id}', 25, true)"
+                            aria-label="${skill.name}設為最高等級">MAX</button>
+                    </div>
+                </div>
+                <div class="hyper-skill-stepper">
+                    <button type="button" aria-label="${skill.name}降低一級"
+                        onclick="adjustHyperSkill('${profile}', '${skill.id}', -1)">−</button>
+                    <div class="hyper-skill-level-input">
+                        <span>Lv.</span>
+                        <input id="hyper-level-${profile}-${skill.id}" type="number" inputmode="numeric"
+                            min="0" max="25" value="${level === 0 ? '' : level}" aria-label="${skill.name}等級"
+                            oninput="setHyperSkillLevel('${profile}', '${skill.id}', this.value)"
+                            onchange="setHyperSkillLevel('${profile}', '${skill.id}', this.value, true)">
+                    </div>
+                    <button type="button" aria-label="${skill.name}提高一級"
+                        onclick="adjustHyperSkill('${profile}', '${skill.id}', 1)">＋</button>
+                </div>
+                <div class="hyper-skill-cost">
+                    <span class="hyper-skill-cost-main">
+                        <img src="assets/金幣.png" alt="" aria-hidden="true">
+                        <strong id="hyper-cost-${profile}-${skill.id}">${(hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW')}</strong>
+                    </span>
+                    <small id="hyper-next-${profile}-${skill.id}">
+                        ${level < 25 ? `下一級 ${formatHyperNextCost(nextCost)}` : '已達最高等級'}
+                    </small>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
+function updateHyperSkillCard(profile, skillId, syncInput = false) {
+    const level = clampHyperLevel(hyperStatState.profiles[profile][skillId]);
+    const input = document.getElementById(`hyper-level-${profile}-${skillId}`);
+    const badge = document.getElementById(`hyper-badge-${profile}-${skillId}`);
+    const cost = document.getElementById(`hyper-cost-${profile}-${skillId}`);
+    const next = document.getElementById(`hyper-next-${profile}-${skillId}`);
+    const card = document.getElementById(`hyper-card-${profile}-${skillId}`);
+
+    if (input && syncInput) input.value = level === 0 ? '' : String(level);
+    if (badge) badge.textContent = `Lv.${level}`;
+    if (cost) cost.textContent = (hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW');
+    if (next) {
+        next.textContent = level < 25
+            ? `下一級 ${formatHyperNextCost(hyperStatLevelCosts[level + 1])}`
+            : '已達最高等級';
+    }
+    if (card) card.classList.toggle('is-max', level === 25);
+}
+
+function setHyperSkillLevel(profile, skillId, value, syncInput = false) {
+    if (!hyperStatState.profiles[profile] || !(skillId in hyperStatState.profiles[profile])) return;
+    hyperStatState.profiles[profile][skillId] = clampHyperLevel(value);
+    updateHyperSkillCard(profile, skillId, syncInput);
+    updateHyperStatSummary();
+    saveHyperStatState();
+}
+
+function adjustHyperSkill(profile, skillId, change) {
+    const currentLevel = clampHyperLevel(hyperStatState.profiles[profile]?.[skillId]);
+    setHyperSkillLevel(profile, skillId, currentLevel + change, true);
+}
+
+function setHyperCharacterLevel(value, syncInput = false) {
+    const parsedLevel = Number.parseInt(value, 10);
+    hyperStatState.characterLevel = value !== '' && Number.isFinite(parsedLevel)
+        ? Math.min(300, Math.max(1, parsedLevel))
+        : '';
+
+    const input = document.getElementById('hyper-character-level');
+    if (input && syncInput) input.value = hyperStatState.characterLevel === ''
+        ? ''
+        : String(hyperStatState.characterLevel);
+    updateHyperStatSummary();
+    saveHyperStatState();
+}
+
+function switchHyperProfile(profile, shouldSave = true) {
+    if (!['boss', 'farm'].includes(profile)) return;
+    hyperStatState.activeProfile = profile;
+
+    ['boss', 'farm'].forEach(name => {
+        const isActive = name === profile;
+        const button = document.getElementById(`hyper-profile-btn-${name}`);
+        const panel = document.getElementById(`hyper-profile-panel-${name}`);
+        if (button) {
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-selected', String(isActive));
+        }
+        if (panel) {
+            panel.classList.toggle('active', isActive);
+            panel.hidden = !isActive;
+        }
+    });
+
+    updateHyperStatSummary();
+    if (shouldSave) saveHyperStatState();
+}
+
+function updateHyperStatSummary() {
+    const characterLevel = Number.parseInt(hyperStatState.characterLevel, 10);
+    const totalPoints = Number.isFinite(characterLevel) ? Math.max(0, characterLevel - 140) : 0;
+    const activeTotals = getHyperProfileTotals(hyperStatState.activeProfile);
+    const remainingPoints = totalPoints - activeTotals.points;
+
+    const totalElement = document.getElementById('hyper-total-points');
+    const usedElement = document.getElementById('hyper-used-points');
+    const remainingElement = document.getElementById('hyper-remaining-points');
+    const mesoElement = document.getElementById('hyper-total-mesos');
+    const remainingCard = document.getElementById('hyper-remaining-card');
+
+    if (totalElement) totalElement.textContent = totalPoints.toLocaleString('zh-TW');
+    if (usedElement) usedElement.textContent = activeTotals.points.toLocaleString('zh-TW');
+    if (remainingElement) remainingElement.textContent = remainingPoints.toLocaleString('zh-TW');
+    if (mesoElement) mesoElement.textContent = activeTotals.mesos.toLocaleString('zh-TW');
+    if (remainingCard) remainingCard.classList.toggle('is-over', remainingPoints < 0);
+
+    ['boss', 'farm'].forEach(profile => {
+        const profileUsed = document.getElementById(`hyper-profile-used-${profile}`);
+        if (profileUsed) {
+            profileUsed.textContent = `已用 ${getHyperProfileTotals(profile).points.toLocaleString('zh-TW')} 點`;
+        }
+    });
+}
+
+function resetHyperProfile() {
+    hyperStatState.profiles[hyperStatState.activeProfile] = createEmptyHyperProfile();
+    renderHyperSkillGrid(hyperStatState.activeProfile);
+    updateHyperStatSummary();
+    saveHyperStatState();
+}
+
+function initHyperStatCalculator() {
+    loadHyperStatState();
+
+    const characterLevelInput = document.getElementById('hyper-character-level');
+    if (characterLevelInput) {
+        characterLevelInput.value = hyperStatState.characterLevel === ''
+            ? ''
+            : String(hyperStatState.characterLevel);
+    }
+
+    renderHyperSkillGrid('boss');
+    renderHyperSkillGrid('farm');
+    switchHyperProfile(hyperStatState.activeProfile, false);
+    hyperStatStateReady = true;
+    updateHyperStatSummary();
+}
+
+/* ========================================== */
+/* 5. 符文計算機                               */
+/* ========================================== */
+const runeUpgradeRequirements = [
+    15, 19, 24, 31, 40, 50, 62, 77, 96, 120,
+    156, 202, 262, 340, 442, 574, 746, 1007, 1359
+];
+
+const runeJourneyCosts = [
+    15000000, 18000000, 21600000, 25920000, 31104000,
+    37324800, 44789760, 53747712, 64497254, 77396705,
+    96745882, 120932352, 151165440, 188956800, 236196000,
+    295245000, 369056250, 461320313, 576650391
+];
+
+const runeStandardCosts = [
+    18000000, 21600000, 25920000, 31104000, 37324800,
+    44789760, 53747712, 64497254, 77396705, 92876046,
+    116095058, 145118822, 181398528, 226748160, 283435200,
+    354294000, 442867500, 553584375, 691980469
+];
+
+const arcaneRuneSymbols = [
+    { id: 'vanishing', name: '消逝的旅途', short: '旅', tone: 'violet', image: 'assets/消逝的旅途.png', costs: runeJourneyCosts },
+    { id: 'chu-chu', name: '啾啾艾爾蘭', short: '啾', tone: 'aqua', image: 'assets/啾啾艾爾蘭.png', costs: runeStandardCosts },
+    { id: 'lachelein', name: '拉契爾恩', short: '契', tone: 'rose', image: 'assets/拉契爾恩.png', costs: runeStandardCosts },
+    { id: 'arcana', name: '阿爾卡娜', short: '卡', tone: 'indigo', image: 'assets/阿爾卡娜.png', costs: runeStandardCosts },
+    { id: 'morass', name: '魔菈斯', short: '菈', tone: 'amber', image: 'assets/魔菈斯.png', costs: runeStandardCosts },
+    { id: 'esfera', name: '艾斯佩拉', short: '艾', tone: 'blue', image: 'assets/艾斯佩拉.png', costs: runeStandardCosts }
+];
+
+const authenticRuneRequirements = [13, 33, 53, 73, 93, 113, 133, 153, 173, 193];
+const authenticRuneCosts = Array(10).fill(100000000);
+const authenticRuneSymbols = [
+    { id: 'esetra', region: '愛琳', name: '埃賽特拉', short: '埃', tone: 'aqua', image: 'assets/埃賽特拉.png' },
+    { id: 'aer', region: '愛琳', name: '阿埃爾（아에르）', short: '阿', tone: 'rose', image: 'assets/阿埃爾.png', locked: true },
+    { id: 'cernium', region: '格蘭蒂斯', name: '賽爾尼溫', short: '賽', tone: 'indigo', image: 'assets/賽爾尼溫.png' },
+    { id: 'arcs', region: '格蘭蒂斯', name: '阿爾克斯', short: '克', tone: 'amber', image: 'assets/阿爾克斯.png', locked: true },
+    { id: 'odium', region: '格蘭蒂斯', name: '奧迪溫', short: '奧', tone: 'blue', image: 'assets/奧迪溫.png', locked: true }
+];
+const runeStorageKey = 'gmsm-rune-calculator-state-v1';
+let runeStateReady = false;
+
+function runeLevelOptions(selectedLevel, maxLevel = 20) {
+    let options = '';
+    for (let level = 1; level <= maxLevel; level++) {
+        options += `<option value="${level}"${level === selectedLevel ? ' selected' : ''}>Lv.${level}</option>`;
+    }
+    return options;
+}
+
+function initRuneCalculator() {
+    const cardsGrid = document.getElementById('rune-cards-grid');
+    const grandSymbolList = document.getElementById('rune-grand-symbol-list');
+    if (!cardsGrid || !grandSymbolList) return;
+
+    cardsGrid.innerHTML = arcaneRuneSymbols.map(symbol => `
+        <article class="rune-calc-card rune-tone-${symbol.tone}" id="rune-card-${symbol.id}">
+            <div class="rune-card-header">
+                <div class="rune-card-symbol" aria-hidden="true">
+                    <span>${symbol.short}</span>
+                    <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+                </div>
+                <div class="rune-card-title">
+                    <h3>${symbol.name}</h3>
+                </div>
+                <span class="rune-card-level-badge" id="rune-level-badge-${symbol.id}">Lv.1</span>
+            </div>
+
+            <div class="rune-card-inputs">
+                <label>
+                    <span>目前等級</span>
+                    <select id="rune-current-${symbol.id}" aria-label="${symbol.name}目前等級" onchange="handleRuneLevelChange('${symbol.id}')">
+                        ${runeLevelOptions(1)}
+                    </select>
+                </label>
+                <label>
+                    <span>已投入成長值</span>
+                    <div class="rune-progress-input">
+                        <input id="rune-progress-${symbol.id}" type="text" inputmode="numeric" value="0" aria-label="${symbol.name}已投入成長值" oninput="updateRuneCard('${symbol.id}')">
+                        <small>個</small>
+                    </div>
+                    <small class="rune-current-requirement" id="rune-next-requirement-${symbol.id}">升級需要 15</small>
+                </label>
+                <label>
+                    <span>目標等級</span>
+                    <select id="rune-target-${symbol.id}" aria-label="${symbol.name}目標等級" onchange="updateRuneCard('${symbol.id}')">
+                        ${runeLevelOptions(20)}
+                    </select>
+                </label>
+            </div>
+
+            <div class="rune-card-results" aria-live="polite">
+                <div class="rune-card-result resource" aria-label="尚需符文">
+                    <span class="rune-card-resource-line">
+                        <span class="rune-card-resource-icon" aria-hidden="true">
+                            <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+                        </span>
+                        <strong id="rune-needed-${symbol.id}">0</strong>
+                    </span>
+                </div>
+                <div class="rune-card-result meso" aria-label="強化費用">
+                    <span class="rune-card-meso-line">
+                        <span class="rune-card-coin-icon" aria-hidden="true">
+                            <span class="rune-coin-fallback">₥</span>
+                            <img src="assets/金幣.png" alt="" onerror="this.style.display='none'">
+                        </span>
+                        <strong id="rune-mesos-${symbol.id}">0</strong>
+                    </span>
+                </div>
+            </div>
+            <p class="rune-card-status" id="rune-status-${symbol.id}"></p>
+        </article>
+    `).join('');
+
+    grandSymbolList.innerHTML = arcaneRuneSymbols.map(symbol => `
+        <div class="rune-grand-symbol-entry" title="${symbol.name}">
+            <span class="rune-grand-symbol-image" aria-hidden="true">
+                <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+            </span>
+            <strong id="rune-grand-needed-${symbol.id}">0</strong>
+        </div>
+    `).join('');
+
+    arcaneRuneSymbols.forEach(symbol => updateRuneCard(symbol.id, false));
+    updateRuneGrandTotal();
+    initAuthenticRuneCalculator();
+    restoreRuneCalculatorState();
+    runeStateReady = true;
+}
+
+function getRuneInputState(runeId) {
+    const currentSelect = document.getElementById(`rune-current-${runeId}`);
+    const targetSelect = document.getElementById(`rune-target-${runeId}`);
+    const progressInput = document.getElementById(`rune-progress-${runeId}`);
+    if (!currentSelect || !targetSelect || !progressInput) return null;
+
+    const cleanProgress = progressInput.value.replace(/[^\d]/g, '');
+    if (progressInput.value !== cleanProgress) progressInput.value = cleanProgress;
+
+    return {
+        currentSelect,
+        targetSelect,
+        progressInput,
+        currentLevel: Math.min(20, Math.max(1, Number(currentSelect.value) || 1)),
+        targetLevel: Math.min(20, Math.max(1, Number(targetSelect.value) || 20)),
+        investedProgress: Math.max(0, Number(cleanProgress) || 0)
+    };
+}
+
+function handleRuneLevelChange(runeId) {
+    const state = getRuneInputState(runeId);
+    if (!state) return;
+    if (state.targetLevel < state.currentLevel) {
+        state.targetSelect.value = String(state.currentLevel);
+    }
+    updateRuneCard(runeId);
+}
+
+function updateRuneCard(runeId, updateGrandTotal = true) {
+    const symbol = arcaneRuneSymbols.find(item => item.id === runeId);
+    const state = getRuneInputState(runeId);
+    if (!symbol || !state) return;
+
+    let { currentLevel, targetLevel, investedProgress, targetSelect } = state;
+    if (targetLevel < currentLevel) {
+        targetLevel = currentLevel;
+        targetSelect.value = String(targetLevel);
+    }
+
+    Array.from(targetSelect.options).forEach(option => {
+        option.disabled = Number(option.value) < currentLevel;
+    });
+
+    let rangeSymbols = 0;
+    let totalMesos = 0;
+    for (let level = currentLevel; level < targetLevel; level++) {
+        const index = level - 1;
+        rangeSymbols += runeUpgradeRequirements[index] || 0;
+        totalMesos += symbol.costs[index] || 0;
+    }
+
+    const neededSymbols = Math.max(0, rangeSymbols - investedProgress);
+    const excessProgress = Math.max(0, investedProgress - rangeSymbols);
+    const nextRequirement = currentLevel < 20 ? runeUpgradeRequirements[currentLevel - 1] : 0;
+    const neededElement = document.getElementById(`rune-needed-${runeId}`);
+    const mesosElement = document.getElementById(`rune-mesos-${runeId}`);
+    const statusElement = document.getElementById(`rune-status-${runeId}`);
+    const badgeElement = document.getElementById(`rune-level-badge-${runeId}`);
+    const nextElement = document.getElementById(`rune-next-requirement-${runeId}`);
+    const cardElement = document.getElementById(`rune-card-${runeId}`);
+
+    neededElement.textContent = neededSymbols.toLocaleString('zh-TW');
+    mesosElement.textContent = totalMesos.toLocaleString('zh-TW');
+    neededElement.dataset.value = String(neededSymbols);
+    mesosElement.dataset.value = String(totalMesos);
+    badgeElement.textContent = `Lv.${currentLevel}`;
+    nextElement.textContent = currentLevel < 20
+        ? `目前升級需要 ${nextRequirement.toLocaleString('zh-TW')}`
+        : '目前已達最高等級';
+
+    cardElement.classList.toggle('is-ready', neededSymbols === 0 && targetLevel > currentLevel);
+    cardElement.classList.toggle('is-complete', targetLevel === currentLevel);
+
+    if (targetLevel === currentLevel) {
+        statusElement.textContent = `目標同為 Lv.${currentLevel}，不需要額外資源。`;
+    } else if (neededSymbols === 0) {
+        statusElement.textContent = excessProgress > 0
+            ? `已投入的成長值足夠升至 Lv.${targetLevel}，超過此目標 ${excessProgress.toLocaleString('zh-TW')} 個。`
+            : `已投入的成長值剛好足夠升至 Lv.${targetLevel}。`;
+    } else {
+        statusElement.textContent = `區間需求 ${rangeSymbols.toLocaleString('zh-TW')}，已投入 ${investedProgress.toLocaleString('zh-TW')}。`;
+    }
+
+    if (updateGrandTotal) updateRuneGrandTotal();
+    saveRuneCalculatorState();
+}
+
+function updateRuneGrandTotal() {
+    let grandMesos = 0;
+
+    arcaneRuneSymbols.forEach(symbol => {
+        const neededElement = document.getElementById(`rune-needed-${symbol.id}`);
+        const mesosElement = document.getElementById(`rune-mesos-${symbol.id}`);
+        const grandNeededElement = document.getElementById(`rune-grand-needed-${symbol.id}`);
+        if (grandNeededElement) {
+            grandNeededElement.textContent = (Number(neededElement?.dataset.value) || 0).toLocaleString('zh-TW');
+        }
+        grandMesos += Number(mesosElement?.dataset.value) || 0;
+    });
+
+    const grandMesosElement = document.getElementById('rune-grand-mesos');
+    if (grandMesosElement) grandMesosElement.textContent = grandMesos.toLocaleString('zh-TW');
+}
+
+function resetAllRuneCards() {
+    arcaneRuneSymbols.forEach(symbol => {
+        const currentSelect = document.getElementById(`rune-current-${symbol.id}`);
+        const targetSelect = document.getElementById(`rune-target-${symbol.id}`);
+        const progressInput = document.getElementById(`rune-progress-${symbol.id}`);
+        if (!currentSelect || !targetSelect || !progressInput) return;
+        currentSelect.value = '1';
+        targetSelect.value = '20';
+        progressInput.value = '0';
+        updateRuneCard(symbol.id, false);
+    });
+    updateRuneGrandTotal();
+}
+
+function renderAuthenticRuneCard(symbol) {
+    if (symbol.locked) {
+        return `
+            <article class="rune-calc-card authentic-rune-card authentic-rune-card-locked rune-tone-${symbol.tone}"
+                id="authentic-card-${symbol.id}" aria-disabled="true">
+                <div class="rune-card-header">
+                    <div class="rune-card-symbol authentic-card-symbol" aria-hidden="true">
+                        <span>${symbol.short}</span>
+                        <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+                    </div>
+                    <div class="rune-card-title">
+                        <h3>${symbol.name}</h3>
+                    </div>
+                    <span class="authentic-locked-badge">尚未開放</span>
+                </div>
+            </article>
+        `;
+    }
+
+    return `
+        <article class="rune-calc-card authentic-rune-card rune-tone-${symbol.tone}" id="authentic-card-${symbol.id}">
+            <div class="rune-card-header">
+                <div class="rune-card-symbol authentic-card-symbol" aria-hidden="true">
+                    <span>${symbol.short}</span>
+                    <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+                </div>
+                <div class="rune-card-title">
+                    <h3>${symbol.name}</h3>
+                </div>
+                <span class="rune-card-level-badge" id="authentic-level-badge-${symbol.id}">Lv.1</span>
+            </div>
+
+            <div class="rune-card-inputs">
+                <label>
+                    <span>目前等級</span>
+                    <select id="authentic-current-${symbol.id}" aria-label="${symbol.name}目前等級" onchange="handleAuthenticLevelChange('${symbol.id}')">
+                        ${runeLevelOptions(1, 11)}
+                    </select>
+                </label>
+                <label>
+                    <span>已投入成長值</span>
+                    <div class="rune-progress-input">
+                        <input id="authentic-progress-${symbol.id}" type="text" inputmode="numeric" value="0" aria-label="${symbol.name}已投入成長值" oninput="updateAuthenticRuneCard('${symbol.id}')">
+                        <small>個</small>
+                    </div>
+                    <small class="rune-current-requirement" id="authentic-next-requirement-${symbol.id}">目前升級需要 13</small>
+                </label>
+                <label>
+                    <span>目標等級</span>
+                    <select id="authentic-target-${symbol.id}" aria-label="${symbol.name}目標等級" onchange="updateAuthenticRuneCard('${symbol.id}')">
+                        ${runeLevelOptions(11, 11)}
+                    </select>
+                </label>
+            </div>
+
+            <div class="rune-card-results" aria-live="polite">
+                <div class="rune-card-result resource" aria-label="尚需符文">
+                    <span class="rune-card-resource-line">
+                        <span class="rune-card-resource-icon" aria-hidden="true">
+                            <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+                        </span>
+                        <strong id="authentic-needed-${symbol.id}">0</strong>
+                    </span>
+                </div>
+                <div class="rune-card-result meso" aria-label="強化費用">
+                    <span class="rune-card-meso-line">
+                        <span class="rune-card-coin-icon" aria-hidden="true">
+                            <span class="rune-coin-fallback">₥</span>
+                            <img src="assets/金幣.png" alt="" onerror="this.style.display='none'">
+                        </span>
+                        <strong id="authentic-mesos-${symbol.id}">0</strong>
+                    </span>
+                </div>
+            </div>
+            <p class="rune-card-status" id="authentic-status-${symbol.id}"></p>
+        </article>
+    `;
+}
+
+function initAuthenticRuneCalculator() {
+    const authenticList = document.getElementById('authentic-rune-list');
+    const authenticGrandList = document.getElementById('authentic-grand-symbol-list');
+    if (!authenticList || !authenticGrandList || authenticList.children.length) return;
+
+    const authenticRegions = ['愛琳', '格蘭蒂斯'];
+    authenticList.innerHTML = authenticRegions.map(region => {
+        const regionSymbols = authenticRuneSymbols.filter(symbol => symbol.region === region);
+        return `
+            <section class="authentic-rune-group">
+                <div class="authentic-region-tab">${region}</div>
+                <div class="authentic-region-cards">
+                    ${regionSymbols.map(renderAuthenticRuneCard).join('')}
+                </div>
+            </section>
+        `;
+    }).join('');
+
+    authenticGrandList.innerHTML = authenticRuneSymbols.filter(symbol => !symbol.locked).map(symbol => `
+        <div class="rune-grand-symbol-entry" title="${symbol.name}">
+            <span class="rune-grand-symbol-image" aria-hidden="true">
+                <img src="${symbol.image}" alt="" onerror="this.style.display='none'">
+            </span>
+            <strong id="authentic-grand-needed-${symbol.id}">0</strong>
+        </div>
+    `).join('');
+
+    authenticRuneSymbols.filter(symbol => !symbol.locked).forEach(symbol => updateAuthenticRuneCard(symbol.id));
+}
+
+function getAuthenticRuneInputState(runeId) {
+    const currentSelect = document.getElementById(`authentic-current-${runeId}`);
+    const targetSelect = document.getElementById(`authentic-target-${runeId}`);
+    const progressInput = document.getElementById(`authentic-progress-${runeId}`);
+    if (!currentSelect || !targetSelect || !progressInput) return null;
+
+    const cleanProgress = progressInput.value.replace(/[^\d]/g, '');
+    if (progressInput.value !== cleanProgress) progressInput.value = cleanProgress;
+
+    return {
+        currentSelect,
+        targetSelect,
+        progressInput,
+        currentLevel: Math.min(11, Math.max(1, Number(currentSelect.value) || 1)),
+        targetLevel: Math.min(11, Math.max(1, Number(targetSelect.value) || 11)),
+        investedProgress: Math.max(0, Number(cleanProgress) || 0)
+    };
+}
+
+function handleAuthenticLevelChange(runeId) {
+    const state = getAuthenticRuneInputState(runeId);
+    if (!state) return;
+    if (state.targetLevel < state.currentLevel) {
+        state.targetSelect.value = String(state.currentLevel);
+    }
+    updateAuthenticRuneCard(runeId);
+}
+
+function updateAuthenticRuneCard(runeId) {
+    const symbol = authenticRuneSymbols.find(item => item.id === runeId);
+    const state = getAuthenticRuneInputState(runeId);
+    if (!symbol || symbol.locked || !state) return;
+
+    let { currentLevel, targetLevel, investedProgress, targetSelect } = state;
+    if (targetLevel < currentLevel) {
+        targetLevel = currentLevel;
+        targetSelect.value = String(targetLevel);
+    }
+
+    Array.from(targetSelect.options).forEach(option => {
+        option.disabled = Number(option.value) < currentLevel;
+    });
+
+    let rangeSymbols = 0;
+    let totalMesos = 0;
+    for (let level = currentLevel; level < targetLevel; level++) {
+        const index = level - 1;
+        rangeSymbols += authenticRuneRequirements[index] || 0;
+        totalMesos += authenticRuneCosts[index] || 0;
+    }
+
+    const neededSymbols = Math.max(0, rangeSymbols - investedProgress);
+    const excessProgress = Math.max(0, investedProgress - rangeSymbols);
+    const nextRequirement = currentLevel < 11 ? authenticRuneRequirements[currentLevel - 1] : 0;
+    const neededElement = document.getElementById(`authentic-needed-${runeId}`);
+    const mesosElement = document.getElementById(`authentic-mesos-${runeId}`);
+    const statusElement = document.getElementById(`authentic-status-${runeId}`);
+    const badgeElement = document.getElementById(`authentic-level-badge-${runeId}`);
+    const nextElement = document.getElementById(`authentic-next-requirement-${runeId}`);
+    const cardElement = document.getElementById(`authentic-card-${runeId}`);
+
+    neededElement.textContent = neededSymbols.toLocaleString('zh-TW');
+    mesosElement.textContent = totalMesos.toLocaleString('zh-TW');
+    neededElement.dataset.value = String(neededSymbols);
+    mesosElement.dataset.value = String(totalMesos);
+    badgeElement.textContent = `Lv.${currentLevel}`;
+    nextElement.textContent = currentLevel < 11
+        ? `目前升級需要 ${nextRequirement.toLocaleString('zh-TW')}`
+        : '目前已達最高等級';
+
+    cardElement.classList.toggle('is-ready', neededSymbols === 0 && targetLevel > currentLevel);
+    cardElement.classList.toggle('is-complete', targetLevel === currentLevel);
+
+    if (targetLevel === currentLevel) {
+        statusElement.textContent = `目標同為 Lv.${currentLevel}，不需要額外資源。`;
+    } else if (neededSymbols === 0) {
+        statusElement.textContent = excessProgress > 0
+            ? `已投入的成長值足夠升至 Lv.${targetLevel}，超過此目標 ${excessProgress.toLocaleString('zh-TW')} 個。`
+            : `已投入的成長值剛好足夠升至 Lv.${targetLevel}。`;
+    } else {
+        statusElement.textContent = `區間需求 ${rangeSymbols.toLocaleString('zh-TW')}，已投入 ${investedProgress.toLocaleString('zh-TW')}。`;
+    }
+
+    updateAuthenticGrandTotal();
+    saveRuneCalculatorState();
+}
+
+function updateAuthenticGrandTotal() {
+    let grandMesos = 0;
+
+    authenticRuneSymbols.filter(symbol => !symbol.locked).forEach(symbol => {
+        const neededElement = document.getElementById(`authentic-needed-${symbol.id}`);
+        const mesosElement = document.getElementById(`authentic-mesos-${symbol.id}`);
+        const grandNeededElement = document.getElementById(`authentic-grand-needed-${symbol.id}`);
+        if (grandNeededElement) {
+            grandNeededElement.textContent = (Number(neededElement?.dataset.value) || 0).toLocaleString('zh-TW');
+        }
+        grandMesos += Number(mesosElement?.dataset.value) || 0;
+    });
+
+    const grandMesosElement = document.getElementById('authentic-grand-mesos');
+    if (grandMesosElement) grandMesosElement.textContent = grandMesos.toLocaleString('zh-TW');
+}
+
+function resetAllAuthenticRuneCards() {
+    authenticRuneSymbols.filter(symbol => !symbol.locked).forEach(symbol => {
+        const currentSelect = document.getElementById(`authentic-current-${symbol.id}`);
+        const targetSelect = document.getElementById(`authentic-target-${symbol.id}`);
+        const progressInput = document.getElementById(`authentic-progress-${symbol.id}`);
+        if (!currentSelect || !targetSelect || !progressInput) return;
+        currentSelect.value = '1';
+        targetSelect.value = '11';
+        progressInput.value = '0';
+        updateAuthenticRuneCard(symbol.id);
+    });
+}
+
+function saveRuneCalculatorState() {
+    if (!runeStateReady) return;
+
+    const savedState = { arcane: {}, authentic: {} };
+
+    arcaneRuneSymbols.forEach(symbol => {
+        const state = getRuneInputState(symbol.id);
+        if (!state) return;
+        savedState.arcane[symbol.id] = {
+            currentLevel: state.currentLevel,
+            investedProgress: state.investedProgress,
+            targetLevel: state.targetLevel
+        };
+    });
+
+    authenticRuneSymbols.filter(symbol => !symbol.locked).forEach(symbol => {
+        const state = getAuthenticRuneInputState(symbol.id);
+        if (!state) return;
+        savedState.authentic[symbol.id] = {
+            currentLevel: state.currentLevel,
+            investedProgress: state.investedProgress,
+            targetLevel: state.targetLevel
+        };
+    });
+
+    try {
+        localStorage.setItem(runeStorageKey, JSON.stringify(savedState));
+    } catch (error) {
+        // 無痕模式或瀏覽器停用儲存時，維持計算功能但不阻擋操作。
+    }
+}
+
+function restoreRuneCalculatorState() {
+    let savedState;
+    try {
+        savedState = JSON.parse(localStorage.getItem(runeStorageKey) || 'null');
+    } catch (error) {
+        savedState = null;
+    }
+    if (!savedState || typeof savedState !== 'object') return;
+
+    arcaneRuneSymbols.forEach(symbol => {
+        const data = savedState.arcane?.[symbol.id];
+        if (!data) return;
+        const currentSelect = document.getElementById(`rune-current-${symbol.id}`);
+        const targetSelect = document.getElementById(`rune-target-${symbol.id}`);
+        const progressInput = document.getElementById(`rune-progress-${symbol.id}`);
+        if (!currentSelect || !targetSelect || !progressInput) return;
+
+        const currentLevel = Math.min(20, Math.max(1, Number(data.currentLevel) || 1));
+        const targetLevel = Math.min(20, Math.max(currentLevel, Number(data.targetLevel) || 20));
+        currentSelect.value = String(currentLevel);
+        targetSelect.value = String(targetLevel);
+        progressInput.value = String(Math.max(0, Number(data.investedProgress) || 0));
+        updateRuneCard(symbol.id, false);
+    });
+    updateRuneGrandTotal();
+
+    authenticRuneSymbols.filter(symbol => !symbol.locked).forEach(symbol => {
+        const data = savedState.authentic?.[symbol.id];
+        if (!data) return;
+        const currentSelect = document.getElementById(`authentic-current-${symbol.id}`);
+        const targetSelect = document.getElementById(`authentic-target-${symbol.id}`);
+        const progressInput = document.getElementById(`authentic-progress-${symbol.id}`);
+        if (!currentSelect || !targetSelect || !progressInput) return;
+
+        const currentLevel = Math.min(11, Math.max(1, Number(data.currentLevel) || 1));
+        const targetLevel = Math.min(11, Math.max(currentLevel, Number(data.targetLevel) || 11));
+        currentSelect.value = String(currentLevel);
+        targetSelect.value = String(targetLevel);
+        progressInput.value = String(Math.max(0, Number(data.investedProgress) || 0));
+        updateAuthenticRuneCard(symbol.id);
+    });
+    updateAuthenticGrandTotal();
+}
+
+function switchRuneCategory(category) {
+    const isArcane = category === 'arcane';
+    const arcaneButton = document.getElementById('rune-tab-arcane');
+    const authenticButton = document.getElementById('rune-tab-authentic');
+    const arcanePanel = document.getElementById('rune-panel-arcane');
+    const authenticPanel = document.getElementById('rune-panel-authentic');
+    if (!arcaneButton || !authenticButton || !arcanePanel || !authenticPanel) return;
+
+    arcaneButton.classList.toggle('active', isArcane);
+    authenticButton.classList.toggle('active', !isArcane);
+    arcaneButton.setAttribute('aria-selected', String(isArcane));
+    authenticButton.setAttribute('aria-selected', String(!isArcane));
+    arcanePanel.classList.toggle('active', isArcane);
+    authenticPanel.classList.toggle('active', !isArcane);
+    arcanePanel.hidden = !isArcane;
+    authenticPanel.hidden = isArcane;
+
+    if (isArcane && !runeInitialized) {
+        initRuneCalculator();
+        runeInitialized = true;
+    }
+    if (!isArcane) initAuthenticRuneCalculator();
+}
+
+/* ========================================== */
+/* 5. 超越強化模擬器                           */
 /* ========================================== */
 let tr_lv = 30;
 let tr_fails = 0;
@@ -1369,9 +2388,14 @@ function checkHexaReset() {
     let c = parseInt(document.getElementById('reset-c').value) || 0;
     let rolls = parseInt(document.getElementById('reset-rolls').value) || 0;
     let targetA = parseInt(document.getElementById('reset-target-a').value) || 0;
-    let targetSub = parseInt(document.getElementById('reset-target-sub').value) || 0;
+    let targetSub1 = parseInt(document.getElementById('reset-target-sub').value) || 0;
+    let targetSub2 = document.getElementById('reset-target-sub2') ? parseInt(document.getElementById('reset-target-sub2').value) || 0 : 0;
 
     let useMillionReset = document.getElementById('sim-million-reset') ? document.getElementById('sim-million-reset').checked : false;
+    
+    // 🌟 新增：讀取玩家選擇的是「或(OR)」還是「且(AND)」
+    let conditionRule = document.querySelector('input[name="reset-condition"]:checked');
+    let isAndMode = conditionRule ? (conditionRule.value === 'and') : false;
 
     let mainPanel = document.getElementById('res-main-panel');
     let detailPanel = document.getElementById('res-detail-panel');
@@ -1379,29 +2403,61 @@ function checkHexaReset() {
     let detailBox = document.getElementById('result-hexa-reset-details');
 
     if (a + b + c + rolls !== 20) {
-        mainPanel.style.display = 'block';
-        detailPanel.style.display = 'none';
+        mainPanel.style.display = 'block'; detailPanel.style.display = 'none';
+        mainBox.innerHTML = `<div class="error-msg" style="text-align: center;"><div style="color: #FF3B30; font-weight: bold;">⚠️ 錯誤</div>目前等級總和 + 剩餘次數必須等於 20！</div>`;
+        detailBox.innerHTML = ""; return;
+    }
+
+    if (targetA === 0 && targetSub1 === 0 && targetSub2 === 0) {
+        mainPanel.style.display = 'block'; detailPanel.style.display = 'none';
+        mainBox.innerHTML = `<div class="error-msg" style="text-align: center;"><div style="color: #FF3B30; font-weight: bold;">⚠️ 錯誤</div>請至少設定一項目標屬性！</div>`;
+        detailBox.innerHTML = ""; return;
+    }
+    
+    // ==========================================
+    // 🌟 雙模式動態防呆機制
+    // ==========================================
+    let currMaxStart = Math.max(b, c);
+    let currMinStart = Math.min(b, c);
+    
+    let reqA = targetA > 0 ? Math.max(0, targetA - a) : 0;
+    let reqS1 = targetSub1 > 0 ? Math.max(0, targetSub1 - currMaxStart) : 0;
+    let reqS2 = targetSub2 > 0 ? Math.max(0, targetSub2 - currMinStart) : 0;
+
+    let impossible = false;
+    let reqMsg = "";
+
+    if (isAndMode) {
+        // AND 模式：所有缺口加起來如果大於剩餘次數，絕對不可能達成
+        let totalReq = reqA + reqS1 + reqS2;
+        if (totalReq > rolls) {
+            impossible = true;
+            reqMsg = `您選擇「達成所有目標」，總共還需 <strong>${totalReq}</strong> 級，但只剩 <strong>${rolls}</strong> 次。`;
+        }
+    } else {
+        // OR 模式：最容易的一個目標如果都大於剩餘次數，才不可能達成
+        let arrReq = [];
+        if (targetA > 0) arrReq.push(reqA);
+        if (targetSub1 > 0) arrReq.push(reqS1);
+        if (targetSub2 > 0) arrReq.push(reqS2);
+        let minReq = Math.min(...arrReq);
+        if (minReq > rolls) {
+            impossible = true;
+            reqMsg = `您選擇「達成任一目標」，最容易的目標還需 <strong>${minReq}</strong> 級，但只剩 <strong>${rolls}</strong> 次。`;
+        }
+    }
+
+    if (impossible) {
+        mainPanel.style.display = 'block'; detailPanel.style.display = 'none';
         mainBox.innerHTML = `
             <div class="error-msg" style="text-align: center; line-height: 1.6;">
-                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
-                <div style="display: inline-block; text-align: left;">目前等級總和 (${a + b + c}) + 剩餘次數 (${rolls}) 必須等於 20 喔！<br>請確認輸入的數字是否正確。</div>
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 數學上不可能達成</div>
+                <div style="display: inline-block; text-align: left;">${reqMsg}<br>物理上無法達成，建議立刻重置。</div>
             </div>`;
         detailBox.innerHTML = "";
         return;
     }
 
-    if (targetA === 0 && targetSub === 0) {
-        mainPanel.style.display = 'block';
-        detailPanel.style.display = 'none';
-        mainBox.innerHTML = `
-            <div class="error-msg" style="text-align: center; line-height: 1.6;">
-                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 錯誤</div>
-                <div>請至少設定一項目標屬性等級 (>0) 才能進行決策判斷！</div>
-            </div>`;
-        detailBox.innerHTML = "";
-        return;
-    }
-    
     const trials = useMillionReset ? 1000000 : 30000;
     let gradSuccess = 0;
     let baseSuccess = 0;
@@ -1410,52 +2466,68 @@ function checkHexaReset() {
     let countB = new Array(11).fill(0);
     let countC = new Array(11).fill(0);
 
+    // 🌟 1. 模擬「目前狀態」
     for (let i = 0; i < trials; i++) {
         let simA = a, simB = b, simC = c;
-        
         for (let roll = 0; roll < rolls; roll++) {
-            if (Math.random() < getHexaProb(simA) && simA < 10) {
-                simA++;
-            } else {
-                if (Math.random() < 0.5) { 
-                    if (simB < 10) simB++; else simC++; 
-                } else { 
-                    if (simC < 10) simC++; else simB++; 
-                }
-            }
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else { if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } else { if (simC < 10) simC++; else simB++; } }
         }
 
         let maxSub = Math.max(simB, simC);
-        let passedA = (targetA > 0 && simA >= targetA);
-        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        let minSub = Math.min(simB, simC);
         
-        if (passedA || passedSub) gradSuccess++;
+        let passA = targetA > 0 ? (simA >= targetA) : false;
+        let passS1 = targetSub1 > 0 ? (maxSub >= targetSub1) : false;
+        let passS2 = targetSub2 > 0 ? (minSub >= targetSub2) : false;
+        
+        let isSuccess = false;
+        if (isAndMode) {
+            isSuccess = true; // 預設成功，只要有一個要求沒達成，就改為失敗
+            if (targetA > 0 && !passA) isSuccess = false;
+            if (targetSub1 > 0 && !passS1) isSuccess = false;
+            if (targetSub2 > 0 && !passS2) isSuccess = false;
+        } else {
+            isSuccess = passA || passS1 || passS2;
+        }
+        
+        if (isSuccess) gradSuccess++;
 
-        countA[simA]++;
-        countB[simB]++;
-        countC[simC]++;
+        countA[simA]++; countB[simB]++; countC[simC]++;
     }
 
+    // 🌟 2. 模擬「全新核心 (0,0,0)」
     for (let i = 0; i < trials; i++) {
         let simA = 0, simB = 0, simC = 0;
-        
         for (let roll = 0; roll < 20; roll++) {
-            if (Math.random() < getHexaProb(simA) && simA < 10) {
-                simA++;
-            } else {
-                if (Math.random() < 0.5) { 
-                    if (simB < 10) simB++; else simC++; 
-                } else { 
-                    if (simC < 10) simC++; else simB++; 
-                }
-            }
+            if (Math.random() < getHexaProb(simA) && simA < 10) simA++;
+            else { if (Math.random() < 0.5) { if (simB < 10) simB++; else simC++; } else { if (simC < 10) simC++; else simB++; } }
         }
         
         let maxSub = Math.max(simB, simC);
-        let passedA = (targetA > 0 && simA >= targetA);
-        let passedSub = (targetSub > 0 && maxSub >= targetSub);
+        let minSub = Math.min(simB, simC);
         
-        if (passedA || passedSub) baseSuccess++;
+        let passA = targetA > 0 ? (simA >= targetA) : false;
+        let passS1 = targetSub1 > 0 ? (maxSub >= targetSub1) : false;
+        let passS2 = targetSub2 > 0 ? (minSub >= targetSub2) : false;
+        
+        let isSuccess = false;
+        if (isAndMode) {
+            isSuccess = true;
+            if (targetA > 0 && !passA) isSuccess = false;
+            if (targetSub1 > 0 && !passS1) isSuccess = false;
+            if (targetSub2 > 0 && !passS2) isSuccess = false;
+        } else {
+            isSuccess = passA || passS1 || passS2;
+        }
+        
+        if (isSuccess) baseSuccess++;
+    }
+
+    function formatProb(p) {
+        if (p === 0) return "0.00%";
+        if (p < 0.01) return p.toFixed(4) + "%";
+        return p.toFixed(2) + "%";
     }
 
     let winRate = (gradSuccess / trials) * 100;
@@ -1465,11 +2537,11 @@ function checkHexaReset() {
     if (winRate === 0) {
         suggestion = "無法達成 (機率為 0%)，請立刻重置。";
     } else if (winRate >= baseWinRate * 3) {
-        suggestion = `歐洲人！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，衝！)`;
+        suggestion = `歐洲人！(目前勝率 ${formatProb(winRate)} > 全新 ${formatProb(baseWinRate)}，衝！)`;
     } else if (winRate >= baseWinRate) {
-        suggestion = `狀態不錯！(目前勝率 ${winRate.toFixed(2)}% > 全新 ${baseWinRate.toFixed(2)}%，繼續)`;
+        suggestion = `狀態不錯！(目前勝率 ${formatProb(winRate)} > 全新 ${formatProb(baseWinRate)}，繼續)`;
     } else if (winRate >= baseWinRate * 0.5) {
-        suggestion = `狀態偏弱 (目前勝率 ${winRate.toFixed(2)}% < 全新 ${baseWinRate.toFixed(2)}%，建議重置)`;
+        suggestion = `狀態偏弱 (目前勝率 ${formatProb(winRate)} < 全新 ${formatProb(baseWinRate)}，建議重置)`;
     } else {
         suggestion = `狀態極差 (機率遠低於從頭來過，立刻重置)`;
     }
@@ -1477,33 +2549,29 @@ function checkHexaReset() {
     mainPanel.style.display = 'block';
     detailPanel.style.display = 'block';
 
+    let conditionText = isAndMode ? "(達成所有目標)" : "(達成任一目標)";
+
     mainBox.innerHTML = `
-        <div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">預估畢業勝率：${winRate.toFixed(2)}%</div>
+        <div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">預估畢業勝率 <span style="font-size: 14px; font-weight: normal; color: #888;">${conditionText}</span>：${formatProb(winRate)}</div>
         <div style="font-size: 15px; color: ${winRate >= baseWinRate ? '#34C759' : '#FF3B30'}; font-weight: 600;">${suggestion}</div>
     `;
 
     let htmlA = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#007AFF; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【主屬性 (A)】</div>`;
-    for (let i = Math.max(0, a); i <= 10; i++) {
-        htmlA += `<div style="margin-bottom: 4px;">• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%</div>`;
-    }
+    for (let i = Math.max(0, a); i <= 10; i++) { htmlA += `<div style="margin-bottom: 4px;">• ${i} 級：${((countA[i] / trials) * 100).toFixed(3)}%</div>`; }
     htmlA += `</div>`;
 
     let htmlB = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF3B30; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (B)】</div>`;
-    for (let i = Math.max(0, b); i <= 10; i++) {
-        htmlB += `<div style="margin-bottom: 4px;">• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%</div>`;
-    }
+    for (let i = Math.max(0, b); i <= 10; i++) { htmlB += `<div style="margin-bottom: 4px;">• ${i} 級：${((countB[i] / trials) * 100).toFixed(3)}%</div>`; }
     htmlB += `</div>`;
 
     let htmlC = `<div style="flex: 1; min-width: 150px; color: var(--text-main, #333);"><div style="color:#FF9500; font-weight:bold; border-bottom: 1px solid var(--glass-border, #eee); padding-bottom: 5px; margin-bottom: 8px;">【附屬性 (C)】</div>`;
-    for (let i = Math.max(0, c); i <= 10; i++) {
-        htmlC += `<div style="margin-bottom: 4px;">• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%</div>`;
-    }
+    for (let i = Math.max(0, c); i <= 10; i++) { htmlC += `<div style="margin-bottom: 4px;">• ${i} 級：${((countC[i] / trials) * 100).toFixed(3)}%</div>`; }
     htmlC += `</div>`;
 
     detailBox.innerHTML = `
         <div style="width:100%; text-align: left; font-size: 14px; color: var(--text-main, #333);">
             <strong style="display:block; margin-bottom: 6px; font-size: 15px;">點完後可能性的機率分佈：</strong>
-            <span style="font-size: 13px; color: var(--text-muted, #888); display: block; margin-bottom: 15px;">(全新核心達成機率約為 ${baseWinRate.toFixed(2)}%)</span>
+            <span style="font-size: 13px; color: var(--text-muted, #888); display: block; margin-bottom: 15px;">(全新核心達成機率約為 ${formatProb(baseWinRate)})</span>
             <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px;">
                 ${htmlA}${htmlB}${htmlC}
             </div>
@@ -1526,9 +2594,12 @@ function runHexaSimulation() {
     let rolls = valRolls === "" ? 20 : parseInt(valRolls);
 
     let valTa = document.getElementById('target-a').value;
-    let valTsub = document.getElementById('target-sub').value;
+    let valTsub1 = document.getElementById('target-sub').value;
+    let valTsub2 = document.getElementById('reset-target-sub2') ? document.getElementById('reset-target-sub2').value : "";
+
     let tA = valTa === "" ? 0 : parseInt(valTa);
-    let tSub = valTsub === "" ? 0 : parseInt(valTsub);
+    let tSub1 = valTsub1 === "" ? 0 : parseInt(valTsub1);
+    let tSub2 = valTsub2 === "" ? 0 : parseInt(valTsub2);
 
     let useStopLoss = document.getElementById('sim-stoploss').checked;
     let useMillion = document.getElementById('sim-million') ? document.getElementById('sim-million').checked : false;
@@ -1544,7 +2615,7 @@ function runHexaSimulation() {
         return;
     }
 
-    if (tA === 0 && tSub === 0) {
+    if (tA === 0 && tSub1 === 0 && tSub2 === 0) {
         resBox.style.display = 'block';
         resBox.innerHTML = `
             <div class="error-msg" style="text-align: center; line-height: 1.6;">
@@ -1554,45 +2625,88 @@ function runHexaSimulation() {
         return;
     }
 
-    const trials = useMillion ? 1000000 : 100000;
-    let cSuccess = 0;
-    let cHitA = 0;
-    let cHitSub = 0;
-    let cHitBoth = 0;
-    let tFrag = 0;
+    let currMaxStart = Math.max(sB, sC);
+    let currMinStart = Math.min(sB, sC);
     
-    let isGolden = (useStopLoss && tSub === 0 && (tA === 10 || tA === 9));
+    let reqA = tA > 0 ? Math.max(0, tA - sA) : Infinity;
+    let reqS1 = tSub1 > 0 ? Math.max(0, tSub1 - currMaxStart) : Infinity;
+    let reqS2 = tSub2 > 0 ? Math.max(0, tSub2 - currMinStart) : Infinity;
+
+    let minReq = Math.min(reqA, reqS1, reqS2);
+
+    if (minReq > rolls) {
+        resBox.style.display = 'block';
+        resBox.innerHTML = `
+            <div class="error-msg" style="text-align: center; line-height: 1.6;">
+                <div style="color: #FF3B30; font-weight: bold; margin-bottom: 6px;">⚠️ 數學上不可能達成</div>
+                <div style="display: inline-block; text-align: left;">
+                    您設定的目標中，最容易的一個都還需要 <strong>${minReq}</strong> 級，<br>
+                    但目前只剩下 <strong>${rolls}</strong> 次點擊機會，這在物理上是不可能達成的！<br>
+                    請調低目標或重新確認起始狀態。
+                </div>
+            </div>`;
+        return; 
+    }
+
+    const trials = useMillion ? 1000000 : 100000;
+    
+    let cHitA = 0;
+    let cHitSub1 = 0;
+    let cHitSub2 = 0;
+    let cHitAny = 0;   
+    let cHitAll = 0;   
+
+    // 原本：只計算成功的那顆核心花了多少碎片
+    let totalFragFirst = 0; 
+    let totalFragAll = 0;   
+
+    // 🌟 新增：計算所有失敗墊檔的總碎片 (真實累積期望花費)
+    let globalFragFirst = 0;
+    let globalFragAll = 0;
+
+    let hasA = tA > 0;
+    let hasS1 = tSub1 > 0;
+    let hasS2 = tSub2 > 0;
+    let targetCount = (hasA ? 1 : 0) + (hasS1 ? 1 : 0) + (hasS2 ? 1 : 0);
 
     for (let i = 0; i < trials; i++) {
-        let a = sA, b = sB, c = sC, attFrag = 0, success = false;
+        let a = sA, b = sB, c = sC;
+        let attFrag = 0;
+        let hitFirstFrag = -1;
 
-        if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
-            success = true;
-        }
+        let startHitAny = (hasA && sA >= tA) || (hasS1 && Math.max(sB, sC) >= tSub1) || (hasS2 && Math.min(sB, sC) >= tSub2);
+        let startHitAll = (hasA ? sA >= tA : true) && (hasS1 ? Math.max(sB, sC) >= tSub1 : true) && (hasS2 ? Math.min(sB, sC) >= tSub2 : true);
 
-        for (let r = 0; r < rolls && !success; r++) {
+        if (startHitAny) hitFirstFrag = 0;
+
+        for (let r = 0; r < rolls; r++) {
+            if (startHitAll) break; 
+
             let currMax = Math.max(b, c);
-            let currentTotalRolls = sA + sB + sC + r;
+            let currMin = Math.min(b, c);
+
+            let passA = hasA ? (a >= tA) : true;
+            let passS1 = hasS1 ? (currMax >= tSub1) : true;
+            let passS2 = hasS2 ? (currMin >= tSub2) : true;
+
+            if (passA && passS1 && passS2) {
+                break;
+            }
 
             if (useStopLoss) {
-                let rem = rolls - r;
-                let canHitA = (tA > 0) ? (a + rem >= tA) : false;
-                let canHitSub = (tSub > 0) ? (currMax + rem >= tSub) : false;
+                let remaining = rolls - r;
+                let posA = (hasA && !passA) ? (a + remaining >= tA) : false;
+                let posS1 = (hasS1 && !passS1) ? (currMax + remaining >= tSub1) : false;
+                let posS2 = (hasS2 && !passS2) ? (currMin + remaining >= tSub2) : false;
 
-                let possible = false;
-                if (tA > 0 && tSub > 0) {
-                    possible = (canHitA || canHitSub);
-                } else if (tA > 0) {
-                    possible = canHitA;
-                } else if (tSub > 0) {
-                    possible = canHitSub;
+                let currentTotalRolls = sA + sB + sC + r;
+                if (currentTotalRolls === 10) {
+                    if (tA === 10 && a < 5) posA = false;
+                    if (tA === 9 && a < 4) posA = false;
                 }
 
-                if (!possible) break;
-
-                if (currentTotalRolls === 10 && tSub === 0) {
-                    if (tA === 10 && a < 5) break;
-                    if (tA === 9 && a < 4) break;
+                if (!posA && !posS1 && !posS2) {
+                    break;
                 }
             }
 
@@ -1608,37 +2722,59 @@ function runHexaSimulation() {
                 }
             }
 
-            if ((tA > 0 && a >= tA) || (tSub > 0 && Math.max(b, c) >= tSub)) {
-                success = true;
+            if (hitFirstFrag === -1) {
+                let nMax = Math.max(b, c);
+                let nMin = Math.min(b, c);
+                if ((hasA && a >= tA) || (hasS1 && nMax >= tSub1) || (hasS2 && nMin >= tSub2)) {
+                    hitFirstFrag = attFrag;
+                }
             }
         }
-        
-        tFrag += attFrag;
-        
-        if (success) {
-            cSuccess++;
-            let finalMaxSub = Math.max(b, c);
-            let passA = (tA > 0 && a >= tA);
-            let passSub = (tSub > 0 && finalMaxSub >= tSub);
-            
-            if (passA) cHitA++;
-            if (passSub) cHitSub++;
-            if (passA && passSub) cHitBoth++;
+
+        let finalMax = Math.max(b, c);
+        let finalMin = Math.min(b, c);
+
+        let finalPassA = hasA && (a >= tA);
+        let finalPassS1 = hasS1 && (finalMax >= tSub1);
+        let finalPassS2 = hasS2 && (finalMin >= tSub2);
+
+        let hitAny = finalPassA || finalPassS1 || finalPassS2;
+        let hitAll = (hasA ? finalPassA : true) && (hasS1 ? finalPassS1 : true) && (hasS2 ? finalPassS2 : true);
+
+        if (finalPassA) cHitA++;
+        if (finalPassS1) cHitSub1++;
+        if (finalPassS2) cHitSub2++;
+
+        // 🌟 計算「任一目標就收手」策略的花費
+        if (hitAny) {
+            cHitAny++;
+            if (hitFirstFrag === -1) hitFirstFrag = attFrag; 
+            totalFragFirst += hitFirstFrag;
+            globalFragFirst += hitFirstFrag; // 成功的話，這宇宙花的是成功時的碎片
+        } else {
+            globalFragFirst += attFrag; // 失敗的話，這宇宙陪葬的碎片全部加進去
         }
+        
+        // 🌟 計算「追求所有目標」策略的花費
+        if (hitAll) {
+            cHitAll++;
+            totalFragAll += attFrag;
+        }
+        globalFragAll += attFrag; // 無論成敗，追求全拿的策略就是砸到最後
     }
 
-    let prob = (cSuccess / trials) * 100;
-    let avgCost = cSuccess > 0 ? (tFrag / cSuccess) : 0;
+    function formatProb(count) {
+        let p = (count / trials) * 100;
+        if (p === 0) return "0.00 %";
+        if (p < 0.01) return p.toFixed(4) + " %";
+        return p.toFixed(2) + " %";
+    }
 
     let htmlOutput = `<div style="font-size: 18px; font-weight: 800; color: var(--text-main, #333); margin-bottom: 8px;">【 模擬 ${trials.toLocaleString()} 次結果 】</div>`;
 
     if (useStopLoss) {
-        htmlOutput += `<div style="color:${isGolden ? '#34C759' : 'var(--text-muted, #888)'}; font-size: 13px; margin-bottom: 15px;">`;
-        if (isGolden) {
-            htmlOutput += `(套用提早停損及重置決策：前十次未達主屬${tA === 10 ? '5' : '4'}時直接重置)`;
-        } else {
-            htmlOutput += `(僅套用提早停損)`;
-        }
+        htmlOutput += `<div style="color:var(--text-muted, #888); font-size: 13px; margin-bottom: 15px;">`;
+        htmlOutput += `(套用智慧停損：只有當「所有設定目標」都無望時，才會提早放棄以節省碎片)`;
         htmlOutput += `</div>`;
     } else {
         htmlOutput += `<div style="margin-bottom: 15px;"></div>`;
@@ -1646,32 +2782,56 @@ function runHexaSimulation() {
 
     htmlOutput += `<div style="text-align: left; line-height: 1.8; color: var(--text-main, #333); font-size: 15px;">`;
 
-    if (tA > 0) {
-        htmlOutput += `• 單一核心達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#007AFF; font-size: 16px;">${((cHitA / trials) * 100).toFixed(2)} %</strong><br>`;
-    }
-    
-    if (tSub > 0) {
-        htmlOutput += `• 單一核心達成 [任一附屬 ${tSub} 級] 的機率：<strong style="color:#FF3B30; font-size: 16px;">${((cHitSub / trials) * 100).toFixed(2)} %</strong><br>`;
-    }
+    if (hasA) htmlOutput += `• 達成 [主屬性 ${tA} 級] 的機率：<strong style="color:#007AFF; font-size: 16px;">${formatProb(cHitA)}</strong><br>`;
+    if (hasS1) htmlOutput += `• 達成 [較高附屬 ${tSub1} 級] 的機率：<strong style="color:#FF3B30; font-size: 16px;">${formatProb(cHitSub1)}</strong><br>`;
+    if (hasS2) htmlOutput += `• 達成 [較低附屬 ${tSub2} 級] 的機率：<strong style="color:#FF9500; font-size: 16px;">${formatProb(cHitSub2)}</strong><br>`;
 
-    if (tA > 0 && tSub > 0) {
-        htmlOutput += `<div style="margin-top: 6px;">• 達成任一條件 (畢業) 的綜合機率：<strong style="color:#34C759; font-size: 16px;">${prob.toFixed(2)} %</strong></div>`;
-        htmlOutput += `• 歐洲人！同時達成兩者的機率：<strong style="color:#AF52DE; font-size: 16px;">${((cHitBoth / trials) * 100).toFixed(2)} %</strong>`;
+    if (targetCount > 1) {
+        htmlOutput += `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ccc;">`;
+        htmlOutput += `• 達成 <strong>【任一目標】</strong> 的機率：<strong style="color:#34C759; font-size: 16px;">${formatProb(cHitAny)}</strong><br>`;
+        htmlOutput += `• 同時達成 <strong>【所有目標】</strong> 的機率：<strong style="color:#AF52DE; font-size: 18px;">${formatProb(cHitAll)}</strong>`;
+        htmlOutput += `</div>`;
     }
     htmlOutput += `</div>`;
-
     htmlOutput += `<div style="width: 100%; height: 1px; background-color: var(--glass-border, #eee); margin: 20px 0;"></div>`;
 
-    if (cSuccess > 0) {
-        htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">預估碎片需求：平均準備約 <strong style="font-size: 19px; color:#FF3B30;">${Math.round(avgCost).toLocaleString()}</strong> 個碎片能達成目標</div>`;
+    // 🌟 輸出真實期望花費與單顆造價
+    if (cHitAny > 0) {
+        let winCostFirst = Math.round(totalFragFirst / cHitAny);
+        let trueCostFirst = Math.round(globalFragFirst / cHitAny);
+        
+        // 這裡外層已經設定了 var(--text-main, #333)，裡面的文字只要不寫死顏色就會自動繼承！
+        htmlOutput += `<div style="color: var(--text-main, #333); font-size: 15px;">`;
+        
+        if (targetCount > 1) {
+            let winCostAll = cHitAll > 0 ? Math.round(totalFragAll / cHitAll).toLocaleString() : "∞";
+            let trueCostAll = cHitAll > 0 ? Math.round(globalFragAll / cHitAll).toLocaleString() : "∞";
+            
+            htmlOutput += `<div style="margin-bottom:6px; font-weight:bold;">預估累積碎片需求 (包含重製的成本)：</div>`;
+            
+            // 💡 修正點 1：移除了寫死的 #555，小字改用 var(--text-muted, #888)
+            htmlOutput += `<div style="font-size: 14px; margin-bottom:12px;">▶ 若達成 <strong>任一目標</strong> 就收手，平均需準備 <strong style="font-size: 17px; color:#34C759;">${trueCostFirst.toLocaleString()}</strong> 個碎片<br><span style="font-size:12px; color:var(--text-muted, #888);">(其中那顆成功核心本身的造價約為 ${winCostFirst.toLocaleString()} 個)</span></div>`;
+            
+            if (cHitAll > 0) {
+                // 💡 修正點 2
+                htmlOutput += `<div style="font-size: 14px;">▶ 若追求 <strong>所有目標</strong> 全拿，平均需準備 <strong style="font-size: 17px; color:#AF52DE;">${trueCostAll}</strong> 個碎片<br><span style="font-size:12px; color:var(--text-muted, #888);">(其中那顆成功核心本身成本約為 ${winCostAll} 個)</span></div>`;
+            } else {
+                // 💡 修正點 3
+                htmlOutput += `<div style="font-size: 14px; color:var(--text-muted, #888);">▶ 追求所有目標的成功率趨近於 0，強烈不建議嘗試。</div>`;
+            }
+        } else {
+             htmlOutput += `<div style="margin-bottom:6px; font-weight:bold;">預估累積碎片需求 (包含重製的成本)：</div>`;
+             // 💡 修正點 4
+             htmlOutput += `<div style="font-size: 14px;">平均需準備約 <strong style="font-size: 19px; color:#FF3B30;">${trueCostFirst.toLocaleString()}</strong> 個碎片才能達成目標<br><span style="font-size:13px; color:var(--text-muted, #888);">(其中那顆成功核心本身成本約為 ${winCostFirst.toLocaleString()} 個)</span></div>`;
+        }
+        htmlOutput += `</div>`;
     } else {
-        htmlOutput += `<div style="color: #FF3B30; font-size: 15px; font-weight: bold;">起點狀態與剩餘次數不足以達成你設定的目標，機率為 0%。</div>`;
+        htmlOutput += `<div style="color: #FF3B30; font-size: 15px; font-weight: bold;">在目前的起點與剩餘次數下，達成目標的機率為 0%，建議降低標準或重新模擬。</div>`;
     }
 
     resBox.style.display = 'block';
     resBox.innerHTML = htmlOutput;
 }
-
 /* ========================================== */
 /* 9. 製作模擬器邏輯 (Craft Simulator)           */
 /* ========================================== */
@@ -1685,7 +2845,7 @@ const cr_equip_db = [
         necro: { name: "死靈天之星光權杖", img: "assets/equipment/死靈天之星光權杖.webp", hasEmblem: true },
         absolab: { name: "航海師天之星光權杖", img: "assets/equipment/航海師天之星光權杖.webp", hasEmblem: true },
         arcane: { name: "神秘冥界幽靈天之星光權杖", img: "assets/equipment/神秘冥界幽靈天之星光權杖.webp", hasEmblem: true }
-    },
+    }/*,
     {
         label: "克拉",
         mythic: { name: "獅子心形克拉", img: "assets/equipment/獅子心形克拉.png", hasEmblem: true },
@@ -1693,7 +2853,7 @@ const cr_equip_db = [
         necro: { name: "死靈克拉", img: "assets/equipment/死靈克拉.webp", hasEmblem: true },
         absolab: { name: "航海師克拉", img: "assets/equipment/航海師克拉.webp", hasEmblem: true },
         arcane: { name: "神秘冥界幽靈克拉", img: "assets/equipment/神秘冥界幽靈克拉.webp", hasEmblem: true }
-    }
+    }*/
 ];
 
 let cr_equip_idx = 0; // 預設為權杖
@@ -3491,7 +4651,6 @@ function acc_updateUI() {
         statsHtmlContent += `</div>
         <div class="acc-stats-footer">
             <span>總嘗試：<span class="val-try">${acc_attempts}</span></span>
-            <span>成功：<span class="val-success">${acc_successes}</span></span>
             <span>失敗：<span class="val-fail">${acc_fails}</span></span>
         </div>`;
         
@@ -3763,15 +4922,17 @@ const emb_sfxSuccess = new Audio('assets/Enchant.wav');
 const emb_sfxFail = new Audio('assets/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
 
 // 狀態變數
-let emb_lv = 5; 
+let emb_lv = 1; 
 let emb_mat_count = 1;
 let emb_isAnimating = false;
 let emb_attempts = 0;
 let emb_successes = 0;
 let emb_fails = 0;
 let emb_current_level_attempts = 0;
+let emb_mats_normal_used = 0;
+let emb_mats_chaos_used = 0;
 let emb_isMuted = false; 
-let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+let emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0, mats: 0, lastMatCount: 1 }));
 
 function emb_toggleSound() {
     emb_isMuted = !emb_isMuted;
@@ -3806,6 +4967,9 @@ function emb_forceStateChange() {
     emb_updateUI();
 }
 
+// ==========================================
+// 🔄 紋章模擬器：更新 UI 畫面 (最終純淨版)
+// ==========================================
 function emb_updateUI() {
     let selectElem = document.getElementById('emb-lv-select');
     if (selectElem) {
@@ -3816,50 +4980,11 @@ function emb_updateUI() {
         selectElem.value = emb_lv; // 設定目前選中的值
     }
     
-    // 剩下的邏輯保持不變
     let currData = emb_stats_data[emb_lv - 1];
     let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
     
     // 更新介面數值
     if (document.getElementById('emb-ui-curr-lv')) document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
-    
-    // ... (後續的渲染邏輯保持你原本寫的即可) ...
-    // ...
-}
-
-function emb_changeMat(amount) {
-    if (emb_lv >= 15 || emb_isAnimating) return;
-    let max = emb_rate_data[emb_lv - 1].maxMat;
-    emb_mat_count += amount;
-    if (emb_mat_count < 1) emb_mat_count = 1;
-    if (emb_mat_count > max) emb_mat_count = max;
-    emb_updateUI();
-}
-
-function emb_setMaxMat() {
-    if (emb_lv >= 15 || emb_isAnimating) return;
-    emb_mat_count = emb_rate_data[emb_lv - 1].maxMat;
-    emb_updateUI();
-}
-
-function emb_updateUI() {
-    let selectElem = document.getElementById('emb-lv-select');
-    if (selectElem) {
-        // 動態解鎖 Lv.15 選項
-        if (emb_lv === 15 && !selectElem.querySelector('option[value="15"]')) {
-            selectElem.insertAdjacentHTML('beforeend', `<option value="15">Lv.15</option>`);
-        }
-        selectElem.value = emb_lv; // 設定目前選中的值
-    }
-    
-    // 剩下的邏輯保持不變
-    let currData = emb_stats_data[emb_lv - 1];
-    let nextData = emb_lv < 15 ? emb_stats_data[emb_lv] : currData;
-    
-    // 更新介面數值
-    if (document.getElementById('emb-ui-curr-lv')) document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
-    
-    document.getElementById('emb-ui-curr-lv').innerText = emb_lv;
     
     let diamondLvElem = document.getElementById('emb-ui-diamond-lv');
     let diamondBadgeElem = document.getElementById('emb-ui-diamond-badge');
@@ -3874,7 +4999,6 @@ function emb_updateUI() {
     if (nextLvElem) nextLvElem.innerText = emb_lv >= 15 ? "MAX" : (emb_lv + 1);
     
     let statHtml = '';
-    
     if (nextData.maxDmg > 0 || currData.maxDmg > 0) {
         let increase = nextData.maxDmg - currData.maxDmg;
         statHtml += `
@@ -3924,12 +5048,13 @@ function emb_updateUI() {
         if (btnAction) btnAction.disabled = false;
     }
 
+    // 📊 下方動態統計面板渲染
     let statsContainer = document.getElementById('emb-stats-container');
     if (statsContainer) {
         let statsHtmlContent = `
             <div class="acc-stats-header">
                 <div>各星級消耗 <span class="acc-stats-hint">(隱藏未點擊)</span></div>
-                <div class="acc-stats-hint-ev">理論期望</div>
+                <div class="acc-stats-hint-ev">當前期望</div>
             </div>
             <div class="acc-stats-body">
         `;
@@ -3937,28 +5062,62 @@ function emb_updateUI() {
         for (let i = 1; i < 15; i++) {
             let hist = emb_stats_history[i];
             let rateInfo = emb_rate_data[i - 1];
-            let ev = rateInfo.baseRate > 0 ? (100 / rateInfo.baseRate).toFixed(2) : "∞";
+            
+            let matToUse = (i === emb_lv) ? emb_mat_count : hist.lastMatCount;
+            let currentSuccessRate = Math.min(100, rateInfo.baseRate * matToUse); 
+            
+            let evText = "∞";
+            if (currentSuccessRate > 0) {
+                let evAttempts = 100 / currentSuccessRate; 
+                let evMats = evAttempts * matToUse;
+                
+                // 單行期望值，沒有 <br>
+                evText = `${evAttempts.toFixed(1)}次 <span style="font-size: 11px; color:#888;">(約${evMats.toFixed(1)}個)</span>`;
+            }
             
             if (hist.attempts > 0 || i === emb_lv) {
                 let isCurrent = (i === emb_lv) ? 'current-lv' : '';
+                
+                // 🌟 1. 將網格改為 1fr auto 1fr (左右平分，中間自適應)
                 statsHtmlContent += `
-                <div class="acc-stat-hist-row ${isCurrent}">
-                    <div class="acc-hist-lv"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
-                    <div class="acc-hist-main">嘗試 <span class="val-try">${hist.attempts}</span> 次</div>
-                    <div class="acc-hist-ev">${ev}</div>
+                <div class="acc-stat-hist-row ${isCurrent}" style="grid-template-columns: 1fr auto 1fr; align-items: center;">
+                    
+                    <div class="acc-hist-lv" style="text-align: left;"><span class="lv-num">${i}</span><span class="arr">»</span><span class="lv-next-num">${i+1}</span></div>
+                    
+                    <div class="acc-hist-main" style="text-align: center;">消耗 <span class="val-try">${hist.mats}</span> 個</div>
+                    
+                    <div class="acc-hist-ev" style="text-align: right;">${evText}</div>
+                    
                 </div>`;
             }
         }
+        
+        // 🌟 完全移除嘗試/成功/失敗，只保留置中的材料總結
         statsHtmlContent += `</div>
-        <div class="acc-stats-footer">
-            <span>總嘗試：<span class="val-try">${emb_attempts}</span></span>
-            <span>成功：<span class="val-success">${emb_successes}</span></span>
-            <span>失敗：<span class="val-fail">${emb_fails}</span></span>
+        <div style="display: flex; justify-content: center; gap: 25px; font-size: 14px; font-weight: bold; color: #555; margin-top: 15px; margin-bottom: 5px;">
+            <div>一般痕跡：<span style="color: #f3724c; font-size: 16px;">${emb_mats_normal_used}</span></div>
+            <div>混沌痕跡：<span style="color: #8e44ad; font-size: 16px;">${emb_mats_chaos_used}</span></div>
         </div>`;
         
         statsContainer.innerHTML = statsHtmlContent;
     }
 }
+
+function emb_changeMat(amount) {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    let max = emb_rate_data[emb_lv - 1].maxMat;
+    emb_mat_count += amount;
+    if (emb_mat_count < 1) emb_mat_count = 1;
+    if (emb_mat_count > max) emb_mat_count = max;
+    emb_updateUI();
+}
+
+function emb_setMaxMat() {
+    if (emb_lv >= 15 || emb_isAnimating) return;
+    emb_mat_count = emb_rate_data[emb_lv - 1].maxMat;
+    emb_updateUI();
+}
+
 
 function emb_executeEnhance() {
     if (emb_lv >= 15 || emb_isAnimating) return;
@@ -3973,7 +5132,17 @@ function emb_executeEnhance() {
     emb_attempts++;
     emb_current_level_attempts++;
     let oldLv = emb_lv;
-    
+
+    emb_stats_history[oldLv].mats += emb_mat_count;
+
+    emb_stats_history[oldLv].lastMatCount = emb_mat_count;
+
+    if (rateInfo.matName === "紋章的痕跡") {
+        emb_mats_normal_used += emb_mat_count;
+    } else {
+        emb_mats_chaos_used += emb_mat_count;
+    } 
+
     emb_stats_history[oldLv].attempts++;
     if (!isSuccess) {
         emb_stats_history[oldLv].fails++;
@@ -4091,9 +5260,12 @@ function emb_reset() {
     emb_successes = 0;
     emb_fails = 0;
     emb_current_level_attempts = 0;
-    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0 }));
+    emb_mats_normal_used = 0;
+    emb_mats_chaos_used = 0; 
     
-    // 2. 強制同步 HTML 選單狀態 (關鍵！)
+    // 🌟 同步更新：確保清除狀態時，這個新欄位也回到預設值 1
+    emb_stats_history = Array.from({length: 15}, () => ({ attempts: 0, fails: 0, mats: 0, lastMatCount: 1 }));
+    
     let selectElem = document.getElementById('emb-lv-select');
     if (selectElem) {
         selectElem.value = "1"; // 強制選單歸零回 Lv.1
