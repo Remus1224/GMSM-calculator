@@ -97,12 +97,34 @@
                 </div>
             </div>
 
-            <div class="app-card" onclick="switchTab('will')">
+            <div class="app-card" onclick="switchTab('hexa-visual')">
                 <div class="app-icon">
-                    <img src="assets/Collection_Will.png" class="menu-custom-img" alt="icon">
+                    <img src="assets/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
-                    <h3>威爾二階練習機</h3>
+                    <h3>HEXA 屬性模擬器</h3>
+                </div>
+            </div>
+
+            <div class="app-card" onclick="switchTab('hyper-stat')">
+                <div class="app-icon">
+                    <img src="assets/icon_極限屬性計算機.png" class="menu-custom-img" alt=""
+                        onerror="this.style.display='none'">
+                </div>
+                <div class="app-info">
+                    <h3>極限屬性計算機</h3>
+                </div>
+            </div>
+
+            <div class="app-card" onclick="switchTab('rune')">
+                <div class="app-icon">
+                    <div class="rune-menu-icon" aria-hidden="true">
+                        <span>✦</span>
+                        <img src="assets/icon_符文計算機.png" alt="" onerror="this.style.display='none'">
+                    </div>
+                </div>
+                <div class="app-info">
+                    <h3>符文計算機</h3>
                 </div>
             </div>
 
@@ -117,19 +139,19 @@
 
             <div class="app-card" onclick="switchTab('hexa-prog')">
                 <div class="app-icon">
-                    <img src="assets/icon_六轉計算機.png" class="menu-custom-img" alt="icon">
+                    <img src="assets/icon-purple HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
                     <h3>六轉進度計算機</h3>
                 </div>
             </div>
 
-            <div class="app-card" onclick="switchTab('hexa-visual')">
+            <div class="app-card" onclick="switchTab('will')">
                 <div class="app-icon">
-                    <img src="assets/icon-purple HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
+                    <img src="assets/Collection_Will.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
-                    <h3>HEXA 屬性模擬器</h3>
+                    <h3>威爾二階練習機</h3>
                 </div>
             </div>
 
@@ -156,7 +178,7 @@
                     <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
                 </div>
                 <div class="app-info">
-                    <h3>HEXA 目標策略模擬</h3>
+                    <h3>HEXA 目標機率模擬</h3>
                 </div>
             </div>
         </div> 
@@ -177,6 +199,7 @@
         <div class="panel" style="animation: appleFadeIn 0.4s ease;">
             <div class="section-title">✨ 版本更新？？</div>
             <ul class="update-list" style="font-size: 14.5px;">
+                <li><strong>2026/07/29</strong>：新增符文計算機，可計算祕法符文升級所需數量與楓幣。</li>
                 <li><strong>2026/07/04</strong>：新增紋章﹑飾品﹑星力強化模擬器。</li>
                 <li><strong>2026/06/21</strong>：新增威爾二階練習機。</li>
                 <li><strong>2026/06/06</strong>：新增製作模擬器，混沌扣除太貴了。</li>
@@ -255,6 +278,146 @@
                 <button onclick="clearIgnore()" class="btn-clear">清除重置</button>
             </div>
         </div>
+    </div>
+
+    <div id="tab-hyper-stat" class="tab-content">
+        <section class="hyper-overview panel">
+            <div class="hyper-level-field">
+                <label for="hyper-character-level">角色等級</label>
+                <div class="hyper-level-input">
+                    <span>Lv.</span>
+                    <input id="hyper-character-level" type="number" inputmode="numeric" min="1" max="300" value=""
+                        oninput="setHyperCharacterLevel(this.value)" onchange="setHyperCharacterLevel(this.value, true)">
+                </div>
+            </div>
+
+            <div class="hyper-overview-stats" aria-live="polite">
+                <div class="hyper-overview-item">
+                    <span>可用點數</span>
+                    <strong id="hyper-total-points">0</strong>
+                </div>
+                <div class="hyper-overview-item">
+                    <span>已分配</span>
+                    <strong id="hyper-used-points">0</strong>
+                </div>
+                <div class="hyper-overview-item" id="hyper-remaining-card">
+                    <span>剩餘點數</span>
+                    <strong id="hyper-remaining-points">0</strong>
+                </div>
+                <div class="hyper-overview-item hyper-overview-mesos">
+                    <span class="hyper-coin-wrap" aria-hidden="true">
+                        <img src="assets/金幣.png" alt="">
+                    </span>
+                    <strong id="hyper-total-mesos">0</strong>
+                </div>
+            </div>
+        </section>
+
+        <div class="hyper-profile-tabs" role="tablist" aria-label="極限屬性配置">
+            <button id="hyper-profile-btn-boss" class="hyper-profile-tab active" type="button" role="tab"
+                aria-selected="true" onclick="switchHyperProfile('boss')">
+                <span>打王</span>
+                <small id="hyper-profile-used-boss">已用 0 點</small>
+            </button>
+            <button id="hyper-profile-btn-farm" class="hyper-profile-tab" type="button" role="tab"
+                aria-selected="false" onclick="switchHyperProfile('farm')">
+                <span>掛機</span>
+                <small id="hyper-profile-used-farm">已用 0 點</small>
+            </button>
+        </div>
+
+        <section id="hyper-profile-panel-boss" class="hyper-profile-panel active" role="tabpanel"
+            aria-labelledby="hyper-profile-btn-boss">
+            <div id="hyper-skill-grid-boss" class="hyper-skill-grid"></div>
+        </section>
+
+        <section id="hyper-profile-panel-farm" class="hyper-profile-panel" role="tabpanel"
+            aria-labelledby="hyper-profile-btn-farm" hidden>
+            <div id="hyper-skill-grid-farm" class="hyper-skill-grid"></div>
+        </section>
+
+        <div class="hyper-bottom-actions">
+            <button class="btn-clear" type="button" onclick="resetHyperProfile()">重設目前配置</button>
+        </div>
+    </div>
+
+    <div id="tab-rune" class="tab-content">
+        <div class="rune-category-switch" role="tablist" aria-label="符文類型">
+            <button id="rune-tab-arcane" class="rune-category-btn active" type="button" role="tab" aria-selected="true" onclick="switchRuneCategory('arcane')">
+                <span class="rune-category-glyph arcane-glyph" aria-hidden="true">
+                    <span>✦</span>
+                    <img src="assets/祕法符文.png" alt="" onerror="this.style.display='none'">
+                </span>
+                <span><b>祕法符文</b></span>
+            </button>
+            <button id="rune-tab-authentic" class="rune-category-btn" type="button" role="tab" aria-selected="false" onclick="switchRuneCategory('authentic')">
+                <span class="rune-category-glyph authentic-glyph" aria-hidden="true">
+                    <span>◆</span>
+                    <img src="assets/真實符文.png" alt="" onerror="this.style.display='none'">
+                </span>
+                <span><b>真實符文</b></span>
+            </button>
+        </div>
+
+        <section id="rune-panel-arcane" class="rune-category-panel active" role="tabpanel" aria-labelledby="rune-tab-arcane">
+            <div id="rune-cards-grid" class="rune-cards-grid"></div>
+
+            <div class="rune-grand-total" aria-live="polite">
+                <div class="rune-grand-heading">
+                    <span>祕法符文需求</span>
+                    <small>依目前各卡片設定即時計算</small>
+                </div>
+                <div class="rune-grand-results">
+                    <div class="rune-grand-item rune-grand-symbols-panel">
+                        <span class="rune-grand-item-title">尚需符文</span>
+                        <div id="rune-grand-symbol-list" class="rune-grand-symbol-list"></div>
+                    </div>
+                    <div class="rune-grand-item">
+                        <div class="rune-summary-image coin-image">
+                            <span aria-hidden="true">₥</span>
+                            <img src="assets/金幣.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div>
+                            <strong id="rune-grand-mesos">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rune-bottom-actions">
+                <button class="rune-reset-all btn-clear" type="button" onclick="resetAllRuneCards()">全部重設</button>
+            </div>
+        </section>
+
+        <section id="rune-panel-authentic" class="rune-category-panel" role="tabpanel" aria-labelledby="rune-tab-authentic" hidden>
+            <div id="authentic-rune-list" class="authentic-rune-list"></div>
+
+            <div class="rune-grand-total authentic-grand-total" aria-live="polite">
+                <div class="rune-grand-heading">
+                    <span>真實符文需求</span>
+                    <small>依目前各卡片設定即時計算</small>
+                </div>
+                <div class="rune-grand-results">
+                    <div class="rune-grand-item rune-grand-symbols-panel">
+                        <span class="rune-grand-item-title">尚需符文</span>
+                        <div id="authentic-grand-symbol-list" class="rune-grand-symbol-list"></div>
+                    </div>
+                    <div class="rune-grand-item">
+                        <div class="rune-summary-image coin-image">
+                            <span aria-hidden="true">₥</span>
+                            <img src="assets/金幣.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div>
+                            <strong id="authentic-grand-mesos">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rune-bottom-actions">
+                <button class="rune-reset-all btn-clear" type="button" onclick="resetAllAuthenticRuneCards()">全部重設</button>
+            </div>
+        </section>
     </div>
 
     <div id="tab-transcend" class="tab-content">
@@ -813,9 +976,20 @@
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub" min="0" max="10" value=""></div>
+                <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub2" min="0" max="10" value=""></div>
             </div>
 
-            <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
+            <div style="margin-top: 15px; margin-bottom: 5px; font-size: 14px; font-weight: bold; ">
+                 畢業條件判定：
+                <label style="margin-left: 0px; cursor: pointer;">
+                <input type="radio" name="reset-condition" value="or" checked> 達成任一目標
+                </label>
+                <label style="margin-left: 5px; cursor: pointer;">
+                <input type="radio" name="reset-condition" value="and"> 達成所有目標
+                </label>
+            </div>
+
+            <div style="display:flex; flex-direction: column; gap: 8px;  margin-bottom: 15px;">
                 <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start;" title="將運算次數從 3 萬提升至 100 萬次，適合極端目標">
                     <input type="checkbox" id="sim-million-reset"> ⚠️ 啟用極限運算 (100萬次模擬，按下後可能卡頓 1~3 秒)
                 </label>
@@ -857,6 +1031,7 @@
             <div class="hexa-inputs">
                 <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="target-a" min="0" max="10" value=""></div>
                 <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="target-sub" min="0" max="10" value=""></div>
+                <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub2" min="0" max="10" value=""></div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
