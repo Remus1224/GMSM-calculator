@@ -775,13 +775,56 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 /* 7. 製作模擬器特定設定 (Craft Specific)        */
 /* ========================================== */
 #cr-game-ui-container .sec-top { display: flex !important; justify-content: center !important; align-items: flex-start !important; gap: 15px !important; padding: 20px 0 15px 0 !important; flex-wrap: nowrap !important; }
-#cr-game-ui-container .item-col { display: flex !important; flex-direction: column !important; align-items: center !important; width: 85px !important; min-width: 85px !important; max-width: 85px !important; flex: 0 0 85px !important; margin: 0 !important; padding: 0 !important; }
-#cr-game-ui-container .img-box { width: 85px !important; height: 85px !important; margin: 0 0 5px 0 !important; flex-shrink: 0 !important; }
+#cr-game-ui-container .item-col { display: flex !important; flex-direction: column !important; align-items: center !important; width: 130px !important; min-width: 130px !important; max-width: 130px !important; flex: 0 0 130px !important; margin: 0 !important; padding: 0 !important; }
+#cr-game-ui-container .img-box { width: 90px !important; height: 90px !important; margin: 0 0 6px 0 !important; flex-shrink: 0 !important; }
 #cr-game-ui-container .plus-sign { display: block !important; width: 30px !important; min-width: 30px !important; flex: 0 0 30px !important; text-align: center !important; font-size: 35px !important; margin: 0 !important; padding: 0 !important; margin-top: 25px !important; line-height: 1 !important; color: #555 !important;}
 #cr-game-ui-container .item-col:nth-child(3) { margin-right: 25px !important; }
-#cr-game-ui-container .equip-name { width: max-content !important; max-width: none !important; white-space: nowrap !important; overflow: visible !important; font-size: 12px !important; text-align: center !important; margin: 0 !important; letter-spacing: -0.2px !important; color: #555 !important; }
+#cr-game-ui-container .equip-name { width: 100% !important; max-width: 130px !important; min-height: 31px; white-space: normal !important; overflow: visible !important; overflow-wrap: anywhere; word-break: normal; font-size: 12px !important; line-height: 1.3; text-align: center !important; margin: 0 !important; letter-spacing: -0.2px !important; color: #555 !important; }
 #cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 11px !important; letter-spacing: -0.5px !important; }
 #cr-game-ui-container .forge-main { height: 520px; }
+
+.cr-stage-setting-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: start;
+    column-gap: 18px;
+}
+.cr-setting-heading {
+    color: var(--text-main);
+    font-weight: 700;
+    white-space: nowrap;
+}
+.cr-stage-options {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+    white-space: nowrap;
+}
+.cr-stage-options label {
+    min-width: 0;
+    justify-content: flex-start;
+    white-space: nowrap;
+}
+.cr-scroll-setting-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: start;
+    column-gap: 12px;
+}
+.cr-scroll-selects {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.cr-scroll-selects select {
+    width: 76px;
+    min-width: 0;
+}
 
 .cr-chaos-tier-list {
     width: 100%;
@@ -797,7 +840,7 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
     line-height: 1.45;
 }
 .cr-chaos-route-list {
-    width: min(520px, 100%);
+    width: min(460px, 100%);
     margin: 0 auto 8px;
     display: grid;
     gap: 12px;
@@ -1524,7 +1567,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .sec-white { min-height: 50px; padding: 10px 0; }
     .sec-grey-mid { padding: 15px 10px; }
     .cr-chaos-tier-caption { margin-bottom: 10px; font-size: 12px; line-height: 1.5; }
-    .cr-chaos-route-list { gap: 11px; font-size: 12px; line-height: 1.4; }
+    .cr-chaos-route-list { width: min(330px, 100%); gap: 11px; font-size: 12px; line-height: 1.4; }
     .cr-chaos-route { grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); }
     .cr-chaos-route-arrow { font-size: 17px; }
     .cr-tier-or { margin: 0 1px; }
@@ -1539,6 +1582,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         height: 18px;
         font-size: 11px;
     }
+    #cr-game-ui-container .rate-box { margin-top: 16px !important; }
     .scroll-mode-active .sec-middle { padding: 20px 10px !important; }
     .lv-arrow { margin: 0 10px; font-size: 18px; }
     .lv-text, .lv-next { font-size: 18px; }
@@ -1564,15 +1608,43 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .btn-action-tr { width: 110px; font-size: 15px; padding: 10px 0; }
     .sec-bottom { gap: 10px; padding: 15px 0; }
 
-    #cr-game-ui-container .sec-top { gap: 5px !important; padding: 15px 0px 10px 0px !important; } 
-    #cr-game-ui-container .item-col { width: 75px !important; min-width: 75px !important; max-width: 75px !important; flex: 0 0 75px !important; }
+    #cr-game-ui-container .sec-top { gap: 4px !important; padding: 15px 8px 10px !important; } 
+    #cr-game-ui-container .item-col { width: 96px !important; min-width: 96px !important; max-width: 96px !important; flex: 0 0 96px !important; }
     #cr-game-ui-container .img-box { width: 70px !important; height: 70px !important; }
     #cr-game-ui-container .plus-sign { width: 20px !important; min-width: 20px !important; flex: 0 0 20px !important; font-size: 26px !important; margin-top: 22px !important; }
-    #cr-game-ui-container .item-col:nth-child(3) { margin-right:40px !important; }
-    #cr-game-ui-container .equip-name { font-size: 12px !important; transform: none !important; }
+    #cr-game-ui-container .item-col:nth-child(3) { margin-right: 8px !important; }
+    #cr-game-ui-container .equip-name { width: 100% !important; max-width: 96px !important; min-height: 29px; white-space: normal !important; overflow-wrap: anywhere; font-size: 10px !important; line-height: 1.25; transform: none !important; }
     #cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 10px !important; letter-spacing: -0.5px !important; transform: none !important; }
-    #cr-game-ui-container .forge-main { height: 415px !important; }
+    #cr-game-ui-container .forge-main { height: auto !important; min-height: 0 !important; }
     #cr-game-ui-container .sec-grey-mid { padding-top: 10px !important; }
+
+    .cr-stage-setting-row {
+        grid-template-columns: 1fr;
+        row-gap: 8px;
+    }
+    .cr-stage-options { gap: 8px; }
+    .cr-stage-setting-row .cr-stage-options label {
+        gap: 2px !important;
+        font-size: 11px !important;
+        letter-spacing: -0.4px;
+    }
+    .cr-stage-options input { margin: 0; }
+    .cr-scroll-setting-row {
+        grid-template-columns: auto auto;
+        justify-content: start;
+        column-gap: 7px;
+    }
+    .cr-scroll-setting-row .cr-setting-heading {
+        font-size: 11px;
+        letter-spacing: -0.3px;
+    }
+    .cr-scroll-selects { gap: 5px; }
+    .cr-scroll-selects select {
+        width: 62px;
+        padding-right: 2px;
+        padding-left: 2px;
+        font-size: 11px;
+    }
 
     .setting-row { gap: 6px !important; font-size: 13px !important; }
     .setting-row label { font-size: 13px !important; }

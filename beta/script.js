@@ -3127,7 +3127,7 @@ function cr_forceStageChange() {
     if (cr_stage === 'necro') {
         let necroDiv = document.getElementById('cr-scroll-necro-div');
         let chaosDiv = document.getElementById('cr-scroll-chaos-div');
-        if (necroDiv) necroDiv.style.display = 'flex';
+        if (necroDiv) necroDiv.style.display = 'grid';
         if (chaosDiv) chaosDiv.style.display = 'none';
 
         let n1 = document.getElementById('cr-scroll-n1');
@@ -3138,7 +3138,7 @@ function cr_forceStageChange() {
         let necroDiv = document.getElementById('cr-scroll-necro-div');
         let chaosDiv = document.getElementById('cr-scroll-chaos-div');
         if (necroDiv) necroDiv.style.display = 'none';
-        if (chaosDiv) chaosDiv.style.display = 'flex';
+        if (chaosDiv) chaosDiv.style.display = 'grid';
 
         let c1 = document.getElementById('cr-scroll-c1');
         let c2 = document.getElementById('cr-scroll-c2');

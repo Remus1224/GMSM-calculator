@@ -739,37 +739,43 @@
                 <select id="cr-equip-select" onchange="cr_changeEquip()"></select>
             </div>
 
-            <div class="setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                <label>選擇製作階段：</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話 ➔ 古代</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈 ➔ 航海師</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師 ➔ 神秘</label>
+            <div class="setting-row cr-stage-setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                <span class="cr-setting-heading">選擇製作階段</span>
+                <div class="cr-stage-options">
+                    <label><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話－古代</label>
+                    <label><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈－航海師</label>
+                    <label><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師－神秘</label>
+                </div>
             </div>
 
-            <div class="setting-row" id="cr-scroll-necro-div" style="margin-top: 15px; display: none;">
-                <label>幸運的製作卷軸 (最多使用 2 張)：</label>
-                <select id="cr-scroll-n1" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
-                    <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
-                </select>
-                <select id="cr-scroll-n2" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
-                    <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
-                </select>
+            <div class="setting-row cr-scroll-setting-row" id="cr-scroll-necro-div" style="margin-top: 15px; display: none;">
+                <span class="cr-setting-heading">幸運的製作卷軸</span>
+                <div class="cr-scroll-selects">
+                    <select id="cr-scroll-n1" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
+                        <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
+                    </select>
+                    <select id="cr-scroll-n2" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
+                        <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="setting-row" id="cr-scroll-chaos-div" style="margin-top: 15px;">
-                <label>幸運的混沌製作卷軸 (最多使用 2 張)：</label>
-                <select id="cr-scroll-c1" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
-                </select>
-                <select id="cr-scroll-c2" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
-                </select>
+            <div class="setting-row cr-scroll-setting-row" id="cr-scroll-chaos-div" style="margin-top: 15px;">
+                <span class="cr-setting-heading">幸運的混沌製作卷軸</span>
+                <div class="cr-scroll-selects">
+                    <select id="cr-scroll-c1" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
+                    </select>
+                    <select id="cr-scroll-c2" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
+                    </select>
+                </div>
             </div>
 
             <div class="stats-text">
@@ -780,7 +786,7 @@
                         成功次數：<span id="cr-stat-success" style="color: #27ae60; font-weight: bold;">0</span> 次<br>
                         總失敗次數：<span id="cr-stat-fails" style="color: #c0392b; font-weight: bold;">0</span> 次<br>
                         目前累積失敗：<span id="cr-stat-pity-fails" style="color: #c0392b; font-weight: bold;">0</span> 次<br>
-                        失敗獎勵：+<span id="cr-stat-fail-bonus" style="color: #27ae60; font-weight: bold;">0</span>%<br>
+                        失敗獎勵：<span id="cr-stat-fail-bonus" style="color: #27ae60; font-weight: bold;">0</span>%<br>
                         消耗結晶：<span id="cr-stat-crystals">0</span> 顆<br>
                         消耗卷軸：<span id="cr-stat-scrolls">0</span> 張<br>
                     </div>
