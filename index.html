@@ -8,8 +8,17 @@
     <meta property="og:description" content="裡面有一點可能用不到但又用的到的東西" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/" />
+    <script>
+        try {
+            if (localStorage.getItem('msm-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        } catch (error) {
+            // 瀏覽器停用儲存時仍維持日間模式。
+        }
+    </script>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="assets/金幣.png" type="image/png">
+    <link rel="icon" href="assets/site/icon_尼尼葉.png" type="image/png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -33,7 +42,8 @@
             <div id="sub-page-title" class="nav-title-glass">主選單</div>
 
             <div class="nav-side right-side">
-                <button class="theme-toggle" onclick="toggleTheme()">
+                <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()"
+                    aria-label="切換至夜間模式" aria-pressed="false">
                     <span class="icon-sun">☀️</span>
                     <span class="icon-moon">🌙</span>
                 </button>
@@ -43,127 +53,189 @@
 
     <div id="tab-home" class="tab-content active">
         <div class="app-grid">
-            <div class="app-card" onclick="switchTab('notice')">
-                <div class="app-icon">
-                    <img src="assets/icon_公告.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>布告欄</h3>
-                </div>
+            <button type="button" class="app-card app-card-notice app-card-has-badge" onclick="switchTab('notice')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_公告.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">布告欄</span>
+                </span>
+                <span id="notice-unread-badge" class="app-status-badge app-status-badge-new app-status-badge-unread" hidden>NEW</span>
+            </button>
+
+            <div class="home-menu-category home-menu-category-simulator" role="heading" aria-level="2">
+                <span>模擬器</span>
+                <small>6</small>
             </div>
 
-            <div class="app-card" onclick="switchTab('transcend')">
-                <div class="app-icon">
-                    <img src="assets/icon_超越模擬器.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>超越模擬器</h3>
-                </div>
+            <button type="button" class="app-card" onclick="switchTab('transcend')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_超越模擬器.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">超越模擬器</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('craft')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_製作模擬器.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">製作模擬器</span>
+                </span>
+                <span id="menu-badge-craft" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
+            </button>
+
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('emb-enhance')">
+                <span class="app-icon">
+                    <img src="assets/emblem/icon_紋章模擬.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">紋章模擬器</span>
+                </span>
+                <span id="menu-badge-emb-enhance" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('acc-enhance')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_飾品模擬.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">飾品強化模擬器</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('star')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_星力模擬.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">星力強化模擬器</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('will')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_威爾練習機.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">威爾二階練習機</span>
+                </span>
+            </button>
+
+            <div class="home-menu-category home-menu-category-calculator" role="heading" aria-level="2">
+                <span>計算機</span>
+                <small>4</small>
             </div>
 
-            <div class="app-card" onclick="switchTab('craft')">
-                <div class="app-icon">
-                    <img src="assets/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>製作模擬器</h3>
-                </div>
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('hyper-stat')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_極限屬性計算機.png" class="menu-custom-img" alt=""
+                        onerror="this.style.display='none'">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">極限屬性計算機</span>
+                </span>
+                <span id="menu-badge-hyper-stat" class="app-status-badge app-status-badge-new" hidden>NEW</span>
+            </button>
+
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('rune')">
+                <span class="app-icon">
+                    <span class="rune-menu-icon" aria-hidden="true">
+                        <span>✦</span>
+                        <img src="assets/menu/icon_符文計算機.png" alt="" onerror="this.style.display='none'">
+                    </span>
+                </span>
+                <span class="app-info">
+                    <span class="app-title">符文計算機</span>
+                </span>
+                <span id="menu-badge-rune" class="app-status-badge app-status-badge-new" hidden>NEW</span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('ignore')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_無視防禦計算機.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">無視防禦計算機</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('hexa-prog')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_紫.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">六轉進度計算機</span>
+                </span>
+            </button>
+
+            <div class="home-menu-category home-menu-category-hexa" role="heading" aria-level="2">
+                <span>HEXA 相關</span>
+                <small>4</small>
             </div>
 
-             <div class="app-card" onclick="switchTab('emb-enhance')">
-                <div class="app-icon">
-                    <img src="assets/icon_紋章模擬.png" class="menu-custom-img" alt="icon" >
-                </div>
-                <div class="app-info">
-                    <h3>紋章模擬器</h3>
+            <button type="button" class="app-card" onclick="switchTab('hexa-visual')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 屬性模擬器</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('hexa-lazy')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 懶人重製表</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('hexa-reset')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 重置決策模擬</span>
+                </span>
+            </button>
+
+            <button type="button" class="app-card" onclick="switchTab('hexa-sim')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 目標機率模擬</span>
+                </span>
+            </button>
+        </div>
+
+        <section class="data-backup-panel" aria-labelledby="data-backup-title">
+            <div class="data-backup-heading">
+                <span class="data-backup-icon" aria-hidden="true">
+                    <img src="assets/menu/icon_資料備份與還原.png" alt="" onerror="this.style.display='none'">
+                </span>
+                <div>
+                    <h2 id="data-backup-title">資料備份與還原</h2>
+                    <p>備份已儲存的計算機輸入，換裝置或清除瀏覽器前都能保留。</p>
                 </div>
             </div>
-
-            <div class="app-card" onclick="switchTab('acc-enhance')">
-                <div class="app-icon">
-                    <img src="assets/icon_飾品模擬.png" class="menu-custom-img" alt="icon" >
-                </div>
-                <div class="app-info">
-                    <h3>飾品強化模擬器</h3>
-                 </div>
-             </div>
-
-            <div class="app-card" onclick="switchTab('star')">
-                <div class="app-icon">
-                    <img src="assets/icon_星力模擬.png" class="menu-custom-img" alt="icon" >
-                </div>
-                <div class="app-info">
-                    <h3>星力強化模擬器</h3>
-                </div>
+            <div class="data-backup-actions">
+                <button class="data-backup-btn data-backup-export" type="button" onclick="exportSiteDataBackup()">匯出備份</button>
+                <button class="data-backup-btn data-backup-import" type="button" onclick="openSiteDataBackupImport()">匯入備份</button>
+                <button class="data-backup-btn data-backup-clear" type="button" onclick="clearSavedCalculatorData()">清除計算資料</button>
+                <input id="data-backup-file-input" type="file" accept=".json,application/json" hidden
+                    onchange="importSiteDataBackup(this.files[0]); this.value = ''">
             </div>
-
-            <div class="app-card" onclick="switchTab('will')">
-                <div class="app-icon">
-                    <img src="assets/Collection_Will.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>威爾二階練習機</h3>
-                </div>
-            </div>
-
-            <div class="app-card" onclick="switchTab('ignore')">
-                <div class="app-icon">
-                    <img src="assets/icon_無視防禦計算機.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>無視防禦計算機</h3>
-                </div>
-            </div>
-
-            <div class="app-card" onclick="switchTab('hexa-prog')">
-                <div class="app-icon">
-                    <img src="assets/icon_六轉計算機.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>六轉進度計算機</h3>
-                </div>
-            </div>
-
-            <div class="app-card" onclick="switchTab('hexa-visual')">
-                <div class="app-icon">
-                    <img src="assets/icon-purple HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 屬性模擬器</h3>
-                </div>
-            </div>
-
-            <div class="app-card" onclick="switchTab('hexa-lazy')">
-                <div class="app-icon">
-                    <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 懶人重製表</h3>
-                </div>
-            </div>
-
-            <div class="app-card" onclick="switchTab('hexa-reset')">
-                <div class="app-icon">
-                    <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 重置決策模擬</h3>
-                </div>
-            </div>
-
-            <div class="app-card" onclick="switchTab('hexa-sim')">
-                <div class="app-icon">
-                    <img src="assets/icon-blue HEXA Matrix logo.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 目標機率模擬</h3>
-                </div>
-            </div>
-        </div> 
+            <p id="data-backup-status" class="data-backup-status" role="status" aria-live="polite"></p>
+        </section>
 
         <div class="settings-panel instructions-panel memo-card">
             <div class="memo-content">
-                <img src="assets/Discord_ID.png" alt=" Discord Card" class="memo-apng">
+                <img src="assets/site/image_Discord_ID.png" alt=" Discord Card" class="memo-apng">
                 <div class="memo-text-area">
                     <div class="memo-title">Bug 告知</div>
                     <p>如果有發現什麼 Bug 可以加我的 Discord </p>
@@ -174,49 +246,203 @@
     </div>
 
     <div id="tab-notice" class="tab-content">
-        <div class="panel" style="animation: appleFadeIn 0.4s ease;">
-            <div class="section-title">✨ 版本更新？？</div>
-            <ul class="update-list" style="font-size: 14.5px;">
-                <li><strong>2026/07/04</strong>：新增紋章﹑飾品﹑星力強化模擬器。</li>
-                <li><strong>2026/06/21</strong>：新增威爾二階練習機。</li>
-                <li><strong>2026/06/06</strong>：新增製作模擬器，混沌扣除太貴了。</li>
-                <li><strong>2026/05/31</strong>：來點實用的工具六轉進度計算機。</li>
-                <li><strong>2026/05/30</strong>：機率最真實的超越模擬器製作完成。</li>
-                <li><strong>2026/05/24</strong>：HEXA屬性模擬器誕生，順便優化了一點手機板的UX。</li>
-                <li><strong>2026/05/23</strong>：加了一點HEXA相關功能,少走一點HEXA屬性的冤枉路。</li>
-                <li><strong>2026/05/10</strong>：做了一個計算無視防禦的東西。</li>
-            </ul>
-        </div>
-
-        <div class="panel" style="animation: appleFadeIn 0.4s ease 0.1s; animation-fill-mode: both;">
-            <div class="section-title">🛠️ 微調與優化</div>
-            <ul class="update-list" style="font-size: 14.5px;">
-                <li><strong>2026/06/24</strong><br>全UI重新設計，增加深色模式。</li>
-                <li><strong>2026/06/06</strong><br>優化輸入法改為直接使用數字鍵盤，無視計算機UI重新設計。</li>
-                <li><strong>2026/05/30</strong><br>超越模擬器加入「期望值與實際消耗」即時追蹤系統，並修正獎勵機率計算（最低保底5%）。</li>
-                <li><strong>2026/05/28</strong><br>優化重置決策模擬，原先只能模擬核心LV10改為LV10~19。</li>
-                <li><strong>2026/05/26</strong><br>優化目標屬性模擬的策略模式，極端目標更精準。</li>
-                <li><strong>2026/05/25</strong><br>新增模擬一百萬次的選項讓極端數據更精準。<br>HEXA屬性模擬器新增強化10次與重置次數統計的功能。</li>
-                <li><strong>2026/05/24</strong><br>懶人決策表增加主屬性、發生機率、畢業機率可以排序。</li>
-            </ul>
-        </div>
-        
-        <div class="panel" style="animation: appleFadeIn 0.4s ease 0.2s; animation-fill-mode: both;">
-            <div class="section-title" style="color: #c0392b; border-bottom: 1px solid rgba(0,0,0,0.08);">🐒 絕對不負責聲明 </div>
-            <div class="disclaimer-box">
-                <p style="margin-top: 0;">本工具專為《楓之谷M》(GMSM) 使用（未來可能會長出其他奇怪功能）。</p>
-                <p>這裡面 <strong>99.9% 的程式碼都是 AI (如 Gemini / ChatGPT) 寫出來的</strong>！我只是一個「出一張嘴」的非本科小白，主要負責通靈需求、提供公式、還有在旁邊喊加油。</p>
-                <p>把這些東西一點一滴拼湊成網頁，對我來說挺有趣的。但如果哪天你發現程式碼寫得不夠優雅，或是算出來的機率害你非到懷疑人生......<br>
-                <strong>👉 請深呼吸，放下鍵盤，並在心裡默念：「Pro遊戲」</strong> </p>
-                <p style="margin-bottom: 0; font-weight: bold; color: var(--text-main);">祝大家超越隨便超，製作隨便過！</p>
+        <section class="notice-hero panel" aria-labelledby="notice-latest-title">
+            <div class="notice-hero-icon" aria-hidden="true">
+                <img src="assets/menu/icon_公告.png" alt="" onerror="this.style.display='none'">
             </div>
-        </div>
-
-        <div class="panel" style="animation: appleFadeIn 0.4s ease 0.3s; animation-fill-mode: both;">
-            <div class="section-title" style="color: #7f8c8d; border-bottom: 1px solid rgba(0,0,0,0.05);">⚖️ 版權聲明 </div>
-            <div class="disclaimer-box" style="background: rgba(0,0,0,0.02); border-left: 6px solid #7f8c8d; box-shadow: none;">
-                <p style="margin: 0; color: #555; font-size: 14px;">本網站為玩家自製的非營利實用工具，僅供社群交流與學習使用。網站內所使用的所有遊戲圖像、圖示、名稱與相關素材，其著作權與商標權皆歸原遊戲公司 (Nexon) 所有。本站並無任何營利行為，若有侵權疑慮，請來信告知，將立即移除相關內容。</p>
+            <div class="notice-hero-content">
+                <div class="notice-hero-meta">
+                    <span class="notice-status">最新更新</span>
+                    <time datetime="2026-07-30">2026.07.30</time>
+                </div>
+                <h2 id="notice-latest-title">新增計算機與網站功能更新</h2>
+                <p>加入符文、極限屬性、資料備份與主選單改版，並更新製作與紋章模擬器。</p>
+                <div class="notice-hero-tags" aria-label="本次更新類型">
+                    <span>新增工具</span>
+                    <span>介面改版</span>
+                    <span>資料備份</span>
+                </div>
             </div>
+        </section>
+
+        <section class="notice-timeline-panel panel" aria-labelledby="notice-timeline-title">
+            <div class="notice-section-heading">
+                <div>
+                    <span class="notice-section-eyebrow">CHANGELOG</span>
+                    <h2 id="notice-timeline-title">更新時間軸</h2>
+                </div>
+            </div>
+
+            <ol class="notice-timeline">
+                <li class="notice-timeline-item is-latest">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-07-30">2026 / 07 / 30</time>
+                            <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>符文計算機、極限屬性計算機。</span></li>
+                            <li><span class="notice-tag notice-tag-update">更新</span><span>調整製作模擬器有跟沒有一樣的獎勵機率系統，紋章模擬器加入優質盤子混沌紋章。</span></li>
+                            <li><span class="notice-tag notice-tag-data">保存</span><span>計算機支援自動記錄，並加入資料匯出、匯入與清除功能。</span></li>
+                            <li><span class="notice-tag notice-tag-update">介面</span><span>主選單加入工具分類，手機版改為兩欄卡片；布告欄改為更新時間軸並加入未讀提示。</span></li>
+                            <li><span class="notice-tag notice-tag-new">改善</span><span>手機版新增返回頂部按鈕，修正夜間模式保存，並改善主選單的鍵盤操作。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header><time datetime="2026-07-04">2026 / 07 / 04</time></header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>紋章、飾品與星力強化模擬器。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header><time datetime="2026-06-24">2026 / 06 / 24</time></header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-update">介面</span><span>全 UI 重新設計，增加深色模式。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header><time datetime="2026-06-21">2026 / 06 / 21</time></header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>威爾二階練習機。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header><time datetime="2026-06-06">2026 / 06 / 06</time></header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>製作模擬器，混沌扣除太貴了。</span></li>
+                            <li><span class="notice-tag notice-tag-update">改善</span><span>輸入改為直接使用數字鍵盤，無視計算機 UI 重新設計。</span></li>
+                        </ul>
+                    </article>
+                </li>
+            </ol>
+
+            <details class="notice-older">
+                <summary>查看較早紀錄 <span aria-hidden="true"></span></summary>
+                <ol class="notice-timeline notice-timeline-older">
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-31">2026 / 05 / 31</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-new">新增</span><span>來點實用的工具：六轉進度計算機。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-30">2026 / 05 / 30</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-new">新增</span><span>機率最真實的超越模擬器製作完成。</span></li>
+                                <li><span class="notice-tag notice-tag-update">改善</span><span>加入「期望值與實際消耗」即時追蹤，修正獎勵機率計算（最低保底 5%）。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-28">2026 / 05 / 28</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-update">改善</span><span>重置決策模擬由只能模擬核心 Lv.10，改為 Lv.10～19。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-26">2026 / 05 / 26</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-update">改善</span><span>目標屬性模擬的策略模式，極端目標更精準。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-25">2026 / 05 / 25</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-data">模擬</span><span>新增模擬一百萬次的選項，讓極端數據更精準。</span></li>
+                                <li><span class="notice-tag notice-tag-new">新增</span><span>HEXA 屬性模擬器加入強化 10 次與重置次數統計。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-24">2026 / 05 / 24</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-new">新增</span><span>HEXA 屬性模擬器誕生，順便優化了一點手機版 UX。</span></li>
+                                <li><span class="notice-tag notice-tag-update">改善</span><span>懶人決策表增加主屬性、發生機率與畢業機率排序。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-23">2026 / 05 / 23</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-new">新增</span><span>加入 HEXA 相關功能，少走一點 HEXA 屬性的冤枉路。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                    <li class="notice-timeline-item">
+                        <span class="notice-timeline-dot" aria-hidden="true"></span>
+                        <article class="notice-release">
+                            <header><time datetime="2026-05-10">2026 / 05 / 10</time></header>
+                            <ul class="notice-change-list">
+                                <li><span class="notice-tag notice-tag-new">新增</span><span>做了一個計算無視防禦的東西。</span></li>
+                            </ul>
+                        </article>
+                    </li>
+                </ol>
+            </details>
+        </section>
+
+        <div class="notice-info-grid">
+            <details class="notice-info-card">
+                <summary>
+                    <span class="notice-info-icon" aria-hidden="true">
+                        <img src="assets/site/icon_絕對不負責聲明.png" alt="">
+                    </span>
+                    <span><b>絕對不負責聲明</b></span>
+                    <span class="notice-detail-arrow" aria-hidden="true"></span>
+                </summary>
+                <div class="notice-info-body">
+                    <p>本工具專為《楓之谷M》(GMSM) 使用（未來可能會長出其他奇怪功能）。</p>
+                    <p>這裡面 <strong>99.9% 的程式碼都是 AI（如 Gemini / ChatGPT）寫出來的</strong>！我只是一個「出一張嘴」的非本科小白，主要負責通靈需求、提供公式，還有在旁邊喊加油。</p>
+                    <p>把這些東西一點一滴拼湊成網頁，對我來說挺有趣的。但如果哪天你發現程式碼寫得不夠優雅，或是算出來的機率害你非到懷疑人生……</p>
+                    <p><strong>👉 請深呼吸，放下鍵盤，並在心裡默念：「Pro遊戲」</strong></p>
+                    <p class="notice-info-wish">祝大家超越隨便超，製作隨便過！</p>
+                </div>
+            </details>
+
+            <details class="notice-info-card">
+                <summary>
+                    <span class="notice-info-icon" aria-hidden="true">©</span>
+                    <span><b>版權聲明</b></span>
+                    <span class="notice-detail-arrow" aria-hidden="true"></span>
+                </summary>
+                <div class="notice-info-body">
+                    <p>本網站為玩家自製的非營利實用工具，僅供社群交流與學習使用。網站內所使用的所有遊戲圖像、圖示、名稱與相關素材，其著作權與商標權皆歸原遊戲公司（Nexon）所有。本站並無任何營利行為，若有侵權疑慮，請來信告知，將立即移除相關內容。</p>
+                </div>
+            </details>
         </div>
     </div>
 
@@ -257,6 +483,153 @@
         </div>
     </div>
 
+    <div id="tab-hyper-stat" class="tab-content">
+        <div class="hint">（遊戲版本：2026/07/29）</div>
+
+        <section class="hyper-overview panel">
+            <div class="hyper-level-field">
+                <label for="hyper-character-level">角色等級</label>
+                <div class="hyper-level-input">
+                    <span>Lv.</span>
+                    <input id="hyper-character-level" type="number" inputmode="numeric" min="1" max="300" value=""
+                        oninput="setHyperCharacterLevel(this.value)" onchange="setHyperCharacterLevel(this.value, true)">
+                </div>
+            </div>
+
+            <div class="hyper-overview-stats" aria-live="polite">
+                <div class="hyper-overview-item">
+                    <span>可用點數</span>
+                    <strong id="hyper-total-points">0</strong>
+                </div>
+                <div class="hyper-overview-item">
+                    <span>已分配</span>
+                    <strong id="hyper-used-points">0</strong>
+                </div>
+                <div class="hyper-overview-item" id="hyper-remaining-card">
+                    <span>剩餘點數</span>
+                    <strong id="hyper-remaining-points">0</strong>
+                </div>
+                <div class="hyper-overview-item hyper-overview-mesos">
+                    <span class="hyper-coin-wrap" aria-hidden="true">
+                        <img src="assets/common/icon_金幣.png" alt="">
+                    </span>
+                    <strong id="hyper-total-mesos">0</strong>
+                </div>
+            </div>
+        </section>
+
+        <div class="hyper-profile-tabs" role="tablist" aria-label="極限屬性配置">
+            <button id="hyper-profile-btn-boss" class="hyper-profile-tab active" type="button" role="tab"
+                aria-selected="true" onclick="switchHyperProfile('boss')">
+                <span>打王</span>
+                <small id="hyper-profile-used-boss">已用 0 點</small>
+            </button>
+            <button id="hyper-profile-btn-farm" class="hyper-profile-tab" type="button" role="tab"
+                aria-selected="false" onclick="switchHyperProfile('farm')">
+                <span>掛機</span>
+                <small id="hyper-profile-used-farm">已用 0 點</small>
+            </button>
+        </div>
+
+        <section id="hyper-profile-panel-boss" class="hyper-profile-panel active" role="tabpanel"
+            aria-labelledby="hyper-profile-btn-boss">
+            <div id="hyper-skill-grid-boss" class="hyper-skill-grid"></div>
+        </section>
+
+        <section id="hyper-profile-panel-farm" class="hyper-profile-panel" role="tabpanel"
+            aria-labelledby="hyper-profile-btn-farm" hidden>
+            <div id="hyper-skill-grid-farm" class="hyper-skill-grid"></div>
+        </section>
+
+        <div class="hyper-bottom-actions">
+            <button class="btn-clear" type="button" onclick="resetHyperProfile()">重設目前配置</button>
+        </div>
+    </div>
+
+    <div id="tab-rune" class="tab-content">
+        <div class="hint rune-version-hint">
+            <span>（遊戲版本：2026/07/29）</span>
+            <span class="rune-version-notice">賽爾尼溫的楓幣強化費用尚待確認，目前暫用埃賽特拉資料試算。</span>
+        </div>
+
+        <div class="rune-category-switch" role="tablist" aria-label="符文類型">
+            <button id="rune-tab-arcane" class="rune-category-btn active" type="button" role="tab" aria-selected="true" onclick="switchRuneCategory('arcane')">
+                <span class="rune-category-glyph arcane-glyph" aria-hidden="true">
+                    <span>✦</span>
+                    <img src="assets/runes/icon_祕法符文.png" alt="" onerror="this.style.display='none'">
+                </span>
+                <span><b>祕法符文</b></span>
+            </button>
+            <button id="rune-tab-authentic" class="rune-category-btn" type="button" role="tab" aria-selected="false" onclick="switchRuneCategory('authentic')">
+                <span class="rune-category-glyph authentic-glyph" aria-hidden="true">
+                    <span>◆</span>
+                    <img src="assets/runes/icon_真實符文.png" alt="" onerror="this.style.display='none'">
+                </span>
+                <span><b>真實符文</b></span>
+            </button>
+        </div>
+
+        <section id="rune-panel-arcane" class="rune-category-panel active" role="tabpanel" aria-labelledby="rune-tab-arcane">
+            <div id="rune-cards-grid" class="rune-cards-grid"></div>
+
+            <div class="rune-grand-total" aria-live="polite">
+                <div class="rune-grand-heading">
+                    <span>祕法符文需求</span>
+                    <small>依目前各卡片設定即時計算</small>
+                </div>
+                <div class="rune-grand-results">
+                    <div class="rune-grand-item rune-grand-symbols-panel">
+                        <span class="rune-grand-item-title">尚需符文</span>
+                        <div id="rune-grand-symbol-list" class="rune-grand-symbol-list"></div>
+                    </div>
+                    <div class="rune-grand-item">
+                        <div class="rune-summary-image coin-image">
+                            <span aria-hidden="true">₥</span>
+                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div>
+                            <strong id="rune-grand-mesos">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rune-bottom-actions">
+                <button class="rune-reset-all btn-clear" type="button" onclick="resetAllRuneCards()">全部重設</button>
+            </div>
+        </section>
+
+        <section id="rune-panel-authentic" class="rune-category-panel" role="tabpanel" aria-labelledby="rune-tab-authentic" hidden>
+            <div id="authentic-rune-list" class="authentic-rune-list"></div>
+
+            <div class="rune-grand-total authentic-grand-total" aria-live="polite">
+                <div class="rune-grand-heading">
+                    <span>真實符文需求</span>
+                    <small>依目前各卡片設定即時計算</small>
+                </div>
+                <div class="rune-grand-results">
+                    <div class="rune-grand-item rune-grand-symbols-panel">
+                        <span class="rune-grand-item-title">尚需符文</span>
+                        <div id="authentic-grand-symbol-list" class="rune-grand-symbol-list"></div>
+                    </div>
+                    <div class="rune-grand-item">
+                        <div class="rune-summary-image coin-image">
+                            <span aria-hidden="true">₥</span>
+                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div>
+                            <strong id="authentic-grand-mesos">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rune-bottom-actions">
+                <button class="rune-reset-all btn-clear" type="button" onclick="resetAllAuthenticRuneCards()">全部重設</button>
+            </div>
+        </section>
+    </div>
+
     <div id="tab-transcend" class="tab-content">
         <div class="msm-forge-ui" id="game-ui-container">
             <div class="forge-header">
@@ -294,7 +667,7 @@
                         <div class="plus-sign" id="ui-plus-sign">+</div>
                         <div class="item-col">
                             <div class="img-box">
-                                <img id="ui-stone-img" src="assets/超越石.png" alt="stone">
+                                <img id="ui-stone-img" src="assets/transcend/Item_超越石.png" alt="stone">
                             </div>
                             <div class="equip-name" id="ui-stone-name" style="font-weight: normal; color: #555;">超越石 50%</div>
                         </div>
@@ -325,7 +698,7 @@
 
                     <div class="sec-bottom" id="ui-sec-bottom">
                         <div class="coin-box" id="ui-coin-box">
-                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 1,204
+                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 1,204
                         </div>
                         <button class="btn-action-tr" id="btn-main-action" onclick="tr_execute_action()">超越</button>
                     </div>
@@ -485,7 +858,7 @@
                         <div class="plus-sign">+</div>
                         <div class="item-col">
                             <div class="img-box">
-                                <img id="cr-crystal-img" src="assets/超越石.png" alt="crystal">
+                                <img id="cr-crystal-img" src="assets/transcend/Item_超越石.png" alt="crystal">
                             </div>
                             <div class="equip-name" id="cr-crystal-name" style="font-weight: normal; color: #555;">夏德貝爾結晶(武器)<br>1/1</div>
                         </div>
@@ -493,7 +866,7 @@
                             <div class="img-box" style="background-color: #f1f2f6;">
                                 <img id="cr-scroll-img" src="" alt="scroll">
                             </div>
-                            <div class="equip-name" id="cr-scroll-name" style="font-weight: normal; color: #888; font-size: 11px;">卷軸</div>
+                            <div class="equip-name" id="cr-scroll-name" style="font-weight: normal; color: #555; font-size: 11px;">卷軸</div>
                         </div>
                     </div>
 
@@ -503,22 +876,38 @@
                             <span style="color:#eb6b40; font-size: 20px; transform: translateY(-1px);">»</span> 
                             <span id="cr-stage-to-text" style="color:#CC9ED8;">神秘冥界幽靈</span>
                         </div>
-                        <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; background: #344253; color: #fff; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: help;">?</div>
+                        <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; background: #344253; color: #fff; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold;">?</div>
                     </div>
 
                     <div style="background-color: #ffffff; padding: 8px 0; text-align: center; border-bottom: 1px solid #e1e4e8;">
-                        <div style="font-size: 13px; color: #888; font-weight: bold;" id="cr-desc-text"></div>
+                        <div style="font-size: 13px; color: #555; font-weight: bold;" id="cr-desc-text"></div>
                     </div>
 
                     <div class="sec-grey-mid" style="padding-top: 12px; padding-bottom: 12px; flex: 1; background-color: #F0F0F0;">
-                        <div id="cr-chaos-tier-list" style="font-size: 13px; color: #333; line-height: 1.4; text-align: center; margin-bottom: 5px; font-weight: bold;">
-                            可製作混沌級裝備。<br>詳細資訊請參考說明。
-                            <div class="txt-sharp" style="display: block; text-align: left; line-height: 1.35; font-size: 14px; margin-top: 8px; margin-bottom: 8px; width: fit-content; margin-left: auto; margin-right: auto;">
-                                <div style="display: flex; align-items: center;"><span style="color:#1cd1ed; width: 90px;">古代</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#D02E9D;">混沌</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#1cd1ed; width: 90px;">古代女皇</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#D02E9D;">混沌</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#1cd1ed; width: 90px;">死靈</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#D02E9D;">混沌航海師</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#D02E9D; width: 90px;">混沌</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#D02E9D;">混沌航海師</span></div>
-                                <div style="display: flex; align-items: center;"><span style="color:#D02E9D; width: 90px;">混沌航海師</span> <span style="color:#e07b5a; margin: 0 15px; transform: translateY(-1px);">»</span> <span style="color:#D02E9D;">混沌神秘冥界幽靈</span></div>
+                        <div id="cr-chaos-tier-list" class="cr-chaos-tier-list">
+                            <div class="cr-chaos-tier-caption">
+                                可製作混沌級裝備。<br>詳細資訊請參考說明。
+                            </div>
+                            <div class="cr-chaos-route-list">
+                                <div class="cr-chaos-route">
+                                    <span class="cr-chaos-route-source">
+                                        <span class="cr-tier-ancient">古代</span><span class="cr-tier-or">或</span><span class="cr-tier-ancient">女皇古代</span>
+                                    </span>
+                                    <span class="cr-chaos-route-arrow">»</span>
+                                    <span class="cr-chaos-route-target cr-tier-chaos">混沌</span>
+                                </div>
+                                <div class="cr-chaos-route">
+                                    <span class="cr-chaos-route-source">
+                                        <span class="cr-tier-ancient">死靈</span><span class="cr-tier-or">或</span><span class="cr-tier-chaos">混沌</span>
+                                    </span>
+                                    <span class="cr-chaos-route-arrow">»</span>
+                                    <span class="cr-chaos-route-target cr-tier-chaos">混沌航海師</span>
+                                </div>
+                                <div class="cr-chaos-route">
+                                    <span class="cr-chaos-route-source cr-tier-chaos">混沌航海師</span>
+                                    <span class="cr-chaos-route-arrow">»</span>
+                                    <span class="cr-chaos-route-target cr-tier-chaos">混沌神秘冥界幽靈</span>
+                                </div>
                             </div>
                         </div>
 
@@ -532,7 +921,7 @@
 
                     <div class="sec-bottom">
                         <div class="coin-box" id="cr-coin-box">
-                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 
+                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 
                             <span id="cr-meso-cost">1,024</span>
                         </div>
                         <button class="btn-action-tr" id="btn-craft-action" onclick="cr_showConfirm()">製作</button>
@@ -552,33 +941,43 @@
                 <select id="cr-equip-select" onchange="cr_changeEquip()"></select>
             </div>
 
-            <div class="setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                <label>選擇製作階段：</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話 ➔ 古代</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈 ➔ 航海師</label>
-                <label style="margin-left: 10px;"><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師 ➔ 神秘</label>
+            <div class="setting-row cr-stage-setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                <span class="cr-setting-heading">選擇製作階段</span>
+                <div class="cr-stage-options">
+                    <label><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話－古代</label>
+                    <label><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈－航海師</label>
+                    <label><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師－神秘</label>
+                </div>
             </div>
 
-            <div class="setting-row" id="cr-scroll-necro-div" style="margin-top: 15px; display: none;">
-                <label>幸運的製作卷軸 (最多使用 2 張)：</label>
-                <select id="cr-scroll-n1" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
-                    <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
-                </select>
-                <select id="cr-scroll-n2" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
-                    <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
-                </select>
+            <div class="setting-row cr-scroll-setting-row" id="cr-scroll-necro-div" style="margin-top: 15px; display: none;">
+                <span class="cr-setting-heading">幸運的製作卷軸</span>
+                <div class="cr-scroll-selects">
+                    <select id="cr-scroll-n1" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
+                        <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
+                    </select>
+                    <select id="cr-scroll-n2" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option>
+                        <option value="5">5%</option><option value="6">6%</option><option value="10">10%</option><option value="15">15%</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="setting-row" id="cr-scroll-chaos-div" style="margin-top: 15px;">
-                <label>幸運的混沌製作卷軸 (最多使用 1 張)：</label>
-                <select id="cr-scroll-c1" onchange="cr_updateUI()">
-                    <option value="0">不使用</option>
-                    <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
-                </select>
+            <div class="setting-row cr-scroll-setting-row" id="cr-scroll-chaos-div" style="margin-top: 15px;">
+                <span class="cr-setting-heading">幸運的混沌製作卷軸</span>
+                <div class="cr-scroll-selects">
+                    <select id="cr-scroll-c1" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
+                    </select>
+                    <select id="cr-scroll-c2" onchange="cr_updateUI()">
+                        <option value="0">不使用</option>
+                        <option value="3">3%</option><option value="5">5%</option><option value="7">7%</option><option value="10">10%</option>
+                    </select>
+                </div>
             </div>
 
             <div class="stats-text">
@@ -587,7 +986,9 @@
                     <div style="flex: 1; min-width: 140px;">
                         <strong style="color:#d35400;">【結晶消耗】</strong><br>
                         成功次數：<span id="cr-stat-success" style="color: #27ae60; font-weight: bold;">0</span> 次<br>
-                        失敗次數：<span id="cr-stat-fails" style="color: #c0392b; font-weight: bold;">0</span> 次<br>
+                        總失敗次數：<span id="cr-stat-fails" style="color: #c0392b; font-weight: bold;">0</span> 次<br>
+                        目前累積失敗：<span id="cr-stat-pity-fails" style="color: #c0392b; font-weight: bold;">0</span> 次<br>
+                        失敗獎勵：<span id="cr-stat-fail-bonus" style="color: #27ae60; font-weight: bold;">0</span>%<br>
                         消耗結晶：<span id="cr-stat-crystals">0</span> 顆<br>
                         消耗卷軸：<span id="cr-stat-scrolls">0</span> 張<br>
                     </div>
@@ -595,7 +996,7 @@
                         <div style="margin-bottom: 5px;"><strong style="color:#2980b9;">【動態期望值 (EV)】</strong></div>
                         <div style="margin-top:auto; padding-top:5px; border-top:1px dashed #ccc;">
                             實際總消耗：<strong id="cr-stat-total-used" style="color:#c0392b; font-size:14px;">0</strong> 顆<br>
-                            理論期望值：<strong id="cr-ev-attempts" style="color:#2980b9; font-size:14px;">0.00</strong> 顆
+                            目前成功期望：<strong id="cr-ev-attempts" style="color:#2980b9; font-size:14px;">0.00</strong> 顆
                         </div>
                     </div>
                 </div>
@@ -650,23 +1051,23 @@
             <div class="section-title">第二步：背包剩餘庫存 (選填，直接抵扣需求)</div>
             <div class="inv-grid">
                 <div class="inv-item">
-                    <label><img src="assets/靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯</label>
+                    <label><img src="assets/hexa/icon_靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯</label>
                     <input type="text" inputmode="decimal" id="inv-big" min="0" value="">
                 </div>
                 <div class="inv-item">
-                    <label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息 (1=500)</label>
+                    <label><img src="assets/hexa/icon_濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息 (1=500)</label>
                     <input type="text" inputmode="decimal" id="inv-conc" min="0" value="">
                 </div>
                 <div class="inv-item">
-                    <label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 (1=200)</label>
+                    <label><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 (1=200)</label>
                     <input type="text" inputmode="decimal" id="inv-nrg" min="0" value="">
                 </div>
                 <div class="inv-item">
-                    <label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 (1=10)</label>
+                    <label><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 (1=10)</label>
                     <input type="text" inputmode="decimal" id="inv-weak" min="0" value="">
                 </div>
                 <div class="inv-item">
-                    <label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label>
+                    <label><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label>
                     <input type="text" inputmode="decimal" id="inv-frag" min="0" value="">
                 </div>
             </div>
@@ -677,20 +1078,20 @@
             <div style="font-weight:bold; color:var(--text-main); margin-bottom: 10px;">每日掛機獲取</div>
             <div class="inv-grid" style="margin-bottom: 15px;">
                 <div class="inv-item">
-                    <label style="color:#0071E3;"><img src="assets/自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
+                    <label style="color:#0071E3;"><img src="assets/hexa/icon_自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
                     <input type="text" inputmode="decimal" id="farm-hours" min="0" max="24" value="">
                 </div>
-                <div class="inv-item"><label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label><input type="text" inputmode="decimal" id="farm-frag-hr" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-nrg-hr" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-weak-hr" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label><input type="text" inputmode="decimal" id="farm-frag-hr" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-nrg-hr" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-weak-hr" min="0" value=""></div>
             </div>
 
             <div style="font-weight:bold; color:#FF9500; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
             <div class="inv-grid">
-                <div class="inv-item"><label><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label><input type="text" inputmode="decimal" id="farm-frag-wk" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label><input type="text" inputmode="decimal" id="farm-conc-wk" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息</label><input type="text" inputmode="decimal" id="farm-nrg-wk" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息</label><input type="text" inputmode="decimal" id="farm-weak-wk" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label><input type="text" inputmode="decimal" id="farm-frag-wk" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label><input type="text" inputmode="decimal" id="farm-conc-wk" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息</label><input type="text" inputmode="decimal" id="farm-nrg-wk" min="0" value=""></div>
+                <div class="inv-item"><label><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息</label><input type="text" inputmode="decimal" id="farm-weak-wk" min="0" value=""></div>
             </div>
         </div>
 
@@ -699,13 +1100,13 @@
         <div id="result-hexa-prog" style="display:none; width: 100%;">
             <div class="prog-bar-wrap">
                 <div class="prog-header">
-                    <div style="display: flex; align-items: center;"><img src="assets/靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯 進度</div>
+                    <div style="display: flex; align-items: center;"><img src="assets/hexa/icon_靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯 進度</div>
                     <div id="prog-txt-sol">0 / 0 (剩餘 0)</div>
                 </div>
                 <div class="prog-bar-bg"><div class="prog-bar-fill prog-fill-sol" id="prog-bar-sol" style="width: 0%;">0%</div></div>
 
                 <div class="prog-header" style="margin-top: 15px;">
-                    <div style="display: flex; align-items: center;"><img src="assets/icon-Sol Erda Fragment.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片 進度</div>
+                    <div style="display: flex; align-items: center;"><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片 進度</div>
                     <div id="prog-txt-frag">0 / 0 (剩餘 0)</div>
                 </div>
                 <div class="prog-bar-bg"><div class="prog-bar-fill prog-fill-frag" id="prog-bar-frag" style="width: 0%;">0%</div></div>
@@ -719,7 +1120,7 @@
         <div class="visual-container">
             <div class="visual-header-top">
                 <div class="v-fragment-text">
-                    <img src="assets/icon-Sol Erda Fragment.png" class="frag-icon" alt="碎片"> 
+                    <img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="frag-icon" alt="碎片"> 
                     累積使用靈魂艾爾達碎片：<span id="v-fragments">0</span>
                 </div>
                 <div class="v-top-controls">
@@ -731,7 +1132,7 @@
             <div class="v-core-title">屬性核心I (<span id="v-clicks">0</span>/20)</div>
 
             <div class="visual-box">
-                <img src="assets/icon-purple HEXA Matrix logo.png" class="hexa-img" alt="主屬性">
+                <img src="assets/hexa/icon_HEXA矩陣_紫.png" class="hexa-img" alt="主屬性">
                 <div class="v-content">
                     <div class="v-header-row">
                         <div>
@@ -745,7 +1146,7 @@
             </div>
 
             <div class="visual-box">
-                <img src="assets/icon-blue HEXA Matrix logo.png" class="hexa-img" alt="附屬性">
+                <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="hexa-img" alt="附屬性">
                 <div class="v-content">
                     <div class="v-header-row">
                         <div>
@@ -759,7 +1160,7 @@
             </div>
 
             <div class="visual-box">
-                <img src="assets/icon-blue HEXA Matrix logo.png" class="hexa-img" alt="附屬性">
+                <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="hexa-img" alt="附屬性">
                 <div class="v-content">
                     <div class="v-header-row">
                         <div>
@@ -1128,7 +1529,7 @@
                 啊不是，是充滿<span class="highlight-gold">「驚喜」</span>的遊戲體驗。
             </div>
         
-            <img src="assets/starui.png" class="sarcasm-img" alt="starui">
+            <img src="assets/starforce/image_星力UI.png" class="sarcasm-img" alt="starui">
         </div>
     </div>
 
@@ -1219,7 +1620,7 @@
 
                     <div class="sec-bottom">
                         <div class="coin-box">
-                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
                             <span>1,204</span>
                         </div>
                         <button class="btn-action-tr" id="btn-acc-action" onclick="acc_executeEnhance()">強化</button>
@@ -1351,7 +1752,7 @@
 
                         <div class="emb-mat-area">
                             <div class="emb-mat-box">
-                                <img id="emb-ui-img-mat" src="assets/紋章的痕跡.png" alt="material">
+                                <img id="emb-ui-img-mat" src="assets/emblem/Item_紋章的痕跡.png" alt="material">
                             </div>
                             <div class="emb-rate-col">
                                 <div class="emb-rate-row">
@@ -1369,18 +1770,32 @@
                             <button class="emb-ctrl-btn emb-ctrl-btn-minus" onclick="emb_changeMat(-1)">−</button>
                             <div class="emb-ctrl-display"><span id="emb-ui-mat-curr">1</span> / <span id="emb-ui-mat-max">5</span></div>
                             <button class="emb-ctrl-btn emb-ctrl-btn-plus" onclick="emb_changeMat(1)">+</button>
-                            <button class="emb-ctrl-btn emb-ctrl-max" onclick="emb_setMaxMat()">最大</button>
+                            <button class="emb-ctrl-btn emb-ctrl-max" id="emb-ui-mat-max-btn" onclick="emb_setMaxMat()">最大</button>
                         </div>
                     </div>
 
                     <div class="sec-bottom" style="background-color: #FCFCFC;">
                         <div class="coin-box">
-                            <img src="assets/楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
                             <span>1,204</span>
                         </div>
                         <button class="btn-action-tr" id="btn-emb-action" onclick="emb_executeEnhance()">紋章強化</button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="emb-premium-external-panel is-disabled" id="emb-ui-premium-row" aria-disabled="true">
+            <div class="emb-premium-label" role="img" aria-label="優質混沌紋章的痕跡" title="優質混沌紋章的痕跡">
+                <img src="assets/emblem/Item_優質混沌紋章的痕跡.png" alt="" onerror="this.style.display='none'">
+            </div>
+            <div class="emb-controller-wrap emb-premium-controller" id="emb-ui-premium-controller">
+                <button class="emb-ctrl-btn emb-ctrl-btn-minus" onclick="emb_changePremiumMat(-1)" disabled>−</button>
+                <div class="emb-ctrl-display emb-premium-display">
+                    <span id="emb-ui-premium-curr">0</span>
+                </div>
+                <button class="emb-ctrl-btn emb-ctrl-btn-plus" onclick="emb_changePremiumMat(1)" disabled>+</button>
+                <button class="emb-ctrl-btn emb-ctrl-max" onclick="emb_setMaxPremiumMat()" disabled>最大</button>
             </div>
         </div>
 
@@ -1454,6 +1869,11 @@
             </div>
         </div>
     </div>
+
+<button id="mobile-back-to-top" class="mobile-back-to-top" type="button"
+    aria-label="返回頁面頂部" title="返回頂部" onclick="scrollToPageTop()">
+    <span aria-hidden="true">↑</span>
+</button>
 
 <script src="script.js"></script>
 </body>
