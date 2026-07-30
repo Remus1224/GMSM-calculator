@@ -4334,6 +4334,13 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     font-size: 18px;
 }
 
+#tab-notice .notice-info-icon img {
+    display: block;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
 #tab-notice .notice-info-card b,
 #tab-notice .notice-info-card small {
     display: block;
