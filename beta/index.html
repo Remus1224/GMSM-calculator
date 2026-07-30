@@ -8,6 +8,15 @@
     <meta property="og:description" content="裡面有一點可能用不到但又用的到的東西" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/" />
+    <script>
+        try {
+            if (localStorage.getItem('msm-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        } catch (error) {
+            // 瀏覽器停用儲存時仍維持日間模式。
+        }
+    </script>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="assets/site/icon_尼尼葉.png" type="image/png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
@@ -33,7 +42,8 @@
             <div id="sub-page-title" class="nav-title-glass">主選單</div>
 
             <div class="nav-side right-side">
-                <button class="theme-toggle" onclick="toggleTheme()">
+                <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()"
+                    aria-label="切換至夜間模式" aria-pressed="false">
                     <span class="icon-sun">☀️</span>
                     <span class="icon-moon">🌙</span>
                 </button>
@@ -43,165 +53,165 @@
 
     <div id="tab-home" class="tab-content active">
         <div class="app-grid">
-            <div class="app-card app-card-notice app-card-has-badge" onclick="switchTab('notice')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_公告.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>布告欄</h3>
-                </div>
+            <button type="button" class="app-card app-card-notice app-card-has-badge" onclick="switchTab('notice')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_公告.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">布告欄</span>
+                </span>
                 <span id="notice-unread-badge" class="app-status-badge app-status-badge-new app-status-badge-unread" hidden>NEW</span>
-            </div>
+            </button>
 
             <div class="home-menu-category home-menu-category-simulator" role="heading" aria-level="2">
                 <span>模擬器</span>
                 <small>6</small>
             </div>
 
-            <div class="app-card" onclick="switchTab('transcend')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_超越模擬器.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>超越模擬器</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('transcend')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_超越模擬器.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">超越模擬器</span>
+                </span>
+            </button>
 
-            <div class="app-card app-card-has-badge" onclick="switchTab('craft')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_製作模擬器.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>製作模擬器</h3>
-                </div>
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('craft')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_製作模擬器.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">製作模擬器</span>
+                </span>
                 <span id="menu-badge-craft" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
-            </div>
+            </button>
 
-             <div class="app-card app-card-has-badge" onclick="switchTab('emb-enhance')">
-                <div class="app-icon">
-                    <img src="assets/emblem/icon_紋章模擬.png" class="menu-custom-img" alt="icon" >
-                </div>
-                <div class="app-info">
-                    <h3>紋章模擬器</h3>
-                </div>
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('emb-enhance')">
+                <span class="app-icon">
+                    <img src="assets/emblem/icon_紋章模擬.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">紋章模擬器</span>
+                </span>
                 <span id="menu-badge-emb-enhance" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
-            </div>
+            </button>
 
-            <div class="app-card" onclick="switchTab('acc-enhance')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_飾品模擬.png" class="menu-custom-img" alt="icon" >
-                </div>
-                <div class="app-info">
-                    <h3>飾品強化模擬器</h3>
-                 </div>
-             </div>
+            <button type="button" class="app-card" onclick="switchTab('acc-enhance')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_飾品模擬.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">飾品強化模擬器</span>
+                </span>
+            </button>
 
-            <div class="app-card" onclick="switchTab('star')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_星力模擬.png" class="menu-custom-img" alt="icon" >
-                </div>
-                <div class="app-info">
-                    <h3>星力強化模擬器</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('star')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_星力模擬.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">星力強化模擬器</span>
+                </span>
+            </button>
 
-            <div class="app-card" onclick="switchTab('will')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_威爾練習機.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>威爾二階練習機</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('will')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_威爾練習機.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">威爾二階練習機</span>
+                </span>
+            </button>
 
             <div class="home-menu-category home-menu-category-calculator" role="heading" aria-level="2">
                 <span>計算機</span>
                 <small>4</small>
             </div>
 
-            <div class="app-card app-card-has-badge" onclick="switchTab('hyper-stat')">
-                <div class="app-icon">
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('hyper-stat')">
+                <span class="app-icon">
                     <img src="assets/menu/icon_極限屬性計算機.png" class="menu-custom-img" alt=""
                         onerror="this.style.display='none'">
-                </div>
-                <div class="app-info">
-                    <h3>極限屬性計算機</h3>
-                </div>
+                </span>
+                <span class="app-info">
+                    <span class="app-title">極限屬性計算機</span>
+                </span>
                 <span id="menu-badge-hyper-stat" class="app-status-badge app-status-badge-new" hidden>NEW</span>
-            </div>
+            </button>
 
-            <div class="app-card app-card-has-badge" onclick="switchTab('rune')">
-                <div class="app-icon">
-                    <div class="rune-menu-icon" aria-hidden="true">
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('rune')">
+                <span class="app-icon">
+                    <span class="rune-menu-icon" aria-hidden="true">
                         <span>✦</span>
                         <img src="assets/menu/icon_符文計算機.png" alt="" onerror="this.style.display='none'">
-                    </div>
-                </div>
-                <div class="app-info">
-                    <h3>符文計算機</h3>
-                </div>
+                    </span>
+                </span>
+                <span class="app-info">
+                    <span class="app-title">符文計算機</span>
+                </span>
                 <span id="menu-badge-rune" class="app-status-badge app-status-badge-new" hidden>NEW</span>
-            </div>
+            </button>
 
-            <div class="app-card" onclick="switchTab('ignore')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_無視防禦計算機.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>無視防禦計算機</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('ignore')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_無視防禦計算機.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">無視防禦計算機</span>
+                </span>
+            </button>
 
-            <div class="app-card" onclick="switchTab('hexa-prog')">
-                <div class="app-icon">
-                    <img src="assets/hexa/icon_HEXA矩陣_紫.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>六轉進度計算機</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('hexa-prog')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_紫.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">六轉進度計算機</span>
+                </span>
+            </button>
 
             <div class="home-menu-category home-menu-category-hexa" role="heading" aria-level="2">
                 <span>HEXA 相關</span>
                 <small>4</small>
             </div>
 
-            <div class="app-card" onclick="switchTab('hexa-visual')">
-                <div class="app-icon">
-                    <img src="assets/menu/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 屬性模擬器</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('hexa-visual')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 屬性模擬器</span>
+                </span>
+            </button>
 
-            <div class="app-card" onclick="switchTab('hexa-lazy')">
-                <div class="app-icon">
-                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 懶人重製表</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('hexa-lazy')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 懶人重製表</span>
+                </span>
+            </button>
 
-            <div class="app-card" onclick="switchTab('hexa-reset')">
-                <div class="app-icon">
-                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 重置決策模擬</h3>
-                </div>
-            </div>
+            <button type="button" class="app-card" onclick="switchTab('hexa-reset')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 重置決策模擬</span>
+                </span>
+            </button>
 
-            <div class="app-card" onclick="switchTab('hexa-sim')">
-                <div class="app-icon">
-                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="icon">
-                </div>
-                <div class="app-info">
-                    <h3>HEXA 目標機率模擬</h3>
-                </div>
-            </div>
-        </div> 
+            <button type="button" class="app-card" onclick="switchTab('hexa-sim')">
+                <span class="app-icon">
+                    <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">HEXA 目標機率模擬</span>
+                </span>
+            </button>
+        </div>
 
         <section class="data-backup-panel" aria-labelledby="data-backup-title">
             <div class="data-backup-heading">
@@ -241,14 +251,14 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-07-29">2026.07.29</time>
+                    <time datetime="2026-07-30">2026.07.30</time>
                 </div>
-                <h2 id="notice-latest-title">新增符文與極限屬性計算機</h2>
-                <p>同步調整製作、紋章與資料保存功能。</p>
+                <h2 id="notice-latest-title">新增計算機與網站功能更新</h2>
+                <p>加入符文、極限屬性、資料備份與主選單改版，並更新製作與紋章模擬器。</p>
                 <div class="notice-hero-tags" aria-label="本次更新類型">
-                    <span>新增功能</span>
-                    <span>模擬器調整</span>
-                    <span>資料保存</span>
+                    <span>新增工具</span>
+                    <span>介面改版</span>
+                    <span>資料備份</span>
                 </div>
             </div>
         </section>
@@ -266,13 +276,15 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-07-29">2026 / 07 / 29</time>
+                            <time datetime="2026-07-30">2026 / 07 / 30</time>
                             <span class="notice-latest-badge">最新</span>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-new">新增</span><span>符文計算機、極限屬性計算機。</span></li>
-                            <li><span class="notice-tag notice-tag-update">調整</span><span>更新製作模擬器智障的獎勵機率，還有優質盤子紋章模擬器。</span></li>
-                            <li><span class="notice-tag notice-tag-data">保存</span><span>更換部分素材，計算機改為記錄使用者輸入的數據；清除瀏覽器資料後才會消失。</span></li>
+                            <li><span class="notice-tag notice-tag-update">更新</span><span>調整製作模擬器有跟沒有一樣的獎勵機率系統，紋章模擬器加入優質盤子混沌紋章。</span></li>
+                            <li><span class="notice-tag notice-tag-data">保存</span><span>計算機支援自動記錄，並加入資料匯出、匯入與清除功能。</span></li>
+                            <li><span class="notice-tag notice-tag-update">介面</span><span>主選單加入工具分類，手機版改為兩欄卡片；布告欄改為更新時間軸並加入未讀提示。</span></li>
+                            <li><span class="notice-tag notice-tag-new">改善</span><span>手機版新增返回頂部按鈕，修正夜間模式保存，並改善主選單的鍵盤操作。</span></li>
                         </ul>
                     </article>
                 </li>
@@ -1853,6 +1865,11 @@
             </div>
         </div>
     </div>
+
+<button id="mobile-back-to-top" class="mobile-back-to-top" type="button"
+    aria-label="返回頁面頂部" title="返回頂部" onclick="scrollToPageTop()">
+    <span aria-hidden="true">↑</span>
+</button>
 
 <script src="script.js"></script>
 </body>

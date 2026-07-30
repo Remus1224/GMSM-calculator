@@ -80,6 +80,10 @@
     border-color: rgba(178, 187, 237, 0.6); 
     box-shadow: -4px 0 15px rgba(85, 195, 255, 0.4), 4px 0 15px rgba(200, 141, 221, 0.4), inset 0 0 8px rgba(178, 187, 237, 0.15); 
 }
+[data-theme="dark"] .app-card:focus-visible {
+    outline-color: #a994ff;
+    border-color: rgba(169, 148, 255, 0.62);
+}
 [data-theme="dark"] .app-icon { 
     background: linear-gradient(135deg, rgba(85, 195, 255, 0.15) 0%, rgba(200, 141, 221, 0.15) 100%); 
     border-color: rgba(178, 187, 237, 0.3); 
@@ -367,9 +371,10 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 @keyframes appleFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
 .app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; width: 100%; margin-top: 10px; }
-.app-card { background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.app-card { width: 100%; margin: 0; appearance: none; -webkit-appearance: none; background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; color: var(--text-main); font: inherit; text-align: left; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
 .app-card:hover { background: var(--card-hover); transform: translateY(-4px); border-color: rgba(200, 141, 221, 0.8); box-shadow: -8px 0 25px rgba(85, 195, 255, 0.6), 8px 0 25px rgba(200, 141, 221, 0.6), 0 8px 15px rgba(0, 0, 0, 0.05), inset 0 0 15px rgba(255, 255, 255, 0.9); }
 .app-card:active { transform: translateY(-1px) scale(0.98); }
+.app-card:focus-visible { outline: 2px solid #7657dc; outline-offset: 3px; border-color: rgba(118, 87, 220, 0.65); }
 .app-card-highlight { background: rgba(200, 141, 221, 0.05); border-color: rgba(200, 141, 221, 0.2); }
 .app-card-highlight:hover { border-color: rgba(200, 141, 221, 0.6); }
 .app-card-notice { grid-column: 1 / -1; }
@@ -477,7 +482,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .app-icon { font-size: 26px; width: 46px; height: 46px; background: linear-gradient(135deg, rgba(85, 195, 255, 0.3), rgba(200, 141, 221, 0.3)); border: 1px solid rgba(200, 141, 221, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; overflow: hidden; }
 .app-card:hover .app-icon { background: linear-gradient(135deg, rgba(85, 195, 255, 0.6), rgba(200, 141, 221, 0.6)); transform: scale(1.05); }
 .app-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
-.app-info h3 { margin: 0; font-size: 15.5px; font-weight: 600; color: var(--text-main); letter-spacing: -0.2px; }
+.app-title { display: block; margin: 0; font-size: 15.5px; font-weight: 600; color: var(--text-main); letter-spacing: -0.2px; }
 .app-info p { margin: 0; font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .menu-custom-img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
@@ -750,6 +755,75 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 
     #tab-home .data-backup-clear {
         grid-column: auto;
+    }
+}
+
+/* 手機版：返回頁面頂部 */
+.mobile-back-to-top {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-back-to-top {
+        position: fixed;
+        right: max(14px, env(safe-area-inset-right, 0px));
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        z-index: 1500;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 1px solid rgba(124, 92, 231, 0.25);
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.78);
+        color: #684bd1;
+        box-shadow: 0 8px 22px rgba(72, 55, 135, 0.2), inset 0 1px 5px rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px) scale(0.92);
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .mobile-back-to-top.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    .mobile-back-to-top:active {
+        transform: translateY(1px) scale(0.95);
+    }
+
+    .mobile-back-to-top:focus-visible {
+        outline: 2px solid #7657dc;
+        outline-offset: 3px;
+    }
+
+    .mobile-back-to-top span {
+        display: block;
+        margin-top: -2px;
+        font-size: 23px;
+        font-weight: 650;
+        line-height: 1;
+    }
+
+    [data-theme="dark"] .mobile-back-to-top {
+        border-color: rgba(169, 148, 255, 0.36);
+        background: rgba(18, 25, 40, 0.82);
+        color: #b6a4ff;
+        box-shadow: 0 9px 24px rgba(0, 0, 0, 0.48), inset 0 1px 6px rgba(85, 195, 255, 0.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-back-to-top {
+        transition: none;
     }
 }
 
@@ -1898,7 +1972,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         overflow: visible;
     }
 
-    .app-card .app-info h3 {
+    .app-card .app-title {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1943,7 +2017,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         align-items: flex-start;
     }
 
-    .app-card-notice .app-info h3 {
+    .app-card-notice .app-title {
         min-height: 0;
         justify-content: flex-start;
         text-align: left;
@@ -1975,7 +2049,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         align-items: flex-start;
     }
 
-    .app-card .app-info h3 {
+    .app-card .app-title {
         min-height: 0;
         justify-content: flex-start;
         text-align: left;

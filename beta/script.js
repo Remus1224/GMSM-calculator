@@ -1,34 +1,47 @@
 // ==========================================
 // 🌙 主題切換系統 (Dark/Light Mode)
 // ==========================================
-function toggleTheme() {
-    // 取得 HTML 標籤
+function applyTheme(theme, shouldSave = false) {
+    const isDark = theme === 'dark';
     const htmlElement = document.documentElement;
     const themeBtn = document.getElementById('theme-toggle');
 
-    // 檢查目前是不是暗色模式
-    const isDark = htmlElement.getAttribute('data-theme') === 'dark';
-
     if (isDark) {
-        // 切換回淺色模式
-        htmlElement.removeAttribute('data-theme');
-        if (themeBtn) themeBtn.innerText = '🌙';
-    } else {
-        // 切換到暗色模式
         htmlElement.setAttribute('data-theme', 'dark');
-        if (themeBtn) themeBtn.innerText = '☀️';
+    } else {
+        htmlElement.removeAttribute('data-theme');
+    }
+
+    if (themeBtn) {
+        themeBtn.setAttribute('aria-pressed', String(isDark));
+        themeBtn.setAttribute('aria-label', isDark ? '切換至日間模式' : '切換至夜間模式');
+        themeBtn.title = isDark ? '切換至日間模式' : '切換至夜間模式';
+    }
+
+    if (shouldSave) {
+        try {
+            localStorage.setItem('msm-theme', isDark ? 'dark' : 'light');
+        } catch (error) {
+            console.warn('無法儲存主題設定：', error);
+        }
     }
 }
 
-// 網頁載入時，檢查使用者之前選了什麼模式
+function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    applyTheme(isDark ? 'light' : 'dark', true);
+}
+
+// 網頁載入時，還原使用者先前選擇的模式。
 document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('msm-theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        const themeBtn = document.getElementById('theme-toggle');
-        if (themeBtn) themeBtn.innerText = '☀️';
+    let savedTheme = 'light';
+    try {
+        savedTheme = localStorage.getItem('msm-theme') === 'dark' ? 'dark' : 'light';
+    } catch (error) {
+        console.warn('無法讀取主題設定：', error);
     }
-    // ... 這裡保留你原本 DOMContentLoaded 裡的程式碼 (例如 initIgnoreGrid) ...
+
+    applyTheme(savedTheme);
     if (typeof initIgnoreGrid === 'function') initIgnoreGrid();
 });
 
@@ -105,24 +118,24 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-07-29';
+const latestNoticeVersion = '2026-07-30';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'craft': {
         elementId: 'menu-badge-craft',
-        version: '2026-07-29'
+        version: '2026-07-30'
     },
     'emb-enhance': {
         elementId: 'menu-badge-emb-enhance',
-        version: '2026-07-29'
+        version: '2026-07-30'
     },
     'hyper-stat': {
         elementId: 'menu-badge-hyper-stat',
-        version: '2026-07-29'
+        version: '2026-07-30'
     },
     'rune': {
         elementId: 'menu-badge-rune',
-        version: '2026-07-29'
+        version: '2026-07-30'
     }
 };
 const menuToolBadgeStoragePrefix = 'gmsm-menu-badge-seen-v1:';
@@ -364,6 +377,32 @@ function clearSavedCalculatorData() {
     window.location.reload();
 }
 
+let backToTopUpdateScheduled = false;
+
+function updateMobileBackToTopButton() {
+    const button = document.getElementById('mobile-back-to-top');
+    if (!button) return;
+    button.classList.toggle('is-visible', window.scrollY > 520);
+}
+
+function handleBackToTopScroll() {
+    if (backToTopUpdateScheduled) return;
+    backToTopUpdateScheduled = true;
+
+    window.requestAnimationFrame(() => {
+        updateMobileBackToTopButton();
+        backToTopUpdateScheduled = false;
+    });
+}
+
+function scrollToPageTop() {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({
+        top: 0,
+        behavior: reduceMotion ? 'auto' : 'smooth'
+    });
+}
+
 function switchTab(tabId) {
     // 跨分頁靜音與解除鎖定防護
     if (tabId !== 'will') {
@@ -489,6 +528,8 @@ function switchTab(tabId) {
             subPageTitle.classList.remove('home-hide');
         }
     }
+
+    window.requestAnimationFrame(updateMobileBackToTopButton);
 }
 
 function getPersistedCalculatorControls(tabElement) {
@@ -586,6 +627,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNoticeUnreadBadge();
     updateMenuToolBadges();
     switchTab('home');
+    updateMobileBackToTopButton();
+    window.addEventListener('scroll', handleBackToTopScroll, { passive: true });
 
     const persistChangedControl = event => {
         const control = event.target;
