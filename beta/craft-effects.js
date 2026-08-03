@@ -20,12 +20,22 @@
     let activeRunId = 0;
     let animationFrameId = 0;
 
-    function loadAtlas(path) {
+    function loadAtlas(path, priority = "auto") {
         if (imageCache.has(path)) return imageCache.get(path);
 
         const promise = new Promise((resolve, reject) => {
             const image = new Image();
-            image.onload = () => resolve(image);
+            image.decoding = "async";
+            if ("fetchPriority" in image) image.fetchPriority = priority;
+            image.onload = async () => {
+                try {
+                    if (typeof image.decode === "function") await image.decode();
+                } catch (decodeError) {
+                    // 部分舊版行動瀏覽器會拒絕已完成載入圖片的 decode()，
+                    // 此時 onload 已代表圖片可正常使用，不阻止特效播放。
+                }
+                resolve(image);
+            };
             image.onerror = () => {
                 imageCache.delete(path);
                 reject(new Error(`製作特效圖集載入失敗：${path}`));
@@ -35,6 +45,35 @@
 
         imageCache.set(path, promise);
         return promise;
+    }
+
+    function preloadFamily(family, priority = "auto") {
+        const path = atlasPaths[family];
+        if (!path) return Promise.resolve(false);
+        return loadAtlas(path, priority)
+            .then(() => true)
+            .catch(error => {
+                console.warn(`製作特效預載失敗：${family}`, error);
+                return false;
+            });
+    }
+
+    function scheduleIdlePreload(family) {
+        const preload = () => preloadFamily(family, "low");
+        if (typeof window.requestIdleCallback === "function") {
+            window.requestIdleCallback(preload, { timeout: 2500 });
+        } else {
+            window.setTimeout(preload, 350);
+        }
+    }
+
+    function preloadCraftEffects(preferredFamily = "chaos") {
+        const primaryFamily = preferredFamily === "upgrade" ? "upgrade" : "chaos";
+        const secondaryFamily = primaryFamily === "upgrade" ? "chaos" : "upgrade";
+        const primaryPromise = preloadFamily(primaryFamily, "high");
+
+        primaryPromise.finally(() => scheduleIdlePreload(secondaryFamily));
+        return primaryPromise;
     }
 
     function finiteSlope(value) {
@@ -126,7 +165,7 @@
 
         if (!data || !atlasPath || !overlay || !canvas) return false;
 
-        const image = await loadAtlas(atlasPath);
+        const image = await loadAtlas(atlasPath, "high");
         const context = canvas.getContext("2d", { alpha: true });
         if (!context) return false;
 
@@ -306,4 +345,5 @@
     window.cr_playOriginalCraftEffect = playOriginalEffect;
     window.cr_playFallbackCraftEffect = playFallbackEffect;
     window.cr_stopCraftEffect = stopCurrentEffect;
+    window.cr_preloadCraftEffects = preloadCraftEffects;
 })();

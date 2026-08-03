@@ -118,12 +118,12 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-07-30';
+const latestNoticeVersion = '2026-08-03';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'craft': {
         elementId: 'menu-badge-craft',
-        version: '2026-07-30'
+        version: '2026-08-03'
     },
     'emb-enhance': {
         elementId: 'menu-badge-emb-enhance',
@@ -447,6 +447,10 @@ function switchTab(tabId) {
         tr_updateUI();
     }
     if (tabId === 'craft') {
+        if (typeof window.cr_preloadCraftEffects === 'function') {
+            const preferredEffectFamily = cr_stage === 'necro' ? 'upgrade' : 'chaos';
+            window.cr_preloadCraftEffects(preferredEffectFamily);
+        }
         cr_updateUI();
     }
 
@@ -3614,10 +3618,7 @@ function cr_updateUI() {
         rateBox.style.position = 'relative';
         if (cr_stage === 'necro' && cr_mythic_type === 'necro') {
             rateBox.innerHTML = `
-                <div style="background-color: #ffffff; width: 100%; padding: 6px 0; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8;">
-                    <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">追加死靈轉換製作成功機率 : ${data.additionalRate}%</div>
-                </div>
-                <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
+                <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0;">
                     <div class="txt-sharp cr-craft-rate-line" style="color: #f3724c; font-size: 15px;">
                         死靈轉換製作成功機率 : ${rateFormula}
                         ${rateInfoButtonHTML}
