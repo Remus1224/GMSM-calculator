@@ -826,7 +826,9 @@
 
     <div id="tab-craft" class="tab-content">
         <div class="msm-forge-ui" id="cr-game-ui-container" style="position: relative;">
-            <div id="cr-anim-overlay" class="lightning-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; pointer-events: auto; border-radius: 6px; display: none;"></div>
+            <div id="cr-anim-overlay" class="lightning-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; pointer-events: auto; border-radius: 6px; display: none;">
+                <canvas id="cr-effect-canvas" aria-hidden="true"></canvas>
+            </div>
 
             <div class="forge-header">
                 鐵匠鋪 <div class="forge-info-icon"><span>i</span></div>
@@ -1875,6 +1877,31 @@
     <span aria-hidden="true">↑</span>
 </button>
 
+<script>
+    window.CRAFT_EFFECT_DATA = Object.create(null);
+    window.MAPLEM_EFFECT_DATA = null;
+</script>
+<script src="assets/craft/effects/effect_古代製作_成功.js"></script>
+<script>
+    window.CRAFT_EFFECT_DATA['upgrade-success'] = window.MAPLEM_EFFECT_DATA;
+    window.MAPLEM_EFFECT_DATA = null;
+</script>
+<script src="assets/craft/effects/effect_古代製作_失敗.js"></script>
+<script>
+    window.CRAFT_EFFECT_DATA['upgrade-fail'] = window.MAPLEM_EFFECT_DATA;
+    window.MAPLEM_EFFECT_DATA = null;
+</script>
+<script src="assets/craft/effects/effect_混沌製作_成功.js"></script>
+<script>
+    window.CRAFT_EFFECT_DATA['chaos-success'] = window.MAPLEM_EFFECT_DATA;
+    window.MAPLEM_EFFECT_DATA = null;
+</script>
+<script src="assets/craft/effects/effect_混沌製作_失敗.js"></script>
+<script>
+    window.CRAFT_EFFECT_DATA['chaos-fail'] = window.MAPLEM_EFFECT_DATA;
+    window.MAPLEM_EFFECT_DATA = null;
+</script>
+<script src="craft-effects.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
