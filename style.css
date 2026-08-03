@@ -1182,6 +1182,13 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 #cr-game-ui-container .item-col:nth-child(4) .equip-name { font-size: 11px !important; letter-spacing: -0.5px !important; }
 #cr-game-ui-container .forge-main { height: 520px; }
 
+/* 製作確認後，背景材料槽維持遊戲內的空槽狀態，直到關閉結果視窗。 */
+#cr-game-ui-container.cr-crafting-slots-empty #cr-ui-diamond-badge,
+#cr-game-ui-container.cr-crafting-slots-empty #cr-ui-star-badge,
+#cr-game-ui-container.cr-crafting-slots-empty #cr-ui-lv-badge {
+    display: none !important;
+}
+
 .cr-stage-setting-row {
     display: grid;
     grid-template-columns: auto auto;
@@ -1385,6 +1392,21 @@ hr.divider { border: none; border-top: 2px solid #E0E0E0; margin: 10px 0 15px 0;
 @keyframes cr-flash-fail-gold { 0% { background-color: rgba(0, 0, 0, 0.85); } 35% { background-color: rgba(255, 150, 0, 0.5); } 50% { background-color: rgba(255, 200, 50, 0.8); } 65% { background-color: rgba(0, 0, 0, 0.75); } 85% { background-color: rgba(0, 0, 0, 0.65); } 100% { background-color: rgba(0, 0, 0, 0.85); } }
 .cr-anim-success-gold { display: block !important; animation: cr-flash-success-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
 .cr-anim-fail-gold { display: block !important; animation: cr-flash-fail-gold 1.26s ease-in-out forwards; mix-blend-mode: hard-light; }
+
+#cr-anim-overlay.cr-original-effect {
+    display: block !important;
+    /* The game keeps its popup screen blocker visible behind the result
+       effect. Recorded luminance measures it at roughly 73% black; the
+       exported Dim and Whiteout nodes are rendered separately on canvas. */
+    background: rgba(0, 0, 0, 0.73);
+    mix-blend-mode: normal;
+}
+
+#cr-effect-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
 /* ========================================== */
 /* 🌟 8. 威爾練習機 (全面變數玻璃化) */

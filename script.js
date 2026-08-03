@@ -118,12 +118,12 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-07-30';
+const latestNoticeVersion = '2026-08-03';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'craft': {
         elementId: 'menu-badge-craft',
-        version: '2026-07-30'
+        version: '2026-08-03'
     },
     'emb-enhance': {
         elementId: 'menu-badge-emb-enhance',
@@ -447,6 +447,10 @@ function switchTab(tabId) {
         tr_updateUI();
     }
     if (tabId === 'craft') {
+        if (typeof window.cr_preloadCraftEffects === 'function') {
+            const preferredEffectFamily = cr_stage === 'necro' ? 'upgrade' : 'chaos';
+            window.cr_preloadCraftEffects(preferredEffectFamily);
+        }
         cr_updateUI();
     }
 
@@ -3199,6 +3203,32 @@ const cr_failure_records = Object.create(null);
 const cr_sfx_success = new Audio('assets/audio/AncientSuccess.wav');
 const cr_sfx_fail = new Audio('assets/audio/AncientFail.wav');
 
+for (const sfx of [cr_sfx_success, cr_sfx_fail]) {
+    sfx.preload = 'auto';
+    sfx.loop = false;
+    sfx.volume = 1;
+    sfx.load();
+}
+
+function cr_stopCraftSounds() {
+    for (const sfx of [cr_sfx_success, cr_sfx_fail]) {
+        sfx.pause();
+        sfx.currentTime = 0;
+    }
+}
+
+function cr_playCraftResultSound(isSuccess) {
+    cr_stopCraftSounds();
+    if (cr_isMuted) return;
+
+    const sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
+    sfx.play().catch(error => {
+        if (error?.name !== 'AbortError' && error?.name !== 'NotAllowedError') {
+            console.warn('製作結果音效播放失敗：', error);
+        }
+    });
+}
+
 // 🌟 修改：將寫死的圖片與名稱移除，改為 fromKey 與 toKey 指向資料庫
 const CRAFT_DATA = {
     mythic_inherit: {
@@ -3393,6 +3423,7 @@ function cr_changeEquip() {
 
 function cr_toggleSound() {
     cr_isMuted = !cr_isMuted;
+    if (cr_isMuted) cr_stopCraftSounds();
     document.getElementById('btn-sound-toggle-cr').innerText = cr_isMuted ? "🔇 音效：關閉" : "🔊 音效：開啟";
     document.getElementById('btn-sound-toggle-cr').className = cr_isMuted ? "btn-sound muted" : "btn-sound";
 }
@@ -3587,10 +3618,7 @@ function cr_updateUI() {
         rateBox.style.position = 'relative';
         if (cr_stage === 'necro' && cr_mythic_type === 'necro') {
             rateBox.innerHTML = `
-                <div style="background-color: #ffffff; width: 100%; padding: 6px 0; border-top: 1px solid #e1e4e8; border-bottom: 1px solid #e1e4e8;">
-                    <div class="txt-sharp" style="color: #1cd1ed; font-size: 14px;">追加死靈轉換製作成功機率 : ${data.additionalRate}%</div>
-                </div>
-                <div style="background-color: #F0F0F0; width: 100%; padding: 6px 0 10px 0;">
+                <div style="background-color: #F0F0F0; width: 100%; padding: 10px 0;">
                     <div class="txt-sharp cr-craft-rate-line" style="color: #f3724c; font-size: 15px;">
                         死靈轉換製作成功機率 : ${rateFormula}
                         ${rateInfoButtonHTML}
@@ -3676,7 +3704,33 @@ function cr_cancelConfirm() {
     if (modal) modal.classList.remove('active');
 }
 
-function cr_executeCraft() {
+function cr_setCraftingBackgroundEmpty(isEmpty) {
+    const container = document.getElementById('cr-game-ui-container');
+    if (!container) return;
+
+    container.classList.toggle('cr-crafting-slots-empty', isEmpty);
+    if (!isEmpty) return;
+
+    const emptySlotImage = 'assets/common/Item_卷軸空格.png';
+    ['cr-equip-from-img', 'cr-crystal-img', 'cr-scroll-img'].forEach((id) => {
+        const image = document.getElementById(id);
+        if (!image) return;
+        image.style.display = '';
+        image.src = emptySlotImage;
+    });
+
+    const equipName = document.getElementById('cr-equip-from-name');
+    const crystalName = document.getElementById('cr-crystal-name');
+    const scrollName = document.getElementById('cr-scroll-name');
+    const scrollColumn = document.getElementById('cr-scroll-col');
+
+    if (equipName) equipName.textContent = '基本';
+    if (crystalName) crystalName.textContent = '古代結晶';
+    if (scrollName) scrollName.textContent = '卷軸';
+    if (scrollColumn) scrollColumn.style.opacity = '1';
+}
+
+async function cr_executeCraft() {
     let confirmModal = document.getElementById('cr-confirm-modal');
     if (confirmModal) confirmModal.classList.remove('active');
     cr_isAnimating = true;
@@ -3693,34 +3747,58 @@ function cr_executeCraft() {
         cr_crystals_used++;
         cr_scrolls_used += scrollInfo.count;
         cr_updateUI();
+        cr_setCraftingBackgroundEmpty(true);
 
         let isSuccess = (Math.random() * 100) < totalRate;
         let animOverlay = document.getElementById('cr-anim-overlay');
 
-        if (animOverlay) {
-            animOverlay.className = 'lightning-overlay ' + (isSuccess ? (cr_stage === 'necro' ? 'cr-anim-success-gold' : 'cr-anim-success') : (cr_stage === 'necro' ? 'cr-anim-fail-gold' : 'cr-anim-fail'));
-            if (!cr_isMuted) {
-                let sfx = isSuccess ? cr_sfx_success : cr_sfx_fail;
-                sfx.currentTime = 0; sfx.play().catch(e => console.log(e));
-            }
+        const effectFamily = cr_stage === 'necro' ? 'upgrade' : 'chaos';
+        const effectResult = isSuccess ? 'success' : 'fail';
+        const effectKey = `${effectFamily}-${effectResult}`;
+        const fallbackClass = isSuccess
+            ? (effectFamily === 'upgrade' ? 'cr-anim-success-gold' : 'cr-anim-success')
+            : (effectFamily === 'upgrade' ? 'cr-anim-fail-gold' : 'cr-anim-fail');
+        let soundStarted = false;
 
-            setTimeout(() => {
-                animOverlay.className = 'lightning-overlay';
-                if (isSuccess) {
-                    cr_successes++;
-                    let attempts_taken = cr_current_attempts;
-                    cr_setAccumulatedFailures(0, activeKey);
-                    cr_current_attempts = 0;
-                    cr_showResult(true, attempts_taken);
-                } else {
-                    cr_fails++;
-                    cr_setAccumulatedFailures(accumulatedFailures + 1, activeKey);
-                    cr_showResult(false);
-                }
-            }, 1260);
+        const startSound = () => {
+            if (soundStarted) return;
+            soundStarted = true;
+            cr_playCraftResultSound(isSuccess);
+        };
+
+        let playedOriginalEffect = false;
+        if (animOverlay && typeof window.cr_playOriginalCraftEffect === 'function') {
+            try {
+                playedOriginalEffect = await window.cr_playOriginalCraftEffect(effectKey, startSound);
+            } catch (effectError) {
+                console.warn('遊戲原始製作特效載入失敗，改用 CSS 備援效果。', effectError);
+            }
+        }
+
+        if (!playedOriginalEffect) {
+            if (animOverlay && typeof window.cr_playFallbackCraftEffect === 'function') {
+                await window.cr_playFallbackCraftEffect(fallbackClass, startSound);
+            } else {
+                startSound();
+            }
+        }
+
+        if (isSuccess) {
+            cr_successes++;
+            let attempts_taken = cr_current_attempts;
+            cr_setAccumulatedFailures(0, activeKey);
+            cr_current_attempts = 0;
+            cr_showResult(true, attempts_taken);
+        } else {
+            cr_fails++;
+            cr_setAccumulatedFailures(accumulatedFailures + 1, activeKey);
+            cr_showResult(false);
         }
     } catch (e) {
+        if (typeof window.cr_stopCraftEffect === 'function') window.cr_stopCraftEffect();
+        cr_setCraftingBackgroundEmpty(false);
         console.error(e); cr_isAnimating = false;
+        cr_updateUI();
     }
 }
 
@@ -3815,6 +3893,7 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
 function cr_closeResult() {
     let modal = document.getElementById('cr-result-modal');
     if (modal) modal.classList.remove('active');
+    cr_setCraftingBackgroundEmpty(false);
     cr_isAnimating = false;
     cr_updateUI();
 }
