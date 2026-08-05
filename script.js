@@ -1425,7 +1425,7 @@ const arcaneRuneSymbols = [
     { id: 'esfera', name: '艾斯佩拉', short: '艾', tone: 'blue', image: 'assets/runes/icon_艾斯佩拉.png', costs: arcaneRuneCosts }
 ];
 
-const authenticRuneRequirements = [13, 33, 53, 73, 93, 113, 133, 153, 173, 193];
+const authenticRuneRequirements = [13, 46, 99, 172, 265, 378, 511, 664, 837, 1030];
 const esetraAuthenticRuneCosts = [
     7600000, 27000000, 65800000, 132600000, 235000000,
     381500000, 579900000, 738300000, 1064800000, 1267500000
