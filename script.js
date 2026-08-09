@@ -3673,6 +3673,7 @@ function cr_updateUI() {
     let statCrys = document.getElementById('cr-stat-crystals');
     let statScr = document.getElementById('cr-stat-scrolls');
     let statTotalUsed = document.getElementById('cr-stat-total-used');
+    let evFixedAtmpt = document.getElementById('cr-ev-fixed-attempts');
     let evAtmpt = document.getElementById('cr-ev-attempts');
 
     if (statSuccess) statSuccess.innerText = cr_successes;
@@ -3683,8 +3684,14 @@ function cr_updateUI() {
     if (statScr) statScr.innerText = cr_scrolls_used;
     if (statTotalUsed) statTotalUsed.innerText = cr_crystals_used;
 
+    const fixedExpectedAttempts = rateBreakdown.totalRate > 0
+        ? 100 / rateBreakdown.totalRate
+        : Infinity;
     const fixedRate = rateBreakdown.baseRate + rateBreakdown.alchemyRate + rateBreakdown.scrollRate;
     const expectedAttempts = cr_calculateExpectedAttempts(fixedRate, accumulatedFailures);
+    if (evFixedAtmpt) evFixedAtmpt.innerText = Number.isFinite(fixedExpectedAttempts)
+        ? fixedExpectedAttempts.toFixed(2)
+        : '∞';
     if (evAtmpt) evAtmpt.innerText = expectedAttempts.toFixed(2);
 }
 
