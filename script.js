@@ -3174,6 +3174,7 @@ const cr_equip_db = [
         label: "天之星光權杖",
         mythic: { name: "龍尾巴天之星光權杖", img: "assets/equipment/龍尾巴天之星光權杖.png", hasEmblem: true },
         ancient: { name: "龍尾巴天之星光權杖", img: "assets/equipment/龍尾巴天之星光權杖.webp", hasEmblem: true },
+        chaos: { name: "混沌天之星光權杖", img: "assets/equipment/混沌天之星光權杖.webp", hasEmblem: true },
         necro: { name: "死靈天之星光權杖", img: "assets/equipment/死靈天之星光權杖.webp", hasEmblem: true },
         absolab: { name: "航海師天之星光權杖", img: "assets/equipment/航海師天之星光權杖.webp", hasEmblem: true },
         arcane: { name: "神秘冥界幽靈天之星光權杖", img: "assets/equipment/神秘冥界幽靈天之星光權杖.webp", hasEmblem: true }
@@ -3279,7 +3280,7 @@ const CRAFT_DATA = {
         failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
     },
     chaos_absolab: {
-        fromKey: 'ancient', toKey: 'absolab',
+        fromKey: 'chaos', toKey: 'absolab',
         baseRate: 7, additionalRate: 0,
         fromLevel: 40, fromStar: "30", resultStar: "29",
         fromText: "混沌", toText: "航海師", fromColor: "#CC9ED8", toColor: "#CC9ED8",

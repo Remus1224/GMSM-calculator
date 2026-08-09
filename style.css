@@ -2269,7 +2269,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #tr-m-star-badge, #tr-m-scr-star-badge { top: 0px !important; right: -2px !important; height: 21px; }
     #emb-ui-star-badge     { top: 0px !important; right: -3px !important; }
     #emb-m-star-badge      { top: -1px !important; right: 0px !important; width: 21px; }
-    #cr-ui-star-badge      { top: -1px !important; right: -4px !important; }
+    #cr-ui-star-badge      { top: -2px !important; right: -5px !important; }
     #cr-m-star-badge       { top: -1px !important; right: -2px !important; }
 }
 
