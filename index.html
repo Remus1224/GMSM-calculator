@@ -84,7 +84,7 @@
                 <span class="app-info">
                     <span class="app-title">製作模擬器</span>
                 </span>
-                <span id="menu-badge-craft" class="app-status-badge app-status-badge-update" hidden>特效升級</span>
+                <span id="menu-badge-craft" class="app-status-badge app-status-badge-update" hidden>新增製作階段</span>
             </button>
 
             <button type="button" class="app-card app-card-has-badge" onclick="switchTab('emb-enhance')">
@@ -253,10 +253,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-08-03">2026.08.03</time>
+                    <time datetime="2026-08-09">2026.08.09</time>
                 </div>
-                <h2 id="notice-latest-title">製作模擬器正式完成</h2>
-                <p>從製作介面、成功率與素材狀態，到成功／失敗特效及音效，皆依照遊戲流程重新還原。</p>
+                <h2 id="notice-latest-title">製作模擬器更新</h2>
+                <p>新增「混沌－航海師」製作階段，包含專用材料、7% 製作機率與對應結果顯示。</p>
             </div>
         </section>
 
@@ -273,8 +273,20 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-08-03">2026 / 08 / 03</time>
+                            <time datetime="2026-08-09">2026 / 08 / 09</time>
                             <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>混沌製作航海師。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-08-03">2026 / 08 / 03</time>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-update">更新</span><span>加入正式製作成功／失敗特效。</span></li>
@@ -955,6 +967,7 @@
                 <div class="cr-stage-options">
                     <label><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話－古代</label>
                     <label><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈－航海師</label>
+                    <label><input type="radio" name="cr-stage" value="chaos_absolab" onchange="cr_forceStageChange()"> 混沌－航海師</label>
                     <label><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師－神秘</label>
                 </div>
             </div>

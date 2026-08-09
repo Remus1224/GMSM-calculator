@@ -118,12 +118,12 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-08-03';
+const latestNoticeVersion = '2026-08-09';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'craft': {
         elementId: 'menu-badge-craft',
-        version: '2026-08-03'
+        version: '2026-08-09'
     },
     'emb-enhance': {
         elementId: 'menu-badge-emb-enhance',
@@ -1425,7 +1425,7 @@ const arcaneRuneSymbols = [
     { id: 'esfera', name: '艾斯佩拉', short: '艾', tone: 'blue', image: 'assets/runes/icon_艾斯佩拉.png', costs: arcaneRuneCosts }
 ];
 
-const authenticRuneRequirements = [13, 46, 99, 172, 265, 378, 511, 664, 837, 1030];
+const authenticRuneRequirements = [13, 33, 53, 73, 93, 113, 133, 153, 173, 193];
 const esetraAuthenticRuneCosts = [
     7600000, 27000000, 65800000, 132600000, 235000000,
     381500000, 579900000, 738300000, 1064800000, 1267500000
@@ -3278,6 +3278,18 @@ const CRAFT_DATA = {
         successFromText: "古代", successFromColor: "#1cd1ed", successToText: "混沌", successToColor: "#CC9ED8",
         failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
     },
+    chaos_absolab: {
+        fromKey: 'ancient', toKey: 'absolab',
+        baseRate: 7, additionalRate: 0,
+        fromLevel: 40, fromStar: "30", resultStar: "29",
+        fromText: "混沌", toText: "航海師", fromColor: "#CC9ED8", toColor: "#CC9ED8",
+        desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在混沌裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
+        meso: "1,204", crystalName: "混沌武器結晶", crystalImg: "assets/craft/Item_混沌武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/common/Item_卷軸空格.png", scrollReq: 2,
+        confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
+        successFromText: "混沌", successFromColor: "#CC9ED8", successToText: "混沌", successToColor: "#CC9ED8",
+        failFromText: "混沌", failFromColor: "#CC9ED8", failToText: "混沌", failToColor: "#CC9ED8"
+    },
     arcane: {
         fromKey: 'absolab', toKey: 'arcane',
         baseRate: 10, additionalRate: 0,
@@ -3524,9 +3536,10 @@ function cr_updateUI() {
     if (equipNameElem) equipNameElem.innerHTML = fromEquip.name;
     
     // 🌟 動態更新主畫面的遮罩標籤：起始畫面固定為星星 M、對應初始等級
-    let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+    let startLv = data.fromLevel ?? ((cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60));
+    let startStar = data.fromStar ?? "M";
     if (uiLvBadge) { uiLvBadge.style.display = 'block'; uiLvBadge.innerHTML = `<span>Lv.${startLv}</span>`; }
-    if (uiStarBadge) { uiStarBadge.style.display = 'flex'; uiStarBadge.innerHTML = `<span>M</span>`; }
+    if (uiStarBadge) { uiStarBadge.style.display = 'flex'; uiStarBadge.innerHTML = `<span>${startStar}</span>`; }
 
     let crystalImgElem = document.getElementById('cr-crystal-img');
     let crystalNameElem = document.getElementById('cr-crystal-name');
@@ -3838,7 +3851,7 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
 
         // 🌟 成功後星星依照不同階段扣除
         if (mStarBadge) {
-            let newStar = "M";
+            let newStar = data.resultStar ?? "M";
             if (cr_stage === 'necro') newStar = "29";      // 神話 ➔ 古代/死靈 掉星為29
             else if (cr_stage === 'absolab') newStar = "29"; // 死靈 ➔ 航海師 掉星為29
             else if (cr_stage === 'arcane') newStar = "34";  // 航海師 ➔ 神秘 掉星為34
@@ -3870,14 +3883,14 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
 
         // 🌟 失敗後等級維持原狀 (防呆判斷初始等級)
         if (mLvBadge) {
-            let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+            let failLv = data.fromLevel ?? ((cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60));
             mLvBadge.style.display = 'block'; mLvBadge.innerHTML = `<span>Lv.${failLv}</span>`;
         }
         
         // 🌟 失敗後星星維持原本的 M
         if (mStarBadge) { 
             mStarBadge.style.display = 'flex'; 
-            mStarBadge.innerHTML = `<span>M</span>`; 
+            mStarBadge.innerHTML = `<span>${data.fromStar ?? "M"}</span>`; 
         }
 
         if (failCont) {

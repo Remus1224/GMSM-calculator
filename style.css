@@ -1851,8 +1851,8 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 
 /* 2. 裝備等級遮罩 */
 .equip-badge-lv {
-    position: absolute; bottom: 4px; right: 3px;
-    font-size: 10px;
+    position: absolute; bottom: 4px; right: 5px;
+    font-size: 11px;
     background-color: rgba(17, 17, 17, 1); color: #ffffff;
     letter-spacing: -0.1px; line-height: 1.2; 
     border-radius: 11px; border: none; z-index: 15; text-align: center; box-sizing: border-box;
@@ -1908,7 +1908,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 #tr-m-scr-diamond-badge{ top: 22px !important; left: -6px !important; }   
 
 /* 🔨 製作模擬器 */
-#cr-ui-diamond-badge   { top: 14px !important; left: -3px !important; } 
+#cr-ui-diamond-badge   { top: 16px !important; left: -2px !important; } 
 #cr-m-diamond-badge    { top: 13px !important; left: -3px !important; }
 #cr-m-lv-badge { bottom: 3px !important; right: 4px !important; padding: 1px 7px !important;}   
 
@@ -2160,6 +2160,14 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         row-gap: 8px;
     }
     .cr-stage-options { gap: 8px; }
+    .cr-stage-options {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        justify-content: start;
+        column-gap: 18px;
+        row-gap: 8px;
+        white-space: normal;
+    }
     .cr-stage-setting-row .cr-stage-options label {
         gap: 2px !important;
         font-size: 11px !important;
