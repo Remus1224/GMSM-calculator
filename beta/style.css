@@ -6351,10 +6351,21 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .genesis-stone-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .genesis-stone-settings,
     .genesis-stone-boss-panel { padding: 10px; }
+    /* 手機版設定區：避免 grid 子項以內容最小寬度撐破外層卡片。 */
+    .genesis-stone-controls,
+    .genesis-stone-date-field,
+    .genesis-stone-status-group,
+    .genesis-stone-reset {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
     .genesis-stone-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     .genesis-stone-date-field { grid-column: 1 / -1; min-height: 69px; }
     .genesis-stone-status-group { grid-column: 1 / -1; min-height: 69px; padding: 9px; }
-    .genesis-stone-status-option { min-height: 38px; padding: 5px 7px; gap: 6px; }
+    .genesis-stone-status-group > div { width: 100%; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .genesis-stone-status-option { min-height: 38px; min-width: 0; max-width: 100%; padding: 5px 7px; gap: 6px; overflow: hidden; }
     .genesis-stone-status-option > span { display: grid; gap: 0; }
     .genesis-stone-status-option b { font-size: 11px; }
     .genesis-stone-status-option small { font-size: 8px; }
