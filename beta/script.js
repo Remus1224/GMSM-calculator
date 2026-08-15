@@ -90,6 +90,7 @@ let progInitialized = false;
 let ignoreInitialized = false;
 let hyperStatInitialized = false;
 let runeInitialized = false;
+let liberationInitialized = false;
 let willInitialized = false; // 新增這行
 let willGameActive = false;  // 新增這行
 
@@ -115,15 +116,34 @@ const calculatorPersistenceConfig = {
     'hexa-sim': {
         tabId: 'tab-hexa-sim',
         storageKey: 'gmsm-calculator-hexa-sim-v1'
+    },
+    'liberation': {
+        tabId: 'tab-liberation',
+        storageKey: 'gmsm-calculator-liberation-v1',
+        afterRestore: () => {
+            liberationNormalizeStageSelection();
+            liberationNormalizeTicketInputs();
+            liberationUpdateUI();
+            genesisAlchemyNormalizeState();
+            genesisAlchemyNormalizeTicketInputs();
+            genesisAlchemyUpdateUI();
+            genesisStoneNormalizeTicketInputs();
+            genesisStoneUpdateUI();
+            saveCalculatorTabState('liberation');
+        }
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-08-03';
+const latestNoticeVersion = '2026-08-16';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
+    'liberation': {
+        elementId: 'menu-badge-liberation',
+        version: '2026-08-16'
+    },
     'craft': {
         elementId: 'menu-badge-craft',
-        version: '2026-08-03'
+        version: '2026-08-09'
     },
     'emb-enhance': {
         elementId: 'menu-badge-emb-enhance',
@@ -472,6 +492,10 @@ function switchTab(tabId) {
         initRuneCalculator();
         runeInitialized = true;
     }
+    if (tabId === 'liberation' && !liberationInitialized) {
+        initLiberationCalculator();
+        liberationInitialized = true;
+    }
     if (calculatorPersistenceConfig[tabId]) {
         setTimeout(() => restoreCalculatorTabState(tabId), 0);
     }
@@ -503,6 +527,7 @@ function switchTab(tabId) {
             'transcend': '超越模擬器',
             'craft': '製作模擬器',
             'hexa-prog': '六轉進度計算機',
+            'liberation': '創世解放計算機',
             'hexa-visual': 'HEXA屬性模擬器',
             'hexa-lazy': 'HEXA懶人決策表',
             'hexa-reset': 'HEXA重置決策模擬',
@@ -627,6 +652,745 @@ function restoreCalculatorTabState(tabId) {
 }
 
 // 確保網頁一開啟時，預設執行一次首頁狀態，避免任何跑版
+/* ========================================== */
+/* 解放進度計算機                              */
+/* ========================================== */
+const LIBERATION_TOTAL_TRACES = 13500;
+const liberationStages = [
+    { phase: '階段 II', roman: 'II', name: '黑暗的痕跡', traces: 500, image: 'assets/liberation/stage/Img_Quest_02.png' },
+    { phase: '階段 III', roman: 'III', name: '時間大神官阿卡伊農的行蹤', traces: 1000, image: 'assets/liberation/stage/Img_Quest_03.png' },
+    { phase: '階段 V', roman: 'V', name: '暴君梅格耐斯和赤紅魔女希拉的痕跡', traces: 1500, image: 'assets/liberation/stage/Img_Quest_05.png' },
+    { phase: '階段 VI', roman: 'VI', name: '翼之主史烏的痕跡', traces: 1500, image: 'assets/liberation/stage/Img_Quest_06.png' },
+    { phase: '階段 VIII', roman: 'VIII', name: '獅子王凡雷恩和破滅的劍戴米安的痕跡', traces: 2000, image: 'assets/liberation/stage/Img_Quest_08.png' },
+    { phase: '階段 IX', roman: 'IX', name: '惡夢的主人露希妲的痕跡', traces: 2000, image: 'assets/liberation/stage/Img_Quest_09.png' },
+    { phase: '階段 X', roman: 'X', name: '蜘蛛之王威爾的痕跡', traces: 2500, image: 'assets/liberation/stage/Img_Quest_10.png' },
+    { phase: '階段 XI', roman: 'XI', name: '最後的痕跡', traces: 2500, image: 'assets/liberation/stage/Img_Quest_11.png' }
+];
+
+const liberationBosses = [
+    { id: 'black-mage', name: '黑魔法師', cycle: '每月', image: 'assets/liberation/boss/黑魔法師.png', ticket: 'assets/liberation/ticket/黑魔法師入場券.png', options: [{ value: 'hard', label: '困難', traces: 300 }], monthly: true },
+    { id: 'dunkel', name: '頓凱爾', cycle: '每週', image: 'assets/liberation/boss/頓凱爾.png', ticket: 'assets/liberation/ticket/頓凱爾入場券.png', options: [{ value: 'hard', label: '困難', traces: 50 }] },
+    { id: 'verus-hilla', name: '真希拉', cycle: '每週', image: 'assets/liberation/boss/真希拉.png', ticket: 'assets/liberation/ticket/真希拉入場券.png', options: [{ value: 'hard', label: '困難', traces: 35 }, { value: 'normal', label: '普通', traces: 30 }] },
+    { id: 'will', name: '威爾', cycle: '每週', image: 'assets/liberation/boss/威爾.png', ticket: 'assets/liberation/ticket/威爾入場券.png', options: [{ value: 'chaos', label: '混沌', traces: 45 }, { value: 'hard', label: '困難', traces: 25 }] },
+    { id: 'darknell', name: '戴斯克', cycle: '每週', image: 'assets/liberation/boss/戴斯克.png', ticket: 'assets/liberation/ticket/戴斯克入場券.png', options: [{ value: 'hard', label: '困難', traces: 20 }] },
+    { id: 'lucid', name: '露希妲', cycle: '每週', image: 'assets/liberation/boss/露希妲.png', ticket: 'assets/liberation/ticket/露希妲入場券.png', options: [{ value: 'chaos', label: '混沌', traces: 40 }, { value: 'hard', label: '困難', traces: 15 }] },
+    { id: 'damien', name: '戴米安', cycle: '每週', image: 'assets/liberation/boss/戴米安.png', ticket: 'assets/liberation/ticket/戴米安入場券.png', options: [{ value: 'hard', label: '困難', traces: 15 }, { value: 'normal', label: '普通', traces: 10 }] },
+    { id: 'lotus', name: '史烏', cycle: '每週', image: 'assets/liberation/boss/史烏.png', ticket: 'assets/liberation/ticket/史烏入場券.png', options: [{ value: 'hard', label: '困難', traces: 5 }] }
+];
+
+function liberationTodayValue() {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    return new Date(now.getTime() - offset).toISOString().slice(0, 10);
+}
+
+function liberationFormatNumber(value) {
+    return Math.max(0, Math.round(Number(value) || 0)).toLocaleString('zh-TW');
+}
+
+function liberationReadNumber(id) {
+    const input = document.getElementById(id);
+    if (!input) return 0;
+    const parsed = Number(String(input.value || '').replace(/,/g, ''));
+    return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 0;
+}
+
+function liberationGetBossSelection(boss) {
+    if (boss.monthly) {
+        return document.getElementById(`liberation-${boss.id}-enabled`)?.checked ? boss.options[0] : null;
+    }
+    const value = document.getElementById(`liberation-${boss.id}-difficulty`)?.value;
+    return boss.options.find(option => option.value === value) || null;
+}
+
+function liberationGetBossReward(boss) {
+    const option = liberationGetBossSelection(boss);
+    const tickets = liberationReadNumber(`liberation-${boss.id}-tickets`);
+    const ticketTraces = option ? option.traces * tickets : 0;
+    return {
+        option,
+        tickets,
+        baseTraces: option ? option.traces : 0,
+        customTicketTraces: ticketTraces
+    };
+}
+
+function liberationNormalizeTicketInputs() {
+    liberationBosses.forEach(boss => {
+        const input = document.getElementById(`liberation-${boss.id}-tickets`);
+        if (input && liberationReadNumber(input.id) === 0) input.value = '';
+    });
+}
+
+function liberationAdjustTickets(bossId, amount) {
+    const input = document.getElementById(`liberation-${bossId}-tickets`);
+    if (!input) return;
+
+    const current = liberationReadNumber(input.id);
+    const next = Math.max(0, current + amount);
+    input.value = next > 0 ? String(next) : '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function liberationGetSelectedStageIndex() {
+    const selector = document.getElementById('liberation-stage-index');
+    const parsed = Number(selector?.value);
+    return Number.isInteger(parsed) && parsed >= 0 && parsed < liberationStages.length ? parsed : 0;
+}
+
+function liberationGetStageCompletedTraces(stageIndex) {
+    return liberationStages
+        .slice(0, Math.max(0, stageIndex))
+        .reduce((total, stage) => total + stage.traces, 0);
+}
+
+function liberationNormalizeStageSelection() {
+    const selector = document.getElementById('liberation-stage-index');
+    const tracesInput = document.getElementById('liberation-traces-input');
+    if (!selector || !tracesInput || selector.value !== '') return;
+
+    const legacyTotal = Math.min(LIBERATION_TOTAL_TRACES, liberationReadNumber('liberation-traces-input'));
+    let cumulative = 0;
+    let stageIndex = liberationStages.length - 1;
+    for (let index = 0; index < liberationStages.length; index += 1) {
+        cumulative += liberationStages[index].traces;
+        if (legacyTotal < cumulative) {
+            stageIndex = index;
+            break;
+        }
+    }
+
+    const completedTraces = liberationGetStageCompletedTraces(stageIndex);
+    const stageProgress = Math.max(0, legacyTotal - completedTraces);
+    selector.value = String(stageIndex);
+    tracesInput.value = stageProgress > 0 ? String(stageProgress) : '';
+}
+
+function liberationSelectStage(stageIndex) {
+    const selector = document.getElementById('liberation-stage-index');
+    if (!selector || !liberationStages[stageIndex]) return;
+    selector.value = String(stageIndex);
+    selector.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function initLiberationCalculator() {
+    const stageList = document.getElementById('liberation-stage-list');
+    const bossList = document.getElementById('liberation-boss-list');
+    if (!stageList || !bossList) return;
+
+    let cumulative = 0;
+    stageList.innerHTML = liberationStages.map((stage, index) => {
+        cumulative += stage.traces;
+        const stageArt = stage.image
+            ? `<img src="${stage.image}" alt="${stage.phase} ${stage.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span hidden>${stage.roman}</span>`
+            : `<span>${stage.roman}</span>`;
+        const artClass = stage.image ? 'liberation-stage-art has-image' : 'liberation-stage-art';
+        return `<button type="button" class="liberation-stage-card" data-stage-index="${index}" aria-pressed="false" onclick="liberationSelectStage(${index})" title="選擇${stage.phase}｜${stage.name}｜需求 ${liberationFormatNumber(stage.traces)} 痕跡"><div class="${artClass}">${stageArt}</div><div class="liberation-stage-copy"><span class="liberation-stage-number">${stage.phase}</span><strong>${stage.name}</strong><small>${liberationFormatNumber(stage.traces)} 痕跡</small><span class="liberation-stage-cumulative">累積 ${liberationFormatNumber(cumulative)}</span></div></button>`;
+    }).join('');
+
+    bossList.innerHTML = liberationBosses.map(boss => {
+        const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 痕跡</option>`).join('');
+        const difficultyControl = boss.monthly
+            ? `<label class="liberation-boss-enabled"><input id="liberation-${boss.id}-enabled" type="checkbox" checked><span><span class="liberation-label-full">困難 · 300 痕跡</span><span class="liberation-label-short">困難 300</span></span></label>`
+            : `<select id="liberation-${boss.id}-difficulty"><option value="">未設定</option>${options}</select>`;
+        return `<article class="liberation-boss-card" data-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="liberation-boss-reward">0</b> 痕跡</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="liberationAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="liberation-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="liberationAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
+    }).join('');
+
+    const dateInput = document.getElementById('liberation-reference-date');
+    if (dateInput && !dateInput.value) dateInput.value = liberationTodayValue();
+    document.getElementById('genesis-panel-liberation').querySelectorAll('input, select').forEach(control => {
+        control.addEventListener('input', liberationUpdateUI);
+        control.addEventListener('change', liberationUpdateUI);
+    });
+    liberationUpdateUI();
+    initGenesisAlchemyCalculator();
+    initGenesisStoneCalculator();
+}
+
+function switchGenesisPanel(panelName, button) {
+    const calculator = document.getElementById('tab-liberation');
+    if (!calculator) return;
+
+    calculator.querySelectorAll('.genesis-subtab').forEach(tab => {
+        const isActive = tab === button;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', String(isActive));
+    });
+
+    calculator.querySelectorAll('.genesis-panel').forEach(panel => {
+        const isActive = panel.id === `genesis-panel-${panelName}`;
+        panel.classList.toggle('is-active', isActive);
+        panel.setAttribute('aria-hidden', String(!isActive));
+    });
+
+    if (panelName === 'alchemy') genesisAlchemyUpdateUI();
+    if (panelName === 'stone') genesisStoneUpdateUI();
+}
+
+function liberationParseDate(value) {
+    const parsed = value ? new Date(`${value}T00:00:00`) : new Date(`${liberationTodayValue()}T00:00:00`);
+    return Number.isNaN(parsed.getTime()) ? new Date(`${liberationTodayValue()}T00:00:00`) : parsed;
+}
+
+function liberationAddDays(date, days) {
+    const next = new Date(date);
+    next.setDate(next.getDate() + days);
+    return next;
+}
+
+function liberationNextThursday(date) {
+    const next = new Date(date);
+    next.setDate(next.getDate() + ((4 - next.getDay() + 7) % 7 || 7));
+    return next;
+}
+
+function liberationNextMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+}
+
+function liberationFormatDate(date) {
+    return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function liberationForecast(currentTraces, weeklyReward, monthlyReward, customTicketTraces, referenceDate, weeklyCleared, monthlyCleared) {
+    if (currentTraces >= LIBERATION_TOTAL_TRACES) return { completed: true, date: referenceDate, days: 0 };
+    if (weeklyReward <= 0 && monthlyReward <= 0 && customTicketTraces <= 0) return null;
+
+    let traces = currentTraces + (weeklyCleared ? 0 : weeklyReward) + (monthlyCleared ? 0 : monthlyReward) + customTicketTraces;
+    if (traces >= LIBERATION_TOTAL_TRACES) return { completed: false, date: referenceDate, days: 0 };
+
+    let weeklyDate = liberationNextThursday(referenceDate);
+    let monthlyDate = liberationNextMonth(referenceDate);
+    for (let safety = 0; safety < 1000; safety += 1) {
+        const eventDate = weeklyDate <= monthlyDate ? weeklyDate : monthlyDate;
+        if (weeklyDate.getTime() === eventDate.getTime()) {
+            traces += weeklyReward;
+            weeklyDate = liberationAddDays(weeklyDate, 7);
+        }
+        if (monthlyDate.getTime() === eventDate.getTime()) {
+            traces += monthlyReward;
+            monthlyDate = liberationNextMonth(monthlyDate);
+        }
+        if (traces >= LIBERATION_TOTAL_TRACES) {
+            return { completed: false, date: eventDate, days: Math.max(0, Math.round((eventDate - referenceDate) / 86400000)) };
+        }
+    }
+    return null;
+}
+
+function liberationUpdateUI() {
+    const tab = document.getElementById('tab-liberation');
+    if (!tab) return;
+    const selectedStageIndex = liberationGetSelectedStageIndex();
+    const selectedStage = liberationStages[selectedStageIndex];
+    const currentStageTraces = Math.min(selectedStage.traces, liberationReadNumber('liberation-traces-input'));
+    const completedStageTraces = liberationGetStageCompletedTraces(selectedStageIndex);
+    const traces = Math.min(LIBERATION_TOTAL_TRACES, completedStageTraces + currentStageTraces);
+    const referenceDate = liberationParseDate(document.getElementById('liberation-reference-date')?.value);
+    const weeklyCleared = Boolean(document.getElementById('liberation-weekly-cleared')?.checked);
+    const monthlyCleared = Boolean(document.getElementById('liberation-monthly-cleared')?.checked);
+
+    let weeklyReward = 0;
+    let monthlyReward = 0;
+    let customTicketTraces = 0;
+    liberationBosses.forEach(boss => {
+        const reward = liberationGetBossReward(boss);
+        if (boss.monthly) monthlyReward += reward.baseTraces;
+        else weeklyReward += reward.baseTraces;
+        customTicketTraces += reward.customTicketTraces;
+        const rewardElement = tab.querySelector(`[data-boss-id="${boss.id}"] .liberation-boss-reward`);
+        if (rewardElement) rewardElement.textContent = liberationFormatNumber(reward.baseTraces + reward.customTicketTraces);
+    });
+
+    const percentage = Math.round((traces / LIBERATION_TOTAL_TRACES) * 100);
+    const ring = document.getElementById('liberation-progress-ring');
+    if (ring) ring.style.setProperty('--liberation-progress', `${percentage * 3.6}deg`);
+    const hero = tab.querySelector('.liberation-hero');
+    if (hero) hero.style.setProperty('--liberation-progress-width', `${percentage}%`);
+    const percentElement = document.getElementById('liberation-progress-percent');
+    if (percentElement) percentElement.textContent = `${percentage}%`;
+    const progressLabel = document.getElementById('liberation-progress-label');
+    if (progressLabel) progressLabel.textContent = `${percentage}%`;
+    const currentTracesElement = document.getElementById('liberation-current-traces');
+    if (currentTracesElement) currentTracesElement.innerHTML = `${liberationFormatNumber(currentStageTraces)} <small>/ ${liberationFormatNumber(selectedStage.traces)}</small>`;
+    const remaining = Math.max(0, LIBERATION_TOTAL_TRACES - traces);
+    const remainingElement = document.getElementById('liberation-remaining-traces');
+    if (remainingElement) remainingElement.textContent = liberationFormatNumber(remaining);
+
+    liberationStages.forEach((stage, index) => {
+        const card = tab.querySelector(`[data-stage-index="${index}"]`);
+        if (card) {
+            const isSelected = index === selectedStageIndex;
+            const isComplete = index < selectedStageIndex || (isSelected && currentStageTraces >= stage.traces);
+            card.classList.toggle('is-complete', isComplete);
+            card.classList.toggle('is-current', isSelected);
+            card.setAttribute('aria-pressed', String(isSelected));
+        }
+    });
+    const stageElement = document.getElementById('liberation-current-stage');
+    if (stageElement) stageElement.textContent = traces >= LIBERATION_TOTAL_TRACES ? '已完成解放' : `${selectedStage.phase} · ${selectedStage.name}`;
+
+    const visualStage = selectedStage;
+    const visualImage = document.getElementById('liberation-current-stage-image');
+    const visualPlaceholder = document.getElementById('liberation-current-stage-placeholder');
+    if (visualImage && visualPlaceholder && visualStage) {
+        const visualContainer = document.getElementById('liberation-progress-ring');
+        if (visualContainer) visualContainer.classList.toggle('has-image', Boolean(visualStage.image));
+        visualPlaceholder.textContent = visualStage.roman;
+        if (!visualStage.image) {
+            visualImage.hidden = true;
+            visualImage.removeAttribute('src');
+            visualPlaceholder.hidden = false;
+        } else if (visualImage.dataset.stageImage !== visualStage.image) {
+            visualImage.dataset.stageImage = visualStage.image;
+            visualImage.hidden = false;
+            visualImage.alt = `${visualStage.phase} ${visualStage.name}`;
+            visualPlaceholder.hidden = true;
+            visualImage.src = visualStage.image;
+        } else if (visualImage.hidden) {
+            visualPlaceholder.hidden = false;
+        }
+    }
+
+    const forecast = liberationForecast(traces, weeklyReward, monthlyReward, customTicketTraces, referenceDate, weeklyCleared, monthlyCleared);
+    const forecastDate = document.getElementById('liberation-forecast-date');
+    const remainingDays = document.getElementById('liberation-remaining-days');
+    if (!forecast) {
+        if (forecastDate) forecastDate.textContent = '請設定可完成王';
+        if (remainingDays) remainingDays.textContent = '—';
+    } else if (forecast.completed) {
+        if (forecastDate) forecastDate.textContent = '已完成解放';
+        if (remainingDays) remainingDays.textContent = '0';
+    } else {
+        if (forecastDate) forecastDate.textContent = liberationFormatDate(forecast.date);
+        if (remainingDays) remainingDays.textContent = liberationFormatNumber(forecast.days);
+    }
+}
+
+function liberationReset() {
+    const panel = document.getElementById('genesis-panel-liberation');
+    if (!panel) return;
+    panel.querySelectorAll('input, select').forEach(control => {
+        if (control.type === 'checkbox') control.checked = false;
+        else if (control.type === 'date') control.value = liberationTodayValue();
+        else if (control.id === 'liberation-stage-index') control.value = '0';
+        else if (control.tagName === 'SELECT') control.value = '';
+        else control.value = '';
+    });
+    liberationBosses.forEach(boss => {
+        if (boss.monthly) {
+            const enabled = document.getElementById(`liberation-${boss.id}-enabled`);
+            if (enabled) enabled.checked = true;
+        } else {
+            const difficulty = document.getElementById(`liberation-${boss.id}-difficulty`);
+            if (difficulty) difficulty.value = boss.options[0]?.value || '';
+        }
+    });
+    liberationUpdateUI();
+}
+
+/* ========================================== */
+/* 創世鍊成計算機                              */
+/* ========================================== */
+const GENESIS_ALCHEMY_MAX_LEVEL = 20;
+const GENESIS_ALCHEMY_AFTERIMAGE_PER_LEVEL = 1000;
+const GENESIS_ALCHEMY_MESO_PER_LEVEL = 500000000;
+const GENESIS_ALCHEMY_DEFAULTS_VERSION_KEY = 'gmsm-genesis-alchemy-defaults-v2';
+
+function genesisAlchemyAttack(level) {
+    const normalizedLevel = Math.max(0, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(level) || 0));
+    return normalizedLevel === 0 ? 0 : 1000 + ((normalizedLevel - 1) * 300);
+}
+
+function genesisAlchemyGetBossSelection(boss) {
+    if (boss.monthly) {
+        return document.getElementById(`genesis-alchemy-${boss.id}-enabled`)?.checked ? boss.options[0] : null;
+    }
+    const value = document.getElementById(`genesis-alchemy-${boss.id}-difficulty`)?.value;
+    return boss.options.find(option => option.value === value) || null;
+}
+
+function genesisAlchemyGetBossReward(boss) {
+    const option = genesisAlchemyGetBossSelection(boss);
+    const tickets = liberationReadNumber(`genesis-alchemy-${boss.id}-tickets`);
+    return {
+        base: option ? option.traces : 0,
+        tickets: option ? option.traces * tickets : 0
+    };
+}
+
+function genesisAlchemyNormalizeTicketInputs() {
+    liberationBosses.forEach(boss => {
+        const input = document.getElementById(`genesis-alchemy-${boss.id}-tickets`);
+        if (input && liberationReadNumber(input.id) === 0) input.value = '';
+    });
+}
+
+function genesisAlchemyNormalizeState() {
+    const current = document.getElementById('genesis-alchemy-current-level');
+    const target = document.getElementById('genesis-alchemy-target-level');
+    const validCurrent = Number(current?.value) >= 0 && Number(current?.value) <= GENESIS_ALCHEMY_MAX_LEVEL;
+    const validTarget = Number(target?.value) >= 1 && Number(target?.value) <= GENESIS_ALCHEMY_MAX_LEVEL;
+    let applyFreshDefaults = false;
+
+    try {
+        applyFreshDefaults = localStorage.getItem(GENESIS_ALCHEMY_DEFAULTS_VERSION_KEY) !== '1';
+    } catch (error) {
+        console.warn('無法讀取創世鍊成預設設定：', error);
+    }
+
+    if (current && (!validCurrent || current.value === '')) current.value = '0';
+    if (target && (!validTarget || applyFreshDefaults)) target.value = String(GENESIS_ALCHEMY_MAX_LEVEL);
+
+    liberationBosses.forEach(boss => {
+        const enabled = document.getElementById(`genesis-alchemy-${boss.id}-enabled`);
+        const difficulty = document.getElementById(`genesis-alchemy-${boss.id}-difficulty`);
+        if (enabled && applyFreshDefaults) enabled.checked = true;
+        if (difficulty && (applyFreshDefaults || !boss.options.some(option => option.value === difficulty.value))) {
+            difficulty.value = boss.options[0]?.value || '';
+        }
+    });
+
+    if (applyFreshDefaults) {
+        try {
+            localStorage.setItem(GENESIS_ALCHEMY_DEFAULTS_VERSION_KEY, '1');
+        } catch (error) {
+            console.warn('無法儲存創世鍊成預設設定：', error);
+        }
+    }
+}
+
+function genesisAlchemyAdjustTickets(bossId, amount) {
+    const input = document.getElementById(`genesis-alchemy-${bossId}-tickets`);
+    if (!input) return;
+    const next = Math.max(0, liberationReadNumber(input.id) + amount);
+    input.value = next > 0 ? String(next) : '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function genesisAlchemySelectTarget(level) {
+    const target = document.getElementById('genesis-alchemy-target-level');
+    if (!target) return;
+    target.value = String(level);
+    target.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function genesisAlchemyForecast(remaining, weeklyReward, monthlyReward, ticketReward, referenceDate, weeklyCleared, monthlyCleared) {
+    if (remaining <= 0) return { completed: true, date: referenceDate, days: 0 };
+    if (weeklyReward <= 0 && monthlyReward <= 0 && ticketReward <= 0) return null;
+
+    let collected = ticketReward + (weeklyCleared ? 0 : weeklyReward) + (monthlyCleared ? 0 : monthlyReward);
+    if (collected >= remaining) return { completed: false, date: referenceDate, days: 0 };
+
+    let weeklyDate = liberationNextThursday(referenceDate);
+    let monthlyDate = liberationNextMonth(referenceDate);
+    for (let safety = 0; safety < 1000; safety += 1) {
+        const eventDate = weeklyDate <= monthlyDate ? weeklyDate : monthlyDate;
+        if (weeklyDate.getTime() === eventDate.getTime()) {
+            collected += weeklyReward;
+            weeklyDate = liberationAddDays(weeklyDate, 7);
+        }
+        if (monthlyDate.getTime() === eventDate.getTime()) {
+            collected += monthlyReward;
+            monthlyDate = liberationNextMonth(monthlyDate);
+        }
+        if (collected >= remaining) {
+            return {
+                completed: false,
+                date: eventDate,
+                days: Math.max(0, Math.round((eventDate - referenceDate) / 86400000))
+            };
+        }
+    }
+    return null;
+}
+
+function initGenesisAlchemyCalculator() {
+    const panel = document.getElementById('genesis-panel-alchemy');
+    const currentSelect = document.getElementById('genesis-alchemy-current-level');
+    const targetSelect = document.getElementById('genesis-alchemy-target-level');
+    const levelGrid = document.getElementById('genesis-alchemy-level-grid');
+    const bossList = document.getElementById('genesis-alchemy-boss-list');
+    const tableRows = document.getElementById('genesis-alchemy-table-rows');
+    if (!panel || !currentSelect || !targetSelect || !levelGrid || !bossList || !tableRows || panel.dataset.initialized === 'true') return;
+
+    currentSelect.innerHTML = '<option value="0">尚未鍊成</option>' + Array.from(
+        { length: GENESIS_ALCHEMY_MAX_LEVEL },
+        (_, index) => `<option value="${index + 1}">Lv.${index + 1}</option>`
+    ).join('');
+    targetSelect.innerHTML = Array.from(
+        { length: GENESIS_ALCHEMY_MAX_LEVEL },
+        (_, index) => `<option value="${index + 1}"${index === GENESIS_ALCHEMY_MAX_LEVEL - 1 ? ' selected' : ''}>Lv.${index + 1}</option>`
+    ).join('');
+
+    levelGrid.innerHTML = Array.from({ length: GENESIS_ALCHEMY_MAX_LEVEL }, (_, index) => {
+        const level = index + 1;
+        const material = level === 1 ? '鍊成石 ×1' : '殘像 1,000';
+        const materialImage = level === 1
+            ? 'assets/liberation/material/創世鍊成石.png'
+            : 'assets/liberation/material/黑暗的殘像.png';
+        return `<button type="button" class="genesis-alchemy-level" data-alchemy-level="${level}" onclick="genesisAlchemySelectTarget(${level})"><span>Lv.${level}</span><strong>${liberationFormatNumber(genesisAlchemyAttack(level))}</strong><small><img src="${materialImage}" alt="">${material}</small></button>`;
+    }).join('');
+
+    bossList.innerHTML = liberationBosses.map(boss => {
+        const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
+        const difficultyControl = boss.monthly
+            ? `<label class="liberation-boss-enabled"><input id="genesis-alchemy-${boss.id}-enabled" type="checkbox" checked><span><span class="liberation-label-full">困難 · 300 殘像</span><span class="liberation-label-short">困難 300</span></span></label>`
+            : `<select id="genesis-alchemy-${boss.id}-difficulty"><option value="">不計入</option>${options}</select>`;
+        return `<article class="liberation-boss-card" data-alchemy-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="genesis-alchemy-boss-reward">0</b> 殘像</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="genesisAlchemyAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="genesis-alchemy-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="genesisAlchemyAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
+    }).join('');
+
+    tableRows.innerHTML = Array.from({ length: GENESIS_ALCHEMY_MAX_LEVEL }, (_, index) => {
+        const level = index + 1;
+        const isFirstLevel = level === 1;
+        const materialImage = isFirstLevel
+            ? 'assets/liberation/material/創世鍊成石.png'
+            : 'assets/liberation/material/黑暗的殘像.png';
+        const materialText = isFirstLevel ? '創世鍊成石 ×1' : '黑暗的殘像 ×1,000';
+        const increase = isFirstLevel ? 1000 : 300;
+        return `<button type="button" class="genesis-alchemy-table-row" data-alchemy-level="${level}" onclick="genesisAlchemySelectTarget(${level})" aria-label="鍊成 Lv.${level}，${materialText}，楓幣 500,000,000，累積攻擊力 ${liberationFormatNumber(genesisAlchemyAttack(level))}"><span class="genesis-alchemy-table-level"><small>鍊成階段</small><b>Lv.${level}</b></span><span class="genesis-alchemy-table-material"><small>需求材料</small><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-meso"><small>楓幣</small><b>500,000,000</b></span><span class="genesis-alchemy-table-attack"><small>累積攻擊力</small><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-increase"><small>本階增加</small><b>+${liberationFormatNumber(increase)}</b></span></button>`;
+    }).join('');
+
+    const dateInput = document.getElementById('genesis-alchemy-reference-date');
+    if (dateInput && !dateInput.value) dateInput.value = liberationTodayValue();
+    panel.querySelectorAll('input, select').forEach(control => {
+        control.addEventListener('input', genesisAlchemyUpdateUI);
+        control.addEventListener('change', genesisAlchemyUpdateUI);
+    });
+    panel.dataset.initialized = 'true';
+    genesisAlchemyUpdateUI();
+}
+
+function genesisAlchemyUpdateUI() {
+    const panel = document.getElementById('genesis-panel-alchemy');
+    if (!panel || panel.dataset.initialized !== 'true') return;
+
+    const currentSelect = document.getElementById('genesis-alchemy-current-level');
+    const targetSelect = document.getElementById('genesis-alchemy-target-level');
+    const currentLevel = Math.max(0, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(currentSelect?.value) || 0));
+    let targetLevel = Math.max(1, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(targetSelect?.value) || GENESIS_ALCHEMY_MAX_LEVEL));
+    if (targetLevel < currentLevel) {
+        targetLevel = currentLevel;
+        if (targetSelect) targetSelect.value = String(targetLevel);
+    }
+
+    const heldAfterimages = liberationReadNumber('genesis-alchemy-current-afterimages');
+    const afterimageUpgrades = Math.max(0, targetLevel - Math.max(1, currentLevel));
+    const requiredAfterimages = afterimageUpgrades * GENESIS_ALCHEMY_AFTERIMAGE_PER_LEVEL;
+    const remainingAfterimages = Math.max(0, requiredAfterimages - heldAfterimages);
+    const upgradeCount = Math.max(0, targetLevel - currentLevel);
+    const neededMesos = upgradeCount * GENESIS_ALCHEMY_MESO_PER_LEVEL;
+    const neededStones = currentLevel === 0 && targetLevel >= 1 ? 1 : 0;
+
+    let weeklyReward = 0;
+    let monthlyReward = 0;
+    let ticketReward = 0;
+    liberationBosses.forEach(boss => {
+        const reward = genesisAlchemyGetBossReward(boss);
+        if (boss.monthly) monthlyReward += reward.base;
+        else weeklyReward += reward.base;
+        ticketReward += reward.tickets;
+        const rewardElement = panel.querySelector(`[data-alchemy-boss-id="${boss.id}"] .genesis-alchemy-boss-reward`);
+        if (rewardElement) rewardElement.textContent = liberationFormatNumber(reward.base + reward.tickets);
+    });
+
+    const referenceDate = liberationParseDate(document.getElementById('genesis-alchemy-reference-date')?.value);
+    const weeklyCleared = Boolean(document.getElementById('genesis-alchemy-weekly-cleared')?.checked);
+    const monthlyCleared = Boolean(document.getElementById('genesis-alchemy-monthly-cleared')?.checked);
+    const forecast = genesisAlchemyForecast(remainingAfterimages, weeklyReward, monthlyReward, ticketReward, referenceDate, weeklyCleared, monthlyCleared);
+
+    const forecastDate = document.getElementById('genesis-alchemy-forecast-date');
+    const remainingDays = document.getElementById('genesis-alchemy-remaining-days');
+    if (!forecast) {
+        if (forecastDate) forecastDate.textContent = '請設定可完成王';
+        if (remainingDays) remainingDays.textContent = '—';
+    } else if (forecast.completed) {
+        if (forecastDate) forecastDate.textContent = '材料已足夠';
+        if (remainingDays) remainingDays.textContent = '0';
+    } else {
+        if (forecastDate) forecastDate.textContent = liberationFormatDate(forecast.date);
+        if (remainingDays) remainingDays.textContent = liberationFormatNumber(forecast.days);
+    }
+
+    const neededAfterimages = document.getElementById('genesis-alchemy-needed-afterimages');
+    const mesos = document.getElementById('genesis-alchemy-needed-mesos');
+    const stones = document.getElementById('genesis-alchemy-needed-stones');
+    const currentAttack = document.getElementById('genesis-alchemy-current-attack');
+    const attackGain = document.getElementById('genesis-alchemy-attack-gain');
+    if (neededAfterimages) neededAfterimages.textContent = liberationFormatNumber(remainingAfterimages);
+    if (mesos) mesos.textContent = liberationFormatNumber(neededMesos);
+    if (stones) stones.textContent = liberationFormatNumber(neededStones);
+    if (currentAttack) currentAttack.textContent = liberationFormatNumber(genesisAlchemyAttack(currentLevel));
+    if (attackGain) attackGain.textContent = `預計再增加 ${liberationFormatNumber(genesisAlchemyAttack(targetLevel) - genesisAlchemyAttack(currentLevel))}`;
+
+    panel.querySelectorAll('[data-alchemy-level]').forEach(button => {
+        const level = Number(button.dataset.alchemyLevel);
+        button.classList.toggle('is-complete', level <= currentLevel);
+        button.classList.toggle('is-planned', level > currentLevel && level < targetLevel);
+        button.classList.toggle('is-target', level === targetLevel);
+    });
+}
+
+function genesisAlchemyReset() {
+    const panel = document.getElementById('genesis-panel-alchemy');
+    if (!panel) return;
+    const current = document.getElementById('genesis-alchemy-current-level');
+    const target = document.getElementById('genesis-alchemy-target-level');
+    const held = document.getElementById('genesis-alchemy-current-afterimages');
+    const date = document.getElementById('genesis-alchemy-reference-date');
+    if (current) current.value = '0';
+    if (target) target.value = String(GENESIS_ALCHEMY_MAX_LEVEL);
+    if (held) held.value = '';
+    if (date) date.value = liberationTodayValue();
+    const weeklyCleared = document.getElementById('genesis-alchemy-weekly-cleared');
+    const monthlyCleared = document.getElementById('genesis-alchemy-monthly-cleared');
+    if (weeklyCleared) weeklyCleared.checked = false;
+    if (monthlyCleared) monthlyCleared.checked = false;
+    liberationBosses.forEach(boss => {
+        const enabled = document.getElementById(`genesis-alchemy-${boss.id}-enabled`);
+        const difficulty = document.getElementById(`genesis-alchemy-${boss.id}-difficulty`);
+        const tickets = document.getElementById(`genesis-alchemy-${boss.id}-tickets`);
+        if (enabled) enabled.checked = true;
+        if (difficulty) difficulty.value = boss.options[0]?.value || '';
+        if (tickets) tickets.value = '';
+    });
+    genesisAlchemyUpdateUI();
+}
+
+/* ========================================== */
+/* 創世鍊成石兌換                              */
+/* ========================================== */
+const GENESIS_STONE_EXCHANGE_COST = 20000;
+
+function genesisStoneGetBossSelection(boss) {
+    if (boss.monthly) {
+        return document.getElementById(`genesis-stone-${boss.id}-enabled`)?.checked ? boss.options[0] : null;
+    }
+    const value = document.getElementById(`genesis-stone-${boss.id}-difficulty`)?.value;
+    return boss.options.find(option => option.value === value) || null;
+}
+
+function genesisStoneGetBossReward(boss) {
+    const option = genesisStoneGetBossSelection(boss);
+    const tickets = liberationReadNumber(`genesis-stone-${boss.id}-tickets`);
+    return {
+        base: option ? option.traces : 0,
+        tickets: option ? option.traces * tickets : 0
+    };
+}
+
+function genesisStoneNormalizeTicketInputs() {
+    liberationBosses.forEach(boss => {
+        const input = document.getElementById(`genesis-stone-${boss.id}-tickets`);
+        if (input && liberationReadNumber(input.id) === 0) input.value = '';
+    });
+}
+
+function genesisStoneAdjustTickets(bossId, amount) {
+    const input = document.getElementById(`genesis-stone-${bossId}-tickets`);
+    if (!input) return;
+    const next = Math.max(0, liberationReadNumber(input.id) + amount);
+    input.value = next > 0 ? String(next) : '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function initGenesisStoneCalculator() {
+    const panel = document.getElementById('genesis-panel-stone');
+    const input = document.getElementById('genesis-stone-held-afterimages');
+    const bossList = document.getElementById('genesis-stone-boss-list');
+    if (!panel || !input || !bossList || panel.dataset.initialized === 'true') return;
+
+    bossList.innerHTML = liberationBosses.map(boss => {
+        const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
+        const difficultyControl = boss.monthly
+            ? `<label class="liberation-boss-enabled"><input id="genesis-stone-${boss.id}-enabled" type="checkbox" checked><span><span class="liberation-label-full">困難 · 300 殘像</span><span class="liberation-label-short">困難 300</span></span></label>`
+            : `<select id="genesis-stone-${boss.id}-difficulty"><option value="">不計入</option>${options}</select>`;
+        return `<article class="liberation-boss-card" data-stone-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="genesis-stone-boss-reward">0</b> 殘像</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="genesisStoneAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="genesis-stone-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="genesisStoneAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
+    }).join('');
+
+    const dateInput = document.getElementById('genesis-stone-reference-date');
+    if (dateInput && !dateInput.value) dateInput.value = liberationTodayValue();
+
+    panel.querySelectorAll('input, select').forEach(control => {
+        control.addEventListener('input', genesisStoneUpdateUI);
+        control.addEventListener('change', genesisStoneUpdateUI);
+    });
+    panel.dataset.initialized = 'true';
+    genesisStoneUpdateUI();
+}
+
+function genesisStoneUpdateUI() {
+    const panel = document.getElementById('genesis-panel-stone');
+    if (!panel || panel.dataset.initialized !== 'true') return;
+
+    const held = Math.max(0, liberationReadNumber('genesis-stone-held-afterimages'));
+    const redeemable = Math.floor(held / GENESIS_STONE_EXCHANGE_COST);
+    const remainder = held % GENESIS_STONE_EXCHANGE_COST;
+    const needed = GENESIS_STONE_EXCHANGE_COST - remainder;
+    const percentage = Math.floor((remainder / GENESIS_STONE_EXCHANGE_COST) * 100);
+
+    let weeklyReward = 0;
+    let monthlyReward = 0;
+    let ticketReward = 0;
+    liberationBosses.forEach(boss => {
+        const reward = genesisStoneGetBossReward(boss);
+        if (boss.monthly) monthlyReward += reward.base;
+        else weeklyReward += reward.base;
+        ticketReward += reward.tickets;
+        const rewardElement = panel.querySelector(`[data-stone-boss-id="${boss.id}"] .genesis-stone-boss-reward`);
+        if (rewardElement) rewardElement.textContent = liberationFormatNumber(reward.base + reward.tickets);
+    });
+
+    const referenceDate = liberationParseDate(document.getElementById('genesis-stone-reference-date')?.value);
+    const weeklyCleared = Boolean(document.getElementById('genesis-stone-weekly-cleared')?.checked);
+    const monthlyCleared = Boolean(document.getElementById('genesis-stone-monthly-cleared')?.checked);
+    const forecast = genesisAlchemyForecast(needed, weeklyReward, monthlyReward, ticketReward, referenceDate, weeklyCleared, monthlyCleared);
+
+    const redeemableElement = document.getElementById('genesis-stone-redeemable');
+    const progressCurrent = document.getElementById('genesis-stone-progress-current');
+    const progressBar = document.getElementById('genesis-stone-progress-bar');
+    const progressPercent = document.getElementById('genesis-stone-progress-percent');
+    const remainderElement = document.getElementById('genesis-stone-remainder');
+    const neededElement = document.getElementById('genesis-stone-needed');
+    const forecastDate = document.getElementById('genesis-stone-forecast-date');
+    const remainingDays = document.getElementById('genesis-stone-remaining-days');
+
+    if (redeemableElement) redeemableElement.textContent = liberationFormatNumber(redeemable);
+    if (progressCurrent) progressCurrent.textContent = liberationFormatNumber(remainder);
+    if (progressBar) progressBar.style.width = `${percentage}%`;
+    if (progressPercent) progressPercent.textContent = `${percentage}%`;
+    if (remainderElement) remainderElement.textContent = liberationFormatNumber(remainder);
+    if (neededElement) neededElement.textContent = liberationFormatNumber(needed);
+
+    if (!forecast) {
+        if (forecastDate) forecastDate.textContent = '請設定可完成王';
+        if (remainingDays) remainingDays.textContent = '—';
+    } else {
+        if (forecastDate) forecastDate.textContent = liberationFormatDate(forecast.date);
+        if (remainingDays) remainingDays.textContent = liberationFormatNumber(forecast.days);
+    }
+}
+
+function genesisStoneReset() {
+    const input = document.getElementById('genesis-stone-held-afterimages');
+    const date = document.getElementById('genesis-stone-reference-date');
+    if (input) input.value = '';
+    if (date) date.value = liberationTodayValue();
+    const weeklyCleared = document.getElementById('genesis-stone-weekly-cleared');
+    const monthlyCleared = document.getElementById('genesis-stone-monthly-cleared');
+    if (weeklyCleared) weeklyCleared.checked = false;
+    if (monthlyCleared) monthlyCleared.checked = false;
+    liberationBosses.forEach(boss => {
+        const enabled = document.getElementById(`genesis-stone-${boss.id}-enabled`);
+        const difficulty = document.getElementById(`genesis-stone-${boss.id}-difficulty`);
+        const tickets = document.getElementById(`genesis-stone-${boss.id}-tickets`);
+        if (enabled) enabled.checked = true;
+        if (difficulty) difficulty.value = boss.options[0]?.value || '';
+        if (tickets) tickets.value = '';
+    });
+    genesisStoneUpdateUI();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     updateNoticeUnreadBadge();
     updateMenuToolBadges();
@@ -3174,6 +3938,7 @@ const cr_equip_db = [
         label: "天之星光權杖",
         mythic: { name: "龍尾巴天之星光權杖", img: "assets/equipment/龍尾巴天之星光權杖.png", hasEmblem: true },
         ancient: { name: "龍尾巴天之星光權杖", img: "assets/equipment/龍尾巴天之星光權杖.webp", hasEmblem: true },
+        chaos: { name: "混沌天之星光權杖", img: "assets/equipment/混沌天之星光權杖.webp", hasEmblem: true },
         necro: { name: "死靈天之星光權杖", img: "assets/equipment/死靈天之星光權杖.webp", hasEmblem: true },
         absolab: { name: "航海師天之星光權杖", img: "assets/equipment/航海師天之星光權杖.webp", hasEmblem: true },
         arcane: { name: "神秘冥界幽靈天之星光權杖", img: "assets/equipment/神秘冥界幽靈天之星光權杖.webp", hasEmblem: true }
@@ -3277,6 +4042,18 @@ const CRAFT_DATA = {
         confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
         successFromText: "古代", successFromColor: "#1cd1ed", successToText: "混沌", successToColor: "#CC9ED8",
         failFromText: "古代", failFromColor: "#1cd1ed", failToText: "古代", failToColor: "#1cd1ed"
+    },
+    chaos_absolab: {
+        fromKey: 'chaos', toKey: 'absolab',
+        baseRate: 7, additionalRate: 0,
+        fromLevel: 40, fromStar: "30", resultStar: "29",
+        fromText: "混沌", toText: "航海師", fromColor: "#CC9ED8", toColor: "#CC9ED8",
+        desc: "以<span class='txt-sharp' style='color:#CC9ED8;'>在混沌裝備</span>製作<span class='txt-sharp' style='color:#CC9ED8;'>航海師裝備</span>。",
+        meso: "1,204", crystalName: "混沌武器結晶", crystalImg: "assets/craft/Item_混沌武器結晶.png", crystalReq: 1,
+        scrollName: "幸運的混沌製作卷軸(武器)", scrollImg: "assets/common/Item_卷軸空格.png", scrollReq: 2,
+        confirmHighlight: "航海師", confirmHighlightColor: "#ed7245", confirmTier: "混沌級", confirmTierColor: "#D02E9D",
+        successFromText: "混沌", successFromColor: "#CC9ED8", successToText: "混沌", successToColor: "#CC9ED8",
+        failFromText: "混沌", failFromColor: "#CC9ED8", failToText: "混沌", failToColor: "#CC9ED8"
     },
     arcane: {
         fromKey: 'absolab', toKey: 'arcane',
@@ -3524,9 +4301,10 @@ function cr_updateUI() {
     if (equipNameElem) equipNameElem.innerHTML = fromEquip.name;
     
     // 🌟 動態更新主畫面的遮罩標籤：起始畫面固定為星星 M、對應初始等級
-    let startLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+    let startLv = data.fromLevel ?? ((cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60));
+    let startStar = data.fromStar ?? "M";
     if (uiLvBadge) { uiLvBadge.style.display = 'block'; uiLvBadge.innerHTML = `<span>Lv.${startLv}</span>`; }
-    if (uiStarBadge) { uiStarBadge.style.display = 'flex'; uiStarBadge.innerHTML = `<span>M</span>`; }
+    if (uiStarBadge) { uiStarBadge.style.display = 'flex'; uiStarBadge.innerHTML = `<span>${startStar}</span>`; }
 
     let crystalImgElem = document.getElementById('cr-crystal-img');
     let crystalNameElem = document.getElementById('cr-crystal-name');
@@ -3659,6 +4437,7 @@ function cr_updateUI() {
     let statCrys = document.getElementById('cr-stat-crystals');
     let statScr = document.getElementById('cr-stat-scrolls');
     let statTotalUsed = document.getElementById('cr-stat-total-used');
+    let evFixedAtmpt = document.getElementById('cr-ev-fixed-attempts');
     let evAtmpt = document.getElementById('cr-ev-attempts');
 
     if (statSuccess) statSuccess.innerText = cr_successes;
@@ -3669,8 +4448,14 @@ function cr_updateUI() {
     if (statScr) statScr.innerText = cr_scrolls_used;
     if (statTotalUsed) statTotalUsed.innerText = cr_crystals_used;
 
+    const fixedExpectedAttempts = rateBreakdown.totalRate > 0
+        ? 100 / rateBreakdown.totalRate
+        : Infinity;
     const fixedRate = rateBreakdown.baseRate + rateBreakdown.alchemyRate + rateBreakdown.scrollRate;
     const expectedAttempts = cr_calculateExpectedAttempts(fixedRate, accumulatedFailures);
+    if (evFixedAtmpt) evFixedAtmpt.innerText = Number.isFinite(fixedExpectedAttempts)
+        ? fixedExpectedAttempts.toFixed(2)
+        : '∞';
     if (evAtmpt) evAtmpt.innerText = expectedAttempts.toFixed(2);
 }
 
@@ -3838,7 +4623,7 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
 
         // 🌟 成功後星星依照不同階段扣除
         if (mStarBadge) {
-            let newStar = "M";
+            let newStar = data.resultStar ?? "M";
             if (cr_stage === 'necro') newStar = "29";      // 神話 ➔ 古代/死靈 掉星為29
             else if (cr_stage === 'absolab') newStar = "29"; // 死靈 ➔ 航海師 掉星為29
             else if (cr_stage === 'arcane') newStar = "34";  // 航海師 ➔ 神秘 掉星為34
@@ -3870,14 +4655,14 @@ function cr_showResult(isSuccess, attempts_taken = 0) {
 
         // 🌟 失敗後等級維持原狀 (防呆判斷初始等級)
         if (mLvBadge) {
-            let failLv = (cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60);
+            let failLv = data.fromLevel ?? ((cr_stage === 'necro') ? 30 : (cr_stage === 'absolab' ? 40 : 60));
             mLvBadge.style.display = 'block'; mLvBadge.innerHTML = `<span>Lv.${failLv}</span>`;
         }
         
         // 🌟 失敗後星星維持原本的 M
         if (mStarBadge) { 
             mStarBadge.style.display = 'flex'; 
-            mStarBadge.innerHTML = `<span>M</span>`; 
+            mStarBadge.innerHTML = `<span>${data.fromStar ?? "M"}</span>`; 
         }
 
         if (failCont) {
