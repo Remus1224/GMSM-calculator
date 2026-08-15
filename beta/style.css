@@ -6463,6 +6463,40 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 .genesis-alchemy-table-row.is-target .genesis-alchemy-table-level b { color: #fff; background: linear-gradient(135deg, #6d75dc, #a65fd1); }
 
+/* 每個痕跡面板只保留一個總開關，避免每張 BOSS 卡片增加控制項。 */
+.liberation-section-heading:has(.liberation-custom-toggle) { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.liberation-custom-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    border: 1px solid rgba(117, 104, 228, 0.22);
+    border-radius: 999px;
+    color: #655bc4;
+    background: rgba(255,255,255,0.46);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.liberation-section-heading:has(.liberation-custom-toggle) > div { min-width: 0; }
+.liberation-section-heading:has(.liberation-custom-toggle) .liberation-custom-toggle {
+    margin: 0 0 0 auto;
+    align-self: flex-start;
+}
+.liberation-custom-toggle input { width: 16px; height: 16px; margin: 0; accent-color: #7568e4; }
+.liberation-boss-custom-traces { display: none; width: 100%; min-width: 0; min-height: 34px; padding: 0 9px; border: 1px solid rgba(119,105,199,0.22); border-radius: 9px; background: rgba(255,255,255,0.72); color: var(--text-main); font: inherit; font-size: 12px; font-weight: 700; }
+.liberation-boss-list.is-custom .liberation-boss-difficulty { display: none; }
+.liberation-boss-list.is-custom .liberation-boss-custom-traces { display: block; }
+[data-theme="dark"] .liberation-custom-toggle { border-color: rgba(139,132,226,0.3); color: #b8b1ff; background: rgba(8,14,32,0.42); }
+[data-theme="dark"] .liberation-boss-custom-traces { border-color: rgba(130,147,232,0.3); background: rgba(5,10,27,0.7); }
+
+@media (max-width: 700px) {
+    .liberation-section-heading:has(.liberation-custom-toggle) { align-items: flex-start; }
+    .liberation-custom-toggle { padding: 5px 8px; font-size: 11px; }
+    .liberation-boss-custom-traces { min-height: 32px; font-size: 11px; }
+}
+
 [data-theme="dark"] .genesis-alchemy-hero {
     border-color: rgba(139, 147, 226, 0.26);
     background:

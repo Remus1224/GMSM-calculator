@@ -123,6 +123,9 @@ const calculatorPersistenceConfig = {
         afterRestore: () => {
             liberationNormalizeStageSelection();
             liberationNormalizeTicketInputs();
+            liberationPrimeCustomModeState('liberation', 'liberation-custom-traces', 'liberation-boss-list');
+            liberationPrimeCustomModeState('genesis-alchemy', 'genesis-alchemy-custom-traces', 'genesis-alchemy-boss-list');
+            liberationPrimeCustomModeState('genesis-stone', 'genesis-stone-custom-traces', 'genesis-stone-boss-list');
             liberationUpdateUI();
             genesisAlchemyNormalizeState();
             genesisAlchemyNormalizeTicketInputs();
@@ -695,9 +698,40 @@ function liberationReadNumber(id) {
     return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 0;
 }
 
+function liberationCustomModeEnabled(toggleId) {
+    return Boolean(document.getElementById(toggleId)?.checked);
+}
+
+function liberationPrimeCustomModeState(prefix, toggleId, listId) {
+    const list = document.getElementById(listId);
+    if (list) list.dataset.customMode = String(liberationCustomModeEnabled(toggleId));
+}
+
+function liberationGetCustomBossOption(prefix, boss, toggleId) {
+    if (!liberationCustomModeEnabled(toggleId)) return null;
+    const input = document.getElementById(`${prefix}-${boss.id}-custom-traces`);
+    const raw = String(input?.value || '').trim();
+    if (!raw) return null;
+    return { value: 'custom', label: '自訂', traces: liberationReadNumber(input.id) };
+}
+
+function liberationSyncBossCustomMode(prefix, toggleId, listId) {
+    const enabled = liberationCustomModeEnabled(toggleId);
+    const list = document.getElementById(listId);
+    if (list) list.classList.toggle('is-custom', enabled);
+    const wasEnabled = list?.dataset.customMode === 'true';
+    if (enabled && !wasEnabled) {
+        liberationBosses.forEach(boss => {
+            const input = document.getElementById(`${prefix}-${boss.id}-custom-traces`);
+            if (input) input.value = '';
+        });
+    }
+    if (list) list.dataset.customMode = String(enabled);
+}
+
 function liberationGetBossSelection(boss) {
-    if (boss.monthly) {
-        return document.getElementById(`liberation-${boss.id}-enabled`)?.checked ? boss.options[0] : null;
+    if (liberationCustomModeEnabled('liberation-custom-traces')) {
+        return liberationGetCustomBossOption('liberation', boss, 'liberation-custom-traces');
     }
     const value = document.getElementById(`liberation-${boss.id}-difficulty`)?.value;
     return boss.options.find(option => option.value === value) || null;
@@ -790,9 +824,7 @@ function initLiberationCalculator() {
 
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 痕跡</option>`).join('');
-        const difficultyControl = boss.monthly
-            ? `<label class="liberation-boss-enabled"><input id="liberation-${boss.id}-enabled" type="checkbox" checked><span><span class="liberation-label-full">困難 · 300 痕跡</span><span class="liberation-label-short">困難 300</span></span></label>`
-            : `<select id="liberation-${boss.id}-difficulty"><option value="">未設定</option>${options}</select>`;
+        const difficultyControl = `<select class="liberation-boss-difficulty" id="liberation-${boss.id}-difficulty"><option value="">未設定</option>${options}</select><input class="liberation-boss-custom-traces" id="liberation-${boss.id}-custom-traces" type="text" inputmode="numeric" placeholder="自訂痕跡" autocomplete="off">`;
         return `<article class="liberation-boss-card" data-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="liberation-boss-reward">0</b> 痕跡</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="liberationAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="liberation-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="liberationAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
     }).join('');
 
@@ -881,6 +913,7 @@ function liberationForecast(currentTraces, weeklyReward, monthlyReward, customTi
 function liberationUpdateUI() {
     const tab = document.getElementById('tab-liberation');
     if (!tab) return;
+    liberationSyncBossCustomMode('liberation', 'liberation-custom-traces', 'liberation-boss-list');
     const selectedStageIndex = liberationGetSelectedStageIndex();
     const selectedStage = liberationStages[selectedStageIndex];
     const currentStageTraces = Math.min(selectedStage.traces, liberationReadNumber('liberation-traces-input'));
@@ -978,14 +1011,13 @@ function liberationReset() {
         else control.value = '';
     });
     liberationBosses.forEach(boss => {
-        if (boss.monthly) {
-            const enabled = document.getElementById(`liberation-${boss.id}-enabled`);
-            if (enabled) enabled.checked = true;
-        } else {
-            const difficulty = document.getElementById(`liberation-${boss.id}-difficulty`);
-            if (difficulty) difficulty.value = boss.options[0]?.value || '';
-        }
+        const difficulty = document.getElementById(`liberation-${boss.id}-difficulty`);
+        const custom = document.getElementById(`liberation-${boss.id}-custom-traces`);
+        if (difficulty) difficulty.value = boss.options[0]?.value || '';
+        if (custom) custom.value = '';
     });
+    const customToggle = document.getElementById('liberation-custom-traces');
+    if (customToggle) customToggle.checked = false;
     liberationUpdateUI();
 }
 
@@ -1003,8 +1035,8 @@ function genesisAlchemyAttack(level) {
 }
 
 function genesisAlchemyGetBossSelection(boss) {
-    if (boss.monthly) {
-        return document.getElementById(`genesis-alchemy-${boss.id}-enabled`)?.checked ? boss.options[0] : null;
+    if (liberationCustomModeEnabled('genesis-alchemy-custom-traces')) {
+        return liberationGetCustomBossOption('genesis-alchemy', boss, 'genesis-alchemy-custom-traces');
     }
     const value = document.getElementById(`genesis-alchemy-${boss.id}-difficulty`)?.value;
     return boss.options.find(option => option.value === value) || null;
@@ -1134,9 +1166,7 @@ function initGenesisAlchemyCalculator() {
 
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
-        const difficultyControl = boss.monthly
-            ? `<label class="liberation-boss-enabled"><input id="genesis-alchemy-${boss.id}-enabled" type="checkbox" checked><span><span class="liberation-label-full">困難 · 300 殘像</span><span class="liberation-label-short">困難 300</span></span></label>`
-            : `<select id="genesis-alchemy-${boss.id}-difficulty"><option value="">不計入</option>${options}</select>`;
+        const difficultyControl = `<select class="liberation-boss-difficulty" id="genesis-alchemy-${boss.id}-difficulty"><option value="">不計入</option>${options}</select><input class="liberation-boss-custom-traces" id="genesis-alchemy-${boss.id}-custom-traces" type="text" inputmode="numeric" placeholder="自訂殘像" autocomplete="off">`;
         return `<article class="liberation-boss-card" data-alchemy-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="genesis-alchemy-boss-reward">0</b> 殘像</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="genesisAlchemyAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="genesis-alchemy-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="genesisAlchemyAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
     }).join('');
 
@@ -1164,6 +1194,7 @@ function initGenesisAlchemyCalculator() {
 function genesisAlchemyUpdateUI() {
     const panel = document.getElementById('genesis-panel-alchemy');
     if (!panel || panel.dataset.initialized !== 'true') return;
+    liberationSyncBossCustomMode('genesis-alchemy', 'genesis-alchemy-custom-traces', 'genesis-alchemy-boss-list');
 
     const currentSelect = document.getElementById('genesis-alchemy-current-level');
     const targetSelect = document.getElementById('genesis-alchemy-target-level');
@@ -1247,13 +1278,15 @@ function genesisAlchemyReset() {
     if (weeklyCleared) weeklyCleared.checked = false;
     if (monthlyCleared) monthlyCleared.checked = false;
     liberationBosses.forEach(boss => {
-        const enabled = document.getElementById(`genesis-alchemy-${boss.id}-enabled`);
         const difficulty = document.getElementById(`genesis-alchemy-${boss.id}-difficulty`);
+        const custom = document.getElementById(`genesis-alchemy-${boss.id}-custom-traces`);
         const tickets = document.getElementById(`genesis-alchemy-${boss.id}-tickets`);
-        if (enabled) enabled.checked = true;
         if (difficulty) difficulty.value = boss.options[0]?.value || '';
+        if (custom) custom.value = '';
         if (tickets) tickets.value = '';
     });
+    const customToggle = document.getElementById('genesis-alchemy-custom-traces');
+    if (customToggle) customToggle.checked = false;
     genesisAlchemyUpdateUI();
 }
 
@@ -1263,8 +1296,8 @@ function genesisAlchemyReset() {
 const GENESIS_STONE_EXCHANGE_COST = 20000;
 
 function genesisStoneGetBossSelection(boss) {
-    if (boss.monthly) {
-        return document.getElementById(`genesis-stone-${boss.id}-enabled`)?.checked ? boss.options[0] : null;
+    if (liberationCustomModeEnabled('genesis-stone-custom-traces')) {
+        return liberationGetCustomBossOption('genesis-stone', boss, 'genesis-stone-custom-traces');
     }
     const value = document.getElementById(`genesis-stone-${boss.id}-difficulty`)?.value;
     return boss.options.find(option => option.value === value) || null;
@@ -1302,9 +1335,7 @@ function initGenesisStoneCalculator() {
 
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
-        const difficultyControl = boss.monthly
-            ? `<label class="liberation-boss-enabled"><input id="genesis-stone-${boss.id}-enabled" type="checkbox" checked><span><span class="liberation-label-full">困難 · 300 殘像</span><span class="liberation-label-short">困難 300</span></span></label>`
-            : `<select id="genesis-stone-${boss.id}-difficulty"><option value="">不計入</option>${options}</select>`;
+        const difficultyControl = `<select class="liberation-boss-difficulty" id="genesis-stone-${boss.id}-difficulty"><option value="">不計入</option>${options}</select><input class="liberation-boss-custom-traces" id="genesis-stone-${boss.id}-custom-traces" type="text" inputmode="numeric" placeholder="自訂殘像" autocomplete="off">`;
         return `<article class="liberation-boss-card" data-stone-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="genesis-stone-boss-reward">0</b> 殘像</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="genesisStoneAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="genesis-stone-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="genesisStoneAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
     }).join('');
 
@@ -1322,6 +1353,7 @@ function initGenesisStoneCalculator() {
 function genesisStoneUpdateUI() {
     const panel = document.getElementById('genesis-panel-stone');
     if (!panel || panel.dataset.initialized !== 'true') return;
+    liberationSyncBossCustomMode('genesis-stone', 'genesis-stone-custom-traces', 'genesis-stone-boss-list');
 
     const held = Math.max(0, liberationReadNumber('genesis-stone-held-afterimages'));
     const redeemable = Math.floor(held / GENESIS_STONE_EXCHANGE_COST);
@@ -1381,13 +1413,15 @@ function genesisStoneReset() {
     if (weeklyCleared) weeklyCleared.checked = false;
     if (monthlyCleared) monthlyCleared.checked = false;
     liberationBosses.forEach(boss => {
-        const enabled = document.getElementById(`genesis-stone-${boss.id}-enabled`);
         const difficulty = document.getElementById(`genesis-stone-${boss.id}-difficulty`);
+        const custom = document.getElementById(`genesis-stone-${boss.id}-custom-traces`);
         const tickets = document.getElementById(`genesis-stone-${boss.id}-tickets`);
-        if (enabled) enabled.checked = true;
         if (difficulty) difficulty.value = boss.options[0]?.value || '';
+        if (custom) custom.value = '';
         if (tickets) tickets.value = '';
     });
+    const customToggle = document.getElementById('genesis-stone-custom-traces');
+    if (customToggle) customToggle.checked = false;
     genesisStoneUpdateUI();
 }
 
