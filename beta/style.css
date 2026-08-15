@@ -6646,3 +6646,138 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
             </div>
             
         <div class="app-grid">
+
+/* ========================================== */
+/* iPhone / iOS Safari 穩定化修正（2026-08-16） */
+/* 只處理創世解放計算機相關欄位，不改桌機版配置。 */
+/* ========================================== */
+
+/* Safari 的 fieldset 具有特殊 intrinsic min-size；僅有 min-width:0 仍可能被 legend 撐開。 */
+#tab-liberation .genesis-unified-field-group,
+#tab-liberation .genesis-stone-status-group {
+    min-width: 0;
+    min-inline-size: 0;
+    max-width: 100%;
+    max-inline-size: 100%;
+}
+
+/* 防止 iOS Safari 將 legend 的可用 inline-size 壓到只剩一個中文字寬。 */
+#tab-liberation .genesis-unified-field-group > legend,
+#tab-liberation .genesis-stone-status-group > legend {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    inline-size: auto;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    white-space: nowrap;
+    writing-mode: horizontal-tb;
+}
+
+/* Grid/Flex 子項都允許縮小，避免 Safari 以內容最小寬度撐破欄位。 */
+#tab-liberation .genesis-stone-controls,
+#tab-liberation .genesis-stone-controls > *,
+#tab-liberation .genesis-unified-controls,
+#tab-liberation .genesis-unified-controls > *,
+#tab-liberation .genesis-unified-field-group > div,
+#tab-liberation .genesis-unified-field-group > div > *,
+#tab-liberation .genesis-stone-status-group > div,
+#tab-liberation .genesis-stone-status-group > div > * {
+    min-width: 0;
+    min-inline-size: 0;
+}
+
+/* iOS Safari 對 date input 有自己的 intrinsic width，統一限制在卡片內。 */
+#tab-liberation .genesis-stone-date-field input[type="date"],
+#tab-liberation .genesis-unified-field input[type="date"] {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value,
+#tab-liberation .genesis-unified-field input[type="date"]::-webkit-date-and-time-value {
+    min-width: 0;
+    min-inline-size: 0;
+    text-align: left;
+}
+
+/* 實機手機版：維持原本設計，只補 Safari 尺寸與換行保護。 */
+@media (max-width: 700px) {
+    #tab-liberation .genesis-stone-controls,
+    #tab-liberation .genesis-unified-controls,
+    #tab-liberation .genesis-unified-field-group,
+    #tab-liberation .genesis-stone-status-group,
+    #tab-liberation .genesis-stone-date-field,
+    #tab-liberation .genesis-stone-reset {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        min-inline-size: 0;
+        max-inline-size: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 明確鎖定 unified 區手機為單欄，避免 container query 與 Safari 計算結果互相干擾。 */
+    #tab-liberation .genesis-unified-controls {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #tab-liberation .genesis-unified-controls > .genesis-unified-field-group,
+    #tab-liberation .genesis-unified-controls > .genesis-stone-status-group,
+    #tab-liberation .genesis-unified-controls > .genesis-stone-reset {
+        grid-column: 1 / -1;
+    }
+
+    /* 狀態選項保持兩欄，但文字區本身不可把卡片撐寬。 */
+    #tab-liberation .genesis-stone-status-group > div {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #tab-liberation .genesis-stone-status-option {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    #tab-liberation .genesis-stone-status-option > span {
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    #tab-liberation .genesis-stone-status-option b,
+    #tab-liberation .genesis-stone-status-option small {
+        max-width: 100%;
+        white-space: nowrap;
+    }
+
+    /* 進度資料維持原本手機 2 欄配置；確保每欄真正在 Safari 中可縮。 */
+    #tab-liberation .genesis-unified-field-group--three > div,
+    #tab-liberation .genesis-unified-field-group--four > div {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #tab-liberation .genesis-unified-field,
+    #tab-liberation .genesis-unified-field input,
+    #tab-liberation .genesis-unified-field select {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        min-inline-size: 0;
+        max-inline-size: 100%;
+        box-sizing: border-box;
+    }
+}
