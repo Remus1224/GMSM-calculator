@@ -6536,12 +6536,12 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .genesis-alchemy-table-header { display: none; }
     .genesis-alchemy-table-rows { gap: 8px; }
     .genesis-alchemy-table-row {
-        min-height: 84px;
+        min-height: 92px;
         padding: 10px;
-        grid-template-columns: 68px minmax(0, 1.25fr) minmax(0, 0.8fr);
+        grid-template-columns: 68px minmax(0, 1.25fr) minmax(95px, 0.85fr);
         grid-template-areas:
-            "level material material"
-            "meso attack increase";
+            "level material meso"
+            "level attack increase";
         gap: 8px 7px;
         border-radius: 13px;
     }
@@ -6561,6 +6561,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     .genesis-alchemy-table-level b { min-width: 54px; min-height: 29px; }
     .genesis-alchemy-table-material > span { font-size: 11px; }
     .genesis-alchemy-table-material img { width: 22px; height: 22px; flex-basis: 22px; }
+    .genesis-alchemy-table-meso b { font-size: 10px; }
     .genesis-alchemy-table-row b { font-size: 11px; }
     [data-theme="dark"] .genesis-alchemy-table-row small { color: #aeb7ca; }
 }
