@@ -6781,3 +6781,101 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         box-sizing: border-box;
     }
 }
+
+/* ========================================== */
+/* iPhone Safari 實機修正 v2                  */
+/* 1) iPhone 16 Pro Max 橫向：設定列不可溢出   */
+/* 2) iOS date 文字垂直置中                    */
+/* 3) iPhone X：解放設定與 BOSS 間異常大空白   */
+/* ========================================== */
+
+/* 桌面縮窄／手機橫向時，取消三欄的硬性最小寬度。
+   原本 190 + 360 + 165 + gap 在 Safari 可用寬度較窄時會把最後按鈕推出面板。 */
+@media (min-width: 701px) and (max-width: 1100px) {
+    #tab-liberation .genesis-stone-controls {
+        grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.68fr) minmax(132px, 0.68fr);
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    #tab-liberation .genesis-stone-controls > *,
+    #tab-liberation .genesis-stone-controls .genesis-stone-reset {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* iOS Safari 的 date control 在 appearance:none 下容易把日期基線貼到上緣。
+   明確給定 control 與 WebKit 內部編輯區高度／置中方式。 */
+#tab-liberation .genesis-stone-date-field input[type="date"] {
+    height: 39px;
+    min-height: 39px;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 39px;
+}
+
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value {
+    height: 100%;
+    min-height: 100%;
+    padding: 0;
+    line-height: 39px;
+    text-align: left;
+}
+
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit,
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    height: 100%;
+    padding: 0;
+    line-height: 39px;
+}
+
+/* 創世解放中的 unified 日期欄也補同樣的 WebKit 對齊，但不改它原本卡片高度。 */
+#tab-liberation .genesis-unified-field input[type="date"] {
+    line-height: 1.35;
+}
+
+#tab-liberation .genesis-unified-field input[type="date"]::-webkit-date-and-time-value,
+#tab-liberation .genesis-unified-field input[type="date"]::-webkit-datetime-edit,
+#tab-liberation .genesis-unified-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 1.35;
+}
+
+/* iPhone X / 375px 級 Safari fallback：
+   這個區塊只有「目前狀態」與「每週／每月痕跡」兩張卡，
+   小螢幕直接改回 block flow，避開舊／窄版 Safari 的 Grid phantom track。 */
+@media (max-width: 410px) {
+    #tab-liberation #genesis-panel-liberation .liberation-layout.liberation-workspace-panel {
+        display: block;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-status-panel,
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-boss-panel {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-status-panel {
+        margin-top: 0;
+        margin-bottom: 12px !important;
+    }
+
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-boss-panel {
+        margin-top: 0 !important;
+        margin-bottom: 0;
+    }
+}
