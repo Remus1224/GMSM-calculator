@@ -4698,6 +4698,1954 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 
 
+/* ========================================================= */
+/* 解放進度計算機                                             */
+/* ========================================================= */
+#tab-liberation {
+    --liberation-accent: #6f73ec;
+    --liberation-pink: #e35adf;
+    --liberation-panel: rgba(255, 255, 255, 0.66);
+    gap: 14px;
+    color: var(--text-main);
+}
+
+.liberation-version {
+    width: 100%;
+    margin: -3px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+.liberation-data-notice {
+    width: 100%;
+    margin: -8px 0 0;
+    color: #e3263d !important;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    animation: runeVersionNoticeBreath 2.4s ease-in-out infinite;
+}
+[data-theme="dark"] .liberation-data-notice {
+    color: #ff6978 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    .liberation-data-notice { animation: none; opacity: 1; }
+}
+
+.liberation-hero {
+    width: 100%;
+    min-height: 146px;
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1.2fr) minmax(170px, 0.72fr);
+    align-items: center;
+    gap: clamp(14px, 3vw, 28px);
+    padding: 19px clamp(18px, 3vw, 30px);
+    border: 1px solid rgba(121, 107, 205, 0.24);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 95% 8%, rgba(230, 143, 231, 0.32), transparent 35%),
+        radial-gradient(circle at 4% 105%, rgba(103, 209, 240, 0.26), transparent 40%),
+        linear-gradient(135deg, rgba(222, 246, 255, 0.93), rgba(242, 232, 255, 0.94));
+    box-shadow: 0 11px 28px rgba(86, 72, 158, 0.11);
+    color: var(--text-main);
+}
+
+.liberation-current-stage-visual {
+    position: relative;
+    width: 112px;
+    height: 130px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    border: 2px solid rgba(121, 94, 194, 0.4);
+    border-radius: 14px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(222, 221, 255, 0.72));
+    box-shadow: 0 8px 20px rgba(69, 45, 135, 0.18);
+}
+.liberation-current-stage-visual img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+}
+.liberation-current-stage-placeholder { color: #7164cf; font-family: Georgia, serif; font-size: 31px; font-weight: 800; }
+.liberation-current-stage-visual strong {
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+    min-width: 42px;
+    padding: 5px 7px;
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 999px;
+    background: rgba(32, 24, 67, 0.78);
+    box-shadow: 0 3px 9px rgba(0,0,0,0.2);
+    color: #fff;
+    font-size: 13px;
+    line-height: 1;
+    text-align: center;
+}
+.liberation-progress-tile {
+    --liberation-progress: 0%;
+    position: relative;
+    width: 112px;
+    min-height: 108px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid rgba(112, 97, 216, 0.24);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 6px 16px rgba(100, 81, 188, 0.1);
+}
+.liberation-progress-tile span { color: var(--text-muted); font-size: 11px; font-weight: 700; }
+.liberation-progress-tile strong { color: #6257d5; font-size: 28px; line-height: 1; }
+.liberation-progress-tile i { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(117,104,228,0.14); }
+.liberation-progress-tile i::after { content: ''; display: block; width: var(--liberation-progress); height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5bbde0, #796ce8, #d06bde); transition: width 0.25s ease; }
+
+.liberation-forecast { min-width: 0; }
+.liberation-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+}
+.liberation-kicker::before { content: '●'; color: #7568e4; font-size: 10px; }
+.liberation-forecast > strong {
+    display: block;
+    margin: 5px 0 10px;
+    color: var(--text-main);
+    font-size: clamp(26px, 4vw, 39px);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+.liberation-forecast-stats { display: flex; flex-wrap: wrap; gap: 9px; }
+.liberation-forecast-stats span {
+    min-width: 118px;
+    padding: 8px 11px;
+    border: 1px solid rgba(124, 109, 205, 0.16);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.5);
+    color: var(--text-muted);
+    font-size: 12px;
+}
+.liberation-forecast-stats b { display: block; margin-top: 2px; color: #817cff; font-size: 21px; line-height: 1; }
+.liberation-forecast-stats span:last-child b { color: #ff75e9; }
+
+.liberation-total-summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 112px;
+    padding: 18px;
+    border: 1px solid rgba(124, 109, 205, 0.18);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.52);
+}
+.liberation-total-summary > span:first-child { color: var(--text-muted); font-size: 12px; }
+.liberation-total-summary strong { margin: 5px 0 7px; color: var(--text-main); font-size: 25px; line-height: 1; }
+.liberation-total-summary strong small { color: var(--text-muted); font-size: 13px; font-weight: 700; }
+.liberation-total-summary > span:last-child { color: #6d61c5; font-size: 12px; line-height: 1.45; }
+
+.liberation-stage-section,
+.liberation-panel {
+    border: 1px solid rgba(123, 107, 188, 0.2);
+    border-radius: 18px;
+    background: var(--liberation-panel);
+    box-shadow: 0 9px 25px rgba(76, 58, 152, 0.08);
+}
+.liberation-stage-section { width: 100%; padding: 16px; }
+.liberation-section-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 13px; }
+.liberation-section-heading h2 { margin: 0 0 3px; color: var(--text-main); font-size: 16px; }
+.liberation-section-heading p { margin: 0; color: var(--text-muted); font-size: 12px; }
+.liberation-stage-list { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 7px; }
+.liberation-stage-tab {
+    min-width: 0;
+    min-height: 72px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid rgba(105, 99, 154, 0.17);
+    border-radius: 11px;
+    background: rgba(255,255,255,0.46);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.liberation-stage-tab:hover { transform: translateY(-2px); }
+.liberation-stage-tab-art { width: 34px; height: 42px; flex: 0 0 34px; overflow: hidden; display: grid; place-items: center; border-radius: 7px; background: rgba(109, 97, 194, 0.1); }
+.liberation-stage-tab-art img { width: 100%; height: 100%; object-fit: cover; }
+.liberation-stage-tab-art i { color: #7568ca; font-family: Georgia, serif; font-size: 14px; font-style: normal; font-weight: 800; }
+.liberation-stage-tab > span:last-child { min-width: 0; display: grid; gap: 3px; text-align: left; }
+.liberation-stage-tab b { color: inherit; font-size: 10px; white-space: nowrap; }
+.liberation-stage-tab small { color: var(--text-muted); font-size: 9px; }
+.liberation-stage-tab.is-current { border-color: rgba(114, 101, 227, 0.52); background: rgba(113, 103, 231, 0.09); }
+.liberation-stage-tab.is-complete { border-color: rgba(45, 165, 139, 0.3); }
+.liberation-stage-tab.is-selected { border-color: #7568e4; box-shadow: 0 5px 15px rgba(104, 88, 208, 0.2), inset 0 0 0 1px rgba(117,104,228,0.18); transform: translateY(-2px); }
+.liberation-stage-preview { min-height: 168px; margin-top: 11px; padding: 10px; display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 17px; border: 1px solid rgba(113, 99, 188, 0.18); border-radius: 14px; background: linear-gradient(135deg, rgba(219,245,255,0.5), rgba(244,226,255,0.48)); }
+.liberation-stage-preview-art { width: 124px; height: 146px; overflow: hidden; display: grid; place-items: center; border-radius: 11px; background: rgba(103, 91, 184, 0.1); }
+.liberation-stage-preview-art img { width: 100%; height: 100%; object-fit: cover; }
+.liberation-stage-preview-art span { color: #7466cf; font-family: Georgia, serif; font-size: 35px; font-weight: 800; }
+.liberation-stage-preview-copy { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.liberation-stage-preview-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.liberation-stage-preview-heading span { color: #6f63c4; font-size: 11px; font-weight: 800; }
+.liberation-stage-preview-heading h3 { margin: 4px 0 10px; color: var(--text-main); font-size: clamp(16px, 2.5vw, 21px); line-height: 1.35; }
+.liberation-stage-preview-heading > b { padding: 4px 8px; border-radius: 999px; background: rgba(117,104,228,0.11); color: #695dcb; font-size: 10px; white-space: nowrap; }
+.liberation-stage-preview-heading > b[data-state="complete"] { background: rgba(43,173,143,0.12); color: #258d76; }
+.liberation-stage-preview-heading > b[data-state="locked"] { background: rgba(126,128,150,0.1); color: var(--text-muted); }
+.liberation-stage-preview-meta { display: flex; flex-wrap: wrap; gap: 7px 15px; color: var(--text-muted); font-size: 11px; }
+.liberation-stage-preview-meta b { color: #6258cf; font-size: 14px; }
+.liberation-stage-preview-progress { width: 100%; height: 8px; overflow: hidden; margin-top: 12px; border-radius: 999px; background: rgba(105,98,164,0.12); }
+.liberation-stage-preview-progress i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #50b8dd, #796ae5, #d46ddd); transition: width 0.25s ease; }
+.liberation-stage-preview-copy > small { margin-top: 5px; color: var(--text-muted); font-size: 10px; text-align: right; }
+
+.liberation-stage-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.liberation-stage-card {
+    position: relative;
+    min-height: 112px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 10px;
+    padding: 8px;
+    border: 1px solid rgba(105, 99, 154, 0.16);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.48);
+    color: var(--text-muted);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.liberation-stage-card:hover { border-color: rgba(105, 97, 231, 0.42); transform: translateY(-1px); }
+.liberation-stage-card:focus { outline: none; }
+.liberation-stage-card:focus-visible {
+    outline: none;
+    border-color: #7568e4;
+}
+.liberation-stage-art { width: 72px; height: 94px; overflow: hidden; display: grid; place-items: center; border-radius: 9px; background: linear-gradient(145deg, rgba(96, 77, 154, 0.13), rgba(80, 168, 213, 0.13)); }
+.liberation-stage-art img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+}
+.liberation-stage-art.has-image {
+    overflow: visible;
+    border-radius: 0;
+    background: transparent;
+}
+.liberation-stage-art.has-image img {
+    filter: drop-shadow(0 4px 6px rgba(63, 45, 116, 0.12));
+}
+.liberation-stage-art span { color: #7568c9; font-family: Georgia, serif; font-size: 21px; font-weight: 800; }
+.liberation-stage-copy { min-width: 0; display: flex; flex-direction: column; gap: 4px; padding: 3px 0; }
+.liberation-stage-card .liberation-stage-number { color: #77719e; font-size: 11px; font-weight: 800; }
+.liberation-stage-card strong { display: -webkit-box; overflow: hidden; color: var(--text-main); font-size: 11px; line-height: 1.38; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.liberation-stage-card small { color: var(--text-muted); font-size: 11px; }
+.liberation-stage-cumulative { margin-top: auto; color: #8d89aa; font-size: 10px; }
+.liberation-stage-card.is-current { border-color: rgba(105, 97, 231, 0.72); background: rgba(112, 107, 239, 0.11); box-shadow: 0 6px 17px rgba(105, 97, 231, 0.17); transform: translateY(-2px); }
+.liberation-stage-card.is-current .liberation-stage-number { color: #625ce3; }
+.liberation-stage-card.is-complete { border-color: rgba(54, 173, 150, 0.34); background: rgba(61, 192, 164, 0.1); }
+.liberation-stage-card.is-complete::after { content: '完成'; position: absolute; right: 7px; top: 7px; padding: 2px 5px; border-radius: 999px; background: rgba(30, 144, 119, 0.88); color: #fff; font-size: 9px; font-weight: 800; }
+
+.liberation-layout { width: 100%; display: grid; grid-template-columns: minmax(230px, 0.75fr) minmax(0, 1.65fr); gap: 14px; align-items: start; }
+.liberation-panel { padding: 18px; }
+.liberation-field { display: grid; gap: 6px; margin-bottom: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700; }
+.liberation-field em { margin-left: 4px; color: #918da8; font-style: normal; font-weight: 500; }
+.liberation-field input,
+.liberation-field select,
+.liberation-boss-card select,
+.liberation-ticket-field input {
+    width: 100%;
+    min-height: 40px;
+    padding: 0 11px;
+    border: 1px solid rgba(119, 104, 201, 0.24);
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255,255,255,0.78);
+    color: var(--text-main);
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.liberation-field input:focus,
+.liberation-field select:focus,
+.liberation-boss-card select:focus,
+.liberation-ticket-field input:focus { border-color: #7568e4; box-shadow: 0 0 0 3px rgba(117,104,228,0.15); }
+.liberation-check { display: flex; align-items: center; gap: 8px; margin: 10px 0; color: var(--text-main); font-size: 13px; cursor: pointer; }
+.liberation-check input,
+.liberation-boss-enabled input { width: 17px; height: 17px; accent-color: #7568e4; }
+.liberation-reset-btn { width: 100%; min-height: 40px; margin-top: 10px; border: 1px solid rgba(235, 82, 93, 0.42); border-radius: 10px; background: rgba(255, 237, 239, 0.72); color: #dc4554; font-weight: 800; cursor: pointer; }
+.liberation-boss-legend { margin: -4px 0 12px; color: var(--text-muted); font-size: 11px; line-height: 1.55; }
+.liberation-boss-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.liberation-boss-card { min-width: 0; overflow: hidden; display: grid; grid-template-columns: 92px minmax(0, 1fr); padding: 0; border: 1px solid rgba(119, 104, 181, 0.16); border-radius: 13px; background: rgba(255,255,255,0.48); }
+.liberation-boss-art { position: relative; min-height: 190px; overflow: hidden; display: grid; place-items: center; background: linear-gradient(150deg, rgba(68, 53, 111, 0.17), rgba(50, 146, 180, 0.12)); }
+.liberation-boss-art::after { content: ''; position: absolute; inset: 55% 0 0; background: linear-gradient(transparent, rgba(20, 16, 47, 0.52)); pointer-events: none; }
+.liberation-boss-art > img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.liberation-boss-art-placeholder { padding: 7px; color: #756b9d; font-size: 11px; font-weight: 800; text-align: center; }
+.liberation-boss-art > b { position: absolute; z-index: 1; left: 7px; bottom: 7px; padding: 3px 7px; border: 1px solid rgba(255,255,255,0.34); border-radius: 999px; background: rgba(26, 20, 58, 0.74); color: #fff; font-size: 9px; }
+.liberation-boss-body { min-width: 0; padding: 11px; }
+.liberation-boss-card header { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 9px; }
+.liberation-boss-card header strong { color: var(--text-main); font-size: 14px; }
+.liberation-boss-card header span { color: var(--text-muted); font-size: 9px; white-space: nowrap; }
+.liberation-boss-card header span b { color: #625ce3; font-size: 13px; }
+.liberation-boss-controls { min-height: 40px; }
+.liberation-boss-enabled { min-height: 40px; display: flex; align-items: center; gap: 7px; padding: 0 3px; color: var(--text-main); font-size: 13px; cursor: pointer; }
+.liberation-ticket-repeat { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: var(--text-main); font-size: 11px; cursor: pointer; }
+.liberation-ticket-repeat input { width: 15px; height: 15px; accent-color: #7568e4; }
+.liberation-ticket-row { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: center; gap: 7px; margin-top: 7px; }
+.liberation-ticket-icon { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid rgba(120, 105, 185, 0.18); border-radius: 8px; background: rgba(255,255,255,0.58); }
+.liberation-ticket-icon img { max-width: 28px; max-height: 28px; image-rendering: auto; }
+.liberation-ticket-icon i { color: #7a70a5; font-size: 10px; font-style: normal; font-weight: 800; }
+.liberation-ticket-field { min-width: 0; display: grid; grid-template-columns: auto 42px; align-items: center; gap: 5px; color: var(--text-muted); font-size: 10px; }
+.liberation-ticket-field input { min-height: 32px; padding: 0 7px; text-align: center; }
+.liberation-ticket-field em { grid-column: 1 / -1; color: #9390a8; font-size: 9px; font-style: normal; white-space: nowrap; }
+
+/* 解放頁面：總覽與設定改為兩張水平主面板 */
+.liberation-journey-panel {
+    width: 100%;
+    display: block;
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid rgba(123, 107, 188, 0.22);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(222,246,255,0.82), rgba(246,232,255,0.84));
+    box-shadow: 0 10px 27px rgba(76, 58, 152, 0.08);
+}
+.liberation-journey-panel .liberation-hero {
+    min-height: 0;
+    grid-template-columns: 76px minmax(220px, 1.05fr) minmax(285px, 0.95fr);
+    gap: 13px;
+    padding: 18px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.liberation-journey-panel .liberation-current-stage-visual { width: 76px; height: 91px; }
+.liberation-journey-panel .liberation-current-stage-visual strong { right: 4px; bottom: 4px; min-width: 36px; padding: 4px 5px; font-size: 11px; }
+.liberation-journey-panel .liberation-forecast > strong { margin: 4px 0 8px; font-size: clamp(26px, 3.4vw, 38px); }
+.liberation-journey-panel .liberation-forecast-stats { gap: 6px; }
+.liberation-journey-panel .liberation-forecast-stats span { min-width: 0; flex: 1 1 90px; padding: 6px 8px; font-size: 10px; }
+.liberation-journey-panel .liberation-forecast-stats b { font-size: 17px; }
+.liberation-journey-panel .liberation-total-summary {
+    grid-column: auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 3px 8px;
+    padding: 10px 12px;
+    border-radius: 11px;
+}
+.liberation-journey-panel .liberation-total-summary > span:first-child { font-size: 10px; }
+.liberation-journey-panel .liberation-total-summary strong { margin: 0; font-size: 18px; white-space: nowrap; }
+.liberation-journey-panel .liberation-total-summary strong small { font-size: 10px; }
+.liberation-journey-panel .liberation-total-summary > span:last-child { grid-column: 1 / -1; min-width: 0; overflow: hidden; font-size: 10px; text-align: left; text-overflow: ellipsis; white-space: nowrap; }
+.liberation-journey-panel .liberation-stage-section {
+    width: auto;
+    padding: 18px;
+    border: 0;
+    border-top: 1px solid rgba(117, 102, 183, 0.16);
+    border-radius: 0;
+    background: rgba(255,255,255,0.26);
+    box-shadow: none;
+}
+.liberation-journey-panel .liberation-section-heading { margin-bottom: 10px; }
+.liberation-journey-panel .liberation-stage-list { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.liberation-journey-panel .liberation-stage-card { min-height: 64px; grid-template-columns: 42px minmax(0, 1fr); gap: 6px; padding: 6px; }
+.liberation-journey-panel .liberation-stage-art { width: 42px; height: 52px; }
+.liberation-journey-panel .liberation-stage-copy { gap: 1px; padding: 1px 0; }
+.liberation-journey-panel .liberation-stage-card .liberation-stage-number,
+.liberation-journey-panel .liberation-stage-card small { overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.liberation-journey-panel .liberation-stage-card strong { display: block; overflow: hidden; font-size: 10px; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
+.liberation-journey-panel .liberation-stage-cumulative { display: none; }
+.liberation-journey-panel .liberation-stage-card small { font-size: 10px; }
+
+.liberation-layout.liberation-workspace-panel {
+    width: 100%;
+    display: block;
+    padding: 18px;
+    border: 1px solid rgba(123, 107, 188, 0.2);
+    border-radius: 18px;
+    background: var(--liberation-panel);
+    box-shadow: 0 9px 25px rgba(76, 58, 152, 0.08);
+}
+.liberation-workspace-panel .liberation-panel { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.liberation-workspace-panel .liberation-status-panel { padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid rgba(109, 95, 173, 0.14); }
+.liberation-workspace-panel .liberation-section-heading { margin-bottom: 10px; }
+.liberation-status-controls {
+    display: grid;
+    grid-template-columns: minmax(130px, 1.15fr) minmax(140px, 1.05fr) minmax(150px, 1fr) auto auto minmax(130px, 0.9fr);
+    align-items: end;
+    gap: 10px;
+}
+.liberation-status-controls .liberation-field { margin: 0; }
+.liberation-status-controls .liberation-check { min-height: 40px; margin: 0; padding: 0 2px; font-size: 12px; white-space: nowrap; }
+.liberation-status-controls .liberation-reset-btn { min-height: 40px; margin: 0; font-size: 12px; }
+.liberation-workspace-panel .liberation-boss-legend { margin: -3px 0 11px; }
+.liberation-workspace-panel .liberation-boss-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.liberation-workspace-panel .liberation-boss-card { grid-template-columns: 62px minmax(0, 1fr); }
+.liberation-workspace-panel .liberation-boss-art { min-height: 142px; }
+.liberation-workspace-panel .liberation-boss-body { padding: 8px; }
+.liberation-workspace-panel .liberation-boss-card header { margin-bottom: 6px; }
+.liberation-workspace-panel .liberation-boss-card header strong { font-size: 12px; }
+.liberation-workspace-panel .liberation-boss-card header span { font-size: 8px; }
+.liberation-workspace-panel .liberation-boss-card header span b { font-size: 11px; }
+.liberation-workspace-panel .liberation-boss-controls { min-height: 35px; }
+.liberation-workspace-panel .liberation-boss-card select { min-height: 35px; padding: 0 7px; font-size: 11px; }
+.liberation-workspace-panel .liberation-boss-enabled { min-height: 35px; font-size: 11px; }
+.liberation-workspace-panel .liberation-ticket-repeat { margin-top: 5px; font-size: 10px; }
+.liberation-workspace-panel .liberation-ticket-row { grid-template-columns: 29px minmax(0, 1fr); gap: 5px; margin-top: 5px; }
+.liberation-workspace-panel .liberation-ticket-icon { width: 29px; height: 29px; }
+.liberation-workspace-panel .liberation-ticket-icon img { max-width: 24px; max-height: 24px; }
+.liberation-workspace-panel .liberation-ticket-field { grid-template-columns: minmax(0, 1fr) 34px; font-size: 9px; }
+.liberation-workspace-panel .liberation-ticket-field input { min-height: 29px; }
+.liberation-workspace-panel .liberation-ticket-field em { font-size: 8px; }
+
+[data-theme="dark"] #tab-liberation { --liberation-panel: rgba(20, 25, 48, 0.88); }
+[data-theme="dark"] .liberation-hero { background: linear-gradient(135deg, rgba(23, 53, 78, 0.96), rgba(55, 39, 84, 0.96)); border-color: rgba(133, 152, 236, 0.28); }
+[data-theme="dark"] .liberation-kicker,
+[data-theme="dark"] .liberation-forecast-stats span,
+[data-theme="dark"] .liberation-total-summary > span:first-child,
+[data-theme="dark"] .liberation-total-summary strong small { color: #aeb8cf; }
+[data-theme="dark"] .liberation-forecast-stats span {
+    border-color: rgba(139, 149, 226, 0.25);
+    background: rgba(7, 13, 33, 0.58);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+}
+[data-theme="dark"] .liberation-forecast-stats b { color: #918bff; }
+[data-theme="dark"] .liberation-forecast-stats span:last-child b { color: #ff78dc; }
+[data-theme="dark"] .liberation-current-stage-visual,
+[data-theme="dark"] .liberation-total-summary { background: rgba(9, 17, 37, 0.48); border-color: rgba(147, 153, 232, 0.28); }
+[data-theme="dark"] .liberation-progress-tile span { color: #aeb8cf; }
+[data-theme="dark"] .liberation-progress-tile strong { color: #9b94ff; }
+[data-theme="dark"] .liberation-forecast > strong,
+[data-theme="dark"] .liberation-total-summary strong { color: #f5f4ff; }
+[data-theme="dark"] .liberation-total-summary > span:last-child { color: #aaa5ff; }
+[data-theme="dark"] .liberation-stage-section,
+[data-theme="dark"] .liberation-panel { border-color: rgba(139, 132, 226, 0.24); }
+[data-theme="dark"] .liberation-stage-tab,
+[data-theme="dark"] .liberation-stage-preview,
+[data-theme="dark"] .liberation-stage-card,
+[data-theme="dark"] .liberation-boss-card { background: rgba(10, 15, 35, 0.44); border-color: rgba(162, 157, 220, 0.18); }
+[data-theme="dark"] .liberation-stage-tab.is-current { background: rgba(103, 96, 222, 0.14); border-color: rgba(133, 126, 241, 0.48); }
+[data-theme="dark"] .liberation-stage-tab.is-selected { border-color: #8f86ff; box-shadow: 0 5px 17px rgba(91, 79, 220, 0.25), inset 0 0 0 1px rgba(144,134,255,0.15); }
+[data-theme="dark"] .liberation-stage-preview-art { background: rgba(8, 14, 32, 0.62); }
+[data-theme="dark"] .liberation-field input,
+[data-theme="dark"] .liberation-field select,
+[data-theme="dark"] .liberation-boss-card select,
+[data-theme="dark"] .liberation-ticket-field input { background: rgba(8, 14, 32, 0.82); border-color: rgba(130, 147, 232, 0.34); color: var(--text-main); }
+[data-theme="dark"] .liberation-ticket-icon { background: rgba(8, 14, 32, 0.58); border-color: rgba(130, 147, 232, 0.24); }
+[data-theme="dark"] .liberation-reset-btn { background: rgba(102, 31, 43, 0.35); color: #ff909a; }
+[data-theme="dark"] .liberation-journey-panel {
+    border-color: rgba(133, 152, 236, 0.3);
+    background: linear-gradient(135deg, rgba(20, 48, 73, 0.94), rgba(51, 35, 80, 0.94));
+}
+[data-theme="dark"] .liberation-journey-panel .liberation-stage-section {
+    border-color: rgba(139, 132, 226, 0.22);
+    background: rgba(8, 14, 32, 0.24);
+}
+[data-theme="dark"] .liberation-layout.liberation-workspace-panel {
+    border-color: rgba(139, 132, 226, 0.24);
+    background: rgba(20, 25, 48, 0.88);
+}
+[data-theme="dark"] .liberation-workspace-panel .liberation-status-panel { border-color: rgba(139, 132, 226, 0.2); }
+
+@media (max-width: 980px) {
+    .liberation-journey-panel .liberation-hero { grid-template-columns: 70px minmax(190px, 1fr) minmax(240px, 0.95fr); }
+    .liberation-journey-panel .liberation-current-stage-visual { width: 70px; height: 84px; }
+    .liberation-journey-panel .liberation-stage-list { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .liberation-status-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .liberation-status-controls .liberation-check { min-height: 36px; }
+    .liberation-status-controls .liberation-reset-btn { grid-column: span 1; }
+    .liberation-workspace-panel .liberation-boss-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+    .liberation-journey-panel .liberation-hero { grid-template-columns: 70px minmax(0, 1fr); }
+    .liberation-journey-panel .liberation-total-summary { grid-column: 1 / -1; }
+    .liberation-journey-panel .liberation-stage-section { border-top: 1px solid rgba(117, 102, 183, 0.16); border-left: 0; }
+    .liberation-journey-panel .liberation-stage-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .liberation-status-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .liberation-status-controls .liberation-check,
+    .liberation-status-controls .liberation-reset-btn { grid-column: auto; }
+}
+
+@media (max-width: 760px) {
+    .liberation-hero { grid-template-columns: 105px minmax(0, 1fr); gap: 16px; min-height: 0; padding: 19px; }
+    .liberation-current-stage-visual { width: 96px; height: 112px; }
+    .liberation-forecast > strong { font-size: clamp(27px, 8vw, 43px); }
+    .liberation-total-summary { grid-column: 1 / -1; min-height: 0; padding: 12px 14px; }
+    .liberation-stage-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .liberation-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 470px) {
+    #tab-liberation { gap: 11px; }
+    .liberation-version { font-size: 11px; }
+    .liberation-data-notice { font-size: 11px; }
+    .liberation-hero { grid-template-columns: 82px minmax(0, 1fr); gap: 12px; padding: 14px; border-radius: 16px; }
+    .liberation-current-stage-visual { width: 76px; height: 90px; }
+    .liberation-current-stage-visual strong { right: 4px; bottom: 4px; min-width: 34px; padding: 4px 5px; font-size: 10px; }
+    .liberation-kicker { font-size: 10px; }
+    .liberation-forecast > strong { margin: 4px 0 8px; font-size: 27px; }
+    .liberation-forecast-stats { gap: 5px; }
+    .liberation-forecast-stats span { min-width: 0; flex: 1 1 100px; padding: 6px 7px; font-size: 10px; }
+    .liberation-forecast-stats b { font-size: 16px; }
+    .liberation-total-summary { font-size: 11px; }
+    .liberation-total-summary strong { font-size: 22px; }
+    .liberation-stage-section,
+    .liberation-panel { border-radius: 14px; }
+    .liberation-stage-section,
+    .liberation-panel { padding: 13px; }
+    .liberation-stage-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .liberation-stage-card { grid-template-columns: 54px minmax(0, 1fr); min-height: 89px; gap: 7px; padding: 7px; }
+    .liberation-stage-art { width: 54px; height: 73px; }
+    .liberation-stage-card strong { font-size: 11px; }
+    .liberation-boss-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .liberation-boss-card { display: block; padding: 0; }
+    .liberation-boss-art { width: 100%; min-height: 0; height: 94px; }
+    .liberation-boss-art > img { object-position: center 30%; }
+    .liberation-boss-body { padding: 9px; }
+    .liberation-boss-card header strong { font-size: 12px; }
+    .liberation-boss-card header span { font-size: 8px; }
+    .liberation-boss-card header span b { font-size: 11px; }
+    .liberation-ticket-row { grid-template-columns: 30px minmax(0, 1fr); gap: 5px; }
+    .liberation-ticket-icon { width: 30px; height: 30px; }
+    .liberation-ticket-icon img { max-width: 25px; max-height: 25px; }
+    .liberation-ticket-field { grid-template-columns: auto 34px; }
+    .liberation-ticket-field em { grid-column: 1 / -1; font-size: 9px; }
+}
+
+@media (max-width: 560px) {
+    .liberation-journey-panel { border-radius: 15px; }
+    .liberation-journey-panel .liberation-hero { grid-template-columns: 66px minmax(0, 1fr); gap: 10px; padding: 13px; }
+    .liberation-journey-panel .liberation-current-stage-visual { width: 66px; height: 80px; }
+    .liberation-journey-panel .liberation-forecast > strong { margin: 2px 0 6px; font-size: 25px; }
+    .liberation-journey-panel .liberation-forecast-stats span { padding: 5px 6px; font-size: 9px; }
+    .liberation-journey-panel .liberation-forecast-stats b { font-size: 14px; }
+    .liberation-journey-panel .liberation-total-summary { grid-template-columns: 1fr auto; gap: 3px 8px; padding: 8px 9px; }
+    .liberation-journey-panel .liberation-total-summary > span:last-child { grid-column: 1 / -1; text-align: left; }
+    .liberation-journey-panel .liberation-stage-section { padding: 13px; }
+    .liberation-journey-panel .liberation-stage-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .liberation-journey-panel .liberation-stage-card { min-height: 89px; grid-template-columns: 54px minmax(0, 1fr); }
+    .liberation-journey-panel .liberation-stage-art { width: 54px; height: 73px; }
+
+    .liberation-layout.liberation-workspace-panel { padding: 13px; border-radius: 15px; }
+    .liberation-workspace-panel .liberation-status-panel { padding-bottom: 13px; margin-bottom: 13px; }
+    .liberation-status-controls { gap: 8px; }
+    .liberation-status-controls .liberation-field:first-child,
+    .liberation-status-controls .liberation-reset-btn { grid-column: 1 / -1; }
+    .liberation-status-controls .liberation-check { min-height: 34px; font-size: 11px; }
+    .liberation-workspace-panel .liberation-boss-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .liberation-workspace-panel .liberation-boss-card { display: grid; grid-template-columns: 56px minmax(0, 1fr); }
+    .liberation-workspace-panel .liberation-boss-art { width: auto; min-height: 138px; height: auto; }
+    .liberation-workspace-panel .liberation-ticket-field em { white-space: normal; }
+}
+
+/* 創世系統分頁與解放計算機版面整理 */
+.genesis-subtabs {
+    width: min(100%, 560px);
+    margin: 0 auto;
+    padding: 4px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    border: 1px solid rgba(120, 107, 193, 0.2);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.42);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.68);
+}
+
+.genesis-subtab {
+    min-width: 0;
+    min-height: 38px;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.genesis-subtab:hover { color: var(--text-main); }
+.genesis-subtab.is-active {
+    background: linear-gradient(135deg, rgba(111, 193, 244, 0.3), rgba(211, 118, 232, 0.25));
+    box-shadow: 0 4px 12px rgba(91, 82, 190, 0.16), inset 0 0 0 1px rgba(108, 100, 220, 0.26);
+    color: var(--text-main);
+}
+
+.genesis-panel { display: none; width: 100%; }
+.genesis-panel.is-active { display: flex; flex-direction: column; gap: 14px; }
+.genesis-empty-state {
+    width: 100%;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid rgba(123, 107, 188, 0.2);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.48);
+    box-shadow: 0 9px 25px rgba(76, 58, 152, 0.08);
+    color: var(--text-muted);
+}
+.genesis-empty-state > span {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 6px;
+    display: grid;
+    place-items: center;
+    border-radius: 17px;
+    background: linear-gradient(145deg, rgba(93, 190, 232, 0.18), rgba(193, 112, 224, 0.2));
+    color: #7368d6;
+    font-family: Georgia, serif;
+    font-size: 21px;
+    font-weight: 800;
+}
+.genesis-empty-state strong { color: var(--text-main); font-size: 18px; }
+.genesis-empty-state p { margin: 0; font-size: 12px; }
+
+/* 上方資訊分成三個清楚的視覺區塊，階段列只保留辨識所需資訊。 */
+.liberation-journey-panel .liberation-hero {
+    --liberation-progress-width: 0%;
+    position: relative;
+    overflow: hidden;
+    grid-template-columns: 102px minmax(270px, 1.12fr) minmax(245px, 0.88fr);
+    gap: 15px 18px;
+    padding: 20px 20px 16px;
+}
+.liberation-journey-panel .liberation-hero::before {
+    content: '';
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: -75px;
+    top: -105px;
+    border: 28px solid rgba(184, 109, 222, 0.07);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.liberation-journey-panel .liberation-current-stage-visual {
+    width: 98px;
+    height: 118px;
+    align-self: center;
+}
+.liberation-journey-panel .liberation-current-stage-visual.has-image {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+.liberation-journey-panel .liberation-current-stage-visual.has-image img {
+    filter: drop-shadow(0 9px 12px rgba(67, 51, 145, 0.18));
+}
+.liberation-journey-panel .liberation-kicker {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(111, 104, 222, 0.09);
+    color: #6f68b6;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+}
+.liberation-journey-panel .liberation-forecast > strong { font-size: clamp(28px, 3.5vw, 39px); }
+.liberation-journey-panel .liberation-forecast-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.liberation-journey-panel .liberation-forecast-stats span {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    white-space: nowrap;
+    border-color: rgba(120, 106, 201, 0.2);
+    background: linear-gradient(135deg, rgba(255,255,255,0.68), rgba(255,255,255,0.38));
+    font-size: 12px;
+}
+.liberation-journey-panel .liberation-forecast-stats b {
+    display: inline;
+    margin: 0;
+    font-size: 19px;
+    line-height: 1;
+}
+.liberation-journey-panel .liberation-forecast-stats span::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: linear-gradient(90deg, #70bde5, #7d70ea);
+}
+.liberation-journey-panel .liberation-forecast-stats span:last-child::after {
+    background: linear-gradient(90deg, #b072e6, #e777c9);
+}
+.liberation-journey-panel .liberation-total-summary {
+    position: relative;
+    overflow: hidden;
+    min-height: 118px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    padding: 14px 18px;
+    border-color: rgba(120, 104, 201, 0.24);
+    background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,238,255,0.48));
+    box-shadow: inset 4px 0 0 rgba(116, 104, 222, 0.72), 0 7px 17px rgba(79, 63, 157, 0.08);
+}
+.liberation-journey-panel .liberation-total-summary::after {
+    content: '';
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    right: -31px;
+    bottom: -37px;
+    border: 14px solid rgba(193, 104, 219, 0.08);
+    border-radius: 50%;
+}
+.liberation-journey-panel .liberation-total-summary > span:first-child { font-size: 13px; }
+.liberation-journey-panel .liberation-total-summary strong { font-size: 28px; }
+.liberation-journey-panel .liberation-total-summary strong small { font-size: 14px; }
+.liberation-journey-panel .liberation-total-summary > span:last-child {
+    grid-column: auto;
+    overflow: visible;
+    color: #6258c6;
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.4;
+    text-overflow: clip;
+    white-space: normal;
+}
+.liberation-overall-progress {
+    position: relative;
+    z-index: 1;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 34px;
+    align-items: center;
+    gap: 10px;
+    color: #79749b;
+    font-size: 10px;
+    font-weight: 700;
+}
+.liberation-overall-progress > div {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(105, 98, 164, 0.13);
+    box-shadow: inset 0 1px 2px rgba(68, 54, 124, 0.08);
+}
+.liberation-overall-progress i {
+    display: block;
+    width: var(--liberation-progress-width);
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #55bde2, #786ee8 54%, #dc6fd4);
+    box-shadow: 0 0 9px rgba(120, 105, 231, 0.38);
+    transition: width 0.28s ease;
+}
+.liberation-overall-progress b { color: #6b61c8; text-align: right; }
+.liberation-journey-panel .liberation-stage-section { padding: 16px 20px 18px; }
+.liberation-journey-panel .liberation-stage-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+}
+.liberation-journey-panel .liberation-stage-card {
+    min-height: 68px;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 7px;
+    padding: 7px;
+}
+.liberation-journey-panel .liberation-stage-art { width: 44px; height: 54px; }
+.liberation-journey-panel .liberation-stage-copy { justify-content: center; gap: 4px; }
+.liberation-journey-panel .liberation-stage-card strong,
+.liberation-journey-panel .liberation-stage-cumulative { display: none; }
+.liberation-journey-panel .liberation-stage-card .liberation-stage-number {
+    color: #6f63c4;
+    font-size: 12px;
+    font-weight: 800;
+}
+.liberation-journey-panel .liberation-stage-card small { font-size: 11px; }
+
+/* 設定列保留水平閱讀，但降低重設按鈕與勾選項的視覺重量。 */
+.liberation-status-controls {
+    grid-template-columns: minmax(130px, 1.1fr) minmax(145px, 1fr) minmax(150px, 1fr) auto auto 120px;
+    gap: 9px;
+}
+.liberation-status-controls .liberation-check {
+    padding: 0 6px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.26);
+}
+.liberation-status-controls .liberation-reset-btn { width: 120px; }
+
+/* BOSS 維持桌面四欄、手機兩欄，刪除每張卡片重複的輔助句。 */
+.liberation-workspace-panel .liberation-boss-card { grid-template-columns: 68px minmax(0, 1fr); }
+.liberation-workspace-panel .liberation-boss-art { min-height: 126px; }
+.liberation-workspace-panel .liberation-boss-body { padding: 9px; }
+.liberation-workspace-panel .liberation-boss-card header span {
+    padding: 3px 5px;
+    border-radius: 999px;
+    background: rgba(110, 99, 210, 0.09);
+    font-size: 11px;
+}
+.liberation-workspace-panel .liberation-boss-card header span b {
+    font-size: 14px;
+}
+.liberation-workspace-panel .liberation-ticket-field em { display: none; }
+.liberation-label-short { display: none; }
+.liberation-workspace-panel .liberation-ticket-row {
+    grid-template-columns: 29px minmax(0, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+}
+.liberation-ticket-stepper {
+    min-width: 0;
+    min-height: 31px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 27px minmax(28px, 1fr) 27px;
+    border: 1px solid rgba(120, 105, 185, 0.22);
+    border-radius: 9px;
+    background: rgba(255,255,255,0.6);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.liberation-ticket-stepper:focus-within {
+    border-color: #7568e4;
+    box-shadow: 0 0 0 3px rgba(117,104,228,0.13);
+}
+.liberation-ticket-stepper button {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: rgba(112, 100, 207, 0.08);
+    color: #695dca;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.16s ease, color 0.16s ease;
+}
+.liberation-ticket-stepper button:hover { background: rgba(112, 100, 207, 0.17); color: #5347bc; }
+.liberation-ticket-stepper input {
+    width: 100%;
+    min-width: 0;
+    padding: 0 2px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text-main);
+    font: inherit;
+    font-size: 11px;
+    text-align: center;
+}
+
+[data-theme="dark"] .genesis-subtabs {
+    border-color: rgba(139, 148, 226, 0.25);
+    background: rgba(8, 14, 32, 0.5);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+}
+[data-theme="dark"] .genesis-subtab.is-active {
+    background: linear-gradient(135deg, rgba(58, 151, 207, 0.25), rgba(155, 77, 190, 0.26));
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(143, 134, 255, 0.34);
+}
+[data-theme="dark"] .genesis-empty-state {
+    border-color: rgba(139, 132, 226, 0.24);
+    background: rgba(20, 25, 48, 0.88);
+}
+[data-theme="dark"] .liberation-status-controls .liberation-check { background: rgba(8, 14, 32, 0.28); }
+[data-theme="dark"] .liberation-workspace-panel .liberation-boss-card header span { background: rgba(128, 119, 235, 0.14); }
+[data-theme="dark"] .liberation-journey-panel .liberation-kicker { background: rgba(126, 116, 235, 0.14); color: #b7b2ff; }
+[data-theme="dark"] .liberation-journey-panel .liberation-forecast-stats span {
+    border-color: rgba(139, 149, 226, 0.25);
+    background: linear-gradient(135deg, rgba(8,14,32,0.72), rgba(18,18,43,0.52));
+}
+[data-theme="dark"] .liberation-journey-panel .liberation-total-summary {
+    border-color: rgba(147, 153, 232, 0.28);
+    background: linear-gradient(135deg, rgba(9,17,37,0.68), rgba(30,20,53,0.52));
+    box-shadow: inset 4px 0 0 rgba(143, 134, 255, 0.76), 0 7px 18px rgba(0,0,0,0.16);
+}
+[data-theme="dark"] .liberation-overall-progress { color: #aeb8cf; }
+[data-theme="dark"] .liberation-overall-progress > div { background: rgba(5,10,27,0.55); }
+[data-theme="dark"] .liberation-overall-progress b { color: #aaa5ff; }
+[data-theme="dark"] .liberation-ticket-stepper {
+    border-color: rgba(130, 147, 232, 0.3);
+    background: rgba(8, 14, 32, 0.72);
+}
+[data-theme="dark"] .liberation-ticket-stepper button { background: rgba(128,119,235,0.12); color: #aaa3ff; }
+[data-theme="dark"] .liberation-ticket-stepper button:hover { background: rgba(128,119,235,0.23); }
+
+@media (max-width: 980px) {
+    .liberation-journey-panel .liberation-hero {
+        grid-template-columns: 92px minmax(220px, 1fr) minmax(220px, 0.9fr);
+        gap: 13px;
+        padding: 17px;
+    }
+    .liberation-journey-panel .liberation-current-stage-visual { width: 88px; height: 106px; }
+    .liberation-status-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .liberation-status-controls .liberation-reset-btn { width: 100%; }
+}
+
+@media (max-width: 700px) {
+    .genesis-subtabs { width: 100%; }
+    .genesis-subtab { min-height: 40px; padding: 7px 5px; font-size: 12px; }
+    .genesis-empty-state { min-height: 260px; border-radius: 15px; }
+
+    .liberation-journey-panel .liberation-hero {
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 11px;
+        padding: 14px;
+    }
+    .liberation-journey-panel .liberation-current-stage-visual { width: 80px; height: 98px; }
+    .liberation-journey-panel .liberation-forecast > strong { font-size: clamp(24px, 7.4vw, 30px); }
+    .liberation-journey-panel .liberation-total-summary {
+        grid-column: 1 / -1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 3px 9px;
+        padding: 10px 12px;
+    }
+    .liberation-journey-panel .liberation-total-summary > span:first-child { grid-column: 1; font-size: 12px; }
+    .liberation-journey-panel .liberation-total-summary strong { grid-column: 2; font-size: 24px; }
+    .liberation-journey-panel .liberation-total-summary strong small { font-size: 13px; }
+    .liberation-journey-panel .liberation-total-summary > span:last-child { grid-column: 1 / -1; font-size: 13px; }
+    .liberation-overall-progress { gap: 7px; font-size: 9px; }
+    .liberation-journey-panel .liberation-stage-section { padding: 13px; }
+    .liberation-journey-panel .liberation-stage-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .liberation-journey-panel .liberation-stage-card {
+        min-height: 66px;
+        grid-template-columns: 46px minmax(0, 1fr);
+    }
+    .liberation-journey-panel .liberation-stage-art { width: 46px; height: 56px; }
+
+    .liberation-status-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .liberation-status-controls .liberation-field:first-child { grid-column: 1 / -1; }
+    .liberation-status-controls .liberation-check {
+        min-height: 38px;
+        padding: 5px 6px;
+        font-size: 10px;
+        white-space: normal;
+    }
+    .liberation-status-controls .liberation-reset-btn { grid-column: 1 / -1; width: 100%; }
+
+    .liberation-workspace-panel .liberation-boss-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .liberation-workspace-panel .liberation-boss-card {
+        display: grid;
+        grid-template-columns: 52px minmax(0, 1fr);
+    }
+    .liberation-workspace-panel .liberation-boss-art { width: auto; min-height: 124px; height: auto; }
+    .liberation-workspace-panel .liberation-boss-body { padding: 7px; }
+    .liberation-workspace-panel .liberation-boss-card header {
+        display: grid;
+        justify-items: start;
+        gap: 3px;
+        margin-bottom: 5px;
+    }
+    .liberation-workspace-panel .liberation-boss-card header span { padding: 3px 5px; font-size: 10px; }
+    .liberation-workspace-panel .liberation-boss-card header span b { font-size: 13px; }
+    .liberation-workspace-panel .liberation-boss-controls,
+    .liberation-workspace-panel .liberation-boss-enabled { min-height: 33px; }
+    .liberation-workspace-panel .liberation-boss-card select { min-height: 33px; padding: 0 5px; }
+    .liberation-workspace-panel .liberation-label-full { display: none; }
+    .liberation-workspace-panel .liberation-label-short { display: inline; }
+    .liberation-workspace-panel .liberation-ticket-row { grid-template-columns: 26px minmax(0, 1fr); }
+    .liberation-workspace-panel .liberation-ticket-icon { width: 26px; height: 26px; }
+    .liberation-workspace-panel .liberation-ticket-icon img { max-width: 22px; max-height: 22px; }
+    .liberation-workspace-panel .liberation-ticket-stepper { grid-template-columns: 21px minmax(23px, 1fr) 21px; min-height: 28px; }
+    .liberation-workspace-panel .liberation-ticket-stepper button { font-size: 14px; }
+    .liberation-workspace-panel .liberation-ticket-stepper input { font-size: 10px; }
+}
+
+@media (max-width: 410px) {
+    .genesis-subtab { font-size: 11px; }
+    .liberation-layout.liberation-workspace-panel { padding: 10px; }
+    .liberation-workspace-panel .liberation-boss-list { gap: 6px; }
+    .liberation-workspace-panel .liberation-boss-card { grid-template-columns: 48px minmax(0, 1fr); }
+    .liberation-workspace-panel .liberation-boss-body { padding: 6px; }
+    .liberation-workspace-panel .liberation-boss-card header strong { font-size: 11px; }
+    .liberation-workspace-panel .liberation-ticket-stepper { grid-template-columns: 19px minmax(21px, 1fr) 19px; }
+}
+
+/* 黑魔法師四字固定單行，避免兩欄手機版只剩最後一字換行。 */
+.liberation-boss-card header > strong { white-space: nowrap; }
+
+/* 創世鍊成 */
+/* 創世解放：目前狀態與每週／每月痕跡各自成為獨立面板 */
+.liberation-layout.liberation-workspace-panel {
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.liberation-workspace-panel .liberation-panel,
+.liberation-workspace-panel .liberation-status-panel {
+    width: 100%;
+    padding: 18px;
+    margin: 0;
+    border: 1px solid rgba(126, 110, 204, 0.2);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.58), rgba(250,247,255,0.48));
+    box-shadow: 0 10px 28px rgba(72, 56, 144, 0.09);
+}
+
+[data-theme="dark"] .liberation-layout.liberation-workspace-panel {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .liberation-workspace-panel .liberation-panel,
+[data-theme="dark"] .liberation-workspace-panel .liberation-status-panel {
+    border-color: rgba(139, 132, 226, 0.22);
+    background: linear-gradient(135deg, rgba(20, 31, 49, 0.92), rgba(34, 27, 59, 0.9));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+@media (max-width: 700px) {
+    .liberation-layout.liberation-workspace-panel {
+        padding: 0;
+        gap: 12px;
+        border-radius: 0;
+    }
+
+    .liberation-workspace-panel .liberation-panel,
+    .liberation-workspace-panel .liberation-status-panel {
+        padding: 13px;
+        margin: 0;
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 410px) {
+    .liberation-layout.liberation-workspace-panel { padding: 0; }
+    .liberation-workspace-panel .liberation-panel,
+    .liberation-workspace-panel .liberation-status-panel { padding: 10px; }
+}
+
+.genesis-alchemy-hero {
+    width: 100%;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(245px, 0.75fr);
+    gap: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(119, 105, 199, 0.2);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 96% -20%, rgba(201, 107, 225, 0.16), transparent 36%),
+        radial-gradient(circle at -8% 112%, rgba(75, 189, 227, 0.14), transparent 34%),
+        rgba(255,255,255,0.5);
+    box-shadow: 0 10px 28px rgba(72, 56, 144, 0.09);
+}
+.genesis-alchemy-heading > span {
+    color: #7469cf;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.13em;
+}
+.genesis-alchemy-heading h2 {
+    margin: 5px 0 6px;
+    color: var(--text-main);
+    font-size: clamp(24px, 3vw, 32px);
+}
+.genesis-alchemy-heading p {
+    max-width: 620px;
+    margin: 0;
+    color: #6b687b;
+    font-size: 13px;
+    font-weight: 550;
+    line-height: 1.65;
+}
+.genesis-alchemy-primary {
+    min-width: 0;
+    padding: 15px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(123, 105, 204, 0.2);
+    border-left: 4px solid #766ce3;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.48);
+}
+.genesis-alchemy-primary > span { color: var(--text-muted); font-size: 11px; }
+.genesis-alchemy-primary > strong {
+    margin: 3px 0;
+    overflow: hidden;
+    color: var(--text-main);
+    font-size: clamp(21px, 3vw, 28px);
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.genesis-alchemy-primary small { color: var(--text-muted); font-size: 11px; }
+.genesis-alchemy-primary small b { color: #6d63d1; font-size: 15px; }
+.genesis-alchemy-summary-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+}
+.genesis-alchemy-summary-grid > div {
+    min-width: 0;
+    padding: 11px 13px;
+    display: grid;
+    grid-template-columns: minmax(0, auto) auto;
+    align-items: baseline;
+    justify-content: start;
+    column-gap: 4px;
+    border: 1px solid rgba(119, 105, 199, 0.15);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.46);
+}
+.genesis-alchemy-summary-grid span { grid-column: 1 / -1; margin-bottom: 3px; color: #69667a; font-size: 11px; font-weight: 650; }
+.genesis-alchemy-summary-grid strong {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--text-main);
+    font-size: clamp(17px, 2.1vw, 22px);
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.genesis-alchemy-summary-grid small { color: #747085; font-size: 10px; font-weight: 600; white-space: nowrap; }
+.genesis-alchemy-summary-material {
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px;
+}
+.genesis-alchemy-summary-material > img {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    object-fit: contain;
+    image-rendering: auto;
+    filter: drop-shadow(0 4px 6px rgba(64, 43, 123, 0.18));
+}
+.genesis-alchemy-summary-material > div {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, auto) auto;
+    align-items: baseline;
+    column-gap: 4px;
+}
+.genesis-alchemy-summary-material > div > span { grid-column: 1 / -1; }
+.genesis-alchemy-settings,
+.genesis-alchemy-boss-panel { padding: 18px; }
+.genesis-alchemy-settings .liberation-section-heading p,
+.genesis-alchemy-boss-panel .liberation-section-heading p {
+    color: #6b687b;
+    font-size: 13px;
+    font-weight: 550;
+}
+.genesis-alchemy-rate {
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    border: 1px solid rgba(55, 165, 119, 0.25);
+    border-radius: 999px;
+    color: #27845d;
+    background: rgba(70, 181, 127, 0.09);
+    min-width: 92px;
+    min-height: 38px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+.genesis-alchemy-controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: end;
+    gap: 9px;
+}
+.genesis-alchemy-controls .liberation-field {
+    margin: 0;
+    gap: 7px;
+    font-size: 13px;
+}
+.genesis-alchemy-controls .liberation-field input,
+.genesis-alchemy-controls .liberation-field select {
+    min-height: 42px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 650;
+}
+.genesis-alchemy-controls .liberation-check { min-height: 39px; }
+.genesis-alchemy-controls .liberation-reset-btn { width: 100%; min-height: 39px; }
+.genesis-alchemy-reset-mobile { display: none; }
+.genesis-alchemy-reset-desktop {
+    width: 100%;
+    display: flex;
+}
+.genesis-alchemy-reset-desktop .liberation-reset-btn {
+    width: 100%;
+    min-height: 43px;
+    margin: 0;
+    border-radius: 13px;
+    font-size: 13px;
+}
+.genesis-alchemy-level-grid {
+    margin-top: 14px;
+    padding-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 6px;
+    border-top: 1px solid rgba(112, 98, 179, 0.13);
+}
+.genesis-alchemy-level {
+    min-width: 0;
+    min-height: 66px;
+    padding: 7px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border: 1px solid rgba(115, 101, 185, 0.16);
+    border-radius: 10px;
+    color: var(--text-main);
+    background: rgba(255,255,255,0.38);
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+.genesis-alchemy-level:hover { transform: translateY(-2px); border-color: rgba(112, 99, 221, 0.42); }
+.genesis-alchemy-level span { color: #6c62c8; font-size: 11px; font-weight: 850; }
+.genesis-alchemy-level strong { color: var(--text-main); font-size: 14px; line-height: 1.1; }
+.genesis-alchemy-level small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #6f6b80;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.genesis-alchemy-level small img {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+    object-fit: contain;
+}
+.genesis-alchemy-level.is-complete { border-color: rgba(47, 161, 132, 0.32); background: rgba(70, 190, 162, 0.1); }
+.genesis-alchemy-level.is-planned { background: rgba(121, 109, 224, 0.08); }
+.genesis-alchemy-level.is-target {
+    border-color: #786ce6;
+    background: linear-gradient(145deg, rgba(103, 193, 231, 0.15), rgba(201, 105, 226, 0.15));
+    box-shadow: 0 5px 13px rgba(104, 87, 204, 0.14), inset 0 0 0 1px rgba(120,108,230,0.18);
+}
+.genesis-alchemy-boss-panel .liberation-boss-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.genesis-alchemy-boss-panel .liberation-boss-card { grid-template-columns: 68px minmax(0, 1fr); }
+.genesis-alchemy-boss-panel .liberation-boss-art { min-height: 126px; }
+.genesis-alchemy-boss-panel .liberation-boss-body { padding: 9px; }
+.genesis-alchemy-boss-panel .liberation-boss-card header { margin-bottom: 6px; }
+.genesis-alchemy-boss-panel .liberation-boss-card header > strong { font-size: 12px; }
+.genesis-alchemy-boss-panel .liberation-boss-card header span {
+    padding: 3px 5px;
+    border-radius: 999px;
+    background: rgba(110, 99, 210, 0.09);
+    font-size: 9px;
+}
+.genesis-alchemy-boss-panel .liberation-boss-card header span b { font-size: 12px; }
+.genesis-alchemy-boss-panel .liberation-boss-controls,
+.genesis-alchemy-boss-panel .liberation-boss-enabled { min-height: 35px; }
+.genesis-alchemy-boss-panel .liberation-boss-card select { min-height: 35px; padding: 0 7px; font-size: 11px; }
+.genesis-alchemy-boss-panel .liberation-ticket-row { grid-template-columns: 29px minmax(0, 1fr); gap: 6px; margin-top: 8px; }
+.genesis-alchemy-boss-panel .liberation-ticket-icon { width: 29px; height: 29px; }
+.genesis-alchemy-boss-panel .liberation-ticket-icon img { max-width: 24px; max-height: 24px; }
+.genesis-alchemy-attack-summary small { color: #7568d8; font-size: 10px; font-weight: 700; }
+
+/* 鍊成階段資料：每階獨立玻璃資料列 */
+.genesis-alchemy-table-panel { padding: 18px; }
+.genesis-alchemy-table-panel .liberation-section-heading { align-items: center; }
+.genesis-alchemy-table-rate {
+    flex: 0 0 auto;
+    align-self: center;
+    padding: 6px 10px;
+    border: 1px solid rgba(55, 165, 119, 0.25);
+    border-radius: 999px;
+    color: #27845d;
+    background: rgba(70, 181, 127, 0.09);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* 創世鍊成石：單一兌換進度 */
+.genesis-stone-panel {
+    width: 100%;
+    padding: 22px;
+    border: 1px solid rgba(126, 110, 204, 0.2);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 94% -8%, rgba(197, 103, 224, 0.17), transparent 34%),
+        radial-gradient(circle at -7% 106%, rgba(75, 191, 229, 0.16), transparent 32%),
+        rgba(255,255,255,0.5);
+    box-shadow: 0 12px 30px rgba(72, 56, 144, 0.1);
+}
+.genesis-stone-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+.genesis-stone-heading > div:first-child > span {
+    color: #7469cf;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.13em;
+}
+.genesis-stone-heading h2 { margin: 5px 0 5px; color: var(--text-main); font-size: clamp(24px, 3vw, 31px); }
+.genesis-stone-heading p { margin: 0; color: #6b687b; font-size: 13px; font-weight: 550; }
+.genesis-stone-rule {
+    min-width: 112px;
+    min-height: 68px;
+    padding: 10px 15px;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    border: 1px solid rgba(116, 105, 207, 0.2);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.46);
+}
+.genesis-stone-rule strong { color: #6d63d1; font-size: 21px; line-height: 1.1; }
+.genesis-stone-rule span { color: #777286; font-size: 10px; font-weight: 650; }
+.genesis-stone-exchange {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 94px minmax(0, 1fr);
+    align-items: stretch;
+    gap: 12px;
+}
+.genesis-stone-material-card,
+.genesis-stone-result-card {
+    min-width: 0;
+    min-height: 125px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    gap: 4px 14px;
+    border: 1px solid rgba(125, 111, 197, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(231,246,255,0.64), rgba(250,231,255,0.48));
+}
+.genesis-stone-material-card { cursor: text; }
+.genesis-stone-material-card img,
+.genesis-stone-result-card img {
+    width: 58px;
+    height: 58px;
+    grid-row: 1 / 3;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 8px rgba(67, 42, 121, 0.2));
+}
+.genesis-stone-material-card > span,
+.genesis-stone-result-card > span { align-self: end; color: #6b687b; font-size: 12px; font-weight: 650; }
+.genesis-stone-material-card input {
+    width: 100%;
+    min-width: 0;
+    min-height: 43px;
+    padding: 0 12px;
+    border: 1px solid rgba(119, 105, 199, 0.23);
+    border-radius: 11px;
+    outline: 0;
+    background: rgba(255,255,255,0.7);
+    color: var(--text-main);
+    font: inherit;
+    font-size: 17px;
+    font-weight: 750;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.genesis-stone-material-card input:focus { border-color: #7568e4; box-shadow: 0 0 0 3px rgba(117,104,228,0.13); }
+.genesis-stone-result-card strong { align-self: start; color: var(--text-main); font-size: 18px; }
+.genesis-stone-result-card strong b { color: #b650ce; font-size: 27px; }
+.genesis-stone-exchange-arrow { display: grid; place-content: center; text-align: center; }
+.genesis-stone-exchange-arrow span { color: #777286; font-size: 10px; font-weight: 700; }
+.genesis-stone-exchange-arrow b {
+    color: #786ce6;
+    font-size: 36px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 6px rgba(112, 87, 205, 0.18));
+}
+.genesis-stone-progress-block {
+    margin-top: 14px;
+    padding: 13px 15px;
+    display: grid;
+    grid-template-columns: auto minmax(120px, 1fr) 38px;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(125, 111, 197, 0.16);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.38);
+}
+.genesis-stone-progress-copy { display: flex; align-items: baseline; gap: 8px; }
+.genesis-stone-progress-copy span { color: #6b687b; font-size: 11px; font-weight: 650; }
+.genesis-stone-progress-copy strong { color: var(--text-main); font-size: 14px; white-space: nowrap; }
+.genesis-stone-progress-track { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(96, 92, 157, 0.13); }
+.genesis-stone-progress-track i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #50bde1, #7e72e9 55%, #d05acb); transition: width 0.25s ease; }
+.genesis-stone-progress-block > span { color: #6d63d1; font-size: 12px; font-weight: 800; text-align: right; }
+.genesis-stone-summary { margin-top: 10px; display: grid; grid-template-columns: 1.25fr repeat(2, minmax(0, 1fr)); gap: 10px; }
+.genesis-stone-summary > div {
+    padding: 13px 15px;
+    display: grid;
+    grid-template-columns: minmax(0, auto) auto;
+    align-items: baseline;
+    justify-content: start;
+    column-gap: 5px;
+    border: 1px solid rgba(125, 111, 197, 0.16);
+    border-radius: 13px;
+    background: rgba(255,255,255,0.4);
+}
+.genesis-stone-summary span { grid-column: 1 / -1; color: #6b687b; font-size: 11px; font-weight: 650; }
+.genesis-stone-summary strong { color: var(--text-main); font-size: 20px; }
+.genesis-stone-summary small { color: #777286; font-size: 10px; }
+.genesis-stone-summary .genesis-stone-forecast { grid-template-columns: 1fr; }
+.genesis-stone-forecast strong { overflow: hidden; font-size: 17px; text-overflow: ellipsis; white-space: nowrap; }
+.genesis-stone-forecast small b { color: #6d63d1; font-size: 14px; }
+.genesis-stone-settings,
+.genesis-stone-boss-panel { padding: 18px; }
+.genesis-stone-settings .liberation-section-heading p,
+.genesis-stone-boss-panel .liberation-section-heading p { color: #6b687b; font-size: 13px; font-weight: 550; }
+.genesis-stone-controls {
+    display: grid;
+    grid-template-columns: minmax(190px, 0.75fr) minmax(360px, 1.65fr) minmax(165px, 0.65fr);
+    align-items: stretch;
+    gap: 10px;
+}
+.genesis-unified-controls {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1.85fr) minmax(230px, 1.03fr) minmax(132px, 0.52fr);
+    align-items: stretch;
+    gap: 10px;
+}
+.genesis-unified-field-group {
+    min-width: 0;
+    min-height: 76px;
+    margin: 0;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 6px;
+    border: 1px solid rgba(125, 111, 197, 0.16);
+    border-radius: 13px;
+    background: rgba(255,255,255,0.38);
+}
+.genesis-unified-field-group legend {
+    padding: 0;
+    color: #6b687b;
+    font-size: 10px;
+    font-weight: 700;
+}
+.genesis-unified-field-group > div { display: grid; gap: 7px; }
+.genesis-unified-field-group--three > div { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.genesis-unified-field-group--four > div { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr) minmax(0, 0.9fr) minmax(116px, 1.35fr); }
+.genesis-unified-field {
+    min-width: 0;
+    min-height: 39px;
+    padding: 4px 8px 5px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 2px;
+    border: 1px solid rgba(119, 105, 199, 0.17);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.54);
+}
+.genesis-unified-field > span { overflow: hidden; color: #777286; font-size: 9px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.genesis-unified-field input,
+.genesis-unified-field select {
+    width: 100%;
+    min-width: 0;
+    min-height: 22px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text-main);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+}
+.genesis-unified-field select { cursor: pointer; }
+.genesis-unified-field-group--four .genesis-unified-field > span { font-size: 8.5px; }
+.genesis-unified-field-group--four .genesis-unified-field input[type="date"] { font-size: 11px; }
+.genesis-unified-field:focus-within { border-color: #7568e4; box-shadow: 0 0 0 3px rgba(117,104,228,0.11); }
+.genesis-unified-controls .genesis-stone-status-option > span { display: grid; gap: 0; }
+.genesis-stone-date-field,
+.genesis-stone-status-group {
+    min-width: 0;
+    min-height: 76px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(125, 111, 197, 0.16);
+    border-radius: 13px;
+    background: rgba(255,255,255,0.38);
+}
+.genesis-stone-date-field {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 6px;
+}
+.genesis-stone-date-field > span,
+.genesis-stone-status-group legend {
+    padding: 0;
+    color: #6b687b;
+    font-size: 10px;
+    font-weight: 700;
+}
+.genesis-stone-date-field input {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    min-height: 39px;
+    padding: 0 11px;
+    border: 1px solid rgba(119, 105, 199, 0.22);
+    border-radius: 10px;
+    outline: 0;
+    background: rgba(255,255,255,0.72);
+    color: var(--text-main);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.genesis-stone-date-field input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+}
+.genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
+}
+.genesis-stone-date-field input:focus { border-color: #7568e4; box-shadow: 0 0 0 3px rgba(117,104,228,0.13); }
+.genesis-stone-status-group { display: grid; grid-template-rows: auto 1fr; gap: 6px; }
+.genesis-stone-status-group > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.genesis-stone-status-option {
+    min-width: 0;
+    min-height: 39px;
+    padding: 5px 9px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(119, 105, 199, 0.17);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.54);
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+.genesis-stone-status-option:hover { transform: translateY(-1px); border-color: rgba(117,104,228,0.35); }
+.genesis-stone-status-option:has(input:checked) { border-color: rgba(117,104,228,0.45); background: linear-gradient(135deg, rgba(109,191,226,0.12), rgba(194,99,215,0.13)); }
+.genesis-stone-status-option input { width: 17px; height: 17px; flex: 0 0 17px; margin: 0; accent-color: #7568e4; }
+.genesis-stone-status-option > span { min-width: 0; display: flex; align-items: baseline; gap: 5px; white-space: nowrap; }
+.genesis-stone-status-option b { overflow: hidden; color: var(--text-main); font-size: 12px; text-overflow: ellipsis; }
+.genesis-stone-status-option small { color: #777286; font-size: 9px; font-weight: 650; }
+.genesis-stone-reset { width: 100%; min-height: 76px; margin: 0; border-radius: 13px; font-size: 13px; }
+.genesis-stone-reset:focus { outline: 0; }
+.genesis-stone-reset:focus-visible { outline: 2px solid rgba(117,104,228,0.58); outline-offset: 2px; }
+
+/* 依設定面板本身的可用寬度換列，避免不同縮放比例下重設按鈕被擠出。 */
+.liberation-status-panel,
+.genesis-alchemy-settings { container-type: inline-size; }
+
+@container (max-width: 940px) {
+    .genesis-unified-controls {
+        grid-template-columns: minmax(0, 1fr) 152px;
+    }
+
+    .genesis-unified-controls .genesis-unified-field-group {
+        grid-column: 1 / -1;
+    }
+
+    .genesis-unified-controls .genesis-stone-status-group,
+    .genesis-unified-controls .genesis-stone-reset {
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+    }
+}
+
+@container (max-width: 560px) {
+    .genesis-unified-controls {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .genesis-unified-controls .genesis-stone-status-group,
+    .genesis-unified-controls .genesis-stone-reset {
+        grid-column: 1 / -1;
+    }
+}
+
+[data-theme="dark"] .genesis-stone-panel {
+    border-color: rgba(139, 148, 226, 0.25);
+    background: radial-gradient(circle at 92% 0, rgba(125,61,146,0.23), transparent 35%), radial-gradient(circle at 0 100%, rgba(32,126,154,0.2), transparent 34%), rgba(11,17,36,0.82);
+}
+[data-theme="dark"] .genesis-stone-heading p,
+[data-theme="dark"] .genesis-stone-material-card > span,
+[data-theme="dark"] .genesis-stone-result-card > span,
+[data-theme="dark"] .genesis-stone-progress-copy span,
+[data-theme="dark"] .genesis-stone-summary span,
+[data-theme="dark"] .genesis-stone-settings .liberation-section-heading p,
+[data-theme="dark"] .genesis-stone-boss-panel .liberation-section-heading p { color: #aeb7ca; }
+[data-theme="dark"] .genesis-stone-rule,
+[data-theme="dark"] .genesis-stone-progress-block,
+[data-theme="dark"] .genesis-stone-summary > div { border-color: rgba(139,148,226,0.23); background: rgba(8,14,32,0.5); }
+[data-theme="dark"] .genesis-stone-material-card,
+[data-theme="dark"] .genesis-stone-result-card { border-color: rgba(139,148,226,0.25); background: linear-gradient(135deg, rgba(18,51,69,0.58), rgba(57,30,70,0.5)); }
+[data-theme="dark"] .genesis-stone-material-card input { border-color: rgba(130,147,232,0.3); background: rgba(5,10,27,0.7); }
+[data-theme="dark"] .genesis-stone-date-field,
+[data-theme="dark"] .genesis-stone-status-group,
+[data-theme="dark"] .genesis-unified-field-group { border-color: rgba(139,148,226,0.23); background: rgba(8,14,32,0.5); }
+[data-theme="dark"] .genesis-stone-date-field > span,
+[data-theme="dark"] .genesis-stone-status-group legend,
+[data-theme="dark"] .genesis-unified-field-group legend,
+[data-theme="dark"] .genesis-unified-field > span,
+[data-theme="dark"] .genesis-stone-status-option small { color: #aeb7ca; }
+[data-theme="dark"] .genesis-stone-date-field input,
+[data-theme="dark"] .genesis-stone-status-option,
+[data-theme="dark"] .genesis-unified-field { border-color: rgba(130,147,232,0.25); background: rgba(5,10,27,0.62); }
+[data-theme="dark"] .genesis-stone-status-option:has(input:checked) { border-color: rgba(146,134,255,0.52); background: linear-gradient(135deg, rgba(45,121,156,0.25), rgba(112,52,130,0.24)); }
+
+@media (max-width: 700px) {
+    .genesis-stone-panel { padding: 14px; border-radius: 16px; }
+    .genesis-stone-heading { align-items: flex-end; gap: 9px; }
+    .genesis-stone-heading h2 { font-size: 23px; }
+    .genesis-stone-heading p { font-size: 11px; line-height: 1.5; }
+    .genesis-stone-rule { min-width: 84px; min-height: 57px; padding: 8px; }
+    .genesis-stone-rule strong { font-size: 17px; }
+    .genesis-stone-exchange { grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr); gap: 6px; }
+    .genesis-stone-material-card,
+    .genesis-stone-result-card { min-height: 132px; padding: 11px 9px; grid-template-columns: 1fr; grid-template-rows: 42px auto auto; justify-items: center; gap: 4px; text-align: center; }
+    .genesis-stone-material-card img,
+    .genesis-stone-result-card img { width: 42px; height: 42px; grid-row: auto; }
+    .genesis-stone-material-card > span,
+    .genesis-stone-result-card > span { align-self: auto; font-size: 9px; white-space: nowrap; }
+    .genesis-stone-material-card input { min-height: 36px; padding: 0 6px; font-size: 12px; text-align: center; }
+    .genesis-stone-material-card input::placeholder { font-size: 9px; }
+    .genesis-stone-result-card strong { align-self: auto; font-size: 12px; }
+    .genesis-stone-result-card strong b { font-size: 22px; }
+    .genesis-stone-exchange-arrow span { font-size: 8px; }
+    .genesis-stone-exchange-arrow b { font-size: 25px; }
+    .genesis-stone-progress-block { grid-template-columns: 1fr 36px; gap: 7px; padding: 10px; }
+    .genesis-stone-progress-copy { grid-column: 1 / -1; justify-content: space-between; }
+    .genesis-stone-progress-track { grid-column: 1; }
+    .genesis-stone-summary > div { padding: 10px; }
+    .genesis-stone-summary .genesis-stone-forecast { grid-column: 1 / -1; }
+    .genesis-stone-summary strong { font-size: 16px; }
+    .genesis-stone-summary small { font-size: 8px; }
+    .genesis-stone-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .genesis-stone-settings,
+    .genesis-stone-boss-panel { padding: 10px; }
+    /* 手機版設定區：避免 grid 子項以內容最小寬度撐破外層卡片。 */
+    .genesis-stone-controls,
+    .genesis-stone-date-field,
+    .genesis-stone-status-group,
+    .genesis-stone-reset {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .genesis-stone-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .genesis-stone-date-field { grid-column: 1 / -1; min-height: 69px; }
+    .genesis-stone-status-group { grid-column: 1 / -1; min-height: 69px; padding: 9px; }
+    .genesis-stone-status-group > div { width: 100%; min-width: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .genesis-stone-status-option { min-height: 38px; min-width: 0; max-width: 100%; padding: 5px 7px; gap: 6px; overflow: hidden; }
+    .genesis-stone-status-option > span { display: grid; gap: 0; }
+    .genesis-stone-status-option b { font-size: 11px; }
+    .genesis-stone-status-option small { font-size: 8px; }
+    .genesis-stone-reset { grid-column: 1 / -1; min-height: 42px; }
+    .genesis-unified-controls { grid-template-columns: 1fr; gap: 8px; }
+    .genesis-unified-field-group,
+    .genesis-unified-controls .genesis-stone-status-group,
+    .genesis-unified-controls .genesis-stone-reset { grid-column: 1; }
+    .genesis-unified-field-group { min-height: 0; padding: 9px; }
+    .genesis-unified-field-group--three > div,
+    .genesis-unified-field-group--four > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .genesis-unified-field-group--three .genesis-unified-field:first-child { grid-column: 1 / -1; }
+    .genesis-unified-field { min-height: 42px; padding: 5px 7px; }
+    .genesis-unified-field > span { font-size: 8px; }
+    .genesis-unified-field input,
+    .genesis-unified-field select { font-size: 11px; }
+}
+
+@media (min-width: 701px) and (max-width: 1080px) {
+    .genesis-unified-controls { grid-template-columns: 1fr 1fr; }
+    .genesis-unified-field-group { grid-column: 1 / -1; }
+    .genesis-unified-controls .genesis-stone-reset { min-height: 76px; }
+}
+.genesis-alchemy-table-header,
+.genesis-alchemy-table-row {
+    display: grid;
+    grid-template-columns: 92px minmax(210px, 1.35fr) minmax(145px, 0.9fr) minmax(125px, 0.78fr) minmax(105px, 0.65fr);
+    align-items: center;
+    gap: 10px;
+}
+.genesis-alchemy-table-header {
+    padding: 0 14px 8px;
+    color: #777286;
+    font-size: 10px;
+    font-weight: 750;
+}
+.genesis-alchemy-table-rows {
+    display: grid;
+    gap: 6px;
+}
+.genesis-alchemy-table-row {
+    width: 100%;
+    min-height: 50px;
+    padding: 8px 14px;
+    border: 1px solid rgba(119, 104, 181, 0.16);
+    border-radius: 12px;
+    color: var(--text-main);
+    background: linear-gradient(135deg, rgba(255,255,255,0.57), rgba(255,255,255,0.31));
+    box-shadow: 0 5px 14px rgba(58, 43, 119, 0.045), inset 0 1px 0 rgba(255,255,255,0.58);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+.genesis-alchemy-table-row:hover {
+    transform: translateY(-1px);
+    border-color: rgba(112, 99, 221, 0.38);
+    box-shadow: 0 7px 17px rgba(75, 58, 151, 0.08), inset 0 1px 0 rgba(255,255,255,0.68);
+}
+.genesis-alchemy-table-row small { display: none; }
+.genesis-alchemy-table-row b {
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.genesis-alchemy-table-level b {
+    display: inline-grid;
+    min-width: 51px;
+    min-height: 28px;
+    place-items: center;
+    border-radius: 9px;
+    color: #685fca;
+    background: rgba(113, 100, 211, 0.09);
+}
+.genesis-alchemy-table-material > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #555166;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.genesis-alchemy-table-material img {
+    width: 25px;
+    height: 25px;
+    flex: 0 0 25px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 4px rgba(52, 37, 111, 0.16));
+}
+.genesis-alchemy-table-increase b { color: #6f64d0; }
+.genesis-alchemy-table-row.is-complete {
+    border-color: rgba(47, 161, 132, 0.3);
+    background: linear-gradient(135deg, rgba(211, 249, 240, 0.52), rgba(230, 249, 247, 0.28));
+}
+.genesis-alchemy-table-row.is-complete .genesis-alchemy-table-level b { color: #28866c; background: rgba(53, 174, 142, 0.11); }
+.genesis-alchemy-table-row.is-planned { background: linear-gradient(135deg, rgba(230, 235, 255, 0.53), rgba(248, 226, 255, 0.3)); }
+.genesis-alchemy-table-row.is-target {
+    border-color: #786ce6;
+    background: linear-gradient(135deg, rgba(205, 239, 251, 0.56), rgba(240, 212, 249, 0.46));
+    box-shadow: 0 7px 18px rgba(104, 87, 204, 0.13), inset 0 0 0 1px rgba(120,108,230,0.16);
+}
+.genesis-alchemy-table-row.is-target .genesis-alchemy-table-level b { color: #fff; background: linear-gradient(135deg, #6d75dc, #a65fd1); }
+
+/* 每個痕跡面板只保留一個總開關，避免每張 BOSS 卡片增加控制項。 */
+.liberation-section-heading:has(.liberation-custom-toggle) { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.liberation-custom-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    border: 1px solid rgba(117, 104, 228, 0.22);
+    border-radius: 999px;
+    color: #655bc4;
+    background: rgba(255,255,255,0.46);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.liberation-section-heading:has(.liberation-custom-toggle) > div { min-width: 0; }
+.liberation-section-heading:has(.liberation-custom-toggle) .liberation-custom-toggle {
+    margin: 0 0 0 auto;
+    align-self: flex-start;
+}
+.liberation-custom-toggle input { width: 16px; height: 16px; margin: 0; accent-color: #7568e4; }
+.liberation-boss-custom-traces { display: none; width: 100%; min-width: 0; min-height: 34px; padding: 0 9px; border: 1px solid rgba(119,105,199,0.22); border-radius: 9px; background: rgba(255,255,255,0.72); color: var(--text-main); font: inherit; font-size: 12px; font-weight: 700; }
+.liberation-boss-list.is-custom .liberation-boss-difficulty { display: none; }
+.liberation-boss-list.is-custom .liberation-boss-custom-traces { display: block; }
+[data-theme="dark"] .liberation-custom-toggle { border-color: rgba(139,132,226,0.3); color: #b8b1ff; background: rgba(8,14,32,0.42); }
+[data-theme="dark"] .liberation-boss-custom-traces { border-color: rgba(130,147,232,0.3); background: rgba(5,10,27,0.7); }
+
+@media (max-width: 700px) {
+    .liberation-section-heading:has(.liberation-custom-toggle) { align-items: flex-start; }
+    .liberation-custom-toggle { padding: 5px 8px; font-size: 11px; }
+    .liberation-boss-custom-traces { min-height: 32px; font-size: 11px; }
+}
+
+[data-theme="dark"] .genesis-alchemy-hero {
+    border-color: rgba(139, 147, 226, 0.26);
+    background:
+        radial-gradient(circle at 96% -20%, rgba(178, 75, 208, 0.18), transparent 36%),
+        radial-gradient(circle at -8% 112%, rgba(47, 156, 204, 0.16), transparent 34%),
+        rgba(13, 21, 42, 0.88);
+}
+[data-theme="dark"] .genesis-alchemy-primary,
+[data-theme="dark"] .genesis-alchemy-summary-grid > div,
+[data-theme="dark"] .genesis-alchemy-level { background: rgba(7, 13, 30, 0.5); border-color: rgba(140, 145, 224, 0.22); }
+[data-theme="dark"] .genesis-alchemy-level.is-complete { background: rgba(42, 153, 124, 0.14); border-color: rgba(70, 200, 165, 0.33); }
+[data-theme="dark"] .genesis-alchemy-level.is-planned { background: rgba(120, 108, 226, 0.12); }
+[data-theme="dark"] .genesis-alchemy-level.is-target { background: linear-gradient(145deg, rgba(54, 146, 197, 0.18), rgba(155, 68, 189, 0.18)); border-color: #9488ff; }
+[data-theme="dark"] .genesis-alchemy-rate { color: #79d4ad; background: rgba(54, 178, 126, 0.12); }
+[data-theme="dark"] .genesis-alchemy-boss-panel .liberation-boss-card header span { background: rgba(128, 119, 235, 0.14); }
+[data-theme="dark"] .genesis-alchemy-table-rate { color: #79d4ad; background: rgba(54, 178, 126, 0.12); border-color: rgba(84, 206, 151, 0.28); }
+[data-theme="dark"] .genesis-alchemy-table-header { color: #aeb7ca; }
+[data-theme="dark"] .genesis-alchemy-table-row {
+    border-color: rgba(140, 145, 224, 0.19);
+    background: linear-gradient(135deg, rgba(11,18,37,0.72), rgba(26,20,49,0.48));
+    box-shadow: 0 6px 16px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.025);
+}
+[data-theme="dark"] .genesis-alchemy-table-material > span { color: #c0c7d9; }
+[data-theme="dark"] .genesis-alchemy-table-level b { color: #b7b1ff; background: rgba(128,119,235,0.13); }
+[data-theme="dark"] .genesis-alchemy-table-row.is-complete { border-color: rgba(68, 194, 157, 0.32); background: linear-gradient(135deg, rgba(24,92,76,0.3), rgba(10,35,41,0.4)); }
+[data-theme="dark"] .genesis-alchemy-table-row.is-planned { background: linear-gradient(135deg, rgba(59,67,126,0.28), rgba(89,43,102,0.24)); }
+[data-theme="dark"] .genesis-alchemy-table-row.is-target { border-color: #958aff; background: linear-gradient(135deg, rgba(43,102,136,0.34), rgba(101,48,120,0.3)); }
+[data-theme="dark"] .genesis-alchemy-heading p,
+[data-theme="dark"] .genesis-alchemy-settings .liberation-section-heading p,
+[data-theme="dark"] .genesis-alchemy-boss-panel .liberation-section-heading p,
+[data-theme="dark"] .genesis-alchemy-summary-grid span,
+[data-theme="dark"] .genesis-alchemy-summary-grid small,
+[data-theme="dark"] .genesis-alchemy-level small { color: #b8bfd1; }
+
+@media (max-width: 980px) {
+    .genesis-alchemy-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .genesis-alchemy-level-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .genesis-alchemy-boss-panel .liberation-boss-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+    .genesis-alchemy-hero { grid-template-columns: 1fr; padding: 14px; gap: 11px; border-radius: 16px; }
+    .genesis-alchemy-heading h2 { font-size: 24px; }
+    .genesis-alchemy-heading p { font-size: 11px; }
+    .genesis-alchemy-primary { padding: 11px 13px; }
+    .genesis-alchemy-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .genesis-alchemy-summary-grid > div { padding: 9px 10px; }
+    .genesis-alchemy-summary-grid strong { font-size: 18px; }
+    .genesis-alchemy-summary-grid > div:nth-child(2) strong { font-size: 15px; }
+    .genesis-alchemy-settings,
+    .genesis-alchemy-boss-panel,
+    .genesis-alchemy-table-panel { padding: 13px; }
+    .genesis-alchemy-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .genesis-alchemy-reset-mobile { grid-column: 1 / -1; display: block; }
+    .genesis-alchemy-reset-desktop { display: none; }
+    .genesis-alchemy-level-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
+    .genesis-alchemy-level { min-height: 61px; padding: 5px 2px; }
+    .genesis-alchemy-level strong { font-size: 13px; }
+    .genesis-alchemy-level small { font-size: 9px; }
+    .genesis-alchemy-boss-panel .liberation-boss-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .genesis-alchemy-boss-panel .liberation-boss-card { display: grid; grid-template-columns: 52px minmax(0, 1fr); }
+    .genesis-alchemy-boss-panel .liberation-boss-art { width: auto; height: auto; min-height: 124px; }
+    .genesis-alchemy-boss-panel .liberation-boss-body { padding: 7px; }
+    .genesis-alchemy-boss-panel .liberation-boss-card header { display: grid; justify-items: start; gap: 3px; }
+    .genesis-alchemy-boss-panel .liberation-boss-card header span { font-size: 9px; }
+    .genesis-alchemy-boss-panel .liberation-label-full { display: none; }
+    .genesis-alchemy-boss-panel .liberation-label-short { display: inline; }
+    .genesis-alchemy-boss-panel .liberation-ticket-row { grid-template-columns: 26px minmax(0, 1fr); }
+
+    .genesis-alchemy-table-rate { padding: 5px 8px; font-size: 10px; }
+    .genesis-alchemy-table-header { display: none; }
+    .genesis-alchemy-table-rows { gap: 8px; }
+    .genesis-alchemy-table-row {
+        min-height: 92px;
+        padding: 10px;
+        grid-template-columns: 68px minmax(0, 1.25fr) minmax(95px, 0.85fr);
+        grid-template-areas:
+            "level material meso"
+            "level attack increase";
+        gap: 8px 7px;
+        border-radius: 13px;
+    }
+    .genesis-alchemy-table-row small {
+        display: block;
+        margin-bottom: 3px;
+        color: #777286;
+        font-size: 8px;
+        font-weight: 650;
+        white-space: nowrap;
+    }
+    .genesis-alchemy-table-level { grid-area: level; }
+    .genesis-alchemy-table-material { grid-area: material; }
+    .genesis-alchemy-table-meso { grid-area: meso; }
+    .genesis-alchemy-table-attack { grid-area: attack; }
+    .genesis-alchemy-table-increase { grid-area: increase; }
+    .genesis-alchemy-table-level b { min-width: 54px; min-height: 29px; }
+    .genesis-alchemy-table-material > span { font-size: 11px; }
+    .genesis-alchemy-table-material img { width: 22px; height: 22px; flex-basis: 22px; }
+    .genesis-alchemy-table-meso b { font-size: 10px; }
+    .genesis-alchemy-table-row b { font-size: 11px; }
+    [data-theme="dark"] .genesis-alchemy-table-row small { color: #aeb7ca; }
+}
+
+@media (max-width: 410px) {
+    .genesis-alchemy-heading p { line-height: 1.5; }
+    .genesis-alchemy-summary-grid strong { font-size: 16px; }
+    .genesis-alchemy-summary-grid > div:nth-child(2) strong { font-size: 14px; }
+    .genesis-alchemy-settings,
+    .genesis-alchemy-boss-panel,
+    .genesis-alchemy-table-panel { padding: 10px; }
+    .genesis-alchemy-level-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .genesis-alchemy-boss-panel .liberation-boss-list { gap: 6px; }
+    .genesis-alchemy-boss-panel .liberation-boss-card { grid-template-columns: 48px minmax(0, 1fr); }
+    .genesis-alchemy-boss-panel .liberation-boss-body { padding: 6px; }
+    .genesis-alchemy-boss-panel .liberation-boss-card header > strong { font-size: 11px; }
+}
+
 /*
     <div id="tab-home" class="tab-content active">
             <div style="text-align: center; margin: 50px auto; color: #555;">
@@ -4706,3 +6654,139 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
             </div>
             
         <div class="app-grid">
+
+*/
+
+/* ========================================== */
+/* 創世解放：iOS Safari 實機相容性最終整理版 */
+/* 2026-08-16                                */
+/* ========================================== */
+
+/* Safari fieldset / Grid 最小寬度修正 */
+#tab-liberation .genesis-unified-field-group,
+#tab-liberation .genesis-stone-status-group,
+#tab-liberation .genesis-stone-controls > *,
+#tab-liberation .genesis-unified-controls > *,
+#tab-liberation .genesis-unified-field-group > div > *,
+#tab-liberation .genesis-stone-status-group > div > * {
+    min-width: 0;
+    min-inline-size: 0;
+}
+
+#tab-liberation .genesis-unified-field-group > legend,
+#tab-liberation .genesis-stone-status-group > legend {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    writing-mode: horizontal-tb;
+}
+
+/* iOS Safari date input：限制寬度並修正文字垂直位置 */
+#tab-liberation input[type="date"] {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#tab-liberation input[type="date"]::-webkit-date-and-time-value,
+#tab-liberation input[type="date"]::-webkit-datetime-edit,
+#tab-liberation input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    min-width: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#tab-liberation .genesis-stone-date-field input[type="date"] {
+    height: 39px;
+    min-height: 39px;
+    line-height: 39px;
+}
+
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value,
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit,
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    height: 100%;
+    line-height: 39px;
+}
+
+/* 手機：明確鎖定可縮 Grid，避免 Safari intrinsic size 撐破卡片 */
+@media (max-width: 700px) {
+    #tab-liberation .genesis-stone-controls,
+    #tab-liberation .genesis-unified-controls,
+    #tab-liberation .genesis-unified-field-group,
+    #tab-liberation .genesis-stone-status-group,
+    #tab-liberation .genesis-stone-date-field,
+    #tab-liberation .genesis-stone-reset {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    #tab-liberation .genesis-unified-controls {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #tab-liberation .genesis-unified-controls > * {
+        grid-column: 1 / -1;
+    }
+
+    #tab-liberation .genesis-stone-status-group > div,
+    #tab-liberation .genesis-unified-field-group--three > div,
+    #tab-liberation .genesis-unified-field-group--four > div {
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #tab-liberation .genesis-stone-status-option,
+    #tab-liberation .genesis-stone-status-option > span,
+    #tab-liberation .genesis-unified-field,
+    #tab-liberation .genesis-unified-field input,
+    #tab-liberation .genesis-unified-field select {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+/* iPhone 16 Pro Max 橫向等中間寬度：取消原三欄硬性最小寬度 */
+@media (min-width: 701px) and (max-width: 1100px) {
+    #tab-liberation .genesis-stone-controls {
+        grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.68fr) minmax(132px, 0.68fr);
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+/* iPhone X / 375px 級 Safari：避開舊版 Grid phantom track */
+@media (max-width: 410px) {
+    #tab-liberation #genesis-panel-liberation .liberation-layout.liberation-workspace-panel {
+        display: block;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-status-panel,
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-boss-panel {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-status-panel {
+        margin-bottom: 12px !important;
+    }
+
+    #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-boss-panel {
+        margin-top: 0 !important;
+    }
+}

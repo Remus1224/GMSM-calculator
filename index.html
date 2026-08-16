@@ -126,7 +126,7 @@
 
             <div class="home-menu-category home-menu-category-calculator" role="heading" aria-level="2">
                 <span>計算機</span>
-                <small>4</small>
+                <small>5</small>
             </div>
 
             <button type="button" class="app-card app-card-has-badge" onclick="switchTab('hyper-stat')">
@@ -169,6 +169,16 @@
                 <span class="app-info">
                     <span class="app-title">六轉進度計算機</span>
                 </span>
+            </button>
+
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('liberation')">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_解放進度計算機.png" class="menu-custom-img" alt="" onerror="this.style.display='none'">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">創世解放計算機</span>
+                </span>
+                <span id="menu-badge-liberation" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
             <div class="home-menu-category home-menu-category-hexa" role="heading" aria-level="2">
@@ -253,10 +263,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-08-09">2026.08.09</time>
+                    <time datetime="2026-08-16">2026.08.16</time>
                 </div>
-                <h2 id="notice-latest-title">製作模擬器更新</h2>
-                <p>新增「混沌－航海師」製作階段，包含專用材料、7% 製作機率與對應結果顯示。</p>
+                <h2 id="notice-latest-title">創世解放計算機上線</h2>
+                <p>新增創世解放、創世鍊成與創世鍊成石三個獨立進度計算分頁。</p>
             </div>
         </section>
 
@@ -273,8 +283,21 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-08-09">2026 / 08 / 09</time>
+                            <time datetime="2026-08-16">2026 / 08 / 16</time>
                             <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>創世解放、創世鍊成與創世鍊成石計算功能。</span></li>
+                            <li><span class="notice-tag notice-tag-data">提醒</span><span>數據來源尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-08-09">2026 / 08 / 09</time>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-new">新增</span><span>混沌製作航海師。</span></li>
@@ -1136,6 +1159,311 @@
                 <div style="font-size: 12px; color: #888; text-align: right; margin-top: 5px;">*計算靈魂艾爾達斯時已自動將庫存的所有氣息換算為最高單位。</div>
             </div>
             <div class="time-box" id="prog-time-result"></div>
+        </div>
+    </div>
+
+    <div id="tab-liberation" class="tab-content">
+        <div class="liberation-version">（遊戲版本：2026/07）</div>
+        <div class="liberation-data-notice">數據來源尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。</div>
+
+        <nav class="genesis-subtabs" role="tablist" aria-label="創世系統分頁">
+            <button type="button" class="genesis-subtab is-active" role="tab" aria-selected="true"
+                aria-controls="genesis-panel-liberation" onclick="switchGenesisPanel('liberation', this)">創世解放</button>
+            <button type="button" class="genesis-subtab" role="tab" aria-selected="false"
+                aria-controls="genesis-panel-alchemy" onclick="switchGenesisPanel('alchemy', this)">創世鍊成</button>
+            <button type="button" class="genesis-subtab" role="tab" aria-selected="false"
+                aria-controls="genesis-panel-stone" onclick="switchGenesisPanel('stone', this)">創世鍊成石</button>
+        </nav>
+
+        <div id="genesis-panel-liberation" class="genesis-panel is-active" role="tabpanel">
+
+        <div class="liberation-journey-panel">
+            <section class="liberation-hero" aria-labelledby="liberation-title">
+                <div class="liberation-current-stage-visual" id="liberation-progress-ring">
+                    <img id="liberation-current-stage-image" src="" alt="目前解放階段" hidden
+                        onerror="this.hidden=true; this.nextElementSibling.hidden=false">
+                    <span id="liberation-current-stage-placeholder" class="liberation-current-stage-placeholder">II</span>
+                    <strong id="liberation-progress-percent">0%</strong>
+                </div>
+                <div class="liberation-forecast">
+                    <span class="liberation-kicker">預計解放完成日</span>
+                    <strong id="liberation-forecast-date">請先設定進度</strong>
+                    <div class="liberation-forecast-stats">
+                        <span>剩餘 <b id="liberation-remaining-days">—</b> 天</span>
+                        <span>尚缺 <b id="liberation-remaining-traces">13,500</b> 痕跡</span>
+                    </div>
+                </div>
+                <div class="liberation-total-summary">
+                    <span>本階段黑暗的痕跡</span>
+                    <strong id="liberation-current-traces">0 <small>/ 13,500</small></strong>
+                    <span id="liberation-current-stage">尚未開始解放</span>
+                </div>
+                <div class="liberation-overall-progress" aria-hidden="true">
+                    <span>整體解放進度</span>
+                    <div><i></i></div>
+                    <b id="liberation-progress-label">0%</b>
+                </div>
+            </section>
+
+            <section class="liberation-stage-section">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2 id="liberation-title">解放階段</h2>
+                        <p>點選目前所在階段，再填入該階段持有的黑暗的痕跡。</p>
+                    </div>
+                </div>
+                <select id="liberation-stage-index" hidden aria-label="目前解放階段">
+                    <option value=""></option>
+                    <option value="0">階段 II</option>
+                    <option value="1">階段 III</option>
+                    <option value="2">階段 V</option>
+                    <option value="3">階段 VI</option>
+                    <option value="4">階段 VIII</option>
+                    <option value="5">階段 IX</option>
+                    <option value="6">階段 X</option>
+                    <option value="7">階段 XI</option>
+                </select>
+                <div id="liberation-stage-list" class="liberation-stage-list"></div>
+            </section>
+        </div>
+
+        <div class="liberation-layout liberation-workspace-panel">
+            <section class="liberation-panel liberation-status-panel">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>目前狀態設定</h2>
+                        <p>填入目前進度與本期是否已完成。</p>
+                    </div>
+                </div>
+
+                <div class="genesis-unified-controls">
+                    <fieldset class="genesis-unified-field-group genesis-unified-field-group--three">
+                        <legend>進度資料</legend>
+                        <div>
+                            <label class="genesis-unified-field">
+                                <span>角色名稱</span>
+                                <input id="liberation-character-name" type="text" placeholder="選填">
+                            </label>
+                            <label class="genesis-unified-field">
+                                <span>目前持有黑暗的痕跡</span>
+                                <input id="liberation-traces-input" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+                            </label>
+                            <label class="genesis-unified-field">
+                                <span>參考日期</span>
+                                <input id="liberation-reference-date" type="date">
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="genesis-stone-status-group">
+                        <legend>完成狀態</legend>
+                        <div>
+                            <label class="genesis-stone-status-option">
+                                <input id="liberation-weekly-cleared" type="checkbox">
+                                <span><b>本週週王</b><small>已完成</small></span>
+                            </label>
+                            <label class="genesis-stone-status-option">
+                                <input id="liberation-monthly-cleared" type="checkbox">
+                                <span><b>本月黑魔法師</b><small>已完成</small></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="liberationReset()">重設解放進度</button>
+                </div>
+            </section>
+
+            <section class="liberation-panel liberation-boss-panel">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>每週／每月痕跡</h2>
+                        <p>票券依實際持有張數設定，不會自動重複計入。</p>
+                    </div>
+                    <label class="liberation-custom-toggle"><input id="liberation-custom-traces" type="checkbox"><span>自訂</span></label>
+                </div>
+                <div class="liberation-boss-legend">選擇可完成的難度；每使用 1 張票券，可額外獲得 1 次相同痕跡。</div>
+                <div id="liberation-boss-list" class="liberation-boss-list"></div>
+            </section>
+        </div>
+        </div>
+
+        <div id="genesis-panel-alchemy" class="genesis-panel" role="tabpanel" aria-hidden="true">
+            <section class="genesis-alchemy-hero">
+                <div class="genesis-alchemy-heading">
+                    <span>GENESIS ALCHEMY</span>
+                    <h2>創世鍊成需求</h2>
+                    <p>成功率皆為 100%；Lv.1 使用創世鍊成石，Lv.2～20 每階消耗 1,000 黑暗的殘像。</p>
+                </div>
+                <div class="genesis-alchemy-primary">
+                    <span>預計完成日期</span>
+                    <strong id="genesis-alchemy-forecast-date">請設定可完成王</strong>
+                    <small>剩餘 <b id="genesis-alchemy-remaining-days">—</b> 天</small>
+                </div>
+                <div class="genesis-alchemy-summary-grid">
+                    <div class="genesis-alchemy-summary-material"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>尚缺黑暗的殘像</span><strong id="genesis-alchemy-needed-afterimages">0</strong><small>個</small></div></div>
+                    <div><span>所需楓幣</span><strong id="genesis-alchemy-needed-mesos">0</strong><small>楓幣</small></div>
+                    <div class="genesis-alchemy-summary-material"><img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石"><div><span>創世鍊成石</span><strong id="genesis-alchemy-needed-stones">0</strong><small>個</small></div></div>
+                    <div class="genesis-alchemy-attack-summary"><span>鍊成攻擊力 · 已累積</span><strong id="genesis-alchemy-current-attack">0</strong><small id="genesis-alchemy-attack-gain">預計再增加 0</small></div>
+                </div>
+            </section>
+
+            <section class="liberation-panel genesis-alchemy-settings">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>鍊成設定</h2>
+                        <p>輸入目前武器進度與持有材料。</p>
+                    </div>
+                    <span class="genesis-alchemy-rate">成功率 100%</span>
+                </div>
+                <div class="genesis-unified-controls">
+                    <fieldset class="genesis-unified-field-group genesis-unified-field-group--four">
+                        <legend>進度資料</legend>
+                        <div>
+                            <label class="genesis-unified-field">
+                                <span>目前鍊成階段</span>
+                                <select id="genesis-alchemy-current-level"></select>
+                            </label>
+                            <label class="genesis-unified-field">
+                                <span>目前持有黑暗的殘像</span>
+                                <input id="genesis-alchemy-current-afterimages" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+                            </label>
+                            <label class="genesis-unified-field">
+                                <span>目標鍊成階段</span>
+                                <select id="genesis-alchemy-target-level"></select>
+                            </label>
+                            <label class="genesis-unified-field">
+                                <span>參考日期</span>
+                                <input id="genesis-alchemy-reference-date" type="date">
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="genesis-stone-status-group">
+                        <legend>完成狀態</legend>
+                        <div>
+                            <label class="genesis-stone-status-option">
+                                <input id="genesis-alchemy-weekly-cleared" type="checkbox">
+                                <span><b>本週週王</b><small>已完成</small></span>
+                            </label>
+                            <label class="genesis-stone-status-option">
+                                <input id="genesis-alchemy-monthly-cleared" type="checkbox">
+                                <span><b>本月黑魔法師</b><small>已完成</small></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisAlchemyReset()">重設鍊成進度</button>
+                </div>
+                <div id="genesis-alchemy-level-grid" class="genesis-alchemy-level-grid" aria-label="鍊成階段一覽"></div>
+            </section>
+
+            <section class="liberation-panel genesis-alchemy-boss-panel">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>每週／每月黑暗的殘像</h2>
+                        <p>預設選擇最高收益難度；票券依持有張數額外計入一次相同獎勵。</p>
+                    </div>
+                    <label class="liberation-custom-toggle"><input id="genesis-alchemy-custom-traces" type="checkbox"><span>自訂</span></label>
+                </div>
+                <div id="genesis-alchemy-boss-list" class="liberation-boss-list"></div>
+            </section>
+
+            <section class="liberation-panel genesis-alchemy-table-panel">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>鍊成階段資料</h2>
+                        <p>各階成功率皆為 100%，目前與目標階段會依上方設定同步標示。</p>
+                    </div>
+                    <span class="genesis-alchemy-table-rate">成功率 100%</span>
+                </div>
+                <div class="genesis-alchemy-table-header" aria-hidden="true">
+                    <span>鍊成階段</span><span>需求材料</span><span>楓幣</span><span>累積攻擊力</span><span>本階增加</span>
+                </div>
+                <div id="genesis-alchemy-table-rows" class="genesis-alchemy-table-rows"></div>
+            </section>
+        </div>
+
+        <div id="genesis-panel-stone" class="genesis-panel" role="tabpanel" aria-hidden="true">
+            <section class="genesis-stone-panel">
+                <div class="genesis-stone-heading">
+                    <div>
+                        <span>GENESIS ALCHEMY STONE</span>
+                        <h2>創世鍊成石兌換</h2>
+                        <p>每累積 20,000 個黑暗的殘像，即可兌換 1 顆創世鍊成石。</p>
+                    </div>
+                    <div class="genesis-stone-rule"><strong>20,000</strong><span>殘像／顆</span></div>
+                </div>
+
+                <div class="genesis-stone-exchange">
+                    <label class="genesis-stone-material-card" for="genesis-stone-held-afterimages">
+                        <img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像">
+                        <span>目前持有黑暗的殘像</span>
+                        <input id="genesis-stone-held-afterimages" type="text" inputmode="numeric"
+                            placeholder="請輸入持有數量" autocomplete="off">
+                    </label>
+                    <div class="genesis-stone-exchange-arrow" aria-hidden="true"><span>20,000</span><b>→</b></div>
+                    <div class="genesis-stone-result-card">
+                        <img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石">
+                        <span>可兌換創世鍊成石</span>
+                        <strong><b id="genesis-stone-redeemable">0</b> 顆</strong>
+                    </div>
+                </div>
+
+                <div class="genesis-stone-progress-block">
+                    <div class="genesis-stone-progress-copy">
+                        <span>下一顆兌換進度</span>
+                        <strong><b id="genesis-stone-progress-current">0</b> / 20,000</strong>
+                    </div>
+                    <div class="genesis-stone-progress-track" aria-hidden="true"><i id="genesis-stone-progress-bar"></i></div>
+                    <span id="genesis-stone-progress-percent">0%</span>
+                </div>
+
+                <div class="genesis-stone-summary">
+                    <div class="genesis-stone-forecast">
+                        <span>下一顆預計可兌換日</span>
+                        <strong id="genesis-stone-forecast-date">請設定可完成王</strong>
+                        <small>剩餘 <b id="genesis-stone-remaining-days">—</b> 天</small>
+                    </div>
+                    <div><span>兌換後剩餘</span><strong id="genesis-stone-remainder">0</strong><small>黑暗的殘像</small></div>
+                    <div><span>距下一顆尚缺</span><strong id="genesis-stone-needed">20,000</strong><small>黑暗的殘像</small></div>
+                </div>
+            </section>
+
+            <section class="liberation-panel genesis-stone-settings">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>計算設定</h2>
+                        <p>依參考日期與已完成狀態，推算下一顆鍊成石可兌換時間。</p>
+                    </div>
+                </div>
+                <div class="genesis-stone-controls">
+                    <label class="genesis-stone-date-field">
+                        <span>參考日期</span>
+                        <input id="genesis-stone-reference-date" type="date">
+                    </label>
+                    <fieldset class="genesis-stone-status-group">
+                        <legend>完成狀態</legend>
+                        <div>
+                            <label class="genesis-stone-status-option">
+                                <input id="genesis-stone-weekly-cleared" type="checkbox">
+                                <span><b>本週週王</b><small>已完成</small></span>
+                            </label>
+                            <label class="genesis-stone-status-option">
+                                <input id="genesis-stone-monthly-cleared" type="checkbox">
+                                <span><b>本月黑魔法師</b><small>已完成</small></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisStoneReset()">重設兌換資料</button>
+                </div>
+            </section>
+
+            <section class="liberation-panel genesis-alchemy-boss-panel genesis-stone-boss-panel">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2>每週／每月黑暗的殘像</h2>
+                        <p>預設選擇最高收益難度；票券依持有張數額外計入一次相同獎勵。</p>
+                    </div>
+                    <label class="liberation-custom-toggle"><input id="genesis-stone-custom-traces" type="checkbox"><span>自訂</span></label>
+                </div>
+                <div id="genesis-stone-boss-list" class="liberation-boss-list"></div>
+            </section>
         </div>
     </div>
 
