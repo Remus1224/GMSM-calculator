@@ -6647,70 +6647,64 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
             
         <div class="app-grid">
 
+*/
+
 /* ========================================== */
-/* iPhone / iOS Safari 穩定化修正（2026-08-16） */
-/* 只處理創世解放計算機相關欄位，不改桌機版配置。 */
+/* 創世解放：iOS Safari 實機相容性最終整理版 */
+/* 2026-08-16                                */
 /* ========================================== */
 
-/* Safari 的 fieldset 具有特殊 intrinsic min-size；僅有 min-width:0 仍可能被 legend 撐開。 */
+/* Safari fieldset / Grid 最小寬度修正 */
 #tab-liberation .genesis-unified-field-group,
-#tab-liberation .genesis-stone-status-group {
-    min-width: 0;
-    min-inline-size: 0;
-    max-width: 100%;
-    max-inline-size: 100%;
-}
-
-/* 防止 iOS Safari 將 legend 的可用 inline-size 壓到只剩一個中文字寬。 */
-#tab-liberation .genesis-unified-field-group > legend,
-#tab-liberation .genesis-stone-status-group > legend {
-    display: block;
-    width: auto;
-    min-width: 0;
-    max-width: 100%;
-    inline-size: auto;
-    min-inline-size: 0;
-    max-inline-size: 100%;
-    white-space: nowrap;
-    writing-mode: horizontal-tb;
-}
-
-/* Grid/Flex 子項都允許縮小，避免 Safari 以內容最小寬度撐破欄位。 */
-#tab-liberation .genesis-stone-controls,
+#tab-liberation .genesis-stone-status-group,
 #tab-liberation .genesis-stone-controls > *,
-#tab-liberation .genesis-unified-controls,
 #tab-liberation .genesis-unified-controls > *,
-#tab-liberation .genesis-unified-field-group > div,
 #tab-liberation .genesis-unified-field-group > div > *,
-#tab-liberation .genesis-stone-status-group > div,
 #tab-liberation .genesis-stone-status-group > div > * {
     min-width: 0;
     min-inline-size: 0;
 }
 
-/* iOS Safari 對 date input 有自己的 intrinsic width，統一限制在卡片內。 */
-#tab-liberation .genesis-stone-date-field input[type="date"],
-#tab-liberation .genesis-unified-field input[type="date"] {
+#tab-liberation .genesis-unified-field-group > legend,
+#tab-liberation .genesis-stone-status-group > legend {
     display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    writing-mode: horizontal-tb;
+}
+
+/* iOS Safari date input：限制寬度並修正文字垂直位置 */
+#tab-liberation input[type="date"] {
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    inline-size: 100%;
-    min-inline-size: 0;
-    max-inline-size: 100%;
     box-sizing: border-box;
     -webkit-appearance: none;
     appearance: none;
 }
 
-#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value,
-#tab-liberation .genesis-unified-field input[type="date"]::-webkit-date-and-time-value {
+#tab-liberation input[type="date"]::-webkit-date-and-time-value,
+#tab-liberation input[type="date"]::-webkit-datetime-edit,
+#tab-liberation input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     min-width: 0;
-    min-inline-size: 0;
-    text-align: left;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
-/* 實機手機版：維持原本設計，只補 Safari 尺寸與換行保護。 */
+#tab-liberation .genesis-stone-date-field input[type="date"] {
+    height: 39px;
+    min-height: 39px;
+    line-height: 39px;
+}
+
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value,
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit,
+#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+    height: 100%;
+    line-height: 39px;
+}
+
+/* 手機：明確鎖定可縮 Grid，避免 Safari intrinsic size 撐破卡片 */
 @media (max-width: 700px) {
     #tab-liberation .genesis-stone-controls,
     #tab-liberation .genesis-unified-controls,
@@ -6721,48 +6715,18 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         width: 100%;
         min-width: 0;
         max-width: 100%;
-        min-inline-size: 0;
-        max-inline-size: 100%;
         box-sizing: border-box;
     }
 
-    /* 明確鎖定 unified 區手機為單欄，避免 container query 與 Safari 計算結果互相干擾。 */
     #tab-liberation .genesis-unified-controls {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    #tab-liberation .genesis-unified-controls > .genesis-unified-field-group,
-    #tab-liberation .genesis-unified-controls > .genesis-stone-status-group,
-    #tab-liberation .genesis-unified-controls > .genesis-stone-reset {
+    #tab-liberation .genesis-unified-controls > * {
         grid-column: 1 / -1;
     }
 
-    /* 狀態選項保持兩欄，但文字區本身不可把卡片撐寬。 */
-    #tab-liberation .genesis-stone-status-group > div {
-        width: 100%;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    #tab-liberation .genesis-stone-status-option {
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-        overflow: hidden;
-    }
-
-    #tab-liberation .genesis-stone-status-option > span {
-        min-width: 0;
-        max-width: 100%;
-        overflow: hidden;
-    }
-
-    #tab-liberation .genesis-stone-status-option b,
-    #tab-liberation .genesis-stone-status-option small {
-        max-width: 100%;
-        white-space: nowrap;
-    }
-
-    /* 進度資料維持原本手機 2 欄配置；確保每欄真正在 Safari 中可縮。 */
+    #tab-liberation .genesis-stone-status-group > div,
     #tab-liberation .genesis-unified-field-group--three > div,
     #tab-liberation .genesis-unified-field-group--four > div {
         width: 100%;
@@ -6770,85 +6734,27 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    #tab-liberation .genesis-stone-status-option,
+    #tab-liberation .genesis-stone-status-option > span,
     #tab-liberation .genesis-unified-field,
     #tab-liberation .genesis-unified-field input,
     #tab-liberation .genesis-unified-field select {
-        width: 100%;
         min-width: 0;
         max-width: 100%;
-        min-inline-size: 0;
-        max-inline-size: 100%;
-        box-sizing: border-box;
     }
 }
 
-/* ========================================== */
-/* iPhone Safari 實機修正 v2                  */
-/* 1) iPhone 16 Pro Max 橫向：設定列不可溢出   */
-/* 2) iOS date 文字垂直置中                    */
-/* 3) iPhone X：解放設定與 BOSS 間異常大空白   */
-/* ========================================== */
-
-/* 桌面縮窄／手機橫向時，取消三欄的硬性最小寬度。
-   原本 190 + 360 + 165 + gap 在 Safari 可用寬度較窄時會把最後按鈕推出面板。 */
+/* iPhone 16 Pro Max 橫向等中間寬度：取消原三欄硬性最小寬度 */
 @media (min-width: 701px) and (max-width: 1100px) {
     #tab-liberation .genesis-stone-controls {
         grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.68fr) minmax(132px, 0.68fr);
         width: 100%;
         min-width: 0;
         max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    #tab-liberation .genesis-stone-controls > *,
-    #tab-liberation .genesis-stone-controls .genesis-stone-reset {
-        min-width: 0;
-        max-width: 100%;
-        box-sizing: border-box;
     }
 }
 
-/* iOS Safari 的 date control 在 appearance:none 下容易把日期基線貼到上緣。
-   明確給定 control 與 WebKit 內部編輯區高度／置中方式。 */
-#tab-liberation .genesis-stone-date-field input[type="date"] {
-    height: 39px;
-    min-height: 39px;
-    padding-top: 0;
-    padding-bottom: 0;
-    line-height: 39px;
-}
-
-#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-date-and-time-value {
-    height: 100%;
-    min-height: 100%;
-    padding: 0;
-    line-height: 39px;
-    text-align: left;
-}
-
-#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit,
-#tab-liberation .genesis-stone-date-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-    height: 100%;
-    padding: 0;
-    line-height: 39px;
-}
-
-/* 創世解放中的 unified 日期欄也補同樣的 WebKit 對齊，但不改它原本卡片高度。 */
-#tab-liberation .genesis-unified-field input[type="date"] {
-    line-height: 1.35;
-}
-
-#tab-liberation .genesis-unified-field input[type="date"]::-webkit-date-and-time-value,
-#tab-liberation .genesis-unified-field input[type="date"]::-webkit-datetime-edit,
-#tab-liberation .genesis-unified-field input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-    padding-top: 0;
-    padding-bottom: 0;
-    line-height: 1.35;
-}
-
-/* iPhone X / 375px 級 Safari fallback：
-   這個區塊只有「目前狀態」與「每週／每月痕跡」兩張卡，
-   小螢幕直接改回 block flow，避開舊／窄版 Safari 的 Grid phantom track。 */
+/* iPhone X / 375px 級 Safari：避開舊版 Grid phantom track */
 @media (max-width: 410px) {
     #tab-liberation #genesis-panel-liberation .liberation-layout.liberation-workspace-panel {
         display: block;
@@ -6866,16 +6772,13 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
         min-height: 0;
         margin-left: 0;
         margin-right: 0;
-        box-sizing: border-box;
     }
 
     #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-status-panel {
-        margin-top: 0;
         margin-bottom: 12px !important;
     }
 
     #tab-liberation #genesis-panel-liberation .liberation-workspace-panel > .liberation-boss-panel {
         margin-top: 0 !important;
-        margin-bottom: 0;
     }
 }
