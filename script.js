@@ -1809,7 +1809,7 @@ function calcHexaProg() {
 const equipCategories = [
     { title: "防具類", type: "armor", items: ["帽子", "手套", "套服", "護肩", "鞋子", "腰帶", "披風"] },
     { title: "武器類", type: "weapon", items: ["副武", "三武"] },
-    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書"] },
+    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔導書"] },
     { title: "能力類", type: "ability", items: ["HEXA屬性"] },
     // 👇 1. 將這裡加上數字，確保 ID 唯一
     { title: "特殊", type: "special", items: ["活動", "預留1", "預留2", "預留3"] }
