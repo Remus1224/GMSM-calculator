@@ -263,10 +263,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-08-16">2026.08.16</time>
+                    <time datetime="2026-09-12">2026.09.12</time>
                 </div>
-                <h2 id="notice-latest-title">創世解放計算機上線</h2>
-                <p>新增創世解放、創世鍊成與創世鍊成石三個獨立進度計算分頁。</p>
+                <h2 id="notice-latest-title">提醒顯示優化、無視防禦支援減項</h2>
+                <p>調整部分提醒的顯示與位置，無視防禦計算機可直接輸入負數移除來源。</p>
             </div>
         </section>
 
@@ -283,8 +283,21 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-08-16">2026 / 08 / 16</time>
+                            <time datetime="2026-09-12">2026 / 09 / 12</time>
                             <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-update">改善</span><span>優化部分提醒文字的顯示與位置，讓使用說明更容易辨識。</span></li>
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>無視防禦計算機支援減項，可在原有輸入格填入負數（例如 -2.4），依無視乘算移除該來源。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-08-16">2026 / 08 / 16</time>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-new">新增</span><span>創世解放、創世鍊成與創世鍊成石計算功能。</span></li>
@@ -489,11 +502,14 @@
     </div>
 
     <div id="tab-ignore" class="tab-content">
-        <div class="hint">雙排無視請先自行加總，<br class="mobile-br">HEXA屬性有Bug會有些一點誤差可自行驗證。<br class="mobile-br">（遊戲版本2026/06測試）</div>
+        <div class="hint">（遊戲版本：2026/06 測試）</div>
 
         <div class="ignore-layout-wrapper">
             <div class="left-panel panel ignore-left-panel">
-                <div class="section-title">自訂數值輸入區</div>
+                <div class="section-title ignore-input-header">
+                    <span class="ignore-input-title">自訂數值輸入區</span>
+                    <span class="ignore-input-notice"><span class="ignore-input-notice-icon" aria-hidden="true">i</span><span>雙排星火無視請先自行加總</span></span>
+                </div>
                 <div class="grid-container" id="equip-grid" style="flex: 1; margin-top: 10px;"></div>
             </div>
 
@@ -521,6 +537,10 @@
                 <div class="result-box result-gradient" id="result-ignore">總無視防禦：0.00%</div>
 
                 <button onclick="clearIgnore()" class="btn-clear">清除重置</button>
+                <aside class="ignore-bug-notice" aria-labelledby="ignore-bug-title">
+                    <strong id="ignore-bug-title">⚠ HEXA 無視防禦已知 BUG</strong>
+                    <p>依目前實測，納入 HEXA 屬性的無視防禦後，本計算機結果可能與遊戲內面板出現小幅差異。</p>
+                </aside>
             </div>
         </div>
     </div>

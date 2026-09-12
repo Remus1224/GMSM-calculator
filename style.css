@@ -854,8 +854,7 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .equip-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
 .card-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
 .card-input-wrapper { display: flex; align-items: center; background: transparent !important; border: none !important; box-shadow: none !important; width: 100%; box-sizing: border-box; margin-top: 4px;}
-.card-input-wrapper input { flex: 1; width: 100%; text-align: center; font-size: 16px; font-weight: bold; outline: none; border-radius: 6px; padding: 4px; transition: all 0.3s ease; }
-.card-percent { font-size: 12px; margin-left: 4px; font-weight: bold; }
+.card-input-wrapper input { flex: 1; width: 100%; min-width: 0; text-align: center; font-size: 16px; font-weight: bold; outline: none; border-radius: 6px; padding: 4px; transition: all 0.3s ease; }
 
 /* 🌟 卡片本體玻璃化 */
 .equip-card { border-radius: 12px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: all 0.3s ease !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-style: solid; border-width: 1.5px; }
@@ -875,8 +874,8 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 [data-theme="dark"] #equip-grid .bg-special { background: rgba(255, 149, 0, 0.12) !important; border-color: rgba(255, 149, 0, 0.6) !important; }
 
 /* 標題與 % 符號回歸原本的文字顏色 */
-#equip-grid .card-title, #equip-grid .card-percent { color: var(--text-main) !important; }
-[data-theme="dark"] #equip-grid .card-title, [data-theme="dark"] #equip-grid .card-percent { color: var(--text-main) !important; text-shadow: none !important; }
+#equip-grid .card-title { color: var(--text-main) !important; }
+[data-theme="dark"] #equip-grid .card-title { color: var(--text-main) !important; text-shadow: none !important; }
 
 /* 裝備輸入框內部數字色彩 (日/夜) */
 :not([data-theme="dark"]) #equip-grid .bg-armor .card-input-wrapper input { color: #007AFF !important; }
@@ -921,6 +920,37 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 :not([data-theme="dark"]) #equip-grid .bg-ability .card-input-wrapper input:focus { border-color: rgba(52, 199, 89, 0.6) !important; box-shadow: 0 0 8px rgba(52, 199, 89, 0.35), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
 :not([data-theme="dark"]) #equip-grid .bg-special .card-input-wrapper input:focus { border-color: rgba(255, 149, 0, 0.6) !important; box-shadow: 0 0 8px rgba(255, 149, 0, 0.35), inset 0 1px 3px rgba(0,0,0,0.02) !important; }
 
+/* 預留格：冷灰色分類，活動維持橘色。 */
+#equip-grid .bg-reserve {
+    --reserve-rgb: 100, 116, 139;
+    --reserve-text: #64748b;
+    background: rgba(var(--reserve-rgb), 0.06) !important;
+    border-color: rgba(var(--reserve-rgb), 0.22) !important;
+}
+[data-theme="dark"] #equip-grid .bg-reserve {
+    --reserve-rgb: 184, 196, 212;
+    --reserve-text: #b8c4d4;
+    background: rgba(var(--reserve-rgb), 0.12) !important;
+    border-color: rgba(var(--reserve-rgb), 0.45) !important;
+}
+#equip-grid .bg-reserve .card-input-wrapper input {
+    color: var(--reserve-text) !important;
+    border: 1px solid rgba(var(--reserve-rgb), 0.3) !important;
+}
+#equip-grid .bg-reserve:hover {
+    box-shadow: 0 4px 15px rgba(var(--reserve-rgb), 0.2) !important;
+    border-color: rgba(var(--reserve-rgb), 0.5) !important;
+}
+#equip-grid .bg-reserve:focus-within {
+    box-shadow: 0 0 15px rgba(var(--reserve-rgb), 0.35), inset 0 0 10px rgba(var(--reserve-rgb), 0.08) !important;
+    border-color: var(--reserve-text) !important;
+    transform: translateY(-2px);
+}
+#equip-grid .bg-reserve .card-input-wrapper input:focus {
+    border-color: rgba(var(--reserve-rgb), 0.6) !important;
+    box-shadow: 0 0 8px rgba(var(--reserve-rgb), 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
 /* 🌟 右側套組選擇區玻璃化 */
 .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .radio-label { background: rgba(255, 255, 255, 0.5) !important; border: 1px solid rgba(255, 255, 255, 0.8) !important; border-radius: 8px; padding: 10px 5px; text-align: center; font-size: 14px; color: var(--text-muted) !important; cursor: pointer; transition: all 0.2s ease; user-select: none; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 4px 10px rgba(0,0,0,0.02) !important; }
@@ -950,6 +980,89 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .ignore-layout-wrapper { display: flex; gap: 20px; align-items: stretch; width: 100%; }
 .ignore-left-panel { flex: 1.4; margin: 0; display: flex; flex-direction: column; }
 .ignore-right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+
+/* 星火輸入提醒：整合至輸入區標題右側。 */
+.ignore-input-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+}
+.ignore-input-title { white-space: nowrap; }
+.ignore-input-notice {
+    --ignore-input-glow: 0, 113, 227;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    margin-left: auto;
+    padding: 4px 7px;
+    border: 1px solid rgba(0, 113, 227, 0.18);
+    border-radius: 6px;
+    background: rgba(240, 248, 255, 0.55);
+    color: #0756a8 !important;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: left;
+    animation: ignoreInputNoticeBreath 2.4s ease-in-out infinite;
+}
+.ignore-input-notice-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 14px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: Arial, sans-serif;
+    line-height: 1;
+}
+[data-theme="dark"] .ignore-input-notice {
+    --ignore-input-glow: 105, 189, 255;
+    border-color: rgba(105, 189, 255, 0.25);
+    background: rgba(105, 189, 255, 0.07);
+    color: #9ad2ff !important;
+}
+@keyframes ignoreInputNoticeBreath {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(var(--ignore-input-glow), 0);
+    }
+    50% {
+        box-shadow: 0 0 5px rgba(var(--ignore-input-glow), 0.14);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ignore-input-notice { animation: none; }
+}
+
+/* HEXA 面板差異：清除按鈕下方的固定提醒。 */
+#tab-ignore {
+    --ignore-notice-text: #ba2035;
+    --ignore-notice-bg: rgba(227, 38, 61, 0.07);
+    --ignore-notice-border: rgba(227, 38, 61, 0.3);
+}
+[data-theme="dark"] #tab-ignore {
+    --ignore-notice-text: #ff8b98;
+    --ignore-notice-bg: rgba(255, 105, 120, 0.1);
+    --ignore-notice-border: rgba(255, 105, 120, 0.35);
+}
+.ignore-bug-notice {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border: 1px solid var(--ignore-notice-border);
+    border-radius: 12px;
+    background: var(--ignore-notice-bg);
+    color: var(--ignore-notice-text);
+    line-height: 1.6;
+}
+.ignore-bug-notice strong { display: block; font-size: 14px; }
+.ignore-bug-notice p { margin: 5px 0 0; font-size: 13px; }
 
 /* ========================================== */
 /* 🌟 3. 六轉進度與懶人決策 (四色玻璃全框發光)   */
@@ -3158,9 +3271,12 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     line-height: 1.5;
 }
 .rune-version-notice {
+    width: 100%;
     color: #e3263d !important;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
     animation: runeVersionNoticeBreath 2.4s ease-in-out infinite;
 }
 @keyframes runeVersionNoticeBreath {
@@ -3848,7 +3964,6 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 
 @media (max-width: 500px) {
-    .rune-version-notice { font-size: 10px; }
     .rune-guide-panel { align-items: flex-start; gap: 12px; }
     .rune-guide-panel p { font-size: 11px; }
     .rune-reset-all { padding: 8px 10px; font-size: 10px; }
@@ -5194,6 +5309,7 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
 }
 
 @media (max-width: 470px) {
+    .rune-version-notice { font-size: 11px; }
     #tab-liberation { gap: 11px; }
     .liberation-version { font-size: 11px; }
     .liberation-data-notice { font-size: 11px; }

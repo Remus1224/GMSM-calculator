@@ -137,7 +137,7 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-08-16';
+const latestNoticeVersion = '2026-09-12';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'liberation': {
@@ -1809,10 +1809,11 @@ function calcHexaProg() {
 const equipCategories = [
     { title: "防具類", type: "armor", items: ["帽子", "手套", "套服", "護肩", "鞋子", "腰帶", "披風"] },
     { title: "武器類", type: "weapon", items: ["副武", "三武"] },
-    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔導書"] },
+    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔導書", "極致的光與黑暗"] },
     { title: "能力類", type: "ability", items: ["HEXA屬性"] },
-    // 👇 1. 將這裡加上數字，確保 ID 唯一
-    { title: "特殊", type: "special", items: ["活動", "預留1", "預留2", "預留3"] }
+    { title: "活動類", type: "special", items: ["活動"] },
+    // 預留格保留編號，確保輸入欄位 ID 唯一。
+    { title: "預留", type: "reserve", items: ["預留1", "預留2"] }
 ];
 
 const equipments = equipCategories.flatMap(cat => cat.items);
@@ -1833,8 +1834,7 @@ function initIgnoreGrid() {
             card.innerHTML = `
                 <div class="card-title">${displayTitle}</div>
                 <div class="card-input-wrapper">
-                    <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="">
-                    <span class="card-percent">%</span>
+                    <input type="text" inputmode="text" id="input-${equip}" oninput="calculateIgnore()" placeholder="" aria-label="${displayTitle}無視防禦百分比">
                 </div>
             `;
             grid.appendChild(card);
@@ -1843,36 +1843,54 @@ function initIgnoreGrid() {
 }
 
 function calculateIgnore() {
-    let values = [];
+    const values = [];
+    let inputError = '';
 
     equipments.forEach(equip => {
-        let inputElem = document.getElementById('input-' + equip);
-        if (inputElem) {
-            let cleanVal = inputElem.value.replace(/[^\d.]/g, '');
-            if (cleanVal !== "" && !isNaN(cleanVal)) {
-                values.push(parseFloat(cleanVal));
-            }
+        const input = document.getElementById('input-' + equip);
+        if (!input) return;
+        // 保留正負號；負數代表移除該來源，而非增加一項負無視。
+        const text = input.value.trim().replace(/[−－]/g, '-').replace(/＋/g, '+');
+        if (!text) return;
+        if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)\s*[%％]?$/.test(text)) {
+            inputError = inputError || '請輸入有效無視值，例如 2.4 或 -2.4';
+            return;
         }
+        const value = Number(text.replace(/\s*[%％]?$/, ''));
+        if (!Number.isFinite(value) || value > 100 || value <= -100) {
+            inputError = inputError || '單項無視不能超過 100%，也不能移除 100% 的來源';
+            return;
+        }
+        values.push(value);
     });
 
     const absolabElem = document.querySelector('input[name="absolab"]:checked');
     const arcaneElem = document.querySelector('input[name="arcane"]:checked');
     const absolabVal = absolabElem ? parseFloat(absolabElem.value) : 0;
     const arcaneVal = arcaneElem ? parseFloat(arcaneElem.value) : 0;
-
     const setEffectSum = absolabVal + arcaneVal;
     if (setEffectSum > 0) values.push(setEffectSum);
 
-    let multiplier = 1.0;
-    values.forEach(v => {
-        multiplier *= (1.0 - (v / 100.0));
+    let multiplier = 1;
+    values.forEach(value => {
+        if (value < 0) {
+            multiplier /= 1 - Math.abs(value) / 100;
+        } else {
+            multiplier *= 1 - value / 100;
+        }
     });
-    let totalIgnore = (1.0 - multiplier) * 100.0;
-
-    let resultElem = document.getElementById('result-ignore');
-    if (resultElem) {
-        resultElem.innerText = `總無視防禦：${totalIgnore.toFixed(2)}%`;
+    if (!Number.isFinite(multiplier) || multiplier > 1 + 1e-10) {
+        inputError = inputError || '移除後無視低於 0%，請確認欲移除的來源數值';
     }
+
+    const result = document.getElementById('result-ignore');
+    if (inputError) {
+        if (result) result.innerText = inputError;
+        return NaN;
+    }
+    const totalIgnore = Math.max(0, Math.min(100, (1 - multiplier) * 100));
+    if (result) result.innerText = '總無視防禦：' + totalIgnore.toFixed(2) + '%';
+    return totalIgnore;
 }
 
 function clearIgnore() {
