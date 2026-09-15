@@ -159,6 +159,10 @@ const menuToolBadgeConfig = {
     'rune': {
         elementId: 'menu-badge-rune',
         version: '2026-07-30'
+    },
+    'ignore': {
+        elementId: 'menu-badge-ignore',
+        version: '2026-09-15'
     }
 };
 const menuToolBadgeStoragePrefix = 'gmsm-menu-badge-seen-v1:';

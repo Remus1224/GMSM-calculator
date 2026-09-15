@@ -159,6 +159,10 @@ const menuToolBadgeConfig = {
     'rune': {
         elementId: 'menu-badge-rune',
         version: '2026-07-30'
+    },
+    'ignore': {
+        elementId: 'menu-badge-ignore',
+        version: '2026-09-15'
     }
 };
 const menuToolBadgeStoragePrefix = 'gmsm-menu-badge-seen-v1:';
@@ -1808,8 +1812,8 @@ function calcHexaProg() {
 /* ========================================== */
 const equipCategories = [
     { title: "防具類", type: "armor", items: ["帽子", "手套", "套服", "護肩", "鞋子", "腰帶", "披風"] },
-    { title: "武器類", type: "weapon", items: ["副武", "三武"] },
-    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔島書", "指揮官力量耳環", "創世胸章", "勳章"] },
+    { title: "武器類", type: "weapon", items: ["輔助武器", "徽章"] },
+    { title: "飾品類", type: "acc", items: ["支配者墜飾", "苦痛的根源", "巨大的恐怖", "被詛咒的魔導書", "指揮官力量耳環", "創世胸章", "勳章"] },
     { title: "能力類", type: "ability", items: ["HEXA屬性"] },
     { title: "活動類", type: "special", items: ["活動"] },
     // 預留格保留編號，確保輸入欄位 ID 唯一。

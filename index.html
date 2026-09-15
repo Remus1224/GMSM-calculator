@@ -153,13 +153,14 @@
                 <span id="menu-badge-rune" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('ignore')">
+            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('ignore')">
                 <span class="app-icon">
                     <img src="assets/menu/icon_無視防禦計算機.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">無視防禦計算機</span>
                 </span>
+                <span id="menu-badge-ignore" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
             </button>
 
             <button type="button" class="app-card" onclick="switchTab('hexa-prog')">
@@ -265,7 +266,7 @@
                     <span class="notice-status">最新更新</span>
                     <time datetime="2026-09-12">2026.09.12</time>
                 </div>
-                <h2 id="notice-latest-title">提醒顯示優化、無視防禦支援減項</h2>
+                <h2 id="notice-latest-title">提醒顯示優化、無視防禦支援減項、增加新欄位</h2>
                 <p>調整部分提醒的顯示與位置，無視防禦計算機可直接輸入負數移除來源。</p>
             </div>
         </section>
@@ -289,6 +290,7 @@
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-update">改善</span><span>優化部分提醒文字的顯示與位置，讓使用說明更容易辨識。</span></li>
                             <li><span class="notice-tag notice-tag-new">新增</span><span>無視防禦計算機支援減項，可在原有輸入格填入負數（例如 -2.4），依無視乘算移除該來源。</span></li>
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>無視防禦計算機新增欄位，補上指揮官力量耳環、創世胸章，部分欄位名稱修改。</span></li>
                         </ul>
                     </article>
                 </li>
