@@ -853,8 +853,45 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 
 .equip-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
 .card-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-.card-input-wrapper { display: flex; align-items: center; background: transparent !important; border: none !important; box-shadow: none !important; width: 100%; box-sizing: border-box; margin-top: 4px;}
+.card-input-wrapper { display: flex; align-items: center; gap: 5px; background: transparent !important; border: none !important; box-shadow: none !important; width: 100%; box-sizing: border-box; margin-top: 4px;}
 .card-input-wrapper input { flex: 1; width: 100%; min-width: 0; text-align: center; font-size: 16px; font-weight: bold; outline: none; border-radius: 6px; padding: 4px; transition: all 0.3s ease; }
+
+/* iOS 小數鍵盤沒有負號，以獨立按鈕切換正負值。 */
+#equip-grid .bg-armor { --ignore-sign-rgb: 0, 122, 255; --ignore-sign-color: #007AFF; }
+#equip-grid .bg-weapon { --ignore-sign-rgb: 255, 59, 48; --ignore-sign-color: #FF3B30; }
+#equip-grid .bg-acc { --ignore-sign-rgb: 175, 82, 222; --ignore-sign-color: #AF52DE; }
+#equip-grid .bg-ability { --ignore-sign-rgb: 52, 199, 89; --ignore-sign-color: #34C759; }
+#equip-grid .bg-special { --ignore-sign-rgb: 255, 149, 0; --ignore-sign-color: #FF9500; }
+#equip-grid .bg-reserve { --ignore-sign-rgb: 100, 116, 139; --ignore-sign-color: #64748b; }
+.ignore-sign-toggle {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid rgba(var(--ignore-sign-rgb), 0.35);
+    border-radius: 6px;
+    background: rgba(var(--ignore-sign-rgb), 0.08);
+    color: var(--ignore-sign-color);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.ignore-sign-toggle:hover { background: rgba(var(--ignore-sign-rgb), 0.15); border-color: rgba(var(--ignore-sign-rgb), 0.55); }
+.ignore-sign-toggle:active { transform: scale(0.94); }
+.ignore-sign-toggle:focus-visible { outline: 2px solid rgba(var(--ignore-sign-rgb), 0.55); outline-offset: 2px; }
+.ignore-sign-toggle.is-negative { background: rgba(255, 59, 48, 0.14); border-color: rgba(255, 59, 48, 0.55); color: #d62f27; }
+[data-theme="dark"] #equip-grid .bg-armor { --ignore-sign-color: #66b3ff; }
+[data-theme="dark"] #equip-grid .bg-weapon { --ignore-sign-color: #ff8080; }
+[data-theme="dark"] #equip-grid .bg-acc { --ignore-sign-color: #d896ff; }
+[data-theme="dark"] #equip-grid .bg-ability { --ignore-sign-color: #80ff99; }
+[data-theme="dark"] #equip-grid .bg-special { --ignore-sign-color: #ffcc80; }
+[data-theme="dark"] #equip-grid .bg-reserve { --ignore-sign-rgb: 184, 196, 212; --ignore-sign-color: #b8c4d4; }
+[data-theme="dark"] .ignore-sign-toggle { background: rgba(var(--ignore-sign-rgb), 0.12); border-color: rgba(var(--ignore-sign-rgb), 0.42); }
+[data-theme="dark"] .ignore-sign-toggle.is-negative { background: rgba(255, 107, 107, 0.18); border-color: rgba(255, 107, 107, 0.6); color: #ff8585; }
 
 /* 🌟 卡片本體玻璃化 */
 .equip-card { border-radius: 12px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; transition: all 0.3s ease !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-style: solid; border-width: 1.5px; }

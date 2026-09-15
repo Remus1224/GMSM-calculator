@@ -1838,12 +1838,40 @@ function initIgnoreGrid() {
             card.innerHTML = `
                 <div class="card-title">${displayTitle}</div>
                 <div class="card-input-wrapper">
+                    <button type="button" class="ignore-sign-toggle" onclick="toggleIgnoreSign('${equip}')" aria-label="切換${displayTitle}正負值" aria-pressed="false">±</button>
                     <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="" autocomplete="off" aria-label="${displayTitle}無視防禦百分比">
                 </div>
             `;
             grid.appendChild(card);
         });
     });
+}
+
+function syncIgnoreSignToggle(input) {
+    const button = input?.parentElement?.querySelector('.ignore-sign-toggle');
+    if (!button) return;
+
+    const isNegative = /^[\-−－]/.test(input.value.trim());
+    button.classList.toggle('is-negative', isNegative);
+    button.setAttribute('aria-pressed', String(isNegative));
+    button.title = isNegative ? '改為正值' : '改為負值';
+}
+
+function toggleIgnoreSign(equip) {
+    const input = document.getElementById('input-' + equip);
+    if (!input) return;
+
+    const value = input.value.trim();
+    if (/^[\-−－]/.test(value)) {
+        input.value = value.slice(1);
+    } else if (/^[+＋]/.test(value)) {
+        input.value = '-' + value.slice(1);
+    } else {
+        input.value = '-' + value;
+    }
+
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.focus();
 }
 
 function calculateIgnore() {
@@ -1853,9 +1881,11 @@ function calculateIgnore() {
     equipments.forEach(equip => {
         const input = document.getElementById('input-' + equip);
         if (!input) return;
+        syncIgnoreSignToggle(input);
         // 保留正負號；負數代表移除該來源，而非增加一項負無視。
         const text = input.value.trim().replace(/[−－]/g, '-').replace(/＋/g, '+');
-        if (!text) return;
+        // 單獨的正負號視為尚未輸入完成，方便手機先切換符號再輸入數字。
+        if (!text || text === '-' || text === '+') return;
         if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)\s*[%％]?$/.test(text)) {
             inputError = inputError || '請輸入有效無視值，例如 2.4 或 -2.4';
             return;
