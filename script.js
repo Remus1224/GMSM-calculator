@@ -1838,7 +1838,7 @@ function initIgnoreGrid() {
             card.innerHTML = `
                 <div class="card-title">${displayTitle}</div>
                 <div class="card-input-wrapper">
-                    <input type="text" inputmode="text" id="input-${equip}" oninput="calculateIgnore()" placeholder="" aria-label="${displayTitle}無視防禦百分比">
+                    <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="" autocomplete="off" aria-label="${displayTitle}無視防禦百分比">
                 </div>
             `;
             grid.appendChild(card);
