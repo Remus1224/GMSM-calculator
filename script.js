@@ -94,6 +94,13 @@ let liberationInitialized = false;
 let willInitialized = false; // 新增這行
 let willGameActive = false;  // 新增這行
 
+function createDeferredAudio(src) {
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.src = src;
+    return audio;
+}
+
 const calculatorPersistenceConfig = {
     'ignore': {
         tabId: 'tab-ignore',
@@ -509,6 +516,18 @@ function switchTab(tabId) {
 
     willGameActive = (tabId === 'will');
     if (tabId === 'will') {
+        const startButton = document.getElementById('will-start-btn');
+        if (startButton) {
+            startButton.disabled = true;
+            startButton.textContent = '素材載入中…';
+        }
+        will_loadAssets().finally(() => {
+            if (startButton) {
+                startButton.disabled = false;
+                startButton.textContent = '開始';
+            }
+        });
+
         if (!willInitialized) {
             will_init();
             willInitialized = true;
@@ -2849,8 +2868,8 @@ let tr_current_fail_scrolls = 0;
 let tr_isAnimating = false;
 let tr_isMuted = false;
 
-const tr_sfxSuccess = new Audio('assets/audio/AugmentSuccess.wav');
-const tr_sfxFail = new Audio('assets/audio/AugmentFail.wav');
+const tr_sfxSuccess = createDeferredAudio('assets/audio/AugmentSuccess.wav');
+const tr_sfxFail = createDeferredAudio('assets/audio/AugmentFail.wav');
 
 function tr_getStoneEV(baseRate) {
     let expected = 0;
@@ -3235,7 +3254,7 @@ let vClicks = 0;
 let totalFragmentsUsed = 0;
 let isMuted = false;
 let resetCountTracker = 0;
-const enhanceSound = new Audio('assets/audio/HexaCoreEnforcement.mp3');
+const enhanceSound = createDeferredAudio('assets/audio/HexaCoreEnforcement.mp3');
 
 function initVisualBars() {
     ['a', 'b', 'c'].forEach(type => {
@@ -4051,14 +4070,12 @@ let cr_mythic_type = 'necro';
 let cr_stage = 'arcane';
 const cr_failure_records = Object.create(null);
 
-const cr_sfx_success = new Audio('assets/audio/AncientSuccess.wav');
-const cr_sfx_fail = new Audio('assets/audio/AncientFail.wav');
+const cr_sfx_success = createDeferredAudio('assets/audio/AncientSuccess.wav');
+const cr_sfx_fail = createDeferredAudio('assets/audio/AncientFail.wav');
 
 for (const sfx of [cr_sfx_success, cr_sfx_fail]) {
-    sfx.preload = 'auto';
     sfx.loop = false;
     sfx.volume = 1;
-    sfx.load();
 }
 
 function cr_stopCraftSounds() {
@@ -4822,17 +4839,41 @@ const wAssets = {
     pWalk: new Image(), pIdle: new Image(), legTop: new Image(), legBot: new Image(), crack: new Image()
 };
 
-wAssets.bgSmooth.src = 'assets/will/bg_Deep_Mirror.png';
-wAssets.bgCrack.src = 'assets/will/bg_Deep_Mirror.png';
-wAssets.crack.src = 'assets/will/effect_畫面裂痕.png';
-wAssets.pWalk.src = 'assets/will/sprite_玩家_行走.png';
-wAssets.pIdle.src = 'assets/will/sprite_玩家_待機.png';
-wAssets.boss.src = 'assets/will/sprite_威爾.png';
-wAssets.legTop.src = 'assets/will/sprite_蜘蛛腳_上.png';
-wAssets.legBot.src = 'assets/will/sprite_蜘蛛腳_下.png';
-
 wAssets.hitEffect = new Image();
-wAssets.hitEffect.src = 'assets/will/effect_蜘蛛腳命中.png';
+
+const willAssetSources = {
+    bgSmooth: 'assets/will/bg_Deep_Mirror.png',
+    bgCrack: 'assets/will/bg_Deep_Mirror.png',
+    crack: 'assets/will/effect_畫面裂痕.png',
+    pWalk: 'assets/will/sprite_玩家_行走.png',
+    pIdle: 'assets/will/sprite_玩家_待機.png',
+    boss: 'assets/will/sprite_威爾.png',
+    legTop: 'assets/will/sprite_蜘蛛腳_上.png',
+    legBot: 'assets/will/sprite_蜘蛛腳_下.png',
+    hitEffect: 'assets/will/effect_蜘蛛腳命中.png'
+};
+let willAssetsLoadPromise = null;
+
+function will_loadAssets() {
+    if (willAssetsLoadPromise) return willAssetsLoadPromise;
+
+    const loadTasks = Object.entries(willAssetSources).map(([key, src]) => {
+        const image = wAssets[key];
+        image.decoding = 'async';
+
+        return new Promise(resolve => {
+            image.addEventListener('load', () => resolve({ key, loaded: true }), { once: true });
+            image.addEventListener('error', () => {
+                console.warn(`威爾素材載入失敗：${src}`);
+                resolve({ key, loaded: false });
+            }, { once: true });
+            image.src = src;
+        });
+    });
+
+    willAssetsLoadPromise = Promise.all(loadTasks);
+    return willAssetsLoadPromise;
+}
 
 const wSprites = {
     pWalk: { cols: 6, rows: 7, frames: 37, speed: 60, curr: 0, tick: 0 },
@@ -4945,7 +4986,7 @@ let wGame = {
 };
 
 // 🌟 背景音樂管理
-let willBgm = new Audio('assets/audio/MirrorCage.mp3');
+let willBgm = createDeferredAudio('assets/audio/MirrorCage.mp3');
 willBgm.loop = true;
 willBgm.volume = 0.3;
 let isBgmPlaying = false;
@@ -5837,8 +5878,8 @@ const acc_emblems = [
     "Lv.1 銳利紋章"
 ];
 
-const acc_sfxSuccess = new Audio('assets/audio/Enchant.wav'); 
-const acc_sfxFail = new Audio('assets/audio/EnchantFail.mp3');
+const acc_sfxSuccess = createDeferredAudio('assets/audio/Enchant.wav'); 
+const acc_sfxFail = createDeferredAudio('assets/audio/EnchantFail.mp3');
 
 // 狀態變數
 let acc_current_emblem = ""; 
@@ -6354,8 +6395,8 @@ const emb_rate_data = [
     { baseRate: 5, maxMat: 6, matName: "混沌紋章的痕跡" }      // 14->15
 ];
 
-const emb_sfxSuccess = new Audio('assets/audio/Enchant.wav'); 
-const emb_sfxFail = new Audio('assets/audio/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
+const emb_sfxSuccess = createDeferredAudio('assets/audio/Enchant.wav'); 
+const emb_sfxFail = createDeferredAudio('assets/audio/Enchant.wav'); // TODO: 未來若有失敗音效可替換此檔名
 
 // 狀態變數
 let emb_lv = 1; 

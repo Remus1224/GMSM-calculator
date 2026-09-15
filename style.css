@@ -838,7 +838,8 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 /* 🌟 DISCORD 布告欄修復 */
 #tab-home .memo-card { width: 100% !important; max-width: none !important; box-sizing: border-box !important; padding: 25px !important; background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 16px; }
 #tab-home .memo-content { display: flex; align-items: center; gap: 50px; }
-#tab-home .memo-apng { width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); flex-shrink: 0; }
+#tab-home .memo-media { display: block; width: 300px; flex: 0 0 300px; }
+#tab-home .memo-apng { display: block; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
 #tab-home .memo-text-area { color: var(--text-main); font-size: 13px; line-height: 1.6; font-weight: bold; }
 #tab-home .memo-title { font-size: 16px; font-weight: 900; color: #E42123; margin-bottom: 8px; transition: color 0.3s;}
 #tab-home .memo-text-area p { margin: 0 0 6px 0; }
@@ -2470,7 +2471,8 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #tab-will .vol-group label { white-space: nowrap !important; }
 
     .memo-content { flex-direction: column !important; gap: 15px !important; align-items: center !important; text-align: center !important; }
-    .memo-apng { width: 100% !important; max-width: 250px !important; }
+    .memo-media { width: 100% !important; max-width: 250px !important; flex-basis: auto !important; }
+    .memo-apng { width: 100% !important; }
 
     #tab-will .inst-btn-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; width: 100% !important; }
     #tab-will .inst-btn-grid > div:nth-child(5), #tab-will .inst-btn-grid > div:nth-child(6) { grid-column: span 2 !important; }

@@ -246,7 +246,11 @@
 
         <div class="settings-panel instructions-panel memo-card">
             <div class="memo-content">
-                <img src="assets/site/image_Discord_ID.png" alt=" Discord Card" class="memo-apng">
+                <picture class="memo-media">
+                    <source srcset="assets/site/image_Discord_ID.webp" type="image/webp">
+                    <img src="assets/site/image_Discord_ID.png" alt="Discord 聯絡資訊" class="memo-apng"
+                        loading="lazy" decoding="async">
+                </picture>
                 <div class="memo-text-area">
                     <div class="memo-title">Bug 告知</div>
                     <p>如果有發現什麼 Bug 可以加我的 Discord </p>
@@ -1730,7 +1734,7 @@
                         
                         <div class="will-input-group">
                             <input type="text" id="will-player-name" class="glass-input start-custom-input" placeholder="名稱 (可留空)" autocomplete="off">
-                            <button class="glass-btn-start start-custom-btn" onclick="will_startGame()">開始</button>
+                            <button id="will-start-btn" class="glass-btn-start start-custom-btn" onclick="will_startGame()">開始</button>
                         </div>
                     </div>
                 </div>
