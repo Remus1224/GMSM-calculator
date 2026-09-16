@@ -1,0 +1,70 @@
+name: Bug 回報
+about: 回報網站功能、顯示或操作異常
+title: "[Bug] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感謝回報。請盡量提供可重現資訊；若涉及數值或公式錯誤，請改用「資料／公式問題」模板。
+  - type: dropdown
+    id: tool
+    attributes:
+      label: 發生問題的工具
+      options:
+        - 超越模擬器
+        - 製作模擬器
+        - 紋章模擬器
+        - 飾品強化模擬器
+        - 星力強化模擬器
+        - 威爾二階練習機
+        - 極限屬性計算機
+        - 符文計算機
+        - 無視防禦計算機
+        - 六轉進度計算機
+        - 創世解放計算機
+        - HEXA 屬性模擬器
+        - HEXA 懶人重製表
+        - HEXA 重置決策模擬
+        - HEXA 目標機率模擬
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 問題描述
+      description: 請說明實際發生什麼，以及你原本預期會發生什麼。
+      placeholder: 實際結果／預期結果
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 重現步驟
+      placeholder: |
+        1. 開啟...
+        2. 輸入...
+        3. 點擊...
+        4. 出現...
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: 瀏覽器與裝置
+      placeholder: 例如 Chrome 153 / Windows 11，或 Safari / iPhone
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 截圖、錄影或其他補充
+      description: 可直接拖曳圖片到此欄位。
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 確認事項
+      options:
+        - label: 我已重新整理頁面並確認問題仍可重現
+          required: true
+        - label: 我沒有在 Issue 中貼出帳號密碼、Token 或其他敏感資訊
+          required: true
