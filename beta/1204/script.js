@@ -6,7 +6,7 @@
 
     const STYLES = {
         classic: {
-            width: 1633,
+            width: 1604,
             height: 963,
             label: '樣式一：白底 1204 梗圖',
             fileSuffix: 'style-1'
@@ -47,9 +47,9 @@
 
     function buildMessage(reason, style = getSelectedStyle()) {
         if (style === 'game-ui') {
-            return `根據內部政策(懲處原因：${reason})，遊戲服務受到限制。`;
+            return `根據內部政策(懲處原因：${reason})，遊戲服務受到限制。(1204)`;
         }
-        return `根據內部政策 (懲處原因：${reason})，遊戲服務永久受到限制。(1204)`;
+        return `根據內部政策(懲處原因：${reason})，遊戲服務永久受到限制。(1204)`;
     }
 
     function splitTextToLines(text, maxWidth, fontSize, maxLines, weight = 500) {
@@ -137,31 +137,31 @@
         ctx.fillRect(0, 0, width, height);
 
         const fitted = fitText(message, {
-            maxWidth: 1285,
-            maxLines: 4,
-            startFontSize: 56,
-            minFontSize: 32,
+            maxWidth: 1278,
+            maxLines: 3,
+            startFontSize: 62,
+            minFontSize: 34,
             step: 2,
-            weight: 500
+            weight: 400
         });
-        const lineHeight = fitted.fontSize * 1.42;
+        const lineHeight = fitted.fontSize * 1.34;
         const textBlockHeight = fitted.lines.length * lineHeight;
-        const textCenterY = 370;
+        const textCenterY = 383;
         let y = textCenterY - textBlockHeight / 2 + lineHeight * 0.72;
 
         ctx.fillStyle = '#111111';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'alphabetic';
-        ctx.font = `500 ${fitted.fontSize}px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif`;
+        ctx.font = `400 ${fitted.fontSize}px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif`;
 
         for (const line of fitted.lines) {
             ctx.fillText(line, width / 2, y);
             y += lineHeight;
         }
 
-        const buttonX = 78;
-        const buttonY = 675;
-        const buttonWidth = 1477;
+        const buttonX = 74;
+        const buttonY = 680;
+        const buttonWidth = 1456;
         const buttonHeight = 210;
         ctx.fillStyle = '#000000';
         ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
@@ -169,7 +169,7 @@
         ctx.fillStyle = '#FFFFFF';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.font = '700 57px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif';
+        ctx.font = '700 60px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif';
         ctx.fillText('確認', width / 2, buttonY + buttonHeight / 2 + 2);
         ctx.restore();
     }
@@ -213,9 +213,9 @@
 
         const fitted = fitText(message, {
             maxWidth: 520,
-            maxLines: 4,
+            maxLines: 3,
             startFontSize: 21,
-            minFontSize: 15,
+            minFontSize: 14,
             step: 1,
             weight: 500
         });
