@@ -124,14 +124,14 @@
                 </span>
             </button>
 
-            <button type="button" class="app-card" onclick="window.location.href = window.location.protocol === 'file:' ? '1204/index.html' : '1204/'">
+            <button type="button" class="app-card app-card-has-badge" onclick="markMenuToolBadgeAsRead('1204'); window.location.href = window.location.protocol === 'file:' ? '1204/index.html' : '1204/'">
                 <span class="app-icon">
-                    <span id="menu-1204-fallback" aria-hidden="true" style="font-size:13px;font-weight:900;letter-spacing:-0.5px;">1204</span>
-                    <img id="menu-1204-image" data-src="assets/menu/1204.png" class="menu-custom-img" alt="" hidden>
+                    <img src="assets/menu/1204.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">1204 產生器</span>
                 </span>
+                <span id="menu-badge-1204" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
             <div class="home-menu-category home-menu-category-calculator" role="heading" aria-level="2">
@@ -278,10 +278,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-09-12">2026.09.12</time>
+                    <time datetime="2026-09-21">2026.09.21</time>
                 </div>
-                <h2 id="notice-latest-title">提醒顯示優化、無視防禦支援減項、增加新欄位</h2>
-                <p>調整部分提醒的顯示與位置，無視防禦計算機可直接輸入負數移除來源。</p>
+                <h2 id="notice-latest-title">新增 1204 產生器</h2>
+                <p>施亞群的貓貓提出想要這個功能，所以就做出來了。</p>
             </div>
         </section>
 
@@ -298,8 +298,20 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-09-12">2026 / 09 / 12</time>
+                            <time datetime="2026-09-21">2026 / 09 / 21</time>
                             <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>1204 產生器。施亞群的貓貓提出想要這個功能，所以就做出來了。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-09-12">2026 / 09 / 12</time>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-update">改善</span><span>優化部分提醒文字的顯示與位置，讓使用說明更容易辨識。</span></li>
@@ -2286,43 +2298,6 @@
 </script>
 <script src="craft-effects.js"></script>
 <script src="script.js"></script>
-<script>
-// 1204 選單圖片採非阻塞載入：圖片尚未上傳時不影響主頁完成載入。
-window.addEventListener('load', function () {
-    const image = document.getElementById('menu-1204-image');
-    const fallback = document.getElementById('menu-1204-fallback');
-    if (!image || !image.dataset.src) return;
 
-    const loadImage = function () {
-        const probe = new Image();
-        let settled = false;
-        const finish = function (ok) {
-            if (settled) return;
-            settled = true;
-            clearTimeout(timeoutId);
-            probe.onload = null;
-            probe.onerror = null;
-            if (ok) {
-                image.src = image.dataset.src;
-                image.hidden = false;
-                if (fallback) fallback.hidden = true;
-            }
-        };
-        const timeoutId = setTimeout(function () {
-            finish(false);
-            probe.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-        }, 2500);
-        probe.onload = function () { finish(true); };
-        probe.onerror = function () { finish(false); };
-        probe.src = image.dataset.src;
-    };
-
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadImage, { timeout: 1200 });
-    } else {
-        setTimeout(loadImage, 0);
-    }
-}, { once: true });
-</script>
 </body>
 </html>

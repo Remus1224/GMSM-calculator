@@ -144,7 +144,7 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-09-12';
+const latestNoticeVersion = '2026-09-21';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'liberation': {
@@ -170,6 +170,10 @@ const menuToolBadgeConfig = {
     'ignore': {
         elementId: 'menu-badge-ignore',
         version: '2026-09-15'
+    },
+    '1204': {
+        elementId: 'menu-badge-1204',
+        version: '2026-09-21'
     }
 };
 const menuToolBadgeStoragePrefix = 'gmsm-menu-badge-seen-v1:';
