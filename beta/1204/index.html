@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1204 產生器｜楓之谷M 也許有用的工具</title>
+    <meta name="description" content="輸入懲處原因，即時產生 1204 梗圖並儲存成 PNG。">
+    <meta property="og:title" content="1204 產生器｜楓之谷M 也許有用的工具">
+    <meta property="og:description" content="輸入懲處原因，即時產生 1204 梗圖並儲存成 PNG。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/1204/">
+    <script>
+        try {
+            if (localStorage.getItem('msm-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        } catch (error) {
+            // 瀏覽器停用儲存時仍維持日間模式。
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="../assets/site/icon_尼尼葉.png" type="image/png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FSW7VLPBYS');
+    </script>
+</head>
+<body>
+    <main class="container">
+        <header class="top-header-section">
+            <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
+
+            <div class="top-nav-bar">
+                <div class="nav-side left-side">
+                    <a class="nav-btn" href="../" onclick="if (window.location.protocol === 'file:') this.href='../index.html';">主選單</a>
+                </div>
+
+                <div class="nav-title-glass">1204 產生器</div>
+
+                <div class="nav-side right-side">
+                    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false">
+                        <span class="icon-sun">☀️</span>
+                        <span class="icon-moon">🌙</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <section class="tool-layout" aria-label="1204 梗圖產生器">
+            <div class="panel settings-panel">
+                <div class="section-title">內容設定</div>
+
+                <div class="field-block">
+                    <span class="field-label">圖片樣式</span>
+                    <div class="style-selector" role="radiogroup" aria-label="圖片樣式">
+                        <label class="style-option">
+                            <input type="radio" name="image-style" value="classic" checked>
+                            <span>1204 原圖</span>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="image-style" value="game-ui">
+                            <span>遊戲提示 UI</span>
+                        </label>
+                    </div>
+                </div>
+
+                <label class="field-label" for="reason-input">懲處原因</label>
+                <textarea id="reason-input" class="reason-input" rows="4" maxlength="120" placeholder="輸入懲處原因"></textarea>
+                <div class="field-meta">
+                    <span id="style-description">1204 原圖樣式</span>
+                    <span><strong id="reason-count">0</strong>/120</span>
+                </div>
+
+                <div class="message-preview" aria-live="polite">
+                    <span class="message-preview-label">產生文字</span>
+                    <p id="message-preview-text">根據內部政策 (懲處原因：)，遊戲服務永久受到限制。(1204)</p>
+                </div>
+
+                <div class="btn-group">
+                    <button id="download-btn" class="action-btn" type="button">儲存 PNG</button>
+                    <button id="reset-btn" class="action-btn clear-btn" type="button">重設</button>
+                </div>
+            </div>
+
+            <div class="panel preview-panel">
+                <div class="preview-header">
+                    <div class="section-title">圖片預覽</div>
+                    <span id="preview-size" class="preview-size">1633 × 963</span>
+                </div>
+
+                <div class="canvas-shell">
+                    <canvas id="meme-canvas" width="1633" height="963" aria-label="1204 梗圖預覽"></canvas>
+                </div>
+                <p class="preview-hint">圖片會在瀏覽器內產生，不會上傳輸入內容。</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
