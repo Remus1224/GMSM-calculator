@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>1204 產生器｜楓之谷M 也許有用的工具</title>
-    <meta name="description" content="輸入懲處原因，即時產生 1204 梗圖並儲存成 PNG。">
+    <meta name="description" content="輸入懲處原因或啟用自訂文字，即時產生 1204 梗圖並儲存成 PNG。">
     <meta property="og:title" content="1204 產生器｜楓之谷M 也許有用的工具">
-    <meta property="og:description" content="輸入懲處原因，即時產生 1204 梗圖並儲存成 PNG。">
+    <meta property="og:description" content="輸入懲處原因或啟用自訂文字，即時產生 1204 梗圖並儲存成 PNG。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/1204/">
     <script>
@@ -67,8 +67,35 @@
                     </div>
                 </div>
 
-                <label class="field-label" for="reason-input">懲處原因</label>
-                <textarea id="reason-input" class="reason-input" rows="4" maxlength="120" placeholder="輸入懲處原因"></textarea>
+                <div class="custom-mode-row">
+                    <label class="custom-mode-toggle" for="custom-mode-toggle">
+                        <input id="custom-mode-toggle" type="checkbox">
+                        <span class="custom-checkbox" aria-hidden="true"></span>
+                        <span class="custom-mode-label">啟用自訂文字</span>
+                    </label>
+                </div>
+
+                <div id="normal-fields">
+                    <label class="field-label" for="reason-input">懲處原因</label>
+                    <input id="reason-input" class="reason-input" type="text" maxlength="120" placeholder="輸入懲處原因">
+                </div>
+
+                <div id="custom-fields" class="custom-fields" hidden>
+                    <div class="custom-field-block">
+                        <label class="field-label" for="custom-prefix-input">前置文字（選填）</label>
+                        <input id="custom-prefix-input" class="custom-text-input" type="text" maxlength="60" placeholder="例如：某個人的ID">
+                    </div>
+
+                    <div class="custom-field-block">
+                        <label class="field-label" for="custom-reason-input">懲處原因</label>
+                        <input id="custom-reason-input" class="reason-input custom-reason-input" type="text" maxlength="120" placeholder="輸入懲處原因">
+                    </div>
+
+                    <div class="custom-field-block">
+                        <label class="field-label" for="custom-ending-input">結尾內容</label>
+                        <input id="custom-ending-input" class="custom-text-input" type="text" maxlength="100" placeholder="例如：遊戲服務">
+                    </div>
+                </div>
 
                 <div class="message-preview" aria-live="polite">
                     <span class="message-preview-label">產生文字</span>

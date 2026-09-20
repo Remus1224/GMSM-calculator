@@ -66,6 +66,7 @@ body {
 
 button,
 a,
+input,
 textarea {
     font-family: inherit;
     touch-action: manipulation;
@@ -295,9 +296,9 @@ textarea {
 .reason-input {
     display: block;
     width: 100%;
-    min-height: 116px;
-    resize: vertical;
-    padding: 12px 13px;
+    min-height: 46px;
+    height: 46px;
+    padding: 11px 13px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     outline: none;
@@ -306,7 +307,7 @@ textarea {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
     font-size: 15px;
     font-weight: 600;
-    line-height: 1.6;
+    line-height: 1.4;
     user-select: auto;
     -webkit-user-select: auto;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -640,5 +641,159 @@ textarea {
 
     .style-option-title {
         font-size: 12px;
+    }
+}
+
+/* 1204 產生器：自訂文字模式 */
+.custom-mode-row {
+    display: flex;
+    align-items: center;
+    margin: -2px 0 16px;
+}
+
+.custom-mode-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 36px;
+    padding: 7px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.55);
+    font-size: 13px;
+    font-weight: 800;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.custom-mode-toggle:hover {
+    transform: translateY(-1px);
+    border-color: rgba(85, 195, 255, 0.55);
+}
+
+.custom-mode-toggle input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.custom-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    border: 2px solid rgba(44, 62, 80, 0.32);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.custom-mode-toggle input:checked + .custom-checkbox {
+    border-color: #55C3FF;
+    background: linear-gradient(135deg, #55C3FF, #9C7FEA);
+    box-shadow: 0 3px 9px rgba(85, 195, 255, 0.25);
+}
+
+.custom-mode-toggle input:checked + .custom-checkbox::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid #FFFFFF;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.custom-mode-toggle:has(input:checked) {
+    border-color: rgba(85, 195, 255, 0.55);
+    background: rgba(85, 195, 255, 0.10);
+    box-shadow: 0 0 0 2px rgba(85, 195, 255, 0.08);
+}
+
+[data-theme="dark"] .custom-mode-toggle {
+    border-color: rgba(178, 187, 237, 0.22);
+    background: rgba(10, 15, 25, 0.62);
+}
+
+[data-theme="dark"] .custom-checkbox {
+    border-color: rgba(178, 187, 237, 0.42);
+    background: rgba(10, 15, 25, 0.88);
+}
+
+[data-theme="dark"] .custom-mode-toggle:has(input:checked) {
+    border-color: rgba(85, 195, 255, 0.62);
+    background: rgba(85, 195, 255, 0.12);
+    box-shadow: 0 0 12px rgba(85, 195, 255, 0.10);
+}
+
+.custom-fields {
+    display: grid;
+    gap: 14px;
+}
+
+.custom-fields[hidden],
+#normal-fields[hidden] {
+    display: none !important;
+}
+
+.custom-field-block {
+    min-width: 0;
+}
+
+.custom-reason-input {
+    min-height: 46px;
+    height: 46px;
+}
+
+.custom-text-input {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    outline: none;
+    color: #0071E3;
+    background: #FFFFFF;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    user-select: auto;
+    -webkit-user-select: auto;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-text-input:focus {
+    border-color: rgba(200, 141, 221, 0.7);
+    box-shadow: 0 0 8px rgba(200, 141, 221, 0.35), inset 0 1px 3px rgba(0, 0, 0, 0.02);
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .custom-text-input {
+    color: #55C3FF;
+    background: rgba(10, 12, 20, 0.95);
+    border-color: rgba(85, 195, 255, 0.4);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .custom-text-input:focus {
+    border-color: rgba(85, 195, 255, 0.8);
+    box-shadow: 0 0 10px rgba(85, 195, 255, 0.4), inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 560px) {
+    .custom-mode-toggle {
+        width: 100%;
+        justify-content: flex-start;
+        min-height: 42px;
     }
 }

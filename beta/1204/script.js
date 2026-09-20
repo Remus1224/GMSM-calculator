@@ -3,6 +3,8 @@
 
     const DEFAULT_REASON = '';
     const MAX_REASON_LENGTH = 120;
+    const MAX_PREFIX_LENGTH = 60;
+    const MAX_ENDING_LENGTH = 100;
 
     const STYLES = {
         classic: {
@@ -20,6 +22,12 @@
     };
 
     const reasonInput = document.getElementById('reason-input');
+    const customModeToggle = document.getElementById('custom-mode-toggle');
+    const normalFields = document.getElementById('normal-fields');
+    const customFields = document.getElementById('custom-fields');
+    const customPrefixInput = document.getElementById('custom-prefix-input');
+    const customReasonInput = document.getElementById('custom-reason-input');
+    const customEndingInput = document.getElementById('custom-ending-input');
     const messagePreview = document.getElementById('message-preview-text');
     const previewSize = document.getElementById('preview-size');
     const canvas = document.getElementById('meme-canvas');
@@ -40,17 +48,48 @@
             .slice(0, MAX_REASON_LENGTH);
     }
 
+    function normalizeFragment(value, maxLength) {
+        return String(value || '')
+            .replace(/\r\n?/g, ' ')
+            .replace(/\n+/g, ' ')
+            .replace(/[\t ]+/g, ' ')
+            .trim()
+            .slice(0, maxLength);
+    }
+
     function getSelectedStyle() {
         const selected = styleRadios.find((radio) => radio.checked);
         return selected ? selected.value : 'classic';
     }
 
+    function isCustomModeEnabled() {
+        return Boolean(customModeToggle && customModeToggle.checked);
+    }
+
+    function getActiveReason() {
+        return normalizeReason(isCustomModeEnabled() ? customReasonInput.value : reasonInput.value);
+    }
+
+    function buildCustomMessage() {
+        const prefix = normalizeFragment(customPrefixInput.value, MAX_PREFIX_LENGTH);
+        const reason = normalizeReason(customReasonInput.value);
+        const ending = normalizeFragment(customEndingInput.value, MAX_ENDING_LENGTH).replace(/[。．.]+$/g, '');
+        return `${prefix}根據內部政策(懲處原因：${reason})，${ending}受到限制。(1204)`;
+    }
+
     function buildMessage(reason, style = getSelectedStyle()) {
+        if (isCustomModeEnabled()) {
+            return buildCustomMessage();
+        }
         if (style === 'game-ui') {
             return `根據內部政策(懲處原因：${reason})，遊戲服務受到限制。(1204)`;
         }
         return `根據內部政策(懲處原因：${reason})，遊戲服務永久受到限制。(1204)`;
     }
+
+    // 中文排版禁則：這些標點不應出現在新行開頭。
+    // Canvas 不會像瀏覽器文字排版一樣自動套用 CJK 禁則，因此在換行時手動處理。
+    const NO_LINE_START_PUNCTUATION = new Set(Array.from('，。！？：；、）》】」』〕〉”’…,.!?;:%)]}'));
 
     function splitTextToLines(text, maxWidth, fontSize, maxLines, weight = 500) {
         const lines = [];
@@ -68,8 +107,17 @@
                     continue;
                 }
 
-                lines.push(current);
-                current = char;
+                // 例如「...懲處原因：母胎單身)，」剛好碰到行寬時，
+                // 讓逗號留在右括號後方，不要把「，」單獨推到下一行。
+                if (NO_LINE_START_PUNCTUATION.has(char)) {
+                    current += char;
+                    lines.push(current);
+                    current = '';
+                } else {
+                    lines.push(current);
+                    current = char;
+                }
+
                 if (lines.length >= maxLines) break;
             }
 
@@ -272,12 +320,28 @@
     }
 
     function updateGenerator() {
-        const reason = normalizeReason(reasonInput.value);
+        const reason = getActiveReason();
         const style = getSelectedStyle();
         messagePreview.textContent = buildMessage(reason, style);
         updateCanvasPresentation(style);
         drawCanvas(reason, style);
         memeImage.src = canvas.toDataURL('image/png');
+    }
+
+    function updateCustomMode(syncReason = true) {
+        const enabled = isCustomModeEnabled();
+
+        if (syncReason) {
+            if (enabled) {
+                customReasonInput.value = normalizeReason(reasonInput.value);
+            } else {
+                reasonInput.value = normalizeReason(customReasonInput.value);
+            }
+        }
+
+        normalFields.hidden = enabled;
+        customFields.hidden = !enabled;
+        updateGenerator();
     }
 
     function applyTheme(theme, shouldSave = false) {
@@ -314,7 +378,7 @@
     }
 
     function downloadImage() {
-        const reason = normalizeReason(reasonInput.value);
+        const reason = getActiveReason();
         const style = getSelectedStyle();
         const config = STYLES[style] || STYLES.classic;
         drawCanvas(reason, style);
@@ -337,18 +401,33 @@
             window.gtag('event', 'download_1204_generator', {
                 event_category: '1204_generator',
                 image_style: style,
+                custom_mode: isCustomModeEnabled() ? 'on' : 'off',
                 save_method: isIOSDevice() ? 'long_press' : 'download'
             });
         }
     }
 
     function resetGenerator() {
+        customModeToggle.checked = false;
         reasonInput.value = DEFAULT_REASON;
-        updateGenerator();
+        customPrefixInput.value = '';
+        customReasonInput.value = '';
+        customEndingInput.value = '';
+        updateCustomMode(false);
         reasonInput.focus();
     }
 
-    reasonInput.addEventListener('input', updateGenerator);
+    reasonInput.addEventListener('input', () => {
+        if (!isCustomModeEnabled()) customReasonInput.value = reasonInput.value;
+        updateGenerator();
+    });
+    customPrefixInput.addEventListener('input', updateGenerator);
+    customReasonInput.addEventListener('input', () => {
+        if (isCustomModeEnabled()) reasonInput.value = customReasonInput.value;
+        updateGenerator();
+    });
+    customEndingInput.addEventListener('input', updateGenerator);
+    customModeToggle.addEventListener('change', () => updateCustomMode(true));
     styleRadios.forEach((radio) => radio.addEventListener('change', updateGenerator));
     downloadBtn.addEventListener('click', downloadImage);
     resetBtn.addEventListener('click', resetGenerator);
@@ -367,5 +446,5 @@
     }
 
     applyTheme(savedTheme);
-    updateGenerator();
+    updateCustomMode(false);
 })();
