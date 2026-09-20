@@ -8,24 +8,24 @@
         classic: {
             width: 1633,
             height: 963,
-            label: '1204 原圖樣式',
-            fileSuffix: '1204'
+            label: '樣式一：白底 1204 梗圖',
+            fileSuffix: 'style-1'
         },
         'game-ui': {
-            width: 614,
-            height: 448,
-            label: '遊戲提示 UI（僅輸出提示視窗）',
-            fileSuffix: 'game-ui'
+            width: 1320,
+            height: 963,
+            label: '樣式二：遊戲內提示視窗 UI',
+            fileSuffix: 'style-2'
         }
     };
 
     const reasonInput = document.getElementById('reason-input');
-    const reasonCount = document.getElementById('reason-count');
     const messagePreview = document.getElementById('message-preview-text');
-    const styleDescription = document.getElementById('style-description');
     const previewSize = document.getElementById('preview-size');
     const canvas = document.getElementById('meme-canvas');
     const ctx = canvas.getContext('2d');
+    const memeImage = document.getElementById('meme-image');
+    const previewHint = document.getElementById('preview-hint');
     const downloadBtn = document.getElementById('download-btn');
     const resetBtn = document.getElementById('reset-btn');
     const themeToggle = document.getElementById('theme-toggle');
@@ -179,29 +179,37 @@
         const height = STYLES['game-ui'].height;
         const message = buildMessage(reason, 'game-ui');
 
+        // 以參考 UI 的 614 × 448 為設計座標，再等比例放大到接近樣式一的輸出尺寸。
+        const designWidth = 614;
+        const designHeight = 448;
+        const scale = height / designHeight;
+        const scaledWidth = designWidth * scale;
+        const offsetX = (width - scaledWidth) / 2;
+
         canvas.width = width;
         canvas.height = height;
 
         ctx.save();
         ctx.clearRect(0, 0, width, height);
+        ctx.translate(offsetX, 0);
+        ctx.scale(scale, scale);
 
-        // 外框只保留遊戲提示視窗本身；四角外側維持透明。
-        roundedRectPath(ctx, 0, 0, width, height, 12);
+        // 只輸出遊戲提示視窗本身；四角外側維持透明。
+        roundedRectPath(ctx, 0, 0, designWidth, designHeight, 12);
         ctx.clip();
 
-        // 遊戲內 UI 色彩：沿用製作／超越模擬器系統色，並比照參考圖微調。
         ctx.fillStyle = '#F2F2F2';
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillRect(0, 0, designWidth, designHeight);
 
         const headerHeight = 82;
         ctx.fillStyle = '#525F6F';
-        ctx.fillRect(0, 0, width, headerHeight);
+        ctx.fillRect(0, 0, designWidth, headerHeight);
 
         ctx.fillStyle = '#FFFFFF';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = '700 34px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif';
-        ctx.fillText('提示', width / 2, headerHeight / 2 + 1);
+        ctx.fillText('提示', designWidth / 2, headerHeight / 2 + 1);
 
         const fitted = fitText(message, {
             maxWidth: 520,
@@ -222,16 +230,15 @@
         ctx.textBaseline = 'middle';
 
         for (const line of fitted.lines) {
-            ctx.fillText(line, width / 2, y);
+            ctx.fillText(line, designWidth / 2, y);
             y += lineHeight;
         }
 
         const buttonWidth = 276;
         const buttonHeight = 64;
-        const buttonX = (width - buttonWidth) / 2;
+        const buttonX = (designWidth - buttonWidth) / 2;
         const buttonY = 364;
 
-        // 遊戲按鈕底部壓紋／陰影。
         ctx.fillStyle = '#CC5F3A';
         roundedRectPath(ctx, buttonX, buttonY + 4, buttonWidth, buttonHeight, 8);
         ctx.fill();
@@ -244,7 +251,7 @@
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = '700 24px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif';
-        ctx.fillText('確認', width / 2, buttonY + buttonHeight / 2 - 1);
+        ctx.fillText('確認', designWidth / 2, buttonY + buttonHeight / 2 - 1);
 
         ctx.restore();
     }
@@ -260,18 +267,17 @@
     function updateCanvasPresentation(style) {
         const config = STYLES[style] || STYLES.classic;
         previewSize.textContent = `${config.width} × ${config.height}`;
-        styleDescription.textContent = config.label;
-        canvas.style.aspectRatio = `${config.width} / ${config.height}`;
+        memeImage.style.aspectRatio = `${config.width} / ${config.height}`;
         document.querySelector('.canvas-shell').classList.toggle('transparent-preview', style === 'game-ui');
     }
 
     function updateGenerator() {
         const reason = normalizeReason(reasonInput.value);
         const style = getSelectedStyle();
-        reasonCount.textContent = String(reason.length);
         messagePreview.textContent = buildMessage(reason, style);
         updateCanvasPresentation(style);
         drawCanvas(reason, style);
+        memeImage.src = canvas.toDataURL('image/png');
     }
 
     function applyTheme(theme, shouldSave = false) {
@@ -300,23 +306,38 @@
         applyTheme(isDark ? 'light' : 'dark', true);
     }
 
+    function isIOSDevice() {
+        const ua = navigator.userAgent || '';
+        const platform = navigator.platform || '';
+        const touchMac = platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+        return /iPad|iPhone|iPod/i.test(ua) || touchMac;
+    }
+
     function downloadImage() {
         const reason = normalizeReason(reasonInput.value);
         const style = getSelectedStyle();
         const config = STYLES[style] || STYLES.classic;
         drawCanvas(reason, style);
+        const dataUrl = canvas.toDataURL('image/png');
+        memeImage.src = dataUrl;
 
-        const link = document.createElement('a');
-        link.download = `1204 產生器_${config.fileSuffix}.png`;
-        link.href = canvas.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        if (isIOSDevice()) {
+            memeImage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            previewHint.textContent = '請長按上方圖片，接著選擇「儲存到照片」或「儲存影像」。';
+        } else {
+            const link = document.createElement('a');
+            link.download = `1204 產生器_${config.fileSuffix}.png`;
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }
 
         if (typeof window.gtag === 'function') {
             window.gtag('event', 'download_1204_generator', {
                 event_category: '1204_generator',
-                image_style: style
+                image_style: style,
+                save_method: isIOSDevice() ? 'long_press' : 'download'
             });
         }
     }
@@ -338,6 +359,11 @@
         savedTheme = localStorage.getItem('msm-theme') === 'dark' ? 'dark' : 'light';
     } catch (error) {
         console.warn('無法讀取主題設定：', error);
+    }
+
+    if (isIOSDevice()) {
+        downloadBtn.textContent = '長按圖片儲存';
+        previewHint.textContent = 'iPhone / iPad：圖片產生後可直接長按預覽圖，再選擇「儲存到照片」或「儲存影像」。';
     }
 
     applyTheme(savedTheme);

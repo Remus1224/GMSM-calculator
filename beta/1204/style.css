@@ -402,21 +402,38 @@ textarea {
 
 .clear-btn {
     flex: 0 0 84px;
-    color: #1D1D1F;
-    background: #E5E5EA;
+    border: 1px solid rgba(255, 59, 48, 0.2);
+    color: #FF3B30;
+    background: rgba(255, 59, 48, 0.08);
     box-shadow: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-.clear-btn:hover {
-    background: #D1D1D6;
-    box-shadow: none;
+.clear-btn:hover,
+.clear-btn:focus-visible {
+    border-color: rgba(255, 59, 48, 0.34);
+    color: #FF3B30;
+    background: rgba(255, 59, 48, 0.15);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.15);
     filter: none;
+    transform: translateY(-2px);
 }
 
 [data-theme="dark"] .clear-btn {
-    color: #ff8fa8;
-    background: rgba(255, 75, 114, 0.08);
-    border: 1px solid rgba(255, 75, 114, 0.45);
+    border: 1px solid rgba(255, 75, 114, 0.4);
+    color: #FF6B8B;
+    background: rgba(255, 75, 114, 0.10);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .clear-btn:hover,
+[data-theme="dark"] .clear-btn:focus-visible {
+    border-color: rgba(255, 75, 114, 0.8);
+    color: #FFFFFF;
+    background: rgba(255, 75, 114, 0.20);
+    box-shadow: 0 0 10px rgba(255, 75, 114, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.6);
+    transform: translateY(-1px);
 }
 
 .preview-header {
@@ -452,11 +469,26 @@ textarea {
 }
 
 #meme-canvas {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.meme-image {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 1633 / 963;
+    object-fit: contain;
     background: #FFFFFF;
+    -webkit-touch-callout: default;
+    -webkit-user-select: auto;
+    user-select: auto;
+    -webkit-user-drag: auto;
+    touch-action: auto;
 }
 
 .preview-hint {
@@ -486,8 +518,9 @@ textarea {
     .theme-toggle .icon-moon { width: 26px; font-size: 13px; }
     [data-theme="dark"] .theme-toggle::before { transform: translateX(30px); }
     .panel { padding: 15px; border-radius: 14px; }
-    .btn-group { flex-direction: column; }
-    .clear-btn { flex-basis: auto; }
+    .btn-group { flex-direction: row; }
+    .btn-group .action-btn { flex: 1 1 0; min-width: 0; }
+    .clear-btn { flex-basis: 0; }
 }
 
 @media (max-width: 390px) {
@@ -515,9 +548,11 @@ textarea {
 .style-option {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 42px;
+    gap: 0;
+    min-height: 48px;
     padding: 8px 10px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 10px;
@@ -528,6 +563,14 @@ textarea {
     font-weight: 700;
     text-align: center;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+
+.style-option-title {
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
 }
 
 .style-option:hover {
@@ -580,7 +623,7 @@ textarea {
         linear-gradient(-45deg, transparent 75%, #242a35 75%);
 }
 
-.canvas-shell.transparent-preview #meme-canvas {
+.canvas-shell.transparent-preview .meme-image {
     border-radius: 12px;
     background: transparent;
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
@@ -588,6 +631,16 @@ textarea {
 
 @media (max-width: 560px) {
     .style-selector {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .style-option {
+        min-height: 46px;
+        padding: 7px 6px;
+    }
+
+    .style-option-title {
+        font-size: 12px;
     }
 }

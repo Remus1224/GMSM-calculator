@@ -58,21 +58,17 @@
                     <div class="style-selector" role="radiogroup" aria-label="圖片樣式">
                         <label class="style-option">
                             <input type="radio" name="image-style" value="classic" checked>
-                            <span>1204 原圖</span>
+                            <span class="style-option-title">樣式一</span>
                         </label>
                         <label class="style-option">
                             <input type="radio" name="image-style" value="game-ui">
-                            <span>遊戲提示 UI</span>
+                            <span class="style-option-title">樣式二</span>
                         </label>
                     </div>
                 </div>
 
                 <label class="field-label" for="reason-input">懲處原因</label>
                 <textarea id="reason-input" class="reason-input" rows="4" maxlength="120" placeholder="輸入懲處原因"></textarea>
-                <div class="field-meta">
-                    <span id="style-description">1204 原圖樣式</span>
-                    <span><strong id="reason-count">0</strong>/120</span>
-                </div>
 
                 <div class="message-preview" aria-live="polite">
                     <span class="message-preview-label">產生文字</span>
@@ -92,9 +88,10 @@
                 </div>
 
                 <div class="canvas-shell">
-                    <canvas id="meme-canvas" width="1633" height="963" aria-label="1204 梗圖預覽"></canvas>
+                    <img id="meme-image" class="meme-image" alt="1204 梗圖預覽，可在手機上長按儲存圖片">
+                    <canvas id="meme-canvas" width="1633" height="963" aria-hidden="true"></canvas>
                 </div>
-                <p class="preview-hint">圖片會在瀏覽器內產生，不會上傳輸入內容。</p>
+                <p id="preview-hint" class="preview-hint">圖片會在瀏覽器內產生，不會上傳輸入內容。iPhone / iPad 可直接長按預覽圖片後選擇儲存影像。</p>
             </div>
         </section>
     </main>
