@@ -1,0 +1,57 @@
+name: Validate project
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify required project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required_files=(
+            "index.html"
+            "script.js"
+            "style.css"
+            "craft-effects.js"
+            "README.md"
+            "LICENSE"
+            "THIRD_PARTY_NOTICES.md"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [[ ! -f "$file" ]]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+          done
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check script.js
+          node --check craft-effects.js
+
+      - name: Check README links to local policy files
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'THIRD_PARTY_NOTICES.md' README.md
+          grep -q 'LICENSE' README.md
