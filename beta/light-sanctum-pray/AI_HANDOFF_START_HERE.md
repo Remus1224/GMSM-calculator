@@ -1,104 +1,26 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray Production Slim
+# AI_HANDOFF_START_HERE — Light Sanctum Pray iOS Fullscreen Fix3
 
-## Current production target
-- Site: `GMSM-calculator`
-- Tool display name: `光之聖所祈禱模擬器`
-- Production route: `/light-sanctum-pray/`
-- Menu image expected at: `assets/menu/icon_光之聖所祈禱模擬器.png`
-- Runtime lineage: Preview137 → user-PASS P136 WebFix2 → Beta8 player presentation/settings/mobile alignment → production integration.
+## Current patch
+`LightSanctumPray_iOSFullscreenFix3_UIButton_ThemeParity_PATCH_20260925.zip`
 
-## User-verified behavior to preserve
-- The simulator game UI is kept as the restored MapleStory M UI rather than redesigned into a generic responsive web form.
-- Desktop/tablet landscape: full game stage scales to fit with no simulator-internal scrollbars.
-- Phone landscape: same game UI scales to fit; no alternate/rearranged mobile game UI.
-- Phone portrait: full UI remains visible by scaling, with landscape-use guidance.
-- Player-facing engineering/audit controls are hidden.
-- Page title is `光之聖所祈禱模擬器`.
-- Confirm popup is enabled by default (skip-confirm is unchecked by default).
-- PrayConfirmPopup partial-lock behavior is user-PASS: locked blessing rows are omitted and remaining rows compact correctly.
-- Settings support Lv.1–Lv.15 starting state.
-- Changing the current level resets cumulative 聖痕結晶 and 楓幣 usage to zero and starts a new usage baseline.
-- Reset clears simulator state and cumulative usage.
-- Reset button follows the main site's light/dark clear/reset visual language.
-- Mobile level label/select alignment is horizontally aligned and vertically centered.
+## User-confirmed production baseline
+Light Sanctum Pray production slim runtime and settings are already deployed/tested on GitHub Pages.
 
-## Repository layout / naming rule
-Keep the independent player tools at the repository root:
-- `/1204/`
-- `/light-sanctum-pray/`
+## Fix3 changes
+1. Fullscreen control moved out of the website title/navigation bar and into the visible game UI.
+   - It is overlaid inside `stage-viewport`.
+   - This lets iPhone users scroll slightly to hide Safari's address bar first, then press fullscreen without returning to the top navigation.
+   - The same button toggles enter/exit fullscreen.
+2. iOS fake-fullscreen fallback from Fix2 is retained.
+3. Theme toggle visual style is changed to match the main GMSM-calculator site's canonical day/night toggle.
+   - Prior Light Sanctum styling was derived from the older 1204 standalone style and was not pixel/style-identical to the main site.
+4. Cache-bust updated to `20260925-iosfs3`.
 
-Do **not** add a new wrapper folder such as `/tools/` at this stage. This preserves the existing public routes and keeps relative return links stable.
+## Frozen behavior
+Do not change P137 gameplay/runtime, pray costs, EXP, particles, confirmation popup, level/settings bridge, cumulative usage tracking, or reset semantics.
 
-Menu artwork follows the site's existing `icon_` asset naming convention:
-- `/assets/menu/icon_1204產生器.png`
-- `/assets/menu/icon_光之聖所祈禱模擬器.png`
-
-URL folders remain English/stable while menu artwork follows the existing Chinese `icon_...` convention.
-
-## Main-site integration
-The integration changes the existing root site files:
-- `/index.html`: simulator count becomes 8 and a `光之聖所祈禱模擬器` card is inserted after 威爾二階練習機 and before 1204.
-- `/script.js`: adds the NEW-badge entry `light-sanctum-pray` with version `2026-09-25`.
-
-The user supplies this image separately:
-- `/assets/menu/icon_光之聖所祈禱模擬器.png`
-
-## Production runtime files intentionally retained
-The browser runtime uses:
-- `index.html`, `style.css`, `script.js`
-- `runtime/index.html`
-- `runtime/styles.css`
-- `runtime/player-view.css`
-- `runtime/player-presentation.js`
-- `runtime/player-presentation-patch.js`
-- `runtime/site-bridge.js`
-- `runtime/ui-static-scene-data.js`
-- `runtime/ui-state-fixture-data.js`
-- `runtime/sanctuary-gameplay-data.js`
-- `runtime/native-particles/p98-native-particle-bake.js`
-- required particle atlases and UI assets
-- the complete player-facing `runtime/pray-confirm-popup/` runtime (HTML/CSS/data JS/player JS/assets)
-
-## Production slimming performed
-The following development/evidence-only files were intentionally removed because the player runtime does not reference them:
-- `runtime/index.audit.html`
-- root runtime duplicate `runtime/player.js` (player page loads `player-presentation.js` instead)
-- `runtime/runtime-package-manifest.json`
-- raw duplicate `runtime/ui-static-scene.json`
-- raw duplicate `runtime/ui-state-fixture.json`
-- `runtime/native-particles/README_P98_NATIVE_PARTICLE_BAKE.txt`
-- `runtime/pray-confirm-popup/p135-popup-manifest.json`
-- raw duplicate popup `ui-static-scene.json`
-- raw duplicate popup `ui-state-fixture.json`
-- historical build reports, patch diff, and standalone SHA list
-
-Do not delete the `*-data.js` files: these are the browser-loaded scene/fixture payloads and are required even though the similarly named raw `.json` evidence files are not.
-
-Do not delete `runtime/pray-confirm-popup/player.js`: the popup page directly loads it.
-
-## Hard rule
-Do not refactor or regenerate the P137 gameplay/rendering logic while doing site-only work. Production changes should remain presentation/integration-only unless a new game-ground-truth discrepancy is explicitly demonstrated by the user.
-
-## Main-site bulletin integration (2026-09-25)
-- Homepage bulletin hero now announces `光之聖所祈禱模擬器`.
-- Latest timeline entry date: `2026-09-25`.
-- Bulletin records the new simulator and its level/reset/cumulative-consumption features.
-- `latestNoticeVersion` is `2026-09-25`, so the existing unread notice badge logic treats this release as new.
-
-
-## 2026-09-25 iOS fullscreen closure
-- User verified GitHub Pages desktop/mobile presentation, but iPhone native fullscreen did not work.
-- Root cause: Light Sanctum Pray used only element Fullscreen API, while the already-working Will simulator uses an iOS `fake-fullscreen` fallback.
-- Production fix mirrors that proven strategy: iPhone/iPad uses a fixed 100vw × 100dvh stage with body scroll locked; desktop/Android continue to prefer native Fullscreen API.
-- A fullscreen-local exit button is shown because the normal page navigation is covered during iOS fake fullscreen.
-- P137 runtime/gameplay files remain unchanged.
-
-
-## 2026-09-25 iOS Fullscreen Fix 2
-- User's first GitHub smoke showed a leaked fullscreen-exit button in normal layout and fullscreen still using the old behavior.
-- Root cause: GitHub/Safari cache could load the newly patched HTML while reusing old `style.css` / `script.js`, creating a mixed-version page.
-- `index.html` now cache-busts both shell assets with `?v=20260925-iosfs2`.
-- The in-stage fullscreen-exit control is HTML `hidden` by default and JS only unhides it while fullscreen is actually active, so stale CSS cannot push the simulator layout.
-- iOS/Apple detection now matches the site's proven Will simulator strategy; Apple devices go directly to fake fullscreen.
-- Fake fullscreen keeps the 1280x720 game stage centered on black, locks page scrolling, reflows on visual viewport/orientation changes, and restores prior scroll position on exit.
-- P137 runtime/gameplay files are unchanged.
+## Test focus
+- iPhone portrait: scroll enough to collapse browser chrome, then press the in-UI fullscreen button.
+- iPhone landscape: same button should enter/exit fake fullscreen.
+- Desktop/Android: native fullscreen should remain available.
+- Day/night toggle should visually match the main site's toggle.

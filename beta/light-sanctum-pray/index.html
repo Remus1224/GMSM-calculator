@@ -18,7 +18,7 @@
             // Storage can be unavailable in privacy-restricted browsers.
         }
     </script>
-    <link rel="stylesheet" href="style.css?v=20260925-iosfs2">
+    <link rel="stylesheet" href="style.css?v=20260925-iosfs3">
 </head>
 <body>
     <main class="container">
@@ -33,7 +33,6 @@
                 <div class="nav-title-glass">光之聖所祈禱模擬器</div>
 
                 <div class="nav-side right-side nav-actions">
-                    <button id="fullscreen-toggle" class="nav-btn fullscreen-btn" type="button" aria-label="全螢幕顯示模擬器">全螢幕</button>
                     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false">
                         <span class="icon-sun">☀️</span>
                         <span class="icon-moon">🌙</span>
@@ -49,8 +48,8 @@
 
         <section id="stage-section" class="stage-section" aria-label="光之聖所祈禱模擬器">
             <div id="stage-host" class="stage-host">
-                <button id="stage-fullscreen-exit" class="stage-fullscreen-exit" type="button" aria-label="離開全螢幕" title="離開全螢幕" hidden>⛶</button>
                 <div id="stage-viewport" class="stage-viewport">
+                    <button id="fullscreen-toggle" class="stage-fullscreen-toggle" type="button" aria-label="全螢幕顯示模擬器" title="全螢幕">⛶</button>
                     <div class="simulator-loading" id="simulator-loading" aria-live="polite">載入模擬器…</div>
                     <iframe
                         id="simulator-frame"
@@ -116,6 +115,6 @@
         </section>
     </main>
 
-    <script src="script.js?v=20260925-iosfs2"></script>
+    <script src="script.js?v=20260925-iosfs3"></script>
 </body>
 </html>

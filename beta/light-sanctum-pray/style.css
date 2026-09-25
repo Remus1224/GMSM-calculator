@@ -6,6 +6,8 @@
     --text-main: #1D1D1F;
     --glass-bg: rgba(255, 255, 255, 0.5);
     --glass-border: rgba(255, 255, 255, 0.6);
+    --btn-grad-1: #9CEAFE;
+    --btn-grad-2: #C88DDD;
 }
 
 [data-theme="dark"] {
@@ -183,16 +185,16 @@ a {
     height: 34px;
     margin: 0;
     padding: 0 2px;
-    overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 34px;
+    box-sizing: border-box;
     outline: none;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 4px 10px rgba(0,0,0,0.05);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .theme-toggle::before {
@@ -200,39 +202,74 @@ a {
     position: absolute;
     top: 2px;
     left: 2px;
-    width: 28px;
+    width: 32px;
     height: 28px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--btn-grad-1), var(--btn-grad-2));
+    box-shadow: 0 2px 6px rgba(200, 141, 221, 0.4);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
 }
 
 .theme-toggle .icon-sun,
 .theme-toggle .icon-moon {
     position: relative;
-    z-index: 1;
-    width: 30px;
-    text-align: center;
+    z-index: 2;
+    width: 32px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 15px;
-    transition: all 0.35s ease;
+    transition: all 0.4s ease;
 }
 
-.theme-toggle .icon-sun { opacity: 1; transform: scale(1.05); }
-.theme-toggle .icon-moon { opacity: 0.4; filter: grayscale(1); transform: scale(0.9); }
+.theme-toggle .icon-sun {
+    opacity: 1;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+    transform: scale(1.05);
+}
+
+.theme-toggle .icon-moon {
+    opacity: 0.4;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}
 
 [data-theme="dark"] .theme-toggle {
-    background: rgba(15, 20, 30, 0.78);
-    border-color: rgba(178, 187, 237, 0.25);
+    background: rgba(10, 15, 25, 0.6);
+    border: 1px solid rgba(178, 187, 237, 0.3);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 4px 15px rgba(0,0,0,0.4);
 }
 
 [data-theme="dark"] .theme-toggle::before {
-    transform: translateX(38px);
-    background: rgba(64, 72, 98, 0.95);
+    transform: translateX(34px);
+    background: rgba(85, 195, 255, 0.15);
+    border: 1px solid rgba(85, 195, 255, 0.4);
+    box-shadow: inset 0 0 8px rgba(85, 195, 255, 0.2), 0 0 10px rgba(85, 195, 255, 0.3);
 }
 
-[data-theme="dark"] .theme-toggle .icon-sun { opacity: 0.4; filter: grayscale(1); transform: scale(0.9); }
-[data-theme="dark"] .theme-toggle .icon-moon { opacity: 1; filter: none; transform: scale(1.05); }
+[data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 0.3;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(85, 195, 255, 0.8));
+    transform: scale(1.05);
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 6px 15px rgba(200, 141, 221, 0.2);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    border-color: rgba(85, 195, 255, 0.6);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 16px rgba(85, 195, 255, 0.2);
+}
 
 .orientation-hint {
     display: none;
@@ -350,6 +387,43 @@ a {
     box-shadow: none;
 }
 
+/* Fullscreen control lives inside the visible game UI, matching the Will simulator pattern. */
+.stage-fullscreen-toggle {
+    position: absolute;
+    top: 9px;
+    right: 52px;
+    z-index: 8;
+    width: 38px;
+    height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 11px;
+    color: #fff;
+    background: rgba(30, 48, 68, 0.42);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.stage-fullscreen-toggle:hover {
+    background: rgba(55, 78, 104, 0.62);
+    border-color: rgba(255, 255, 255, 0.72);
+}
+
+.stage-host:fullscreen .stage-fullscreen-toggle,
+.stage-host:-webkit-full-screen .stage-fullscreen-toggle,
+.stage-host.fake-fullscreen .stage-fullscreen-toggle {
+    background: rgba(18, 28, 44, 0.56);
+}
+
 html.light-sanctum-pray-no-scroll,
 body.light-sanctum-pray-no-scroll {
     overflow: hidden !important;
@@ -357,62 +431,25 @@ body.light-sanctum-pray-no-scroll {
 }
 
 
-/* iOS fullscreen control must never affect normal document layout. */
-.stage-fullscreen-exit[hidden] {
-    display: none !important;
-}
-
-.stage-fullscreen-exit {
-    display: none;
-    position: absolute;
-    top: max(10px, env(safe-area-inset-top));
-    right: max(10px, env(safe-area-inset-right));
-    z-index: 100001;
-    width: 48px;
-    height: 48px;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.42);
-    border-radius: 14px;
-    color: #fff;
-    background: rgba(18, 28, 44, 0.46);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.28);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    font-size: 24px;
-    line-height: 1;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.stage-host:fullscreen .stage-fullscreen-exit,
-.stage-host:-webkit-full-screen .stage-fullscreen-exit,
-.stage-host.fake-fullscreen .stage-fullscreen-exit {
-    display: flex;
-}
-
 @media (max-width: 820px) {
     body { padding: 10px; }
     .container { margin-top: 0.5vh; padding: 6px 6px 10px; }
     .main-site-title { margin-bottom: 10px; font-size: 22px; }
     .top-nav-bar { margin-bottom: 10px; }
     .nav-btn { padding: 7px 12px; font-size: 12px; }
-    .fullscreen-btn { padding-left: 10px; padding-right: 10px; }
     .nav-title-glass { margin: 0 6px; padding: 7px 13px; font-size: 13px; }
     .theme-toggle { width: 60px; height: 30px; }
-    .theme-toggle::before { width: 24px; height: 24px; }
+    .theme-toggle::before { width: 27px; height: 24px; }
     .theme-toggle .icon-sun,
-    .theme-toggle .icon-moon { width: 26px; font-size: 13px; }
-    [data-theme="dark"] .theme-toggle::before { transform: translateX(30px); }
+    .theme-toggle .icon-moon { width: 27px; font-size: 13px; }
+    [data-theme="dark"] .theme-toggle::before { transform: translateX(27px); }
+    .stage-fullscreen-toggle { top: 6px; right: 42px; width: 32px; height: 28px; border-radius: 9px; font-size: 16px; }
 }
 
 @media (max-width: 620px) and (orientation: portrait) {
     .orientation-hint { display: flex; }
     .main-site-title { font-size: 20px; }
     .nav-title-glass { padding-left: 10px; padding-right: 10px; }
-    .fullscreen-btn { font-size: 0; width: 34px; height: 30px; padding: 0; }
-    .fullscreen-btn::before { content: "⛶"; font-size: 17px; }
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
@@ -423,7 +460,8 @@ body.light-sanctum-pray-no-scroll {
     .nav-btn { padding-top: 5px; padding-bottom: 5px; }
     .nav-title-glass { padding-top: 5px; padding-bottom: 5px; }
     .theme-toggle { height: 28px; }
-    .theme-toggle::before { top: 1px; width: 24px; height: 24px; }
+    .theme-toggle::before { top: 1px; width: 27px; height: 24px; }
+    .stage-fullscreen-toggle { top: 5px; right: 40px; width: 30px; height: 26px; font-size: 15px; }
 }
 
 /* Beta6 — settings width follows the rendered simulator stage exactly. */

@@ -7,7 +7,6 @@
 
     const themeToggle = document.getElementById('theme-toggle');
     const fullscreenToggle = document.getElementById('fullscreen-toggle');
-    const stageFullscreenExit = document.getElementById('stage-fullscreen-exit');
     const simulatorFrame = document.getElementById('simulator-frame');
     const stageSection = document.getElementById('stage-section');
     const stageHost = document.getElementById('stage-host');
@@ -90,13 +89,10 @@
     function updateFullscreenLabel() {
         const active = isFullscreen();
         if (fullscreenToggle) {
-            fullscreenToggle.textContent = active ? '離開全螢幕' : '全螢幕';
+            fullscreenToggle.textContent = '⛶';
             fullscreenToggle.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
-        }
-        if (stageFullscreenExit) {
-            stageFullscreenExit.hidden = !active;
-            stageFullscreenExit.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
-            stageFullscreenExit.title = active ? '離開全螢幕' : '全螢幕顯示模擬器';
+            fullscreenToggle.title = active ? '離開全螢幕' : '全螢幕';
+            fullscreenToggle.classList.toggle('is-active', active);
         }
     }
 
@@ -321,7 +317,6 @@
 
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
     if (fullscreenToggle) fullscreenToggle.addEventListener('click', toggleFullscreen);
-    if (stageFullscreenExit) stageFullscreenExit.addEventListener('click', toggleFullscreen);
     if (currentLevelSelect) currentLevelSelect.addEventListener('change', applyCurrentLevel);
     if (resetSimulatorButton) resetSimulatorButton.addEventListener('click', clearSimulatorRecords);
 
