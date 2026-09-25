@@ -21,7 +21,6 @@
     let handshakeTimer = 0;
     let handshakeAttempts = 0;
     let applyingLevel = false;
-    let fakeFullscreenReturnY = 0;
 
     function applyTheme(theme, shouldSave = false) {
         const isDark = theme === 'dark';
@@ -57,20 +56,14 @@
         postToRuntime({ type: 'fullscreen-state', active: Boolean(active), fake: isFakeFullscreen() });
     }
 
+    // Keep this intentionally equivalent to the already player-verified Will simulator:
+    // fixed fake-fullscreen wrapper + body-no-scroll + scrollTo(0, 0). No gesture relay,
+    // synthetic scrolling, top-level test route, or other Light-Sanctum-specific workaround.
     function setFakeFullscreen(active) {
         if (!stageHost) return;
-        if (active && !isFakeFullscreen()) fakeFullscreenReturnY = window.scrollY || 0;
         stageHost.classList.toggle('fake-fullscreen', active);
-        document.documentElement.classList.toggle('light-sanctum-pray-no-scroll', active);
-        document.body.classList.toggle('light-sanctum-pray-no-scroll', active);
-        if (active) {
-            // Keep the top-level document scrollable. Unlike Will, the playable surface is
-            // inside an iframe, so Safari never receives the iframe swipe as a page gesture.
-            // The runtime relays only vertical one-finger movement back to this document.
-            window.scrollTo(0, Math.min(Math.max(1, window.scrollY || 0), Math.max(1, document.documentElement.scrollHeight - window.innerHeight)));
-        } else {
-            window.requestAnimationFrame(() => window.scrollTo(0, fakeFullscreenReturnY));
-        }
+        document.body.classList.toggle('body-no-scroll', active);
+        if (active) window.scrollTo(0, 0);
         updateFullscreenLabel();
         postFullscreenState(active);
         requestAnimationFrame(reflowStage);
@@ -183,16 +176,6 @@
         const data = event.data || {};
         if (data.channel !== BRIDGE_CHANNEL) return;
         if (data.type === 'toggle-fullscreen-from-runtime') { toggleFullscreen(); return; }
-        if (data.type === 'fullscreen-scroll-relay') {
-            if (!isFakeFullscreen() || !isIOSLike()) return;
-            const deltaY = Number(data.deltaY) || 0;
-            if (Math.abs(deltaY) < 0.5) return;
-            // The iframe boundary is the actual behavioral difference from Will. Relay
-            // its vertical finger motion to the top-level document so iOS Safari can
-            // collapse/restore browser chrome while the simulator remains interactive.
-            window.scrollBy(0, deltaY);
-            return;
-        }
         if (data.type === 'ready') {
             bridgeReady = true; stopHandshake(); setControlsEnabled(true); postToRuntime({ type: 'get-state' }); postFullscreenState(isFullscreen()); return;
         }
