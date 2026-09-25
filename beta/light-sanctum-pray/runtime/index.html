@@ -6,6 +6,7 @@
 <title>光之聖所祈禱模擬器</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="player-view.css">
+<style>.embeddedFullscreenToggle{position:fixed;z-index:9999;top:8px;right:48px;width:32px;height:30px;padding:0;border:0;background:transparent;color:#fff;font:18px/1 sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer}.embeddedFullscreenToggle:active{background:rgba(255,255,255,.10)}</style>
 </head>
 <body class="player-presentation">
 <header>
@@ -60,6 +61,7 @@
 <div id="prayConfirmOverlay" class="prayConfirmOverlay" hidden>
   <iframe id="prayConfirmFrame" class="prayConfirmFrame" src="pray-confirm-popup/index.html" title="祈禱確認" loading="eager"></iframe>
 </div>
+<button id="embeddedFullscreenToggle" class="embeddedFullscreenToggle" type="button" aria-label="全螢幕" title="全螢幕">⛶</button>
 <main id="fitArea">
   <div id="surface">
     <canvas id="sceneCanvas" aria-label="UI 還原畫面"></canvas>
@@ -67,12 +69,14 @@
   </div>
 </main>
 <footer><span id="status">載入場景…</span><span id="diagnostics"></span></footer>
+<script src="idle-profiler.js?v=20260925-fix6"></script>
 <script src="ui-static-scene-data.js"></script>
 <script src="ui-state-fixture-data.js"></script>
 <script src="sanctuary-gameplay-data.js"></script>
 <script src="native-particles/p98-native-particle-bake.js"></script>
 <script src="player-presentation-patch.js"></script>
-<script src="player-presentation.js?v=20260925-mobileperf2"></script>
+<script src="player-presentation.js?v=20260925-mobileperf1"></script>
 <script src="site-bridge.js"></script>
+<script>document.getElementById("embeddedFullscreenToggle").addEventListener("click",function(){parent.postMessage({channel:"maplem-light-sanctum-pray-site-v1",type:"toggle-fullscreen-from-runtime"},"*")});</script>
 </body>
 </html>

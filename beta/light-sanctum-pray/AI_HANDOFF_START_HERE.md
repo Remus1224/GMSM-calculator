@@ -33,10 +33,9 @@ Do not change P137 gameplay/runtime, pray costs, EXP, particles, confirmation po
 - High-confidence mobile cost source: Auto HiDPI rendered the 1280×720 logical canvas at iPhone DPR 3 => 3840×2160 (8.29M pixels/frame) during pray animations. Fix4 makes iOS Auto quality render at 1× => 1280×720 (0.92M pixels/frame), a 9× pixel reduction per animated frame. The displayed mobile simulator is already below 1280 CSS pixels, so 1× preserves native logical resolution. Desktop behavior remains unchanged.
 - Do not remove P98 native particle atlases or alter P137 gameplay/FX semantics as a performance shortcut.
 
-
-## 2026-09-25 Fix5 — native title control + iOS thermal guard
-- Player browser feedback after Fix4: fullscreen works, but the fullscreen control still looked like a separate boxed website control instead of belonging to the game's blue title bar. Fix5 removes the box/blur/border and renders a small white corner-mark icon immediately left of the native X.
-- Fix4 iOS 1x canvas reduced pixel count but did not eliminate reported heating. No permanent idle RAF loop was found. Fix5 therefore adds an iOS-only 30 rendered-FPS cap to the expensive motion/particle RAF paths while preserving timestamp-based animation duration and final gameplay state. Desktop remains uncapped.
-- iOS imageSmoothingQuality changes from high to medium during canvas rendering; logical resolution remains 1280x720 @ 1x.
-- Fullscreen fake/native behavior remains based on the Fix3 known-good script; do not regress iPhone fake-fullscreen fallback.
-- Browser acceptance needed: verify title-bar icon alignment in portrait/landscape/fake fullscreen; compare thermal behavior after several minutes of repeated Pray and after several minutes idle. If idle alone still heats, next audit target is Safari compositing/backdrop-filter + hidden PrayConfirm iframe/GPU memory, not gameplay formulas.
+## Fix6 — Native-coordinate fullscreen + Idle 60s profiler (2026-09-25)
+- Fullscreen button moved from outer site CSS pixels into `runtime/index.html`, i.e. the native 1280×720 simulator coordinate space. It now scales with the entire game UI. Runtime button sends `toggle-fullscreen-from-runtime` through the existing site bridge channel; outer page remains responsible for native/fake fullscreen.
+- Added `runtime/idle-profiler.js`, loaded before runtime data/player scripts. It instruments RAF requests/callbacks, timers, postMessage, MutationObserver activity and Canvas 2D draw calls without changing gameplay state.
+- Added a player-visible diagnostic panel below the simulator. `開始 60 秒閒置診斷` captures baseline/end reports; `複製診斷結果` copies JSON for AI analysis.
+- IMPORTANT test: after page load stabilizes, start the 60 s diagnostic and do not touch/scroll/rotate/switch tabs until complete. Paste the copied JSON into ChatGPT and state whether the phone became warmer during that exact 60 s window.
+- Fix5 thermal guard remains in the runtime; Fix6 is diagnostic-first and does not further reduce visual quality.

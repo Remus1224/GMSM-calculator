@@ -398,40 +398,27 @@ a {
 /* Fullscreen control is anchored into the game title bar, immediately left of the native X. */
 .stage-fullscreen-toggle {
     position: absolute;
-    z-index: 12;
     top: 8px;
     right: 48px;
-    width: 30px;
+    z-index: 8;
+    width: 32px;
     height: 30px;
-    display: grid;
-    place-items: center;
     padding: 0;
-    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 0;
-    border-radius: 0;
+    border-radius: 4px;
+    color: rgba(255,255,255,0.94);
     background: transparent;
     box-shadow: none;
-    color: rgba(255,255,255,.96);
-    font: 0/0 a;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    font-size: 18px;
+    line-height: 1;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-}
-.stage-fullscreen-toggle::before {
-    content: "";
-    width: 16px;
-    height: 16px;
-    display: block;
-    background:
-      linear-gradient(currentColor,currentColor) left top/6px 2px no-repeat,
-      linear-gradient(currentColor,currentColor) left top/2px 6px no-repeat,
-      linear-gradient(currentColor,currentColor) right top/6px 2px no-repeat,
-      linear-gradient(currentColor,currentColor) right top/2px 6px no-repeat,
-      linear-gradient(currentColor,currentColor) left bottom/6px 2px no-repeat,
-      linear-gradient(currentColor,currentColor) left bottom/2px 6px no-repeat,
-      linear-gradient(currentColor,currentColor) right bottom/6px 2px no-repeat,
-      linear-gradient(currentColor,currentColor) right bottom/2px 6px no-repeat;
-    opacity: .95;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .stage-fullscreen-toggle:hover,
@@ -465,8 +452,7 @@ body.light-sanctum-pray-no-scroll {
     .theme-toggle .icon-sun,
     .theme-toggle .icon-moon { width: 27px; font-size: 13px; }
     [data-theme="dark"] .theme-toggle::before { transform: translateX(27px); }
-    .stage-fullscreen-toggle { top: 5px; right: 38px; width: 26px; height: 26px; }
-    .stage-fullscreen-toggle::before { width: 14px; height: 14px; }
+    .stage-fullscreen-toggle { top: 6px; right: 42px; width: 28px; height: 26px; font-size: 16px; }
 }
 
 @media (max-width: 620px) and (orientation: portrait) {
@@ -484,8 +470,7 @@ body.light-sanctum-pray-no-scroll {
     .nav-title-glass { padding-top: 5px; padding-bottom: 5px; }
     .theme-toggle { height: 28px; }
     .theme-toggle::before { top: 1px; width: 27px; height: 24px; }
-    .stage-fullscreen-toggle { top: 4px; right: 36px; width: 24px; height: 24px; }
-    .stage-fullscreen-toggle::before { width: 13px; height: 13px; }
+    .stage-fullscreen-toggle { top: 5px; right: 40px; width: 28px; height: 24px; font-size: 15px; }
 }
 
 /* Beta6 — settings width follows the rendered simulator stage exactly. */
@@ -727,3 +712,7 @@ iframe,
         font-size: 16px;
     }
 }
+/* Fix6: fullscreen control now lives inside the native 1280x720 runtime coordinate space. */
+.stage-fullscreen-toggle{display:none!important}
+.idle-profiler-panel{width:min(100%,1280px);margin:14px auto 0;padding:16px;border:1px solid var(--border-color);border-radius:18px;background:var(--glass-bg);box-sizing:border-box}
+.idle-profiler-title{font-weight:800;margin-bottom:10px}.idle-profiler-actions{display:flex;gap:10px;flex-wrap:wrap}.idle-profiler-actions button{border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;background:var(--input-bg);color:var(--text-primary);font-weight:700}.idle-profiler-status{margin-top:10px;color:var(--text-muted);font-size:14px}.idle-profiler-output{width:100%;min-height:180px;margin-top:10px;box-sizing:border-box;font:12px/1.4 monospace}

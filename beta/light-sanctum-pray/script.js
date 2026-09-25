@@ -6,7 +6,7 @@
     const BRIDGE_CHANNEL = 'gmsm-light-sanctum-pray';
 
     const themeToggle = document.getElementById('theme-toggle');
-    const fullscreenToggle = document.getElementById('fullscreen-toggle');
+    const fullscreenToggle = document.getElementById('fullscreen-toggle'); // Fix6: normally null; control is inside runtime coordinates
     const simulatorFrame = document.getElementById('simulator-frame');
     const stageSection = document.getElementById('stage-section');
     const stageHost = document.getElementById('stage-host');
@@ -260,6 +260,8 @@
         const data = event.data || {};
         if (data.channel !== BRIDGE_CHANNEL) return;
 
+        if (data.type === 'toggle-fullscreen-from-runtime') { toggleFullscreen(); return; }
+
         if (data.type === 'ready') {
             bridgeReady = true;
             stopHandshake();
@@ -314,6 +316,13 @@
     } catch (error) {
         console.warn('無法讀取主題設定：', error);
     }
+
+    // Fix6 — user-visible 60 s idle profiler.
+    const idleStart=document.getElementById('idle-profiler-start'), idleCopy=document.getElementById('idle-profiler-copy'), idleStatus=document.getElementById('idle-profiler-status'), idleOutput=document.getElementById('idle-profiler-output');
+    let idleTimer=0;
+    function runtimeProfiler(){ try{return simulatorFrame&&simulatorFrame.contentWindow&&simulatorFrame.contentWindow.__LS_IDLE_PROFILER__;}catch(e){return null;} }
+    if(idleStart) idleStart.addEventListener('click',()=>{const p=runtimeProfiler();if(!p){idleStatus.textContent='診斷器尚未載入，請等待模擬器完成載入後再試。';return;}idleStart.disabled=true;idleCopy.disabled=true;idleOutput.hidden=true;const begun=Date.now(),baseline=p.report();idleStatus.textContent='診斷中：60 秒內請不要點擊、捲動、旋轉手機或切換頁籤。';idleTimer=setInterval(()=>{const left=Math.max(0,60-Math.floor((Date.now()-begun)/1000));idleStatus.textContent=`診斷中：剩餘 ${left} 秒。請完全不要操作。`;},1000);setTimeout(()=>{clearInterval(idleTimer);const end=p.report();const result={kind:'LightSanctumPray Fix6 Idle 60s',capturedAt:new Date().toISOString(),elapsedMs:Date.now()-begun,baseline,end};const text=JSON.stringify(result,null,2);idleOutput.value=text;idleOutput.hidden=false;idleStart.disabled=false;idleCopy.disabled=false;idleStatus.textContent='完成。請按「複製診斷結果」，回到 ChatGPT 直接貼上。';},60000);});
+    if(idleCopy) idleCopy.addEventListener('click',async()=>{const text=idleOutput.value;if(!text)return;try{await navigator.clipboard.writeText(text);idleStatus.textContent='已複製。回到 ChatGPT 直接貼上即可。';}catch(e){idleOutput.hidden=false;idleOutput.focus();idleOutput.select();idleStatus.textContent='Safari 未允許自動複製；已選取文字，請長按→複製。';}});
 
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
     if (fullscreenToggle) fullscreenToggle.addEventListener('click', toggleFullscreen);
