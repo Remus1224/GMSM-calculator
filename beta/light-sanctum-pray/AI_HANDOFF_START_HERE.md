@@ -1,86 +1,65 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray Production Slim
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Fullscreen Restore 1
 
-## Current production target
-- Site: `GMSM-calculator`
-- Tool display name: `光之聖所祈禱模擬器`
-- Production route: `/light-sanctum-pray/`
-- Menu image expected at: `assets/menu/icon_光之聖所祈禱模擬器.png`
-- Runtime lineage: Preview137 → user-PASS P136 WebFix2 → Beta8 player presentation/settings/mobile alignment → production integration.
+## Current baseline — 2026-09-26
+- Site/repo: `Remus1224/GMSM-calculator`
+- Active beta route: `/beta/light-sanctum-pray/`
+- Runtime lineage: Preview137 → user-PASS P136 WebFix2 → production integration → exact initial-working subtree restore → CPU root-cause closure → Fullscreen Restore 1.
 
-## User-verified behavior to preserve
-- The simulator game UI is kept as the restored MapleStory M UI rather than redesigned into a generic responsive web form.
-- Desktop/tablet landscape: full game stage scales to fit with no simulator-internal scrollbars.
-- Phone landscape: same game UI scales to fit; no alternate/rearranged mobile game UI.
-- Phone portrait: full UI remains visible by scaling, with landscape-use guidance.
-- Player-facing engineering/audit controls are hidden.
-- Page title is `光之聖所祈禱模擬器`.
-- Confirm popup is enabled by default (skip-confirm is unchecked by default).
-- PrayConfirmPopup partial-lock behavior is user-PASS: locked blessing rows are omitted and remaining rows compact correctly.
-- Settings support Lv.1–Lv.15 starting state.
-- Changing the current level resets cumulative 聖痕結晶 and 楓幣 usage to zero and starts a new usage baseline.
-- Reset clears simulator state and cumulative usage.
-- Reset button follows the main site's light/dark clear/reset visual language.
-- Mobile level label/select alignment is horizontally aligned and vertically centered.
+## SEALED / browser-verified
+### P137 interaction baseline restored
+The exact initial-working Light Sanctum subtree was restored before performance work. Preserve the working Pray interaction, confirmation popup, level selection, reset, P120/P121 gameplay, particles/audio and existing player presentation.
 
-## Repository layout / naming rule
-Keep the independent player tools at the repository root:
-- `/1204/`
-- `/light-sanctum-pray/`
+### CPU Root Cause Closure — PASS / SEALED
+2026-09-26 browser Performance Trace comparison proved the idle CPU problem was a bridge feedback loop, not the gameplay renderer:
+- parent received runtime `ready` and sent `get-state`;
+- runtime incorrectly answered `get-state` by calling `sendReady()`;
+- this formed `ready → get-state → ready → ...`, driving postMessage, RAF, layout and paint continuously.
 
-Do **not** add a new wrapper folder such as `/tools/` at this stage. This preserves the existing public routes and keeps relative return links stable.
+Fix commit: `c709f39e96755568ae7765f76ef2cec0ca713aaa`.
+Current `runtime/site-bridge.js` keeps `hello → sendReady()` but uses `get-state → queueState()`.
 
-Menu artwork follows the site's existing `icon_` asset naming convention:
-- `/assets/menu/icon_1204產生器.png`
-- `/assets/menu/icon_光之聖所祈禱模擬器.png`
+User supplied a new Performance Trace after the fix. Result was effectively idle: ~99.93% CPU profiler samples idle, zero continuous RAF/Layout/Paint/FunctionCall activity, and trace size collapsed from ~49.9 MB compressed to ~0.119 MB. Treat the bridge CPU root cause as SEALED. Do not rewrite this bridge protocol again without new evidence.
 
-URL folders remain English/stable while menu artwork follows the existing Chinese `icon_...` convention.
+## Fullscreen Restore 1
+User requested fullscreen restoration only after the CPU closure. This work deliberately restores the earlier repository implementation instead of inventing another fullscreen architecture.
 
-## Main-site integration
-The integration changes the existing root site files:
-- `/index.html`: simulator count becomes 8 and a `光之聖所祈禱模擬器` card is inserted after 威爾二階練習機 and before 1204.
-- `/script.js`: adds the NEW-badge entry `light-sanctum-pray` with version `2026-09-25`.
+Historical evidence used:
+- `239e20e9be57c711f08366fa3fd8d75beb8c3b6e`: first Light Sanctum iOS fullscreen closure, explicitly mirrors the already-working Will simulator strategy.
+- `6f4d99050ac7fa27e7e51bbf979eef89364ecfb0`: iOS Fullscreen Fix2 with Apple detection, fake-fullscreen, viewport reflow and scroll restoration.
+- `69961f180636a6922cb63a82975241c7f3524380`: Fix3 moved the fullscreen control from website navigation into the visible game UI.
+- `b334b96514da76ae7792e6161834e021c267a4e6`: Fix4 anchored it into the blue game title bar immediately left of the native X.
+- `c3ed1d6e4aa6a8419bfa9ac9f9fef0357da00e20`: Fix7 used a deterministic SVG icon in native simulator coordinates.
+- `23d14d3ed6f8a223b8cb2d6ce089cc5b2933f062`: Fix8 enlarged/aligned the native-coordinate icon to a 48×48 hit box / 40×40 SVG at top=0, right=48.
 
-The user supplies this image separately:
-- `/assets/menu/icon_光之聖所祈禱模擬器.png`
+Restored behavior:
+1. Fullscreen button is inside `runtime/index.html`, in the fixed 1280×720 simulator coordinate system, immediately left of the game's native X.
+2. Runtime button posts `toggle-fullscreen-from-runtime` using the existing `gmsm-light-sanctum-pray` channel.
+3. Parent `script.js` owns fullscreen state.
+4. Desktop/Android prefers native Fullscreen API.
+5. Apple/iOS uses the proven fixed-position fake-fullscreen fallback.
+6. Fake fullscreen locks document scroll, uses the visual viewport for stage scaling, and restores prior scroll position on exit.
+7. Outer navigation fullscreen button is removed so there is only one player-facing fullscreen control.
+8. Cache keys `20260926-fullscreen-restore1` prevent a mixed old/new shell after GitHub Pages deployment.
 
-## Production runtime files intentionally retained
-The browser runtime uses:
-- `index.html`, `style.css`, `script.js`
-- `runtime/index.html`
-- `runtime/styles.css`
-- `runtime/player-view.css`
-- `runtime/player-presentation.js`
-- `runtime/player-presentation-patch.js`
-- `runtime/site-bridge.js`
-- `runtime/ui-static-scene-data.js`
-- `runtime/ui-state-fixture-data.js`
-- `runtime/sanctuary-gameplay-data.js`
-- `runtime/native-particles/p98-native-particle-bake.js`
-- required particle atlases and UI assets
-- the complete player-facing `runtime/pray-confirm-popup/` runtime (HTML/CSS/data JS/player JS/assets)
+## Files changed by Fullscreen Restore 1
+- `beta/light-sanctum-pray/script.js`
+- `beta/light-sanctum-pray/runtime/index.html`
+- `beta/light-sanctum-pray/index.html`
+- `beta/light-sanctum-pray/style.css`
+- this handoff file
 
-## Production slimming performed
-The following development/evidence-only files were intentionally removed because the player runtime does not reference them:
-- `runtime/index.audit.html`
-- root runtime duplicate `runtime/player.js` (player page loads `player-presentation.js` instead)
-- `runtime/runtime-package-manifest.json`
-- raw duplicate `runtime/ui-static-scene.json`
-- raw duplicate `runtime/ui-state-fixture.json`
-- `runtime/native-particles/README_P98_NATIVE_PARTICLE_BAKE.txt`
-- `runtime/pray-confirm-popup/p135-popup-manifest.json`
-- raw duplicate popup `ui-static-scene.json`
-- raw duplicate popup `ui-state-fixture.json`
-- historical build reports, patch diff, and standalone SHA list
+## Hard rules
+- Do not change the SEALED `runtime/site-bridge.js` CPU fix while doing fullscreen acceptance.
+- Do not alter P137/P121 gameplay, P120 cost rules, confirmation popup interaction, particles, audio, level selection, cumulative usage or reset semantics for fullscreen work.
+- Do not reintroduce speculative low-FPS/mobile-quality changes as a fullscreen fix.
+- Fullscreen button geometry belongs to native 1280×720 simulator coordinates, not responsive outer-page CSS coordinates.
+- Prefer restoring repository-proven behavior over new workaround layers.
 
-Do not delete the `*-data.js` files: these are the browser-loaded scene/fixture payloads and are required even though the similarly named raw `.json` evidence files are not.
-
-Do not delete `runtime/pray-confirm-popup/player.js`: the popup page directly loads it.
-
-## Hard rule
-Do not refactor or regenerate the P137 gameplay/rendering logic while doing site-only work. Production changes should remain presentation/integration-only unless a new game-ground-truth discrepancy is explicitly demonstrated by the user.
-
-## Main-site bulletin integration (2026-09-25)
-- Homepage bulletin hero now announces `光之聖所祈禱模擬器`.
-- Latest timeline entry date: `2026-09-25`.
-- Bulletin records the new simulator and its level/reset/cumulative-consumption features.
-- `latestNoticeVersion` is `2026-09-25`, so the existing unread notice badge logic treats this release as new.
+## Browser acceptance next
+After GitHub Pages deploys Fullscreen Restore 1:
+1. Desktop: button appears immediately left of native X; click enters native fullscreen; second click exits.
+2. Desktop: Pray, popup Confirm/Cancel, level selector and reset still work.
+3. iPhone portrait: icon remains aligned with X and scales with game UI; tap enters fake fullscreen.
+4. iPhone landscape: same control enters/exits fake fullscreen and stage remains centered/aspect-correct.
+5. Exit restores the previous page scroll position.
+6. No return of high idle CPU. If fullscreen acceptance passes, mark fullscreen restore browser PASS and stop modifying this subsystem.
