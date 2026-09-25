@@ -33,6 +33,12 @@ jobs:
             "README.md"
             "LICENSE"
             "THIRD_PARTY_NOTICES.md"
+            "1204/index.html"
+            "1204/script.js"
+            "1204/style.css"
+            "light-sanctum-pray/index.html"
+            "light-sanctum-pray/script.js"
+            "light-sanctum-pray/style.css"
           )
 
           for file in "${required_files[@]}"; do
@@ -48,6 +54,16 @@ jobs:
           set -euo pipefail
           node --check script.js
           node --check craft-effects.js
+          node --check 1204/script.js
+          node --check light-sanctum-pray/script.js
+          node --check light-sanctum-pray/sound-toggle.js
+          node --check light-sanctum-pray/runtime/click-audio.js
+          node --check light-sanctum-pray/runtime/confirm-bypass-parent.js
+          node --check light-sanctum-pray/runtime/player-presentation.js
+          node --check light-sanctum-pray/runtime/player-presentation-patch.js
+          node --check light-sanctum-pray/runtime/site-bridge.js
+          node --check light-sanctum-pray/runtime/pray-confirm-popup/confirm-bypass-popup.js
+          node --check light-sanctum-pray/runtime/pray-confirm-popup/player.js
 
       - name: Check README links to local policy files
         shell: bash
