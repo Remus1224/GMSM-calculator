@@ -21,6 +21,7 @@
     let handshakeTimer = 0;
     let handshakeAttempts = 0;
     let applyingLevel = false;
+    let fakeFullscreenReturnY = 0;
 
     function applyTheme(theme, shouldSave = false) {
         const isDark = theme === 'dark';
@@ -50,8 +51,42 @@
         applyTheme(isDark ? 'light' : 'dark', true);
     }
 
-    function isFullscreen() {
+    function isNativeFullscreen() {
         return document.fullscreenElement === stageHost || document.webkitFullscreenElement === stageHost;
+    }
+
+    function isFakeFullscreen() {
+        return Boolean(stageHost && stageHost.classList.contains('fake-fullscreen'));
+    }
+
+    function isFullscreen() {
+        return isNativeFullscreen() || isFakeFullscreen();
+    }
+
+    function isIOSLike() {
+        const ua = navigator.userAgent || '';
+        return (/Mac|iPad|iPhone|iPod/.test(ua) && !window.MSStream) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+
+    function setFakeFullscreen(active) {
+        if (!stageHost) return;
+        if (active && !isFakeFullscreen()) fakeFullscreenReturnY = window.scrollY || 0;
+
+        stageHost.classList.toggle('fake-fullscreen', active);
+        document.documentElement.classList.toggle('light-sanctum-pray-no-scroll', active);
+        document.body.classList.toggle('light-sanctum-pray-no-scroll', active);
+
+        if (active) {
+            window.scrollTo(0, 0);
+        } else {
+            window.requestAnimationFrame(() => window.scrollTo(0, fakeFullscreenReturnY));
+        }
+
+        updateFullscreenLabel();
+        requestAnimationFrame(reflowStage);
+        window.setTimeout(reflowStage, 80);
+        window.setTimeout(reflowStage, 250);
     }
 
     function updateFullscreenLabel() {
@@ -66,11 +101,21 @@
 
         try {
             if (isFullscreen()) {
-                if (document.exitFullscreen) {
-                    await document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
+                if (isNativeFullscreen()) {
+                    if (document.exitFullscreen) {
+                        await document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
                 }
+                if (isFakeFullscreen()) setFakeFullscreen(false);
+                return;
+            }
+
+            // Restore the site's already-proven fullscreen split: Apple/iOS uses the
+            // fixed-position fallback; desktop/Android prefers the native Fullscreen API.
+            if (isIOSLike() || (!stageHost.requestFullscreen && !stageHost.webkitRequestFullscreen)) {
+                setFakeFullscreen(true);
                 return;
             }
 
@@ -78,8 +123,6 @@
                 await stageHost.requestFullscreen();
             } else if (stageHost.webkitRequestFullscreen) {
                 stageHost.webkitRequestFullscreen();
-            } else {
-                return;
             }
 
             try {
@@ -90,7 +133,11 @@
                 // Fullscreen remains valid when orientation lock is unavailable.
             }
         } catch (error) {
-            console.warn('無法切換全螢幕：', error);
+            console.warn('原生全螢幕失敗，改用頁面全螢幕：', error);
+            setFakeFullscreen(true);
+        } finally {
+            updateFullscreenLabel();
+            requestAnimationFrame(reflowStage);
         }
     }
 
@@ -211,6 +258,11 @@
         const data = event.data || {};
         if (data.channel !== BRIDGE_CHANNEL) return;
 
+        if (data.type === 'toggle-fullscreen-from-runtime') {
+            toggleFullscreen();
+            return;
+        }
+
         if (data.type === 'ready') {
             bridgeReady = true;
             stopHandshake();
@@ -290,10 +342,12 @@
     document.addEventListener('fullscreenchange', () => {
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
+        window.setTimeout(reflowStage, 80);
     });
     document.addEventListener('webkitfullscreenchange', () => {
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
+        window.setTimeout(reflowStage, 80);
     });
 
     applyTheme(savedTheme);
