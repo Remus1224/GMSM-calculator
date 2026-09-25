@@ -1,57 +1,101 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray iOS Fullscreen Fix3
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Fix9
 
 ## Current patch
-`LightSanctumPray_iOSFullscreenFix3_UIButton_ThemeParity_PATCH_20260925.zip`
+`Fix9 — Mobile Fullscreen + Confirm Dialog Closure`
 
 ## User-confirmed production baseline
-Light Sanctum Pray production slim runtime and settings are already deployed/tested on GitHub Pages.
+Light Sanctum Pray production slim runtime and settings are deployed/tested on GitHub Pages.
 
-## Fix3 changes
-1. Fullscreen control moved out of the website title/navigation bar and into the visible game UI.
-   - It is overlaid inside `stage-viewport`.
-   - This lets iPhone users scroll slightly to hide Safari's address bar first, then press fullscreen without returning to the top navigation.
-   - The same button toggles enter/exit fullscreen.
-2. iOS fake-fullscreen fallback from Fix2 is retained.
-3. Theme toggle visual style is changed to match the main GMSM-calculator site's canonical day/night toggle.
-   - Prior Light Sanctum styling was derived from the older 1204 standalone style and was not pixel/style-identical to the main site.
-4. Cache-bust updated to `20260925-iosfs3`.
+## Frozen gameplay / fidelity rules
+Do not change P137/P121 gameplay, P120 pray costs, EXP, native-proven particles, audio, level/settings bridge, cumulative usage tracking, reset semantics, or the iOS Auto 1× canvas quality guard unless a new evidence-driven task explicitly requires it.
 
-## Frozen behavior
-Do not change P137 gameplay/runtime, pray costs, EXP, particles, confirmation popup, level/settings bridge, cumulative usage tracking, or reset semantics.
+P120 sealed cost rule:
+- `CharacterCoin = 5 × SlotCount`
+- `Meso = 1,500,000 × actual lockedCount`
+- all-locked does not cap the Meso lock count
+- 0 Lock hides the Meso group and centers CharacterCoin
 
-## Test focus
-- iPhone portrait: scroll enough to collapse browser chrome, then press the in-UI fullscreen button.
-- iPhone landscape: same button should enter/exit fake fullscreen.
-- Desktop/Android: native fullscreen should remain available.
-- Day/night toggle should visually match the main site's toggle.
+## Fix3 — iOS fullscreen / theme parity
+- Fullscreen control moved into the visible game UI.
+- iOS fake-fullscreen fallback retained.
+- Theme toggle aligned with the main GMSM-calculator site.
 
-
-## 2026-09-25 Fix4 — title-bar fullscreen / theme parity / iPhone performance
-- Fullscreen control is visually anchored into the game blue title bar immediately left of the native X; removed the floating glass-pill treatment.
-- Main-site canonical theme variables were completed (`text-muted`, `card-bg`, `card-hover`, `input-bg`) while preserving the already canonical nav/theme-toggle styling.
-- iPhone heating audit found no permanent requestAnimationFrame loop while idle. The bridge handshake stops after ready and the MutationObserver is event-driven.
-- High-confidence mobile cost source: Auto HiDPI rendered the 1280×720 logical canvas at iPhone DPR 3 => 3840×2160 (8.29M pixels/frame) during pray animations. Fix4 makes iOS Auto quality render at 1× => 1280×720 (0.92M pixels/frame), a 9× pixel reduction per animated frame. The displayed mobile simulator is already below 1280 CSS pixels, so 1× preserves native logical resolution. Desktop behavior remains unchanged.
+## Fix4 — title-bar fullscreen / theme parity / iPhone performance
+- Fullscreen control visually anchored into the game blue title bar immediately left of the native X.
+- iOS Auto quality changed from DPR 3 rendering to 1× logical 1280×720, reducing animated pixel work by ~9× while preserving native logical resolution.
 - Do not remove P98 native particle atlases or alter P137 gameplay/FX semantics as a performance shortcut.
 
-## Fix6 — Native-coordinate fullscreen + Idle 60s profiler (2026-09-25)
-- Fullscreen button moved from outer site CSS pixels into `runtime/index.html`, i.e. the native 1280×720 simulator coordinate space. It now scales with the entire game UI. Runtime button sends `toggle-fullscreen-from-runtime` through the existing site bridge channel; outer page remains responsible for native/fake fullscreen.
-- Added `runtime/idle-profiler.js`, loaded before runtime data/player scripts. It instruments RAF requests/callbacks, timers, postMessage, MutationObserver activity and Canvas 2D draw calls without changing gameplay state.
-- Added a player-visible diagnostic panel below the simulator. `開始 60 秒閒置診斷` captures baseline/end reports; `複製診斷結果` copies JSON for AI analysis.
-- IMPORTANT test: after page load stabilizes, start the 60 s diagnostic and do not touch/scroll/rotate/switch tabs until complete. Paste the copied JSON into ChatGPT and state whether the phone became warmer during that exact 60 s window.
-- Fix5 thermal guard remains in the runtime; Fix6 is diagnostic-first and does not further reduce visual quality.
+## Fix6 — Native-coordinate fullscreen + Idle 60s profiler
+- Fullscreen button moved into `runtime/index.html`, the native 1280×720 simulator coordinate space.
+- Added `runtime/idle-profiler.js`.
+- Player-visible 60 s idle profiler records RAF, timers, postMessage, MutationObserver and Canvas 2D activity.
 
+## Fix7 — fullscreen icon proportion + idle evidence
+- Replaced the font glyph with deterministic SVG corners in the native-coordinate title bar.
+- User Fix6 iPhone 60 s evidence: after startup the main runtime becomes quiescent: RAF=0, Canvas draw=0, timers=0, mutations=0; postMessage traffic stops by ~12 s.
+- The prior eager PrayConfirm iframe remained a possible idle-residency cost.
 
-## Fix7 — Fullscreen icon proportion + Fix6 idle evidence interpretation (2026-09-25)
-- Replaced the font glyph fullscreen icon with a deterministic 32x32 SVG corner icon inside a 48x46 native-coordinate hit box. This fixes the iPhone result where the glyph rendered much smaller than the adjacent native X. Position remains immediately left of the X and still scales with the 1280x720 runtime.
-- Fix6 iPhone 60 s evidence: main runtime becomes quiescent. After startup, RAF=0, Canvas draw=0, timers=0, mutations=0; postMessage traffic stops by ~12 s. Total canvas draws remain 549 (startup only), RAF total 1. This rules out a persistent main-window JS/render loop as the idle heat source.
-- The runtime still contains one hidden/eager confirm iframe. Fix6 profiler does not instrument child-frame internals. Next thermal isolation should distinguish static main canvas/GPU compositing from child-frame/resource residency if the user confirms the phone continued warming during the measured 60 s.
-- Do not regress P137/P121 gameplay, P120 cost rules, native particles, confirmation behavior, or iOS Auto 1x thermal guard.
+## Fix8 — Mobile UI unblock + idle isolation
+- Removed the eager production confirmation iframe/overlay.
+- Forced skip-confirm true so the page no longer opened/blocked on the confirmation popup.
+- Fullscreen icon remained in the 1280×720 runtime coordinate system.
+- User browser acceptance after Fix8: portrait and landscape UI render correctly and the phone has **no meaningful idle warming**. Treat Fix8 thermal behavior as PASS and a regression gate.
+- User then reported two remaining functional issues:
+  1. fullscreen icon is visible but does nothing when tapped;
+  2. confirmation popup can no longer be reached.
 
-## Fix8 — 2026-09-25 Mobile UI unblock + idle isolation
-User Fix6 60s capture: after ~12s runtime instrumentation is fully idle (RAF/canvas/timers/mutations/postMessage all 0/s), while user reports only mild warmth (B) during that run, not the prior continuous strong heating. This rules out the previously suspected continuous parent-runtime JS/canvas loop for that capture.
+## Fix9 — Mobile Fullscreen + Confirm Dialog Closure
+### Root cause: fullscreen
+`runtime/index.html` posted:
+`channel: "maplem-light-sanctum-pray-site-v1"`
 
-Fix7 regression observed on iPhone: confirmation popup appeared immediately/blocked interaction, despite prior product requirement that confirmation flow need not be reproduced and the lower-right skip-confirm checkbox remain checked. Fix8 removes the production confirmation iframe/overlay from runtime/index.html, forces skipConfirm=true on reset/request, and therefore also removes the remaining child iframe from the idle production path. This is both a correctness fix and the next heat-source isolation step.
+but the outer page listens on:
+`channel: "gmsm-light-sanctum-pray"`
 
-Fullscreen: Fix7 SVG coordinate approach was correct but glyph remained visually too small/misaligned relative to native X. Fix8 keeps it inside the 1280x720 runtime coordinate system and uses a 48x48 native hit box with a 40x40 SVG, top=0/right=48, so it scales with the whole simulator rather than the outer responsive page.
+Therefore the runtime button click was real, but the outer page discarded the message before `toggleFullscreen()`.
 
-Hard rules: do not reintroduce eager confirmation iframe; do not change P120 cost rules; do not replace native-proven particle fidelity with fabricated/low-FPS effects merely to reduce heat; preserve skip-confirm as checked. Next browser acceptance: verify (1) page opens without modal and all simulator controls respond, (2) fullscreen icon visually matches X scale/alignment in portrait and landscape, (3) 2-5 min idle warmth after iframe removal. If meaningful heat persists while JS profiler stays zero, isolate Safari GPU/compositing/static-canvas residency next.
+Fix9 makes the runtime button use the existing outer bridge channel:
+`gmsm-light-sanctum-pray`
+
+The visual SVG/hit box remains in native 1280×720 coordinates; do not move it back to outer-page CSS pixels.
+
+On iPhone Safari, non-video element fullscreen is not reliably available. The existing outer-page `fake-fullscreen` path remains the required iPhone fallback; desktop/iPad/compatible browsers may use native Fullscreen API.
+
+### Confirmation popup restoration without Fix8 thermal regression
+Fix8 removed the confirmation iframe entirely. Fix9 restores the already validated P137/P136 confirmation behavior, but **does not restore an eager resident confirm runtime**.
+
+Implementation:
+- `prayConfirmOverlay` / `prayConfirmFrame` exist again.
+- frame starts as `about:blank`.
+- `runtime/fix9-mobile-closure.js` loads `pray-confirm-popup/index.html` only when the overlay is actually opened.
+- when the overlay closes, the confirm frame is returned to `about:blank`.
+- production idle therefore does not keep the heavy confirmation runtime loaded.
+- restored player logic is the pre-Fix8 P137 behavior:
+  - SkipConfirm ON → Pray immediately.
+  - SkipConfirm OFF → open PrayConfirmPopup.
+- Fix9 helper restores the prior product default after initialization/reset: lower-right `跳過確認彈跳窗` remains checked by default, but the player can uncheck it and the popup must then work.
+
+### Cache / deployment
+- outer iframe cache key: `runtime/index.html?v=20260925-fix9`
+- player cache key: `player-presentation.js?v=20260925-fix9`
+- helper: `fix9-mobile-closure.js?v=20260925-fix9`
+
+## Fix9 browser acceptance checklist
+1. Open page in iPhone portrait. No confirmation popup should appear by itself.
+2. Lower-right `跳過確認彈跳窗` should be checked after load/reset.
+3. With it checked, Pray should run directly.
+4. Tap the lower-right checkbox to turn it OFF, then Pray. The confirmation popup must appear.
+5. Cancel must close without praying. Confirm must close and execute Pray.
+6. Tap fullscreen in portrait. It must respond; on iPhone it should enter the page-level immersive/fake-fullscreen path rather than silently do nothing.
+7. Rotate to landscape and repeat fullscreen enter/exit.
+8. Confirm the fullscreen SVG still tracks the game title bar/X at the same scale.
+9. Leave the page idle for 2–5 minutes. Fix8's “no meaningful warming” result must not regress.
+10. If idle warming returns, run the 60 s profiler again and report the JSON plus subjective warmth.
+
+## Hard regression gates
+- Do not reintroduce an eager loaded PrayConfirm child runtime.
+- Do not change P120 costs.
+- Do not change native-proven particles/audio/EXP/level-up/slot-unlock behavior to solve mobile performance.
+- Do not restore iPhone DPR 3 canvas rendering.
+- Do not move fullscreen back into an outer responsive overlay; its visual/hit geometry belongs to the 1280×720 runtime.
+- Do not force `skipConfirm=true` on every Pray request. The checkbox must control whether the popup is used.
