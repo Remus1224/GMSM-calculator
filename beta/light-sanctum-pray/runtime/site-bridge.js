@@ -150,8 +150,13 @@
         const data = event.data || {};
         if (data.channel !== CHANNEL) return;
 
-        if (data.type === 'hello' || data.type === 'get-state') {
+        if (data.type === 'hello') {
             sendReady();
+            return;
+        }
+
+        if (data.type === 'get-state') {
+            queueState();
             return;
         }
 
