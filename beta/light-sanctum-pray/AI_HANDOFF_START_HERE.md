@@ -1,51 +1,62 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray Mobile Audio Latency R1
+# AI_HANDOFF_START_HERE — Light Sanctum Pray FINAL / Browser Accepted
 
-## Current baseline — 2026-09-26
+## Final status — 2026-09-26
 - Repo: `Remus1224/GMSM-calculator`
-- Active beta route: `/beta/light-sanctum-pray/`
-- Stable pre-audio baseline: `569e906ad32ceac4b54cbdd462690ac142f1c83c`.
-- Click-audio scope/all-locked baseline before this latency change: `6eeb8a1272c7b61461cd2c934c70a559a7ceb45d`.
-- Runtime lineage remains Preview137 / P121 on the user-verified fullscreen restore.
+- Accepted beta route: `/beta/light-sanctum-pray/`
+- Runtime lineage: Preview137 / P121 + P120 cost fidelity + restored fullscreen geometry + low-idle CPU bridge + Click Audio R2 + Mobile Audio Latency R1.
+- Mobile Audio Latency implementation baseline: `12a8d44e1685c065f6dbb930a6756dd8f4cb446e`.
+- User browser acceptance after Mobile Audio Latency R1: **PASS — 「目前測試 沒什麼問題」**.
+- Project disposition: **READY TO CLOSE / READY FOR MANUAL PROMOTION FROM BETA TO MAIN ROUTE**.
 
-## User browser feedback
-- Desktop click sound timing is acceptable.
-- On mobile, BtMouseClick could arrive noticeably late, sometimes after the visible click/Pray animation had already progressed.
-- This revision treats that as a playback-path latency problem rather than changing animation/gameplay timing.
+## Final browser-accepted behavior
+- Desktop and mobile simulator operation is responsive enough for release; the earlier high-CPU / interaction regressions were removed before this baseline.
+- Mobile BtMouseClick timing is accepted after switching the short UI SFX path to Web Audio and triggering it from the earliest valid game gesture.
+- Fullscreen button geometry is the user-adjusted accepted position: `top:19px; right:48px; width:72px; height:48px`.
+- Safari toolbar-collapse/fullscreen scrolling experiment was abandoned by explicit user decision and its experimental changes were removed; do not reopen it unless requested.
+- Popup Confirm/Cancel works; all-locked Pray bypasses the popup and directly adds EXP while preserving locked abilities.
 
 ## Mobile Audio Latency R1
-- `runtime/click-audio.js` now uses Web Audio (`AudioContext` / `webkitAudioContext`) as the primary short-SFX engine.
+- `runtime/click-audio.js` uses Web Audio (`AudioContext` / `webkitAudioContext`) as the primary short-SFX engine.
 - `BtMouseClick.mp3` is fetched and decoded to an `AudioBuffer` ahead of interaction when possible.
 - First real game gesture resumes/unlocks the AudioContext for iOS/Safari.
-- Game canvas SFX is triggered on `pointerdown` (or `touchstart`/`mousedown` fallback), before the later click/gameplay/animation work.
-- Each click creates a fresh `AudioBufferSourceNode` and calls `start(0)`, so rapid taps do not wait for a shared HTMLAudio element to seek/restart.
-- If Web Audio is unavailable, decode fails, or the first tap beats preload, the existing HTMLAudio path is retained as an immediate fallback. It is not the normal path after successful preload/unlock.
-- No timers and no animation-complete hook are used for click sound.
+- Game canvas SFX is triggered on `pointerdown` (or `touchstart`/`mousedown` fallback), before later click/gameplay/animation work.
+- Each click creates a fresh `AudioBufferSourceNode` and calls `start(0)`, allowing rapid taps without waiting for a shared HTMLAudio element to seek/restart.
+- HTMLAudio remains only as a safety fallback if Web Audio is unavailable/not ready.
+- No timer or animation-complete hook controls click sound.
 
-## Audio scope — must not regress
+## Audio scope — SEALED
 - BtMouseClick belongs only to operations inside the MapleM simulator UI.
-- Home, theme, outer level selector, reset, outer/fullscreen controls and the sound toggle are silent.
-- In-game lock/unlock, Pray and skip-confirm remain audible.
-- PrayConfirmPopup Confirm/Cancel remain audible through the existing parent message path.
-- All-locked automatic popup bypass remains silent beyond the Pray tap; it must not create a second synthetic click sound.
+- In-game lock/unlock, Pray, skip-confirm, and PrayConfirmPopup Confirm/Cancel are audible.
+- Home/main menu, theme/day-night toggle, outer level/reset/settings, fullscreen and the sound toggle are silent.
+- All-locked automatic popup bypass must not synthesize a second click sound beyond the original Pray tap.
 
-## All-locked Pray rule — authoritative
-- When every currently active blessing slot is locked, pressing Pray does not show PrayConfirmPopup even when skip-confirm is OFF.
-- It directly uses the established all-locked Pray path: abilities remain unchanged, EXP increases, sealed costs apply, and level-up/slot-open transitions remain valid.
-- Partial/unlocked Pray retains the existing popup behavior when skip-confirm is OFF.
+## Gameplay correctness — SEALED
+- P120 cost: `CharacterCoin = 5 × SlotCount`.
+- P120 Meso: `1,500,000 × actual lockedCount`, including all-locked; no `SlotCount - 1` cap.
+- 0 Lock: Meso group hidden and CharacterCoin cost centered.
+- All active slots locked: Pray does not show PrayConfirmPopup even if skip-confirm is OFF; abilities remain unchanged, EXP increases, cost applies once, and level-up/slot-open transitions remain valid.
+- Partial/unlocked Pray: existing confirmation behavior remains when skip-confirm is OFF.
+- P121 max level remains `Lv.MAX`; max EXP presentation and eligible grade rules remain unchanged.
+- Established level-up, slot-unlock, Pray animation, native-proven particle/effect behavior remain authoritative.
 
-## SEALED / must not regress
-- P120 cost: `CharacterCoin = 5 × SlotCount`; `Meso = 1,500,000 × actual lockedCount`, including all-locked.
-- P121 max-level / eligible-grade behavior remains unchanged.
-- Popup Confirm/Cancel interaction and partial-lock row filtering remain unchanged.
-- CPU bridge closure remains SEALED; do not rewrite `runtime/site-bridge.js`.
-- Fullscreen geometry remains `top:19px; right:48px; width:72px; height:48px`.
-- Safari toolbar-collapse work remains explicitly closed.
+## Architecture / performance — SEALED
+- CPU bridge closure remains SEALED; do not rewrite `runtime/site-bridge.js` without new measured evidence.
+- Do not reintroduce high-frequency bridge polling or speculative fullscreen/scroll handlers.
+- Do not replace working interaction/popup code with newly invented handlers when an accepted historical implementation exists.
+- Preserve relative asset/audio/runtime paths when promoting the accepted beta contents to the production route.
 
-## Acceptance smoke
-1. On iPhone/mobile, first and subsequent lock/Pray taps should produce BtMouseClick close to touch-down rather than after animation progress.
-2. Rapid repeated valid game-UI taps should each be able to play without waiting for the previous sound to finish.
-3. Desktop behavior remains immediate.
-4. Main menu / theme / outer settings / fullscreen remain silent.
-5. Popup Confirm/Cancel each play once.
-6. All active slots locked + skip-confirm OFF: no visible popup; one Pray click sound only; abilities unchanged; EXP/cost applied once.
-7. No gameplay, particle, fullscreen or idle-CPU regression.
+## Promotion guidance
+The user plans to manually move the accepted contents from the beta directory to the production/main directory. Treat this as a path/deployment operation, not a new feature revision. Preserve the accepted directory structure and relative references (`runtime/`, audio, popup runtime, native particle assets, etc.). After promotion, only a short production smoke is needed: load, level selection, lock/unlock, Pray, normal popup Confirm/Cancel, all-locked Pray, sound toggle/audio scope, fullscreen, and mobile touch/audio timing.
+
+## Final acceptance smoke
+1. Desktop/mobile page loads and remains responsive.
+2. Level selection and normal simulator interaction work.
+3. Lock/unlock and Pray produce one timely BtMouseClick; shell controls remain silent.
+4. Normal/partial-lock Pray with skip-confirm OFF shows working Confirm/Cancel popup.
+5. All active slots locked + skip-confirm OFF shows no popup; abilities unchanged; EXP/cost applied exactly once.
+6. Level-up/slot unlock/effects remain correct.
+7. Fullscreen button remains at accepted geometry and fullscreen itself works.
+8. No idle CPU regression.
+
+## Closure
+As of the user's 2026-09-26 browser test, there is no known blocker requiring another beta revision. This simulator can be considered **browser-accepted and closed**, subject only to a brief smoke test after the user's manual beta-to-production promotion.
