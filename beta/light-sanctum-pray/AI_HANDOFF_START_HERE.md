@@ -36,9 +36,10 @@ Therefore the evidence-backed state model is:
 New beta-only file:
 - `runtime/player-presentation-pages-loader.js`
 
-Implementation commits:
+Implementation / governance commits:
 - `d83d9d0130746456693e829dbe89856972485e02` — add evidence-backed preset loader.
 - `12fda887a696d0bfbb3cc9056fb40e8ce665ff81` — wire loader into Beta runtime.
+- `1da00ec9e6a08a6acd4f3efa6ffa93858bbe4a8e` — extend PR CI syntax gate to the Beta preset loader/patch.
 
 The loader deliberately keeps the sealed `runtime/player-presentation.js` file unchanged. It loads that exact current core and applies a narrow in-memory Phase 1 patch before execution.
 
@@ -73,7 +74,9 @@ Do not rewrite or simplify these while developing presets:
 - Beta core used by the loader is SHA `6ef0f011d76bdaca3194a8dfa6329dacc0844b50`, exactly the same core audited before implementation.
 - Loader uses fail-closed unique string anchors: a missing or duplicate anchor stops Phase 1 instead of silently patching the wrong code.
 - Beta `index.html` loads scene/gameplay/native-particle data and `player-presentation-patch.js` first; the preset loader then loads the patched core followed by confirm-bypass, site-bridge and click-audio in the original order.
-- Production/main has not been changed by this Phase 1 work.
+- Branch was confirmed ahead of main only; Phase 1 did not alter production simulator files.
+- `.github/workflows/validate.yml` now runs `node --check` on the Beta preset loader and Beta presentation patch when present.
+- Current GitHub Actions status is intentionally absent because this workflow runs on `pull_request -> main` (or push to main) and no PR has been opened yet.
 - **Browser/player smoke is NOT yet PASS.** Do not merge to main yet.
 
 ## Required Browser acceptance sequence
@@ -93,6 +96,9 @@ Useful diagnostic in DevTools:
 MAPLEM_PRAY_PRESETS.snapshot()
 ```
 Expected shape includes `activePreset`, `availablePresetCount`, unlock levels, and all three preset slot/lock arrays.
+
+## Browser testing note
+GitHub Pages production is sourced from `main`, so the feature branch is intentionally **not** live at the normal production/Beta URL yet. Test the checked-out `feature/light-sanctum-pages` branch through a local HTTP server or equivalent branch preview. Do not copy these files to main merely to obtain a test URL.
 
 ## Release rule
 Preset Phase 1 remains on `feature/light-sanctum-pages` until the user browser-tests it. If the acceptance sequence passes:
