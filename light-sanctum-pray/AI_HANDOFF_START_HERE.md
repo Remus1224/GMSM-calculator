@@ -1,62 +1,49 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray FINAL / Browser Accepted
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Post-Release Cost Label Fit R1
 
-## Final status — 2026-09-26
+## Current status — 2026-09-26
 - Repo: `Remus1224/GMSM-calculator`
-- Accepted beta route: `/beta/light-sanctum-pray/`
-- Runtime lineage: Preview137 / P121 + P120 cost fidelity + restored fullscreen geometry + low-idle CPU bridge + Click Audio R2 + Mobile Audio Latency R1.
-- Mobile Audio Latency implementation baseline: `12a8d44e1685c065f6dbb930a6756dd8f4cb446e`.
-- User browser acceptance after Mobile Audio Latency R1: **PASS — 「目前測試 沒什麼問題」**.
-- Project disposition: **READY TO CLOSE / READY FOR MANUAL PROMOTION FROM BETA TO MAIN ROUTE**.
+- Production simulator has been promoted by the user and is live.
+- Last production/browser-accepted baseline remains the Mobile Audio Latency R1 release lineage.
+- New work is intentionally **beta-only** until browser acceptance.
+- Beta Cost Label Fit R1 implementation commit: `93cf5465dac8940ba256b64811cb30d82c355a11`.
 
-## Final browser-accepted behavior
-- Desktop and mobile simulator operation is responsive enough for release; the earlier high-CPU / interaction regressions were removed before this baseline.
-- Mobile BtMouseClick timing is accepted after switching the short UI SFX path to Web Audio and triggering it from the earliest valid game gesture.
-- Fullscreen button geometry is the user-adjusted accepted position: `top:19px; right:48px; width:72px; height:48px`.
-- Safari toolbar-collapse/fullscreen scrolling experiment was abandoned by explicit user decision and its experimental changes were removed; do not reopen it unless requested.
-- Popup Confirm/Cancel works; all-locked Pray bypasses the popup and directly adds EXP while preserving locked abilities.
+## New post-release issue
+User screenshots showed that in special/high-cost states the Pray cost amount can extend outside its intended UI area. This affects both the Meso amount and potentially the CharacterCoin/material amount as the displayed number grows.
 
-## Mobile Audio Latency R1
-- `runtime/click-audio.js` uses Web Audio (`AudioContext` / `webkitAudioContext`) as the primary short-SFX engine.
-- `BtMouseClick.mp3` is fetched and decoded to an `AudioBuffer` ahead of interaction when possible.
-- First real game gesture resumes/unlocks the AudioContext for iOS/Safari.
-- Game canvas SFX is triggered on `pointerdown` (or `touchstart`/`mousedown` fallback), before later click/gameplay/animation work.
-- Each click creates a fresh `AudioBufferSourceNode` and calls `start(0)`, allowing rapid taps without waiting for a shared HTMLAudio element to seek/restart.
-- HTMLAudio remains only as a safety fallback if Web Audio is unavailable/not ready.
-- No timer or animation-complete hook controls click sound.
+Root cause is presentation-only: runtime cost strings are dynamic (`toLocaleString()`), while the exported UILabels retain their serialized overflow behavior/bounds. The player already has a safe UILabel `ShrinkContent` implementation when `mOverflow === 0`, but these two runtime amount labels were not forced onto that fit mode.
 
-## Audio scope — SEALED
-- BtMouseClick belongs only to operations inside the MapleM simulator UI.
-- In-game lock/unlock, Pray, skip-confirm, and PrayConfirmPopup Confirm/Cancel are audible.
-- Home/main menu, theme/day-night toggle, outer level/reset/settings, fullscreen and the sound toggle are silent.
-- All-locked automatic popup bypass must not synthesize a second click sound beyond the original Pray tap.
+## Beta Cost Label Fit R1
+Only `runtime/player-presentation-patch.js` is changed.
 
-## Gameplay correctness — SEALED
-- P120 cost: `CharacterCoin = 5 × SlotCount`.
-- P120 Meso: `1,500,000 × actual lockedCount`, including all-locked; no `SlotCount - 1` cap.
-- 0 Lock: Meso group hidden and CharacterCoin cost centered.
-- All active slots locked: Pray does not show PrayConfirmPopup even if skip-confirm is OFF; abilities remain unchanged, EXP increases, cost applies once, and level-up/slot-open transitions remain valid.
-- Partial/unlocked Pray: existing confirmation behavior remains when skip-confirm is OFF.
-- P121 max level remains `Lv.MAX`; max EXP presentation and eligible grade rules remain unchanged.
-- Established level-up, slot-unlock, Pray animation, native-proven particle/effect behavior remain authoritative.
+Targets:
+- `VarB_107Popup/Group/Pray/Right/CostDesc/Cost/CharacterCoin/Amount`
+- `VarB_107Popup/Group/Pray/Right/CostDesc/Cost/Meso/Amount`
 
-## Architecture / performance — SEALED
-- CPU bridge closure remains SEALED; do not rewrite `runtime/site-bridge.js` without new measured evidence.
-- Do not reintroduce high-frequency bridge polling or speculative fullscreen/scroll handlers.
-- Do not replace working interaction/popup code with newly invented handlers when an accepted historical implementation exists.
-- Preserve relative asset/audio/runtime paths when promoting the accepted beta contents to the production route.
+Before `player-presentation.js` starts, the existing presentation patch now sets those two UILabels to:
+- `mOverflow = 0` — reuse the player's existing ShrinkContent path.
+- `mMaxLineCount = 1` — cost values remain single-line.
 
-## Promotion guidance
-The user plans to manually move the accepted contents from the beta directory to the production/main directory. Treat this as a path/deployment operation, not a new feature revision. Preserve the accepted directory structure and relative references (`runtime/`, audio, popup runtime, native particle assets, etc.). After promotion, only a short production smoke is needed: load, level selection, lock/unlock, Pray, normal popup Confirm/Cancel, all-locked Pray, sound toggle/audio scope, fullscreen, and mobile touch/audio timing.
+This deliberately does **not** widen/move the cost containers, icons, groups or button. It preserves the authored label rectangle and only reduces text size when the actual rendered number would exceed that rectangle. Short/normal values should therefore retain their existing size; only long values shrink as needed.
 
-## Final acceptance smoke
-1. Desktop/mobile page loads and remains responsive.
-2. Level selection and normal simulator interaction work.
-3. Lock/unlock and Pray produce one timely BtMouseClick; shell controls remain silent.
-4. Normal/partial-lock Pray with skip-confirm OFF shows working Confirm/Cancel popup.
-5. All active slots locked + skip-confirm OFF shows no popup; abilities unchanged; EXP/cost applied exactly once.
-6. Level-up/slot unlock/effects remain correct.
-7. Fullscreen button remains at accepted geometry and fullscreen itself works.
-8. No idle CPU regression.
+## Regression boundary — must not change
+- No gameplay/cost formula change.
+- P120 remains `CharacterCoin = 5 × SlotCount` and `Meso = 1,500,000 × actual lockedCount`.
+- No `player-presentation.js` modification.
+- No `site-bridge.js` modification.
+- No hit-target/input modification.
+- No popup modification.
+- No audio modification.
+- No particle/animation modification.
+- No fullscreen modification; accepted geometry remains `top:19px; right:48px; width:72px; height:48px`.
+- All-locked Pray bypass behavior remains unchanged.
 
-## Closure
-As of the user's 2026-09-26 browser test, there is no known blocker requiring another beta revision. This simulator can be considered **browser-accepted and closed**, subject only to a brief smoke test after the user's manual beta-to-production promotion.
+## Beta acceptance test
+1. Reproduce the user's high Meso state: the complete number must remain inside its intended cost area and on one line.
+2. Test the longest CharacterCoin/material amount reachable by the simulator: it must also remain inside its intended area and on one line.
+3. Test ordinary low values: text should look unchanged rather than unnecessarily small.
+4. Verify 0 Lock still hides Meso and centers CharacterCoin.
+5. Verify lock/unlock, Pray, popup Confirm/Cancel, all-locked Pray, effects and click audio still work.
+6. Verify desktop and mobile rendering.
+
+## Release rule
+Do not copy this beta patch to production until the user visually confirms the cost labels are correct. If accepted, promote the beta `runtime/player-presentation-patch.js` change and then update this handoff to mark Cost Label Fit R1 browser PASS.
