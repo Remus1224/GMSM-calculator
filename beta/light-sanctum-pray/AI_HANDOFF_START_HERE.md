@@ -92,3 +92,13 @@ Do not refactor or regenerate the P137 gameplay/rendering logic while doing site
 - Production fix mirrors that proven strategy: iPhone/iPad uses a fixed 100vw × 100dvh stage with body scroll locked; desktop/Android continue to prefer native Fullscreen API.
 - A fullscreen-local exit button is shown because the normal page navigation is covered during iOS fake fullscreen.
 - P137 runtime/gameplay files remain unchanged.
+
+
+## 2026-09-25 iOS Fullscreen Fix 2
+- User's first GitHub smoke showed a leaked fullscreen-exit button in normal layout and fullscreen still using the old behavior.
+- Root cause: GitHub/Safari cache could load the newly patched HTML while reusing old `style.css` / `script.js`, creating a mixed-version page.
+- `index.html` now cache-busts both shell assets with `?v=20260925-iosfs2`.
+- The in-stage fullscreen-exit control is HTML `hidden` by default and JS only unhides it while fullscreen is actually active, so stale CSS cannot push the simulator layout.
+- iOS/Apple detection now matches the site's proven Will simulator strategy; Apple devices go directly to fake fullscreen.
+- Fake fullscreen keeps the 1280x720 game stage centered on black, locks page scrolling, reflows on visual viewport/orientation changes, and restores prior scroll position on exit.
+- P137 runtime/gameplay files are unchanged.

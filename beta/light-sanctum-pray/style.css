@@ -321,6 +321,8 @@ a {
 .stage-host:-webkit-full-screen,
 .stage-host.fake-fullscreen {
     width: 100vw !important;
+    width: 100svw !important;
+    height: 100vh !important;
     height: 100dvh !important;
     display: flex !important;
     align-items: center !important;
@@ -333,8 +335,13 @@ a {
 
 .stage-host.fake-fullscreen {
     position: fixed !important;
-    inset: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
     z-index: 99999 !important;
+    border-radius: 0 !important;
+    touch-action: manipulation;
 }
 
 .stage-host:fullscreen .stage-viewport,
@@ -347,6 +354,12 @@ html.light-sanctum-pray-no-scroll,
 body.light-sanctum-pray-no-scroll {
     overflow: hidden !important;
     overscroll-behavior: none !important;
+}
+
+
+/* iOS fullscreen control must never affect normal document layout. */
+.stage-fullscreen-exit[hidden] {
+    display: none !important;
 }
 
 .stage-fullscreen-exit {

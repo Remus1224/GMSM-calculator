@@ -22,6 +22,7 @@
     let handshakeTimer = 0;
     let handshakeAttempts = 0;
     let applyingLevel = false;
+    let fakeFullscreenReturnY = 0;
 
     function applyTheme(theme, shouldSave = false) {
         const isDark = theme === 'dark';
@@ -65,19 +66,25 @@
 
     function isIOSLike() {
         const ua = navigator.userAgent || '';
-        return /iPad|iPhone|iPod/.test(ua) ||
+        return (/Mac|iPad|iPhone|iPod/.test(ua) && !window.MSStream) ||
             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     }
 
     function setFakeFullscreen(active) {
         if (!stageHost) return;
+        if (active && !isFakeFullscreen()) fakeFullscreenReturnY = window.scrollY || 0;
         stageHost.classList.toggle('fake-fullscreen', active);
         document.documentElement.classList.toggle('light-sanctum-pray-no-scroll', active);
         document.body.classList.toggle('light-sanctum-pray-no-scroll', active);
-        if (active) window.scrollTo(0, 0);
+        if (active) {
+            window.scrollTo(0, 0);
+        } else {
+            window.requestAnimationFrame(() => window.scrollTo(0, fakeFullscreenReturnY));
+        }
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
         window.setTimeout(reflowStage, 80);
+        window.setTimeout(reflowStage, 250);
     }
 
     function updateFullscreenLabel() {
@@ -87,6 +94,7 @@
             fullscreenToggle.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
         }
         if (stageFullscreenExit) {
+            stageFullscreenExit.hidden = !active;
             stageFullscreenExit.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
             stageFullscreenExit.title = active ? '離開全螢幕' : '全螢幕顯示模擬器';
         }
