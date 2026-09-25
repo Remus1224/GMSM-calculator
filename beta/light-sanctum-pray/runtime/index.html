@@ -6,7 +6,7 @@
 <title>光之聖所祈禱模擬器</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="player-view.css">
-<style>.embeddedFullscreenToggle{position:fixed;z-index:9999;top:8px;right:48px;width:32px;height:30px;padding:0;border:0;background:transparent;color:#fff;font:18px/1 sans-serif;display:flex;align-items:center;justify-content:center;cursor:pointer}.embeddedFullscreenToggle:active{background:rgba(255,255,255,.10)}</style>
+<style>.embeddedFullscreenToggle{position:fixed;z-index:9999;top:1px;right:48px;width:48px;height:46px;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}.embeddedFullscreenToggle svg{display:block;width:32px;height:32px;overflow:visible}.embeddedFullscreenToggle path{fill:none;stroke:currentColor;stroke-width:3.5;stroke-linecap:square;stroke-linejoin:miter}.embeddedFullscreenToggle:active{background:rgba(255,255,255,.10)}</style>
 </head>
 <body class="player-presentation">
 <header>
@@ -61,7 +61,7 @@
 <div id="prayConfirmOverlay" class="prayConfirmOverlay" hidden>
   <iframe id="prayConfirmFrame" class="prayConfirmFrame" src="pray-confirm-popup/index.html" title="祈禱確認" loading="eager"></iframe>
 </div>
-<button id="embeddedFullscreenToggle" class="embeddedFullscreenToggle" type="button" aria-label="全螢幕" title="全螢幕">⛶</button>
+<button id="embeddedFullscreenToggle" class="embeddedFullscreenToggle" type="button" aria-label="全螢幕" title="全螢幕"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M12 4H4v8 M20 4h8v8 M28 20v8h-8 M12 28H4v-8"/></svg></button>
 <main id="fitArea">
   <div id="surface">
     <canvas id="sceneCanvas" aria-label="UI 還原畫面"></canvas>

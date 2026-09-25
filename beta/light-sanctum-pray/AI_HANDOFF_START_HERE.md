@@ -39,3 +39,10 @@ Do not change P137 gameplay/runtime, pray costs, EXP, particles, confirmation po
 - Added a player-visible diagnostic panel below the simulator. `開始 60 秒閒置診斷` captures baseline/end reports; `複製診斷結果` copies JSON for AI analysis.
 - IMPORTANT test: after page load stabilizes, start the 60 s diagnostic and do not touch/scroll/rotate/switch tabs until complete. Paste the copied JSON into ChatGPT and state whether the phone became warmer during that exact 60 s window.
 - Fix5 thermal guard remains in the runtime; Fix6 is diagnostic-first and does not further reduce visual quality.
+
+
+## Fix7 — Fullscreen icon proportion + Fix6 idle evidence interpretation (2026-09-25)
+- Replaced the font glyph fullscreen icon with a deterministic 32x32 SVG corner icon inside a 48x46 native-coordinate hit box. This fixes the iPhone result where the glyph rendered much smaller than the adjacent native X. Position remains immediately left of the X and still scales with the 1280x720 runtime.
+- Fix6 iPhone 60 s evidence: main runtime becomes quiescent. After startup, RAF=0, Canvas draw=0, timers=0, mutations=0; postMessage traffic stops by ~12 s. Total canvas draws remain 549 (startup only), RAF total 1. This rules out a persistent main-window JS/render loop as the idle heat source.
+- The runtime still contains one hidden/eager confirm iframe. Fix6 profiler does not instrument child-frame internals. Next thermal isolation should distinguish static main canvas/GPU compositing from child-frame/resource residency if the user confirms the phone continued warming during the measured 60 s.
+- Do not regress P137/P121 gameplay, P120 cost rules, native particles, confirmation behavior, or iOS Auto 1x thermal guard.
