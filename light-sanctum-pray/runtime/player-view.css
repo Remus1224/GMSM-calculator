@@ -1,0 +1,72 @@
+/*
+ * Beta2 Player Presentation
+ * Presentation-only shell for the USER-PASS P137 runtime.
+ * The renderer/gameplay implementation in player.js is intentionally unchanged.
+ */
+html,
+body.player-presentation {
+    margin: 0 !important;
+    width: 1280px !important;
+    height: 720px !important;
+    min-width: 1280px !important;
+    min-height: 720px !important;
+    overflow: hidden !important;
+    background: #000 !important;
+}
+
+body.player-presentation {
+    display: block !important;
+}
+
+body.player-presentation > header,
+body.player-presentation > footer,
+body.player-presentation > .gameplayPanel {
+    display: none !important;
+}
+
+body.player-presentation #fitArea {
+    width: 1280px !important;
+    height: 720px !important;
+    min-width: 1280px !important;
+    min-height: 720px !important;
+    max-width: 1280px !important;
+    max-height: 720px !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #000 !important;
+}
+
+body.player-presentation #surface {
+    width: 1280px !important;
+    height: 720px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+body.player-presentation #referenceImage {
+    display: none !important;
+}
+
+body.player-presentation #sceneCanvas {
+    display: block !important;
+}
+
+/* Beta3 mobile presentation: suppress browser touch highlight/selection only.
+ * This does not remove or alter P137's actual Pray result animations/particles. */
+html,
+body.player-presentation,
+body.player-presentation #fitArea,
+body.player-presentation #surface,
+body.player-presentation #sceneCanvas {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+body.player-presentation #sceneCanvas {
+    outline: none !important;
+    touch-action: manipulation !important;
+}

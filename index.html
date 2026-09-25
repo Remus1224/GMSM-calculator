@@ -65,7 +65,7 @@
 
             <div class="home-menu-category home-menu-category-simulator" role="heading" aria-level="2">
                 <span>模擬器</span>
-                <small>7</small>
+                <small>8</small>
             </div>
 
             <button type="button" class="app-card" onclick="switchTab('transcend')">
@@ -124,9 +124,19 @@
                 </span>
             </button>
 
+            <button type="button" class="app-card app-card-has-badge" onclick="markMenuToolBadgeAsRead('light-sanctum-pray'); window.location.href = window.location.protocol === 'file:' ? 'light-sanctum-pray/index.html' : 'light-sanctum-pray/'">
+                <span class="app-icon">
+                    <img src="assets/menu/icon_光之聖所祈禱模擬器.png" class="menu-custom-img" alt="" onerror="this.style.display='none'">
+                </span>
+                <span class="app-info">
+                    <span class="app-title">光之聖所祈禱模擬器</span>
+                </span>
+                <span id="menu-badge-light-sanctum-pray" class="app-status-badge app-status-badge-new" hidden>NEW</span>
+            </button>
+
             <button type="button" class="app-card app-card-has-badge" onclick="markMenuToolBadgeAsRead('1204'); window.location.href = window.location.protocol === 'file:' ? '1204/index.html' : '1204/'">
                 <span class="app-icon">
-                    <img src="assets/menu/1204.png" class="menu-custom-img" alt="">
+                    <img src="assets/menu/icon_1204產生器.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">1204 產生器</span>
@@ -278,10 +288,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-09-21">2026.09.21</time>
+                    <time datetime="2026-09-25">2026.09.25</time>
                 </div>
-                <h2 id="notice-latest-title">新增 1204 產生器</h2>
-                <p>施亞群的貓貓提出想要這個功能，所以就做出來了。</p>
+                <h2 id="notice-latest-title">新增 光之聖所祈禱模擬器</h2>
+                <p>依照遊戲介面還原祈禱流程，並加入目前等級設定與累積消耗紀錄。</p>
             </div>
         </section>
 
@@ -298,8 +308,21 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-09-21">2026 / 09 / 21</time>
+                            <time datetime="2026-09-25">2026 / 09 / 25</time>
                             <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-new">新增</span><span>光之聖所祈禱模擬器，依照遊戲 UI 還原祈禱流程與確認彈窗。</span></li>
+                            <li><span class="notice-tag notice-tag-update">功能</span><span>支援設定目前等級、重新模擬，以及累積聖痕結晶與楓幣消耗紀錄。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-09-21">2026 / 09 / 21</time>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-new">新增</span><span>1204 產生器。施亞群的貓貓提出想要這個功能，所以就做出來了。</span></li>
