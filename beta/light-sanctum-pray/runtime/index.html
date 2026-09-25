@@ -82,44 +82,9 @@
 <script src="player-presentation.js"></script>
 <script src="site-bridge.js"></script>
 <script>
-(function () {
-  const channel = 'gmsm-light-sanctum-pray';
-  let fakeFullscreen = false;
-  let lastTouchY = null;
-
-  document.getElementById('embeddedFullscreenToggle').addEventListener('click', function () {
-    parent.postMessage({ channel, type: 'toggle-fullscreen-from-runtime' }, '*');
-  });
-
-  window.addEventListener('message', function (event) {
-    if (event.source !== parent) return;
-    const data = event.data || {};
-    if (data.channel !== channel || data.type !== 'fullscreen-state') return;
-    fakeFullscreen = Boolean(data.active && data.fake);
-    lastTouchY = null;
-  });
-
-  // Will lives in the top document, so its fullscreen swipe reaches Safari directly.
-  // Light Sanctum is iframe-hosted. Relay only vertical one-finger motion while the
-  // iOS fake-fullscreen shell is active; do not preventDefault, so Pray taps, locks,
-  // confirmation buttons and all existing runtime interactions keep their native path.
-  document.addEventListener('touchstart', function (event) {
-    if (!fakeFullscreen || event.touches.length !== 1) { lastTouchY = null; return; }
-    lastTouchY = event.touches[0].clientY;
-  }, { passive: true, capture: true });
-
-  document.addEventListener('touchmove', function (event) {
-    if (!fakeFullscreen || event.touches.length !== 1 || lastTouchY === null) return;
-    const y = event.touches[0].clientY;
-    const deltaY = lastTouchY - y;
-    lastTouchY = y;
-    if (Math.abs(deltaY) < 0.5) return;
-    parent.postMessage({ channel, type: 'fullscreen-scroll-relay', deltaY }, '*');
-  }, { passive: true, capture: true });
-
-  document.addEventListener('touchend', function () { lastTouchY = null; }, { passive: true, capture: true });
-  document.addEventListener('touchcancel', function () { lastTouchY = null; }, { passive: true, capture: true });
-})();
+document.getElementById('embeddedFullscreenToggle').addEventListener('click', function () {
+  parent.postMessage({ channel: 'gmsm-light-sanctum-pray', type: 'toggle-fullscreen-from-runtime' }, '*');
+});
 </script>
 </body>
 </html>
