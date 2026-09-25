@@ -1,49 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>光之聖所祈禱模擬器｜楓之谷M 也許有用的工具</title>
-    <meta name="description" content="楓之谷M 光之聖所祈禱模擬器。">
-    <meta property="og:title" content="光之聖所祈禱模擬器｜楓之谷M 也許有用的工具">
-    <meta property="og:description" content="楓之谷M 光之聖所祈禱模擬器。">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/light-sanctum-pray/">
-    <script>
-        try {
-            if (localStorage.getItem('msm-theme') === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        } catch (error) {}
-    </script>
-    <link rel="stylesheet" href="style.css?v=20260925-fix4">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>光之聖所祈禱模擬器｜楓之谷M 也許有用的工具</title><meta name="description" content="楓之谷M 光之聖所祈禱模擬器。"><meta property="og:title" content="光之聖所祈禱模擬器｜楓之谷M 也許有用的工具"><meta property="og:description" content="楓之谷M 光之聖所祈禱模擬器。"><meta property="og:type" content="website"><meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/light-sanctum-pray/">
+    <script>try{if(localStorage.getItem('msm-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(error){}</script><link rel="stylesheet" href="style.css?v=20260925-fix4">
 </head>
-<body>
-    <main class="container">
-        <header class="top-header-section">
-            <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
-            <div class="top-nav-bar">
-                <div class="nav-side left-side"><a class="nav-btn" href="../" onclick="if (window.location.protocol === 'file:') this.href='../index.html';">主選單</a></div>
-                <div class="nav-title-glass">光之聖所祈禱模擬器</div>
-                <div class="nav-side right-side nav-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false"><span class="icon-sun">☀️</span><span class="icon-moon">🌙</span></button></div>
-            </div>
-        </header>
-        <div id="orientation-hint" class="orientation-hint" role="status"><span class="orientation-icon" aria-hidden="true">↻</span><span>手機直向可完整顯示，但建議旋轉為橫向以獲得最佳操作體驗。</span></div>
-        <section id="stage-section" class="stage-section" aria-label="光之聖所祈禱模擬器">
-            <div id="stage-host" class="stage-host"><div id="stage-viewport" class="stage-viewport"><div class="simulator-loading" id="simulator-loading" aria-live="polite">載入模擬器…</div><iframe id="simulator-frame" class="simulator-frame" src="runtime/index.html?v=20260925-fix11" title="光之聖所祈禱模擬器" width="1280" height="720" loading="eager" allowfullscreen></iframe></div></div>
-        </section>
-        <section id="idle-profiler-panel" class="idle-profiler-panel" aria-label="手機閒置效能診斷">
-            <div class="idle-profiler-title">手機閒置效能診斷（Fix11）</div>
-            <div class="idle-profiler-actions"><button id="idle-profiler-start" type="button">開始 60 秒閒置診斷</button><button id="idle-profiler-copy" type="button" disabled>複製診斷結果</button></div>
-            <div id="idle-profiler-status" class="idle-profiler-status">尚未開始。按下開始後請完全不要操作手機 60 秒。</div><textarea id="idle-profiler-output" class="idle-profiler-output" readonly hidden></textarea>
-        </section>
-        <section class="settings-panel" aria-labelledby="sim-settings-title">
-            <div class="settings-title" id="sim-settings-title"><span>⚙️ 光之聖所祈禱模擬器設定</span></div>
-            <div class="setting-row level-setting-row"><label for="current-level-select">目前等級：</label><select id="current-level-select" disabled><option value="1">Lv.1</option><option value="2">Lv.2</option><option value="3">Lv.3</option><option value="4">Lv.4</option><option value="5">Lv.5</option><option value="6">Lv.6</option><option value="7">Lv.7</option><option value="8">Lv.8</option><option value="9">Lv.9</option><option value="10">Lv.10</option><option value="11">Lv.11</option><option value="12">Lv.12</option><option value="13">Lv.13</option><option value="14">Lv.14</option><option value="15">Lv.15</option></select></div>
-            <div class="stats-text consumption-stats" aria-live="polite"><div class="stats-heading">累積消耗紀錄</div><div class="consumption-grid"><div class="consumption-item"><img src="runtime/assets/Icon_Upgrade_2605_MK2040021__4635138335711337449.png" alt="聖痕結晶"><div><span class="consumption-label">聖痕結晶</span><strong id="stat-crystal-used">0</strong></div></div><div class="consumption-item"><img src="runtime/assets/Icon_Meso__-419881298019652827.png" alt="楓幣"><div><span class="consumption-label">楓幣</span><strong id="stat-meso-used">0</strong></div></div></div></div>
-            <button id="reset-simulator" class="btn-reset-simulator" type="button" disabled>重新模擬（清除所有狀態與紀錄）</button>
-        </section>
-    </main>
-    <script src="script.js?v=20260925-fix9"></script>
-</body>
-</html>
+<body><main class="container">
+<header class="top-header-section"><h1 class="main-site-title">楓之谷M 也許有用的工具</h1><div class="top-nav-bar"><div class="nav-side left-side"><a class="nav-btn" href="../" onclick="if (window.location.protocol === 'file:') this.href='../index.html';">主選單</a></div><div class="nav-title-glass">光之聖所祈禱模擬器</div><div class="nav-side right-side nav-actions"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false"><span class="icon-sun">☀️</span><span class="icon-moon">🌙</span></button></div></div></header>
+<div id="orientation-hint" class="orientation-hint" role="status"><span class="orientation-icon" aria-hidden="true">↻</span><span>手機直向可完整顯示，但建議旋轉為橫向以獲得最佳操作體驗。</span></div>
+<section id="stage-section" class="stage-section" aria-label="光之聖所祈禱模擬器"><div id="stage-host" class="stage-host"><div id="stage-viewport" class="stage-viewport"><div class="simulator-loading" id="simulator-loading" aria-live="polite">載入模擬器…</div><iframe id="simulator-frame" class="simulator-frame" src="runtime/index.html?v=20260925-fix12" title="光之聖所祈禱模擬器" width="1280" height="720" loading="eager" allowfullscreen></iframe></div></div></section>
+<section id="idle-profiler-panel" class="idle-profiler-panel" aria-label="手機閒置效能診斷"><div class="idle-profiler-title">手機閒置效能診斷（Fix12）</div><div class="idle-profiler-actions"><button id="idle-profiler-start" type="button">開始 60 秒閒置診斷</button><button id="idle-profiler-copy" type="button" disabled>複製診斷結果</button></div><div id="idle-profiler-status" class="idle-profiler-status">尚未開始。按下開始後請完全不要操作手機 60 秒。</div><textarea id="idle-profiler-output" class="idle-profiler-output" readonly hidden></textarea></section>
+<section class="settings-panel" aria-labelledby="sim-settings-title"><div class="settings-title" id="sim-settings-title"><span>⚙️ 光之聖所祈禱模擬器設定</span></div><div class="setting-row level-setting-row"><label for="current-level-select">目前等級：</label><select id="current-level-select" disabled><option value="1">Lv.1</option><option value="2">Lv.2</option><option value="3">Lv.3</option><option value="4">Lv.4</option><option value="5">Lv.5</option><option value="6">Lv.6</option><option value="7">Lv.7</option><option value="8">Lv.8</option><option value="9">Lv.9</option><option value="10">Lv.10</option><option value="11">Lv.11</option><option value="12">Lv.12</option><option value="13">Lv.13</option><option value="14">Lv.14</option><option value="15">Lv.15</option></select></div><div class="stats-text consumption-stats" aria-live="polite"><div class="stats-heading">累積消耗紀錄</div><div class="consumption-grid"><div class="consumption-item"><img src="runtime/assets/Icon_Upgrade_2605_MK2040021__4635138335711337449.png" alt="聖痕結晶"><div><span class="consumption-label">聖痕結晶</span><strong id="stat-crystal-used">0</strong></div></div><div class="consumption-item"><img src="runtime/assets/Icon_Meso__-419881298019652827.png" alt="楓幣"><div><span class="consumption-label">楓幣</span><strong id="stat-meso-used">0</strong></div></div></div></div><button id="reset-simulator" class="btn-reset-simulator" type="button" disabled>重新模擬（清除所有狀態與紀錄）</button></section>
+</main><script src="script.js?v=20260925-fix9"></script></body></html>
