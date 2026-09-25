@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>光之聖所祈禱模擬器</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="player-view.css">
+</head>
+<body class="player-presentation">
+<header>
+  <strong id="sceneTitle">UI Static Fidelity</strong>
+  <span id="modeBadge">P96 / Native-Proven Web</span>
+  <label>狀態 <select id="stateMode"><option value="fixture">Ground Truth 基準</option><option value="asset">原始 Prefab</option></select></label>
+  <label>畫質 <select id="qualityMode"><option value="auto">高畫質 Auto</option><option value="1">1×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option></select></label>
+  <label>顯示 <select id="displayMode"><option value="fitWidth">符合寬度</option><option value="fitWindow">符合視窗</option><option value="1" selected>100%</option><option value="1.25">125%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
+  <label><input id="pixelSnap" type="checkbox" checked> Pixel Snap</label>
+  <label><input id="showLabels" type="checkbox" checked> 文字</label>
+  <label><input id="showDebug" type="checkbox"> 節點框</label>
+  <label>效果 <select id="motionAction"><option value="">選擇效果</option></select></label>
+  <span id="changedSlotControls" class="slotControls" title="changedSlotIndices">變更 Slot <label><input type="checkbox" data-slot="0" checked>1</label><label><input type="checkbox" data-slot="1">2</label><label><input type="checkbox" data-slot="2">3</label><label><input type="checkbox" data-slot="3">4</label><label><input type="checkbox" data-slot="4">5</label></span>
+  <button id="playMotion" type="button">播放</button>
+  <button id="stopMotion" type="button">停止</button>
+  <button id="exportParticleTrace" type="button" disabled>匯出粒子追蹤</button>
+  <button id="gameplayToggle" type="button">祈禱 Debug/Audit</button>
+  <label class="fileLabel">載入實機截圖 <input id="referenceFile" type="file" accept="image/*"></label>
+  <label>疊圖 <input id="referenceOpacity" type="range" min="0" max="100" value="45"></label>
+</header>
+<section id="gameplayPanel" class="gameplayPanel" hidden>
+  <div class="gameplayHead"><strong>P121 Max Level / Eligible Grades Fidelity</strong><button id="gameplayClose" type="button">關閉</button></div>
+  <div class="gameplayFormalHint">P121：滿等顯示恢復為 Lv.MAX，經驗條文字留空且維持滿條；左側「登場的屬性」依每級 Client GradeInfo rate 動態重建，Lv.1-6=N/R/E/U/L、Lv.7-11=R/E/U/L、Lv.12-15=E/U/L。P120 成本/鎖定/置中規則與音效 evidence gate 全部保留。</div>
+  <div class="gameplayGrid">
+    <label>等級 <select id="gameplayLevel"></select></label>
+    <div id="gameplayLevelSummary" class="gameplaySummary"></div>
+  </div>
+  <div class="gameplaySim">
+    <div class="gameplaySimHead"><strong>可玩測試狀態</strong><span id="gameplaySimStatus">尚未初始化</span></div>
+    <div class="gameplaySimControls">
+      <label>累積 EXP <input id="gameplayAccumulatedExp" type="number" min="0" step="1" value="0"></label>
+      <label>CharacterCoin <input id="gameplayCoinBalance" type="number" min="0" step="1" value="1000000"></label>
+      <label>Meso <input id="gameplayMesoBalance" type="number" min="0" step="1000000" value="1000000000000"></label>
+      <label><input id="gameplayDeductCost" type="checkbox" checked> Pray 時扣除模擬費用</label>
+      <button id="gameplayApplyExp" type="button">套用 EXP</button>
+      <button id="gameplayApplyLevel" type="button">套用目前檢視 Lv.</button>
+      <label><input id="gameplayAutoExp" type="checkbox" checked disabled> 正式 EXP：GainPoint + Gain/coin × Coin</label>
+      <label><input id="gameplayDebugTransitions" type="checkbox" checked> Debug 套用 EXP 時播放升級／開欄位效果</label>
+      <button id="gameplayPrayOnce" type="button">Debug：祈禱一次</button>
+      <button id="gameplayReset" type="button">重置</button>
+      <button id="gameplayPerfReset" type="button">清除效能樣本</button>
+    </div>
+    <div id="gameplayPerfStatus" class="gameplayPerfStatus">效能：尚無樣本</div>
+    <div id="gameplayLastRoll" class="gameplayLastRoll">尚未祈禱。</div>
+  </div>
+  <div class="gameplayColumns">
+    <div><h3>品級 Rate（Client Table）</h3><div id="gameplayGrades" class="gameplayTable"></div></div>
+    <div><h3>能力／值範圍</h3><div id="gameplayOptions" class="gameplayTable"></div></div>
+  </div>
+  <p class="gameplayNote">P121 僅修正滿等與 EligibleGrades 呈現。P120 已封存成本規則：CharacterCoin = 5 × SlotCount；Meso = 1,500,000 × actual lockedCount，即使全鎖也不封頂；0 Lock 時 Meso 隱藏且 CharacterCoin 置中。P118 並行 timing、P114 連續 Pray、P117 all-locked/EXP、P119 空欄提示與固定勾選全部保留。正式 Pray EXP 採 LevelInfo：GainPoint + GainPointPerCoin × CharacterCoin cost。</p>
+</section>
+<div id="prayConfirmOverlay" class="prayConfirmOverlay" hidden>
+  <iframe id="prayConfirmFrame" class="prayConfirmFrame" src="pray-confirm-popup/index.html" title="祈禱確認" loading="eager"></iframe>
+</div>
+<main id="fitArea">
+  <div id="surface">
+    <canvas id="sceneCanvas" aria-label="UI 還原畫面"></canvas>
+    <img id="referenceImage" alt="實機參考截圖">
+  </div>
+</main>
+<footer><span id="status">載入場景…</span><span id="diagnostics"></span></footer>
+<script src="ui-static-scene-data.js"></script>
+<script src="ui-state-fixture-data.js"></script>
+<script src="sanctuary-gameplay-data.js"></script>
+<script src="native-particles/p98-native-particle-bake.js"></script>
+<script src="player-presentation-patch.js"></script>
+<script src="player-presentation.js"></script>
+<script src="site-bridge.js"></script>
+</body>
+</html>
