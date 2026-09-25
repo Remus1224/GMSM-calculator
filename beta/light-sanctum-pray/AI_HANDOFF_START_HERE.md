@@ -1,80 +1,76 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray Fix11
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Fix12
 
 ## Current patch
-`Fix11 — Regression Closure / Single-Owner Confirm Shell`
+`Fix12 — Confirm Interaction Runtime Regression Closure`
 
-## Why Fix11 exists
-Fix10 failed player desktop acceptance on 2026-09-25: PrayConfirmPopup was visible, but both Cancel and Confirm appeared non-responsive. The player also reported that the fullscreen control was still vertically misplaced. Treat Fix10 as FAIL; do not use it as a browser-accepted baseline.
+## Browser evidence / verdict history
+- Fix8: mobile portrait/landscape rendering PASS; user reported no meaningful idle warming. Keep as thermal regression gate.
+- Fix10: FAIL.
+- Fix11: FAIL on 2026-09-25 desktop player acceptance. Popup rendered, but Cancel and Confirm did nothing; user also reported smoothness materially worse than the original working simulator.
+- Fix12: automated/source closure complete; **requires player desktop acceptance**.
 
-## Regression audit result
-The stable P137 player already owns the complete confirmation contract inside `player-presentation.js`:
-- parent opens/closes `prayConfirmOverlay`;
-- parent sends `maplem-pray-confirm-state`;
-- child sends `maplem-pray-confirm-ready` and `maplem-pray-confirm-action`;
+## Fix11 failure root cause
+The parent production runtime (`runtime/player-presentation.js`) contains the complete P137 popup interaction implementation:
+- detects `PrayConfirmPopup` child scene;
+- applies `maplem-pray-confirm-state` from the parent;
+- calculates native Button_Cancel / Button_Confirm bounds;
+- child canvas click posts `maplem-pray-confirm-action` to parent;
 - parent validates `ev.source === prayConfirmFrame.contentWindow`;
+- Cancel closes without Pray; Confirm executes exactly one Pray.
+
+However the deployed child `runtime/pray-confirm-popup/index.html` still loaded its own historical `pray-confirm-popup/player.js`. That file predates the P137 interactive child implementation. It can render the popup, but it does not contain the required P137 canvas Cancel/Confirm postMessage path. This exactly matches the player evidence: visually correct popup, dead buttons.
+
+The same child also loaded a duplicate ~1.6 MB `sanctuary-gameplay-data.js` although popup state is already supplied by the parent. That duplicate parsing/startup work is removed in Fix12 and is the primary source-level smoothness regression addressed this round.
+
+## Fix12 changes
+1. `runtime/pray-confirm-popup/index.html`
+   - no longer loads historical child `player.js`;
+   - no longer loads duplicate `sanctuary-gameplay-data.js`;
+   - loads the shared, current `../player-presentation.js?v=20260925-fix12` instead.
+2. Parent and child therefore use the same P137 interaction implementation and exact native button hit-bound logic.
+3. Popup remains a view/interaction child only. Parent remains the sole owner of Pray gameplay state/cost/EXP/result.
+4. `player-shell-controller.js` cache key advanced to Fix12. Desktop still preloads one stable child; iOS still keeps the child absent while default SkipConfirm is ON.
+5. Runtime/outer iframe cache keys advanced to Fix12.
+
+## Evidence authority
+Earlier Preview136 handoff explicitly records that Preview134 added functional confirm/cancel/skipConfirm/pending interaction and that required behavior is:
+- Skip Confirm default ON;
+- OFF → Pray opens popup;
 - Cancel closes without Pray;
-- Confirm closes and executes Pray.
-
-Fix9/Fix10 added a second controller (`fix9-mobile-closure.js`) that navigated the same child iframe between `about:blank` and the popup runtime based on overlay/status mutations. That created two owners for the same confirmation lifecycle and moved iframe navigation into the live Pray interaction path. Fix10 reduced repeated reloads but did not remove the dual-ownership architecture. Fix11 removes that helper from production and replaces it with `player-shell-controller.js`, whose only responsibility is child-runtime residency. It does not mutate gameplay state, synthesize canvas clicks, or handle Cancel/Confirm.
-
-## Fix11 confirmation policy
-Desktop:
-- preload the confirmation child once during runtime startup;
-- keep the same child WindowProxy resident;
-- restore the original P137 parent/child message topology before the first Pray;
-- no iframe navigation is performed during Pray / Cancel / Confirm.
-
-Mobile/iOS:
-- preserve Fix8 thermal isolation while SkipConfirm is ON: confirmation child stays `about:blank`;
-- when SkipConfirm becomes OFF, preload the child before Pray;
-- keep it resident while confirmation remains enabled;
-- unload again only when SkipConfirm returns ON.
-
-This is intentionally asymmetric: desktop correctness/smoothness is the immediate acceptance gate, while iOS retains the proven no-meaningful-idle-warming constraint.
-
-## Fullscreen Fix11
-The runtime fullscreen control still posts through the corrected Fix9 channel `gmsm-light-sanctum-pray`; outer page remains the only native/fake fullscreen owner.
-
-The button remains in the 1280×720 runtime coordinate system, but its vertical anchor is moved from `top:0` to `top:18px`. The user screenshot showed the prior icon touching the top edge while the native X visual center was materially lower in the title bar. This is a geometry correction only; fullscreen behavior/bridge is unchanged.
+- Confirm performs one Pray.
+The actual popup hierarchy remains `PrayConfirmPopup/.../Button_Cancel` and `.../Button_Confirm`.
 
 ## Frozen gameplay / fidelity rules
-Do not change P137/P121 gameplay, P120 costs, EXP, native-proven particles, audio, level/settings bridge, cumulative usage tracking, reset semantics, or iOS Auto 1× canvas quality guard unless new evidence explicitly requires it.
+Do not change P137/P121 gameplay, P120 costs, EXP, native-proven particles, audio, level/settings bridge, cumulative usage tracking, reset semantics, or iOS Auto 1× quality guard.
 
-P120 sealed cost rule:
+P120 sealed costs:
 - `CharacterCoin = 5 × SlotCount`
 - `Meso = 1,500,000 × actual lockedCount`
-- all-locked does not cap Meso lock count
+- all locked does not cap lock count
 - 0 Lock hides Meso and centers CharacterCoin
 
-## Fix8 regression gate
-User browser acceptance after Fix8:
-- portrait/landscape rendering was correct;
-- no meaningful idle warming.
+## Automated/source checks
+PASS by direct source audit:
+- current shared player contains child `PrayConfirmPopup` state listener;
+- current shared player contains Button_Cancel/Button_Confirm hit testing;
+- current shared player posts `maplem-pray-confirm-action` from child;
+- current shared player parent validates child `contentWindow` and implements cancel/confirm semantics;
+- popup HTML now loads that shared player;
+- popup HTML no longer loads duplicate 1.6 MB gameplay table;
+- no P120/gameplay/particle/audio data file changed.
 
-Do not regress this mobile thermal result.
+This is not equivalent to browser acceptance.
 
-## Automated/static audit status
-PASS by source inspection:
-- production runtime no longer loads `fix9-mobile-closure.js`;
-- `player-shell-controller.js` has no gameplayState access and no synthetic MouseEvent/canvas click path;
-- desktop popup child is resident before interaction;
-- original P137 message bridge remains in `player-presentation.js` and is not duplicated by shell controller;
-- fullscreen message channel remains `gmsm-light-sanctum-pray`;
-- P120/gameplay/particle/audio core files were not modified by Fix11.
-
-These are source/static checks only. They are **not** player-browser PASS.
-
-## Required player browser acceptance — desktop first
-1. Hard refresh the Light Sanctum page so `runtime/index.html?v=20260925-fix11` is loaded.
-2. Verify the fullscreen icon is vertically aligned with the native X/title-bar controls rather than touching the top edge.
-3. Turn SkipConfirm OFF.
-4. Pray → Cancel: popup must close and no Pray result/cost should execute.
-5. Pray → Confirm: popup must close and Pray must execute exactly once.
-6. Repeat Confirm several times. There must be no Fix9-style reload stutter and no dead popup.
-7. Turn SkipConfirm ON and verify direct Pray.
-8. Only after desktop PASS, test iPhone portrait/landscape fullscreen and 2–5 minute idle warmth.
+## Required acceptance — desktop first
+1. Hard refresh and verify diagnostic title says Fix12.
+2. Turn SkipConfirm OFF.
+3. Pray → Cancel: popup closes; no cost/result.
+4. Pray → Confirm: popup closes; exactly one Pray/result.
+5. Repeat several Confirm cycles and compare smoothness with the original working version.
+6. SkipConfirm ON: direct Pray remains correct.
+7. If desktop passes, then resume iPhone fullscreen + thermal acceptance.
 
 ## Current verdict
-`Fix11 = SAFE FOR PLAYER DESKTOP ACCEPTANCE`
+`Fix11 = FAIL`
 
-Not yet browser PASS. Do not advance to further visual/gameplay work until desktop Cancel/Confirm + repeated Pray are accepted.
+`Fix12 = SAFE FOR PLAYER DESKTOP ACCEPTANCE` (source/static only; browser PASS pending).
