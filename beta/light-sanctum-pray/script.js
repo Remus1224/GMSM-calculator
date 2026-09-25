@@ -7,6 +7,7 @@
 
     const themeToggle = document.getElementById('theme-toggle');
     const fullscreenToggle = document.getElementById('fullscreen-toggle');
+    const stageFullscreenExit = document.getElementById('stage-fullscreen-exit');
     const simulatorFrame = document.getElementById('simulator-frame');
     const stageSection = document.getElementById('stage-section');
     const stageHost = document.getElementById('stage-host');
@@ -50,15 +51,45 @@
         applyTheme(isDark ? 'light' : 'dark', true);
     }
 
-    function isFullscreen() {
+    function isNativeFullscreen() {
         return document.fullscreenElement === stageHost || document.webkitFullscreenElement === stageHost;
     }
 
+    function isFakeFullscreen() {
+        return Boolean(stageHost && stageHost.classList.contains('fake-fullscreen'));
+    }
+
+    function isFullscreen() {
+        return isNativeFullscreen() || isFakeFullscreen();
+    }
+
+    function isIOSLike() {
+        const ua = navigator.userAgent || '';
+        return /iPad|iPhone|iPod/.test(ua) ||
+            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+
+    function setFakeFullscreen(active) {
+        if (!stageHost) return;
+        stageHost.classList.toggle('fake-fullscreen', active);
+        document.documentElement.classList.toggle('light-sanctum-pray-no-scroll', active);
+        document.body.classList.toggle('light-sanctum-pray-no-scroll', active);
+        if (active) window.scrollTo(0, 0);
+        updateFullscreenLabel();
+        requestAnimationFrame(reflowStage);
+        window.setTimeout(reflowStage, 80);
+    }
+
     function updateFullscreenLabel() {
-        if (!fullscreenToggle) return;
         const active = isFullscreen();
-        fullscreenToggle.textContent = active ? '離開全螢幕' : '全螢幕';
-        fullscreenToggle.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
+        if (fullscreenToggle) {
+            fullscreenToggle.textContent = active ? '離開全螢幕' : '全螢幕';
+            fullscreenToggle.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
+        }
+        if (stageFullscreenExit) {
+            stageFullscreenExit.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
+            stageFullscreenExit.title = active ? '離開全螢幕' : '全螢幕顯示模擬器';
+        }
     }
 
     async function toggleFullscreen() {
@@ -66,11 +97,23 @@
 
         try {
             if (isFullscreen()) {
-                if (document.exitFullscreen) {
-                    await document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
+                if (isNativeFullscreen()) {
+                    if (document.exitFullscreen) {
+                        await document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
                 }
+                if (isFakeFullscreen()) setFakeFullscreen(false);
+                return;
+            }
+
+            // iPhone/iPad Safari does not reliably support element Fullscreen API.
+            // Use the same fixed-position fake-fullscreen strategy already proven by
+            // the site's Will simulator. Also use it as a fallback on browsers with
+            // no element Fullscreen API.
+            if (isIOSLike() || (!stageHost.requestFullscreen && !stageHost.webkitRequestFullscreen)) {
+                setFakeFullscreen(true);
                 return;
             }
 
@@ -78,8 +121,6 @@
                 await stageHost.requestFullscreen();
             } else if (stageHost.webkitRequestFullscreen) {
                 stageHost.webkitRequestFullscreen();
-            } else {
-                return;
             }
 
             try {
@@ -90,7 +131,11 @@
                 // Fullscreen remains valid when orientation lock is unavailable.
             }
         } catch (error) {
-            console.warn('無法切換全螢幕：', error);
+            console.warn('原生全螢幕失敗，改用頁面全螢幕：', error);
+            setFakeFullscreen(true);
+        } finally {
+            updateFullscreenLabel();
+            requestAnimationFrame(reflowStage);
         }
     }
 
@@ -268,6 +313,7 @@
 
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
     if (fullscreenToggle) fullscreenToggle.addEventListener('click', toggleFullscreen);
+    if (stageFullscreenExit) stageFullscreenExit.addEventListener('click', toggleFullscreen);
     if (currentLevelSelect) currentLevelSelect.addEventListener('change', applyCurrentLevel);
     if (resetSimulatorButton) resetSimulatorButton.addEventListener('click', clearSimulatorRecords);
 
@@ -290,10 +336,12 @@
     document.addEventListener('fullscreenchange', () => {
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
+        window.setTimeout(reflowStage, 80);
     });
     document.addEventListener('webkitfullscreenchange', () => {
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
+        window.setTimeout(reflowStage, 80);
     });
 
     applyTheme(savedTheme);

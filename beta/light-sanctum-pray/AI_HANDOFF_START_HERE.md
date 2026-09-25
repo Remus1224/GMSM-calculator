@@ -84,3 +84,11 @@ Do not refactor or regenerate the P137 gameplay/rendering logic while doing site
 - Latest timeline entry date: `2026-09-25`.
 - Bulletin records the new simulator and its level/reset/cumulative-consumption features.
 - `latestNoticeVersion` is `2026-09-25`, so the existing unread notice badge logic treats this release as new.
+
+
+## 2026-09-25 iOS fullscreen closure
+- User verified GitHub Pages desktop/mobile presentation, but iPhone native fullscreen did not work.
+- Root cause: Light Sanctum Pray used only element Fullscreen API, while the already-working Will simulator uses an iOS `fake-fullscreen` fallback.
+- Production fix mirrors that proven strategy: iPhone/iPad uses a fixed 100vw × 100dvh stage with body scroll locked; desktop/Android continue to prefer native Fullscreen API.
+- A fullscreen-local exit button is shown because the normal page navigation is covered during iOS fake fullscreen.
+- P137 runtime/gameplay files remain unchanged.
