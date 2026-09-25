@@ -1,66 +1,86 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray P137 Regression Restore 1
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Production Slim
 
-## Current patch
-`P137 Regression Restore 1 — Known-Good Confirm Interaction Restore`
+## Current production target
+- Site: `GMSM-calculator`
+- Tool display name: `光之聖所祈禱模擬器`
+- Production route: `/light-sanctum-pray/`
+- Menu image expected at: `assets/menu/icon_光之聖所祈禱模擬器.png`
+- Runtime lineage: Preview137 → user-PASS P136 WebFix2 → Beta8 player presentation/settings/mobile alignment → production integration.
 
-## Why this patch exists
-User explicitly rejected further invented/workaround interaction fixes. The confirmation popup originally worked, so this patch restores the original proven P137/P136 WebFix2 path instead of adding another Fix14-style input layer.
+## User-verified behavior to preserve
+- The simulator game UI is kept as the restored MapleStory M UI rather than redesigned into a generic responsive web form.
+- Desktop/tablet landscape: full game stage scales to fit with no simulator-internal scrollbars.
+- Phone landscape: same game UI scales to fit; no alternate/rearranged mobile game UI.
+- Phone portrait: full UI remains visible by scaling, with landscape-use guidance.
+- Player-facing engineering/audit controls are hidden.
+- Page title is `光之聖所祈禱模擬器`.
+- Confirm popup is enabled by default (skip-confirm is unchecked by default).
+- PrayConfirmPopup partial-lock behavior is user-PASS: locked blessing rows are omitted and remaining rows compact correctly.
+- Settings support Lv.1–Lv.15 starting state.
+- Changing the current level resets cumulative 聖痕結晶 and 楓幣 usage to zero and starts a new usage baseline.
+- Reset clears simulator state and cumulative usage.
+- Reset button follows the main site's light/dark clear/reset visual language.
+- Mobile level label/select alignment is horizontally aligned and vertically centered.
 
-Known-good reference commit:
-- `d1c6cdbd9b348217fcb294111a467b9a7621ed6f`
-- Production integration lineage recorded there: Preview137 → user-PASS P136 WebFix2 → production integration.
+## Repository layout / naming rule
+Keep the independent player tools at the repository root:
+- `/1204/`
+- `/light-sanctum-pray/`
 
-## Restored confirmation architecture
-The confirmation subsystem is returned to the original structure:
-1. Parent runtime keeps `prayConfirmOverlay` + an eager resident `prayConfirmFrame`.
-2. Frame loads `pray-confirm-popup/index.html` directly.
-3. Popup index loads its original `player.js` directly.
-4. `player.js` owns the original Canvas hit test for the real prefab paths:
-   - `PrayConfirmPopup/PopupFrame/ButtonSet_2/Button_Cancel`
-   - `PrayConfirmPopup/PopupFrame/ButtonSet_2/Button_Confirm`
-5. Child sends the original `{ type: "maplem-pray-confirm-action", action }` message.
-6. Parent `player-presentation.js` remains the sole gameplay owner: Cancel closes without Pray; Confirm closes and executes Pray.
+Do **not** add a new wrapper folder such as `/tools/` at this stage. This preserves the existing public routes and keeps relative return links stable.
 
-No new click geometry, pointer relay, transparent DOM buttons, or replacement input system was introduced.
+Menu artwork follows the site's existing `icon_` asset naming convention:
+- `/assets/menu/icon_1204產生器.png`
+- `/assets/menu/icon_光之聖所祈禱模擬器.png`
 
-## Removed post-regression workarounds
-Removed from the active runtime:
-- `runtime/player-shell-controller.js` — Fix11/12/13 residency/controller layer.
-- `runtime/pray-confirm-popup/pray-confirm-interaction.js` — Fix13 transparent DOM hit-target workaround.
-- `runtime/fix9-mobile-closure.js` — Fix9 lazy iframe / MutationObserver workaround.
-- popup no longer loads parent `player-presentation.js` plus an extra interaction helper; it again loads its original `player.js`.
+URL folders remain English/stable while menu artwork follows the existing Chinese `icon_...` convention.
 
-These removals are intentional rollback of the later confirmation redesign, not a new interaction implementation.
+## Main-site integration
+The integration changes the existing root site files:
+- `/index.html`: simulator count becomes 8 and a `光之聖所祈禱模擬器` card is inserted after 威爾二階練習機 and before 1204.
+- `/script.js`: adds the NEW-badge entry `light-sanctum-pray` with version `2026-09-25`.
 
-## Preserved later verified behavior
-Do NOT regress these while testing the restored popup:
-- P120 sealed cost rules:
-  - `CharacterCoin = 5 × SlotCount`
-  - `Meso = 1,500,000 × actual lockedCount`
-  - all-locked does not cap Meso
-  - 0 Lock hides Meso and centers CharacterCoin
-- P121/P137 gameplay, EXP, level-up, slot-unlock behavior.
-- Native-proven particles and audio behavior.
-- Current parent `player-presentation.js` including iPhone Auto 1× canvas guard.
-- Existing fullscreen/site integration.
-- Cumulative usage tracking and reset semantics.
+The user supplies this image separately:
+- `/assets/menu/icon_光之聖所祈禱模擬器.png`
 
-## Important tradeoff restored on purpose
-The known-good P137 architecture uses an eager resident confirmation iframe. Fix8/Fix9 later changed this partly for mobile thermal isolation. This restore intentionally prioritizes recovering the already-working interaction path first. Do not reintroduce lazy iframe logic until the original interaction has been browser-verified again.
+## Production runtime files intentionally retained
+The browser runtime uses:
+- `index.html`, `style.css`, `script.js`
+- `runtime/index.html`
+- `runtime/styles.css`
+- `runtime/player-view.css`
+- `runtime/player-presentation.js`
+- `runtime/player-presentation-patch.js`
+- `runtime/site-bridge.js`
+- `runtime/ui-static-scene-data.js`
+- `runtime/ui-state-fixture-data.js`
+- `runtime/sanctuary-gameplay-data.js`
+- `runtime/native-particles/p98-native-particle-bake.js`
+- required particle atlases and UI assets
+- the complete player-facing `runtime/pray-confirm-popup/` runtime (HTML/CSS/data JS/player JS/assets)
 
-## Browser acceptance required
-1. Hard refresh the beta page; diagnostic label should show `P137 Restore 1`.
-2. Default SkipConfirm should remain checked according to the existing gameplay state.
-3. Turn SkipConfirm OFF and press Pray: original popup must open.
-4. Tap/click Cancel: popup closes; no Pray and no cost deduction.
-5. Open again and tap/click Confirm: popup closes and exactly one Pray executes.
-6. Repeat several cycles on desktop.
-7. Repeat Cancel + Confirm on iPhone/mobile touch.
-8. Verify Pray costs, EXP, locks, level-up/slot-unlock effects and fullscreen have not regressed.
-9. After functional PASS, separately observe idle warmth. Do not mix thermal redesign into the interaction acceptance test.
+## Production slimming performed
+The following development/evidence-only files were intentionally removed because the player runtime does not reference them:
+- `runtime/index.audit.html`
+- root runtime duplicate `runtime/player.js` (player page loads `player-presentation.js` instead)
+- `runtime/runtime-package-manifest.json`
+- raw duplicate `runtime/ui-static-scene.json`
+- raw duplicate `runtime/ui-state-fixture.json`
+- `runtime/native-particles/README_P98_NATIVE_PARTICLE_BAKE.txt`
+- `runtime/pray-confirm-popup/p135-popup-manifest.json`
+- raw duplicate popup `ui-static-scene.json`
+- raw duplicate popup `ui-state-fixture.json`
+- historical build reports, patch diff, and standalone SHA list
 
-## Verdict
-- Fix11: FAIL.
-- Fix12: FAIL (multi-device).
-- Fix13: abandoned as an invented workaround path.
-- `P137 Regression Restore 1`: source restore complete; browser acceptance pending.
+Do not delete the `*-data.js` files: these are the browser-loaded scene/fixture payloads and are required even though the similarly named raw `.json` evidence files are not.
+
+Do not delete `runtime/pray-confirm-popup/player.js`: the popup page directly loads it.
+
+## Hard rule
+Do not refactor or regenerate the P137 gameplay/rendering logic while doing site-only work. Production changes should remain presentation/integration-only unless a new game-ground-truth discrepancy is explicitly demonstrated by the user.
+
+## Main-site bulletin integration (2026-09-25)
+- Homepage bulletin hero now announces `光之聖所祈禱模擬器`.
+- Latest timeline entry date: `2026-09-25`.
+- Bulletin records the new simulator and its level/reset/cumulative-consumption features.
+- `latestNoticeVersion` is `2026-09-25`, so the existing unread notice badge logic treats this release as new.

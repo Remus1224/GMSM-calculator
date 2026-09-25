@@ -139,7 +139,7 @@
   function slotFromPath(path){const m=String(path||"").match(/\/BlessList_(\d+)(?:\/|$)/);return m?Math.round(num(m[1],-1)):-1}
   function ptr(v){if(!v)return"";const id=v.m_PathID??v.PathID??v.pathId??0;return id?String(id):""}
   function has(o,k){return Boolean(o)&&Object.prototype.hasOwnProperty.call(o,k)}
-  function requestedRenderRatio(){if(qualityMode.value!=="auto")return Math.max(1,Math.min(4,num(qualityMode.value,2)));const ua=String(navigator.userAgent||""),ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&num(navigator.maxTouchPoints,0)>1);if(ios)return 1;const dpr=Math.max(1,num(window.devicePixelRatio,1));return Math.max(2,Math.min(4,dpr))}
+  function requestedRenderRatio(){if(qualityMode.value!=="auto")return Math.max(1,Math.min(4,num(qualityMode.value,2)));const dpr=Math.max(1,num(window.devicePixelRatio,1));return Math.max(2,Math.min(4,dpr))}
   function configureCanvas(force=false){const next=requestedRenderRatio();if(!force&&Math.abs(next-renderRatio)<1e-6)return false;renderRatio=next;canvas.width=Math.max(1,Math.round(W*renderRatio));canvas.height=Math.max(1,Math.round(H*renderRatio));ctx.setTransform(renderRatio,0,0,renderRatio,0,0);ctx.imageSmoothingEnabled=true;if("imageSmoothingQuality" in ctx)ctx.imageSmoothingQuality="high";if("fontKerning" in ctx)ctx.fontKerning="none";if("textRendering" in ctx)ctx.textRendering="geometricPrecision";return true}
   function snap(v){return pixelSnap.checked?Math.round(num(v)*renderRatio)/renderRatio:num(v)}
   function snapRect(x,y,w,h){const x1=snap(x),y1=snap(y),x2=snap(num(x)+num(w)),y2=snap(num(y)+num(h));return{x:x1,y:y1,width:x2-x1,height:y2-y1}}

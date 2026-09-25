@@ -6,7 +6,7 @@
     const BRIDGE_CHANNEL = 'gmsm-light-sanctum-pray';
 
     const themeToggle = document.getElementById('theme-toggle');
-    const fullscreenToggle = document.getElementById('fullscreen-toggle'); // Fix6: normally null; control is inside runtime coordinates
+    const fullscreenToggle = document.getElementById('fullscreen-toggle');
     const simulatorFrame = document.getElementById('simulator-frame');
     const stageSection = document.getElementById('stage-section');
     const stageHost = document.getElementById('stage-host');
@@ -21,7 +21,6 @@
     let handshakeTimer = 0;
     let handshakeAttempts = 0;
     let applyingLevel = false;
-    let fakeFullscreenReturnY = 0;
 
     function applyTheme(theme, shouldSave = false) {
         const isDark = theme === 'dark';
@@ -51,49 +50,15 @@
         applyTheme(isDark ? 'light' : 'dark', true);
     }
 
-    function isNativeFullscreen() {
+    function isFullscreen() {
         return document.fullscreenElement === stageHost || document.webkitFullscreenElement === stageHost;
     }
 
-    function isFakeFullscreen() {
-        return Boolean(stageHost && stageHost.classList.contains('fake-fullscreen'));
-    }
-
-    function isFullscreen() {
-        return isNativeFullscreen() || isFakeFullscreen();
-    }
-
-    function isIOSLike() {
-        const ua = navigator.userAgent || '';
-        return (/Mac|iPad|iPhone|iPod/.test(ua) && !window.MSStream) ||
-            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    }
-
-    function setFakeFullscreen(active) {
-        if (!stageHost) return;
-        if (active && !isFakeFullscreen()) fakeFullscreenReturnY = window.scrollY || 0;
-        stageHost.classList.toggle('fake-fullscreen', active);
-        document.documentElement.classList.toggle('light-sanctum-pray-no-scroll', active);
-        document.body.classList.toggle('light-sanctum-pray-no-scroll', active);
-        if (active) {
-            window.scrollTo(0, 0);
-        } else {
-            window.requestAnimationFrame(() => window.scrollTo(0, fakeFullscreenReturnY));
-        }
-        updateFullscreenLabel();
-        requestAnimationFrame(reflowStage);
-        window.setTimeout(reflowStage, 80);
-        window.setTimeout(reflowStage, 250);
-    }
-
     function updateFullscreenLabel() {
+        if (!fullscreenToggle) return;
         const active = isFullscreen();
-        if (fullscreenToggle) {
-            fullscreenToggle.textContent = '⛶';
-            fullscreenToggle.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
-            fullscreenToggle.title = active ? '離開全螢幕' : '全螢幕';
-            fullscreenToggle.classList.toggle('is-active', active);
-        }
+        fullscreenToggle.textContent = active ? '離開全螢幕' : '全螢幕';
+        fullscreenToggle.setAttribute('aria-label', active ? '離開全螢幕' : '全螢幕顯示模擬器');
     }
 
     async function toggleFullscreen() {
@@ -101,23 +66,11 @@
 
         try {
             if (isFullscreen()) {
-                if (isNativeFullscreen()) {
-                    if (document.exitFullscreen) {
-                        await document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
                 }
-                if (isFakeFullscreen()) setFakeFullscreen(false);
-                return;
-            }
-
-            // iPhone/iPad Safari does not reliably support element Fullscreen API.
-            // Use the same fixed-position fake-fullscreen strategy already proven by
-            // the site's Will simulator. Also use it as a fallback on browsers with
-            // no element Fullscreen API.
-            if (isIOSLike() || (!stageHost.requestFullscreen && !stageHost.webkitRequestFullscreen)) {
-                setFakeFullscreen(true);
                 return;
             }
 
@@ -125,6 +78,8 @@
                 await stageHost.requestFullscreen();
             } else if (stageHost.webkitRequestFullscreen) {
                 stageHost.webkitRequestFullscreen();
+            } else {
+                return;
             }
 
             try {
@@ -135,11 +90,7 @@
                 // Fullscreen remains valid when orientation lock is unavailable.
             }
         } catch (error) {
-            console.warn('原生全螢幕失敗，改用頁面全螢幕：', error);
-            setFakeFullscreen(true);
-        } finally {
-            updateFullscreenLabel();
-            requestAnimationFrame(reflowStage);
+            console.warn('無法切換全螢幕：', error);
         }
     }
 
@@ -260,8 +211,6 @@
         const data = event.data || {};
         if (data.channel !== BRIDGE_CHANNEL) return;
 
-        if (data.type === 'toggle-fullscreen-from-runtime') { toggleFullscreen(); return; }
-
         if (data.type === 'ready') {
             bridgeReady = true;
             stopHandshake();
@@ -317,13 +266,6 @@
         console.warn('無法讀取主題設定：', error);
     }
 
-    // Fix6 — user-visible 60 s idle profiler.
-    const idleStart=document.getElementById('idle-profiler-start'), idleCopy=document.getElementById('idle-profiler-copy'), idleStatus=document.getElementById('idle-profiler-status'), idleOutput=document.getElementById('idle-profiler-output');
-    let idleTimer=0;
-    function runtimeProfiler(){ try{return simulatorFrame&&simulatorFrame.contentWindow&&simulatorFrame.contentWindow.__LS_IDLE_PROFILER__;}catch(e){return null;} }
-    if(idleStart) idleStart.addEventListener('click',()=>{const p=runtimeProfiler();if(!p){idleStatus.textContent='診斷器尚未載入，請等待模擬器完成載入後再試。';return;}idleStart.disabled=true;idleCopy.disabled=true;idleOutput.hidden=true;const begun=Date.now(),baseline=p.report();idleStatus.textContent='診斷中：60 秒內請不要點擊、捲動、旋轉手機或切換頁籤。';idleTimer=setInterval(()=>{const left=Math.max(0,60-Math.floor((Date.now()-begun)/1000));idleStatus.textContent=`診斷中：剩餘 ${left} 秒。請完全不要操作。`;},1000);setTimeout(()=>{clearInterval(idleTimer);const end=p.report();const result={kind:'LightSanctumPray Fix6 Idle 60s',capturedAt:new Date().toISOString(),elapsedMs:Date.now()-begun,baseline,end};const text=JSON.stringify(result,null,2);idleOutput.value=text;idleOutput.hidden=false;idleStart.disabled=false;idleCopy.disabled=false;idleStatus.textContent='完成。請按「複製診斷結果」，回到 ChatGPT 直接貼上。';},60000);});
-    if(idleCopy) idleCopy.addEventListener('click',async()=>{const text=idleOutput.value;if(!text)return;try{await navigator.clipboard.writeText(text);idleStatus.textContent='已複製。回到 ChatGPT 直接貼上即可。';}catch(e){idleOutput.hidden=false;idleOutput.focus();idleOutput.select();idleStatus.textContent='Safari 未允許自動複製；已選取文字，請長按→複製。';}});
-
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
     if (fullscreenToggle) fullscreenToggle.addEventListener('click', toggleFullscreen);
     if (currentLevelSelect) currentLevelSelect.addEventListener('change', applyCurrentLevel);
@@ -348,12 +290,10 @@
     document.addEventListener('fullscreenchange', () => {
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
-        window.setTimeout(reflowStage, 80);
     });
     document.addEventListener('webkitfullscreenchange', () => {
         updateFullscreenLabel();
         requestAnimationFrame(reflowStage);
-        window.setTimeout(reflowStage, 80);
     });
 
     applyTheme(savedTheme);
