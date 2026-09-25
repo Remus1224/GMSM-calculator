@@ -18,7 +18,8 @@
             // Storage can be unavailable in privacy-restricted browsers.
         }
     </script>
-    <link rel="stylesheet" href="style.css?v=20260925-fix4">
+    <link rel="stylesheet" href="style.css?v=20260925-fix5">
+<style>.stage-fullscreen-toggle > span{display:none!important}</style>
 </head>
 <body>
     <main class="container">
@@ -49,7 +50,7 @@
         <section id="stage-section" class="stage-section" aria-label="光之聖所祈禱模擬器">
             <div id="stage-host" class="stage-host">
                 <div id="stage-viewport" class="stage-viewport">
-                    <button id="fullscreen-toggle" class="stage-fullscreen-toggle" type="button" aria-label="全螢幕顯示模擬器" title="全螢幕">⛶</button>
+                    <button id="fullscreen-toggle" class="stage-fullscreen-toggle" type="button" aria-label="全螢幕顯示模擬器" title="全螢幕"><span aria-hidden="true">⛶</span></button>
                     <div class="simulator-loading" id="simulator-loading" aria-live="polite">載入模擬器…</div>
                     <iframe
                         id="simulator-frame"
@@ -115,6 +116,6 @@
         </section>
     </main>
 
-    <script src="script.js?v=20260925-fix4"></script>
+    <script src="script.js?v=20260925-fix5"></script>
 </body>
 </html>

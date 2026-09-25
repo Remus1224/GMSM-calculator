@@ -32,3 +32,11 @@ Do not change P137 gameplay/runtime, pray costs, EXP, particles, confirmation po
 - iPhone heating audit found no permanent requestAnimationFrame loop while idle. The bridge handshake stops after ready and the MutationObserver is event-driven.
 - High-confidence mobile cost source: Auto HiDPI rendered the 1280×720 logical canvas at iPhone DPR 3 => 3840×2160 (8.29M pixels/frame) during pray animations. Fix4 makes iOS Auto quality render at 1× => 1280×720 (0.92M pixels/frame), a 9× pixel reduction per animated frame. The displayed mobile simulator is already below 1280 CSS pixels, so 1× preserves native logical resolution. Desktop behavior remains unchanged.
 - Do not remove P98 native particle atlases or alter P137 gameplay/FX semantics as a performance shortcut.
+
+
+## 2026-09-25 Fix5 — native title control + iOS thermal guard
+- Player browser feedback after Fix4: fullscreen works, but the fullscreen control still looked like a separate boxed website control instead of belonging to the game's blue title bar. Fix5 removes the box/blur/border and renders a small white corner-mark icon immediately left of the native X.
+- Fix4 iOS 1x canvas reduced pixel count but did not eliminate reported heating. No permanent idle RAF loop was found. Fix5 therefore adds an iOS-only 30 rendered-FPS cap to the expensive motion/particle RAF paths while preserving timestamp-based animation duration and final gameplay state. Desktop remains uncapped.
+- iOS imageSmoothingQuality changes from high to medium during canvas rendering; logical resolution remains 1280x720 @ 1x.
+- Fullscreen fake/native behavior remains based on the Fix3 known-good script; do not regress iPhone fake-fullscreen fallback.
+- Browser acceptance needed: verify title-bar icon alignment in portrait/landscape/fake fullscreen; compare thermal behavior after several minutes of repeated Pray and after several minutes idle. If idle alone still heats, next audit target is Safari compositing/backdrop-filter + hidden PrayConfirm iframe/GPU memory, not gameplay formulas.
