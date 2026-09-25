@@ -1,46 +1,51 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray Click Audio R2
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Mobile Audio Latency R1
 
 ## Current baseline — 2026-09-26
 - Repo: `Remus1224/GMSM-calculator`
 - Active beta route: `/beta/light-sanctum-pray/`
 - Stable pre-audio baseline: `569e906ad32ceac4b54cbdd462690ac142f1c83c`.
-- First click-audio revision: `20dd70053f5ce38c88ad774b42d3f17d72820003`.
+- Click-audio scope/all-locked baseline before this latency change: `6eeb8a1272c7b61461cd2c934c70a559a7ceb45d`.
 - Runtime lineage remains Preview137 / P121 on the user-verified fullscreen restore.
 
-## User browser feedback after click-audio R1
-Two corrections are required and are authoritative:
-1. `BtMouseClick.mp3` belongs only to operations inside the MapleM simulator UI. Site-shell actions such as **主選單** and **日/夜主題切換** must be silent. The same applies to outer level/reset/fullscreen/settings controls unless they are part of the rendered game UI.
-2. When every currently active blessing slot is locked, pressing Pray must **not show PrayConfirmPopup**, even if the skip-confirm setting is OFF. It must directly run the established all-locked Pray path: preserve every ability and add EXP, while retaining the sealed P120 cost rule.
+## User browser feedback
+- Desktop click sound timing is acceptable.
+- On mobile, BtMouseClick could arrive noticeably late, sometimes after the visible click/Pray animation had already progressed.
+- This revision treats that as a playback-path latency problem rather than changing animation/gameplay timing.
+
+## Mobile Audio Latency R1
+- `runtime/click-audio.js` now uses Web Audio (`AudioContext` / `webkitAudioContext`) as the primary short-SFX engine.
+- `BtMouseClick.mp3` is fetched and decoded to an `AudioBuffer` ahead of interaction when possible.
+- First real game gesture resumes/unlocks the AudioContext for iOS/Safari.
+- Game canvas SFX is triggered on `pointerdown` (or `touchstart`/`mousedown` fallback), before the later click/gameplay/animation work.
+- Each click creates a fresh `AudioBufferSourceNode` and calls `start(0)`, so rapid taps do not wait for a shared HTMLAudio element to seek/restart.
+- If Web Audio is unavailable, decode fails, or the first tap beats preload, the existing HTMLAudio path is retained as an immediate fallback. It is not the normal path after successful preload/unlock.
+- No timers and no animation-complete hook are used for click sound.
+
+## Audio scope — must not regress
+- BtMouseClick belongs only to operations inside the MapleM simulator UI.
+- Home, theme, outer level selector, reset, outer/fullscreen controls and the sound toggle are silent.
+- In-game lock/unlock, Pray and skip-confirm remain audible.
+- PrayConfirmPopup Confirm/Cancel remain audible through the existing parent message path.
+- All-locked automatic popup bypass remains silent beyond the Pray tap; it must not create a second synthetic click sound.
+
+## All-locked Pray rule — authoritative
+- When every currently active blessing slot is locked, pressing Pray does not show PrayConfirmPopup even when skip-confirm is OFF.
+- It directly uses the established all-locked Pray path: abilities remain unchanged, EXP increases, sealed costs apply, and level-up/slot-open transitions remain valid.
+- Partial/unlocked Pray retains the existing popup behavior when skip-confirm is OFF.
 
 ## SEALED / must not regress
 - P120 cost: `CharacterCoin = 5 × SlotCount`; `Meso = 1,500,000 × actual lockedCount`, including all-locked.
-- All-locked Pray keeps abilities unchanged and accumulates EXP; level-up / slot-open transitions remain valid when EXP crosses thresholds.
-- Partial/unlocked Pray keeps the existing confirmation behavior when skip-confirm is OFF.
+- P121 max-level / eligible-grade behavior remains unchanged.
 - Popup Confirm/Cancel interaction and partial-lock row filtering remain unchanged.
 - CPU bridge closure remains SEALED; do not rewrite `runtime/site-bridge.js`.
 - Fullscreen geometry remains `top:19px; right:48px; width:72px; height:48px`.
 - Safari toolbar-collapse work remains explicitly closed.
 
-## Click-audio R2 behavior
-- Sound toggle remains in outer settings and persists with `gmsm-light-sanctum-pray-sound`.
-- The toggle itself is a setting, not MapleM game UI, so it is silent.
-- Home, theme, level selector, reset, outer/fullscreen controls are silent.
-- In-game canvas click/tap remains audible for real game UI hits: lock/unlock, Pray and skip-confirm.
-- Popup Confirm/Cancel remain audible.
-- Empty/non-interactive UI does not intentionally synthesize audio; playback is event-driven only.
-
-## All-locked popup bypass implementation
-- `runtime/confirm-bypass-parent.js` gates popup visibility while the popup classifies the current lock state, preventing a one-frame flash.
-- `runtime/pray-confirm-popup/confirm-bypass-popup.js` inspects the existing `maplem-pray-confirm-state` payload.
-- If every active slot is locked, it reuses the established parent confirm action with `silent:true`; the existing `gameplayPray()` remains the authority for cost, EXP, level-up and ability preservation.
-- If any active slot is unlocked, the popup is revealed and existing behavior continues.
-- This avoids rewriting the sealed gameplay function or `site-bridge.js`.
-
 ## Acceptance smoke
-1. 主選單 / 日夜切換 / 外層等級 / 重設 / fullscreen / 音效開關：no BtMouseClick.
-2. Lock/unlock, Pray, skip-confirm: one BtMouseClick.
-3. Normal or partial-lock Pray with skip-confirm OFF: popup appears; Confirm/Cancel each click once.
-4. All active slots locked + skip-confirm OFF: no visible popup; abilities unchanged; EXP and sealed costs apply once.
-5. All active slots locked + skip-confirm ON: direct Pray remains unchanged.
-6. Level-up caused by an all-locked Pray still unlocks the new slot and runs established level/slot presentation.
-7. No idle CPU regression and no `site-bridge.js` change.
+1. On iPhone/mobile, first and subsequent lock/Pray taps should produce BtMouseClick close to touch-down rather than after animation progress.
+2. Rapid repeated valid game-UI taps should each be able to play without waiting for the previous sound to finish.
+3. Desktop behavior remains immediate.
+4. Main menu / theme / outer settings / fullscreen remain silent.
+5. Popup Confirm/Cancel each play once.
+6. All active slots locked + skip-confirm OFF: no visible popup; one Pray click sound only; abilities unchanged; EXP/cost applied once.
+7. No gameplay, particle, fullscreen or idle-CPU regression.
