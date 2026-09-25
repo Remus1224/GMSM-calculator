@@ -17,15 +17,14 @@
     } catch (_) {}
   }
 
-  // Formal game UI is canvas-rendered. Capture phase keeps the click sound in the same
-  // user gesture without touching gameplay state, Pray timing, animation, or bridge logic.
+  // Only the game canvas gets the MapleM UI click. Site shell controls and the
+  // fullscreen overlay intentionally do not play BtMouseClick.
   document.getElementById('sceneCanvas')?.addEventListener('click', play, true);
-  document.getElementById('embeddedFullscreenToggle')?.addEventListener('click', play, true);
 
-  // Confirm/Cancel live in the nested PrayConfirmPopup iframe. The established popup
-  // already posts this action to the runtime; reuse that message instead of changing it.
+  // Confirm/Cancel live in the nested PrayConfirmPopup iframe. Auto-confirm used by
+  // the all-locked bypass is silent because the Pray button already produced the click.
   window.addEventListener('message', event => {
     const data = event && event.data || {};
-    if (data.type === 'maplem-pray-confirm-action' && (data.action === 'confirm' || data.action === 'cancel')) play();
+    if (data.type === 'maplem-pray-confirm-action' && !data.silent && (data.action === 'confirm' || data.action === 'cancel')) play();
   });
 })();

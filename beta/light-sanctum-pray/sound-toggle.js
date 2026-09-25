@@ -3,8 +3,6 @@
 
     const STORAGE_KEY = 'gmsm-light-sanctum-pray-sound';
     const button = document.getElementById('btn-sound-toggle-pray');
-    const clickAudio = new Audio('runtime/audio/BtMouseClick.mp3');
-    clickAudio.preload = 'auto';
 
     function isEnabled() {
         try {
@@ -22,15 +20,6 @@
         }
     }
 
-    function playClick() {
-        if (!isEnabled()) return;
-        try {
-            clickAudio.currentTime = 0;
-            const promise = clickAudio.play();
-            if (promise && typeof promise.catch === 'function') promise.catch(() => {});
-        } catch (_) {}
-    }
-
     function render() {
         if (!button) return;
         const enabled = isEnabled();
@@ -41,22 +30,12 @@
 
     if (button) {
         button.addEventListener('click', () => {
-            const wasEnabled = isEnabled();
-            if (wasEnabled) playClick();
-            save(!wasEnabled);
+            save(!isEnabled());
             render();
-            if (!wasEnabled) playClick();
         });
     }
 
-    // Site-level simulator controls are also real UI operations. Runtime canvas controls
-    // are handled inside the iframe by runtime/click-audio.js.
-    document.addEventListener('click', event => {
-        const target = event.target instanceof Element ? event.target.closest('button, a.nav-btn') : null;
-        if (!target || target === button || target.disabled) return;
-        playClick();
-    }, true);
-    document.getElementById('current-level-select')?.addEventListener('change', playClick);
-
+    // BtMouseClick belongs only to the in-game Light Sanctum UI. Site-shell controls
+    // such as Home, theme, level selection, reset and the sound setting itself stay silent.
     render();
 })();
