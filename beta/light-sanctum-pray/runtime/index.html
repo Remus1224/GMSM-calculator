@@ -6,6 +6,12 @@
 <title>光之聖所祈禱模擬器</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="player-view.css">
+<style>
+.embeddedFullscreenToggle{position:fixed;z-index:9999;top:0;right:48px;width:48px;height:48px;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.embeddedFullscreenToggle svg{display:block;width:40px;height:40px;overflow:visible}
+.embeddedFullscreenToggle path{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:square;stroke-linejoin:miter}
+.embeddedFullscreenToggle:active{background:rgba(255,255,255,.10)}
+</style>
 </head>
 <body class="player-presentation">
 <header>
@@ -60,6 +66,7 @@
 <div id="prayConfirmOverlay" class="prayConfirmOverlay" hidden>
   <iframe id="prayConfirmFrame" class="prayConfirmFrame" src="pray-confirm-popup/index.html" title="祈禱確認" loading="eager"></iframe>
 </div>
+<button id="embeddedFullscreenToggle" class="embeddedFullscreenToggle" type="button" aria-label="全螢幕" title="全螢幕"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M12 4H4v8 M20 4h8v8 M28 20v8h-8 M12 28H4v-8"/></svg></button>
 <main id="fitArea">
   <div id="surface">
     <canvas id="sceneCanvas" aria-label="UI 還原畫面"></canvas>
@@ -74,5 +81,10 @@
 <script src="player-presentation-patch.js"></script>
 <script src="player-presentation.js"></script>
 <script src="site-bridge.js"></script>
+<script>
+document.getElementById('embeddedFullscreenToggle').addEventListener('click', function () {
+  parent.postMessage({ channel: 'gmsm-light-sanctum-pray', type: 'toggle-fullscreen-from-runtime' }, '*');
+});
+</script>
 </body>
 </html>
