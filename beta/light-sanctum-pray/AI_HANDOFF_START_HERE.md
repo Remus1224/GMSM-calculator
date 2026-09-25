@@ -24,3 +24,11 @@ Do not change P137 gameplay/runtime, pray costs, EXP, particles, confirmation po
 - iPhone landscape: same button should enter/exit fake fullscreen.
 - Desktop/Android: native fullscreen should remain available.
 - Day/night toggle should visually match the main site's toggle.
+
+
+## 2026-09-25 Fix4 — title-bar fullscreen / theme parity / iPhone performance
+- Fullscreen control is visually anchored into the game blue title bar immediately left of the native X; removed the floating glass-pill treatment.
+- Main-site canonical theme variables were completed (`text-muted`, `card-bg`, `card-hover`, `input-bg`) while preserving the already canonical nav/theme-toggle styling.
+- iPhone heating audit found no permanent requestAnimationFrame loop while idle. The bridge handshake stops after ready and the MutationObserver is event-driven.
+- High-confidence mobile cost source: Auto HiDPI rendered the 1280×720 logical canvas at iPhone DPR 3 => 3840×2160 (8.29M pixels/frame) during pray animations. Fix4 makes iOS Auto quality render at 1× => 1280×720 (0.92M pixels/frame), a 9× pixel reduction per animated frame. The displayed mobile simulator is already below 1280 CSS pixels, so 1× preserves native logical resolution. Desktop behavior remains unchanged.
+- Do not remove P98 native particle atlases or alter P137 gameplay/FX semantics as a performance shortcut.
