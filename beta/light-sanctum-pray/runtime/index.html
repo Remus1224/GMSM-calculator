@@ -6,7 +6,7 @@
 <title>光之聖所祈禱模擬器</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="player-view.css">
-<style>.embeddedFullscreenToggle{position:fixed;z-index:9999;top:0;right:48px;width:48px;height:48px;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box}.embeddedFullscreenToggle svg{display:block;width:40px;height:40px;overflow:visible}.embeddedFullscreenToggle path{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:square;stroke-linejoin:miter}.embeddedFullscreenToggle:active{background:rgba(255,255,255,.10)}</style>
+<style>.embeddedFullscreenToggle{position:fixed;z-index:80;top:18px;right:48px;width:48px;height:48px;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-sizing:border-box}.embeddedFullscreenToggle svg{display:block;width:40px;height:40px;overflow:visible}.embeddedFullscreenToggle path{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:square;stroke-linejoin:miter}.embeddedFullscreenToggle:active{background:rgba(255,255,255,.10)}</style>
 </head>
 <body class="player-presentation">
 <header>
@@ -75,8 +75,8 @@
 <script src="sanctuary-gameplay-data.js"></script>
 <script src="native-particles/p98-native-particle-bake.js"></script>
 <script src="player-presentation-patch.js"></script>
-<script src="player-presentation.js?v=20260925-fix9"></script>
-<script src="fix9-mobile-closure.js?v=20260925-fix10"></script>
+<script src="player-presentation.js?v=20260925-fix11"></script>
+<script src="player-shell-controller.js?v=20260925-fix11"></script>
 <script src="site-bridge.js"></script>
 <script>document.getElementById("embeddedFullscreenToggle").addEventListener("click",function(){parent.postMessage({channel:"gmsm-light-sanctum-pray",type:"toggle-fullscreen-from-runtime"},"*")});</script>
 </body>
