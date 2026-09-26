@@ -1,0 +1,36 @@
+{
+  "schema": "MapleStoryM.GameInfoCatalog.V1",
+  "updatedAt": "2026-09-27",
+  "title": "也許有用的資訊",
+  "items": [
+    {
+      "id": "light-sanctum-pray-exp",
+      "title": "光之聖所祈禱經驗表",
+      "subtitle": "Lv.1～Lv.15 經驗門檻、欄位與 Preset 開放資訊",
+      "icon": "✦",
+      "status": "ready",
+      "data": "data/light-sanctum-pray-exp.json"
+    },
+    {
+      "id": "helos-seal",
+      "title": "海洛斯的封印標準",
+      "subtitle": "各層標準與需求整理",
+      "icon": "🛡️",
+      "status": "coming-soon"
+    },
+    {
+      "id": "constellation-core",
+      "title": "星座核心需求表",
+      "subtitle": "核心成長所需資源整理",
+      "icon": "✧",
+      "status": "coming-soon"
+    },
+    {
+      "id": "hexa-core",
+      "title": "六轉核心需求表",
+      "subtitle": "HEXA 核心升級需求整理",
+      "icon": "⬡",
+      "status": "coming-soon"
+    }
+  ]
+}

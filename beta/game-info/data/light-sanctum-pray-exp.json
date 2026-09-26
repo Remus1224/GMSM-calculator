@@ -1,0 +1,34 @@
+{
+  "schema": "MapleStoryM.GameInfo.LightSanctumPrayExp.V1",
+  "updatedAt": "2026-09-27",
+  "title": "光之聖所祈禱經驗表",
+  "authority": "ClientTableNormalized",
+  "source": {
+    "path": "light-sanctum-pray/runtime/sanctuary-gameplay-data.js",
+    "schema": "MapleStoryM.SanctuaryGameplayWebData.P121",
+    "sourceCommit": "75ab1b24b94e9ddf9d12545e4ab75c5b408a04ad",
+    "note": "needPoint、GainPoint、GainPointPerCoin、SlotCount、PresetCount 與基礎 CharacterCoin cost 取自已使用於正式祈禱模擬器的 Client Table normalized data。"
+  },
+  "derivation": {
+    "expToNext": "next.needPoint - current.needPoint",
+    "characterCoinPerPray": "upgradeCostAmount0 * slotCount",
+    "expPerPray": "gainPoint + gainPointPerCoin * characterCoinPerPray"
+  },
+  "levels": [
+    {"level":1,"needPoint":0,"gainPoint":0,"gainPointPerCoin":1,"slotCount":1,"presetCount":2,"upgradeCostAmount0":5,"milestone":"初始：1 個欄位、Preset 1 / 2"},
+    {"level":2,"needPoint":50,"gainPoint":0,"gainPointPerCoin":1,"slotCount":1,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":3,"needPoint":150,"gainPoint":0,"gainPointPerCoin":1,"slotCount":2,"presetCount":2,"upgradeCostAmount0":5,"milestone":"開放第 2 個欄位"},
+    {"level":4,"needPoint":750,"gainPoint":0,"gainPointPerCoin":1,"slotCount":2,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":5,"needPoint":1550,"gainPoint":0,"gainPointPerCoin":1,"slotCount":2,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":6,"needPoint":2550,"gainPoint":0,"gainPointPerCoin":1,"slotCount":2,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":7,"needPoint":3750,"gainPoint":0,"gainPointPerCoin":1,"slotCount":3,"presetCount":2,"upgradeCostAmount0":5,"milestone":"開放第 3 個欄位"},
+    {"level":8,"needPoint":5050,"gainPoint":0,"gainPointPerCoin":1,"slotCount":3,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":9,"needPoint":6450,"gainPoint":0,"gainPointPerCoin":1,"slotCount":3,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":10,"needPoint":7950,"gainPoint":0,"gainPointPerCoin":1,"slotCount":3,"presetCount":2,"upgradeCostAmount0":5,"milestone":""},
+    {"level":11,"needPoint":9450,"gainPoint":0,"gainPointPerCoin":1,"slotCount":4,"presetCount":3,"upgradeCostAmount0":5,"milestone":"開放第 4 個欄位、Preset 3"},
+    {"level":12,"needPoint":11450,"gainPoint":0,"gainPointPerCoin":1,"slotCount":4,"presetCount":3,"upgradeCostAmount0":5,"milestone":""},
+    {"level":13,"needPoint":13450,"gainPoint":0,"gainPointPerCoin":1,"slotCount":4,"presetCount":3,"upgradeCostAmount0":5,"milestone":""},
+    {"level":14,"needPoint":15450,"gainPoint":0,"gainPointPerCoin":1,"slotCount":4,"presetCount":3,"upgradeCostAmount0":5,"milestone":""},
+    {"level":15,"needPoint":17450,"gainPoint":0,"gainPointPerCoin":0,"slotCount":5,"presetCount":3,"upgradeCostAmount0":5,"milestone":"開放第 5 個欄位、滿等"}
+  ]
+}
