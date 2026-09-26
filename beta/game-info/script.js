@@ -111,7 +111,7 @@
         <p>遊戲內成長需求、等級門檻與系統資料。以簡單的一列式資訊為主，方便手機查詢與保存。</p>
       </section>
       <section class="info-list" aria-label="資訊分類">${rows}</section>
-      <div class="footer">Beta V2 · 資料頁會逐步增加。</div>`;
+      <div class="footer">Beta V4 · Liquid Glass Material Prototype。</div>`;
 
     app.querySelectorAll("[data-page]:not(:disabled)").forEach(button => {
       button.addEventListener("click", () => setRoute(button.dataset.page));
@@ -164,32 +164,42 @@
     const ctx = canvas.getContext("2d");
 
     const bg = ctx.createLinearGradient(0, 0, width, height);
-    bg.addColorStop(0, "#d9f4ff");
-    bg.addColorStop(.48, "#f2efff");
-    bg.addColorStop(1, "#f5ddff");
+    bg.addColorStop(0, "#d9f7ff");
+    bg.addColorStop(.44, "#eef2ff");
+    bg.addColorStop(1, "#ffe8f8");
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, width, height);
 
-    const glowA = ctx.createRadialGradient(140, 150, 20, 140, 150, 430);
-    glowA.addColorStop(0, "rgba(91,203,255,.42)");
-    glowA.addColorStop(1, "rgba(91,203,255,0)");
-    ctx.fillStyle = glowA; ctx.fillRect(0, 0, width, height);
-    const glowB = ctx.createRadialGradient(width - 120, 360, 10, width - 120, 360, 500);
-    glowB.addColorStop(0, "rgba(205,131,230,.35)");
-    glowB.addColorStop(1, "rgba(205,131,230,0)");
-    ctx.fillStyle = glowB; ctx.fillRect(0, 0, width, height);
+    const glows = [
+      [170, 130, 430, "rgba(65,205,255,.42)"],
+      [width - 140, 330, 520, "rgba(255,126,219,.31)"],
+      [width * .47, height * .58, 500, "rgba(147,120,255,.17)"],
+      [width * .22, height * .80, 420, "rgba(85,222,199,.14)"]
+    ];
+    glows.forEach(([x, y, r, color]) => {
+      const glow = ctx.createRadialGradient(x, y, 10, x, y, r);
+      glow.addColorStop(0, color);
+      glow.addColorStop(1, color.replace(/,[^)]+\)$/, ",0)"));
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
+    });
 
     ctx.save();
-    roundRect(ctx, margin, margin, width - margin * 2, headerH, 32);
-    ctx.fillStyle = "rgba(255,255,255,.54)";
+    roundRect(ctx, margin, margin, width - margin * 2, headerH, 34);
+    ctx.fillStyle = "rgba(255,255,255,.36)";
     ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,.90)";
+    const headerStroke = ctx.createLinearGradient(margin, margin, width - margin, margin + headerH);
+    headerStroke.addColorStop(0, "rgba(255,255,255,.98)");
+    headerStroke.addColorStop(.45, "rgba(190,232,255,.52)");
+    headerStroke.addColorStop(.78, "rgba(240,183,255,.48)");
+    headerStroke.addColorStop(1, "rgba(255,255,255,.86)");
+    ctx.strokeStyle = headerStroke;
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.restore();
 
     drawText(ctx, "楓之谷M 也許有用的工具", margin + 38, margin + 42, { font: '700 22px -apple-system, "PingFang TC", sans-serif', color: "#697080" });
-    drawText(ctx, data.title || "光之聖所祈禱經驗表", margin + 38, margin + 98, { font: '900 48px -apple-system, "PingFang TC", sans-serif', color: "#202532" });
+    drawText(ctx, data.title || "光之聖所祈禱經驗表", margin + 38, margin + 98, { font: '800 48px -apple-system, "PingFang TC", sans-serif', color: "#202532" });
     drawText(ctx, `Lv.1～Lv.${rows.at(-1)?.level || 15} · 升級 EXP / 累積 EXP / 每次祈禱 EXP / 欄位 / Preset`, margin + 38, margin + 145, { font: '600 21px -apple-system, "PingFang TC", sans-serif', color: "#727887" });
 
     const summaryY = margin + 198;
@@ -201,28 +211,28 @@
     ];
     summaries.forEach((entry, i) => {
       const x = margin + 38 + i * 295;
-      drawText(ctx, entry[0], x, summaryY - 10, { font: '600 16px -apple-system, "PingFang TC", sans-serif', color: "#7b8190" });
-      drawText(ctx, entry[1], x, summaryY + 18, { font: '900 25px -apple-system, "PingFang TC", sans-serif', color: "#252a36" });
+      drawText(ctx, entry[0], x, summaryY - 10, { font: '700 16px -apple-system, "PingFang TC", sans-serif', color: "#3b4150" });
+      drawText(ctx, entry[1], x, summaryY + 18, { font: '650 25px -apple-system, "PingFang TC", sans-serif', color: "#252a36" });
     });
 
     const tableX = margin;
     const tableW = width - margin * 2;
     let y = margin + headerH + 22;
     const columns = [
-      { t: "等級", w: 100, a: "left" },
-      { t: "升下一級 EXP", w: 220, a: "right" },
-      { t: "累積 EXP", w: 205, a: "right" },
-      { t: "每次祈禱 EXP", w: 205, a: "right" },
-      { t: "欄位", w: 110, a: "right" },
-      { t: "Preset", w: 110, a: "right" },
-      { t: "里程碑", w: tableW - 950, a: "left" }
+      { t: "等級", w: 100 },
+      { t: "升下一級 EXP", w: 220 },
+      { t: "累積 EXP", w: 205 },
+      { t: "每次祈禱 EXP", w: 205 },
+      { t: "欄位", w: 110 },
+      { t: "Preset", w: 110 },
+      { t: "里程碑", w: tableW - 950 }
     ];
     let cx = tableX + 20;
     columns.forEach(col => {
-      drawText(ctx, col.t, col.a === "right" ? cx + col.w - 12 : cx + 8, y + colHeadH / 2, {
-        font: '800 16px -apple-system, "PingFang TC", sans-serif',
-        color: "#6f7686",
-        align: col.a
+      drawText(ctx, col.t, cx + col.w / 2, y + colHeadH / 2, {
+        font: '800 17px -apple-system, "PingFang TC", sans-serif',
+        color: "#3f4655",
+        align: "center"
       });
       cx += col.w;
     });
@@ -231,9 +241,14 @@
     rows.forEach(row => {
       ctx.save();
       roundRect(ctx, tableX, y + 4, tableW, rowH - 8, 16);
-      ctx.fillStyle = row.milestone ? "rgba(224,231,255,.66)" : "rgba(255,255,255,.48)";
+      ctx.fillStyle = "rgba(255,255,255,.25)";
       ctx.fill();
-      ctx.strokeStyle = "rgba(255,255,255,.86)";
+      const rowStroke = ctx.createLinearGradient(tableX, y, tableX + tableW, y + rowH);
+      rowStroke.addColorStop(0, "rgba(255,255,255,.91)");
+      rowStroke.addColorStop(.52, "rgba(187,230,255,.34)");
+      rowStroke.addColorStop(.84, "rgba(242,176,255,.35)");
+      rowStroke.addColorStop(1, "rgba(255,255,255,.76)");
+      ctx.strokeStyle = rowStroke;
       ctx.lineWidth = 1.5;
       ctx.stroke();
       ctx.restore();
@@ -251,10 +266,10 @@
       columns.forEach((col, i) => {
         const isLevel = i === 0;
         const isNote = i === 6;
-        drawText(ctx, values[i], col.a === "right" ? cx + col.w - 12 : cx + 8, y + rowH / 2, {
-          font: `${isLevel ? 900 : isNote ? 600 : 700} ${isNote ? 14 : 18}px -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif`,
-          color: isNote ? "#6f7686" : "#252a36",
-          align: col.a
+        drawText(ctx, values[i], cx + col.w / 2, y + rowH / 2, {
+          font: `${isLevel ? 750 : isNote ? 550 : 620} ${isNote ? 14 : 18}px -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif`,
+          color: isNote ? "#747b89" : isLevel ? "#252a36" : "#303642",
+          align: "center"
         });
         cx += col.w;
       });
@@ -287,13 +302,11 @@
       const blob = await canvasToBlob(canvas);
       const fileName = `光之聖所祈禱經驗表_${data.updatedAt || "MapleStoryM"}.png`;
       const file = new File([blob], fileName, { type: "image/png" });
-
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: "光之聖所祈禱經驗表" });
         showToast("圖片已交給系統分享選單");
         return;
       }
-
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -356,7 +369,7 @@
           <p>「每次祈禱 EXP」依正式模擬器公式 <span class="code-inline">GainPoint + GainPointPerCoin × CharacterCoin cost</span> 推導。Lv.${max.level} 為滿等，因此顯示 0。</p>
           <p>目前標示 ${milestones} 個開放里程碑。來源：<span class="code-inline">${escapeHtml(data.source?.path || "")}</span>，資料版本 ${escapeHtml(data.updatedAt || "")}。</p>
         </section>
-        <div class="footer">Beta V2 · 此頁只讀，不會修改任何模擬器狀態。</div>`;
+        <div class="footer">Beta V4 · Liquid Glass Material Prototype · 此頁只讀。</div>`;
 
       document.getElementById("save-table-image")?.addEventListener("click", () => saveOrShareImage(data, rows));
     } catch (error) {
