@@ -64,6 +64,16 @@ jobs:
           node --check light-sanctum-pray/runtime/site-bridge.js
           node --check light-sanctum-pray/runtime/pray-confirm-popup/confirm-bypass-popup.js
           node --check light-sanctum-pray/runtime/pray-confirm-popup/player.js
+          # Feature-branch Beta gate: direct-edit Beta runtime only; no runtime source-patch loader.
+          if [[ -f beta/light-sanctum-pray/runtime/player-presentation.js ]]; then
+            node --check beta/light-sanctum-pray/runtime/player-presentation.js
+          fi
+          if [[ -f beta/light-sanctum-pray/runtime/player-presentation-patch.js ]]; then
+            node --check beta/light-sanctum-pray/runtime/player-presentation-patch.js
+          fi
+          if [[ -f beta/light-sanctum-pray/script.js ]]; then
+            node --check beta/light-sanctum-pray/script.js
+          fi
 
       - name: Check README links to local policy files
         shell: bash
