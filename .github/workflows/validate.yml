@@ -71,6 +71,9 @@ jobs:
           if [[ -f beta/light-sanctum-pray/runtime/player-presentation-patch.js ]]; then
             node --check beta/light-sanctum-pray/runtime/player-presentation-patch.js
           fi
+          if [[ -f beta/light-sanctum-pray/runtime/file-local-fetch-shim.js ]]; then
+            node --check beta/light-sanctum-pray/runtime/file-local-fetch-shim.js
+          fi
 
       - name: Check README links to local policy files
         shell: bash
