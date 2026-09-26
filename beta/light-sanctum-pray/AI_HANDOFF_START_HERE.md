@@ -4,65 +4,72 @@
 - Repo: `Remus1224/GMSM-calculator`
 - Feature branch: `feature/light-sanctum-pages`
 - Production/main remains the user-accepted sealed baseline and must not be modified by preset experiments.
-- The user accepted and promoted the Cost Label Fit behavior: full cost numbers remain visible by shrinking only when needed; material/Meso icons are reduced and redundant resource-name text is removed.
-- Preset Phase 1 is **beta-only** and still requires player browser acceptance before PR/merge/release.
+- Preset Phase 1 remains **beta-only** and still requires player browser acceptance before PR/merge/release.
+- User browser smoke on direct `file://` launch failed with Chromium unique-origin/CORS errors. Treat direct file launch as unsupported for this Beta.
 
-## Critical discovery: 1 / 2 / 3 are Pray presets, not separate unrelated pages
-The top-left `1 / 2 / 3` controls belong to:
+## Critical model discovery
+The top-left `1 / 2 / 3` controls are Pray presets under:
 - `VarB_107Popup/Group/Pray/preset/01`
 - `VarB_107Popup/Group/Pray/preset/02`
 - `VarB_107Popup/Group/Pray/preset/03`
 
-Lv.1 ground-truth fixture already proves:
-- Preset 1 = selected (`on`).
-- Preset 2 = available but not selected (`off`).
-- Preset 3 = locked and displays `Lv.11`.
-
-The exported/client LevelInfo carries `presetCount`, and the current-build client exposes the corresponding native model:
-- `SantuaryOfLightPopupFunc.OnChangePreset(int presetIndex)`
-- `SanctuaryOfLightStatFunc.GetCurrentPresetIndex()`
-- `SanctuaryOfLightStatFunc.GetCurrentPresetCount()`
-- `SanctuaryOfLightStatFunc.GetPresetUnlockLevel(int presetIndex)`
-- `SanctuaryOfLightStatFunc.SearchStatSlot(int presetIndex, int slotIndex)`
-- `SanctuaryOfLightStatFunc.UpdateStatGrade(int presetIndex, int slotIndex, ..., bool locked)`
-
-Therefore the evidence-backed state model is:
-- Level / accumulated EXP / currencies / pray count are shared sanctuary state.
-- Each Pray preset independently owns its five blessing slots and lock states.
-- Available preset count follows LevelInfo `presetCount`.
-- A locked preset must not become selectable before its unlock level.
+Evidence-backed behavior:
+- Lv.1: preset 1 selected, preset 2 available, preset 3 locked and shows `Lv.11`.
+- LevelInfo contains `presetCount`.
+- Client exposes `OnChangePreset(int presetIndex)`, `GetCurrentPresetIndex()`, `GetCurrentPresetCount()`, `GetPresetUnlockLevel(int presetIndex)`, `SearchStatSlot(int presetIndex,int slotIndex)`, and `UpdateStatGrade(int presetIndex,int slotIndex,...,locked)`.
+- Therefore Level / EXP / currencies are shared, while each preset owns independent blessing slots and lock states.
 
 ## Preset Phase 1 implementation
-Beta-only files:
+Primary Beta files:
 - `runtime/player-presentation-pages-loader.js`
-- `runtime/file-local-fetch-shim.js`
+- `runtime/preset-status-bridge.js`
+- `RUN_LOCAL_PREVIEW.ps1`
+- `RUN_LOCAL_PREVIEW.cmd`
 
-Implementation / governance commits:
-- `d83d9d0130746456693e829dbe89856972485e02` — add evidence-backed preset loader.
-- `12fda887a696d0bfbb3cc9056fb40e8ce665ff81` — wire loader into Beta runtime.
-- `1da00ec9e6a08a6acd4f3efa6ffa93858bbe4a8e` — extend PR CI syntax gate to the Beta preset loader/patch.
-- `6ba3bec527f98043a9fcec17036d687e0ff32093` — add local-file fetch compatibility shim for user browser smoke without Python/HTTP server.
-- `a3bfde5fc6dc5f5e04f59a2d78ad044d56d02134` — load local-file shim before the preset loader in Beta runtime.
-- `2a9d2a6d78f680ffee29fd5200e38a195467eace` — mirror preset loader status from runtime iframe to Beta shell for easier diagnostics.
-
-The loader deliberately keeps the sealed `runtime/player-presentation.js` file unchanged. It loads that exact current core and applies a narrow in-memory Phase 1 patch before execution.
-
-Added behavior:
-1. `activePreset` state, default 1.
+Behavior added by the preset loader:
+1. `activePreset`, default 1.
 2. Three independent `{ slots[5], locks[5] }` stores.
-3. Existing `gameplayState.slots/locks` are aliases to the active preset, so the sealed Pray/cost/popup/particle logic continues to use the same code path.
-4. Original `preset/01..03` `on/off/lock` hierarchy nodes are driven from `LevelInfo.presetCount` and the active preset.
-5. Clicking an available preset switches to its independent state.
-6. Clicking a locked preset does not switch and reports its unlock level.
-7. Switching preset cancels an active Pray presentation through the existing `gameplayInterruptVisual("PresetSwitch")`, closes an open confirm popup, then renders the new preset. This prevents an old preset's RAF/particle presentation from continuing after navigation.
-8. Debug EXP downgrade clears now-invalid slot indices across all presets and clamps an active preset if its availability is reduced.
-9. Reset recreates all three preset stores and returns to preset 1.
-10. `window.MAPLEM_PRAY_PRESETS.snapshot()` is available for Browser diagnostics.
-11. Local `file://` testing is now supported through a narrow compatibility shim: only local-file fetches are rerouted through `XMLHttpRequest`; HTTP/HTTPS continue to use native `fetch`.
-12. The Beta shell mirrors runtime `data-preset-phase1` status so the user can inspect `document.documentElement.dataset.presetPhase1` from the top-level page.
+3. Existing `gameplayState.slots/locks` remain aliases to the active preset so sealed Pray/cost/popup/particle logic stays on the same path.
+4. `preset/01..03` `on/off/lock` nodes follow `LevelInfo.presetCount` and active preset.
+5. Available preset click switches to its independent state.
+6. Locked preset click does not switch and reports unlock level.
+7. Switching preset interrupts active visual work via existing `gameplayInterruptVisual("PresetSwitch")`, closes confirm popup, then renders the new preset.
+8. Debug level downgrade clears invalid slots across all presets and clamps an unavailable active preset.
+9. Reset recreates all preset stores and returns to preset 1.
+10. `window.MAPLEM_PRAY_PRESETS.snapshot()` exposes diagnostics.
+
+## Local test finding — direct file launch is rejected
+User reproduced these Chromium errors when opening `beta/light-sanctum-pray/index.html` directly as `file:///...`:
+- `Access to XMLHttpRequest ... from origin 'null' has been blocked by CORS policy`
+- `Unsafe attempt to load URL file:///... from frame ... 'file:' URLs are treated as unique security origins`
+- `document.documentElement.dataset.presetPhase1 === 'failed'`
+- Runtime stayed black.
+
+Conclusion: this is not a preset-state-model failure. Chromium treats nested local `file:` documents as unique origins, so the loader/fetch/iframe/postMessage architecture cannot be reliably validated by direct file launch, even with the earlier local-file XHR shim. The shim was removed.
+
+## New dependency-free local preview route
+Use the new one-click launcher:
+- `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
+
+It invokes `RUN_LOCAL_PREVIEW.ps1`, which starts a tiny loopback HTTP server using built-in Windows PowerShell/.NET only. No Python, Node, Git CLI, or extra installation is required.
+
+Server defaults:
+- root = repository root
+- address = `127.0.0.1`
+- port = `8765`
+- preview URL = `http://127.0.0.1:8765/beta/light-sanctum-pray/`
+- sends `Cache-Control: no-store`
+- prevents path traversal outside repository root
+- supports GET/HEAD and common JS/CSS/image/audio MIME types
+
+`runtime/preset-status-bridge.js` mirrors runtime `data-preset-phase1` state to the Beta parent shell, so top-level DevTools may inspect:
+```js
+document.documentElement.dataset.presetPhase1
+```
+Expected final value: `"ready"`.
 
 ## Hard regression boundary — SEALED
-Do not rewrite or simplify these while developing presets:
+Do not rewrite/simplify while developing presets:
 - P98 OptionChange particle restoration.
 - P104 result/refresh behavior.
 - P114 rapid Pray behavior.
@@ -76,60 +83,36 @@ Do not rewrite or simplify these while developing presets:
 - Current fullscreen geometry and site bridge.
 - Dedicated Pray-result sound codes remain unresolved/silent; do not guess substitutes.
 
-## Static validation status
-- Beta core used by the loader is SHA `6ef0f011d76bdaca3194a8dfa6329dacc0844b50`, exactly the same core audited before implementation.
-- Loader uses fail-closed unique string anchors: a missing or duplicate anchor stops Phase 1 instead of silently patching the wrong code.
-- Beta `index.html` loads scene/gameplay/native-particle data and `player-presentation-patch.js` first; local-file shim loads next; preset loader then loads the patched core followed by confirm-bypass, site-bridge and click-audio in the original order.
-- Branch remains Beta-only; these commits do not modify production `light-sanctum-pray/` files.
-- `.github/workflows/validate.yml` runs `node --check` on the Beta preset loader and Beta presentation patch when present. The local-file shim should also be added to the PR CI syntax gate before merge if it remains part of the accepted implementation.
-- Current GitHub Actions status is intentionally absent because this workflow runs on `pull_request -> main` (or push to main) and no PR has been opened yet.
-- **Browser/player smoke is NOT yet PASS.** Do not merge to main yet.
+## Browser acceptance sequence
+1. Pull latest `feature/light-sanctum-pages` in GitHub Desktop.
+2. Double-click `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`.
+3. Browser should open `http://127.0.0.1:8765/beta/light-sanctum-pray/`.
+4. Top-level DevTools: `document.documentElement.dataset.presetPhase1` must become `"ready"`.
+5. Lv.1: preset 1 selected, preset 2 selectable, preset 3 locked `Lv.11`.
+6. Pray once in preset 1; switch to preset 2; preset 2 must have independent slot/lock state.
+7. Pray in preset 2; return to preset 1; preset 1 result must persist.
+8. Lock in preset 1; switch 1 → 2 → 1; lock must remain only in preset 1.
+9. Preset 3 must refuse selection before Lv.11.
+10. At Lv.11 preset 3 must become selectable and independent.
+11. Level / EXP / currencies remain shared across presets.
+12. Switching during an active result animation must stop old-preset visual work rather than leaving background RAF/particle activity.
+13. Regression smoke: Pray, lock/unlock, all-locked EXP-only, Confirm/Cancel popup, rapid Pray, click audio, cost layout, fullscreen, desktop/mobile rendering.
 
-## Local-file black-screen finding and fix
-User first tested the checked-out feature branch directly through `file:///.../beta/light-sanctum-pray/index.html` in an Edge instance launched with `--allow-file-access-from-files`.
-Observed result:
-- simulator runtime remained black;
-- top-level `document.documentElement.dataset.presetPhase1` returned `undefined`.
-
-Root cause: Preset Phase 1 loader depended on `fetch("player-presentation.js?..." )`. Direct `file://` loading did not provide a reliable successful fetch path, so the patched core never executed. This was a test-loader compatibility problem, not evidence that the branch or preset state model was wrong.
-
-Fix:
-- `runtime/file-local-fetch-shim.js` intercepts local-file fetches only and reads them with XHR when Edge local file access is explicitly enabled;
-- it strips query/hash from local file URLs before XHR;
-- runtime status is posted to the Beta parent page and mirrored to top-level `document.documentElement.dataset.presetPhase1`.
-
-Required local launch remains an isolated Edge test profile with:
-`--allow-file-access-from-files`
-This avoids requiring Python or a local HTTP server.
-
-## Required Browser acceptance sequence
-1. Refresh/pull latest `feature/light-sanctum-pages` before testing the fix.
-2. Open Beta through the isolated Edge test launch with `--allow-file-access-from-files`.
-3. Top-level DevTools: `document.documentElement.dataset.presetPhase1` must become `"ready"`. `"failed"` means loader started but failed; `"booting"` means it has not completed yet.
-4. Start at Lv.1: Preset 1 selected, Preset 2 selectable, Preset 3 shows locked `Lv.11`.
-5. Pray once in Preset 1 and note the resulting blessing.
-6. Switch to Preset 2: it must begin with its own independent blessing/lock state.
-7. Pray in Preset 2, then return to Preset 1: Preset 1's previous result must still be present.
-8. Lock a blessing in Preset 1, switch 1 → 2 → 1: that lock must persist only in Preset 1.
-9. Attempt Preset 3 before Lv.11: it must not switch.
-10. Raise sanctuary level to Lv.11: Preset 3 must become selectable and retain its own state.
-11. Confirm Level / EXP / currency remain shared while blessing/lock state changes per preset.
-12. Trigger a Pray result animation, then switch preset during the presentation: old-page animation/particle work must stop rather than continue invisibly.
-13. Re-test Pray, lock/unlock, all-locked EXP-only Pray, Confirm/Cancel popup, rapid Pray, click audio, cost layout, fullscreen and desktop/mobile rendering for regressions.
-
-Useful diagnostic inside the runtime iframe:
+Useful runtime diagnostic:
 ```js
 MAPLEM_PRAY_PRESETS.snapshot()
 ```
-Expected shape includes `activePreset`, `availablePresetCount`, unlock levels, and all three preset slot/lock arrays.
 
-## Release rule
-Preset Phase 1 remains on `feature/light-sanctum-pages` until the user browser-tests it. If the acceptance sequence passes:
-1. mark Browser PASS in this handoff;
-2. open PR from `feature/light-sanctum-pages` to `main`;
+## Validation / release rule
+- No PR has been opened yet.
+- GitHub Actions has not yet validated this feature branch because workflow runs on PR-to-main or push-to-main.
+- `.github/workflows/validate.yml` syntax-checks the Beta preset loader, presentation patch, and preset status bridge when present.
+- **Browser/player smoke is NOT yet PASS. Do not merge to main yet.**
+
+If Browser smoke passes:
+1. mark Browser PASS here;
+2. open PR `feature/light-sanctum-pages` → `main`;
 3. require CI PASS;
-4. review the PR diff;
-5. merge main;
-6. create the release / production promotion only after merge.
-
-If Browser smoke fails, fix only the preset navigation/state/local-test layer unless evidence proves a sealed subsystem is actually responsible.
+4. review diff;
+5. merge;
+6. then release/promote.
