@@ -64,18 +64,15 @@ jobs:
           node --check light-sanctum-pray/runtime/site-bridge.js
           node --check light-sanctum-pray/runtime/pray-confirm-popup/confirm-bypass-popup.js
           node --check light-sanctum-pray/runtime/pray-confirm-popup/player.js
-          # Feature-branch Beta gate: keep preset/navigation experiments syntax-safe before PR merge.
-          if [[ -f beta/light-sanctum-pray/runtime/player-presentation-pages-loader.js ]]; then
-            node --check beta/light-sanctum-pray/runtime/player-presentation-pages-loader.js
+          # Feature-branch Beta gate: direct-edit Beta runtime only; no runtime source-patch loader.
+          if [[ -f beta/light-sanctum-pray/runtime/player-presentation.js ]]; then
+            node --check beta/light-sanctum-pray/runtime/player-presentation.js
           fi
           if [[ -f beta/light-sanctum-pray/runtime/player-presentation-patch.js ]]; then
             node --check beta/light-sanctum-pray/runtime/player-presentation-patch.js
           fi
-          if [[ -f beta/light-sanctum-pray/runtime/preset-status-bridge.js ]]; then
-            node --check beta/light-sanctum-pray/runtime/preset-status-bridge.js
-          fi
-          if [[ -f beta/light-sanctum-pray/runtime/preset-source-normalizer.js ]]; then
-            node --check beta/light-sanctum-pray/runtime/preset-source-normalizer.js
+          if [[ -f beta/light-sanctum-pray/script.js ]]; then
+            node --check beta/light-sanctum-pray/script.js
           fi
 
       - name: Check README links to local policy files
