@@ -1,16 +1,17 @@
-# AI_HANDOFF_START_HERE — Light Sanctum Pray Preset Phase 1
+# AI_HANDOFF_START_HERE — Light Sanctum Pray Preset Phase 1 SEALED
 
 ## Current status — 2026-09-26
 - Repo: `Remus1224/GMSM-calculator`
 - Feature branch: `feature/light-sanctum-pages`
 - PR: `#6 — Light Sanctum Pray: add Preset 1 / 2 / 3`
-- Preset 1 / 2 / 3 is implemented directly inside the Pray player runtime.
-- The discarded runtime source-patching approach (`loader` / `source normalizer` / `Blob patch`) has been removed and must not return.
-- **USER BROWSER ACCEPTANCE: PASS (2026-09-26).** The user opened the normal "光之聖所祈禱模擬器｜楓之谷M 也許有用的工具" page from the feature branch and reported that it was usable and all tested Preset behavior had no observed problems.
-- First PR CI run on head `c223f2e1c49d18c848527a0f93a883d9cb9f503b`: **Validate project PASS**.
-- Full PR diff review found one one-shot root helper `PROMOTE_LIGHT_SANCTUM_PRESETS.cmd`; it was intentionally removed before merge in commit `b51f6dafafed5a17e3045889e9f61d057c691ea7`.
-- Production `light-sanctum-pray/runtime/player-presentation.js` on the feature branch is byte-identical to the browser-accepted Beta player (same Git blob SHA `e42fcc6c8028f68b8289d6e94fa050f347042819`).
-- Main is not merged yet. Merge only after the updated PR head CI passes.
+- PR #6 is **MERGED** into `main`.
+- Merge commit: `6e3f649a7fcdd3d50c48cc520f170bb643ca8273`.
+- `Validate project` on the final PR head: **PASS**.
+- `Validate project` on merged `main` (run #92): **PASS**.
+- GitHub Pages build/deployment #542 for the merge commit: **PASS**.
+- **PRODUCTION BROWSER ACCEPTANCE: PASS (2026-09-26).** After deployment completed, the user tested the normal production "光之聖所祈禱模擬器｜楓之谷M 也許有用的工具" page and reported no observed problems.
+- Preset Phase 1 is now **PRODUCTION PASS / SEALED** unless a later regression is reported.
+- The discarded runtime source-patching approach (`loader` / `source normalizer` / `Blob patch`) was removed and must not return.
 
 ## Evidence-backed preset model
 Top-left `1 / 2 / 3` controls are Pray presets under:
@@ -26,33 +27,34 @@ Client / exported evidence supports:
 - `SearchStatSlot(int presetIndex, int slotIndex)`
 - `UpdateStatGrade(int presetIndex, int slotIndex, ..., bool locked)`
 
-Therefore the accepted model is:
+Accepted model:
 - sanctuary level / accumulated EXP / currencies / Pray count are shared;
 - each preset owns an independent five-slot blessing state and lock state;
 - availability follows `LevelInfo.presetCount`;
 - Lv.1: preset 1 selected, preset 2 available, preset 3 locked and displays `Lv.11`;
 - preset 3 becomes available at Lv.11.
 
-## Direct implementation
+## Production implementation
 Browser-accepted Beta source:
 - `beta/light-sanctum-pray/runtime/player-presentation.js`
 
-Production integration source in the same PR:
+Production source:
 - `light-sanctum-pray/runtime/player-presentation.js`
 
-Both currently use the same Git blob SHA:
+At PR integration time both used the same Git blob SHA:
 - `e42fcc6c8028f68b8289d6e94fa050f347042819`
 
-Implementation commit lineage includes:
-- `e09ff83fa139fe3b1d822db3a6f43f1eb6c0d2cb` — `feat: implement direct beta light sanctum presets`
+Production page cache route after merge:
+- outer iframe: `runtime/index.html?v=20260926-preset-r1`
+- runtime player: `player-presentation.js?v=20260926-preset-r1`
 
 Implemented:
 - `gameplayState.activePreset = 1`
 - `gameplayState.presets = [preset1, preset2, preset3]`
 - each preset has independent `slots[5]` and `locks[5]`
-- existing `gameplayState.slots` / `gameplayState.locks` are aliases to the active preset so existing sealed Pray/cost/popup logic remains on its established path
+- existing `gameplayState.slots` / `gameplayState.locks` alias the active preset so established Pray/cost/popup logic stays on the same path
 - `gameplayPresetCount(level)` reads `LevelInfo.presetCount`
-- `gameplayPresetUnlockLevel(presetIndex)` derives the first level where that preset is available
+- `gameplayPresetUnlockLevel(presetIndex)` derives the first level where the preset is available
 - `gameplaySwitchPreset()` blocks unavailable presets, blocks during pending Pray, interrupts current visual work, closes confirm popup, swaps active alias, and rerenders
 - render drives preset `/on`, `/off`, `/lock` hierarchy state and lock label
 - click hit testing and pointer hover support preset 1 / 2 / 3
@@ -60,35 +62,37 @@ Implemented:
 - newly opened slot lock reset applies to all preset stores
 - reset returns to preset 1 and clears all three preset stores
 - `window.MAPLEM_PRAY_PRESETS.snapshot()` exposes current per-preset state for browser diagnostics
-- `window.MAPLEM_PRAY_PRESET_PHASE1` exposes `ready: true` and evidence labels
+- `window.MAPLEM_PRAY_PRESET_PHASE1` exposes readiness/evidence metadata
 
-## Static / CI validation
-Static checks cover the Pray runtime via project validation workflow.
+## Validation history
+### Player browser acceptance — PASS
+Before merge, the user directly used the normal feature-branch simulator page and reported Preset behavior had no observed issues.
 
-PR #6 first CI run:
-- Workflow: `Validate project`
-- Run number: `89`
-- Head: `c223f2e1c49d18c848527a0f93a883d9cb9f503b`
-- Result: **PASS**
+Accepted behaviors include:
+- Preset 1 initial selected state
+- Preset 2 switching/usage
+- Preset 3 lock/unlock behavior under level rule
+- independent result/lock state per preset
+- no observed regression in established simulator operation
 
-The PR head then changed only to remove the one-shot promotion helper and update this handoff. Require the new head CI to PASS before merge.
+### PR / integration validation — PASS
+- Full PR diff reviewed.
+- Final retained changed files: 8.
+- One-shot `PROMOTE_LIGHT_SANCTUM_PRESETS.cmd` was removed before merge.
+- No runtime loader / source normalizer / Blob patch / temporary one-shot workflow remained.
+- Final PR-head `Validate project` run #91: **PASS**.
+- PR #6 merged successfully using squash merge.
 
-## Browser validation PASS — 2026-09-26
-The user directly used the normal simulator page and reported the feature was usable and the tests had no problems.
+### Main / deployment validation — PASS
+- Merge commit: `6e3f649a7fcdd3d50c48cc520f170bb643ca8273`.
+- Main `Validate project` run #92: **PASS**.
+- GitHub Pages build/deployment #542: **PASS**.
+- User then tested the deployed production simulator and reported **no problems**.
 
-Treat the following as accepted unless a later regression is reported:
-- Preset 1 is the initial selected page.
-- Preset 2 can be switched to and used.
-- Preset 3 lock/unlock behavior is acceptable under the level rule.
-- Preset-owned result/lock state does not show an observed cross-preset regression in user testing.
-- Existing simulator operation remained usable during the user's smoke test.
+Verdict:
+- **Preset Phase 1: PRODUCTION BROWSER PASS / SEALED.**
 
-This is player browser acceptance plus PR integration review; production merge is still gated on final updated-head CI.
-
-## PR diff review
-PR #6 changed files were reviewed before merge.
-
-Intended retained changes:
+## PR diff retained in main
 - `.github/workflows/validate.yml`
 - `beta/light-sanctum-pray/AI_HANDOFF_START_HERE.md`
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
@@ -99,9 +103,7 @@ Intended retained changes:
 - `light-sanctum-pray/runtime/player-presentation.js`
 
 Removed before merge:
-- `PROMOTE_LIGHT_SANCTUM_PRESETS.cmd` — one-shot promotion helper, not runtime/production source.
-
-No loader / source normalizer / Blob patch / temporary one-shot workflow should remain in the merge diff.
+- `PROMOTE_LIGHT_SANCTUM_PRESETS.cmd` — one-shot promotion helper, intentionally excluded from main.
 
 ## Local browser route
 Direct `file://` is not supported for acceptance because Chromium treats nested local files as unique origins.
@@ -110,10 +112,8 @@ Optional local route:
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
 - URL: `http://127.0.0.1:8765/beta/light-sanctum-pray/`
 
-The user also confirmed the normal simulator page itself was directly usable for this acceptance round.
-
 ## Hard regression boundary — SEALED
-Do not regress or redesign these while integrating presets:
+Do not regress or redesign these without new evidence / explicit scope:
 - P98 OptionChange native particle restoration
 - P104 result / refresh behavior
 - P114 rapid Pray behavior
@@ -125,6 +125,7 @@ Do not regress or redesign these while integrating presets:
 - PrayConfirmPopup P136 WebFix2 / P137 backport behavior
 - generic click audio closure
 - fullscreen / site bridge behavior
+- Preset 1 / 2 / 3 production behavior from PR #6
 - dedicated Pray-result sound codes remain unresolved/silent; do not invent substitutes
 
 ## Diagnostic API
@@ -134,17 +135,24 @@ window.MAPLEM_PRAY_PRESET_PHASE1
 window.MAPLEM_PRAY_PRESETS.snapshot()
 ```
 
-## Next formal step
-1. Wait for / verify CI PASS on the updated PR #6 head after cleanup.
-2. Reconfirm the final changed-file list contains no temporary promotion/loader/normalizer/one-shot files.
-3. Merge PR #6 into `main` if the updated-head CI is green and the PR remains mergeable.
-4. Verify `main` contains the merged Preset production runtime and cache-bust changes.
-5. Then prepare the formal Release / post-merge verification as appropriate.
+## Current baseline
+Use merged `main` commit `6e3f649a7fcdd3d50c48cc520f170bb643ca8273` as the Preset Phase 1 production baseline.
 
-## Release rule
-- **Browser PASS: 2026-09-26.**
-- **PR #6: OPEN.**
-- **First CI: PASS.**
-- **Full diff review: completed; one-shot promotion helper removed.**
-- **Main: not yet merged.**
-- **Release: not yet performed.**
+Do not reopen Preset Phase 1 unless:
+- the user reports a production regression;
+- new reverse-engineering evidence contradicts the accepted model;
+- a later feature explicitly requires changing preset behavior.
+
+## Next work
+Preset Phase 1 itself requires no further implementation.
+
+Future work should begin from this SEALED production baseline and preserve all hard regression boundaries above.
+
+## Release / acceptance summary
+- **Feature Browser Acceptance: PASS (2026-09-26).**
+- **PR #6: MERGED.**
+- **Final PR CI: PASS.**
+- **Main CI: PASS.**
+- **GitHub Pages deployment: PASS.**
+- **Production Browser Acceptance: PASS (2026-09-26).**
+- **Preset Phase 1: PRODUCTION PASS / SEALED.**
