@@ -11,7 +11,7 @@
       if (localStorage.getItem('msm-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     } catch (error) {}
   </script>
-  <link rel="stylesheet" href="style.css?v=20260927-v1">
+  <link rel="stylesheet" href="style.css?v=20260927-v2">
 </head>
 <body>
   <main class="shell">
@@ -19,20 +19,21 @@
       <h1 class="site-title">楓之谷M 也許有用的工具</h1>
       <div class="top-nav">
         <div class="top-nav-side">
-          <button id="nav-back" class="nav-btn" type="button">主選單</button>
+          <button id="nav-back" class="nav-btn glass-control" type="button">主選單</button>
         </div>
         <div id="nav-title" class="nav-title">也許有用的資訊</div>
         <div class="top-nav-side">
-          <button id="theme-toggle" class="theme-btn" type="button" aria-label="切換至夜間模式" aria-pressed="false">🌙</button>
+          <button id="theme-toggle" class="theme-btn glass-control" type="button" aria-label="切換至夜間模式" aria-pressed="false">🌙</button>
         </div>
       </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V1</div>
+      <div class="beta-strip">BETA · 資料型資訊中心 V2</div>
     </header>
 
     <div id="app" aria-live="polite">
-      <div class="panel loading">正在載入資訊中心…</div>
+      <div class="glass-panel loading">正在載入資訊中心…</div>
     </div>
   </main>
-  <script src="script.js?v=20260927-v1"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script src="script.js?v=20260927-v2"></script>
 </body>
 </html>
