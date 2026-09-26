@@ -2,9 +2,11 @@ name: Apply Light Sanctum Presets Once
 
 on:
   push:
-    branches: [feature/light-sanctum-pages]
+    branches:
+      - feature/light-sanctum-pages
     paths:
       - '.github/workflows/apply-light-sanctum-presets-once.yml'
+      - '.github/scripts/apply_light_sanctum_presets.py'
 
 permissions:
   contents: write
@@ -25,129 +27,9 @@ jobs:
           node-version: '22'
 
       - name: Apply direct Preset 1 / 2 / 3 implementation
-        shell: python
-        run: |
-          from pathlib import Path
+        run: python3 .github/scripts/apply_light_sanctum_presets.py
 
-          path = Path('beta/light-sanctum-pray/runtime/player-presentation.js')
-          source = path.read_text(encoding='utf-8')
-
-          def replace_once(label, needle, replacement):
-              global source
-              count = source.count(needle)
-              if count != 1:
-                  raise SystemExit(f'{label}: expected 1 anchor, found {count}')
-              source = source.replace(needle, replacement, 1)
-
-          def replace_exact_count(label, needle, replacement, expected):
-              global source
-              count = source.count(needle)
-              if count != expected:
-                  raise SystemExit(f'{label}: expected {expected} anchors, found {count}')
-              source = source.replace(needle, replacement)
-
-          replace_once(
-              'preset state owner',
-              '''  const gameplayState={level:1,accumulatedExp:0,slots:[null,null,null,null,null],locks:[false,false,false,false,false],characterCoin:1000000,meso:1000000000000,prayCount:0,effectBusy:false,isPending:false,skipConfirm:false,lastTrigger:"init",lastTransition:"none"};''',
-              '''  const gameplayState={level:1,accumulatedExp:0,slots:[null,null,null,null,null],locks:[false,false,false,false,false],characterCoin:1000000,meso:1000000000000,prayCount:0,effectBusy:false,isPending:false,skipConfirm:false,lastTrigger:"init",lastTransition:"none"};
-  gameplayState.activePreset=1;
-  gameplayState.presets=[
-    {slots:gameplayState.slots,locks:gameplayState.locks},
-    {slots:[null,null,null,null,null],locks:[false,false,false,false,false]},
-    {slots:[null,null,null,null,null],locks:[false,false,false,false,false]}
-  ];'''
-          )
-
-          replace_once(
-              'preset hit cache',
-              '''  let gameplayRandomSerial=0,gameplayPrayButtonBoundsCache=null,gameplaySkipButtonBoundsCache=null,gameplayLockBoundsCache=new Map(),gameplayCommitFrame=0,gameplayVisualSerial=0,gameplayVisualInterruptCount=0,gameplayAcceptedPrayCount=0,gameplayPresentationTimingLast=null;''',
-              '''  let gameplayRandomSerial=0,gameplayPrayButtonBoundsCache=null,gameplaySkipButtonBoundsCache=null,gameplayLockBoundsCache=new Map(),gameplayPresetBoundsCache=new Map(),gameplayCommitFrame=0,gameplayVisualSerial=0,gameplayVisualInterruptCount=0,gameplayAcceptedPrayCount=0,gameplayPresentationTimingLast=null;'''
-          )
-
-          replace_once(
-              'preset helpers',
-              '''  function gameplayUnlockLevel(slot){return gameplayUnlockLevelBySlot.get(Math.round(num(slot,-1)))??null}
-  function gameplaySlotCount(level=gameplayState.level){const lv=gameplayLevelInfo(level);return Math.max(0,Math.round(num(lv&&lv.slotCount,0)))}''',
-              '''  function gameplayUnlockLevel(slot){return gameplayUnlockLevelBySlot.get(Math.round(num(slot,-1)))??null}
-  function gameplayPresetCount(level=gameplayState.level){const lv=gameplayLevelInfo(level);return Math.max(1,Math.min(3,Math.round(num(lv&&lv.presetCount,1))))}
-  function gameplayPresetUnlockLevel(presetIndex){const n=Math.max(1,Math.min(3,Math.round(num(presetIndex,1)))),hit=gameplayLevelsSorted.find(x=>Math.round(num(x&&x.presetCount,0))>=n);return hit?Math.round(num(hit.level,1)):null}
-  function gameplaySyncPresetAlias(){const n=Math.max(1,Math.min(3,Math.round(num(gameplayState.activePreset,1)))),p=gameplayState.presets[n-1]||gameplayState.presets[0];gameplayState.activePreset=n;gameplayState.slots=p.slots;gameplayState.locks=p.locks}
-  function gameplayEnsureAvailablePreset(){const max=gameplayPresetCount();if(gameplayState.activePreset>max){gameplayState.activePreset=max;gameplaySyncPresetAlias()}else gameplaySyncPresetAlias()}
-  function gameplaySwitchPreset(presetIndex){const n=Math.max(1,Math.min(3,Math.round(num(presetIndex,0)))),max=gameplayPresetCount();if(n<1||n>max){const unlock=gameplayPresetUnlockLevel(n);status.textContent="祈禱 Preset "+n+" 尚未開放"+(unlock?"（Lv."+unlock+" 解鎖）":"");return false}if(n===gameplayState.activePreset)return true;if(gameplayState.isPending){status.textContent="上一個祈禱請求仍在 pending；暫不切換 Preset。";return false}gameplayInterruptVisual("PresetSwitch");gameplayCloseConfirm();gameplayState.activePreset=n;gameplaySyncPresetAlias();gameplayState.lastTrigger="Scene Preset "+n;gameplayState.lastTransition="PresetSwitch="+n;gameplayRenderSceneState();gameplayRenderSimStatus();if(gameplayPanelVisible())renderGameplayPanel();status.textContent="祈禱 Preset "+n+"｜Client OnChangePreset / presetIndex model";return true}
-  function gameplaySlotCount(level=gameplayState.level){const lv=gameplayLevelInfo(level);return Math.max(0,Math.round(num(lv&&lv.slotCount,0)))}'''
-          )
-
-          replace_once(
-              'preset render states',
-              '''  function gameplayRenderSceneState(){const lv=gameplayLevelInfo(gameplayState.level)||gameplayLevelsSorted[0];if(!lv)return;const next=gameplayLevelInfo(gameplayState.level+1),isMax=!next,''',
-              '''  function gameplayRenderSceneState(){const lv=gameplayLevelInfo(gameplayState.level)||gameplayLevelsSorted[0];if(!lv)return;gameplayEnsureAvailablePreset();const presetCount=gameplayPresetCount();for(let preset=1;preset<=3;preset++){const key=String(preset).padStart(2,"0"),base="VarB_107Popup/Group/Pray/preset/"+key,available=preset<=presetCount,selected=available&&preset===gameplayState.activePreset,unlock=gameplayPresetUnlockLevel(preset);gameplayRuntimeActive.set(base+"/on",selected);gameplayRuntimeActive.set(base+"/off",available&&!selected);gameplayRuntimeActive.set(base+"/lock",!available);gameplayRuntimeText.set(base+"/on/01",String(preset));gameplayRuntimeText.set(base+"/off/01",String(preset));if(unlock)gameplayRuntimeText.set(base+"/lock/01","Lv."+unlock)}const next=gameplayLevelInfo(gameplayState.level+1),isMax=!next,'''
-          )
-
-          replace_once(
-              'preset status',
-              '''if(gameplaySimStatus)gameplaySimStatus.textContent="Lv."+gameplayState.level+"｜EXP "+gameplayState.accumulatedExp.toLocaleString()+"｜Slot "+num(gameplayLevelInfo(gameplayState.level)&&gameplayLevelInfo(gameplayState.level).slotCount,0)+"｜Lock "+locked+''',
-              '''if(gameplaySimStatus)gameplaySimStatus.textContent="Lv."+gameplayState.level+"｜Preset "+gameplayState.activePreset+"/"+gameplayPresetCount()+"｜EXP "+gameplayState.accumulatedExp.toLocaleString()+"｜Slot "+num(gameplayLevelInfo(gameplayState.level)&&gameplayLevelInfo(gameplayState.level).slotCount,0)+"｜Lock "+locked+'''
-          )
-
-          replace_once(
-              'debug clear all presets',
-              '''if(clearSlots){gameplayState.slots=[null,null,null,null,null];gameplayState.locks=[false,false,false,false,false]}''',
-              '''if(clearSlots){for(const p of gameplayState.presets){p.slots=[null,null,null,null,null];p.locks=[false,false,false,false,false]}gameplaySyncPresetAlias()}'''
-          )
-
-          replace_once(
-              'debug level shrink all presets',
-              '''if(newSlotCount<oldSlotCount){for(let slot=newSlotCount;slot<gameplayState.slots.length;slot++){gameplayState.slots[slot]=null;gameplayState.locks[slot]=false}}''',
-              '''if(newSlotCount<oldSlotCount){for(const p of gameplayState.presets)for(let slot=newSlotCount;slot<p.slots.length;slot++){p.slots[slot]=null;p.locks[slot]=false}}gameplayEnsureAvailablePreset();'''
-          )
-
-          replace_exact_count(
-              'opened slots all presets',
-              '''for(let slot=oldSlotCount;slot<newSlotCount;slot++){newSlots.push(slot);gameplayState.locks[slot]=false}''',
-              '''for(let slot=oldSlotCount;slot<newSlotCount;slot++){newSlots.push(slot);for(const p of gameplayState.presets)p.locks[slot]=false}''',
-              2
-          )
-
-          replace_once(
-              'reset all presets',
-              '''gameplayState.slots=[null,null,null,null,null];gameplayState.locks=[false,false,false,false,false];gameplayState.characterCoin=1000000;''',
-              '''gameplayState.presets=[{slots:[null,null,null,null,null],locks:[false,false,false,false,false]},{slots:[null,null,null,null,null],locks:[false,false,false,false,false]},{slots:[null,null,null,null,null],locks:[false,false,false,false,false]}];gameplayState.activePreset=1;gameplaySyncPresetAlias();gameplayState.characterCoin=1000000;'''
-          )
-
-          replace_once(
-              'preset bounds',
-              '''  function gameplayLockButtonBounds(slot){const n=Math.round(num(slot,-1));if(gameplayLockBoundsCache.has(n))return gameplayLockBoundsCache.get(n);const base="VarB_107Popup/Group/Pray/Right/List/BlessList_"+n,bounds=gameplayBoundsForPath(base+"/BlessList_A/Lock")||gameplayBoundsForPath(base+"/BlessList_Locked/Lock");gameplayLockBoundsCache.set(n,bounds);return bounds}
-  function gameplayInvalidateHitBounds(){gameplayPrayButtonBoundsCache=null;gameplaySkipButtonBoundsCache=null;gameplayLockBoundsCache.clear()}''',
-              '''  function gameplayLockButtonBounds(slot){const n=Math.round(num(slot,-1));if(gameplayLockBoundsCache.has(n))return gameplayLockBoundsCache.get(n);const base="VarB_107Popup/Group/Pray/Right/List/BlessList_"+n,bounds=gameplayBoundsForPath(base+"/BlessList_A/Lock")||gameplayBoundsForPath(base+"/BlessList_Locked/Lock");gameplayLockBoundsCache.set(n,bounds);return bounds}
-  function gameplayPresetButtonBounds(presetIndex){const n=Math.max(1,Math.min(3,Math.round(num(presetIndex,1))));if(gameplayPresetBoundsCache.has(n))return gameplayPresetBoundsCache.get(n);const base="VarB_107Popup/Group/Pray/preset/"+String(n).padStart(2,"0"),bounds=gameplayBoundsForPath(base);gameplayPresetBoundsCache.set(n,bounds);return bounds}
-  function gameplayPresetHitFromPoint(p){for(let preset=1;preset<=3;preset++)if(gameplayPointInRect(p,gameplayPresetButtonBounds(preset)))return preset;return 0}
-  function gameplayInvalidateHitBounds(){gameplayPrayButtonBoundsCache=null;gameplaySkipButtonBoundsCache=null;gameplayLockBoundsCache.clear();gameplayPresetBoundsCache.clear()}'''
-          )
-
-          replace_once(
-              'preset click',
-              '''canvas.addEventListener("click",ev=>{const p=gameplayCanvasPoint(ev);if(isPrayConfirmPopupScene){const action=prayConfirmButtonHit(p);if(action&&window.parent&&window.parent!==window)window.parent.postMessage({type:"maplem-pray-confirm-action",action},"*");return}const lockSlot=gameplaySceneLockHitFromPoint(p);''',
-              '''canvas.addEventListener("click",ev=>{const p=gameplayCanvasPoint(ev);if(isPrayConfirmPopupScene){const action=prayConfirmButtonHit(p);if(action&&window.parent&&window.parent!==window)window.parent.postMessage({type:"maplem-pray-confirm-action",action},"*");return}const presetHit=gameplayPresetHitFromPoint(p);if(presetHit){gameplaySwitchPreset(presetHit);return}const lockSlot=gameplaySceneLockHitFromPoint(p);'''
-          )
-
-          replace_once(
-              'preset hover',
-              '''canvas.style.cursor=(gameplaySceneLockHitFromPoint(p)>=0||gameplayPointInRect(p,gameplaySkipButtonBounds())||gameplayPointInRect(p,gameplayPrayButtonBounds()))?"pointer":"default"''',
-              '''const presetHit=gameplayPresetHitFromPoint(p),presetClickable=presetHit>0&&presetHit<=gameplayPresetCount();canvas.style.cursor=(presetClickable||gameplaySceneLockHitFromPoint(p)>=0||gameplayPointInRect(p,gameplaySkipButtonBounds())||gameplayPointInRect(p,gameplayPrayButtonBounds()))?"pointer":"default"'''
-          )
-
-          replace_once(
-              'preset diagnostic API',
-              '''  window.MAPLEM_PRAY_PRESENTATION_TIMING={last:()=>gameplayPresentationTimingLast?JSON.parse(JSON.stringify(gameplayPresentationTimingLast)):null};''',
-              '''  window.MAPLEM_PRAY_PRESENTATION_TIMING={last:()=>gameplayPresentationTimingLast?JSON.parse(JSON.stringify(gameplayPresentationTimingLast)):null};
-  window.MAPLEM_PRAY_PRESETS={snapshot:()=>({activePreset:gameplayState.activePreset,availablePresetCount:gameplayPresetCount(),unlockLevels:[1,2,3].map(gameplayPresetUnlockLevel),presets:gameplayState.presets.map((p,index)=>({preset:index+1,slots:p.slots.map(x=>x?{gradeInfoIndex:num(x.gradeInfoIndex,-1),optionCodeHash:String(x.optionCodeHash||""),optionValueRaw:num(x.optionValueRaw,0),displayText:gameplayOutcomeText(x)}:null),locks:p.locks.slice()}))})};
-  window.MAPLEM_PRAY_PRESET_PHASE1={ready:true,mode:"direct-beta",evidence:{onChangePreset:"SantuaryOfLightPopupFunc.OnChangePreset(int presetIndex)",currentPresetIndex:"SanctuaryOfLightStatFunc.GetCurrentPresetIndex()",slotOwner:"SearchStatSlot(presetIndex, slotIndex) / UpdateStatGrade(presetIndex, slotIndex, ..., locked)",availability:"LevelInfo.presetCount / GetPresetUnlockLevel(presetIndex)"}};'''
-          )
-
-          path.write_text(source, encoding='utf-8', newline='\n')
-
-      - name: Syntax and direct-implementation guard checks
-        shell: bash
+      - name: Validate direct Beta runtime
         run: |
           set -euo pipefail
           node --check beta/light-sanctum-pray/runtime/player-presentation.js
@@ -159,13 +41,8 @@ jobs:
           test ! -e beta/light-sanctum-pray/runtime/preset-status-bridge.js
 
       - name: Commit direct Beta implementation
-        shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- beta/light-sanctum-pray/runtime/player-presentation.js; then
-            echo 'No player changes produced.'
-            exit 1
-          fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add beta/light-sanctum-pray/runtime/player-presentation.js
