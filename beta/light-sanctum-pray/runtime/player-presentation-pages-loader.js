@@ -23,6 +23,21 @@
     return source.slice(0, first) + replacement + source.slice(first + needle.length);
   }
 
+  function replaceExactCount(source, label, needle, replacement, expectedCount) {
+    let count = 0;
+    let cursor = 0;
+    while (true) {
+      const hit = source.indexOf(needle, cursor);
+      if (hit < 0) break;
+      count++;
+      cursor = hit + needle.length;
+    }
+    if (count !== expectedCount) {
+      throw new Error(label + ": expected " + expectedCount + " anchors, found " + count);
+    }
+    return source.split(needle).join(replacement);
+  }
+
   function patchPlayer(source) {
     source = replaceOnce(
       source,
@@ -85,11 +100,12 @@
       'if(newSlotCount<oldSlotCount){for(const p of gameplayState.presets)for(let slot=newSlotCount;slot<p.slots.length;slot++){p.slots[slot]=null;p.locks[slot]=false}}gameplayEnsureAvailablePreset()'
     );
 
-    source = replaceOnce(
+    source = replaceExactCount(
       source,
-      "debug opened slots all presets",
+      "opened slots all presets",
       'for(let slot=oldSlotCount;slot<newSlotCount;slot++){newSlots.push(slot);gameplayState.locks[slot]=false}',
-      'for(let slot=oldSlotCount;slot<newSlotCount;slot++){newSlots.push(slot);for(const p of gameplayState.presets)p.locks[slot]=false}'
+      'for(let slot=oldSlotCount;slot<newSlotCount;slot++){newSlots.push(slot);for(const p of gameplayState.presets)p.locks[slot]=false}',
+      2
     );
 
     source = replaceOnce(
