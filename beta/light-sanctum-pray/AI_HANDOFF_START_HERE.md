@@ -5,7 +5,8 @@
 - Feature branch: `feature/light-sanctum-pages`
 - Production/main remains the user-accepted sealed baseline and must not be modified by preset experiments.
 - Preset Phase 1 remains **beta-only** and still requires player browser acceptance before PR/merge/release.
-- User browser smoke on direct `file://` launch failed with Chromium unique-origin/CORS errors. Treat direct file launch as unsupported for this Beta.
+- Direct `file://` browser launch is unsupported for this Beta because Chromium unique-origin/CORS rules block the loader/iframe architecture.
+- The first dependency-free PowerShell preview launcher reached the user but Windows PowerShell reported `ParserError / TerminatorExpectedAtEndOfString`. This was fixed in commit `5a811597f0162f6ba50293730033a4d3365531ea` by making the `.ps1` source ASCII-only / Windows PowerShell 5.1-safe and by simplifying the request-path parser.
 
 ## Critical model discovery
 The top-left `1 / 2 / 3` controls are Pray presets under:
@@ -45,10 +46,10 @@ User reproduced these Chromium errors when opening `beta/light-sanctum-pray/inde
 - `document.documentElement.dataset.presetPhase1 === 'failed'`
 - Runtime stayed black.
 
-Conclusion: this is not a preset-state-model failure. Chromium treats nested local `file:` documents as unique origins, so the loader/fetch/iframe/postMessage architecture cannot be reliably validated by direct file launch, even with the earlier local-file XHR shim. The shim was removed.
+Conclusion: this is not a preset-state-model failure. Chromium treats nested local `file:` documents as unique origins, so the loader/fetch/iframe/postMessage architecture cannot be reliably validated by direct file launch. The earlier local-file XHR shim was removed.
 
-## New dependency-free local preview route
-Use the new one-click launcher:
+## Dependency-free local preview route
+Use:
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
 
 It invokes `RUN_LOCAL_PREVIEW.ps1`, which starts a tiny loopback HTTP server using built-in Windows PowerShell/.NET only. No Python, Node, Git CLI, or extra installation is required.
@@ -61,6 +62,14 @@ Server defaults:
 - sends `Cache-Control: no-store`
 - prevents path traversal outside repository root
 - supports GET/HEAD and common JS/CSS/image/audio MIME types
+
+### Windows PowerShell 5.1 launcher correction
+The first `.ps1` version contained Traditional-Chinese console strings and used an unnecessarily fragile request-path regex. On the user's Windows PowerShell it failed at parse time with:
+- `ParserError`
+- `TerminatorExpectedAtEndOfString`
+- reported around the `Not Found` response line, with a secondary unmatched-block location.
+
+Commit `5a811597f0162f6ba50293730033a4d3365531ea` replaces the launcher with an ASCII-only script to remove Windows PowerShell 5.1 encoding/parser ambiguity. It also replaces the query-string regex with a simple `IndexOf('?')` / `Substring` path split. Browser smoke after this correction is still pending.
 
 `runtime/preset-status-bridge.js` mirrors runtime `data-preset-phase1` state to the Beta parent shell, so top-level DevTools may inspect:
 ```js
@@ -86,7 +95,7 @@ Do not rewrite/simplify while developing presets:
 ## Browser acceptance sequence
 1. Pull latest `feature/light-sanctum-pages` in GitHub Desktop.
 2. Double-click `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`.
-3. Browser should open `http://127.0.0.1:8765/beta/light-sanctum-pray/`.
+3. PowerShell window should stay open and browser should open `http://127.0.0.1:8765/beta/light-sanctum-pray/`.
 4. Top-level DevTools: `document.documentElement.dataset.presetPhase1` must become `"ready"`.
 5. Lv.1: preset 1 selected, preset 2 selectable, preset 3 locked `Lv.11`.
 6. Pray once in preset 1; switch to preset 2; preset 2 must have independent slot/lock state.
