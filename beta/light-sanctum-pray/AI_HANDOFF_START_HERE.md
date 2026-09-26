@@ -64,60 +64,64 @@ Use:
 
 The first PowerShell script revision had a Windows PowerShell 5.1 parser/encoding issue; it was replaced with an ASCII-safe script. User then successfully launched the local HTTP preview.
 
-## Current blocker — preset patch anchor mismatch
-User browser smoke on the working HTTP preview produced:
-
+## Preset patch bootstrap findings
+### Failure 1 — multi-line helper anchor missing
+User browser smoke first produced:
 ```text
 Preset Phase 1 loader failed: preset helpers: anchor not found
 ```
+The intended helper lines do exist in the base player. Cause was consistent with Windows checkout/local HTTP serving CRLF text while the loader's multi-line anchor used LF.
 
-and top-level diagnostic:
-
-```js
-document.documentElement.dataset.presetPhase1
-// 'failed'
-```
-
-This proves:
-- Local HTTP preview is working.
-- The runtime black screen is now caused by the Preset Phase 1 patch bootstrap, not by GitHub Desktop, file://, Python, PowerShell, or the outer site shell.
-- The failing anchor is specifically the multi-line `preset helpers` anchor.
-
-Inspection of repository source shows the intended helper lines do exist in the base player. The remaining discrepancy is consistent with the Windows checkout/local server serving CRLF text while the loader's multi-line anchor was authored with LF. Single-line anchors before it can match, while the first multi-line anchor fails.
-
-## Current fix — line-ending normalization before patching
-New Beta file:
+Fix:
 - `runtime/preset-source-normalizer.js`
+- normalizes only fetched `player-presentation.js` source from CRLF/lone-CR to LF before the fail-closed patcher sees it.
+- exposes `MAPLEM_PRESET_SOURCE_NORMALIZER` diagnostics.
 
-It wraps only the fetch of `player-presentation.js`, normalizes `CRLF` / lone `CR` to `LF`, and returns the normalized source to the existing fail-closed preset loader. HTTP behavior for all other resources is unchanged.
+Relevant commits:
+- `fcd375a5168573f6fe682a38a71cc20689a00f8f` — add source line-ending normalizer.
+- `a7e606b7eecf90e96afd426cf3c7d7117870b13c` — load normalizer before preset loader.
+- `6f4349f81e297c1b73c13fecee366fa7b2c8187c` — add normalizer syntax gate.
 
-Beta runtime load order is now:
+### Failure 2 — slot-open anchor is intentionally duplicated
+After CRLF normalization, user browser smoke advanced further and produced:
+```text
+Preset Phase 1 loader failed: debug opened slots all presets: anchor is not unique
+```
+This proves the line-ending fix worked and patching reached the later slot-open step.
+
+Inspection shows this exact base snippet occurs twice by design:
+```js
+for(let slot=oldSlotCount;slot<newSlotCount;slot++){newSlots.push(slot);gameplayState.locks[slot]=false}
+```
+One occurrence is the debug EXP/level-apply path and the other is the real Pray level-up/slot-open path. Both must clear the newly opened slot lock for every preset, so replacing only one would be incorrect.
+
+Fix:
+- loader now has `replaceExactCount(...)`.
+- the slot-open patch explicitly requires **exactly 2** occurrences and replaces both.
+- if future base code has 1, 3, or any other count, loader still fails closed rather than silently patching the wrong code.
+
+Relevant commit:
+- `ebf65df1a87ebe0853a4c2c94acabefabdbb7d4a` — patch both slot-open state paths explicitly.
+
+## Current Beta runtime load order
 1. scene / fixture / gameplay / particle data
 2. sealed `player-presentation-patch.js`
 3. `preset-status-bridge.js`
 4. `preset-source-normalizer.js`
 5. `player-presentation-pages-loader.js`
-
-`MAPLEM_PRESET_SOURCE_NORMALIZER` exposes diagnostics including CRLF count and whether normalization changed the source.
-
-Relevant new commits:
-- `fcd375a5168573f6fe682a38a71cc20689a00f8f` — add preset player source line-ending normalizer.
-- `a7e606b7eecf90e96afd426cf3c7d7117870b13c` — load normalizer before preset loader.
-- `6f4349f81e297c1b73c13fecee366fa7b2c8187c` — add normalizer to PR syntax gate.
+6. patched player executes
+7. confirm-bypass → site-bridge → click-audio
 
 ## Next browser smoke
 1. Pull latest `feature/light-sanctum-pages` in GitHub Desktop.
 2. Keep/restart `RUN_LOCAL_PREVIEW.cmd`.
-3. Hard refresh the browser page.
+3. Hard refresh browser (`Ctrl+F5`).
 4. Check:
 ```js
 document.documentElement.dataset.presetPhase1
 ```
 Expected: `"ready"`.
-5. If still failed, send the first `Preset Phase 1 loader failed: ...` Console line and:
-```js
-window.frames[0]?.MAPLEM_PRESET_SOURCE_NORMALIZER
-```
+5. If still failed, send the first `Preset Phase 1 loader failed: ...` Console line. That error now identifies the next exact patch stage.
 6. Only after runtime reaches `ready`, proceed to full preset behavior acceptance.
 
 ## Full acceptance sequence after boot succeeds
