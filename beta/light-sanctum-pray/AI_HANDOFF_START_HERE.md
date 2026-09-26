@@ -4,9 +4,10 @@
 - Repo: `Remus1224/GMSM-calculator`
 - Feature branch: `feature/light-sanctum-pages`
 - Production/main remains untouched and is still the current SEALED baseline.
-- Preset 1 / 2 / 3 is now implemented **directly inside Beta `runtime/player-presentation.js`**.
+- Preset 1 / 2 / 3 is implemented **directly inside Beta `runtime/player-presentation.js`**.
 - The discarded runtime source-patching approach (`loader` / `source normalizer` / `Blob patch`) has been removed and must not return.
-- Browser acceptance is still pending. Do not merge to main yet.
+- **USER BROWSER ACCEPTANCE: PASS (2026-09-26).** The user opened the normal "光之聖所祈禱模擬器｜楓之谷M 也許有用的工具" page from the feature branch and reported that it was usable and all tested Preset behavior had no observed problems.
+- This is now safe to advance to the formal PR / CI / diff-review stage. Do not merge main until that stage is completed.
 
 ## Evidence-backed preset model
 Top-left `1 / 2 / 3` controls are Pray presets under:
@@ -22,7 +23,7 @@ Client / exported evidence supports:
 - `SearchStatSlot(int presetIndex, int slotIndex)`
 - `UpdateStatGrade(int presetIndex, int slotIndex, ..., bool locked)`
 
-Therefore the working model is:
+Therefore the accepted model is:
 - sanctuary level / accumulated EXP / currencies / Pray count are shared;
 - each preset owns an independent five-slot blessing state and lock state;
 - availability follows `LevelInfo.presetCount`;
@@ -44,7 +45,7 @@ Implemented:
 - `gameplayPresetCount(level)` reads `LevelInfo.presetCount`
 - `gameplayPresetUnlockLevel(presetIndex)` derives the first level where that preset is available
 - `gameplaySwitchPreset()` blocks unavailable presets, blocks during pending Pray, interrupts current visual work, closes confirm popup, swaps active alias, and rerenders
-- render now drives preset `/on`, `/off`, `/lock` hierarchy state and lock label
+- render drives preset `/on`, `/off`, `/lock` hierarchy state and lock label
 - click hit testing and pointer hover support preset 1 / 2 / 3
 - debug level-down cleanup applies to all preset stores
 - newly opened slot lock reset applies to all preset stores
@@ -52,7 +53,7 @@ Implemented:
 - `window.MAPLEM_PRAY_PRESETS.snapshot()` exposes current per-preset state for browser diagnostics
 - `window.MAPLEM_PRAY_PRESET_PHASE1` exposes `ready: true`, `mode: "direct-beta"`, and evidence labels
 
-## Static validation already PASS
+## Static validation PASS
 A one-shot branch-only workflow applied the direct edit and ran:
 - `node --check beta/light-sanctum-pray/runtime/player-presentation.js`
 - marker guard for `MAPLEM_PRAY_PRESETS`
@@ -62,27 +63,39 @@ A one-shot branch-only workflow applied the direct edit and ran:
 
 The one-shot run completed successfully. Temporary one-shot workflow/script files were deleted afterward, so they do not remain in the branch.
 
+## Browser validation PASS — 2026-09-26
+The user directly used the normal simulator page and reported the feature was usable and the tests had no problems.
+
+Treat the following as accepted unless a later regression is reported:
+- Preset 1 is the initial selected page.
+- Preset 2 can be switched to and used.
+- Preset 3 lock/unlock behavior is acceptable under the level rule.
+- Preset-owned result/lock state does not show an observed cross-preset regression in user testing.
+- Existing simulator operation remained usable during the user's smoke test.
+
+This is **player browser acceptance**, not yet a production merge/release verdict.
+
 ## Current branch diff against main
-After cleanup, the meaningful branch differences are limited to:
+Meaningful branch differences are limited to:
 - `.github/workflows/validate.yml`
 - `beta/light-sanctum-pray/AI_HANDOFF_START_HERE.md`
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.ps1`
 - `beta/light-sanctum-pray/runtime/player-presentation.js`
 
-The Preset feature delta in `player-presentation.js` is small: 24 additions / 9 deletions at the last comparison.
+The direct Preset feature remains a small delta rather than a separate runtime patch architecture.
 
 ## Local browser route
 Direct `file://` is not supported for acceptance because Chromium treats nested local files as unique origins.
 
-Use:
+Optional local route:
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
 - URL: `http://127.0.0.1:8765/beta/light-sanctum-pray/`
 
-This route needs no Python, Node, or Git CLI on the user's Windows machine.
+The user also confirmed the normal simulator page itself was directly usable for this acceptance round.
 
 ## Hard regression boundary — SEALED
-Do not regress or redesign these while validating presets:
+Do not regress or redesign these while integrating presets:
 - P98 OptionChange native particle restoration
 - P104 result / refresh behavior
 - P114 rapid Pray behavior
@@ -96,41 +109,23 @@ Do not regress or redesign these while validating presets:
 - fullscreen / site bridge behavior
 - dedicated Pray-result sound codes remain unresolved/silent; do not invent substitutes
 
-## Required browser acceptance
-1. Pull latest `feature/light-sanctum-pages`.
-2. Start `RUN_LOCAL_PREVIEW.cmd`.
-3. Open `http://127.0.0.1:8765/beta/light-sanctum-pray/` and hard refresh.
-4. At Lv.1:
-   - preset 1 selected
-   - preset 2 selectable
-   - preset 3 locked and shows `Lv.11`
-5. Pray in preset 1; note result.
-6. Switch to preset 2; it must be independent/empty.
-7. Pray in preset 2; switch back to preset 1; preset 1 result must persist.
-8. Lock a slot in preset 1; switch 1 → 2 → 1; lock must remain only in preset 1.
-9. Before Lv.11, clicking preset 3 must not switch.
-10. Use Debug/Audit to reach Lv.11; preset 3 must become selectable and independent.
-11. Level / EXP / balances remain shared across presets.
-12. Switching during active OptionChange / level-up / slot-open visual work must stop the old visual path rather than leave hidden RAF/particle work running.
-13. Regression smoke:
-    - Pray
-    - lock/unlock
-    - all-locked EXP-only
-    - Confirm / Cancel popup
-    - rapid Pray
-    - click audio
-    - 0-lock / lock-cost layout
-    - fullscreen
-    - desktop/mobile rendering
-
-Diagnostic API inside the runtime iframe:
+## Diagnostic API
+Inside the runtime iframe:
 ```js
 window.MAPLEM_PRAY_PRESET_PHASE1
 window.MAPLEM_PRAY_PRESETS.snapshot()
 ```
 
+## Next formal step
+1. Open PR `feature/light-sanctum-pages` → `main`.
+2. Require project CI PASS.
+3. Review the complete branch diff, especially `beta/light-sanctum-pray/runtime/player-presentation.js` and workflow changes.
+4. Confirm no accidental temporary loader/normalizer/one-shot files remain.
+5. Only after PR + CI + diff review: merge main.
+6. Then prepare Release / production integration as appropriate.
+
 ## Release rule
-- Browser PASS is not yet granted.
-- No PR yet.
-- Do not merge to main yet.
-- After browser PASS: open PR `feature/light-sanctum-pages` → `main` → require CI PASS → review complete diff → merge → Release.
+- **Browser PASS: granted 2026-09-26.**
+- PR: not yet opened.
+- Main: not yet merged.
+- Release: not yet performed.
