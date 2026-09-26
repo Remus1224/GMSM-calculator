@@ -1,4 +1,4 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V3
+# AI_HANDOFF_START_HERE — Game Info Beta V4
 
 ## Current status — 2026-09-27
 - Repo: `Remus1224/GMSM-calculator`
@@ -8,7 +8,7 @@
 - Direct first-page URL: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
 - Production `game-info/` still does **not** exist.
 - Root production menu remains intentionally untouched.
-- V1 and V2 were browser-reviewed; V3 is a visual refinement round and is **NOT SEALED** yet.
+- V1/V2/V3 were browser-reviewed. V4 is the first dedicated **Liquid Glass Material Prototype** and is **NOT SEALED** yet.
 
 ## Product concept
 Entry/display name: **也許有用的資訊**.
@@ -21,78 +21,72 @@ Planned entries:
 3. 星座核心需求表 — coming soon.
 4. 六轉核心需求表 — coming soon.
 
-## V3 design target
-Formal visual target:
-- **iOS / visionOS Frosted Data Sheet**
-- premium but restrained glass material
-- data remains the priority; glass is only the presentation material
-- desktop and phone both keep the same compact one-row-per-level information model
+## V4 design target
+Formal target:
+- **Liquid Glass Material Prototype**
+- visually inspired by modern liquid-glass / high-end glassmorphism techniques commonly achievable on the web
+- not a copy of Apple proprietary UI assets/code
+- data readability remains primary
+- no continuous WebGL/shader animation; mobile thermal cost must stay bounded
 
-User feedback driving V3:
-- V2 glass quality was roughly 60–70% of the desired result.
-- Continue toward Apple Vision / iOS frosted glass.
-- Typography itself also needed refinement: size, hierarchy, weight and ordering felt insufficiently polished.
+User feedback driving V4:
+- V3 typography was acceptable.
+- V3 did not read as real glass; it looked like a colored background plus white border.
+- Desired direction is closer to liquid-glass references: transparent material, local color transmission, directional/specular highlights and slight chromatic edge behavior.
+- Column headers and main field labels should be more visually prominent than the row values.
+- Column headers, levels and numeric values should be centered.
 
-## V3 visual changes
-### Glass material
-- Reduced solid white/color fill so background light transmits through the rows.
-- Replaced colored card feel with thin / medium / strong glass tiers.
-- Increased material separation using selective blur and saturation rather than opaque fills.
-- Directional highlight is biased to the upper-left rather than an equally bright white border on all sides.
-- Shadows are more neutral and softer; less colored glow.
-- Removed milestone whole-row color fill.
-- Milestone emphasis now uses a thin vertical luminous indicator plus a small dot/text marker.
-- Background changed to large, soft, non-repeating light fields instead of a visually obvious fixed gradient seam.
+## V4 material changes
+- Replaced flat translucent fills with multi-layer transparent material.
+- Added large background color/light fields so the glass has something visible to transmit and blur.
+- Added directional white specular highlight.
+- Added subtle cyan / magenta chromatic edge transmission.
+- Increased saturation/contrast inside backdrop filtering.
+- Glass border is now a gradient material edge rather than a uniform white outline.
+- Hero uses stronger glass; data rows use thinner glass.
+- Data section has local soft colored light fields behind the rows to increase refraction/transmission perception.
+- No continuous animation and no persistent WebGL loop.
+- Mobile blur intensity is deliberately reduced to keep GPU cost lower.
 
-### Depth hierarchy
-- Strong glass: page hero.
-- Medium glass: summary strip / information navigation / notes.
-- Thin glass: level rows and navigation controls.
-- The result should read as layered frosted material instead of equally heavy cards.
-
-### Typography
-- Reduced excessive 900-weight usage.
-- Main headings use a strong but less bulky display weight with tighter negative tracking.
-- Secondary copy is smaller, lighter and quieter.
-- Data column headers are intentionally small and low-contrast.
-- Numeric cells use tabular lining numerals for stable vertical alignment.
-- Summary values use clearer hierarchy without oversized card typography.
-- Mobile milestone text is secondary and does not compete with the primary numeric row.
-- Overall target is a system-like information sheet rather than a dashboard/card UI.
-
-### Mobile density
-- Level row height reduced further.
-- Milestone rows add only a narrow secondary line instead of turning into tall cards.
-- Hero and summary strip are compressed so the actual table enters the viewport sooner.
-- Narrow phone layout keeps the same six primary numeric columns and removes the milestone header column.
+## V4 typography / alignment
+- Existing V3 typography direction retained.
+- Data headers are now stronger/darker than row values and centered.
+- Lv values centered.
+- Numeric values centered.
+- Summary labels centered and visually stronger than summary values.
+- Milestone / annotation remains tertiary and low-emphasis.
+- PNG export was updated to use centered headers and centered row values as well.
 
 ## Table image export
 The Light Sanctum page retains:
 - `儲存 / 分享表格圖片`
 
-Implementation policy:
-- no screenshot permission and no server required;
-- data is redrawn to a fixed high-resolution Canvas;
-- Canvas exports PNG independent of screen width;
-- devices supporting Web Share with files use the system share sheet;
-- otherwise PNG downloads through an object URL;
-- browsers cannot silently write directly to the phone photo library; user confirmation is required;
-- no third-party DOM screenshot library is used.
+V4 export changes:
+- high-resolution Canvas remains independent of device viewport;
+- column headings centered;
+- row values centered;
+- lighter transparent row material with gradient edge treatment;
+- background light fields retained in the exported image;
+- Web Share API is used when file sharing is supported;
+- otherwise PNG download fallback is used;
+- browsers still cannot silently write into the user's photo library without user confirmation.
 
 ## Architecture
 Files:
-- `index.html` — standalone Beta shell; noindex/nofollow.
-- `style.css` — V3 frosted material + typography system.
-- `script.js` — query routing, theme handling, row rendering and PNG export.
+- `index.html` — standalone Beta shell; noindex/nofollow; V4 cache-bust.
+- `style.css` — V4 Liquid Glass material system.
+- `script.js` — routing, data rendering, V4 Canvas export.
 - `data/catalog.json` — navigation catalog.
-- `data/light-sanctum-pray-exp.json` — first structured game-data page.
+- `data/light-sanctum-pray-exp.json` — structured Light Sanctum source data.
 - `AI_HANDOFF_START_HERE.md` — this handoff.
 
-Rules:
+## Hard rules
 - Keep data separate from UI.
 - Prefer JSON updates for game-data revisions rather than hard-coding numbers in HTML.
-- Each ready page should have a stable `?page=<id>` URL.
+- Each ready page should keep a stable `?page=<id>` URL.
 - Do not blindly copy Beta governance/debug files into production.
+- Do not introduce continuous high-cost visual animation purely for glass effects.
+- Production promotion remains blocked until Browser Acceptance PASS.
 
 ## Light Sanctum data authority
 Source:
@@ -139,28 +133,25 @@ Milestones:
 - Lv15: slot 5 + max level.
 
 ## Browser acceptance gate
-V3 requires user browser testing before any production promotion.
-
-Required checks:
-1. Desktop: overall glass realism, especially whether rows look like frosted material rather than colored cards.
-2. Desktop: typography hierarchy and numerical alignment.
-3. Phone portrait: row density, header readability and milestone compactness.
-4. Phone landscape.
-5. Dark mode.
-6. Long-page screenshots: background should no longer show an obvious horizontal seam.
-7. `儲存 / 分享表格圖片` remains functional on desktop and phone.
-8. Browser Back/Forward remains correct.
+Required V4 checks:
+1. Desktop: glass should look like a material rather than a colored panel with a white outline.
+2. Desktop: column header hierarchy should be stronger than row values.
+3. Desktop: headers / levels / numeric cells should be visually centered and aligned.
+4. Phone portrait: glass effect, density and readability.
+5. Phone landscape.
+6. Dark mode.
+7. Long-page screenshot background continuity.
+8. `儲存 / 分享表格圖片` output alignment and quality.
+9. Browser Back/Forward.
+10. Observe whether phone temperature / battery use stays reasonable during static viewing.
 
 ## Promotion rule
-Do not copy the entire Beta directory into production.
-
 After Browser Acceptance PASS:
 - create `feature/game-info-release` from current `main`;
 - selectively promote user-facing `index.html`, `style.css`, `script.js`, and `data/`;
-- set production cache-bust strings;
-- add the official main-menu entry;
+- add official main-menu entry;
 - update README / CI / release notes as appropriate;
 - PR → CI → diff review → merge → Pages deployment → production browser test.
 
 ## Next step
-User Browser Acceptance for Beta V3 and any final material / typography tuning.
+User Browser Acceptance for Beta V4 and targeted liquid-glass refinement if needed.
