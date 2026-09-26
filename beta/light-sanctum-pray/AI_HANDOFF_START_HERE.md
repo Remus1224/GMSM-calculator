@@ -3,11 +3,14 @@
 ## Current status — 2026-09-26
 - Repo: `Remus1224/GMSM-calculator`
 - Feature branch: `feature/light-sanctum-pages`
-- Production/main remains untouched and is still the current SEALED baseline.
-- Preset 1 / 2 / 3 is implemented **directly inside Beta `runtime/player-presentation.js`**.
+- PR: `#6 — Light Sanctum Pray: add Preset 1 / 2 / 3`
+- Preset 1 / 2 / 3 is implemented directly inside the Pray player runtime.
 - The discarded runtime source-patching approach (`loader` / `source normalizer` / `Blob patch`) has been removed and must not return.
 - **USER BROWSER ACCEPTANCE: PASS (2026-09-26).** The user opened the normal "光之聖所祈禱模擬器｜楓之谷M 也許有用的工具" page from the feature branch and reported that it was usable and all tested Preset behavior had no observed problems.
-- This is now safe to advance to the formal PR / CI / diff-review stage. Do not merge main until that stage is completed.
+- First PR CI run on head `c223f2e1c49d18c848527a0f93a883d9cb9f503b`: **Validate project PASS**.
+- Full PR diff review found one one-shot root helper `PROMOTE_LIGHT_SANCTUM_PRESETS.cmd`; it was intentionally removed before merge in commit `b51f6dafafed5a17e3045889e9f61d057c691ea7`.
+- Production `light-sanctum-pray/runtime/player-presentation.js` on the feature branch is byte-identical to the browser-accepted Beta player (same Git blob SHA `e42fcc6c8028f68b8289d6e94fa050f347042819`).
+- Main is not merged yet. Merge only after the updated PR head CI passes.
 
 ## Evidence-backed preset model
 Top-left `1 / 2 / 3` controls are Pray presets under:
@@ -30,11 +33,17 @@ Therefore the accepted model is:
 - Lv.1: preset 1 selected, preset 2 available, preset 3 locked and displays `Lv.11`;
 - preset 3 becomes available at Lv.11.
 
-## Direct Beta implementation
-Target file:
+## Direct implementation
+Browser-accepted Beta source:
 - `beta/light-sanctum-pray/runtime/player-presentation.js`
 
-Implementation commit:
+Production integration source in the same PR:
+- `light-sanctum-pray/runtime/player-presentation.js`
+
+Both currently use the same Git blob SHA:
+- `e42fcc6c8028f68b8289d6e94fa050f347042819`
+
+Implementation commit lineage includes:
 - `e09ff83fa139fe3b1d822db3a6f43f1eb6c0d2cb` — `feat: implement direct beta light sanctum presets`
 
 Implemented:
@@ -51,17 +60,18 @@ Implemented:
 - newly opened slot lock reset applies to all preset stores
 - reset returns to preset 1 and clears all three preset stores
 - `window.MAPLEM_PRAY_PRESETS.snapshot()` exposes current per-preset state for browser diagnostics
-- `window.MAPLEM_PRAY_PRESET_PHASE1` exposes `ready: true`, `mode: "direct-beta"`, and evidence labels
+- `window.MAPLEM_PRAY_PRESET_PHASE1` exposes `ready: true` and evidence labels
 
-## Static validation PASS
-A one-shot branch-only workflow applied the direct edit and ran:
-- `node --check beta/light-sanctum-pray/runtime/player-presentation.js`
-- marker guard for `MAPLEM_PRAY_PRESETS`
-- marker guard for `gameplayState.presets=`
-- marker guard for `function gameplaySwitchPreset`
-- absence guards for the removed loader / normalizer / status bridge
+## Static / CI validation
+Static checks cover the Pray runtime via project validation workflow.
 
-The one-shot run completed successfully. Temporary one-shot workflow/script files were deleted afterward, so they do not remain in the branch.
+PR #6 first CI run:
+- Workflow: `Validate project`
+- Run number: `89`
+- Head: `c223f2e1c49d18c848527a0f93a883d9cb9f503b`
+- Result: **PASS**
+
+The PR head then changed only to remove the one-shot promotion helper and update this handoff. Require the new head CI to PASS before merge.
 
 ## Browser validation PASS — 2026-09-26
 The user directly used the normal simulator page and reported the feature was usable and the tests had no problems.
@@ -73,17 +83,25 @@ Treat the following as accepted unless a later regression is reported:
 - Preset-owned result/lock state does not show an observed cross-preset regression in user testing.
 - Existing simulator operation remained usable during the user's smoke test.
 
-This is **player browser acceptance**, not yet a production merge/release verdict.
+This is player browser acceptance plus PR integration review; production merge is still gated on final updated-head CI.
 
-## Current branch diff against main
-Meaningful branch differences are limited to:
+## PR diff review
+PR #6 changed files were reviewed before merge.
+
+Intended retained changes:
 - `.github/workflows/validate.yml`
 - `beta/light-sanctum-pray/AI_HANDOFF_START_HERE.md`
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`
 - `beta/light-sanctum-pray/RUN_LOCAL_PREVIEW.ps1`
 - `beta/light-sanctum-pray/runtime/player-presentation.js`
+- `light-sanctum-pray/index.html`
+- `light-sanctum-pray/runtime/index.html`
+- `light-sanctum-pray/runtime/player-presentation.js`
 
-The direct Preset feature remains a small delta rather than a separate runtime patch architecture.
+Removed before merge:
+- `PROMOTE_LIGHT_SANCTUM_PRESETS.cmd` — one-shot promotion helper, not runtime/production source.
+
+No loader / source normalizer / Blob patch / temporary one-shot workflow should remain in the merge diff.
 
 ## Local browser route
 Direct `file://` is not supported for acceptance because Chromium treats nested local files as unique origins.
@@ -117,15 +135,16 @@ window.MAPLEM_PRAY_PRESETS.snapshot()
 ```
 
 ## Next formal step
-1. Open PR `feature/light-sanctum-pages` → `main`.
-2. Require project CI PASS.
-3. Review the complete branch diff, especially `beta/light-sanctum-pray/runtime/player-presentation.js` and workflow changes.
-4. Confirm no accidental temporary loader/normalizer/one-shot files remain.
-5. Only after PR + CI + diff review: merge main.
-6. Then prepare Release / production integration as appropriate.
+1. Wait for / verify CI PASS on the updated PR #6 head after cleanup.
+2. Reconfirm the final changed-file list contains no temporary promotion/loader/normalizer/one-shot files.
+3. Merge PR #6 into `main` if the updated-head CI is green and the PR remains mergeable.
+4. Verify `main` contains the merged Preset production runtime and cache-bust changes.
+5. Then prepare the formal Release / post-merge verification as appropriate.
 
 ## Release rule
-- **Browser PASS: granted 2026-09-26.**
-- PR: not yet opened.
-- Main: not yet merged.
-- Release: not yet performed.
+- **Browser PASS: 2026-09-26.**
+- **PR #6: OPEN.**
+- **First CI: PASS.**
+- **Full diff review: completed; one-shot promotion helper removed.**
+- **Main: not yet merged.**
+- **Release: not yet performed.**
