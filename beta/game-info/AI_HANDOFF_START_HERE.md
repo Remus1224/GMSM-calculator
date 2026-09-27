@@ -1,11 +1,11 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V18-R2
+# AI_HANDOFF_START_HERE — Game Info Beta V18-R3
 
 ## Current version
 - Repo: `Remus1224/GMSM-calculator`
 - Area: `main/beta/game-info/`
 - Public Beta: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Light Sanctum page: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Current version: **V18-R2 — Main-site Atmosphere Transfer**
+- Current version: **V18-R3 — Atmosphere Positioning Test**
 - Production `game-info/` has not been created yet.
 
 ## PASS so far
@@ -16,16 +16,17 @@
 - Typography/readability: accepted.
 - Single-sheet table direction: accepted.
 
-## What changed in V18-R2
-- V18-R1 was rejected and rolled back before this revision.
-- The page background now follows the main site's simpler atmosphere logic: three very large, soft overlapping radial fields instead of many small visible fields.
-- The table uses the same principle internally: only three oversized fields whose centers sit at or beyond the table edges, so the table should show broad color transition rather than obvious blobs.
-- Dark keeps visible cyan + violet atmosphere instead of being desaturated.
-- Existing V18 glass edge, blur, shadow and specular settings were intentionally left unchanged so this revision tests atmosphere only.
+## What changed in V18-R3
+- V18-R2 proved that the main-site large-field blending approach is cleaner than many small visible fields, but the page still read too much as a predictable left-cyan / right-pink split when zoomed out.
+- V18-R3 changes only atmosphere positioning and coverage. Glass blur, border, shadow, specular, typography and data layout are unchanged.
+- Page atmosphere now uses four large, asymmetric fields: cyan concentrated toward the upper-left, a weak lavender transition near the upper-right, soft pink focused around the right-middle / lower-right, and a weak cool-cyan balance from the lower-left.
+- A larger low-color central breathing area is intentionally preserved.
+- Table atmosphere follows the same color rhythm at lower strength, but its field centers are shifted farther outside the table so it does not simply mirror the page background.
+- Dark keeps the V18-R2 cyan / violet vitality and only changes positioning.
 - Runtime CSS remains the clean two-file architecture: `style.css + glass-theme.css`.
 
 ## Not finished yet
-- V18-R2 Browser Acceptance — pending user visual review.
+- V18-R3 Browser Acceptance — pending user visual review.
 - Premium / liquid-glass refinement closer to the visual reference — pending.
 - Subtle material interaction — deferred.
 - PNG export parity — pending.
@@ -33,8 +34,8 @@
 - Production promotion — pending.
 
 ## Next plan
-1. Compare the V18-R2 page background with the main site's natural color blending.
-2. Check whether the table now inherits a similarly broad, shape-less color flow in both Light and Dark.
-3. If accepted, keep the atmosphere fixed and continue glass-material refinement separately.
+1. Judge whether the page now has more natural color clustering, breathing room and asymmetry without visible gradient shapes.
+2. Check whether the table atmosphere feels independent from the page background instead of appearing as the same left/right split.
+3. If accepted, freeze atmosphere positioning and continue glass-material refinement separately.
 4. Then align PNG export and run mobile/thermal acceptance.
 5. Prepare production promotion only after full acceptance.
