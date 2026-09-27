@@ -1,4 +1,4 @@
-/* Game Info Beta V19-R1 — Organic Mist Color Balance.
+/* Game Info Beta V19-R2 — Mist Topology Rebuild.
    V17 remains the flattened runtime architecture.
    Atmosphere = one static raster source; glass material stays separate. */
 :root{
@@ -8,10 +8,10 @@
   --palette-lavender:#B2BCEE;
   --palette-purple:#BDA4E5;
   --palette-violet:#C88DDD;
-  --mist-texture:url("assets/mist-organic-v19.webp");
-  --mist-page-opacity:1;
-  --mist-panel-opacity:.90;
-  --mist-table-opacity:.94;
+  --mist-texture:url("assets/mist-organic-v19-r2.webp");
+  --mist-page-opacity:.98;
+  --mist-panel-opacity:.98;
+  --mist-table-opacity:.98;
   --text:#232936;--strong:#151a24;--muted:#6f7888;--soft:#919aa8;--line:rgba(69,87,124,.10);
   --ready:#238562;--accent:#7184f4;
   --panel-a:rgba(255,255,255,.15);--panel-b:rgba(255,255,255,.035);--panel-c:rgba(255,255,255,.075);
@@ -23,9 +23,9 @@
 }
 [data-theme="dark"]{
   --page-base:#080b12;
-  --mist-page-opacity:.46;
-  --mist-panel-opacity:.24;
-  --mist-table-opacity:.30;
+  --mist-page-opacity:.62;
+  --mist-panel-opacity:.42;
+  --mist-table-opacity:.48;
   --text:#dce5ef;--strong:#f3f7fb;--muted:#9aa8b6;--soft:#748292;--line:rgba(194,212,230,.075);
   --ready:#78d7ae;--accent:#a8b4ff;
   --panel-a:rgba(20,30,43,.46);--panel-b:rgba(8,13,22,.18);--panel-c:rgba(29,23,43,.18);
@@ -43,18 +43,18 @@ body::before{
   inset:-12vh -8vw;
   background-image:var(--mist-texture);
   background-repeat:no-repeat;
-  background-position:47% 42%;
+  background-position:50% 44%;
   background-size:cover;
   opacity:var(--mist-page-opacity);
-  filter:saturate(1.32) contrast(1.00);
+  filter:saturate(1.14) contrast(1.01);
   transform:scale(1.04);
   transform-origin:center;
 }
 body::after{content:none}
 [data-theme="dark"] body::before{
-  background-position:59% 36%;
+  background-position:42% 52%;
   opacity:var(--mist-page-opacity);
-  filter:brightness(.46) saturate(1.42) contrast(1.12);
+  filter:brightness(.52) saturate(1.55) contrast(1.08);
   mix-blend-mode:screen;
 }
 
@@ -98,13 +98,13 @@ body::after{content:none}
   background-image:var(--mist-texture);
   background-repeat:no-repeat;
   opacity:var(--mist-panel-opacity);
-  filter:saturate(1.18) contrast(.98) brightness(1.01);
+  filter:saturate(1.12) contrast(1.00) brightness(1.01);
   mix-blend-mode:normal;
 }
-.hero-compact::after{background-size:188% 214%;background-position:18% 72%}
-.note-panel::after{background-size:205% 235%;background-position:83% 18%}
+.hero-compact::after{background-size:168% 190%;background-position:12% 28%}
+.note-panel::after{background-size:185% 205%;background-position:78% 70%}
 [data-theme="dark"] .hero-compact::after,[data-theme="dark"] .note-panel::after{
-  filter:brightness(.44) saturate(1.42) contrast(1.12);
+  filter:brightness(.52) saturate(1.60) contrast(1.08);
   mix-blend-mode:screen;
 }
 
@@ -145,10 +145,10 @@ body::after{content:none}
   z-index:0;
   background-image:var(--mist-texture);
   background-repeat:no-repeat;
-  background-size:176% 128%;
-  background-position:72% 61%;
+  background-size:154% 118%;
+  background-position:56% 54%;
   opacity:var(--mist-table-opacity);
-  filter:saturate(1.16) contrast(.98);
+  filter:saturate(1.13) contrast(1.00);
 }
 .data-section::after{
   z-index:1;
@@ -158,9 +158,9 @@ body::after{content:none}
     linear-gradient(180deg,rgba(255,255,255,.10),transparent 8%,transparent 92%,rgba(255,255,255,.035));
 }
 [data-theme="dark"] .data-section::before{
-  background-position:31% 44%;
+  background-position:41% 48%;
   opacity:var(--mist-table-opacity);
-  filter:brightness(.44) saturate(1.46) contrast(1.13);
+  filter:brightness(.50) saturate(1.65) contrast(1.09);
   mix-blend-mode:screen;
 }
 [data-theme="dark"] .data-section::after{
@@ -184,17 +184,17 @@ body::after{content:none}
 [data-theme="dark"] .note-panel p{color:#a8b5c2}
 [data-theme="dark"] .code-inline{color:#c7d3de;background:rgba(160,186,208,.045)}
 .toast{border:1px solid rgba(255,255,255,.24);background:rgba(24,31,45,.76);box-shadow:0 10px 30px rgba(0,0,0,.20);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
-.footer{font-size:0!important}.footer::after{content:"Beta V19-R1 · Organic Mist Color Balance · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
+.footer{font-size:0!important}.footer::after{content:"Beta V19-R2 · Mist Topology Rebuild · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
 
 @media(max-width:720px){
-  body::before{inset:-8vh -14vw;background-size:cover;background-position:44% 38%;transform:scale(1.02)}
-  [data-theme="dark"] body::before{background-position:62% 34%}
+  body::before{inset:-8vh -14vw;background-size:cover;background-position:48% 46%;transform:scale(1.02)}
+  [data-theme="dark"] body::before{background-position:39% 55%}
   .glass-control,.nav-title,.glass-panel,.info-row,.note-panel{backdrop-filter:blur(17px) saturate(145%) contrast(103%);-webkit-backdrop-filter:blur(17px) saturate(145%) contrast(103%)}
   .data-section{backdrop-filter:blur(18px) saturate(154%) contrast(104%);-webkit-backdrop-filter:blur(18px) saturate(154%) contrast(104%)}
-  .hero-compact::after{background-size:220% 260%;background-position:21% 69%}
-  .note-panel::after{background-size:235% 280%;background-position:76% 22%}
-  .data-section::before{background-size:215% 142%;background-position:68% 58%;opacity:.86}
-  [data-theme="dark"] .data-section::before{background-position:34% 47%;opacity:.28}
+  .hero-compact::after{background-size:190% 220%;background-position:16% 24%}
+  .note-panel::after{background-size:210% 235%;background-position:82% 72%}
+  .data-section::before{background-size:176% 132%;background-position:58% 52%;opacity:.94}
+  [data-theme="dark"] .data-section::before{background-position:43% 49%;opacity:.44}
   .data-section::after{opacity:.47}
   [data-theme="dark"] .data-section::after{opacity:.12}
   .footer::after{font-size:8.5px}
