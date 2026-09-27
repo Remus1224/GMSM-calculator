@@ -1,51 +1,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 2400" preserveAspectRatio="xMidYMid slice">
   <defs>
-    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6ee7ff" stop-opacity=".72"/>
-      <stop offset=".58" stop-color="#9de9ff" stop-opacity=".26"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="violet" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ef9cff" stop-opacity=".58"/>
-      <stop offset=".55" stop-color="#c5a9ff" stop-opacity=".24"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="rose" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#8df0df" stop-opacity=".26"/>
-      <stop offset=".55" stop-color="#ffb4dd" stop-opacity=".22"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
+    <radialGradient id="fadeTopLeft" cx="28%" cy="22%" r="64%">
+      <stop offset="0" stop-color="white" stop-opacity="1"/>
+      <stop offset=".52" stop-color="white" stop-opacity=".72"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="fadeMidRight" cx="70%" cy="49%" r="62%">
+      <stop offset="0" stop-color="white" stop-opacity="1"/>
+      <stop offset=".56" stop-color="white" stop-opacity=".68"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="fadeBottom" cx="42%" cy="78%" r="68%">
+      <stop offset="0" stop-color="white" stop-opacity=".92"/>
+      <stop offset=".58" stop-color="white" stop-opacity=".62"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
 
-    <filter id="smokeA" x="-35%" y="-35%" width="170%" height="170%">
-      <feTurbulence type="fractalNoise" baseFrequency=".0045 .009" numOctaves="4" seed="17" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="B" result="distorted"/>
-      <feGaussianBlur in="distorted" stdDeviation="34"/>
+    <mask id="maskTopLeft"><rect width="1600" height="2400" fill="url(#fadeTopLeft)"/></mask>
+    <mask id="maskMidRight"><rect width="1600" height="2400" fill="url(#fadeMidRight)"/></mask>
+    <mask id="maskBottom"><rect width="1600" height="2400" fill="url(#fadeBottom)"/></mask>
+
+    <filter id="cyanSmoke" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".006 .017" numOctaves="4" seed="19" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.75 -0.70" result="alphaNoise"/>
+      <feGaussianBlur in="alphaNoise" stdDeviation="7" result="softNoise"/>
+      <feFlood flood-color="#66ddff" flood-opacity=".58" result="color"/>
+      <feComposite in="color" in2="softNoise" operator="in"/>
     </filter>
-    <filter id="smokeB" x="-40%" y="-40%" width="180%" height="180%">
-      <feTurbulence type="fractalNoise" baseFrequency=".007 .0035" numOctaves="5" seed="31" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="150" xChannelSelector="G" yChannelSelector="R" result="distorted"/>
-      <feGaussianBlur in="distorted" stdDeviation="42"/>
+    <filter id="violetSmoke" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="turbulence" baseFrequency=".008 .013" numOctaves="5" seed="37" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.65 -0.66" result="alphaNoise"/>
+      <feGaussianBlur in="alphaNoise" stdDeviation="6" result="softNoise"/>
+      <feFlood flood-color="#c596ff" flood-opacity=".44" result="color"/>
+      <feComposite in="color" in2="softNoise" operator="in"/>
     </filter>
-    <filter id="smokeC" x="-35%" y="-35%" width="170%" height="170%">
-      <feTurbulence type="turbulence" baseFrequency=".003 .006" numOctaves="3" seed="47" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="105" xChannelSelector="B" yChannelSelector="G" result="distorted"/>
-      <feGaussianBlur in="distorted" stdDeviation="28"/>
+    <filter id="roseSmoke" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".011 .006" numOctaves="4" seed="53" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.7 -0.69" result="alphaNoise"/>
+      <feGaussianBlur in="alphaNoise" stdDeviation="8" result="softNoise"/>
+      <feFlood flood-color="#ff9fd7" flood-opacity=".34" result="color"/>
+      <feComposite in="color" in2="softNoise" operator="in"/>
     </filter>
   </defs>
 
-  <g opacity=".95" filter="url(#smokeA)">
-    <path d="M-80 260 C160 80 390 160 520 340 C655 525 530 690 305 720 C70 750 -90 610 -80 260Z" fill="url(#cyan)"/>
-    <path d="M1040 120 C1320 -20 1560 100 1660 340 C1725 500 1600 720 1365 735 C1130 750 960 570 1010 360 C1025 290 1030 205 1040 120Z" fill="url(#violet)"/>
+  <rect width="1600" height="2400" fill="#eef5f9" fill-opacity=".12"/>
+  <g mask="url(#maskTopLeft)">
+    <rect x="-120" y="-80" width="1180" height="1250" filter="url(#cyanSmoke)" opacity=".95"/>
   </g>
-
-  <g opacity=".82" filter="url(#smokeB)">
-    <path d="M130 810 C350 650 645 695 760 900 C875 1100 720 1275 475 1270 C245 1265 45 1090 80 930 C90 880 105 845 130 810Z" fill="url(#rose)"/>
-    <path d="M920 760 C1130 620 1435 675 1550 910 C1640 1095 1515 1295 1285 1315 C1040 1335 855 1180 875 970 C885 885 900 820 920 760Z" fill="url(#violet)"/>
+  <g mask="url(#maskMidRight)">
+    <rect x="520" y="180" width="1160" height="1500" filter="url(#violetSmoke)" opacity=".92"/>
   </g>
-
-  <g opacity=".72" filter="url(#smokeC)">
-    <path d="M-20 1510 C180 1330 470 1360 620 1545 C760 1715 665 1920 420 1965 C190 2005 0 1860 -25 1680 C-35 1615 -30 1560 -20 1510Z" fill="url(#cyan)"/>
-    <path d="M775 1460 C1010 1300 1290 1370 1440 1560 C1590 1750 1490 1980 1240 2020 C1000 2060 795 1915 760 1715 C745 1620 750 1525 775 1460Z" fill="url(#rose)"/>
-    <path d="M360 2010 C590 1870 870 1915 980 2085 C1090 2255 940 2425 710 2440 C485 2455 300 2310 300 2165 C300 2105 320 2050 360 2010Z" fill="url(#violet)"/>
+  <g mask="url(#maskBottom)">
+    <rect x="40" y="980" width="1500" height="1500" filter="url(#roseSmoke)" opacity=".80"/>
+  </g>
+  <g mask="url(#maskBottom)" transform="translate(80 -120) rotate(-7 800 1600)">
+    <rect x="0" y="900" width="1150" height="1320" filter="url(#cyanSmoke)" opacity=".36"/>
   </g>
 </svg>
