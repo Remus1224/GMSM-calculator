@@ -5,7 +5,8 @@
 - Area: `main/beta/game-info/`
 - Public Beta: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Light Sanctum page: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Current version: **V18 — Irregular Atmosphere + Optical Glass Refinement**
+- Current runtime visual baseline: **V18 — Irregular Atmosphere + Optical Glass Refinement**
+- V18-R1 was rejected by user visual review and has been rolled back.
 - Production `game-info/` has not been created yet.
 
 ## PASS so far
@@ -16,30 +17,23 @@
 - Typography/readability: accepted.
 - Single-sheet table direction: accepted.
 
-## What V18 changes
-- Keeps the clean V17 runtime architecture: only `style.css + glass-theme.css` control visual presentation.
-- Keeps the V15-approved color strength, but changes the page atmosphere from a predictable left-cyan/right-pink flow into multiple asymmetric low-frequency color fields.
-- Uses static elliptical ambient fields with different positions, scales and opacity; no smoke, noise, turbulence, animation or extra SVG material layer.
-- Refines the main glass sheet with stronger but shallow edge refraction, top specular, inner highlight and depth shadow.
-- Dark keeps the V17 color direction and receives only a restrained version of the same atmosphere/material refinement.
-- No pointer-following light or interaction was added.
-- Footer and Beta badge are updated to V18.
-
-## Current runtime visual stack
-- `style.css` — layout, typography and responsive structure
-- `glass-theme.css` — all Light/Dark palette, atmosphere and glass material
+## Current state
+- Runtime remains the clean V17 architecture: `style.css + glass-theme.css` only.
+- V18 keeps the V15-approved color strength and the current page atmosphere / glass refinement baseline.
+- V18-R1 tried adding independent internal table color fields plus extra glass depth. User review found the table color flow still looked unnatural and Dark lost too much color again.
+- V18-R1 has therefore been fully reverted; its internal table atmosphere approach is not the current runtime.
 
 ## Not finished yet
-- V18 Browser Acceptance — pending user review.
+- A better approach for natural, irregular color behavior inside the table glass.
+- Premium / liquid-glass refinement closer to the visual reference.
 - Subtle material interaction — deferred.
 - PNG export parity — pending.
 - Mobile portrait/landscape and idle thermal acceptance — pending.
 - Production promotion — pending.
 
 ## Next plan
-1. User reviews whether V18 color distribution feels more natural and whether the glass surface is closer to the desired premium/liquid-glass direction.
-2. If V18 passes, keep the visual baseline fixed.
-3. Decide whether a very subtle material interaction is still useful.
-4. Bring PNG export in line with the accepted live theme.
-5. Run mobile/thermal acceptance.
-6. After full acceptance, prepare selective promotion to production `game-info/`.
+1. Keep V18 as the safe visual baseline.
+2. Do not continue tuning the rejected V18-R1 internal radial-field method.
+3. Re-evaluate how to create natural table-internal color variation without reducing Dark color vitality.
+4. After the live visual baseline is accepted, align PNG export, then run mobile/thermal acceptance.
+5. Prepare production promotion only after full acceptance.
