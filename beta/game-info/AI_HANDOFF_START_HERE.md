@@ -1,50 +1,45 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V14
+# AI_HANDOFF_START_HERE — Game Info Beta V15
 
 ## Current version
 - Repo: `Remus1224/GMSM-calculator`
 - Area: `main/beta/game-info/`
 - Public Beta: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Light Sanctum page: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Current version: **V14 — Dark Static Baseline**
+- Current version: **V15 — Color Vitality Tuning**
 - Production `game-info/` has not been created yet.
 
-## What V13 changed
-- Recovered the Light static-glass direction after V12 regressed visually.
-- Kept the current five-column layout and typography.
-- Removed the visible pointer-following light effect.
-- Returned to a calmer single-sheet glass concept inspired by the earlier V5 direction without reverting the whole page.
+## What changed
+- V13 remains the accepted static-glass material baseline.
+- V14 Dark was judged too desaturated / nearly colorless and is no longer loaded at runtime.
+- V15 changes atmosphere/color only; glass fill, blur, border, shadow, specular, five-column layout and typography are intentionally left as V13.
+- Light increases cyan / violet / soft-pink color presence while keeping the same static glass structure.
+- Dark returns to the V13 navy/cyan/violet direction, with stronger but still restrained color atmosphere.
+- Footer/version presentation is updated to V15.
 
-## Browser acceptance so far
+## PASS so far
 - **V13 Light static baseline: PASS by user visual review.**
-- The current five-column layout is accepted.
-- Current typography/readability is accepted.
-- Single-sheet table direction is accepted.
-
-## What V14 changes
-- V14 focuses only on **Dark static glass**; V13 Light is intentionally left unchanged.
-- Dark palette is rebuilt toward deep navy / charcoal / cool steel glass.
-- Large violet/pink atmosphere is removed from Dark.
-- Table, hero and note panels use cooler translucent fills, restrained steel highlights and softer cyan edging.
-- No pointer interaction is added in V14.
-- Mobile Dark blur/saturation is reduced relative to desktop.
-- The stale footer text `Beta V7-R1 · Turbulence Smoke Root Fix` is visually replaced with the correct V14 footer.
-
-## Current runtime visual stack
-- `style.css` — base layout, typography and responsive structure
-- `v13.css` — accepted Light static-glass baseline
-- `v14.css` — Dark static-glass override + current footer presentation
+- Five-column layout: accepted.
+- Typography/readability: accepted.
+- Single-sheet table direction: accepted.
+- Visible cursor-following light remains removed.
 
 ## Not finished yet
-- **V14 Dark Browser Acceptance** — pending user review.
-- Pointer/hover glass interaction — intentionally deferred until both static themes are accepted.
-- Export parity — still needs a later pass after Light and Dark live visuals are accepted.
-- Mobile portrait/landscape and idle thermal acceptance — pending.
-- Production promotion — pending.
+- V15 Light color tuning: pending user visual review.
+- V15 Dark color tuning: pending user visual review.
+- Subtle glass interaction: deferred until both static themes are accepted.
+- PNG export parity: pending.
+- Mobile portrait/landscape and idle thermal acceptance: pending.
+- Production promotion: pending.
 
-## Suggested next steps
-1. User reviews V14 Dark on desktop and mobile.
-2. If Dark passes, preserve both V13 Light and V14 Dark as the static visual baseline.
-3. Add only a very restrained glass interaction if still wanted; no visible cursor-following light.
+## Current runtime visual stack
+- `style.css` — base layout/typography
+- `v13.css` — accepted static-glass material baseline
+- `v15.css` — current Light/Dark color-vitality tuning
+
+## Next plan
+1. User compares V15 Light and Dark against V13/V14.
+2. If both colors pass, keep the static glass baseline fixed.
+3. Add only a very subtle glass-material interaction if still desired.
 4. Bring PNG export visually in line with the accepted live themes.
-5. Run mobile acceptance and idle thermal check.
-6. After all acceptance gates pass, prepare selective promotion from Beta to production `game-info/`.
+5. Run mobile/thermal acceptance.
+6. After full acceptance, prepare selective promotion to production `game-info/`.
