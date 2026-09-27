@@ -1,15 +1,15 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V12
+# AI_HANDOFF_START_HERE — Game Info Beta V13
 
 ## Current status — 2026-09-27
 - Repo: `Remus1224/GMSM-calculator`
 - Development area: direct work on `main/beta/game-info/` until Browser Acceptance PASS.
 - Public Beta: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Light Sanctum direct page: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Current version: **V12 — Glass Architecture Reset**.
-- V12 starts from V11 commit `18412546c7feb639f71e5cec38e1eaa584077686`.
+- Current version: **V13 — Static Light Baseline Recovery**.
+- V13 follows V12 but deliberately stops the V12 pointer-light experiment.
 - Production `game-info/` still does not exist.
 - Production menu and the formal Light Sanctum simulator remain untouched.
-- **V12 Browser Acceptance is NOT PASS yet.**
+- **V13 Browser Acceptance is NOT PASS yet.**
 - Production promotion remains blocked.
 
 ## Stable product/data contract — DO NOT REDESIGN
@@ -23,172 +23,151 @@ The Light Sanctum page remains one continuous five-column single-glass data shee
 Unlock text remains derived in `script.js` from adjacent-level `slotCount` / `presetCount` changes plus max-level state.
 Typography hierarchy remains header > level/numeric data > unlock content.
 Routing remains `?page=<id>`.
-No gameplay data, EXP formula, structured JSON or unlock derivation changed in V12.
+No gameplay data, EXP formula, structured JSON or unlock derivation changed in V13.
 
-## Why V12 exists
-V11 browser evidence showed the remaining problem was architectural, not another opacity/color-tuning problem.
+## Why V13 exists
+V12 removed the historical V8 fixed optical SVG and flattened the runtime CSS stack successfully, but browser testing showed two visual regressions:
+- overall Light color/material quality dropped sharply compared with the earlier V5/V8/V9 period;
+- the whole-sheet pointer reaction looked like a visible light spot following the cursor, rather than the glass material subtly reacting.
 
-### Confirmed V11 issues
-- Dark still showed a conspicuous broad lower/right optical block.
-- Glass had become a static painted texture rather than a responsive material.
-- Earlier pointer/hover surface reaction had disappeared during the move to a single-sheet table.
-- Runtime visual styling had become a historical cascade: `style.css + v7.css + v8.css + v9.css + v10.css`.
+User assessment: the page had previously reached roughly 70–75/100 visually, while V12 felt closer to ~30/100.
 
-### Root cause
-`table-glass-v8.svg` contains large fixed cyan/violet optical paths in the lower half of the SVG. Later versions changed opacity, blend mode, saturation, crop and scale, but the fixed geometry remained. V11 therefore reduced/repositioned the symptom rather than removing the source.
+The correct recovery strategy is NOT a full Git revert to V5. V13 selectively combines:
+- **V5 design principle:** one thick optical glass sheet with transparency, blur/saturation and directional edge/specular light;
+- **current structure:** five-column table, current typography, unlock derivation, current routing.
 
-Important distinction:
-- **V8 design principle is kept:** the table itself is the glass material.
-- **V8 implementation is NOT sealed:** `table-glass-v8.svg` is no longer treated as the runtime material truth.
+## V13 scope — Stage 1 only
+V13 intentionally focuses on a **static Light baseline** before any new interaction work.
 
-## V12 architecture reset
-### A. Runtime visual stack flattened
-`index.html` now loads only:
-- `style.css` — base layout/typography/data-sheet structure;
-- `v12.css` — the single active visual/theme/material override.
+Frozen / unchanged during V13:
+- five-column structure;
+- current typography/layout;
+- gameplay data and EXP formulas;
+- unlock derivation;
+- routing;
+- single-sheet table architecture.
 
-The historical files remain in the Beta repo/Git history but are no longer loaded at runtime:
+Only these are allowed to change:
+- page atmosphere;
+- glass surface fill;
+- border / edge light;
+- shadow / depth;
+- static highlight/specular.
+
+## V13 implementation
+### A. Runtime visual stack remains flattened
+`index.html` loads only:
+- `style.css` — base layout/typography/data structure;
+- `v13.css` — active visual/material layer.
+
+Historical visual files remain in Git history/repo but are not loaded:
 - `v7.css`
 - `v8.css`
 - `v9.css`
 - `v10.css`
+- `v12.css`
+- `smoke-v7.svg`
 - `table-glass-v8.svg`
-- old export scripts
 
-This removes the five-generation pseudo-element/`!important` cascade from the live page.
+### B. Pointer interaction disabled
+`v12-interaction.js` is no longer loaded.
 
-### B. Table glass rebuilt without fixed optical blobs
-V12 glass is generated from:
-- translucent table fill;
-- backdrop blur/saturation/contrast;
-- directional top highlight;
-- small cyan/pink chromatic edge;
-- local specular highlight;
-- depth shadow;
-- hairline row separators.
+V13 has:
+- no cursor-following light spot;
+- no pointer-driven CSS variables;
+- no RAF/WebGL/continuous decorative animation;
+- no per-row glass hover material.
 
-There is no table optical SVG and no large cyan/violet blob geometry.
-The table remains one continuous sheet; rows are not cards.
+A later interaction pass may be reintroduced only after the static baseline is accepted, and it must alter edge/specular balance subtly rather than display a visible light following the cursor.
 
-### C. Whole-sheet pointer-reactive glass restored
-New file: `v12-interaction.js`.
+### C. Static Light material recovery
+V13 references the V5 material concept without reverting the V5 page/code wholesale.
 
-Desktop/fine-pointer behavior:
-- real `pointermove` updates only `--glass-x` and `--glass-y` on `.data-section`;
-- local specular/refraction highlight follows the pointer across the whole sheet;
-- `pointerleave` returns the highlight to a calm default location.
+The main sheet uses:
+- lower-opacity translucent fill so the environment actually shows through;
+- stronger backdrop blur/saturation/contrast similar to the more successful V5 material feel;
+- directional top specular highlight;
+- thin cyan/pink edge refraction;
+- layered border highlight;
+- controlled depth shadow;
+- no giant fixed cyan/violet blob texture;
+- no turbulence smoke.
 
-Performance rules:
-- no `requestAnimationFrame` loop;
-- no timer loop;
-- no WebGL;
-- no animated turbulence;
-- no per-row expensive filter.
+The page atmosphere is intentionally quiet:
+- cyan / soft blue / lilac / soft pink remain the site identity;
+- only broad low-frequency ambient fields are used;
+- atmosphere supports the glass rather than pretending to be the glass.
 
-Mobile/coarse pointer:
-- interaction script exits early;
-- static lightweight fallback is used.
-
-### D. Light/Dark palettes are independent
-V12 uses generic `--gi-*` shared tokens.
-
-Light:
-- cyan / soft blue / lilac / soft pink site atmosphere;
-- atmosphere stays outside/behind the sheet;
-- table supplies material depth.
-
-Dark:
-- deep navy / charcoal base;
-- cool steel-blue glass;
-- restrained cyan edge;
-- violet minimal;
-- pink nearly absent except microscopic marker/edge accent.
-
-No V7 page-wide turbulence smoke is restored.
-
-### E. Unlock marker
+### D. Unlock marker
 The circular emissive dot remains removed.
-V12 keeps a micro refractive sliver:
-- ~11×2 px desktop / 9×2 px mobile;
+V13 keeps a subdued micro sliver:
+- ~10×2 px;
 - transparent ends;
 - cyan → violet → soft pink center;
 - internal highlight only;
 - no outside glow;
-- no milestone side line;
-- no whole-row tint.
+- no whole-row tint or milestone side line.
 
-### F. Export architecture reset with shared tokens
-New file: `v12-export.js`.
+### E. Dark / Export are deliberately not V13 acceptance targets
+Dark remains functional via the V13 CSS fallback, but it is **not being visually tuned in Stage 1**.
 
-The export path:
-- reads current Light/Dark state from the live root;
-- reads `--gi-*` CSS tokens from `v12.css`;
-- reads the rendered five-column data directly from the live DOM;
-- does not duplicate EXP/unlock derivation;
-- does not load `table-glass-v8.svg`;
-- renders the same page atmosphere, panel fill, table fill, local specular, chromatic edge and marker concept using shared tokens.
+`v12-export.js` remains loaded so Save/Share continues to work, but export parity is also **not the V13 Stage-1 acceptance target**. Do not tune export until the live static glass baseline is accepted.
 
-Canvas cannot reproduce browser compositor `backdrop-filter` pixels exactly, so acceptance target remains visual near-parity rather than pixel identity.
+Planned order after Light static PASS:
+1. Stage 2 — Dark palette/material.
+2. Stage 3 — very subtle whole-sheet material interaction, with no visible cursor light.
+3. Stage 4 — export visual parity.
 
-## Runtime file map after V12
+## Runtime file map after V13
 Loaded:
 - `index.html`
 - `style.css`
-- `v12.css`
+- `v13.css`
 - `script.js`
-- `v12-interaction.js`
-- `v12-export.js`
+- `v12-export.js` (functional fallback; visual parity deferred)
 - data JSON files
 
-Historical but NOT loaded:
+Not loaded:
+- `v12-interaction.js`
+- `v12.css`
 - `v7.css`
 - `v8.css`
 - `v9.css`
 - `v10.css`
-- `smoke-v7.svg`
 - `table-glass-v8.svg`
-- `v8-export.js`
-- `v10-export.js`
+- `smoke-v7.svg`
 
 ## Hard rules
 - Keep the five-column contract.
-- Keep the single-sheet table architecture.
+- Keep current typography/layout.
+- Keep one continuous sheet; never return to 15 glass cards.
 - Do not change gameplay data/EXP formulas during visual work.
-- Do not split unlock content back into 欄位 / Preset / milestone columns.
+- Do not split unlock content back into multiple columns.
 - Background = atmosphere; table = material.
 - Do not restore page-wide smoke or fixed giant optical blobs.
-- Do not reintroduce `table-glass-v8.svg` as runtime material truth.
+- Do not restore `table-glass-v8.svg` as runtime material truth.
+- Do not add cursor-following light spots.
 - No continuous animation / RAF / WebGL decorative loop.
-- Export must follow current theme and shared CSS tokens.
+- Do not tune Dark/Export until Static Light is accepted.
 - Production promotion remains blocked until Browser Acceptance PASS.
 
-## V12 Browser Acceptance gate
-### Desktop Light
-1. Table no longer shows any fixed broad optical block.
-2. Cyan/lilac/pink atmosphere remains secondary to the table.
-3. Moving the mouse across the table visibly but subtly moves the sheet specular/refraction highlight.
-4. Hover reaction belongs to the whole sheet, not individual row cards.
-5. Five-column readability remains unchanged.
+## V13 Browser Acceptance gate — current next action
+Test **Light live first**. Ignore Dark/export polish for this gate.
 
-### Desktop Dark
-1. No lower/right gray-purple block.
-2. First impression is deep navy / cool steel optical glass.
-3. Pointer reaction is visible but restrained and not neon.
-4. Text/note/chips remain readable.
+Check:
+1. Does the page recover the earlier premium cyan / lilac / pink atmosphere without looking washed out?
+2. Does the main table read as one thick translucent glass sheet rather than a pale colored panel?
+3. Is there visible material depth from blur/saturation, thin edge refraction and static directional highlight?
+4. Are there NO large fixed optical blobs / gray-purple blocks / smoke shapes?
+5. Is there NO visible cursor-following light?
+6. Are the current five-column layout and typography unchanged?
 
-### Mobile
-1. No pointer effect is required.
-2. Static glass remains clean in portrait and landscape.
-3. Idle page should not continuously consume GPU due to decorative loops.
-
-### Export
-Test Light and Dark separately.
-Compare live vs saved PNG for palette, atmosphere, panel/table fill, marker and overall hierarchy.
+Do not proceed to Dark, interaction or export refinement until this static Light baseline is judged acceptable (target: back to at least the earlier ~75–80/100 visual level).
 
 ## Promotion — still blocked
-Do not create production `game-info/`, do not add the production home entry, and do not create the release/promotion branch until V12 Browser Acceptance PASS.
+Do not create production `game-info/`, do not add the production home entry, and do not create the release/promotion branch until Browser Acceptance PASS.
 
-After PASS only:
+After full PASS only:
 1. Create `feature/game-info-release` from latest accepted `main`.
 2. Selectively promote/flatten accepted Beta files into production `game-info/`.
 3. Exclude Beta-only handoff/history files.
