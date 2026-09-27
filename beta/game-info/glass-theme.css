@@ -1,9 +1,9 @@
-/* Game Info Beta V18-R2 — Main-site Atmosphere Transfer.
+/* Game Info Beta V18-R3 — Atmosphere Positioning Test.
    V17 remains the flattened runtime architecture; this file is the only visual-material layer. */
 :root{
   --page-a:#c9f4ff;--page-b:#f3e8ff;--page-c:#f2e2ff;--page-d:#ffdfef;
-  --ambient-1:rgba(156,234,254,.78);--ambient-2:rgba(200,141,221,.62);--ambient-3:rgba(182,223,255,.52);
-  --table-ambient-1:rgba(126,236,255,.16);--table-ambient-2:rgba(215,160,244,.13);--table-ambient-3:rgba(188,226,255,.11);
+  --ambient-1:rgba(156,234,254,.72);--ambient-2:rgba(190,161,235,.40);--ambient-3:rgba(143,224,255,.26);--ambient-4:rgba(239,164,226,.50);
+  --table-ambient-1:rgba(126,236,255,.14);--table-ambient-2:rgba(196,174,241,.085);--table-ambient-3:rgba(159,225,255,.07);--table-ambient-4:rgba(231,168,229,.105);
   --text:#232936;--strong:#151a24;--muted:#6f7888;--soft:#919aa8;--line:rgba(69,87,124,.10);
   --ready:#238562;--accent:#7184f4;
   --panel-a:rgba(255,255,255,.18);--panel-b:rgba(255,255,255,.045);--panel-c:rgba(255,255,255,.10);
@@ -15,8 +15,8 @@
 }
 [data-theme="dark"]{
   --page-a:#070b14;--page-b:#070b14;--page-c:#101427;--page-d:#15101d;
-  --ambient-1:rgba(85,195,255,.25);--ambient-2:rgba(200,141,221,.25);--ambient-3:rgba(85,195,255,.15);
-  --table-ambient-1:rgba(85,195,255,.13);--table-ambient-2:rgba(200,141,221,.11);--table-ambient-3:rgba(85,195,255,.075);
+  --ambient-1:rgba(85,195,255,.25);--ambient-2:rgba(153,125,214,.17);--ambient-3:rgba(85,195,255,.12);--ambient-4:rgba(200,141,221,.22);
+  --table-ambient-1:rgba(85,195,255,.13);--table-ambient-2:rgba(153,125,214,.075);--table-ambient-3:rgba(85,195,255,.06);--table-ambient-4:rgba(200,141,221,.095);
   --text:#dce5ef;--strong:#f3f7fb;--muted:#99a8b7;--soft:#788696;--line:rgba(194,212,230,.085);
   --ready:#78d7ae;--accent:#a8b4ff;
   --panel-a:rgba(108,134,155,.086);--panel-b:rgba(38,52,67,.035);--panel-c:rgba(62,79,96,.056);
@@ -31,9 +31,10 @@ html{background:var(--page-b)}
 body{
   background-color:var(--page-b);
   background-image:
-    radial-gradient(circle at 15% 40%,var(--ambient-1) 0%,transparent 55%),
-    radial-gradient(circle at 85% 60%,var(--ambient-2) 0%,transparent 55%),
-    radial-gradient(circle at 50% 10%,var(--ambient-3) 0%,transparent 40%);
+    radial-gradient(ellipse 84% 58% at 2% 4%,var(--ambient-1) 0%,transparent 68%),
+    radial-gradient(ellipse 72% 48% at 73% 4%,var(--ambient-2) 0%,transparent 72%),
+    radial-gradient(ellipse 78% 58% at 116% 60%,var(--ambient-4) 0%,transparent 72%),
+    radial-gradient(ellipse 82% 56% at 8% 116%,var(--ambient-3) 0%,transparent 76%);
   background-attachment:fixed;
 }
 body::before,body::after{content:none}
@@ -76,9 +77,10 @@ body::before,body::after{content:none}
 .data-section{
   position:relative;isolation:isolate;overflow:hidden;border:1px solid transparent;
   background:
-    radial-gradient(ellipse 135% 105% at -18% 38%,var(--table-ambient-1) 0%,transparent 72%) padding-box,
-    radial-gradient(ellipse 145% 110% at 118% 64%,var(--table-ambient-2) 0%,transparent 74%) padding-box,
-    radial-gradient(ellipse 120% 88% at 50% -34%,var(--table-ambient-3) 0%,transparent 68%) padding-box,
+    radial-gradient(ellipse 168% 122% at -42% 12%,var(--table-ambient-1) 0%,transparent 74%) padding-box,
+    radial-gradient(ellipse 154% 112% at 67% -48%,var(--table-ambient-2) 0%,transparent 73%) padding-box,
+    radial-gradient(ellipse 176% 130% at 142% 58%,var(--table-ambient-4) 0%,transparent 76%) padding-box,
+    radial-gradient(ellipse 162% 118% at 4% 148%,var(--table-ambient-3) 0%,transparent 78%) padding-box,
     linear-gradient(135deg,var(--table-a),var(--table-b) 45%,var(--table-c)) padding-box,
     linear-gradient(128deg,var(--border-a),rgba(174,232,255,.36) 20%,rgba(255,255,255,.15) 48%,rgba(245,181,255,.30) 77%,var(--border-z)) border-box;
   box-shadow:
@@ -136,7 +138,7 @@ body::before,body::after{content:none}
 [data-theme="dark"] .note-panel p{color:#a8b5c2}
 [data-theme="dark"] .code-inline{color:#c7d3de;background:rgba(160,186,208,.05)}
 .toast{border:1px solid rgba(255,255,255,.24);background:rgba(24,31,45,.76);box-shadow:0 10px 30px rgba(0,0,0,.20);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
-.footer{font-size:0!important}.footer::after{content:"Beta V18-R2 · Main-site Atmosphere Transfer · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
+.footer{font-size:0!important}.footer::after{content:"Beta V18-R3 · Atmosphere Positioning Test · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
 
 @media(max-width:720px){
   .glass-control,.nav-title,.glass-panel,.info-row,.note-panel{backdrop-filter:blur(17px) saturate(145%) contrast(103%);-webkit-backdrop-filter:blur(17px) saturate(145%) contrast(103%)}
