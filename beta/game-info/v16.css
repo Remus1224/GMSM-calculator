@@ -1,0 +1,190 @@
+/* Game Info Beta V16 — Irregular Atmosphere + Glass Surface Refinement
+   Base: V13 static glass + V15 accepted color vitality.
+   Scope: make color flow less regular and strengthen static glass depth. */
+
+/* Keep V15 color strength as the accepted palette. */
+:root {
+  --v13-page-a:#c9f4ff;
+  --v13-page-b:#e8f0ff;
+  --v13-page-c:#f2e2ff;
+  --v13-page-d:#ffdfef;
+  --v13-cyan:rgba(61,211,255,.25);
+  --v13-violet:rgba(151,127,247,.19);
+  --v13-pink:rgba(255,139,207,.18);
+}
+
+body {
+  background:linear-gradient(137deg,var(--v13-page-a) 0%,var(--v13-page-b) 37%,var(--v13-page-c) 70%,var(--v13-page-d) 100%);
+}
+
+/* Irregular, low-frequency ambient fields. No smoke/noise/turbulence. */
+body::before {
+  background:
+    radial-gradient(ellipse 42% 25% at 8% 4%,rgba(43,216,255,.32),transparent 76%),
+    radial-gradient(ellipse 28% 18% at 34% 20%,rgba(95,210,255,.12),transparent 78%),
+    radial-gradient(ellipse 37% 24% at 84% 12%,rgba(166,128,255,.21),transparent 77%),
+    radial-gradient(ellipse 31% 22% at 72% 63%,rgba(196,126,255,.11),transparent 79%),
+    radial-gradient(ellipse 44% 27% at 46% 100%,rgba(255,136,207,.20),transparent 80%),
+    radial-gradient(ellipse 22% 16% at 98% 82%,rgba(255,170,221,.10),transparent 82%),
+    conic-gradient(from 214deg at 58% 44%,rgba(93,213,255,.035),transparent 20%,rgba(173,132,255,.035) 43%,transparent 63%,rgba(255,148,210,.03) 82%,transparent);
+  opacity:1;
+}
+
+body::after {
+  background:
+    radial-gradient(ellipse 72% 34% at 23% -12%,rgba(255,255,255,.17),transparent 70%),
+    radial-gradient(ellipse 54% 29% at 78% 106%,rgba(255,255,255,.07),transparent 74%),
+    linear-gradient(180deg,rgba(255,255,255,.05),transparent 42%,rgba(255,255,255,.025));
+  -webkit-mask-image:linear-gradient(122deg,rgba(0,0,0,.96),rgba(0,0,0,.48) 38%,rgba(0,0,0,.88) 68%,rgba(0,0,0,.62));
+  mask-image:linear-gradient(122deg,rgba(0,0,0,.96),rgba(0,0,0,.48) 38%,rgba(0,0,0,.88) 68%,rgba(0,0,0,.62));
+}
+
+/* Increase perceived glass thickness without introducing fixed colored blobs. */
+.glass-control,.nav-title,.glass-panel,.info-row,.note-panel {
+  box-shadow:
+    0 18px 46px rgba(38,53,89,.085),
+    0 2px 9px rgba(255,255,255,.16),
+    inset 0 1.2px 0 rgba(255,255,255,.76),
+    inset 0 -1px 0 rgba(73,87,126,.045);
+}
+.glass-panel {
+  box-shadow:
+    0 24px 58px rgba(38,53,89,.105),
+    0 3px 12px rgba(255,255,255,.13),
+    inset 0 1.4px 0 rgba(255,255,255,.80),
+    inset 1px 0 0 rgba(102,221,255,.09),
+    inset -1px 0 0 rgba(255,168,225,.07),
+    inset 0 -1px 0 rgba(70,84,120,.045);
+  backdrop-filter:blur(29px) saturate(178%) contrast(105%);
+  -webkit-backdrop-filter:blur(29px) saturate(178%) contrast(105%);
+}
+
+.data-section {
+  border-radius:26px;
+  background:
+    linear-gradient(137deg,rgba(255,255,255,.155),rgba(255,255,255,.028) 43%,rgba(255,255,255,.072)) padding-box,
+    linear-gradient(126deg,
+      rgba(255,255,255,.98) 0%,
+      rgba(176,234,255,.48) 18%,
+      rgba(255,255,255,.16) 46%,
+      rgba(246,190,255,.38) 77%,
+      rgba(255,255,255,.82) 100%) border-box;
+  box-shadow:
+    0 30px 72px rgba(39,52,88,.12),
+    0 8px 24px rgba(39,52,88,.055),
+    inset 0 1.6px 0 rgba(255,255,255,.88),
+    inset 1.2px 0 0 rgba(93,219,255,.28),
+    inset -1.2px 0 0 rgba(255,163,226,.20),
+    inset 0 -1.2px 0 rgba(76,88,122,.055);
+  backdrop-filter:blur(30px) saturate(184%) contrast(106%) brightness(102%);
+  -webkit-backdrop-filter:blur(30px) saturate(184%) contrast(106%) brightness(102%);
+}
+
+/* Curved-looking static specular: asymmetric and shallow, not a color blob. */
+.data-section::before {
+  opacity:.90;
+  mix-blend-mode:screen;
+  background:
+    radial-gradient(ellipse 54% 10% at 20% -1%,rgba(255,255,255,.50),transparent 69%),
+    radial-gradient(ellipse 36% 8% at 76% 2%,rgba(255,255,255,.19),transparent 72%),
+    linear-gradient(116deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.035) 18%,transparent 36%,transparent 82%,rgba(255,255,255,.045));
+}
+.data-section::after {
+  opacity:.82;
+  mix-blend-mode:screen;
+  background:
+    linear-gradient(90deg,rgba(83,216,255,.24),transparent 16%,transparent 84%,rgba(255,154,225,.18)),
+    linear-gradient(180deg,rgba(255,255,255,.14),transparent 7%,transparent 93%,rgba(255,255,255,.07));
+}
+
+/* Dark keeps the same V15 color idea, with irregular fields rather than a fixed left/right split. */
+[data-theme="dark"] {
+  --v13-page-a:#061522;
+  --v13-page-b:#091321;
+  --v13-page-c:#111427;
+  --v13-page-d:#17101d;
+  --v13-cyan:rgba(55,187,226,.16);
+  --v13-violet:rgba(118,112,213,.08);
+  --v13-pink:rgba(204,105,164,.032);
+}
+[data-theme="dark"] html { background:#091321; }
+[data-theme="dark"] body {
+  background:linear-gradient(139deg,#061522 0%,#091321 40%,#111427 72%,#17101d 100%);
+}
+[data-theme="dark"] body::before {
+  background:
+    radial-gradient(ellipse 40% 24% at 7% 4%,rgba(31,173,218,.18),transparent 77%),
+    radial-gradient(ellipse 26% 18% at 34% 23%,rgba(59,145,204,.055),transparent 80%),
+    radial-gradient(ellipse 34% 23% at 87% 14%,rgba(104,91,211,.095),transparent 79%),
+    radial-gradient(ellipse 28% 21% at 69% 67%,rgba(116,91,189,.042),transparent 81%),
+    radial-gradient(ellipse 39% 25% at 48% 101%,rgba(180,75,143,.040),transparent 82%),
+    conic-gradient(from 214deg at 58% 44%,rgba(47,160,203,.020),transparent 22%,rgba(111,91,202,.020) 44%,transparent 65%,rgba(180,77,142,.015) 84%,transparent);
+}
+[data-theme="dark"] body::after {
+  background:
+    radial-gradient(ellipse 70% 32% at 22% -12%,rgba(217,235,247,.025),transparent 72%),
+    linear-gradient(180deg,rgba(214,232,245,.014),transparent 43%,rgba(17,7,22,.055));
+}
+[data-theme="dark"] .data-section {
+  background:
+    linear-gradient(137deg,rgba(93,119,139,.10),rgba(23,36,49,.042) 44%,rgba(55,68,84,.065)) padding-box,
+    linear-gradient(126deg,rgba(221,236,246,.26),rgba(78,181,215,.14) 19%,rgba(204,222,236,.07) 47%,rgba(134,116,185,.07) 78%,rgba(210,225,237,.18)) border-box;
+  box-shadow:
+    0 30px 72px rgba(0,0,0,.36),
+    0 9px 26px rgba(0,0,0,.18),
+    inset 0 1.4px 0 rgba(226,239,248,.18),
+    inset 1px 0 0 rgba(76,183,215,.12),
+    inset -1px 0 0 rgba(141,120,186,.055),
+    inset 0 -1px 0 rgba(0,0,0,.24);
+  backdrop-filter:blur(22px) saturate(126%) contrast(104%);
+  -webkit-backdrop-filter:blur(22px) saturate(126%) contrast(104%);
+}
+[data-theme="dark"] .data-section::before {
+  opacity:.42;
+  background:
+    radial-gradient(ellipse 52% 9% at 20% -1%,rgba(225,239,248,.17),transparent 70%),
+    radial-gradient(ellipse 34% 8% at 76% 2%,rgba(203,220,235,.07),transparent 72%),
+    linear-gradient(116deg,rgba(212,232,244,.075),rgba(196,219,233,.02) 18%,transparent 38%,transparent 84%,rgba(176,197,211,.018));
+}
+[data-theme="dark"] .data-section::after {
+  opacity:.36;
+  background:
+    linear-gradient(90deg,rgba(58,176,210,.11),transparent 18%,transparent 86%,rgba(131,105,178,.045)),
+    linear-gradient(180deg,rgba(220,236,246,.045),transparent 8%,transparent 94%,rgba(217,232,241,.018));
+}
+
+.footer { font-size:0 !important; }
+.footer::after {
+  content:"Beta V16 · Irregular Atmosphere + Glass Refinement · 此頁只讀。";
+  font-size:9.5px;
+  line-height:1.5;
+  color:inherit;
+}
+
+@media (max-width:720px) {
+  body::before {
+    background:
+      radial-gradient(ellipse 50% 23% at 2% 5%,rgba(43,216,255,.26),transparent 76%),
+      radial-gradient(ellipse 30% 17% at 38% 22%,rgba(95,210,255,.09),transparent 80%),
+      radial-gradient(ellipse 41% 22% at 98% 17%,rgba(166,128,255,.17),transparent 78%),
+      radial-gradient(ellipse 48% 24% at 54% 100%,rgba(255,136,207,.15),transparent 81%);
+  }
+  .glass-panel {
+    backdrop-filter:blur(20px) saturate(158%) contrast(104%);
+    -webkit-backdrop-filter:blur(20px) saturate(158%) contrast(104%);
+  }
+  .data-section {
+    backdrop-filter:blur(20px) saturate(160%) contrast(105%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%) contrast(105%);
+  }
+  [data-theme="dark"] body::before {
+    background:
+      radial-gradient(ellipse 50% 23% at 2% 5%,rgba(31,173,218,.145),transparent 77%),
+      radial-gradient(ellipse 40% 22% at 98% 17%,rgba(104,91,211,.072),transparent 80%),
+      radial-gradient(ellipse 47% 24% at 54% 100%,rgba(180,75,143,.028),transparent 83%);
+  }
+  [data-theme="dark"] .data-section {
+    backdrop-filter:blur(17px) saturate(118%) contrast(103%);
+    -webkit-backdrop-filter:blur(17px) saturate(118%) contrast(103%);
+  }
+}
