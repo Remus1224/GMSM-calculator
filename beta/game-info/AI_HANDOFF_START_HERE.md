@@ -1,25 +1,25 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V8
+# AI_HANDOFF_START_HERE — Game Info Beta V9
 
 ## Current status — 2026-09-27
 - Repo: `Remus1224/GMSM-calculator`
 - Beta root: `beta/game-info/`
 - Public Beta URL: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Direct Light Sanctum URL: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- `main/beta` remains the long-lived browser-validation area.
+- `main/beta` is the long-lived browser-validation area.
 - Production `game-info/` does not exist yet.
 - Root production menu remains untouched.
-- V8 is the current browser-validation target and is NOT SEALED.
+- V9 is the current browser-validation target and is NOT SEALED.
 
 ## Product concept
 Entry/display name: **也許有用的資訊**.
 
-Current planned entries:
+Planned entries:
 1. 光之聖所祈禱經驗表 — implemented.
 2. 海洛斯的封印標準 — coming soon.
 3. 星座核心需求表 — coming soon.
 4. 六轉核心需求表 — coming soon.
 
-## Preserved data/table contract
+## Stable table/data contract
 The Light Sanctum page remains a five-column single-sheet table:
 - 等級
 - 升下一級 EXP
@@ -27,56 +27,50 @@ The Light Sanctum page remains a five-column single-sheet table:
 - 每次祈禱 EXP
 - 解鎖內容
 
-Unlock content is derived from adjacent-level changes in `slotCount` and `presetCount`; no gameplay/data rule changed in V8.
+Unlock content is derived from adjacent-level changes in `slotCount` and `presetCount`.
+No gameplay/data rule changed in V9.
 
-## Why V8 exists
-V7/V7-R1 revealed a design mistake: most smoke/refraction work was applied to the **whole page background**, while the table itself stayed visually close to the prior glass sheet. Increasing page-wide smoke made the page noisier without materially improving the table material.
+## Why V9 exists
+User browser feedback after V8:
+- V8 table material finally started moving in the correct direction.
+- However the original site cyan/lavender/pink background atmosphere disappeared because V8 made the page too neutral.
+- Saved PNG showed the same issue: table material was present, but the overall composition became too white/flat.
 
-User feedback after V7-R1:
-- page-wide turbulence smoke is not desired;
-- table layout/content is already clean;
-- the high-quality glass effect must belong to the table itself, not the whole page background;
-- saved image should follow the same accepted material direction.
+Conclusion:
+- Keep V8 table-glass direction.
+- Restore the original site atmosphere outside the table.
+- Do not return to V7 turbulence smoke.
 
-## V8 — Table Glass Material Rebuild
-### Page background
-- Removes V7 page-wide turbulence smoke from presentation.
-- Returns to a quiet cyan/lilac neutral gradient with only very low-contrast ambient light.
-- The background is intentionally subordinate to the table.
+## V9 changes
+### Site atmosphere restored
+- Adds `v9.css` after V8.
+- Restores a soft cyan → lavender → pink site background inspired by the earlier/main-site visual language.
+- Uses only large low-frequency ambient glows; no turbulence smoke/noise.
+- Background stays secondary to the table.
 
-### Main table material
-- `data-section` is now the primary optical material.
-- Added `table-glass-v8.svg`, a static optical texture used only inside the table.
-- The table combines:
-  - translucent glass fill;
-  - directional specular highlight;
-  - cyan/violet chromatic edge;
-  - subtle internal warped optical bands;
-  - backdrop blur/saturation;
-  - continuous rows with hairline separators.
-- The table remains one single glass sheet; individual rows are not cards.
-- No continuous animation or WebGL loop.
+### V8 table material preserved
+- Keeps `table-glass-v8.svg` inside the table.
+- Keeps single-sheet structure, directional highlight, internal chromatic refraction and continuous rows.
+- Slightly reduces internal optical opacity so restored page colors and table material do not compete.
+- Keeps unlock glow points and five-column typography.
 
-### Unlock marker
-- No left milestone line.
-- No whole-row milestone tint.
-- Unlock content keeps a small restrained emissive point.
+### PNG export synchronized
+- Existing `v8-export.js` updated to V9 visual behavior.
+- Export now paints the restored cyan/lavender/pink site atmosphere first.
+- The table then receives the same `table-glass-v8.svg` optical material.
+- Saved image and live page therefore share the same hierarchy:
+  1. site atmosphere outside;
+  2. optical glass inside the table.
 
-### PNG export
-- Added `v8-export.js` as a Beta override for the save/share button.
-- It intercepts the V7 export handler in capture phase.
-- PNG background is quiet/neutral rather than smoke-heavy.
-- PNG uses the same `table-glass-v8.svg` optical texture inside the table.
-- Export keeps the same five-column layout and unlock glow markers.
-
-## V8 files
-- `index.html` — V8 badge/cache and loads V8 assets.
-- `style.css` — preserved V6 base layout/data sheet.
-- `v7.css` — still loaded as historical override base, but V8 overrides page smoke/table material.
-- `v8.css` — V8 table-material and background corrections.
-- `table-glass-v8.svg` — static optical texture inside the table.
+## Files
+- `index.html` — V9 badge/cache and loads V9 stylesheet.
+- `style.css` — preserved base layout/data sheet.
+- `v7.css` — historical override layer still loaded underneath newer versions.
+- `v8.css` — table-glass material rebuild.
+- `v9.css` — restored site atmosphere and V8 tuning.
+- `table-glass-v8.svg` — static optical texture inside table.
 - `script.js` — preserved data/render logic.
-- `v8-export.js` — V8 PNG export override.
+- `v8-export.js` — V9-synchronized PNG export path.
 - `data/catalog.json` — navigation catalog.
 - `data/light-sanctum-pray-exp.json` — structured Light Sanctum data.
 
@@ -95,29 +89,28 @@ Derived values remain unchanged:
 ## Hard rules
 - Keep data separate from UI.
 - Preserve stable `?page=<id>` URLs.
-- Do not blindly promote Beta-only governance/debug files.
 - Do not introduce continuous high-cost animation solely for glass effects.
-- Table material, not page background, is now the V8 visual priority.
+- Table material is the primary glass effect; page background is atmosphere only.
+- Do not reintroduce page-wide turbulence smoke unless explicitly requested.
 - Production promotion remains blocked until Browser Acceptance PASS.
 
-## Browser acceptance gate for V8
+## Browser acceptance gate for V9
 Check:
-1. Whole-page background is quiet and no longer looks like smoke/noise.
-2. Main table itself clearly reads as a distinct optical glass material.
-3. Optical color/refraction should stay inside the table and not overwhelm text.
-4. Five-column readability remains unchanged on desktop.
-5. Phone portrait and landscape remain readable.
-6. Unlock point is visible but not distracting.
-7. Saved PNG should visually follow the same quiet-background / glass-table direction.
+1. Main-site cyan/lavender/pink atmosphere is visibly restored.
+2. Background does not look like smoke/noise or fixed blobs.
+3. V8 table material remains visible and distinct from the page background.
+4. Table does not become too saturated after restoring site colors.
+5. Five-column readability remains intact on desktop and phone.
+6. Unlock glow points remain visible but restrained.
+7. Saved PNG matches the live hierarchy: colored site atmosphere + optical table glass.
 8. Dark mode.
-9. Browser Back/Forward.
-10. Static-view phone temperature/battery behavior.
+9. Static-view phone temperature/battery behavior.
 
 ## Promotion rule
 After Browser Acceptance PASS:
 - create `feature/game-info-release` from current `main`;
-- fold accepted Beta V8 material into clean production files;
-- do not blindly copy historical override layers (`v7.css`, Beta-only handoff, etc.);
+- fold accepted Beta V9 rules into clean production files;
+- do not blindly copy historical override layers or Beta-only handoff files;
 - add official main-menu entry;
 - update README / CI / release notes as appropriate;
 - PR → CI → diff review → merge → Pages deployment → production browser test.
