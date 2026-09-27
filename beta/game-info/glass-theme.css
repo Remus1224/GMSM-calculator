@@ -1,5 +1,5 @@
-/* Game Info Beta V18-R1 — Internal Table Atmosphere + Glass Depth.
-   V18 page atmosphere stays frozen; this revision changes only the table glass material. */
+/* Game Info Beta V18 — Irregular Atmosphere + Optical Glass Refinement.
+   V17 remains the flattened runtime architecture; this file is the only visual-material layer. */
 :root{
   --page-a:#c9f4ff;--page-b:#e8f0ff;--page-c:#f2e2ff;--page-d:#ffdfef;
   --text:#232936;--strong:#151a24;--muted:#6f7888;--soft:#919aa8;--line:rgba(69,87,124,.10);
@@ -108,66 +108,48 @@ body::after{
 .data-section{
   position:relative;isolation:isolate;overflow:hidden;border:1px solid transparent;
   background:
-    radial-gradient(ellipse 30% 14% at 11% 18%,rgba(73,220,241,.095),transparent 72%) padding-box,
-    radial-gradient(ellipse 22% 12% at 61% 23%,rgba(156,151,255,.070),transparent 74%) padding-box,
-    radial-gradient(ellipse 27% 15% at 84% 68%,rgba(255,151,219,.085),transparent 76%) padding-box,
-    radial-gradient(ellipse 21% 11% at 34% 84%,rgba(86,210,223,.060),transparent 77%) padding-box,
-    radial-gradient(ellipse 18% 10% at 94% 17%,rgba(209,174,255,.050),transparent 79%) padding-box,
     linear-gradient(135deg,var(--table-a),var(--table-b) 45%,var(--table-c)) padding-box,
-    linear-gradient(128deg,var(--border-a),rgba(174,232,255,.40) 20%,rgba(255,255,255,.15) 48%,rgba(245,181,255,.33) 77%,var(--border-z)) border-box;
+    linear-gradient(128deg,var(--border-a),rgba(174,232,255,.36) 20%,rgba(255,255,255,.15) 48%,rgba(245,181,255,.30) 77%,var(--border-z)) border-box;
   box-shadow:
-    0 2px 5px rgba(53,68,102,.055),
     var(--shadow-table),
-    inset 0 1.7px 0 rgba(255,255,255,.88),
-    inset 0 0 0 1px rgba(255,255,255,.075),
-    inset 1.4px 0 0 var(--edge-cyan),
-    inset -1.4px 0 0 var(--edge-pink),
-    inset 0 -1.35px 0 rgba(65,80,115,.065);
-  backdrop-filter:blur(29px) saturate(184%) contrast(106%) brightness(102%);
-  -webkit-backdrop-filter:blur(29px) saturate(184%) contrast(106%) brightness(102%);
+    inset 0 1.5px 0 rgba(255,255,255,.82),
+    inset 1.25px 0 0 var(--edge-cyan),
+    inset -1.25px 0 0 var(--edge-pink),
+    inset 0 -1px 0 rgba(65,80,115,.05);
+  backdrop-filter:blur(28px) saturate(178%) contrast(105%) brightness(102%);
+  -webkit-backdrop-filter:blur(28px) saturate(178%) contrast(105%) brightness(102%);
 }
 [data-theme="dark"] .data-section{
-  background:
-    radial-gradient(ellipse 29% 14% at 11% 18%,rgba(54,161,188,.060),transparent 73%) padding-box,
-    radial-gradient(ellipse 21% 12% at 61% 23%,rgba(116,111,198,.040),transparent 75%) padding-box,
-    radial-gradient(ellipse 25% 14% at 84% 68%,rgba(155,92,144,.025),transparent 78%) padding-box,
-    radial-gradient(ellipse 20% 11% at 34% 84%,rgba(47,132,151,.032),transparent 79%) padding-box,
-    radial-gradient(ellipse 17% 10% at 94% 17%,rgba(132,111,184,.020),transparent 80%) padding-box,
-    linear-gradient(135deg,var(--table-a),var(--table-b) 45%,var(--table-c)) padding-box,
-    linear-gradient(128deg,var(--border-a),rgba(126,188,215,.12) 20%,rgba(206,223,235,.045) 48%,rgba(150,126,184,.060) 77%,var(--border-z)) border-box;
   box-shadow:
-    0 2px 6px rgba(0,0,0,.18),
     var(--shadow-table),
-    inset 0 1.2px 0 rgba(222,236,246,.18),
-    inset 0 0 0 1px rgba(214,230,241,.028),
-    inset 1.1px 0 0 var(--edge-cyan),
-    inset -1.1px 0 0 var(--edge-pink),
-    inset 0 -1.2px 0 rgba(0,0,0,.26);
-  backdrop-filter:blur(19px) saturate(124%) contrast(103%);
-  -webkit-backdrop-filter:blur(19px) saturate(124%) contrast(103%);
+    inset 0 1px 0 rgba(222,236,246,.16),
+    inset 1px 0 0 var(--edge-cyan),
+    inset -1px 0 0 var(--edge-pink),
+    inset 0 -1px 0 rgba(0,0,0,.24);
+  backdrop-filter:blur(18px) saturate(120%) contrast(102%);
+  -webkit-backdrop-filter:blur(18px) saturate(120%) contrast(102%);
 }
 .data-section::before,.data-section::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none}
 .data-section::before{
-  opacity:.90;mix-blend-mode:screen;
+  opacity:.86;mix-blend-mode:screen;
   background:
-    radial-gradient(ellipse 42% 9% at 20% -1%,rgba(255,255,255,.42),transparent 66%),
-    radial-gradient(ellipse 21% 7% at 81% 3%,rgba(255,255,255,.16),transparent 72%),
-    linear-gradient(118deg,rgba(255,255,255,.27) 0%,rgba(255,255,255,.065) 17%,transparent 36%,transparent 79%,rgba(255,255,255,.050));
+    radial-gradient(ellipse 66% 15% at 16% -1%,rgba(255,255,255,.38),transparent 65%),
+    radial-gradient(ellipse 34% 10% at 88% 7%,rgba(255,255,255,.11),transparent 70%),
+    linear-gradient(118deg,rgba(255,255,255,.25) 0%,rgba(255,255,255,.06) 17%,transparent 36%,transparent 79%,rgba(255,255,255,.045));
 }
 .data-section::after{
-  opacity:.80;mix-blend-mode:screen;
+  opacity:.76;mix-blend-mode:screen;
   background:
-    linear-gradient(90deg,var(--edge-cyan),transparent 13%,transparent 86%,var(--edge-pink)),
-    linear-gradient(180deg,rgba(255,255,255,.19),transparent 7%,transparent 91%,rgba(255,255,255,.060));
+    linear-gradient(90deg,var(--edge-cyan),transparent 18%,transparent 81%,var(--edge-pink)),
+    linear-gradient(180deg,rgba(255,255,255,.16),transparent 8%,transparent 92%,rgba(255,255,255,.05));
 }
 [data-theme="dark"] .data-section::before{
-  opacity:.33;
+  opacity:.30;
   background:
-    radial-gradient(ellipse 40% 9% at 20% -1%,rgba(224,238,247,.145),transparent 69%),
-    radial-gradient(ellipse 20% 7% at 81% 3%,rgba(219,232,242,.055),transparent 74%),
-    linear-gradient(118deg,rgba(222,236,246,.11),rgba(202,222,236,.028) 17%,transparent 37%,transparent 84%,rgba(185,205,220,.020));
+    radial-gradient(ellipse 64% 14% at 16% -1%,rgba(224,238,247,.13),transparent 68%),
+    linear-gradient(118deg,rgba(222,236,246,.10),rgba(202,222,236,.025) 17%,transparent 37%,transparent 84%,rgba(185,205,220,.018));
 }
-[data-theme="dark"] .data-section::after{opacity:.37}
+[data-theme="dark"] .data-section::after{opacity:.34}
 .data-header{position:relative;z-index:2;color:var(--strong);background:rgba(255,255,255,.025);border-bottom:1px solid var(--line)}
 [data-theme="dark"] .data-header{background:rgba(190,210,228,.015)}
 .data-row{position:relative;z-index:2;color:var(--text);background:transparent}
@@ -183,7 +165,7 @@ body::after{
 [data-theme="dark"] .note-panel p{color:#a8b5c2}
 [data-theme="dark"] .code-inline{color:#c7d3de;background:rgba(160,186,208,.05)}
 .toast{border:1px solid rgba(255,255,255,.24);background:rgba(24,31,45,.76);box-shadow:0 10px 30px rgba(0,0,0,.20);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
-.footer{font-size:0!important}.footer::after{content:"Beta V18-R1 · Internal Table Atmosphere + Glass Depth · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
+.footer{font-size:0!important}.footer::after{content:"Beta V18 · Irregular Atmosphere + Optical Glass Refinement · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
 
 @media(max-width:720px){
   body::before{
@@ -204,6 +186,6 @@ body::after{
       radial-gradient(ellipse 32% 14% at 8% 70%,rgba(41,129,158,.05),transparent 81%);
   }
   .glass-control,.nav-title,.glass-panel,.info-row,.note-panel{backdrop-filter:blur(17px) saturate(145%) contrast(103%);-webkit-backdrop-filter:blur(17px) saturate(145%) contrast(103%)}
-  .data-section{backdrop-filter:blur(19px) saturate(160%) contrast(105%);-webkit-backdrop-filter:blur(19px) saturate(160%) contrast(105%)}
-  .data-section::before{opacity:.75}.data-section::after{opacity:.62}.footer::after{font-size:8.5px}
+  .data-section{backdrop-filter:blur(18px) saturate(154%) contrast(104%);-webkit-backdrop-filter:blur(18px) saturate(154%) contrast(104%)}
+  .data-section::before{opacity:.70}.data-section::after{opacity:.58}.footer::after{font-size:8.5px}
 }
