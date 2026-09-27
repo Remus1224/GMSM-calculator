@@ -1,87 +1,84 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V7-R1
+# AI_HANDOFF_START_HERE — Game Info Beta V8
 
 ## Current status — 2026-09-27
 - Repo: `Remus1224/GMSM-calculator`
-- Development policy: `main/beta` is the long-lived research / browser-validation area; a feature branch is only required later for Beta → Production promotion.
 - Beta root: `beta/game-info/`
 - Public Beta URL: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Direct Light Sanctum URL: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Production `game-info/` still does **not** exist.
-- Root production menu remains intentionally untouched.
-- V1～V6 were browser-reviewed. V7 visual direction was reviewed and exposed a root-cause issue; V7-R1 is the current validation target and is **NOT SEALED**.
+- `main/beta` remains the long-lived browser-validation area.
+- Production `game-info/` does not exist yet.
+- Root production menu remains untouched.
+- V8 is the current browser-validation target and is NOT SEALED.
 
 ## Product concept
 Entry/display name: **也許有用的資訊**.
 
-This is a data/reference center rather than another simulator. Planned entries:
+Current planned entries:
 1. 光之聖所祈禱經驗表 — implemented.
 2. 海洛斯的封印標準 — coming soon.
 3. 星座核心需求表 — coming soon.
 4. 六轉核心需求表 — coming soon.
 
-## Preserved V6 structure
-The main table remains a five-column single Optical Liquid Glass sheet:
+## Preserved data/table contract
+The Light Sanctum page remains a five-column single-sheet table:
 - 等級
 - 升下一級 EXP
 - 累積 EXP
 - 每次祈禱 EXP
 - 解鎖內容
 
-Unlock content remains derived automatically from adjacent-level changes in `slotCount` and `presetCount`.
+Unlock content is derived from adjacent-level changes in `slotCount` and `presetCount`; no gameplay/data rule changed in V8.
 
-## V7 feedback and root-cause diagnosis
-User feedback on first V7 browser/export result:
-- Saved PNG and live page still looked visually close to V6.
-- Smoke did not read as smoke.
-- Unlock iridescent dot did not visibly glow.
-- User suspected CSS was being constrained/overridden.
+## Why V8 exists
+V7/V7-R1 revealed a design mistake: most smoke/refraction work was applied to the **whole page background**, while the table itself stayed visually close to the prior glass sheet. Increasing page-wide smoke made the page noisier without materially improving the table material.
 
-Diagnosis:
-1. V7 CSS **was loading**. The V6 left milestone line disappeared, proving the override layer applied.
-2. `smoke-v7.svg` originally applied `feGaussianBlur` around 28–42px after turbulence/displacement.
-3. The V6 `.data-section` then applied another `backdrop-filter: blur(32px)`.
-4. V6 `.data-section::before` also retained its own radial-gradient light field.
-5. Those layers flattened the turbulence detail into broad cyan/pink/violet color fields.
-6. PNG export was a separate path: `createShareCanvas()` still painted three old radial gradients and did not load `smoke-v7.svg` at all.
-7. Unlock dot existed in CSS but was only 5px with a weak 8px halo, so it was visually lost inside the bright glass field.
+User feedback after V7-R1:
+- page-wide turbulence smoke is not desired;
+- table layout/content is already clean;
+- the high-quality glass effect must belong to the table itself, not the whole page background;
+- saved image should follow the same accepted material direction.
 
-Conclusion: this was not a missing stylesheet; it was a material-stack and export-path mismatch.
+## V8 — Table Glass Material Rebuild
+### Page background
+- Removes V7 page-wide turbulence smoke from presentation.
+- Returns to a quiet cyan/lilac neutral gradient with only very low-contrast ambient light.
+- The background is intentionally subordinate to the table.
 
-## V7-R1 fixes
-### Shared smoke asset
-- `smoke-v7.svg` rebuilt using higher-frequency static SVG turbulence/noise masks.
-- Gaussian blur reduced to roughly 6–8px so curl/noise structure survives glass refraction.
-- Cyan/violet/rose smoke layers use separate seeds and masked regions.
-- No animation, WebGL loop, or continuously updating shader.
+### Main table material
+- `data-section` is now the primary optical material.
+- Added `table-glass-v8.svg`, a static optical texture used only inside the table.
+- The table combines:
+  - translucent glass fill;
+  - directional specular highlight;
+  - cyan/violet chromatic edge;
+  - subtle internal warped optical bands;
+  - backdrop blur/saturation;
+  - continuous rows with hairline separators.
+- The table remains one single glass sheet; individual rows are not cards.
+- No continuous animation or WebGL loop.
 
-### Live-page glass fix
-- V7-R1 keeps the single-sheet glass architecture.
-- `.data-section` backdrop blur reduced from the V6 32px range to 17px desktop / 12px mobile.
-- Old V6 radial light field inside `.data-section::before` is replaced with a neutral optical highlight so it no longer paints fake color blobs over the SVG smoke.
-- Smoke opacity/contrast increased moderately so the actual turbulence pattern remains visible through the glass.
+### Unlock marker
+- No left milestone line.
+- No whole-row milestone tint.
+- Unlock content keeps a small restrained emissive point.
 
-### Unlock marker fix
-- No left milestone line and no whole-row milestone tint.
-- Unlock marker increased to 7px desktop / 6px mobile.
-- Marker now uses a white/cyan/violet/pink radial core plus multiple emissive shadow rings.
-- Unlock text stays tertiary but slightly clearer than V6.
+### PNG export
+- Added `v8-export.js` as a Beta override for the save/share button.
+- It intercepts the V7 export handler in capture phase.
+- PNG background is quiet/neutral rather than smoke-heavy.
+- PNG uses the same `table-glass-v8.svg` optical texture inside the table.
+- Export keeps the same five-column layout and unlock glow markers.
 
-### PNG export path fixed
-- `createShareCanvas()` is now async.
-- The export loads the **same `smoke-v7.svg` asset** used by the live page.
-- Removed old Canvas radial-gradient background blobs.
-- Export draws an emissive unlock dot for meaningful unlock rows.
-- Live page and saved PNG now share the same smoke source instead of maintaining two separate background designs.
-
-## Implementation files
-- `index.html` — V7-R1 cache bust.
-- `style.css` — preserved V6 base layout/single-sheet implementation.
-- `v7.css` — V7-R1 material overrides and unlock marker treatment.
-- `smoke-v7.svg` — shared static turbulence smoke asset.
-- `script.js` — data/render logic plus shared-smoke Canvas export.
+## V8 files
+- `index.html` — V8 badge/cache and loads V8 assets.
+- `style.css` — preserved V6 base layout/data sheet.
+- `v7.css` — still loaded as historical override base, but V8 overrides page smoke/table material.
+- `v8.css` — V8 table-material and background corrections.
+- `table-glass-v8.svg` — static optical texture inside the table.
+- `script.js` — preserved data/render logic.
+- `v8-export.js` — V8 PNG export override.
 - `data/catalog.json` — navigation catalog.
 - `data/light-sanctum-pray-exp.json` — structured Light Sanctum data.
-- `AI_HANDOFF_START_HERE.md` — this handoff.
 
 ## Light Sanctum data authority
 Source:
@@ -89,7 +86,7 @@ Source:
 - Source schema: `MapleStoryM.SanctuaryGameplayWebData.P121`
 - Snapshot reference: `75ab1b24b94e9ddf9d12545e4ab75c5b408a04ad`
 
-Derived values remain:
+Derived values remain unchanged:
 - EXP to next level = next `needPoint` - current `needPoint`.
 - CharacterCoin per Pray = `upgradeCostAmount0 × slotCount`.
 - EXP per Pray = `gainPoint + gainPointPerCoin × CharacterCoin cost`.
@@ -98,29 +95,29 @@ Derived values remain:
 ## Hard rules
 - Keep data separate from UI.
 - Preserve stable `?page=<id>` URLs.
-- Do not blindly copy Beta governance/debug files into production.
-- Do not introduce continuous high-cost animation purely for glass/smoke effects.
+- Do not blindly promote Beta-only governance/debug files.
+- Do not introduce continuous high-cost animation solely for glass effects.
+- Table material, not page background, is now the V8 visual priority.
 - Production promotion remains blocked until Browser Acceptance PASS.
-- Keep one shared smoke visual source between live page and PNG export where practical.
 
-## Browser acceptance gate for V7-R1
+## Browser acceptance gate for V8
 Check:
-1. Desktop smoke should show irregular/noisy wisps rather than broad radial blobs.
-2. Smoke should remain visible through the main glass instead of being fully blurred away.
-3. Phone portrait should retain smoke structure without overpowering data.
-4. No left selection-like milestone line.
-5. Unlock dot should visibly emit a restrained glow.
-6. Unlock text remains less prominent than core numeric data.
-7. Five-column layout remains unchanged.
-8. Saved PNG should use the same smoke visual family as the live page.
-9. Dark mode.
-10. Static-view phone temperature / battery behavior.
+1. Whole-page background is quiet and no longer looks like smoke/noise.
+2. Main table itself clearly reads as a distinct optical glass material.
+3. Optical color/refraction should stay inside the table and not overwhelm text.
+4. Five-column readability remains unchanged on desktop.
+5. Phone portrait and landscape remain readable.
+6. Unlock point is visible but not distracting.
+7. Saved PNG should visually follow the same quiet-background / glass-table direction.
+8. Dark mode.
+9. Browser Back/Forward.
+10. Static-view phone temperature/battery behavior.
 
 ## Promotion rule
 After Browser Acceptance PASS:
 - create `feature/game-info-release` from current `main`;
-- selectively promote user-facing files only;
-- fold accepted V7-R1 override rules into the production stylesheet rather than blindly copying Beta governance files;
+- fold accepted Beta V8 material into clean production files;
+- do not blindly copy historical override layers (`v7.css`, Beta-only handoff, etc.);
 - add official main-menu entry;
 - update README / CI / release notes as appropriate;
 - PR → CI → diff review → merge → Pages deployment → production browser test.
