@@ -1,4 +1,4 @@
-/* Game Info Beta V7 — turbulence smoke + quiet milestone treatment. */
+/* Game Info Beta V7-R1 — root fix for visible turbulence smoke + emissive unlock markers. */
 
 body {
   background:
@@ -8,33 +8,52 @@ body {
   background: linear-gradient(145deg, #071119 0%, #0a0f1c 46%, #120f1a 74%, #170f18 100%);
 }
 
-/* Replace V6 radial blobs with one static SVG turbulence smoke field. */
+/* Use the shared SVG smoke field directly. Keep it detailed enough to survive glass blur. */
 body::before {
-  inset: -4% -7%;
-  background-image: url("smoke-v7.svg");
+  inset: -3% -6%;
+  background-image: url("smoke-v7.svg?v=20260927-r1");
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
-  filter: saturate(118%) contrast(102%);
-  opacity: .68;
+  filter: saturate(126%) contrast(112%);
+  opacity: .84;
   transform: none;
 }
 body::after {
   inset: 0;
   background:
-    linear-gradient(118deg, rgba(255,255,255,.18), transparent 28%, transparent 72%, rgba(255,255,255,.10)),
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.11));
+    linear-gradient(118deg, rgba(255,255,255,.11), transparent 26%, transparent 74%, rgba(255,255,255,.06)),
+    linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.065));
   filter: none;
-  opacity: .48;
+  opacity: .34;
   transform: none;
 }
 [data-theme="dark"] body::before {
-  opacity: .34;
-  filter: saturate(126%) brightness(.84);
+  opacity: .44;
+  filter: saturate(132%) contrast(112%) brightness(.83);
 }
-[data-theme="dark"] body::after { opacity: .08; }
+[data-theme="dark"] body::after { opacity: .055; }
 
-/* Milestones should not look selected. Only the unlock content gets emphasis. */
+/* Root cause fix: V6 had its own radial light field inside the data glass and a 32px
+   backdrop blur, which flattened the SVG turbulence back into simple color blobs. */
+.data-section {
+  backdrop-filter: blur(17px) saturate(176%) contrast(108%) brightness(103%);
+  -webkit-backdrop-filter: blur(17px) saturate(176%) contrast(108%) brightness(103%);
+}
+.data-section::before {
+  background:
+    linear-gradient(112deg, rgba(255,255,255,.055), transparent 28%, transparent 70%, rgba(255,255,255,.035));
+  filter: none;
+  opacity: .34;
+}
+.data-section::after {
+  background:
+    radial-gradient(88% 30% at 12% -8%, rgba(255,255,255,.48), transparent 52%),
+    linear-gradient(108deg, rgba(72,217,255,.055), transparent 30%, transparent 72%, rgba(255,139,226,.05));
+  opacity: .56;
+}
+
+/* Keep milestones visually quiet; only unlock content gets emphasis. */
 .data-row.is-milestone {
   background: transparent !important;
 }
@@ -44,7 +63,7 @@ body::after {
 }
 
 .data-unlock {
-  color: var(--muted);
+  color: color-mix(in srgb, var(--text) 62%, var(--muted));
   font-size: 11px;
   font-weight: 560;
   line-height: 1.35;
@@ -54,24 +73,26 @@ body::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
 }
 .unlock-mark::before {
   content: "";
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: linear-gradient(135deg, #65dbff 0%, #9389ff 54%, #ff8ed8 100%);
+  background:
+    radial-gradient(circle at 35% 28%, #ffffff 0 12%, #79e7ff 28%, #938cff 58%, #ff90da 82%, rgba(255,144,218,.2) 100%);
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.38),
-    0 0 8px rgba(113,132,242,.30);
+    0 0 0 1px rgba(255,255,255,.72),
+    0 0 5px rgba(107,218,255,.75),
+    0 0 11px rgba(130,119,255,.54),
+    0 0 18px rgba(255,130,218,.26);
 }
 
-/* Version label without touching V6 data/runtime logic. */
 .footer { font-size: 0; }
 .footer::after {
-  content: "Beta V7 · Turbulence Smoke · 此頁只讀。";
+  content: "Beta V7-R1 · Turbulence Smoke Root Fix · 此頁只讀。";
   color: var(--soft);
   font-size: 9.5px;
   font-weight: 450;
@@ -80,20 +101,28 @@ body::after {
 
 @media (max-width: 720px) {
   body::before {
-    inset: -2% -18%;
-    background-size: auto 118%;
+    inset: -1% -14%;
+    background-size: auto 112%;
     background-position: 48% top;
-    opacity: .58;
+    opacity: .76;
+  }
+  .data-section {
+    backdrop-filter: blur(12px) saturate(160%) contrast(106%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%) contrast(106%);
   }
   .data-unlock {
     font-size: 9.5px;
     font-weight: 550;
   }
-  .unlock-mark { gap: 5px; }
+  .unlock-mark { gap: 6px; }
   .unlock-mark::before {
-    width: 4px;
-    height: 4px;
-    box-shadow: 0 0 6px rgba(113,132,242,.25);
+    width: 6px;
+    height: 6px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.66),
+      0 0 4px rgba(107,218,255,.70),
+      0 0 9px rgba(130,119,255,.48),
+      0 0 14px rgba(255,130,218,.22);
   }
   .footer::after { font-size: 8.5px; }
 }
