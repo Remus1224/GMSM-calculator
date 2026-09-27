@@ -1,8 +1,10 @@
 (() => {
   "use strict";
 
+  // V11 keeps the V10 export architecture: current CSS tokens + live DOM table remain
+  // the single presentation/data truth. This file name is retained to avoid another
+  // historical override layer during Beta.
   const root = document.documentElement;
-  const nf = new Intl.NumberFormat("zh-TW");
 
   const token = (name, fallback) => {
     const value = getComputedStyle(root).getPropertyValue(name).trim();
@@ -18,7 +20,7 @@
   const loadImage = src => new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("V10 表格材質載入失敗"));
+    image.onerror = () => reject(new Error("V11 表格材質載入失敗"));
     image.src = src;
   });
 
@@ -80,10 +82,11 @@
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, width, height);
 
+    // Match the low-frequency V9/V11 live atmosphere geometry rather than a uniform wash.
     const glows = [
-      [width * .03, height * .08, width * .43, token("--v10-atmos-cyan", "rgba(76,214,255,.34)")],
-      [width * .98, height * .16, width * .39, token("--v10-atmos-violet", "rgba(190,157,245,.20)")],
-      [width * .52, height * .78, width * .44, token("--v10-atmos-pink", "rgba(255,182,227,.16)")]
+      [width * .05, height * .08, width * .40, token("--v10-atmos-cyan", "rgba(76,214,255,.36)")],
+      [width * .94, height * .16, width * .36, token("--v10-atmos-violet", "rgba(220,147,255,.27)")],
+      [width * .52, height * .72, width * .42, token("--v10-atmos-pink", "rgba(255,182,227,.18)")]
     ];
     glows.forEach(([x, y, r, color]) => {
       const glow = ctx.createRadialGradient(x, y, 0, x, y, r);
@@ -104,28 +107,50 @@
   function drawGlassPanel(ctx, x, y, w, h, radius) {
     ctx.save();
     roundRect(ctx, x, y, w, h, radius);
-    ctx.fillStyle = token("--v10-panel-canvas-fill", "rgba(255,255,255,.24)");
-    ctx.fill();
-    ctx.strokeStyle = token("--v10-panel-canvas-border", "rgba(255,255,255,.84)");
+    ctx.clip();
+
+    const fill = ctx.createLinearGradient(x, y, x + w, y + h);
+    fill.addColorStop(0, token("--v10-panel-fill-a", "rgba(255,255,255,.25)"));
+    fill.addColorStop(.48, token("--v10-panel-fill-b", "rgba(255,255,255,.09)"));
+    fill.addColorStop(1, token("--v10-panel-fill-c", "rgba(255,255,255,.18)"));
+    ctx.fillStyle = fill;
+    ctx.fillRect(x, y, w, h);
+    ctx.restore();
+
+    const border = ctx.createLinearGradient(x, y, x + w, y + h);
+    border.addColorStop(0, token("--v10-panel-border-a", "rgba(255,255,255,.88)"));
+    border.addColorStop(.30, token("--v10-panel-border-cyan", "rgba(202,238,255,.36)"));
+    border.addColorStop(.58, token("--v10-panel-border-violet", "rgba(230,205,255,.22)"));
+    border.addColorStop(.78, token("--v10-panel-border-pink", "rgba(242,193,255,.32)"));
+    border.addColorStop(1, token("--v10-panel-border-z", "rgba(255,255,255,.72)"));
+    ctx.save();
+    roundRect(ctx, x, y, w, h, radius);
+    ctx.strokeStyle = border;
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.restore();
   }
 
   function drawUnlockMarker(ctx, x, y) {
-    const w = 13, h = 4, radius = 3;
+    const w = 11;
+    const h = 2;
     ctx.save();
-    roundRect(ctx, x, y - h / 2, w, h, radius);
+    roundRect(ctx, x, y - h / 2, w, h, h / 2);
     const gradient = ctx.createLinearGradient(x, y, x + w, y);
-    gradient.addColorStop(0, token("--v10-marker-cyan", "#67d9ec"));
-    gradient.addColorStop(.56, token("--v10-marker-violet", "#8e91dc"));
-    gradient.addColorStop(1, token("--v10-marker-pink", "#e6a4cf"));
-    ctx.globalAlpha = darkMode() ? .64 : .78;
+    gradient.addColorStop(0, transparentTail());
+    gradient.addColorStop(.22, token("--v10-marker-cyan", "#68d9e9"));
+    gradient.addColorStop(.56, token("--v10-marker-violet", "#8c91d3"));
+    gradient.addColorStop(.78, token("--v10-marker-pink", "#dda7ca"));
+    gradient.addColorStop(1, transparentTail());
+    ctx.globalAlpha = darkMode() ? .56 : .72;
     ctx.fillStyle = gradient;
     ctx.fill();
-    ctx.globalAlpha = 1;
+    ctx.globalAlpha = darkMode() ? .20 : .34;
     ctx.strokeStyle = token("--v10-marker-edge", "rgba(255,255,255,.72)");
-    ctx.lineWidth = 1;
+    ctx.lineWidth = .65;
+    ctx.beginPath();
+    ctx.moveTo(x + 2, y - .45);
+    ctx.lineTo(x + w - 2, y - .45);
     ctx.stroke();
     ctx.restore();
   }
@@ -168,14 +193,29 @@
     ctx.save();
     roundRect(ctx, tableX, tableY, tableW, tableH, 30);
     ctx.clip();
-    ctx.fillStyle = token("--v10-table-canvas-fill", "rgba(255,255,255,.18)");
+
+    // Live CSS uses a diagonal multi-stop fill; reproduce it from the same token set.
+    const tableFill = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY + tableH);
+    tableFill.addColorStop(0, token("--v10-table-fill-a", "rgba(255,255,255,.18)"));
+    tableFill.addColorStop(.40, token("--v10-table-fill-b", "rgba(255,255,255,.055)"));
+    tableFill.addColorStop(.73, token("--v10-table-fill-c", "rgba(255,255,255,.11)"));
+    tableFill.addColorStop(1, token("--v10-table-fill-d", "rgba(255,255,255,.16)"));
+    ctx.fillStyle = tableFill;
     ctx.fillRect(tableX, tableY, tableW, tableH);
 
     try {
-      const optical = await loadImage("table-glass-v8.svg?v=20260927-v10");
-      ctx.globalCompositeOperation = "screen";
-      ctx.globalAlpha = numberToken("--v10-table-optical-opacity", darkMode() ? .16 : .68);
-      ctx.drawImage(optical, tableX, tableY, tableW, tableH);
+      const optical = await loadImage("table-glass-v8.svg?v=20260927-v11");
+      const requestedBlend = token("--v10-table-optical-blend", "screen");
+      ctx.globalCompositeOperation = requestedBlend === "soft-light" ? "soft-light" : "screen";
+      ctx.globalAlpha = numberToken("--v10-table-optical-opacity", darkMode() ? .25 : .74);
+
+      // V11 dark crops the broad lower SVG bands by enlarging vertically and top-aligning.
+      // This keeps the same optical asset while removing the V10 lower-right block source.
+      const scaleX = 1.04;
+      const scaleY = darkMode() ? 1.24 : 1.04;
+      const opticalX = tableX - tableW * (scaleX - 1) / 2;
+      const opticalY = darkMode() ? tableY : tableY - tableH * (scaleY - 1) / 2;
+      ctx.drawImage(optical, opticalX, opticalY, tableW * scaleX, tableH * scaleY);
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = "source-over";
     } catch (_) {
@@ -185,20 +225,33 @@
 
     const specular = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY + tableH * .38);
     specular.addColorStop(0, token("--v10-spec-strong", "rgba(255,255,255,.60)"));
-    specular.addColorStop(.18, token("--v10-spec-soft", "rgba(255,255,255,.16)"));
-    specular.addColorStop(.52, "rgba(255,255,255,0)");
-    specular.addColorStop(1, token("--v10-spec-tail", "rgba(255,255,255,.10)"));
-    ctx.globalAlpha = numberToken("--v10-table-specular-opacity", darkMode() ? .27 : .70);
+    specular.addColorStop(.14, token("--v10-spec-soft", "rgba(255,255,255,.16)"));
+    specular.addColorStop(.31, "rgba(255,255,255,0)");
+    specular.addColorStop(.67, "rgba(255,255,255,0)");
+    specular.addColorStop(.86, token("--v10-spec-tail", "rgba(255,255,255,.08)"));
+    specular.addColorStop(1, token("--v10-spec-end", "rgba(255,255,255,.30)"));
+    ctx.globalAlpha = numberToken("--v10-table-specular-opacity", darkMode() ? .32 : .76);
     ctx.fillStyle = specular;
     ctx.fillRect(tableX, tableY, tableW, tableH);
+
+    const chroma = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY);
+    chroma.addColorStop(0, token("--v10-chroma-cyan", "rgba(72,217,255,.060)"));
+    chroma.addColorStop(.24, "rgba(255,255,255,0)");
+    chroma.addColorStop(.77, "rgba(255,255,255,0)");
+    chroma.addColorStop(1, token("--v10-chroma-pink", "rgba(255,139,226,.052)"));
+    ctx.fillStyle = chroma;
+    ctx.fillRect(tableX, tableY, tableW, tableH);
     ctx.globalAlpha = 1;
+
+    ctx.fillStyle = token("--v10-header-fill", "rgba(255,255,255,.055)");
+    ctx.fillRect(tableX, tableY, tableW, colHeadH);
     ctx.restore();
 
     const border = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY + tableH);
     border.addColorStop(0, token("--v10-table-border-a", "rgba(255,255,255,.98)"));
-    border.addColorStop(.20, token("--v10-table-border-cyan", "rgba(192,239,255,.70)"));
-    border.addColorStop(.58, token("--v10-table-border-violet", "rgba(217,202,255,.32)"));
-    border.addColorStop(.78, token("--v10-table-border-pink", "rgba(239,184,255,.43)"));
+    border.addColorStop(.18, token("--v10-table-border-cyan", "rgba(192,239,255,.70)"));
+    border.addColorStop(.42, token("--v10-table-border-violet", "rgba(255,255,255,.22)"));
+    border.addColorStop(.72, token("--v10-table-border-pink", "rgba(239,184,255,.55)"));
     border.addColorStop(1, token("--v10-table-border-z", "rgba(255,255,255,.88)"));
     ctx.save();
     roundRect(ctx, tableX, tableY, tableW, tableH, 30);
@@ -218,7 +271,7 @@
       x += cols[index];
     });
 
-    ctx.strokeStyle = token("--v10-row-line", darkMode() ? "rgba(185,205,225,.085)" : "rgba(76,91,123,.095)");
+    ctx.strokeStyle = token("--v10-row-line", darkMode() ? "rgba(185,205,225,.082)" : "rgba(76,91,123,.095)");
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(tableX + 16, tableY + colHeadH);
@@ -228,7 +281,7 @@
     let y = tableY + colHeadH;
     table.rows.forEach((row, rowIndex) => {
       if (rowIndex) {
-        ctx.strokeStyle = token("--v10-row-line", darkMode() ? "rgba(185,205,225,.085)" : "rgba(76,91,123,.095)");
+        ctx.strokeStyle = token("--v10-row-line", darkMode() ? "rgba(185,205,225,.082)" : "rgba(76,91,123,.095)");
         ctx.beginPath();
         ctx.moveTo(tableX + 16, y);
         ctx.lineTo(tableX + tableW - 16, y);
@@ -249,7 +302,7 @@
           ctx.font = font;
           const textWidth = ctx.measureText(String(value)).width;
           ctx.restore();
-          drawUnlockMarker(ctx, x + cols[index] / 2 - textWidth / 2 - 22, y + rowH / 2);
+          drawUnlockMarker(ctx, x + cols[index] / 2 - textWidth / 2 - 20, y + rowH / 2);
         }
 
         drawText(ctx, value, x + cols[index] / 2, y + rowH / 2, { font, color, align: "center" });
@@ -275,7 +328,7 @@
     canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("無法建立 PNG")), "image/png");
   });
 
-  async function exportV10(button) {
+  async function exportV11(button) {
     button.disabled = true;
     try {
       showToast("正在依目前主題產生圖片…");
@@ -306,7 +359,7 @@
       showToast("PNG 已建立並下載");
     } catch (error) {
       if (error?.name !== "AbortError") {
-        console.error("V10 export failed", error);
+        console.error("V11 export failed", error);
         showToast(`圖片建立失敗：${error?.message || error}`);
       }
     } finally {
@@ -320,6 +373,6 @@
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
-    exportV10(button);
+    exportV11(button);
   }, true);
 })();
