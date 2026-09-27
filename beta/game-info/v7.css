@@ -1,0 +1,99 @@
+/* Game Info Beta V7 — turbulence smoke + quiet milestone treatment. */
+
+body {
+  background:
+    linear-gradient(145deg, #edf6f9 0%, #eef3f9 44%, #f5f0f8 72%, #f7eef5 100%);
+}
+[data-theme="dark"] body {
+  background: linear-gradient(145deg, #071119 0%, #0a0f1c 46%, #120f1a 74%, #170f18 100%);
+}
+
+/* Replace V6 radial blobs with one static SVG turbulence smoke field. */
+body::before {
+  inset: -4% -7%;
+  background-image: url("smoke-v7.svg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  filter: saturate(118%) contrast(102%);
+  opacity: .68;
+  transform: none;
+}
+body::after {
+  inset: 0;
+  background:
+    linear-gradient(118deg, rgba(255,255,255,.18), transparent 28%, transparent 72%, rgba(255,255,255,.10)),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.11));
+  filter: none;
+  opacity: .48;
+  transform: none;
+}
+[data-theme="dark"] body::before {
+  opacity: .34;
+  filter: saturate(126%) brightness(.84);
+}
+[data-theme="dark"] body::after { opacity: .08; }
+
+/* Milestones should not look selected. Only the unlock content gets emphasis. */
+.data-row.is-milestone {
+  background: transparent !important;
+}
+.data-row.is-milestone::before {
+  content: none !important;
+  display: none !important;
+}
+
+.data-unlock {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 560;
+  line-height: 1.35;
+  letter-spacing: -.008em;
+}
+.unlock-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.unlock-mark::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #65dbff 0%, #9389ff 54%, #ff8ed8 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.38),
+    0 0 8px rgba(113,132,242,.30);
+}
+
+/* Version label without touching V6 data/runtime logic. */
+.footer { font-size: 0; }
+.footer::after {
+  content: "Beta V7 · Turbulence Smoke · 此頁只讀。";
+  color: var(--soft);
+  font-size: 9.5px;
+  font-weight: 450;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  body::before {
+    inset: -2% -18%;
+    background-size: auto 118%;
+    background-position: 48% top;
+    opacity: .58;
+  }
+  .data-unlock {
+    font-size: 9.5px;
+    font-weight: 550;
+  }
+  .unlock-mark { gap: 5px; }
+  .unlock-mark::before {
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 6px rgba(113,132,242,.25);
+  }
+  .footer::after { font-size: 8.5px; }
+}
