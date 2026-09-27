@@ -1,7 +1,9 @@
-/* Game Info Beta V18 — Irregular Atmosphere + Optical Glass Refinement.
+/* Game Info Beta V18-R2 — Main-site Atmosphere Transfer.
    V17 remains the flattened runtime architecture; this file is the only visual-material layer. */
 :root{
-  --page-a:#c9f4ff;--page-b:#e8f0ff;--page-c:#f2e2ff;--page-d:#ffdfef;
+  --page-a:#c9f4ff;--page-b:#f3e8ff;--page-c:#f2e2ff;--page-d:#ffdfef;
+  --ambient-1:rgba(156,234,254,.78);--ambient-2:rgba(200,141,221,.62);--ambient-3:rgba(182,223,255,.52);
+  --table-ambient-1:rgba(126,236,255,.16);--table-ambient-2:rgba(215,160,244,.13);--table-ambient-3:rgba(188,226,255,.11);
   --text:#232936;--strong:#151a24;--muted:#6f7888;--soft:#919aa8;--line:rgba(69,87,124,.10);
   --ready:#238562;--accent:#7184f4;
   --panel-a:rgba(255,255,255,.18);--panel-b:rgba(255,255,255,.045);--panel-c:rgba(255,255,255,.10);
@@ -12,7 +14,9 @@
   --shadow-table:0 32px 76px rgba(40,53,88,.12),0 11px 30px rgba(40,53,88,.065)
 }
 [data-theme="dark"]{
-  --page-a:#061522;--page-b:#091321;--page-c:#111427;--page-d:#17101d;
+  --page-a:#070b14;--page-b:#070b14;--page-c:#101427;--page-d:#15101d;
+  --ambient-1:rgba(85,195,255,.25);--ambient-2:rgba(200,141,221,.25);--ambient-3:rgba(85,195,255,.15);
+  --table-ambient-1:rgba(85,195,255,.13);--table-ambient-2:rgba(200,141,221,.11);--table-ambient-3:rgba(85,195,255,.075);
   --text:#dce5ef;--strong:#f3f7fb;--muted:#99a8b7;--soft:#788696;--line:rgba(194,212,230,.085);
   --ready:#78d7ae;--accent:#a8b4ff;
   --panel-a:rgba(108,134,155,.086);--panel-b:rgba(38,52,67,.035);--panel-c:rgba(62,79,96,.056);
@@ -25,50 +29,14 @@
 
 html{background:var(--page-b)}
 body{
-  background:
-    linear-gradient(137deg,rgba(255,255,255,.10),transparent 34%,rgba(255,255,255,.025) 68%,rgba(255,255,255,.07)),
-    linear-gradient(132deg,var(--page-a) 0%,var(--page-b) 42%,var(--page-c) 73%,var(--page-d) 100%);
+  background-color:var(--page-b);
+  background-image:
+    radial-gradient(circle at 15% 40%,var(--ambient-1) 0%,transparent 55%),
+    radial-gradient(circle at 85% 60%,var(--ambient-2) 0%,transparent 55%),
+    radial-gradient(circle at 50% 10%,var(--ambient-3) 0%,transparent 40%);
+  background-attachment:fixed;
 }
-body::before,body::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none}
-body::before{
-  inset:-8% -10%;
-  background:
-    radial-gradient(ellipse 39% 16% at 5% 8%,rgba(43,215,255,.32),transparent 72%),
-    radial-gradient(ellipse 23% 12% at 32% 17%,rgba(124,228,255,.18),transparent 74%),
-    radial-gradient(ellipse 31% 15% at 84% 11%,rgba(164,132,255,.20),transparent 75%),
-    radial-gradient(ellipse 20% 13% at 72% 34%,rgba(231,158,255,.13),transparent 76%),
-    radial-gradient(ellipse 27% 15% at 16% 62%,rgba(82,221,207,.14),transparent 77%),
-    radial-gradient(ellipse 31% 15% at 54% 79%,rgba(183,149,255,.11),transparent 79%),
-    radial-gradient(ellipse 28% 14% at 91% 87%,rgba(255,144,210,.17),transparent 78%),
-    radial-gradient(ellipse 19% 10% at 37% 95%,rgba(255,188,226,.10),transparent 80%);
-  filter:blur(28px) saturate(114%);
-  opacity:.94;
-  transform:rotate(-1.6deg) scale(1.025);
-}
-body::after{
-  background:
-    radial-gradient(ellipse 48% 12% at 19% 24%,rgba(255,255,255,.18),transparent 74%),
-    radial-gradient(ellipse 34% 9% at 78% 57%,rgba(255,255,255,.08),transparent 76%),
-    linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.012) 42%,rgba(255,255,255,.04));
-  opacity:.92;
-}
-[data-theme="dark"] body::before{
-  background:
-    radial-gradient(ellipse 38% 16% at 4% 7%,rgba(37,170,211,.18),transparent 73%),
-    radial-gradient(ellipse 22% 12% at 30% 18%,rgba(74,133,190,.08),transparent 75%),
-    radial-gradient(ellipse 30% 15% at 85% 12%,rgba(105,92,201,.085),transparent 77%),
-    radial-gradient(ellipse 20% 13% at 72% 34%,rgba(130,96,178,.045),transparent 78%),
-    radial-gradient(ellipse 28% 15% at 17% 64%,rgba(41,129,158,.07),transparent 78%),
-    radial-gradient(ellipse 27% 14% at 90% 88%,rgba(151,79,124,.035),transparent 81%);
-  filter:blur(30px) saturate(108%);
-  opacity:.86;
-}
-[data-theme="dark"] body::after{
-  background:
-    radial-gradient(ellipse 44% 11% at 18% 22%,rgba(220,234,244,.035),transparent 75%),
-    linear-gradient(180deg,rgba(214,232,245,.018),transparent 44%,rgba(17,7,22,.05));
-  opacity:1;
-}
+body::before,body::after{content:none}
 
 .glass-control,.nav-title,.glass-panel,.info-row,.note-panel{
   position:relative;isolation:isolate;border:1px solid transparent;
@@ -108,6 +76,9 @@ body::after{
 .data-section{
   position:relative;isolation:isolate;overflow:hidden;border:1px solid transparent;
   background:
+    radial-gradient(ellipse 135% 105% at -18% 38%,var(--table-ambient-1) 0%,transparent 72%) padding-box,
+    radial-gradient(ellipse 145% 110% at 118% 64%,var(--table-ambient-2) 0%,transparent 74%) padding-box,
+    radial-gradient(ellipse 120% 88% at 50% -34%,var(--table-ambient-3) 0%,transparent 68%) padding-box,
     linear-gradient(135deg,var(--table-a),var(--table-b) 45%,var(--table-c)) padding-box,
     linear-gradient(128deg,var(--border-a),rgba(174,232,255,.36) 20%,rgba(255,255,255,.15) 48%,rgba(245,181,255,.30) 77%,var(--border-z)) border-box;
   box-shadow:
@@ -165,26 +136,9 @@ body::after{
 [data-theme="dark"] .note-panel p{color:#a8b5c2}
 [data-theme="dark"] .code-inline{color:#c7d3de;background:rgba(160,186,208,.05)}
 .toast{border:1px solid rgba(255,255,255,.24);background:rgba(24,31,45,.76);box-shadow:0 10px 30px rgba(0,0,0,.20);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
-.footer{font-size:0!important}.footer::after{content:"Beta V18 · Irregular Atmosphere + Optical Glass Refinement · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
+.footer{font-size:0!important}.footer::after{content:"Beta V18-R2 · Main-site Atmosphere Transfer · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
 
 @media(max-width:720px){
-  body::before{
-    inset:-5% -18%;
-    background:
-      radial-gradient(ellipse 44% 15% at 2% 8%,rgba(43,215,255,.27),transparent 73%),
-      radial-gradient(ellipse 24% 11% at 33% 19%,rgba(124,228,255,.13),transparent 75%),
-      radial-gradient(ellipse 36% 14% at 96% 14%,rgba(164,132,255,.16),transparent 77%),
-      radial-gradient(ellipse 25% 12% at 73% 39%,rgba(231,158,255,.10),transparent 78%),
-      radial-gradient(ellipse 34% 15% at 8% 68%,rgba(82,221,207,.10),transparent 80%),
-      radial-gradient(ellipse 34% 14% at 93% 90%,rgba(255,144,210,.13),transparent 80%);
-    filter:blur(24px) saturate(110%);
-  }
-  [data-theme="dark"] body::before{
-    background:
-      radial-gradient(ellipse 42% 15% at 2% 7%,rgba(37,170,211,.14),transparent 74%),
-      radial-gradient(ellipse 34% 14% at 96% 14%,rgba(105,92,201,.065),transparent 79%),
-      radial-gradient(ellipse 32% 14% at 8% 70%,rgba(41,129,158,.05),transparent 81%);
-  }
   .glass-control,.nav-title,.glass-panel,.info-row,.note-panel{backdrop-filter:blur(17px) saturate(145%) contrast(103%);-webkit-backdrop-filter:blur(17px) saturate(145%) contrast(103%)}
   .data-section{backdrop-filter:blur(18px) saturate(154%) contrast(104%);-webkit-backdrop-filter:blur(18px) saturate(154%) contrast(104%)}
   .data-section::before{opacity:.70}.data-section::after{opacity:.58}.footer::after{font-size:8.5px}
