@@ -5,7 +5,7 @@
 - Area: `main/beta/game-info/`
 - Public Beta: `https://remus1224.github.io/GMSM-calculator/beta/game-info/`
 - Light Sanctum page: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Current version: **V18-R3 — Atmosphere Positioning Test**
+- Current deployed/runtime version: **V18-R3 — Atmosphere Positioning Test**
 - Production `game-info/` has not been created yet.
 
 ## PASS so far
@@ -15,27 +15,41 @@
 - Five-column layout: accepted.
 - Typography/readability: accepted.
 - Single-sheet table direction: accepted.
-
-## What changed in V18-R3
-- V18-R2 proved that the main-site large-field blending approach is cleaner than many small visible fields, but the page still read too much as a predictable left-cyan / right-pink split when zoomed out.
-- V18-R3 changes only atmosphere positioning and coverage. Glass blur, border, shadow, specular, typography and data layout are unchanged.
-- Page atmosphere now uses four large, asymmetric fields: cyan concentrated toward the upper-left, a weak lavender transition near the upper-right, soft pink focused around the right-middle / lower-right, and a weak cool-cyan balance from the lower-left.
-- A larger low-color central breathing area is intentionally preserved.
-- Table atmosphere follows the same color rhythm at lower strength, but its field centers are shifted farther outside the table so it does not simply mirror the page background.
-- Dark keeps the V18-R2 cyan / violet vitality and only changes positioning.
 - Runtime CSS remains the clean two-file architecture: `style.css + glass-theme.css`.
 
+## Latest visual feedback
+- V18-R3 is **not accepted as the final atmosphere**. Even after repositioning the gradients, the color flow still reads as regular bands / lines rather than organic mist.
+- The user provided visual references showing the intended direction: irregular watercolor / fog / cloud-like color islands with no obvious circular, linear or geometric boundaries.
+- The user also provided the intended site palette. These colors should anchor the next experiment instead of inventing new hues:
+  - `#9CEAFE` — primary cyan
+  - `#A7D3F6` — cyan/blue transition
+  - `#B2BCEE` — blue/lavender transition
+  - `#BDA4E5` — lavender transition
+  - `#C88DDD` — primary violet/pink
+- `#9CEAFE` and `#C88DDD` are the main endpoint colors; the other three are transition colors between them.
+
+## Next visual experiment
+- Replace the regular gradient-field approach with a **static organic mist / watercolor-cloud atmosphere** while keeping the established palette above.
+- The goal is irregular soft color islands with blurred, non-geometric boundaries and visible breathing space, similar to the user-provided watercolor/fog references.
+- Apply the concept separately to:
+  1. the page background atmosphere;
+  2. the table/internal atmosphere at lower strength;
+  3. keep the glass surface/highlight layer separate.
+- Light should preserve the main-site cyan → blue → lavender → violet/pink identity.
+- Dark should preserve the same hue identity at lower luminance; it must not collapse to gray/navy-only.
+- Do not reintroduce the old stacked CSS architecture. Continue editing the single `glass-theme.css` visual layer.
+
 ## Not finished yet
-- V18-R3 Browser Acceptance — pending user visual review.
-- Premium / liquid-glass refinement closer to the visual reference — pending.
+- Organic mist / watercolor atmosphere experiment — next.
+- Premium / liquid-glass refinement closer to the visual reference — pending after atmosphere direction is accepted.
 - Subtle material interaction — deferred.
 - PNG export parity — pending.
 - Mobile portrait/landscape and idle thermal acceptance — pending.
 - Production promotion — pending.
 
 ## Next plan
-1. Judge whether the page now has more natural color clustering, breathing room and asymmetry without visible gradient shapes.
-2. Check whether the table atmosphere feels independent from the page background instead of appearing as the same left/right split.
-3. If accepted, freeze atmosphere positioning and continue glass-material refinement separately.
-4. Then align PNG export and run mobile/thermal acceptance.
-5. Prepare production promotion only after full acceptance.
+1. Build the organic mist / watercolor-cloud test using the fixed five-color palette.
+2. User visually compares Light and Dark, including zoomed-out screenshots.
+3. If accepted, freeze atmosphere and continue glass-material refinement separately.
+4. Align PNG export after the live page is stable.
+5. Run mobile/thermal acceptance, then prepare production promotion.
