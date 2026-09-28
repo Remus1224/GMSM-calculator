@@ -347,3 +347,99 @@
     window.cr_stopCraftEffect = stopCurrentEffect;
     window.cr_preloadCraftEffects = preloadCraftEffects;
 })();
+
+// 威爾素材載入可靠性修正：不改 UI、不記錄素材失敗統計，只在背景自動恢復。
+(() => {
+    "use strict";
+
+    const attemptTimeoutMs = 20000;
+    const retryDelayMs = 4000;
+
+    function installWillAssetLoaderReliabilityPatch() {
+        if (typeof window.will_loadAssets !== "function") return;
+
+        const patchedWillLoadAssets = function will_loadAssets() {
+            if (willAssetsLoadPromise) return willAssetsLoadPromise;
+
+            const sourceGroups = new Map();
+            Object.entries(willAssetSources).forEach(([key, src]) => {
+                if (!sourceGroups.has(src)) sourceGroups.set(src, []);
+                sourceGroups.get(src).push(key);
+            });
+
+            function loadSourceUntilReady(src, keys) {
+                return new Promise(resolve => {
+                    const existingImage = keys
+                        .map(key => wAssets[key])
+                        .find(image => image?.complete && image.naturalWidth > 0);
+
+                    if (existingImage) {
+                        keys.forEach(key => { wAssets[key] = existingImage; });
+                        resolve(true);
+                        return;
+                    }
+
+                    const attempt = () => {
+                        const candidate = new Image();
+                        candidate.decoding = "async";
+                        let settled = false;
+                        let timeoutId = 0;
+
+                        const cleanup = () => {
+                            if (timeoutId) window.clearTimeout(timeoutId);
+                            candidate.onload = null;
+                            candidate.onerror = null;
+                        };
+
+                        const scheduleRetry = () => {
+                            if (settled) return;
+                            settled = true;
+                            cleanup();
+                            window.setTimeout(attempt, retryDelayMs);
+                        };
+
+                        const finish = () => {
+                            if (settled) return;
+                            settled = true;
+                            cleanup();
+
+                            if (!candidate.complete || candidate.naturalWidth === 0) {
+                                window.setTimeout(attempt, retryDelayMs);
+                                return;
+                            }
+
+                            if (typeof candidate.decode === "function") {
+                                candidate.decode().catch(() => {});
+                            }
+
+                            keys.forEach(key => { wAssets[key] = candidate; });
+                            resolve(true);
+                        };
+
+                        candidate.onload = finish;
+                        candidate.onerror = scheduleRetry;
+                        timeoutId = window.setTimeout(scheduleRetry, attemptTimeoutMs);
+                        candidate.src = src;
+                    };
+
+                    attempt();
+                });
+            }
+
+            const loadTasks = Array.from(sourceGroups.entries()).map(([src, keys]) =>
+                loadSourceUntilReady(src, keys)
+            );
+
+            willAssetsLoadPromise = Promise.all(loadTasks);
+            return willAssetsLoadPromise;
+        };
+
+        window.will_loadAssets = patchedWillLoadAssets;
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installWillAssetLoaderReliabilityPatch, { once: true });
+    } else {
+        installWillAssetLoaderReliabilityPatch();
+    }
+})();
