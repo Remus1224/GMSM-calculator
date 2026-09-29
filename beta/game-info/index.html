@@ -14,10 +14,9 @@
   <link rel="stylesheet" href="style.css?v=20260929-v21p4f">
   <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4f">
   <style id="p4f-background-polish">
-    /* V21-P4F — Background Polish 1.
+    /* V21-P4F — Background / Chrome Polish.
        P3Q/P3S/P4D glass and interaction values stay protected.
-       This pass keeps the accepted cyan/blue/violet atmosphere, gives Light mode
-       slightly tighter/more legible organic detail, and keeps Dark nearly frozen. */
+       Light gains slightly tighter spatial detail; Dark stays nearly frozen. */
     :root{
       --page-base:#EEF1FA;
       --page-grad-cyan:rgba(156,234,254,.68);
@@ -56,6 +55,43 @@
       background-image:var(--page-atmosphere);
       background-attachment:fixed;
       background-repeat:no-repeat;
+    }
+
+    /* Keep the accepted nav geometry; only reduce Dark's neon dominance. */
+    [data-theme="dark"].is-light-sanctum-page .nav-title{
+      text-shadow:
+        -2px 0 8px rgba(85,195,255,.60),
+         2px 0 8px rgba(200,141,221,.60);
+      box-shadow:
+        0 4px 12px rgba(0,0,0,.60),
+        -4px 0 12px rgba(85,195,255,.40),
+         4px 0 12px rgba(200,141,221,.40),
+        inset 0 0 6px rgba(255,255,255,.30);
+    }
+
+    /* Light action stays readable without becoming an opaque white pill. */
+    .is-light-sanctum-page .action-btn{
+      border-color:rgba(255,255,255,.62);
+      background:rgba(255,255,255,.43);
+    }
+    @media (hover:hover) and (pointer:fine){
+      .is-light-sanctum-page .action-btn:hover{
+        background:rgba(255,255,255,.76);
+        border-color:rgba(156,234,254,.78);
+      }
+    }
+
+    /* Test-only version marker; remove the whole footer for formal release. */
+    .is-light-sanctum-page .footer{font-size:0!important}
+    .is-light-sanctum-page .footer::after{
+      content:"Beta V21-P4F · 測試版。";
+      display:inline;
+      font-size:9px;
+      line-height:1.5;
+      color:inherit;
+    }
+    @media(max-width:720px){
+      .is-light-sanctum-page .footer::after{font-size:8.3px}
     }
   </style>
 </head>
