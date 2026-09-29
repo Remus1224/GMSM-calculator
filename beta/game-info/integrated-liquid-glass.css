@@ -1,31 +1,37 @@
-/* V21-P4B — Main-Site Hero Parity + Compact Table.
-   Protected baselines: P3Q static table glass + P3S table lift / row hover.
-   P4B only refines the Light Sanctum page chrome, content density and labels. */
+/* V21-P4C — Unified Liquid Glass Surfaces.
+   P3Q table material remains the canonical glass material.
+   P3S table lift / row hover remains accepted.
+   P4C ports the same four-layer material to Hero and Note, while keeping
+   Main Site navigation/theme controls separate as navigation chrome. */
 
 .data-section::before,
-.data-section::after{
+.data-section::after,
+.liquid-surface-card::before,
+.liquid-surface-card::after{
   content:none!important;
   display:none!important;
 }
 
-.data-section{
+.data-section,
+.liquid-surface-card{
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  border:0;
-  background:transparent;
+  border:0!important;
+  background:transparent!important;
   box-shadow:
     0 16px 34px -18px rgba(35,42,75,.24),
     0 2px 6px rgba(35,42,75,.07);
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
   --glass-film:rgba(255,255,255,.040);
   --glass-highlight:rgba(255,255,255,.64);
   --glass-edge-end:rgba(255,255,255,.28);
   --glass-reflection:rgba(255,255,255,.20);
   --glass-shade:rgba(47,54,88,.07);
 }
-[data-theme="dark"] .data-section{
+[data-theme="dark"] .data-section,
+[data-theme="dark"] .liquid-surface-card{
   box-shadow:
     0 18px 36px -16px rgba(0,0,0,.42),
     0 2px 7px rgba(0,0,0,.16);
@@ -36,22 +42,25 @@
   --glass-shade:rgba(0,0,0,.18);
 }
 
-/* P3S accepted interaction baseline. */
+/* Accepted P3S lift language, now shared by the three content surfaces. */
 @media (hover:hover) and (pointer:fine){
-  .data-section{
+  .data-section,
+  .liquid-surface-card{
     transition:
       transform .30s cubic-bezier(.25,.8,.25,1),
       box-shadow .30s cubic-bezier(.25,.8,.25,1);
     transform:translateY(0);
   }
-  .data-section:hover{
+  .data-section:hover,
+  .liquid-surface-card:hover{
     transform:translateY(-4px);
     box-shadow:
       -8px 0 25px rgba(85,195,255,.20),
        8px 0 25px rgba(200,141,221,.20),
        0 12px 22px rgba(35,42,75,.10);
   }
-  [data-theme="dark"] .data-section:hover{
+  [data-theme="dark"] .data-section:hover,
+  [data-theme="dark"] .liquid-surface-card:hover{
     box-shadow:
       -6px 0 20px rgba(85,195,255,.15),
        6px 0 20px rgba(200,141,221,.15),
@@ -103,7 +112,7 @@
   pointer-events:none;
 }
 
-/* P3Q protected four-layer table material. */
+/* P3Q canonical four-layer material. */
 .liquid_glass-outer{
   z-index:1;
   padding:2px;
@@ -127,6 +136,11 @@
   -webkit-filter:url(#liquid_edge_refraction);
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
+}
+/* Hero/Note receive their own per-surface filter from JS. */
+.liquid-surface-card .liquid_glass-outer{
+  filter:none;
+  -webkit-filter:none;
 }
 [data-theme="dark"] .liquid_glass-outer{opacity:.26}
 
@@ -170,13 +184,14 @@
 
 .data-header,
 [data-theme="dark"] .data-header,
-.data-row{
+.data-row,
+.liquid-surface-content{
   position:relative;
   z-index:5;
   background:transparent;
 }
 
-/* P4B compact table density + clearer unlock copy. */
+/* P4B compact table density + clearer unlock copy remains unchanged. */
 .is-light-sanctum-page .data-header{
   min-height:42px;
   padding:0 14px;
@@ -202,7 +217,7 @@
 .is-light-sanctum-page .unlock-mark{gap:4px}
 
 /* --------------------------------------------------------------------------
-   Main-site parity for page chrome.
+   Main-site parity remains only for navigation chrome.
    -------------------------------------------------------------------------- */
 .is-light-sanctum-page{
   --main-cyan:#9CEAFE;
@@ -210,7 +225,6 @@
   --main-cyan-dark:#55C3FF;
 }
 
-/* Main Site-style navigation button. */
 .is-light-sanctum-page .nav-btn{
   background:rgba(255,255,255,.60)!important;
   border:1px solid rgba(255,255,255,.90)!important;
@@ -241,7 +255,6 @@
   }
 }
 
-/* Main Site-style center title glass with cyan/violet edge light. */
 .is-light-sanctum-page .nav-title{
   border:1px solid transparent;
   border-radius:20px;
@@ -274,7 +287,6 @@
     inset 0 0 6px rgba(255,255,255,.30);
 }
 
-/* Main Site day/night switch: same two-icon slider language and motion. */
 .theme-toggle{
   position:relative;
   display:flex!important;
@@ -377,66 +389,38 @@
   background:rgba(10,15,25,.24);
 }
 
-/* Hero and bottom note use the Main Site app-card visual/motion language. */
-.is-light-sanctum-page .hero-compact,
-.is-light-sanctum-page .note-panel{
-  border:1px solid rgba(255,255,255,.78);
-  background:rgba(255,255,255,.34);
-  box-shadow:0 4px 15px rgba(0,0,0,.025),inset 0 1px 0 rgba(255,255,255,.42);
-  backdrop-filter:blur(16px) saturate(128%);
-  -webkit-backdrop-filter:blur(16px) saturate(128%);
-  transition:
-    transform .30s cubic-bezier(.25,.8,.25,1),
-    background .30s cubic-bezier(.25,.8,.25,1),
-    border-color .30s cubic-bezier(.25,.8,.25,1),
-    box-shadow .30s cubic-bezier(.25,.8,.25,1);
-}
-.is-light-sanctum-page .hero-compact::before,
-.is-light-sanctum-page .note-panel::before{display:none!important}
-[data-theme="dark"].is-light-sanctum-page .hero-compact,
-[data-theme="dark"].is-light-sanctum-page .note-panel{
-  border-color:rgba(178,187,237,.20);
-  background:rgba(10,15,25,.38);
-  box-shadow:0 4px 15px rgba(0,0,0,.28),inset 0 1px 0 rgba(225,239,255,.055);
-  backdrop-filter:blur(16px) saturate(112%);
-  -webkit-backdrop-filter:blur(16px) saturate(112%);
-}
-@media (hover:hover) and (pointer:fine){
-  .is-light-sanctum-page .hero-compact:hover,
-  .is-light-sanctum-page .note-panel:hover{
-    transform:translateY(-4px);
-    background:rgba(255,255,255,.46);
-    border-color:rgba(200,141,221,.80);
-    box-shadow:
-      -8px 0 25px rgba(85,195,255,.42),
-       8px 0 25px rgba(200,141,221,.42),
-       0 8px 15px rgba(0,0,0,.05),
-       inset 0 0 15px rgba(255,255,255,.72);
-  }
-  [data-theme="dark"].is-light-sanctum-page .hero-compact:hover,
-  [data-theme="dark"].is-light-sanctum-page .note-panel:hover{
-    background:rgba(12,18,29,.48);
-    border-color:rgba(178,187,237,.60);
-    box-shadow:
-      -4px 0 15px rgba(85,195,255,.30),
-       4px 0 15px rgba(200,141,221,.30),
-       inset 0 0 8px rgba(178,187,237,.12);
-  }
-}
-
+/* --------------------------------------------------------------------------
+   P4C Hero / Note redesign: same P3Q glass, only their content geometry differs.
+   -------------------------------------------------------------------------- */
 .is-light-sanctum-page .hero-compact{
-  padding:18px 22px;
   margin-bottom:10px;
   border-radius:20px;
+  padding:0;
+}
+.is-light-sanctum-page .hero-surface-content{
+  min-height:92px;
+  padding:17px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.is-light-sanctum-page .hero-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 .is-light-sanctum-page .hero-compact h2{
-  margin:5px 0 0;
+  margin:4px 0 0;
+  line-height:1.08;
 }
 .is-light-sanctum-page .hero-actions{
-  margin-top:12px;
+  margin:0;
+  flex:0 0 auto;
 }
 
-/* Keep the save/share control present, but export behavior itself is unchanged. */
+/* Save/share stays as a navigation-style control inside the unified glass Hero. */
 .is-light-sanctum-page .action-btn{
   border:1px solid rgba(255,255,255,.72);
   background:rgba(255,255,255,.55);
@@ -475,20 +459,27 @@
 
 .is-light-sanctum-page .note-panel{
   margin-top:10px;
-  padding:12px 16px;
   border-radius:18px;
+  padding:0;
+}
+.is-light-sanctum-page .note-surface-content{
+  min-height:42px;
+  padding:9px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .is-light-sanctum-page .note-only{
   margin:0;
-  color:#566173;
+  color:#4c596c;
   font-size:10.8px;
-  font-weight:540;
-  line-height:1.55;
+  font-weight:560;
+  line-height:1.5;
   text-align:center;
 }
-[data-theme="dark"].is-light-sanctum-page .note-only{color:#aebdca}
+[data-theme="dark"].is-light-sanctum-page .note-only{color:#c1ceda}
 
-/* Test-only footer. Remove the element/CSS when the page is promoted to formal. */
+/* Test-only footer. Remove for formal release. */
 .is-light-sanctum-page .footer{
   margin-top:16px;
   font-size:9px;
@@ -499,20 +490,14 @@
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
   .liquid_glass-cover{background:rgba(255,255,255,.13)}
   [data-theme="dark"] .liquid_glass-cover{background:rgba(7,11,20,.26)}
-  .is-light-sanctum-page .hero-compact,
-  .is-light-sanctum-page .note-panel{background:rgba(255,255,255,.72)}
-  [data-theme="dark"].is-light-sanctum-page .hero-compact,
-  [data-theme="dark"].is-light-sanctum-page .note-panel{background:rgba(12,18,29,.82)}
 }
 
 @media(prefers-reduced-motion:reduce){
   .data-section,
   .data-section:hover,
+  .liquid-surface-card,
+  .liquid-surface-card:hover,
   .data-row,
-  .is-light-sanctum-page .hero-compact,
-  .is-light-sanctum-page .hero-compact:hover,
-  .is-light-sanctum-page .note-panel,
-  .is-light-sanctum-page .note-panel:hover,
   .is-light-sanctum-page .nav-btn,
   .is-light-sanctum-page .nav-btn:hover,
   .is-light-sanctum-page .action-btn,
@@ -547,11 +532,15 @@
   [data-theme="dark"] .theme-toggle::before{transform:translateX(30px)}
   @media(prefers-reduced-motion:reduce){[data-theme="dark"] .theme-toggle::before{transform:translateX(30px)!important}}
 
-  .is-light-sanctum-page .hero-compact{
-    padding:14px 15px 13px;
-    border-radius:18px;
+  .is-light-sanctum-page .hero-compact{border-radius:18px}
+  .is-light-sanctum-page .hero-surface-content{
+    min-height:0;
+    padding:14px 15px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
   }
-  .is-light-sanctum-page .hero-actions{margin-top:9px}
+  .is-light-sanctum-page .hero-actions{width:100%}
   .is-light-sanctum-page .action-btn{min-height:31px}
 
   .is-light-sanctum-page .data-header{
@@ -573,12 +562,15 @@
 
   .is-light-sanctum-page .note-panel{
     margin-top:8px;
-    padding:10px 12px;
     border-radius:16px;
+  }
+  .is-light-sanctum-page .note-surface-content{
+    min-height:38px;
+    padding:8px 11px;
   }
   .is-light-sanctum-page .note-only{
     font-size:9.2px;
-    line-height:1.48;
+    line-height:1.45;
   }
   .is-light-sanctum-page .footer{font-size:8.3px}
 }
