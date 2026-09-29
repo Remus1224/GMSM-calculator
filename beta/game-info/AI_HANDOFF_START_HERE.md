@@ -1,25 +1,26 @@
-# AI_HANDOFF_START_HERE — Game Info V21-P3S
+# AI_HANDOFF_START_HERE — Game Info V21-P4A
 
 ## Current baseline / test state
 - Repo: `Remus1224/GMSM-calculator`
 - Branch: `feature/game-info-v21-local-ui`
 - Area: `beta/game-info/`
 - Protected static glass baseline: **V21-P3Q — Fine Rim / Surface Glass**
-- Current interaction test: **V21-P3S — Main-Site Lift + Row Hover**
+- Accepted interaction baseline: **V21-P3S — Main-Site Lift + Row Hover**
+- Current page-chrome test: **V21-P4A — Light Sanctum UI Completion**
 - P3Q static material received user Browser Visual PASS on 2026-09-29.
-- P3R spring-style 2px lift was superseded by P3S because the user prefers the existing Main Site entry-card motion language.
+- P3S whole-table lift + per-row hover received user Browser Visual PASS on 2026-09-29.
 
 ## Active runtime files
 ### CSS
 Only **2 CSS files are active** from `index.html`:
 1. `style.css` — Game Info layout, typography, page atmosphere, generic panel/control styles, responsive rules.
-2. `integrated-liquid-glass.css` — protected P3Q table material + current P3S interaction layer.
+2. `integrated-liquid-glass.css` — protected P3Q table material + accepted P3S interaction + page-scoped P4A Light Sanctum UI completion.
 
 ### JavaScript
 Only **3 JavaScript files are active** from `index.html`:
-1. `script.js` — routing, theme state, data loading, derived rows, page rendering.
+1. `script.js` — routing, theme state, data loading, derived rows, page rendering; P4A adds only the root class `is-light-sanctum-page` while the Light Sanctum detail route is active.
 2. `liquid-edge-refraction.js` — safe self-contained edge-refraction map used by the table glass.
-3. `v12-export.js` — the sole table image export owner; export-image visual parity is intentionally deferred until page appearance is finished.
+3. `v12-export.js` — the sole table image export owner; export-image visual parity remains intentionally deferred until page appearance is accepted.
 
 Retired experiments already removed:
 - `refractive-glass-p3.css`
@@ -35,10 +36,10 @@ Retired experiments already removed:
 - Keep `data-unlock` readability colors: Light `#596477`, Dark `#b0bfcd`.
 - Preserve the existing cyan / violet page atmosphere and table geometry.
 
-## P3S interaction contract
+## P3S accepted interaction contract
 ### Whole-table lift
 - Desktop/fine-pointer only: `@media (hover:hover) and (pointer:fine)`.
-- Reference is the Main Site `.app-card` interaction language, not the earlier P3R spring motion.
+- Reference is the Main Site entry-card interaction language.
 - Motion: `0.30s cubic-bezier(.25,.8,.25,1)` and `translateY(-4px)`.
 - Cyan/violet side glows mirror the Main Site idea at reduced intensity because the table is much larger.
 - No `scale()`, no 3D tilt, no pointer-position tracking, no padding/layout growth and no text reflow.
@@ -52,7 +53,37 @@ Retired experiments already removed:
 
 ### Accessibility / touch
 - Touch/mobile devices do not depend on hover.
-- `prefers-reduced-motion: reduce` disables the whole-table lift animation and row-transition animation.
+- `prefers-reduced-motion: reduce` disables whole-table lift and row transition animation.
+
+## P4A page-chrome scope
+P4A intentionally changes only the remaining UI inside the `light-sanctum-pray-exp` detail page. The Game Info home page is protected by the root-class scope.
+
+### Navigation
+- Existing geometry is preserved.
+- `資訊首頁`, centered title pill and theme button use thinner surface glass: lower blur, finer highlight, restrained shadow.
+- Clickable nav/theme controls use the same Main Site-style ease and a small `-3px` lift with reduced cyan/violet glow.
+- Center title pill remains stationary.
+- Focus-visible outlines were added for keyboard navigation.
+
+### Hero
+- Hero is an informational surface and remains stationary; it does not behave like a clickable card.
+- Legacy heavy 22–27px blur is overridden on this page with thinner surface glass using the accepted visual language.
+- Existing content, spacing, typography and source semantics are preserved.
+- `Client Table` chip is now a neutral cool-glass provenance badge rather than a green status-like badge.
+
+### Save / share action
+- `儲存 / 分享表格圖片` is the hero's single primary interaction.
+- It receives the Main Site-like floating response: `0.30s cubic-bezier(.25,.8,.25,1)`, `translateY(-3px)`, restrained cyan/violet glow.
+- No layout shift or scale.
+
+### Note panel
+- `資料說明` remains a lower-priority surface than Hero/Table.
+- Heavy legacy glass is replaced with a quieter thin surface treatment.
+- Inline code/source fields get a subtle background and `overflow-wrap:anywhere` so long source paths do not break mobile layout.
+
+### Page scoping
+- `script.js` adds `is-light-sanctum-page` to `<html>` only while the Light Sanctum detail page is active and removes it on the Game Info home page.
+- This prevents the P4A chrome changes from redesigning the information-home cards.
 
 ## Confirmed behavior / protected functionality
 - Direct route `?page=light-sanctum-pray-exp` works.
@@ -60,7 +91,8 @@ Retired experiments already removed:
 - Light/Dark theme switching works.
 - Five-column layout and 15-row Light Sanctum data are preserved.
 - Data JSON and EXP/unlock derivation were not changed.
-- Main Site files were not modified; P3S only references their existing motion language.
+- `v12-export.js` remains the only export runtime.
+- Main Site files were not modified.
 
 ## Rejected lessons that must not regress
 - Large live-backdrop SVG displacement caused moving black artifacts.
@@ -68,13 +100,15 @@ Retired experiments already removed:
 - Size-scaled visible rim thickness made the large table look too thick.
 - Heavy multi-inset sharp/reflect treatment reads as acrylic rather than thin liquid glass.
 - Hover padding expansion would reflow the 15-row table and must not be used.
-- Do not reintroduce P3R spring timing unless explicitly requested.
+- Do not return to P3R spring timing unless explicitly requested.
+- Do not let Light Sanctum-specific page chrome leak onto the Game Info home page.
 
 ## Current acceptance task
-Judge P3S in Light and Dark:
-1. Does the whole table lift feel consistent with Main Site entry cards without being over-glowy?
-2. Is `-4px` appropriate for this large surface?
-3. Does row hover clearly show the current line without looking like a clickable button?
-4. Is row hover strong enough in Dark while staying clean?
+Judge P4A in Light and Dark while treating P3Q/P3S as protected baselines:
+1. Do the top navigation controls now feel consistent with the accepted table and Main Site interaction language?
+2. Does the Hero look like a thin glass information surface rather than a heavy legacy glass card?
+3. Does the Save/Share button have enough affordance without looking oversized or neon?
+4. Is the `資料說明` panel visually quieter than Hero/Table while remaining readable?
+5. On mobile, do long source/code strings wrap without horizontal overflow?
 
-If P3S passes, preserve P3Q as the static glass baseline and record P3S as the accepted interaction baseline. Continue overall page appearance work before revisiting export-image styling.
+If P4A passes, treat the visible Light Sanctum detail page UI as complete and move next to export-image parity / final regression cleanup rather than continuing visual redesign.
