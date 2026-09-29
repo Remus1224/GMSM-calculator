@@ -1,7 +1,7 @@
-/* V21-P3H — P3D Visual Restore + Artifact-Free Edge Refraction.
-   Goal: recover the accepted P3D material balance without reintroducing the
-   moving black compositor artifacts produced by the old SVG displacement path.
-   Geometry and content remain owned by Game Info. */
+/* V21-P3I — Specular Reflection Recovery.
+   Keep the artifact-free P3H material baseline, reduce the remaining neutral veil,
+   and recover the author's micro-bright liquid-glass edge language with a static
+   specular ring. No SVG displacement, animation, mouse tracking, or scroll work. */
 
 /* Retire previous pseudo-lens experiments for the data table. */
 .data-section::before,
@@ -39,15 +39,13 @@
   pointer-events:none;
 }
 
-/* 1. Artifact-free edge refraction band.
-   P3D used backdrop-filter:url(#liquid_glass_filter), which produced moving
-   black specks on this large table in Edge/Chromium. P3H keeps the same 5px
-   optical band but replaces the unstable SVG displacement with a restrained
-   backdrop sample shift. This preserves edge separation without black pixels. */
+/* 1. Artifact-free edge band.
+   Keep the safe 5px band from P3H. It only changes the sampled backdrop very
+   slightly; the visible "micro-light" is now owned by the specular layer below. */
 .liquid_glass-outer{
   z-index:0;
-  backdrop-filter:blur(.4px) saturate(1.08) contrast(1.06) brightness(1.012);
-  -webkit-backdrop-filter:blur(.4px) saturate(1.08) contrast(1.06) brightness(1.012);
+  backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
+  -webkit-backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
   -webkit-mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
@@ -63,24 +61,27 @@
   opacity:.98;
 }
 [data-theme="dark"] .liquid_glass-outer{
-  backdrop-filter:blur(.35px) saturate(1.045) contrast(1.035) brightness(1.006);
-  -webkit-backdrop-filter:blur(.35px) saturate(1.045) contrast(1.035) brightness(1.006);
+  backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
+  -webkit-backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
 }
 
-/* 2. Restore the P3D cover exactly. This slight neutral veil was part of the
-   material depth the user preferred; P3F/P3G proved that clearing it entirely
-   makes the table read like a flat tinted sheet. */
+/* 2. Cover.
+   P3H restored the desired material weight, but .055 + 2px blur still dulled
+   this low-detail cyan/violet background. P3I keeps a real glass body while
+   reducing the neutral veil instead of removing it entirely as P3G did. */
 .liquid_glass-cover{
   z-index:1;
-  background:rgba(255,255,255,.055);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(1.35px);
+  -webkit-backdrop-filter:blur(1.35px);
 }
 [data-theme="dark"] .liquid_glass-cover{
-  background:rgba(0,0,0,.12);
+  background:rgba(0,0,0,.105);
+  backdrop-filter:blur(1.5px);
+  -webkit-backdrop-filter:blur(1.5px);
 }
 
-/* 3. Restore P3D sharp values, including its separate Dark balance. */
+/* 3. Sharp optical edge — retain the P3D/P3H values. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
@@ -93,7 +94,80 @@
     inset -1px -1px 0 0 rgba(255,255,255,.22);
 }
 
-/* 4. Restore P3D internal reflection values. */
+/* 3a. Static specular reflection ring.
+   This is intentionally non-uniform: the upper-left arc catches the strongest
+   light, the upper/right run is softer, and the lower edge only gets a faint
+   return. The centre is fully masked out, so this cannot turn the table into a
+   bright card and it does not require displacement/compositor re-sampling. */
+.liquid_glass-sharp::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  padding:1px;
+  background:
+    radial-gradient(115% 82% at 13% -14%,
+      rgba(255,255,255,.82) 0%,
+      rgba(255,255,255,.48) 18%,
+      rgba(255,255,255,.13) 37%,
+      transparent 58%),
+    linear-gradient(108deg,
+      rgba(255,255,255,.44) 0%,
+      rgba(255,255,255,.17) 19%,
+      transparent 40%,
+      transparent 70%,
+      rgba(255,255,255,.13) 88%,
+      rgba(255,255,255,.30) 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  opacity:.82;
+  pointer-events:none;
+}
+
+/* A second very soft inner glint gives the top-left corner a lens-like depth
+   without drawing a uniform white outline around the entire table. */
+.liquid_glass-sharp::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:inherit;
+  background:
+    radial-gradient(52% 28% at 11% 0%, rgba(255,255,255,.16), transparent 74%),
+    radial-gradient(34% 22% at 96% 100%, rgba(255,255,255,.07), transparent 78%);
+  opacity:.72;
+  pointer-events:none;
+}
+
+[data-theme="dark"] .liquid_glass-sharp::before{
+  background:
+    radial-gradient(115% 82% at 13% -14%,
+      rgba(255,255,255,.50) 0%,
+      rgba(255,255,255,.27) 18%,
+      rgba(255,255,255,.07) 38%,
+      transparent 59%),
+    linear-gradient(108deg,
+      rgba(255,255,255,.24) 0%,
+      rgba(255,255,255,.09) 19%,
+      transparent 42%,
+      transparent 72%,
+      rgba(255,255,255,.06) 89%,
+      rgba(255,255,255,.15) 100%);
+  opacity:.62;
+}
+[data-theme="dark"] .liquid_glass-sharp::after{
+  background:
+    radial-gradient(52% 28% at 11% 0%, rgba(255,255,255,.085), transparent 74%),
+    radial-gradient(34% 22% at 96% 100%, rgba(255,255,255,.035), transparent 78%);
+  opacity:.62;
+}
+
+/* 4. Soft internal reflection — keep the accepted P3D/P3H values. */
 .liquid_glass-reflect{
   inset:1px;
   z-index:2;
@@ -114,7 +188,7 @@
   z-index:5;
 }
 .data-header{
-  background:rgba(255,255,255,.018);
+  background:rgba(255,255,255,.014);
 }
 [data-theme="dark"] .data-header{
   background:rgba(255,255,255,.006);
@@ -123,7 +197,7 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3H · P3D Visual Restore / Artifact-Free Edge Refraction · 此頁只讀。";
+  content:"Beta V21-P3I · Specular Reflection Recovery · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
@@ -131,5 +205,6 @@
 
 @media(max-width:720px){
   .liquid_glass-outer{padding:4px}
+  .liquid_glass-sharp::before{opacity:.74}
   .footer::after{font-size:8.5px}
 }
