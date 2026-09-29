@@ -1,59 +1,78 @@
-# AI_HANDOFF_START_HERE — Game Info V21-P4E
+# AI_HANDOFF_START_HERE — Game Info V21-P4F
 
-## Current baseline / test state
+## Current state
 - Repo: `Remus1224/GMSM-calculator`
 - Branch: `feature/game-info-v21-local-ui`
 - Area: `beta/game-info/`
 - Protected static table glass baseline: **V21-P3Q — Fine Rim / Surface Glass**
 - Accepted interaction baseline: **V21-P3S — Main-Site Lift + Row Hover**
-- Protected surface/layout state: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
-- Current experiment: **V21-P4E — Background Detail Test 1**
+- Protected surface/layout baseline: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
+- Current visual test: **V21-P4F — Background / Chrome Polish**
 
-## P4E scope — background only
-P4E must be judged as an atmosphere test, not a glass redesign.
+## Source of truth for this pass
+P4F is based on the user's uploaded `game-info.zip`, not only the previous GitHub P4E state. The uploaded state had already locally adjusted the Light/Dark atmosphere composition. Preserve those accepted local changes when judging P4F.
 
-No P3Q/P3S/P4D glass or interaction values were changed:
-- no change to outer rim widths/opacities
-- no change to cover blur/saturation
-- no change to sharp/reflect
-- no change to displacement math or per-surface maps
-- no change to Hero/Table/Note geometry
-- no change to row hover, lift, nav controls, theme toggle, data or export runtime
+## Protected contracts
+- Do not redesign the accepted Table glass core (`outer / cover / sharp / reflect`).
+- Never return to live `backdrop-filter:url(...)` displacement; it produced moving black compositor artifacts.
+- Hero / Table / Note remain one glass family.
+- Whole-surface hover remains Main-Site-like `translateY(-4px)` with restrained cyan/violet glow.
+- Per-row hover remains informational only and must not move row geometry.
+- Top navigation title sizes to its text on desktop.
+- Theme switch keeps the Main Site two-icon sliding control.
+- No scale, 3D tilt, pointer tracking or layout-growth hover.
 
-## What P4E changes
-The existing cyan / blue / violet atmosphere is preserved, but receives a very low-energy CSS-only organic detail stack:
-- small/medium soft ellipses
-- a very faint diagonal light/dark sweep
-- Light detail intentionally stays around subtle 3–8% alpha ranges
-- Dark detail stays slightly more visible because deep navy absorbs contrast
+## P4F changes
+### Background atmosphere
+The visible page background and every `.liquid_glass-outer` still share the same `--page-atmosphere`, so the self-contained refraction source remains synchronized with the page.
 
-No image/mist asset is used in this first test. `mist-organic-v19-r2.webp` remains available but intentionally unused so the first A/B test has a clean signal and easy rollback.
+Light keeps the uploaded palette:
+- base `#EEF1FA`
+- cyan `rgba(156,234,254,.68)`
+- violet `rgba(200,141,221,.55)`
+- blue `rgba(167,211,246,.32)`
 
-## Shared atmosphere source
-P4E defines one `--page-atmosphere` stack and applies it to both:
-- `body`
-- every `.liquid_glass-outer`
+P4F only makes the existing four organic detail fields slightly tighter and more legible. No image texture, new mist layer, or new color family is added.
 
-This is important because P3Q/P4D use self-contained refraction rather than live backdrop displacement. The visible page background and the pixels owned by each refraction OUTER must describe the same atmosphere; otherwise the glass edge would refract a different scene from the page behind it.
+Dark is treated as nearly frozen and keeps the uploaded values:
+- base `#050A12`
+- cyan `.34`
+- violet `.27`
+- blue `.21`
 
-For this first experiment the P4E override is intentionally isolated in `index.html` (`<style id="p4e-background-test">`) after the two production CSS files. If accepted, migrate the shared atmosphere definition into `style.css` / `integrated-liquid-glass.css` during cleanup. If rejected, rollback is limited and trivial.
+### Dark navigation title
+- Geometry and auto-width stay unchanged.
+- Cyan/violet text glow is reduced from `.80` to `.60`.
+- Cyan/violet outer glow is reduced from `.55` to `.40`.
+- Goal: keep Main Site identity without visually overpowering Hero/Table/Note.
 
-## Protected P4D behavior
-- Hero/Table/Note remain the same glass family.
-- Table outer: 2px / .50 Light, .26 Dark.
-- Hero outer: 1px / .34 Light, .18 Dark.
-- Note outer: 1px / .20 Light, .12 Dark.
-- Desktop center nav title sizes from text (`width:max-content`) with max-width safety.
-- Main Site-style navigation/theme controls remain unchanged.
-- Table labels/content/density remain unchanged.
-- Beta footer remains test-only and must be removed for formal release.
+### Light Save/Share button
+- Light background opacity is reduced from `.55` to `.43`.
+- Border strength is reduced from `.72` to `.62`.
+- Hover white is reduced from `.88` to `.76`.
+- Dark button styling is unchanged.
+
+### Version markers during this test
+- Visible top marker: `V21-P4F`.
+- CSS/JS URL cache markers in `index.html` are bumped to P4F.
+- The visible test-only footer is overridden to `Beta V21-P4F · 測試版。`.
+- Some older internal comments / hidden legacy markers remain in the underlying CSS/JS until P4F visual acceptance. Do not treat those as the active visible version.
+- Formal release requirement remains: remove the test-only footer entirely.
+
+## Protected content
+- Table labels remain `等級 / 升等所需經驗 / 累積經驗 / 聖痕結晶 / 解鎖內容`.
+- Lv.1 has no `初始：` prefix.
+- Lv.15 does not add `滿等`.
+- Bottom note remains only: `遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
+- Data JSON and numeric derivation are unchanged.
+- `v12-export.js` remains the sole export owner; export-image parity is deferred until the visible UI is frozen.
 
 ## Current acceptance task
-After `git pull`, compare V21-P4E in Light and Dark against P4D:
-1. Does the background still read first as clean cyan / violet rather than a visible texture or aurora?
-2. Can the eye now see slightly more depth/refraction through Hero/Table/Note, especially while hovering/floating?
-3. Do the three glass surfaces still feel clean rather than dirty or cloudy?
-4. Is Dark still cold navy/blue-black rather than purple/muddy?
-5. If the detail is too weak, increase only background detail next; if it is too visible, reduce only background detail. Do not compensate by touching the protected glass material.
+After `git pull`, inspect Light and Dark:
+1. Light should remain clean but have slightly more spatial depth than the previous screenshot.
+2. Dark should look almost unchanged.
+3. Dark center navigation title should feel less neon / less dominant.
+4. Light Save/Share should belong to the Hero instead of reading as an opaque white pill.
+5. Hero / Table / Note glass, surface hover, row hover, routing and theme switching must remain unchanged.
 
-If P4E is accepted, consolidate the atmosphere vars into the normal CSS files. If not, keep P4D and try a second background-only calibration.
+If P4F passes, freeze background + chrome, then do legacy-marker cleanup and move to final regression / export-image parity instead of restarting the Liquid Glass design.
