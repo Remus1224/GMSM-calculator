@@ -1,9 +1,10 @@
-/* V21-P3D — Author Integrated Liquid Glass material port.
-   Based on the four-layer structure supplied by the user:
-   outer / cover / sharp / reflect.
-   Geometry stays owned by Game Info; only the optical material is ported. */
+/* V21-P3E — Author Material Fidelity + Black Artifact Isolation.
+   Keep Game Info geometry. Port the author's four-layer material language.
+   P3E intentionally disables SVG displacement so we can verify whether the
+   moving black specks came from backdrop-filter:url(#liquid_glass_filter).
+   sharp / reflect use the author's supplied values unchanged. */
 
-/* Retire previous P2/P3 pseudo-lens experiments for the data table. */
+/* Retire all previous pseudo-lens experiments for the data table. */
 .data-section::before,
 .data-section::after{
   content:none!important;
@@ -39,51 +40,47 @@
   pointer-events:none;
 }
 
-/* 1. Edge refraction layer: author design, but keeps the table's own radius. */
+/* 1. Outer edge band.
+   P3E uses the author's 5px edge-mask idea, but NO SVG displacement filter.
+   A tiny safe optical treatment remains so the edge is not visually dead.
+   If the black specks disappear, the old displacement path is confirmed as
+   the artifact source. */
 .liquid_glass-outer{
   z-index:0;
-  backdrop-filter:url(#liquid_glass_filter);
-  -webkit-backdrop-filter:url(#liquid_glass_filter);
+  backdrop-filter:blur(.25px) contrast(1.08) brightness(1.02) saturate(1.04);
+  -webkit-backdrop-filter:blur(.25px) contrast(1.08) brightness(1.02) saturate(1.04);
   -webkit-mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
   -webkit-mask-clip:border-box,content-box;
   -webkit-mask-composite:xor;
-  -webkit-mask-origin:border-box;
   padding:5px;
   mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
   mask-clip:border-box,content-box;
   mask-composite:exclude;
-  opacity:.98;
 }
 
-/* 2. Glass cover: intentionally very thin; no frosted-card look. */
+/* 2. Cover — restore the author's supplied material value.
+   This intentionally darkens the scene slightly, like the reference music bar,
+   instead of washing it with a white translucent card. */
 .liquid_glass-cover{
   z-index:1;
-  background:rgba(255,255,255,.055);
+  background:rgba(0,0,0,.12);
   backdrop-filter:blur(2px);
   -webkit-backdrop-filter:blur(2px);
 }
-[data-theme="dark"] .liquid_glass-cover{
-  background:rgba(0,0,0,.12);
-}
 
-/* 3. Sharp optical edge: copied from the author's integrated material logic. */
+/* 3. Sharp — author's supplied optical edge values, unchanged. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
     inset 1px 1px 0 0 rgba(255,255,255,.50),
     inset -1px -1px 0 0 rgba(255,255,255,.60);
 }
-[data-theme="dark"] .liquid_glass-sharp{
-  box-shadow:
-    inset 1px 1px 0 0 rgba(255,255,255,.28),
-    inset -1px -1px 0 0 rgba(255,255,255,.22);
-}
 
-/* 4. Soft internal reflection: gives thickness without a raised white frame. */
+/* 4. Reflect — author's supplied internal reflection values, unchanged. */
 .liquid_glass-reflect{
   inset:1px;
   z-index:2;
@@ -91,29 +88,19 @@
     inset 2px 2px 6px 2px rgba(255,255,255,.20),
     inset -2px -2px 4px -1px rgba(255,255,255,.20);
 }
-[data-theme="dark"] .liquid_glass-reflect{
-  box-shadow:
-    inset 2px 2px 6px 2px rgba(255,255,255,.085),
-    inset -2px -2px 4px -1px rgba(255,255,255,.07);
-}
 
-/* Content always stays optically clean above the material layers. */
+/* Content remains optically clean above every material layer. */
 .data-header,
 .data-row{
   position:relative;
   z-index:5;
 }
-.data-header{
-  background:rgba(255,255,255,.018);
-}
-[data-theme="dark"] .data-header{
-  background:rgba(255,255,255,.006);
-}
+.data-header{background:transparent}
 .data-row{background:transparent}
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3D · Integrated Liquid Glass Material · 此頁只讀。";
+  content:"Beta V21-P3E · Author Material Fidelity / Artifact Isolation · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
