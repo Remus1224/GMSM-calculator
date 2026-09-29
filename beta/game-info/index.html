@@ -11,32 +11,45 @@
       if (localStorage.getItem('msm-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     } catch (error) {}
   </script>
-  <link rel="stylesheet" href="style.css?v=20260929-v21p2e">
-  <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4d">
-  <style id="p4e-background-test">
-    /* V21-P4E — Background Detail Test 1.
-       Background-only experiment: P4D glass / interaction values are untouched.
-       The page and every self-refraction OUTER use the same atmosphere stack. */
+  <link rel="stylesheet" href="style.css?v=20260929-v21p4f">
+  <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4f">
+  <style id="p4f-background-polish">
+    /* V21-P4F — Background Polish 1.
+       P3Q/P3S/P4D glass and interaction values stay protected.
+       This pass keeps the accepted cyan/blue/violet atmosphere, gives Light mode
+       slightly tighter/more legible organic detail, and keeps Dark nearly frozen. */
     :root{
-      --page-detail-light:rgba(255,255,255,.075);
-      --page-detail-cool:rgba(89,139,178,.035);
-      --page-detail-violet:rgba(139,104,176,.030);
-      --page-detail-soft:rgba(255,255,255,.040);
+      --page-base:#EEF1FA;
+      --page-grad-cyan:rgba(156,234,254,.68);
+      --page-grad-violet:rgba(200,141,221,.55);
+      --page-grad-blue:rgba(167,211,246,.32);
+      --page-detail-light:rgba(255,255,255,.095);
+      --page-detail-cool:rgba(89,139,178,.045);
+      --page-detail-violet:rgba(139,104,176,.038);
+      --page-detail-soft:rgba(255,255,255,.052);
+      --page-detail-line-a:rgba(255,255,255,.030);
+      --page-detail-line-b:rgba(111,133,173,.022);
       --page-atmosphere:
-        radial-gradient(ellipse 28% 15% at 19% 24%,var(--page-detail-light) 0%,transparent 72%),
-        radial-gradient(ellipse 19% 29% at 43% 55%,var(--page-detail-cool) 0%,transparent 74%),
-        radial-gradient(ellipse 25% 13% at 76% 31%,var(--page-detail-soft) 0%,transparent 72%),
-        radial-gradient(ellipse 30% 19% at 61% 78%,var(--page-detail-violet) 0%,transparent 76%),
-        linear-gradient(112deg,transparent 18%,rgba(255,255,255,.022) 33%,transparent 47%,rgba(111,133,173,.018) 62%,transparent 79%),
+        radial-gradient(ellipse 23% 11% at 18% 23%,var(--page-detail-light) 0%,transparent 70%),
+        radial-gradient(ellipse 16% 25% at 43% 54%,var(--page-detail-cool) 0%,transparent 72%),
+        radial-gradient(ellipse 21% 10% at 77% 31%,var(--page-detail-soft) 0%,transparent 70%),
+        radial-gradient(ellipse 25% 15% at 62% 77%,var(--page-detail-violet) 0%,transparent 74%),
+        linear-gradient(112deg,transparent 18%,var(--page-detail-line-a) 33%,transparent 47%,var(--page-detail-line-b) 62%,transparent 79%),
         radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
         radial-gradient(circle at 85% 60%,var(--page-grad-violet) 0%,transparent 55%),
         radial-gradient(circle at 50% 10%,var(--page-grad-blue) 0%,transparent 40%);
     }
     [data-theme="dark"]{
+      --page-base:#050A12;
+      --page-grad-cyan:rgba(85,195,255,.34);
+      --page-grad-violet:rgba(181,112,218,.27);
+      --page-grad-blue:rgba(85,195,255,.21);
       --page-detail-light:rgba(189,228,255,.038);
-      --page-detail-cool:rgba(85,195,255,.050);
-      --page-detail-violet:rgba(200,141,221,.040);
+      --page-detail-cool:rgba(85,195,255,.065);
+      --page-detail-violet:rgba(181,112,218,.035);
       --page-detail-soft:rgba(186,211,242,.026);
+      --page-detail-line-a:rgba(189,228,255,.018);
+      --page-detail-line-b:rgba(85,195,255,.016);
     }
     body,
     .liquid_glass-outer{
@@ -60,13 +73,13 @@
           </button>
         </div>
       </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V21-P4E</div>
+      <div class="beta-strip">BETA · 資料型資訊中心 V21-P4F</div>
     </header>
     <div id="app" aria-live="polite"><div class="glass-panel loading">正在載入資訊中心…</div></div>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <script src="script.js?v=20260929-v21p4c"></script>
-  <script src="liquid-edge-refraction.js?v=20260929-v21p4c"></script>
+  <script src="script.js?v=20260929-v21p4f"></script>
+  <script src="liquid-edge-refraction.js?v=20260929-v21p4f"></script>
   <script src="v12-export.js?v=20260927-v12"></script>
 </body>
 </html>
