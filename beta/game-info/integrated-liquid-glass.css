@@ -1,7 +1,8 @@
-/* V21-P3F — Color Transmission Restore.
+/* V21-P3G — Clear Cover + Safe Edge Optics.
    Keep Game Info geometry and the author's four-layer material structure.
-   Black-artifact isolation from P3E stays in place: no SVG displacement filter.
-   P3F only restores cyan/violet transmission through the cover layer.
+   Black-artifact isolation remains in place: no SVG displacement filter.
+   P3G removes the last neutral veil from the cover and strengthens only the
+   masked edge optics, so cyan/violet transmission stays clean.
    sharp / reflect remain frozen at the author's supplied values. */
 
 /* Retire all previous pseudo-lens experiments for the data table. */
@@ -40,38 +41,43 @@
   pointer-events:none;
 }
 
-/* 1. Outer edge band.
-   Keep the safe P3E edge treatment and keep SVG displacement disabled.
-   This preserves the no-black-speck result while retaining a small optical edge. */
+/* 1. Safe edge-only optical band.
+   Still no SVG displacement. The 6px masked ring gets a slightly stronger
+   local saturation/contrast shift so the edge reads as optically different
+   from the clear center without reintroducing compositor artifacts. */
 .liquid_glass-outer{
   z-index:0;
-  backdrop-filter:blur(.25px) contrast(1.08) brightness(1.02) saturate(1.04);
-  -webkit-backdrop-filter:blur(.25px) contrast(1.08) brightness(1.02) saturate(1.04);
+  backdrop-filter:blur(.35px) saturate(1.14) contrast(1.10) brightness(1.025);
+  -webkit-backdrop-filter:blur(.35px) saturate(1.14) contrast(1.10) brightness(1.025);
   -webkit-mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
   -webkit-mask-clip:border-box,content-box;
   -webkit-mask-composite:xor;
-  padding:5px;
+  padding:6px;
   mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
   mask-clip:border-box,content-box;
   mask-composite:exclude;
 }
+[data-theme="dark"] .liquid_glass-outer{
+  backdrop-filter:blur(.35px) saturate(1.10) contrast(1.07) brightness(1.015);
+  -webkit-backdrop-filter:blur(.35px) saturate(1.10) contrast(1.07) brightness(1.015);
+}
 
-/* 2. Cover — restore color transmission for this pastel page.
-   The author's .12 black cover was correct for a high-contrast photo background,
-   but it dulled this page's cyan/violet atmosphere. Keep the same 2px glass blur,
-   while reducing tint to a near-neutral amount. */
+/* 2. Clear cover.
+   P3F proved that even a tiny tint is visible on this low-detail pastel
+   atmosphere. Remove the Light tint entirely and cut blur in half so the
+   center stays vivid. Dark keeps only a 1.5% black tint for separation. */
 .liquid_glass-cover{
   z-index:1;
-  background:rgba(255,255,255,.02);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
+  background:transparent;
+  backdrop-filter:blur(1px);
+  -webkit-backdrop-filter:blur(1px);
 }
 [data-theme="dark"] .liquid_glass-cover{
-  background:rgba(0,0,0,.04);
+  background:rgba(0,0,0,.015);
 }
 
 /* 3. Sharp — author's supplied optical edge values, frozen unchanged. */
@@ -102,13 +108,13 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3F · Color Transmission Restore · 此頁只讀。";
+  content:"Beta V21-P3G · Clear Cover / Safe Edge Optics · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
 }
 
 @media(max-width:720px){
-  .liquid_glass-outer{padding:4px}
+  .liquid_glass-outer{padding:5px}
   .footer::after{font-size:8.5px}
 }
