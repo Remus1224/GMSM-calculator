@@ -1,17 +1,44 @@
+/*
+ * Game Info V21-P3Q — safe self-refraction map.
+ * Optical approach adapted from ideas demonstrated by shuding/liquid-glass.
+ * Original project: https://github.com/shuding/liquid-glass
+ *
+ * MIT License
+ * Copyright (c) 2025 Shu Ding
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 (() => {
   "use strict";
 
-  // V21-P3O — safe self-refraction map for the author's OUTER layer.
-  // The SVG filter no longer displaces a live backdrop surface. CSS gives OUTER
+  // Safe self-refraction map for the accepted P3Q OUTER layer.
+  // The SVG filter does not displace a live backdrop surface. CSS gives OUTER
   // its own viewport-fixed copy of the page atmosphere; this map only bends those
   // owned pixels. Geometry follows the real table width / height / radius and is
   // rebuilt only on first render or resize (never on scroll or mousemove).
 
   const FILTER_ID = "liquid_edge_refraction";
   const MAP_ID = "liquid_edge_refraction_map";
-  const FILTER_SCALE = 200; // retain the author's feDisplacementMap scale
-  const MAX_SHIFT = 11;     // bounded real source offset in CSS pixels
-  const EDGE_BAND = 14;     // edge-only bend; centre remains neutral
+  const FILTER_SCALE = 200;
+  const MAX_SHIFT = 11;
+  const EDGE_BAND = 14;
   const MAX_MAP_EDGE = 480;
 
   let observedSection = null;
@@ -140,8 +167,6 @@
         const dx = inwardX * shift;
         const dy = inwardY * shift;
 
-        // feDisplacementMap offset = scale * (channel - 0.5). Small encoded
-        // channel deltas retain the author's scale while bounding real movement.
         pixels[i] = Math.round(clamp(0.5 + dx / FILTER_SCALE, 0, 1) * 255);
         pixels[i + 1] = Math.round(clamp(0.5 + dy / FILTER_SCALE, 0, 1) * 255);
         pixels[i + 2] = 128;
