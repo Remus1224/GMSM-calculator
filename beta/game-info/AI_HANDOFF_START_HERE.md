@@ -1,4 +1,4 @@
-# AI_HANDOFF_START_HERE — Game Info V21-P5A
+# AI_HANDOFF_START_HERE — Game Info V21-P5B
 
 ## Current state
 - Repo: `Remus1224/GMSM-calculator`
@@ -8,95 +8,124 @@
 - Accepted interaction baseline: **V21-P3S — Main-Site Lift + Row Hover**
 - Protected surface/layout baseline: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
 - Accepted/frozen visible polish candidate: **V21-P4G — Final Visual Polish**
-- Current feature test: **V21-P5A — WYSIWYG Export Prototype**
+- Current feature test: **V21-P5B — Manual Canvas Fidelity Test**
 
-## Visual state is frozen during P5A
-P5A does not redesign the accepted P4G page. Preserve:
-- Light/Dark atmosphere.
-- P3Q four-layer glass (`outer / cover / sharp / reflect`).
-- Hero / Table / Note material family.
-- P3S surface lift and per-row hover.
-- Main-Site-like navigation title/theme switch.
-- Table labels and compact density.
-- Light/Dark unlock readability tuning.
+## Why P5B exists
+P5A tested real-tab pixel capture, but the user correctly pointed out that mobile cannot keep Hero + the full 15-row Table + Note visible in one viewport. Therefore P5B intentionally returns to a fully programmatic Canvas export for device-independent complete output.
 
-Do not restart Liquid Glass or background experimentation while validating export.
+The goal is not to reuse the old V12 approximation unchanged. P5B rebuilds the manual renderer specifically against the frozen P4G visual baseline to determine whether the remaining visual gap is small enough to accept.
+
+## Visible page is frozen during P5B
+P5B does not redesign the browser UI. Preserve:
+- P4G Light/Dark atmosphere.
+- P3Q four-layer glass roles (`outer / cover / sharp / reflect`).
+- Hero / Table / Note as one glass family.
+- P3S whole-surface lift and per-row hover.
+- Main-Site-like navigation/theme switch.
+- Compact table labels / geometry.
+- P4G unlock readability values.
 
 ## Active runtime files
 ### CSS
 1. `style.css`
 2. `integrated-liquid-glass.css`
 
-The P4G accepted atmosphere/polish values are still kept in the page-local style block in `index.html` while final cleanup is deferred.
-
-### JavaScript
+### JavaScript loaded by `index.html`
 1. `script.js` — routing/theme/data/page rendering.
-2. `liquid-edge-refraction.js` — safe self-contained refraction maps.
-3. `wysiwyg-export.js` — P5A real-tab-pixel capture path.
-4. `v12-export.js` — legacy hand-drawn Canvas exporter retained only as compatibility fallback during P5A.
+2. `liquid-edge-refraction.js` — browser-page safe self-contained refraction.
+3. `v12-export.js` — **P5B high-fidelity manual Canvas exporter**.
 
-## Why P5A exists
-The previous V12 export is not a screenshot of the live page. It independently redraws a 1440px Canvas with its own background, Hero, Table and metadata footer. Therefore the saved PNG visibly diverges from the accepted P4G browser UI.
+`wysiwyg-export.js` remains in the branch only as P5A experiment history and is **not loaded** by P5B.
 
-P5A changes the preferred export architecture to **What You See Is What You Get**:
-- Browser compositor renders the actual P4G page.
-- User clicks `儲存 / 分享表格圖片`.
-- Browser screen-capture permission opens.
-- User must choose **the current browser tab / 這個分頁**.
-- P5A captures the real rendered tab pixels.
-- It crops only the union of:
-  1. Hero
-  2. Table
-  3. bottom game-version Note
-- Navigation/header/BETA strip/test footer are excluded.
-- The resulting PNG therefore includes the browser's actual Liquid Glass, backdrop blur, masks, self-refraction, typography and current Light/Dark atmosphere rather than a second approximation renderer.
+## P5B manual export contract
+File: `v12-export.js`
 
-## WYSIWYG technical contract
-File: `wysiwyg-export.js`
+### Device independence
+- Export is generated from live page data, not viewport pixels.
+- Works even if mobile can only see part of the table.
+- Fixed logical export width: `1280px`.
+- Render scale: `2x`, so the PNG is high-resolution while layout stays deterministic.
+- Height is calculated from Hero + full table rows + Note.
 
-- Uses `navigator.mediaDevices.getDisplayMedia()` with current-tab preference.
-- Requires a browser-tab capture surface when the browser exposes `displaySurface`.
-- Uses current `getBoundingClientRect()` values for Hero/Table/Note and maps CSS viewport coordinates into captured video pixels using `videoWidth/window.innerWidth` and `videoHeight/window.innerHeight`.
-- Adds 14px crop padding so card shadows/glass edges are retained.
-- Hides the toast before the frame is captured.
-- Does not visually disable the save button during capture, avoiding an exported disabled-state button.
-- Stops all capture tracks immediately after a frame is obtained.
-- Keeps current theme in the filename.
+### What is exported
+The PNG contains only:
+1. Hero
+2. full five-column / 15-row table
+3. bottom game-version Note
 
-### Visibility limitation in P5A
-For true pixel parity, Hero + Table + Note must all fit inside the currently visible tab viewport. If they do not, P5A currently invokes the V12 compatibility fallback rather than pretending the off-screen DOM was captured.
+It intentionally excludes:
+- site title / top navigation
+- theme switch
+- BETA strip
+- test-only footer
 
-### Wrong source behavior
-If the browser reports that the user selected a window/monitor instead of a browser tab, P5A stops and asks the user to choose the current tab. It does not silently crop an unrelated screen source.
+### Live-source behavior
+P5B reads visible DOM text at export time:
+- Hero eyebrow/title
+- Save/Share button label
+- five table headers
+- all current table row values
+- current unlock text
+- bottom Note text
+- current Light/Dark computed text colors
 
-### Permission cancellation
-If the user cancels or denies the capture picker, export is cancelled cleanly; legacy export is not started.
+This reduces drift between the page and exporter when copy is adjusted.
 
-## Legacy V12 fallback
-`v12-export.js` remains unchanged during P5A so the old exporter is still available as a fallback for unsupported environments / non-visible full target.
+### P4G atmosphere recreation
+The Canvas background reads the same P4G CSS custom properties currently active on the page:
+- `--page-base`
+- cyan/violet/blue source colors
+- all four organic detail colors
+- subtle line-detail colors
 
-`wysiwyg-export.js` is loaded **before** `v12-export.js` and intercepts the save button first. When fallback is intentionally requested, it bypasses itself once and re-dispatches the click so the existing V12 listener handles it.
+The manual renderer reconstructs the same composition in Canvas rather than using the old unrelated V12 gradient.
 
-Do not remove V12 until P5A browser testing confirms the WYSIWYG path is reliable.
+### Glass approximation
+For each Hero/Table/Note surface P5B:
+1. redraws the same atmosphere through the surface
+2. applies Canvas `blur(2.6px) saturate(120%)`
+3. overlays the same Light/Dark film values used by the browser glass
+4. adds directional reflection
+5. adds fine cyan/white/violet rim
+6. adds sharp highlight / return edge
+7. adds restrained Light/Dark surface shadow
+
+The large Table uses full rim energy. Hero and Note use lower rim energy, matching the browser's perceptual calibration that avoided the cyan-ring problem on short cards.
+
+Important: Canvas cannot reproduce the browser's SVG displacement / compositor optics pixel-for-pixel. P5B is intentionally the closest controlled manual approximation, not a claim of exact browser rendering.
+
+### Layout fidelity
+- Hero is compact and includes the current Save/Share pill on the right.
+- Table column proportions follow the browser CSS family: fixed narrow first column + `1 / 1 / 1 / 1.75` remaining weights.
+- Full 15 rows are always present.
+- Row separators, unlock markers, Light/Dark typography and bottom Note are reproduced.
+- The old V12 metadata footer (`資料來源 / 資料版本`) is removed from the image because it no longer exists in the accepted browser page.
+
+## P5A status
+P5A WYSIWYG current-tab capture is not active in P5B because its full-target visibility requirement is unsuitable for mobile. Keep `wysiwyg-export.js` only until the P5B decision is made; then it can be deleted during cleanup if manual Canvas is accepted.
 
 ## Protected content / page behavior
-- Table labels: `等級 / 升等所需經驗 / 累積經驗 / 聖痕結晶 / 解鎖內容`.
+- Headers: `等級 / 升等所需經驗 / 累積經驗 / 聖痕結晶 / 解鎖內容`.
 - Lv.1 has no `初始：` prefix.
 - Lv.15 does not add `滿等`.
 - Bottom Note: `遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
-- Data JSON and numeric derivation remain unchanged.
-- Test-only footer remains during beta; remove for formal release.
+- Data JSON and numeric derivation are unchanged.
+- Test-only browser footer remains during beta; remove for formal release.
 
 ## Current acceptance test
 After `git pull`:
-1. Open `?page=light-sanctum-pray-exp` in desktop Edge/Chrome.
-2. Ensure Hero + full Table + Note are visible in the viewport (the user's current desktop layout already satisfies this).
-3. Test Light first.
-4. Click `儲存 / 分享表格圖片`.
-5. In the browser picker choose **這個分頁 / current tab**.
-6. Compare exported PNG directly with the live Hero + Table + Note pixels.
-7. Repeat in Dark.
-8. Confirm glass/refraction/background/text/card geometry match the live page, apart from the intentional 14px crop margin.
-9. Confirm capture permission is stopped immediately after export.
+1. Confirm page marker is `V21-P5B`.
+2. Test Light export first.
+3. Compare PNG against the live P4G Hero / Table / Note for:
+   - background distribution
+   - glass transparency / edge weight
+   - Hero geometry and Save/Share pill
+   - table spacing / column alignment
+   - unlock typography
+   - bottom Note
+4. Repeat in Dark.
+5. Verify export succeeds even when the browser viewport is too short to show the full table (important mobile contract).
 
-If P5A passes, next step is to retire the hand-drawn V12 path or keep it only as explicitly labeled compatibility fallback, then perform formal-release cleanup (remove beta/test footer and legacy markers).
+Decision after P5B:
+- If the visual gap is small enough, keep/manual-tune this exporter and retire P5A WYSIWYG capture.
+- If the gap is still unacceptable, move to offscreen DOM rasterization rather than trying to make screen capture work on mobile.
