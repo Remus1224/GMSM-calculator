@@ -1,0 +1,125 @@
+/* V21-P3D — Author Integrated Liquid Glass material port.
+   Based on the four-layer structure supplied by the user:
+   outer / cover / sharp / reflect.
+   Geometry stays owned by Game Info; only the optical material is ported. */
+
+/* Retire previous P2/P3 pseudo-lens experiments for the data table. */
+.data-section::before,
+.data-section::after{
+  content:none!important;
+  display:none!important;
+}
+
+.data-section{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border:0;
+  background:transparent;
+  box-shadow:0 14px 34px rgba(40,53,88,.09);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+
+[data-theme="dark"] .data-section{
+  border:0;
+  background:transparent;
+  box-shadow:0 18px 42px rgba(0,0,0,.24);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+
+.liquid_glass-outer,
+.liquid_glass-cover,
+.liquid_glass-sharp,
+.liquid_glass-reflect{
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+}
+
+/* 1. Edge refraction layer: author design, but keeps the table's own radius. */
+.liquid_glass-outer{
+  z-index:0;
+  backdrop-filter:url(#liquid_glass_filter);
+  -webkit-backdrop-filter:url(#liquid_glass_filter);
+  -webkit-mask-image:
+    linear-gradient(#fff 0 0),
+    linear-gradient(#fff 0 0);
+  -webkit-mask-clip:border-box,content-box;
+  -webkit-mask-composite:xor;
+  -webkit-mask-origin:border-box;
+  padding:5px;
+  mask-image:
+    linear-gradient(#fff 0 0),
+    linear-gradient(#fff 0 0);
+  mask-clip:border-box,content-box;
+  mask-composite:exclude;
+  opacity:.98;
+}
+
+/* 2. Glass cover: intentionally very thin; no frosted-card look. */
+.liquid_glass-cover{
+  z-index:1;
+  background:rgba(255,255,255,.055);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+}
+[data-theme="dark"] .liquid_glass-cover{
+  background:rgba(0,0,0,.12);
+}
+
+/* 3. Sharp optical edge: copied from the author's integrated material logic. */
+.liquid_glass-sharp{
+  z-index:3;
+  box-shadow:
+    inset 1px 1px 0 0 rgba(255,255,255,.50),
+    inset -1px -1px 0 0 rgba(255,255,255,.60);
+}
+[data-theme="dark"] .liquid_glass-sharp{
+  box-shadow:
+    inset 1px 1px 0 0 rgba(255,255,255,.28),
+    inset -1px -1px 0 0 rgba(255,255,255,.22);
+}
+
+/* 4. Soft internal reflection: gives thickness without a raised white frame. */
+.liquid_glass-reflect{
+  inset:1px;
+  z-index:2;
+  box-shadow:
+    inset 2px 2px 6px 2px rgba(255,255,255,.20),
+    inset -2px -2px 4px -1px rgba(255,255,255,.20);
+}
+[data-theme="dark"] .liquid_glass-reflect{
+  box-shadow:
+    inset 2px 2px 6px 2px rgba(255,255,255,.085),
+    inset -2px -2px 4px -1px rgba(255,255,255,.07);
+}
+
+/* Content always stays optically clean above the material layers. */
+.data-header,
+.data-row{
+  position:relative;
+  z-index:5;
+}
+.data-header{
+  background:rgba(255,255,255,.018);
+}
+[data-theme="dark"] .data-header{
+  background:rgba(255,255,255,.006);
+}
+.data-row{background:transparent}
+
+.footer{font-size:0!important}
+.footer::after{
+  content:"Beta V21-P3D · Integrated Liquid Glass Material · 此頁只讀。";
+  font-size:9.5px;
+  line-height:1.5;
+  color:inherit;
+}
+
+@media(max-width:720px){
+  .liquid_glass-outer{padding:4px}
+  .footer::after{font-size:8.5px}
+}
