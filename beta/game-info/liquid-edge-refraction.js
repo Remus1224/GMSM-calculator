@@ -1,17 +1,14 @@
 (() => {
   "use strict";
 
-  // V21-P3J — real edge refraction for the large Game Info table.
-  // The displacement field is generated from the table's actual geometry.
-  // It is inward-only so sampling never reaches outside the glass surface,
-  // and it is rebuilt only on first render / resize (never on scroll or mousemove).
+  // V21-P3K — size-aware optical calibration for Game Info liquid glass.
+  // The displacement field still samples inward only, but its visible rim,
+  // transition depth, refraction strength and reflection thickness now scale
+  // from the actual component geometry instead of assuming one fixed table size.
 
   const FILTER_ID = "liquid_edge_refraction";
   const MAP_ID = "liquid_edge_refraction_map";
-  const FILTER_SCALE = 24; // feDisplacementMap scale; intentionally far below the old 200.
-  const MAX_SHIFT = 9;     // max inward source-sampling shift in CSS pixels.
-  const EDGE_BAND = 20;    // distance from the rounded edge over which refraction eases out.
-  const MAX_MAP_EDGE = 420; // cap map resolution; smooth vector data scales cleanly.
+  const MAX_MAP_EDGE = 480;
 
   let observedSection = null;
   let resizeObserver = null;
@@ -29,9 +26,48 @@
     return Math.min(Math.max(qx, qy), 0) + Math.hypot(ox, oy) - r;
   }
 
+  function opticalMetrics(width, height) {
+    // Scale from the shorter edge so wide/short and narrow/tall tables both keep
+    // similar perceived glass thickness. Clamps prevent tiny cards becoming too
+    // heavy and large desktop tables from developing an oversized white rim.
+    const shortEdge = Math.max(1, Math.min(width, height));
+    const rim = clamp(shortEdge * 0.0175, 5, 11.5);
+    const edgeBand = clamp(rim * 3.0, 18, 34);
+    const maxShift = clamp(rim * 0.92, 5, 10.5);
+    const filterScale = clamp(maxShift * 2.7, 24, 30);
+
+    return {
+      rim,
+      edgeBand,
+      maxShift,
+      filterScale,
+      reflectInset: clamp(rim * 0.12, 1, 1.6),
+      reflectBlur: clamp(rim * 0.82, 6, 10),
+      reflectSpread: clamp(rim * 0.27, 2, 3.2),
+      returnBlur: clamp(rim * 0.58, 4, 7),
+      returnSpread: clamp(rim * 0.13, 1, 1.6),
+      innerGlintInset: clamp(rim * 0.30, 2, 4),
+      fresnelWidth: clamp(rim * 0.68, 4, 8)
+    };
+  }
+
+  function applyOpticalCssVars(section, metrics) {
+    section.style.setProperty("--glass-rim", `${metrics.rim.toFixed(2)}px`);
+    section.style.setProperty("--glass-reflect-inset", `${metrics.reflectInset.toFixed(2)}px`);
+    section.style.setProperty("--glass-reflect-blur", `${metrics.reflectBlur.toFixed(2)}px`);
+    section.style.setProperty("--glass-reflect-spread", `${metrics.reflectSpread.toFixed(2)}px`);
+    section.style.setProperty("--glass-return-blur", `${metrics.returnBlur.toFixed(2)}px`);
+    section.style.setProperty("--glass-return-spread", `${(-metrics.returnSpread).toFixed(2)}px`);
+    section.style.setProperty("--glass-inner-glint-inset", `${metrics.innerGlintInset.toFixed(2)}px`);
+    section.style.setProperty("--glass-fresnel-width", `${metrics.fresnelWidth.toFixed(2)}px`);
+  }
+
   function ensureFilter() {
     let image = document.getElementById(MAP_ID);
-    if (image) return image;
+    const existingFilter = document.getElementById(FILTER_ID);
+    if (image && existingFilter) {
+      return { image, displacement: existingFilter.querySelector("feDisplacementMap") };
+    }
 
     const ns = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(ns, "svg");
@@ -46,12 +82,11 @@
     const defs = document.createElementNS(ns, "defs");
     const filter = document.createElementNS(ns, "filter");
     filter.setAttribute("id", FILTER_ID);
-    filter.setAttribute("x", "-3%");
-    filter.setAttribute("y", "-3%");
-    filter.setAttribute("width", "106%");
-    filter.setAttribute("height", "106%");
+    filter.setAttribute("x", "-4%");
+    filter.setAttribute("y", "-4%");
+    filter.setAttribute("width", "108%");
+    filter.setAttribute("height", "108%");
     filter.setAttribute("filterUnits", "objectBoundingBox");
-    // Critical for displacement maps: 128 must stay the neutral 0.5 channel value.
     filter.setAttribute("color-interpolation-filters", "sRGB");
 
     image = document.createElementNS(ns, "feImage");
@@ -66,7 +101,7 @@
     const displacement = document.createElementNS(ns, "feDisplacementMap");
     displacement.setAttribute("in", "SourceGraphic");
     displacement.setAttribute("in2", "edgeMap");
-    displacement.setAttribute("scale", String(FILTER_SCALE));
+    displacement.setAttribute("scale", "24");
     displacement.setAttribute("xChannelSelector", "R");
     displacement.setAttribute("yChannelSelector", "G");
     displacement.setAttribute("color-interpolation-filters", "sRGB");
@@ -75,16 +110,20 @@
     defs.append(filter);
     svg.append(defs);
     document.body.append(svg);
-    return image;
+    return { image, displacement };
   }
 
   function buildMap(section) {
     const rect = section.getBoundingClientRect();
     const width = Math.max(1, rect.width);
     const height = Math.max(1, rect.height);
-    const sizeKey = `${Math.round(width)}x${Math.round(height)}`;
+    const cssRadius = parseFloat(getComputedStyle(section).borderTopLeftRadius) || 0;
+    const metrics = opticalMetrics(width, height);
+    const sizeKey = `${Math.round(width)}x${Math.round(height)}@${cssRadius.toFixed(1)}:${metrics.rim.toFixed(1)}`;
     if (sizeKey === lastSizeKey) return;
     lastSizeKey = sizeKey;
+
+    applyOpticalCssVars(section, metrics);
 
     const scale = Math.min(1, MAX_MAP_EDGE / Math.max(width, height));
     const mapWidth = Math.max(48, Math.round(width * scale));
@@ -97,7 +136,6 @@
 
     const imageData = ctx.createImageData(mapWidth, mapHeight);
     const pixels = imageData.data;
-    const cssRadius = parseFloat(getComputedStyle(section).borderTopLeftRadius) || 0;
     const sx = width / mapWidth;
     const sy = height / mapHeight;
     const epsilon = 0.75;
@@ -109,7 +147,6 @@
         const sdf = roundedRectSdf(x, y, width, height, cssRadius);
         const i = (py * mapWidth + px) * 4;
 
-        // Outside the rounded rectangle stays neutral. The element clips these pixels anyway.
         if (sdf > 0) {
           pixels[i] = 128;
           pixels[i + 1] = 128;
@@ -119,8 +156,7 @@
         }
 
         const distanceInside = -sdf;
-        const edge = clamp(1 - distanceInside / EDGE_BAND, 0, 1);
-        // Smoothstep gives a lens-like transition instead of a hard 5px bend.
+        const edge = clamp(1 - distanceInside / metrics.edgeBand, 0, 1);
         const strength = edge * edge * (3 - 2 * edge);
 
         if (strength <= 0.0001) {
@@ -131,7 +167,6 @@
           continue;
         }
 
-        // SDF gradient points outward. Negating it gives an inward sampling vector.
         const gx = roundedRectSdf(x + epsilon, y, width, height, cssRadius)
           - roundedRectSdf(x - epsilon, y, width, height, cssRadius);
         const gy = roundedRectSdf(x, y + epsilon, width, height, cssRadius)
@@ -139,20 +174,20 @@
         const length = Math.hypot(gx, gy) || 1;
         const inwardX = -gx / length;
         const inwardY = -gy / length;
-        const shift = MAX_SHIFT * strength;
+        const shift = metrics.maxShift * strength;
         const dx = inwardX * shift;
         const dy = inwardY * shift;
 
-        // feDisplacementMap offset = scale * (channel - 0.5).
-        pixels[i] = Math.round(clamp(0.5 + dx / FILTER_SCALE, 0, 1) * 255);
-        pixels[i + 1] = Math.round(clamp(0.5 + dy / FILTER_SCALE, 0, 1) * 255);
+        pixels[i] = Math.round(clamp(0.5 + dx / metrics.filterScale, 0, 1) * 255);
+        pixels[i + 1] = Math.round(clamp(0.5 + dy / metrics.filterScale, 0, 1) * 255);
         pixels[i + 2] = 128;
         pixels[i + 3] = 255;
       }
     }
 
     ctx.putImageData(imageData, 0, 0);
-    const image = ensureFilter();
+    const { image, displacement } = ensureFilter();
+    displacement?.setAttribute("scale", metrics.filterScale.toFixed(2));
     const url = canvas.toDataURL("image/png");
     image.setAttribute("href", url);
     image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
