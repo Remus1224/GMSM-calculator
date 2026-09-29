@@ -1,14 +1,18 @@
 (() => {
   "use strict";
 
-  // V21-P3K — size-aware optical calibration for Game Info liquid glass.
-  // The displacement field still samples inward only, but its visible rim,
-  // transition depth, refraction strength and reflection thickness now scale
-  // from the actual component geometry instead of assuming one fixed table size.
+  // V21-P3L — author-aligned geometry-adaptive edge refraction.
+  // Keep the accepted P3J optical constants. The displacement map itself is
+  // generated from the table's real width / height / radius and is rebuilt only
+  // on first render or resize, so different table sizes are supported without
+  // scaling the visible rim / Fresnel thickness with panel size.
 
   const FILTER_ID = "liquid_edge_refraction";
   const MAP_ID = "liquid_edge_refraction_map";
-  const MAX_MAP_EDGE = 480;
+  const FILTER_SCALE = 24;
+  const MAX_SHIFT = 9;
+  const EDGE_BAND = 20;
+  const MAX_MAP_EDGE = 420;
 
   let observedSection = null;
   let resizeObserver = null;
@@ -26,48 +30,9 @@
     return Math.min(Math.max(qx, qy), 0) + Math.hypot(ox, oy) - r;
   }
 
-  function opticalMetrics(width, height) {
-    // Scale from the shorter edge so wide/short and narrow/tall tables both keep
-    // similar perceived glass thickness. Clamps prevent tiny cards becoming too
-    // heavy and large desktop tables from developing an oversized white rim.
-    const shortEdge = Math.max(1, Math.min(width, height));
-    const rim = clamp(shortEdge * 0.0175, 5, 11.5);
-    const edgeBand = clamp(rim * 3.0, 18, 34);
-    const maxShift = clamp(rim * 0.92, 5, 10.5);
-    const filterScale = clamp(maxShift * 2.7, 24, 30);
-
-    return {
-      rim,
-      edgeBand,
-      maxShift,
-      filterScale,
-      reflectInset: clamp(rim * 0.12, 1, 1.6),
-      reflectBlur: clamp(rim * 0.82, 6, 10),
-      reflectSpread: clamp(rim * 0.27, 2, 3.2),
-      returnBlur: clamp(rim * 0.58, 4, 7),
-      returnSpread: clamp(rim * 0.13, 1, 1.6),
-      innerGlintInset: clamp(rim * 0.30, 2, 4),
-      fresnelWidth: clamp(rim * 0.68, 4, 8)
-    };
-  }
-
-  function applyOpticalCssVars(section, metrics) {
-    section.style.setProperty("--glass-rim", `${metrics.rim.toFixed(2)}px`);
-    section.style.setProperty("--glass-reflect-inset", `${metrics.reflectInset.toFixed(2)}px`);
-    section.style.setProperty("--glass-reflect-blur", `${metrics.reflectBlur.toFixed(2)}px`);
-    section.style.setProperty("--glass-reflect-spread", `${metrics.reflectSpread.toFixed(2)}px`);
-    section.style.setProperty("--glass-return-blur", `${metrics.returnBlur.toFixed(2)}px`);
-    section.style.setProperty("--glass-return-spread", `${(-metrics.returnSpread).toFixed(2)}px`);
-    section.style.setProperty("--glass-inner-glint-inset", `${metrics.innerGlintInset.toFixed(2)}px`);
-    section.style.setProperty("--glass-fresnel-width", `${metrics.fresnelWidth.toFixed(2)}px`);
-  }
-
   function ensureFilter() {
     let image = document.getElementById(MAP_ID);
-    const existingFilter = document.getElementById(FILTER_ID);
-    if (image && existingFilter) {
-      return { image, displacement: existingFilter.querySelector("feDisplacementMap") };
-    }
+    if (image) return image;
 
     const ns = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(ns, "svg");
@@ -82,10 +47,10 @@
     const defs = document.createElementNS(ns, "defs");
     const filter = document.createElementNS(ns, "filter");
     filter.setAttribute("id", FILTER_ID);
-    filter.setAttribute("x", "-4%");
-    filter.setAttribute("y", "-4%");
-    filter.setAttribute("width", "108%");
-    filter.setAttribute("height", "108%");
+    filter.setAttribute("x", "-3%");
+    filter.setAttribute("y", "-3%");
+    filter.setAttribute("width", "106%");
+    filter.setAttribute("height", "106%");
     filter.setAttribute("filterUnits", "objectBoundingBox");
     filter.setAttribute("color-interpolation-filters", "sRGB");
 
@@ -101,7 +66,7 @@
     const displacement = document.createElementNS(ns, "feDisplacementMap");
     displacement.setAttribute("in", "SourceGraphic");
     displacement.setAttribute("in2", "edgeMap");
-    displacement.setAttribute("scale", "24");
+    displacement.setAttribute("scale", String(FILTER_SCALE));
     displacement.setAttribute("xChannelSelector", "R");
     displacement.setAttribute("yChannelSelector", "G");
     displacement.setAttribute("color-interpolation-filters", "sRGB");
@@ -110,7 +75,7 @@
     defs.append(filter);
     svg.append(defs);
     document.body.append(svg);
-    return { image, displacement };
+    return image;
   }
 
   function buildMap(section) {
@@ -118,12 +83,9 @@
     const width = Math.max(1, rect.width);
     const height = Math.max(1, rect.height);
     const cssRadius = parseFloat(getComputedStyle(section).borderTopLeftRadius) || 0;
-    const metrics = opticalMetrics(width, height);
-    const sizeKey = `${Math.round(width)}x${Math.round(height)}@${cssRadius.toFixed(1)}:${metrics.rim.toFixed(1)}`;
+    const sizeKey = `${Math.round(width)}x${Math.round(height)}@${cssRadius.toFixed(1)}`;
     if (sizeKey === lastSizeKey) return;
     lastSizeKey = sizeKey;
-
-    applyOpticalCssVars(section, metrics);
 
     const scale = Math.min(1, MAX_MAP_EDGE / Math.max(width, height));
     const mapWidth = Math.max(48, Math.round(width * scale));
@@ -156,7 +118,7 @@
         }
 
         const distanceInside = -sdf;
-        const edge = clamp(1 - distanceInside / metrics.edgeBand, 0, 1);
+        const edge = clamp(1 - distanceInside / EDGE_BAND, 0, 1);
         const strength = edge * edge * (3 - 2 * edge);
 
         if (strength <= 0.0001) {
@@ -174,20 +136,19 @@
         const length = Math.hypot(gx, gy) || 1;
         const inwardX = -gx / length;
         const inwardY = -gy / length;
-        const shift = metrics.maxShift * strength;
+        const shift = MAX_SHIFT * strength;
         const dx = inwardX * shift;
         const dy = inwardY * shift;
 
-        pixels[i] = Math.round(clamp(0.5 + dx / metrics.filterScale, 0, 1) * 255);
-        pixels[i + 1] = Math.round(clamp(0.5 + dy / metrics.filterScale, 0, 1) * 255);
+        pixels[i] = Math.round(clamp(0.5 + dx / FILTER_SCALE, 0, 1) * 255);
+        pixels[i + 1] = Math.round(clamp(0.5 + dy / FILTER_SCALE, 0, 1) * 255);
         pixels[i + 2] = 128;
         pixels[i + 3] = 255;
       }
     }
 
     ctx.putImageData(imageData, 0, 0);
-    const { image, displacement } = ensureFilter();
-    displacement?.setAttribute("scale", metrics.filterScale.toFixed(2));
+    const image = ensureFilter();
     const url = canvas.toDataURL("image/png");
     image.setAttribute("href", url);
     image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
