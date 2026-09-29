@@ -1,9 +1,8 @@
-/* V21-P3L — Author-Aligned Geometry-Adaptive Refraction.
-   Restore the accepted P3J material and keep the author-style four-layer glass model.
-   No size-amplified Fresnel/rim additions: only the displacement map adapts to the
-   table's actual geometry and rebuilds on resize. */
+/* V21-P3M — Author Four-Layer Fidelity.
+   Keep the author's four material layers only: outer / cover / sharp / reflect.
+   Remove extra pseudo-specular additions and let real edge refraction provide the
+   optical motion. The displacement map remains geometry-adaptive on resize. */
 
-/* Retire previous pseudo-lens experiments for the data table. */
 .data-section::before,
 .data-section::after{
   content:none!important;
@@ -39,10 +38,7 @@
   pointer-events:none;
 }
 
-/* 1. Real edge refraction.
-   Before the map is ready, keep the safe optical fallback. Once the size-aware
-   inward displacement map is installed, switch only this 5px ring to refraction.
-   The centre never uses displacement. */
+/* 1. Outer — author-style edge-only refraction ring. */
 .liquid_glass-outer{
   z-index:0;
   -webkit-mask-image:
@@ -72,7 +68,7 @@
   -webkit-backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
 }
 
-/* 2. Cover — accepted material. */
+/* 2. Cover — keep the accepted translucent body. */
 .liquid_glass-cover{
   z-index:1;
   background:rgba(255,255,255,.035);
@@ -85,7 +81,7 @@
   -webkit-backdrop-filter:blur(1.5px);
 }
 
-/* 3. Sharp optical edge. */
+/* 3. Sharp — directly follow the author's thin optical rim idea. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
@@ -98,74 +94,7 @@
     inset -1px -1px 0 0 rgba(255,255,255,.22);
 }
 
-/* Static specular reflection ring retained from the accepted material. */
-.liquid_glass-sharp::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  padding:1px;
-  background:
-    radial-gradient(115% 82% at 13% -14%,
-      rgba(255,255,255,.82) 0%,
-      rgba(255,255,255,.48) 18%,
-      rgba(255,255,255,.13) 37%,
-      transparent 58%),
-    linear-gradient(108deg,
-      rgba(255,255,255,.44) 0%,
-      rgba(255,255,255,.17) 19%,
-      transparent 40%,
-      transparent 70%,
-      rgba(255,255,255,.13) 88%,
-      rgba(255,255,255,.30) 100%);
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite:exclude;
-  opacity:.82;
-  pointer-events:none;
-}
-
-.liquid_glass-sharp::after{
-  content:"";
-  position:absolute;
-  inset:2px;
-  border-radius:inherit;
-  background:
-    radial-gradient(52% 28% at 11% 0%, rgba(255,255,255,.16), transparent 74%),
-    radial-gradient(34% 22% at 96% 100%, rgba(255,255,255,.07), transparent 78%);
-  opacity:.72;
-  pointer-events:none;
-}
-
-[data-theme="dark"] .liquid_glass-sharp::before{
-  background:
-    radial-gradient(115% 82% at 13% -14%,
-      rgba(255,255,255,.50) 0%,
-      rgba(255,255,255,.27) 18%,
-      rgba(255,255,255,.07) 38%,
-      transparent 59%),
-    linear-gradient(108deg,
-      rgba(255,255,255,.24) 0%,
-      rgba(255,255,255,.09) 19%,
-      transparent 42%,
-      transparent 72%,
-      rgba(255,255,255,.06) 89%,
-      rgba(255,255,255,.15) 100%);
-  opacity:.62;
-}
-[data-theme="dark"] .liquid_glass-sharp::after{
-  background:
-    radial-gradient(52% 28% at 11% 0%, rgba(255,255,255,.085), transparent 74%),
-    radial-gradient(34% 22% at 96% 100%, rgba(255,255,255,.035), transparent 78%);
-  opacity:.62;
-}
-
-/* 4. Soft internal reflection. */
+/* 4. Reflect — directly follow the author's internal reflection layer. */
 .liquid_glass-reflect{
   inset:1px;
   z-index:2;
@@ -179,7 +108,7 @@
     inset -2px -2px 4px -1px rgba(255,255,255,.07);
 }
 
-/* Content remains optically clean above the material layers. */
+/* Content remains optically clean above the four material layers. */
 .data-header,
 .data-row{
   position:relative;
@@ -195,7 +124,7 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3L · Author-Aligned Geometry-Adaptive Refraction · 此頁只讀。";
+  content:"Beta V21-P3M · Author Four-Layer Fidelity · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
@@ -203,6 +132,5 @@
 
 @media(max-width:720px){
   .liquid_glass-outer{padding:4px}
-  .liquid_glass-sharp::before{opacity:.74}
   .footer::after{font-size:8.5px}
 }
