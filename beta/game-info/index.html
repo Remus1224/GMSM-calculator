@@ -13,6 +13,38 @@
   </script>
   <link rel="stylesheet" href="style.css?v=20260929-v21p2e">
   <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4d">
+  <style id="p4e-background-test">
+    /* V21-P4E — Background Detail Test 1.
+       Background-only experiment: P4D glass / interaction values are untouched.
+       The page and every self-refraction OUTER use the same atmosphere stack. */
+    :root{
+      --page-detail-light:rgba(255,255,255,.075);
+      --page-detail-cool:rgba(89,139,178,.035);
+      --page-detail-violet:rgba(139,104,176,.030);
+      --page-detail-soft:rgba(255,255,255,.040);
+      --page-atmosphere:
+        radial-gradient(ellipse 28% 15% at 19% 24%,var(--page-detail-light) 0%,transparent 72%),
+        radial-gradient(ellipse 19% 29% at 43% 55%,var(--page-detail-cool) 0%,transparent 74%),
+        radial-gradient(ellipse 25% 13% at 76% 31%,var(--page-detail-soft) 0%,transparent 72%),
+        radial-gradient(ellipse 30% 19% at 61% 78%,var(--page-detail-violet) 0%,transparent 76%),
+        linear-gradient(112deg,transparent 18%,rgba(255,255,255,.022) 33%,transparent 47%,rgba(111,133,173,.018) 62%,transparent 79%),
+        radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
+        radial-gradient(circle at 85% 60%,var(--page-grad-violet) 0%,transparent 55%),
+        radial-gradient(circle at 50% 10%,var(--page-grad-blue) 0%,transparent 40%);
+    }
+    [data-theme="dark"]{
+      --page-detail-light:rgba(189,228,255,.038);
+      --page-detail-cool:rgba(85,195,255,.050);
+      --page-detail-violet:rgba(200,141,221,.040);
+      --page-detail-soft:rgba(186,211,242,.026);
+    }
+    body,
+    .liquid_glass-outer{
+      background-image:var(--page-atmosphere);
+      background-attachment:fixed;
+      background-repeat:no-repeat;
+    }
+  </style>
 </head>
 <body>
   <main class="shell">
@@ -28,7 +60,7 @@
           </button>
         </div>
       </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V21-P4D</div>
+      <div class="beta-strip">BETA · 資料型資訊中心 V21-P4E</div>
     </header>
     <div id="app" aria-live="polite"><div class="glass-panel loading">正在載入資訊中心…</div></div>
   </main>
