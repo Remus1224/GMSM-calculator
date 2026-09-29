@@ -1,8 +1,9 @@
-/* V21-P3K — Optical Scale Calibration.
-   Keep P3J's artifact-free inward displacement, then scale the visible refractive
-   rim and internal reflection depth from the actual table geometry. The outer
-   sharp edge stays fine; only the optical thickness grows on larger surfaces. */
+/* V21-P3L — Author-Aligned Geometry-Adaptive Refraction.
+   Restore the accepted P3J material and keep the author-style four-layer glass model.
+   No size-amplified Fresnel/rim additions: only the displacement map adapts to the
+   table's actual geometry and rebuilds on resize. */
 
+/* Retire previous pseudo-lens experiments for the data table. */
 .data-section::before,
 .data-section::after{
   content:none!important;
@@ -10,14 +11,6 @@
 }
 
 .data-section{
-  --glass-rim:5px;
-  --glass-reflect-inset:1px;
-  --glass-reflect-blur:6px;
-  --glass-reflect-spread:2px;
-  --glass-return-blur:4px;
-  --glass-return-spread:-1px;
-  --glass-inner-glint-inset:2px;
-  --glass-fresnel-width:4px;
   position:relative;
   isolation:isolate;
   overflow:hidden;
@@ -46,8 +39,10 @@
   pointer-events:none;
 }
 
-/* 1. Size-aware real refraction. The JS sets --glass-rim from the component's
-   shorter edge, so small and large tables keep a comparable perceived lens edge. */
+/* 1. Real edge refraction.
+   Before the map is ready, keep the safe optical fallback. Once the size-aware
+   inward displacement map is installed, switch only this 5px ring to refraction.
+   The centre never uses displacement. */
 .liquid_glass-outer{
   z-index:0;
   -webkit-mask-image:
@@ -56,7 +51,7 @@
   -webkit-mask-clip:border-box,content-box;
   -webkit-mask-composite:xor;
   -webkit-mask-origin:border-box;
-  padding:var(--glass-rim);
+  padding:5px;
   mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
@@ -77,7 +72,7 @@
   -webkit-backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
 }
 
-/* 2. Cover — keep the accepted P3I/P3J body unchanged. */
+/* 2. Cover — accepted material. */
 .liquid_glass-cover{
   z-index:1;
   background:rgba(255,255,255,.035);
@@ -90,8 +85,7 @@
   -webkit-backdrop-filter:blur(1.5px);
 }
 
-/* 3. Keep the real surface edge fine. Large glass should look thicker inside,
-   not like it has a thick white border. */
+/* 3. Sharp optical edge. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
@@ -104,7 +98,7 @@
     inset -1px -1px 0 0 rgba(255,255,255,.22);
 }
 
-/* 3a. Fine non-uniform specular edge, retained from P3I. */
+/* Static specular reflection ring retained from the accepted material. */
 .liquid_glass-sharp::before{
   content:"";
   position:absolute;
@@ -136,11 +130,10 @@
   pointer-events:none;
 }
 
-/* The inner glint now moves inward proportionally on large panels. */
 .liquid_glass-sharp::after{
   content:"";
   position:absolute;
-  inset:var(--glass-inner-glint-inset);
+  inset:2px;
   border-radius:inherit;
   background:
     radial-gradient(52% 28% at 11% 0%, rgba(255,255,255,.16), transparent 74%),
@@ -172,57 +165,21 @@
   opacity:.62;
 }
 
-/* 4. Size-aware internal reflection. The outer 1px stays sharp while the soft
-   return expands inward with panel size, creating the missing lens thickness. */
+/* 4. Soft internal reflection. */
 .liquid_glass-reflect{
-  inset:var(--glass-reflect-inset);
+  inset:1px;
   z-index:2;
   box-shadow:
-    inset 2px 2px var(--glass-reflect-blur) var(--glass-reflect-spread) rgba(255,255,255,.20),
-    inset -2px -2px var(--glass-return-blur) var(--glass-return-spread) rgba(255,255,255,.20);
+    inset 2px 2px 6px 2px rgba(255,255,255,.20),
+    inset -2px -2px 4px -1px rgba(255,255,255,.20);
 }
 [data-theme="dark"] .liquid_glass-reflect{
   box-shadow:
-    inset 2px 2px var(--glass-reflect-blur) var(--glass-reflect-spread) rgba(255,255,255,.085),
-    inset -2px -2px var(--glass-return-blur) var(--glass-return-spread) rgba(255,255,255,.07);
+    inset 2px 2px 6px 2px rgba(255,255,255,.085),
+    inset -2px -2px 4px -1px rgba(255,255,255,.07);
 }
 
-/* 4a. Soft Fresnel return. This is intentionally faint and broad: it makes a
-   large panel read as thick glass without drawing another visible white border. */
-.liquid_glass-reflect::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  padding:var(--glass-fresnel-width);
-  background:
-    linear-gradient(125deg,
-      rgba(255,255,255,.105) 0%,
-      rgba(255,255,255,.045) 24%,
-      transparent 48%,
-      transparent 76%,
-      rgba(255,255,255,.04) 100%);
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite:exclude;
-  opacity:.62;
-}
-[data-theme="dark"] .liquid_glass-reflect::before{
-  background:
-    linear-gradient(125deg,
-      rgba(255,255,255,.052) 0%,
-      rgba(255,255,255,.021) 25%,
-      transparent 49%,
-      transparent 77%,
-      rgba(255,255,255,.018) 100%);
-  opacity:.50;
-}
-
+/* Content remains optically clean above the material layers. */
 .data-header,
 .data-row{
   position:relative;
@@ -238,14 +195,14 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3K · Size-Aware Optical Scale Calibration · 此頁只讀。";
+  content:"Beta V21-P3L · Author-Aligned Geometry-Adaptive Refraction · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
 }
 
 @media(max-width:720px){
+  .liquid_glass-outer{padding:4px}
   .liquid_glass-sharp::before{opacity:.74}
-  .liquid_glass-reflect::before{opacity:.52}
   .footer::after{font-size:8.5px}
 }
