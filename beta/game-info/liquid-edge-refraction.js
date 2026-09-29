@@ -1,18 +1,18 @@
 (() => {
   "use strict";
 
-  // V21-P3L — author-aligned geometry-adaptive edge refraction.
-  // Keep the accepted P3J optical constants. The displacement map itself is
-  // generated from the table's real width / height / radius and is rebuilt only
-  // on first render or resize, so different table sizes are supported without
-  // scaling the visible rim / Fresnel thickness with panel size.
+  // V21-P3M — author-style edge refraction tuning.
+  // Keep the same inward-only displacement approach, but make the bend slightly
+  // stronger and more concentrated at the edge instead of adding extra material
+  // layers. Geometry still follows the real table width / height / radius and is
+  // rebuilt only on first render or resize.
 
   const FILTER_ID = "liquid_edge_refraction";
   const MAP_ID = "liquid_edge_refraction_map";
-  const FILTER_SCALE = 24;
-  const MAX_SHIFT = 9;
-  const EDGE_BAND = 20;
-  const MAX_MAP_EDGE = 420;
+  const FILTER_SCALE = 28;
+  const MAX_SHIFT = 11;
+  const EDGE_BAND = 14;
+  const MAX_MAP_EDGE = 480;
 
   let observedSection = null;
   let resizeObserver = null;
@@ -47,10 +47,10 @@
     const defs = document.createElementNS(ns, "defs");
     const filter = document.createElementNS(ns, "filter");
     filter.setAttribute("id", FILTER_ID);
-    filter.setAttribute("x", "-3%");
-    filter.setAttribute("y", "-3%");
-    filter.setAttribute("width", "106%");
-    filter.setAttribute("height", "106%");
+    filter.setAttribute("x", "-4%");
+    filter.setAttribute("y", "-4%");
+    filter.setAttribute("width", "108%");
+    filter.setAttribute("height", "108%");
     filter.setAttribute("filterUnits", "objectBoundingBox");
     filter.setAttribute("color-interpolation-filters", "sRGB");
 
