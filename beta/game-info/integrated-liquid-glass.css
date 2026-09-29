@@ -1,8 +1,8 @@
-/* V21-P3E — Author Material Fidelity + Black Artifact Isolation.
-   Keep Game Info geometry. Port the author's four-layer material language.
-   P3E intentionally disables SVG displacement so we can verify whether the
-   moving black specks came from backdrop-filter:url(#liquid_glass_filter).
-   sharp / reflect use the author's supplied values unchanged. */
+/* V21-P3F — Color Transmission Restore.
+   Keep Game Info geometry and the author's four-layer material structure.
+   Black-artifact isolation from P3E stays in place: no SVG displacement filter.
+   P3F only restores cyan/violet transmission through the cover layer.
+   sharp / reflect remain frozen at the author's supplied values. */
 
 /* Retire all previous pseudo-lens experiments for the data table. */
 .data-section::before,
@@ -41,10 +41,8 @@
 }
 
 /* 1. Outer edge band.
-   P3E uses the author's 5px edge-mask idea, but NO SVG displacement filter.
-   A tiny safe optical treatment remains so the edge is not visually dead.
-   If the black specks disappear, the old displacement path is confirmed as
-   the artifact source. */
+   Keep the safe P3E edge treatment and keep SVG displacement disabled.
+   This preserves the no-black-speck result while retaining a small optical edge. */
 .liquid_glass-outer{
   z-index:0;
   backdrop-filter:blur(.25px) contrast(1.08) brightness(1.02) saturate(1.04);
@@ -62,17 +60,21 @@
   mask-composite:exclude;
 }
 
-/* 2. Cover — restore the author's supplied material value.
-   This intentionally darkens the scene slightly, like the reference music bar,
-   instead of washing it with a white translucent card. */
+/* 2. Cover — restore color transmission for this pastel page.
+   The author's .12 black cover was correct for a high-contrast photo background,
+   but it dulled this page's cyan/violet atmosphere. Keep the same 2px glass blur,
+   while reducing tint to a near-neutral amount. */
 .liquid_glass-cover{
   z-index:1;
-  background:rgba(0,0,0,.12);
+  background:rgba(255,255,255,.02);
   backdrop-filter:blur(2px);
   -webkit-backdrop-filter:blur(2px);
 }
+[data-theme="dark"] .liquid_glass-cover{
+  background:rgba(0,0,0,.04);
+}
 
-/* 3. Sharp — author's supplied optical edge values, unchanged. */
+/* 3. Sharp — author's supplied optical edge values, frozen unchanged. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
@@ -80,7 +82,7 @@
     inset -1px -1px 0 0 rgba(255,255,255,.60);
 }
 
-/* 4. Reflect — author's supplied internal reflection values, unchanged. */
+/* 4. Reflect — author's supplied internal reflection values, frozen unchanged. */
 .liquid_glass-reflect{
   inset:1px;
   z-index:2;
@@ -100,7 +102,7 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3E · Author Material Fidelity / Artifact Isolation · 此頁只讀。";
+  content:"Beta V21-P3F · Color Transmission Restore · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
