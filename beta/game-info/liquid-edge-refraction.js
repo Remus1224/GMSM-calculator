@@ -1,5 +1,5 @@
 /*
- * Game Info V21-P3Q — safe self-refraction map.
+ * Game Info V21-P4C — safe per-surface self-refraction maps.
  * Optical approach adapted from ideas demonstrated by shuding/liquid-glass.
  * Original project: https://github.com/shuding/liquid-glass
  *
@@ -28,23 +28,19 @@
 (() => {
   "use strict";
 
-  // Safe self-refraction map for the accepted P3Q OUTER layer.
-  // The SVG filter does not displace a live backdrop surface. CSS gives OUTER
-  // its own viewport-fixed copy of the page atmosphere; this map only bends those
-  // owned pixels. Geometry follows the real table width / height / radius and is
-  // rebuilt only on first render or resize (never on scroll or mousemove).
+  // P4C keeps the accepted P3Q displacement math unchanged, but gives every
+  // glass surface its own SVG filter/map so Hero, Table and Note can share the
+  // same optical material without reusing a table-shaped displacement map.
 
-  const FILTER_ID = "liquid_edge_refraction";
-  const MAP_ID = "liquid_edge_refraction_map";
+  const FILTER_BASE = "liquid_edge_refraction";
+  const MAP_BASE = "liquid_edge_refraction_map";
   const FILTER_SCALE = 200;
   const MAX_SHIFT = 11;
   const EDGE_BAND = 14;
   const MAX_MAP_EDGE = 480;
 
-  let observedSection = null;
-  let resizeObserver = null;
-  let pendingFrame = 0;
-  let lastSizeKey = "";
+  const states = new Map();
+  let nextId = 0;
 
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
@@ -57,10 +53,7 @@
     return Math.min(Math.max(qx, qy), 0) + Math.hypot(ox, oy) - r;
   }
 
-  function ensureFilter() {
-    let image = document.getElementById(MAP_ID);
-    if (image) return image;
-
+  function createFilter(filterId, mapId) {
     const ns = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(ns, "svg");
     svg.setAttribute("aria-hidden", "true");
@@ -73,7 +66,7 @@
 
     const defs = document.createElementNS(ns, "defs");
     const filter = document.createElementNS(ns, "filter");
-    filter.setAttribute("id", FILTER_ID);
+    filter.setAttribute("id", filterId);
     filter.setAttribute("x", "-12%");
     filter.setAttribute("y", "-12%");
     filter.setAttribute("width", "124%");
@@ -81,8 +74,8 @@
     filter.setAttribute("filterUnits", "objectBoundingBox");
     filter.setAttribute("color-interpolation-filters", "sRGB");
 
-    image = document.createElementNS(ns, "feImage");
-    image.setAttribute("id", MAP_ID);
+    const image = document.createElementNS(ns, "feImage");
+    image.setAttribute("id", mapId);
     image.setAttribute("x", "0%");
     image.setAttribute("y", "0%");
     image.setAttribute("width", "100%");
@@ -105,14 +98,43 @@
     return image;
   }
 
-  function buildMap(section) {
-    const rect = section.getBoundingClientRect();
+  function ensureState(surface) {
+    if (states.has(surface)) return states.get(surface);
+
+    const outer = surface.querySelector(":scope > .liquid_glass-outer");
+    if (!outer) return null;
+
+    const id = nextId++;
+    const filterId = id === 0 ? FILTER_BASE : `${FILTER_BASE}_${id}`;
+    const mapId = id === 0 ? MAP_BASE : `${MAP_BASE}_${id}`;
+    const image = createFilter(filterId, mapId);
+    const state = {
+      filterId,
+      image,
+      outer,
+      lastSizeKey: "",
+      pendingFrame: 0
+    };
+
+    outer.style.filter = `url(#${filterId})`;
+    outer.style.webkitFilter = `url(#${filterId})`;
+    states.set(surface, state);
+    resizeObserver.observe(surface);
+    scheduleBuild(surface);
+    return state;
+  }
+
+  function buildMap(surface) {
+    const state = states.get(surface);
+    if (!state || !surface.isConnected) return;
+
+    const rect = surface.getBoundingClientRect();
     const width = Math.max(1, rect.width);
     const height = Math.max(1, rect.height);
-    const cssRadius = parseFloat(getComputedStyle(section).borderTopLeftRadius) || 0;
+    const cssRadius = parseFloat(getComputedStyle(surface).borderTopLeftRadius) || 0;
     const sizeKey = `${Math.round(width)}x${Math.round(height)}@${cssRadius.toFixed(1)}`;
-    if (sizeKey === lastSizeKey) return;
-    lastSizeKey = sizeKey;
+    if (sizeKey === state.lastSizeKey) return;
+    state.lastSizeKey = sizeKey;
 
     const scale = Math.min(1, MAX_MAP_EDGE / Math.max(width, height));
     const mapWidth = Math.max(48, Math.round(width * scale));
@@ -175,36 +197,38 @@
     }
 
     ctx.putImageData(imageData, 0, 0);
-    const image = ensureFilter();
     const url = canvas.toDataURL("image/png");
-    image.setAttribute("href", url);
-    image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
+    state.image.setAttribute("href", url);
+    state.image.setAttributeNS("http://www.w3.org/1999/xlink", "href", url);
   }
 
-  function scheduleBuild(section) {
-    cancelAnimationFrame(pendingFrame);
-    pendingFrame = requestAnimationFrame(() => buildMap(section));
+  function scheduleBuild(surface) {
+    const state = states.get(surface);
+    if (!state) return;
+    cancelAnimationFrame(state.pendingFrame);
+    state.pendingFrame = requestAnimationFrame(() => buildMap(surface));
   }
 
-  function attach(section) {
-    if (!section || section === observedSection) return;
-    observedSection = section;
-    lastSizeKey = "";
-    if (resizeObserver) resizeObserver.disconnect();
-    resizeObserver = new ResizeObserver(() => scheduleBuild(section));
-    resizeObserver.observe(section);
-    scheduleBuild(section);
-  }
+  const resizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) scheduleBuild(entry.target);
+  });
 
-  function findTable() {
-    const section = document.querySelector(".data-section");
-    if (section) attach(section);
+  function attachAll() {
+    document.querySelectorAll("[data-liquid-refraction]").forEach(surface => ensureState(surface));
+
+    for (const [surface] of states) {
+      if (!surface.isConnected) {
+        resizeObserver.unobserve(surface);
+        states.delete(surface);
+      }
+    }
   }
 
   const app = document.getElementById("app");
   if (app) {
-    const observer = new MutationObserver(findTable);
+    const observer = new MutationObserver(attachAll);
     observer.observe(app, { childList: true, subtree: true });
   }
-  findTable();
+
+  attachAll();
 })();
