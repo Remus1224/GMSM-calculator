@@ -1,4 +1,4 @@
-# AI_HANDOFF_START_HERE — Game Info V21-P4D
+# AI_HANDOFF_START_HERE — Game Info V21-P4E
 
 ## Current baseline / test state
 - Repo: `Remus1224/GMSM-calculator`
@@ -6,76 +6,54 @@
 - Area: `beta/game-info/`
 - Protected static table glass baseline: **V21-P3Q — Fine Rim / Surface Glass**
 - Accepted interaction baseline: **V21-P3S — Main-Site Lift + Row Hover**
-- Current Light Sanctum UI test: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
-- P3Q static material: user Browser Visual PASS on 2026-09-29.
-- P3S table lift + per-row hover: user Browser Visual PASS on 2026-09-29.
+- Protected surface/layout state: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
+- Current experiment: **V21-P4E — Background Detail Test 1**
 
-## Active runtime files
-### CSS
-Only 2 CSS files are active:
-1. `style.css` — Game Info layout / typography / atmosphere / generic styles.
-2. `integrated-liquid-glass.css` — P3Q table material + P3S interactions + Light Sanctum chrome / surface tuning.
+## P4E scope — background only
+P4E must be judged as an atmosphere test, not a glass redesign.
 
-### JavaScript
-Only 3 JavaScript files are active:
-1. `script.js` — routing, theme state, data loading, derived rows, page rendering.
-2. `liquid-edge-refraction.js` — safe per-surface self-refraction filters/maps.
-3. `v12-export.js` — sole export owner; export-image parity remains deferred until visible UI is accepted.
+No P3Q/P3S/P4D glass or interaction values were changed:
+- no change to outer rim widths/opacities
+- no change to cover blur/saturation
+- no change to sharp/reflect
+- no change to displacement math or per-surface maps
+- no change to Hero/Table/Note geometry
+- no change to row hover, lift, nav controls, theme toggle, data or export runtime
 
-## Protected contracts
-- Do not redesign the accepted Table glass core (`outer / cover / sharp / reflect`) unless a real regression is found.
-- Never return to live `backdrop-filter:url(...)` displacement; it produced moving black compositor artifacts.
-- Table hover remains `0.30s cubic-bezier(.25,.8,.25,1)` + `translateY(-4px)` + restrained cyan/violet side glow.
-- Row hover remains informational only and must not move row geometry.
-- No scale, 3D tilt, pointer tracking, or padding growth.
+## What P4E changes
+The existing cyan / blue / violet atmosphere is preserved, but receives a very low-energy CSS-only organic detail stack:
+- small/medium soft ellipses
+- a very faint diagonal light/dark sweep
+- Light detail intentionally stays around subtle 3–8% alpha ranges
+- Dark detail stays slightly more visible because deep navy absorbs contrast
 
-## P4D change — short-card glass calibration
-User correctly observed that the bottom Note card showed a conspicuous cyan ring even though P4C used the same four-layer material as the Table.
+No image/mist asset is used in this first test. `mist-organic-v19-r2.webp` remains available but intentionally unused so the first A/B test has a clean signal and easy rollback.
 
-Root cause / interpretation:
-- A fixed 2px / 0.50 OUTER rim is perceptually much stronger on a ~42px-high card than on the large Table.
-- This is a geometry/perception issue, not a need for a different glass system.
+## Shared atmosphere source
+P4E defines one `--page-atmosphere` stack and applies it to both:
+- `body`
+- every `.liquid_glass-outer`
 
-P4D keeps the exact same four layer roles and the same cover/sharp/reflect values, but scales only the **visible OUTER rim energy** on the short cards:
-- Table: unchanged 2px / opacity .50 Light, .26 Dark.
-- Hero: 1px / opacity .34 Light, .18 Dark.
-- Note: 1px / opacity .20 Light, .12 Dark.
-- Dedicated per-surface refraction maps remain active.
+This is important because P3Q/P4D use self-contained refraction rather than live backdrop displacement. The visible page background and the pixels owned by each refraction OUTER must describe the same atmosphere; otherwise the glass edge would refract a different scene from the page behind it.
 
-Goal: Hero / Table / Note should look like one glass family without the thin Note reading as a cyan-outlined chip.
+For this first experiment the P4E override is intentionally isolated in `index.html` (`<style id="p4e-background-test">`) after the two production CSS files. If accepted, migrate the shared atmosphere definition into `style.css` / `integrated-liquid-glass.css` during cleanup. If rejected, rollback is limited and trivial.
 
-## P4D change — navigation title width
-The generic Game Info CSS gave `.nav-title` a desktop minimum width up to 360px, making `光之聖所祈禱經驗表` look unnecessarily stretched.
-
-P4D desktop behavior:
-- `min-width: 0`
-- `width: max-content`
-- `max-width: min(56vw, 360px)`
-- title therefore grows from its text length, similar to the Main Site, while long text still truncates safely.
-
-Mobile behavior remains grid-filling (`width:100%`) to prevent crowding between back button and theme toggle.
-
-## Current Light Sanctum content / presentation
-- `Client Table` remains removed.
-- Old Lv.1~Lv.15 descriptive subtitle remains removed.
-- Hero desktop: left eyebrow/title, right `儲存 / 分享表格圖片`.
-- Table labels:
-  - 等級
-  - 升等所需經驗
-  - 累積經驗
-  - 聖痕結晶
-  - 解鎖內容
-- Lv.1 has no `初始：` prefix.
-- Lv.15 does not add `滿等`.
-- Bottom copy remains only:
-  `遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
-- Test-only footer remains during beta; remove for formal release.
+## Protected P4D behavior
+- Hero/Table/Note remain the same glass family.
+- Table outer: 2px / .50 Light, .26 Dark.
+- Hero outer: 1px / .34 Light, .18 Dark.
+- Note outer: 1px / .20 Light, .12 Dark.
+- Desktop center nav title sizes from text (`width:max-content`) with max-width safety.
+- Main Site-style navigation/theme controls remain unchanged.
+- Table labels/content/density remain unchanged.
+- Beta footer remains test-only and must be removed for formal release.
 
 ## Current acceptance task
-After `git pull`, inspect Light and Dark:
-1. Does the Note card lose the cyan-ring look and visually belong to the Table glass family?
-2. Does Hero also feel closer to the Table rather than a separate outlined card?
-3. Does the top center title now size naturally to its text instead of stretching across a fixed width?
-4. Are the existing Table glass, table float, row hover, routing and theme behavior unchanged?
+After `git pull`, compare V21-P4E in Light and Dark against P4D:
+1. Does the background still read first as clean cyan / violet rather than a visible texture or aurora?
+2. Can the eye now see slightly more depth/refraction through Hero/Table/Note, especially while hovering/floating?
+3. Do the three glass surfaces still feel clean rather than dirty or cloudy?
+4. Is Dark still cold navy/blue-black rather than purple/muddy?
+5. If the detail is too weak, increase only background detail next; if it is too visible, reduce only background detail. Do not compensate by touching the protected glass material.
 
-If P4D passes, keep the surface material fixed and continue only with Hero composition / final page-layout polish rather than restarting glass research.
+If P4E is accepted, consolidate the atmosphere vars into the normal CSS files. If not, keep P4D and try a second background-only calibration.
