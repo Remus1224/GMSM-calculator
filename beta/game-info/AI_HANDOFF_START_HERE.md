@@ -1,4 +1,4 @@
-# AI_HANDOFF_START_HERE — Game Info V21-P4F
+# AI_HANDOFF_START_HERE — Game Info V21-P4G
 
 ## Current state
 - Repo: `Remus1224/GMSM-calculator`
@@ -7,10 +7,8 @@
 - Protected static table glass baseline: **V21-P3Q — Fine Rim / Surface Glass**
 - Accepted interaction baseline: **V21-P3S — Main-Site Lift + Row Hover**
 - Protected surface/layout baseline: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
-- Current visual test: **V21-P4F — Background / Chrome Polish**
-
-## Source of truth for this pass
-P4F is based on the user's uploaded `game-info.zip`, not only the previous GitHub P4E state. The uploaded state had already locally adjusted the Light/Dark atmosphere composition. Preserve those accepted local changes when judging P4F.
+- Background/chrome baseline before final polish: **V21-P4F**
+- Current visual test: **V21-P4G — Final Visual Polish**
 
 ## Protected contracts
 - Do not redesign the accepted Table glass core (`outer / cover / sharp / reflect`).
@@ -22,57 +20,68 @@ P4F is based on the user's uploaded `game-info.zip`, not only the previous GitHu
 - Theme switch keeps the Main Site two-icon sliding control.
 - No scale, 3D tilt, pointer tracking or layout-growth hover.
 
-## P4F changes
-### Background atmosphere
-The visible page background and every `.liquid_glass-outer` still share the same `--page-atmosphere`, so the self-contained refraction source remains synchronized with the page.
+## P4G changes
+### Light atmosphere — localized, not stronger overall
+P4G does not add any new mist/image layer. It only reshapes the existing CSS atmosphere so the Light page keeps clean open space while glass has more local contrast to refract.
 
-Light keeps the uploaded palette:
-- base `#EEF1FA`
-- cyan `rgba(156,234,254,.68)`
-- violet `rgba(200,141,221,.55)`
-- blue `rgba(167,211,246,.32)`
+Changes from P4F:
+- Base remains `#EEF1FA`.
+- Cyan is slightly reduced from `.68` to `.66` and its main field is tightened toward the left.
+- Violet is reduced from `.55` to `.48` and localized farther to the right.
+- Blue is slightly reduced from `.32` to `.30`.
+- The four existing detail fields are smaller/more concentrated while their local contrast is increased slightly.
+- The visible page background and every `.liquid_glass-outer` still share the same `--page-atmosphere`.
 
-P4F only makes the existing four organic detail fields slightly tighter and more legible. No image texture, new mist layer, or new color family is added.
-
-Dark is treated as nearly frozen and keeps the uploaded values:
+### Dark atmosphere — intentionally frozen
+Dark keeps the P4F palette and P4F spatial field geometry:
 - base `#050A12`
 - cyan `.34`
 - violet `.27`
 - blue `.21`
 
-### Dark navigation title
-- Geometry and auto-width stay unchanged.
-- Cyan/violet text glow is reduced from `.80` to `.60`.
-- Cyan/violet outer glow is reduced from `.55` to `.40`.
-- Goal: keep Main Site identity without visually overpowering Hero/Table/Note.
+Do not continue changing Dark background unless a clear regression is reported.
+
+### Dark center navigation title
+One final restraint pass only:
+- text glow `.60 -> .52`
+- cyan/violet outer glow `.40 -> .34`
+- geometry, auto-width, border and material are unchanged.
 
 ### Light Save/Share button
-- Light background opacity is reduced from `.55` to `.43`.
-- Border strength is reduced from `.72` to `.62`.
-- Hover white is reduced from `.88` to `.76`.
+- background `.43 -> .38`
+- border `.62 -> .58`
+- hover background `.76 -> .68`
+- hover cyan border `.78 -> .72`
 - Dark button styling is unchanged.
 
-### Version markers during this test
-- Visible top marker: `V21-P4F`.
-- CSS/JS URL cache markers in `index.html` are bumped to P4F.
-- The visible test-only footer is overridden to `Beta V21-P4F · 測試版。`.
-- Some older internal comments / hidden legacy markers remain in the underlying CSS/JS until P4F visual acceptance. Do not treat those as the active visible version.
+### Unlock readability
+No size/layout change:
+- Light unlock text becomes `#354255`, weight `650`.
+- Dark unlock text becomes `#dbe6ef`, weight `640`.
+- Row-hover behavior remains the accepted P3S behavior.
+
+### Version markers
+- Top visible marker: `V21-P4G`.
+- CSS/JS cache query markers in `index.html`: `v21p4g`.
+- Test-only footer: `Beta V21-P4G · 測試版。`
 - Formal release requirement remains: remove the test-only footer entirely.
 
-## Protected content
+## Protected content / functionality
 - Table labels remain `等級 / 升等所需經驗 / 累積經驗 / 聖痕結晶 / 解鎖內容`.
 - Lv.1 has no `初始：` prefix.
 - Lv.15 does not add `滿等`.
 - Bottom note remains only: `遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
-- Data JSON and numeric derivation are unchanged.
-- `v12-export.js` remains the sole export owner; export-image parity is deferred until the visible UI is frozen.
+- Data JSON and numeric derivation remain unchanged.
+- `v12-export.js` remains the sole export owner; export-image parity is still deferred until the visible UI is frozen.
 
 ## Current acceptance task
 After `git pull`, inspect Light and Dark:
-1. Light should remain clean but have slightly more spatial depth than the previous screenshot.
-2. Dark should look almost unchanged.
-3. Dark center navigation title should feel less neon / less dominant.
-4. Light Save/Share should belong to the Hero instead of reading as an opaque white pill.
-5. Hero / Table / Note glass, surface hover, row hover, routing and theme switching must remain unchanged.
+1. Light should feel cleaner through the middle while retaining enough local spatial detail for glass refraction.
+2. The violet wash on the lower/right Light background should be less dominant than P4F.
+3. Dark background should look essentially unchanged from P4F.
+4. Dark center nav should remain branded but no longer be the brightest/most neon element on the page.
+5. Light Save/Share should read as a glass control rather than a solid white pill.
+6. Unlock copy should be easier to read in both themes without becoming visually dominant.
+7. Hero / Table / Note glass, hover, row hover, routing and theme switching must remain unchanged.
 
-If P4F passes, freeze background + chrome, then do legacy-marker cleanup and move to final regression / export-image parity instead of restarting the Liquid Glass design.
+If P4G passes, freeze **background + glass + hover + navigation chrome**. Next work should be formal cleanup (remove beta/footer/internal legacy markers) and export-image parity / regression checks, not another visual redesign.
