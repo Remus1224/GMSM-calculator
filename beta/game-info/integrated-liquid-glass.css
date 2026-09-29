@@ -1,7 +1,7 @@
-/* V21-P3P — Calibrated Glass Depth.
-   Start from P3O's artifact-safe self-refraction, then selectively adopt the
-   useful depth cues from the supplied reference CSS at a lower intensity.
-   The material remains the same four layers: outer / cover / sharp / reflect. */
+/* V21-P3Q — Fine Rim / Surface Glass.
+   Keep P3O/P3P's artifact-safe self-refraction, but reduce geometric edge thickness.
+   Glass presence now comes primarily from the surface film, fine contour, internal
+   reflection and restrained separation shadow rather than a thick acrylic rim. */
 
 .data-section::before,
 .data-section::after{
@@ -9,9 +9,6 @@
   display:none!important;
 }
 
-/* Keep the table geometry unchanged. A restrained outer shadow restores the
-   sense that the glass is floating above the page without turning it into a
-   thick acrylic slab. */
 .data-section{
   position:relative;
   isolation:isolate;
@@ -19,27 +16,25 @@
   border:0;
   background:transparent;
   box-shadow:
-    0 14px 30px -18px rgba(35,42,75,.22),
-    0 2px 5px rgba(35,42,75,.055);
+    0 16px 34px -18px rgba(35,42,75,.24),
+    0 2px 6px rgba(35,42,75,.07);
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
-  --glass-film:rgba(255,255,255,.034);
-  --glass-highlight:rgba(255,255,255,.72);
-  --glass-return:rgba(255,255,255,.42);
-  --glass-shade:rgba(47,54,88,.12);
-  --glass-reflect-a:rgba(255,255,255,.38);
-  --glass-reflect-b:rgba(255,255,255,.22);
+  --glass-film:rgba(255,255,255,.040);
+  --glass-highlight:rgba(255,255,255,.64);
+  --glass-edge-end:rgba(255,255,255,.28);
+  --glass-reflection:rgba(255,255,255,.20);
+  --glass-shade:rgba(47,54,88,.07);
 }
 [data-theme="dark"] .data-section{
   box-shadow:
-    0 16px 34px -16px rgba(0,0,0,.38),
-    0 2px 6px rgba(0,0,0,.14);
-  --glass-film:rgba(3,9,18,.085);
-  --glass-highlight:rgba(235,249,255,.38);
-  --glass-return:rgba(235,249,255,.18);
-  --glass-shade:rgba(0,0,0,.28);
-  --glass-reflect-a:rgba(235,249,255,.18);
-  --glass-reflect-b:rgba(235,249,255,.10);
+    0 18px 36px -16px rgba(0,0,0,.42),
+    0 2px 7px rgba(0,0,0,.16);
+  --glass-film:rgba(3,9,18,.10);
+  --glass-highlight:rgba(235,249,255,.30);
+  --glass-edge-end:rgba(225,239,255,.12);
+  --glass-reflection:rgba(235,249,255,.10);
+  --glass-shade:rgba(0,0,0,.18);
 }
 
 .liquid_glass-outer,
@@ -52,13 +47,12 @@
   pointer-events:none;
 }
 
-/* 1. OUTER — retain P3O's self-contained page-atmosphere source so SVG
-   displacement never samples a live backdrop compositor surface. The supplied
-   reference used a 7px saturated rim; this calibrated version stops at 6px and
-   uses only a small saturation lift. */
+/* 1. OUTER — thin optical rim only. The displacement source remains the same
+   self-contained fixed page atmosphere, so no live backdrop SVG sampling is used. */
 .liquid_glass-outer{
   z-index:1;
-  padding:6px;
+  padding:2px;
+  opacity:.50;
   background-color:var(--page-base);
   background-image:
     radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
@@ -74,91 +68,80 @@
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   mask-composite:exclude;
-  filter:url(#liquid_edge_refraction) saturate(1.10);
-  -webkit-filter:url(#liquid_edge_refraction) saturate(1.10);
+  filter:url(#liquid_edge_refraction);
+  -webkit-filter:url(#liquid_edge_refraction);
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
 }
+[data-theme="dark"] .liquid_glass-outer{opacity:.26}
 
-/* 2. COVER — slightly stronger than P3O, clearly lighter than the supplied
-   reference. This gives a readable glass film without washing the cyan/violet
-   atmosphere into grey. */
+/* 2. COVER — make the glass surface perceptible without using a dark grey film. */
 .liquid_glass-cover{
   z-index:0;
   background:var(--glass-film);
-  backdrop-filter:blur(2.4px) saturate(114%);
-  -webkit-backdrop-filter:blur(2.4px) saturate(114%);
+  backdrop-filter:blur(2.6px) saturate(120%);
+  -webkit-backdrop-filter:blur(2.6px) saturate(120%);
 }
 
-/* 3. SHARP — keep the useful directional rim cues from the supplied CSS, but
-   compress their depth so the edge reads as glass rather than thick acrylic. */
+/* 3. SHARP — one fine contour only; no secondary acrylic-thickness rim. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
     inset 1px 1px 0 var(--glass-highlight),
-    inset -1px -1px 0 var(--glass-return),
-    inset 2px 2px 2px -2px rgba(255,255,255,.42),
-    inset -2px -2px 3px -2px var(--glass-shade);
-}
-[data-theme="dark"] .liquid_glass-sharp{
-  box-shadow:
-    inset 1px 1px 0 var(--glass-highlight),
-    inset -1px -1px 0 var(--glass-return),
-    inset 2px 2px 2px -2px rgba(235,249,255,.16),
-    inset -2px -2px 3px -2px var(--glass-shade);
+    inset -1px -1px 0 var(--glass-edge-end);
 }
 
-/* 4. REFLECT — preserve the reference CSS's directional internal reflection,
-   but substantially reduce its spread/opacity. This restores glass depth while
-   keeping the centre optically quiet. */
+/* 4. REFLECT — shallow surface reflection instead of four-sided wall thickness. */
 .liquid_glass-reflect{
-  inset:1px;
+  inset:0;
   z-index:2;
   background:linear-gradient(
     115deg,
-    rgba(255,255,255,.075),
+    rgba(255,255,255,.10),
     transparent 24%,
     transparent 76%,
-    rgba(255,255,255,.028)
+    rgba(255,255,255,.035)
   );
   box-shadow:
-    inset 2px 3px 6px -4px var(--glass-reflect-a),
-    inset -2px -3px 6px -4px var(--glass-reflect-b),
-    inset 0 6px 10px -9px var(--glass-shade),
-    inset 0 -5px 8px -8px var(--glass-shade);
+    inset 0 2px 4px -2px var(--glass-reflection),
+    inset 0 -2px 3px -2px var(--glass-shade);
 }
 [data-theme="dark"] .liquid_glass-reflect{
   background:linear-gradient(
     115deg,
-    rgba(255,255,255,.030),
+    rgba(255,255,255,.042),
     transparent 24%,
     transparent 76%,
-    rgba(255,255,255,.010)
+    rgba(255,255,255,.012)
   );
 }
 
-/* Content remains crisp above all four material layers. */
+/* Content stays crisp. The unlock column gets a slightly more deliberate text
+   colour in both themes so the fifth column does not look washed out. */
 .data-header,
+[data-theme="dark"] .data-header,
 .data-row{
   position:relative;
   z-index:5;
   background:transparent;
 }
+.data-unlock{color:#596477}
+[data-theme="dark"] .data-unlock{color:#b0bfcd}
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3P · Calibrated Glass Depth · 此頁只讀。";
+  content:"Beta V21-P3Q · Fine Rim / Surface Glass · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
 }
 
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
-  .liquid_glass-cover{background:rgba(255,255,255,.10)}
-  [data-theme="dark"] .liquid_glass-cover{background:rgba(7,11,20,.22)}
+  .liquid_glass-cover{background:rgba(255,255,255,.13)}
+  [data-theme="dark"] .liquid_glass-cover{background:rgba(7,11,20,.26)}
 }
 
 @media(max-width:720px){
-  .liquid_glass-outer{padding:5px}
+  .liquid_glass-outer{padding:2px}
   .footer::after{font-size:8.5px}
 }
