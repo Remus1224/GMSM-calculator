@@ -2,12 +2,31 @@
   "use strict";
 
   const root = document.documentElement;
-  const token = (name, fallback) => getComputedStyle(root).getPropertyValue(name).trim() || fallback;
+  const EXPORT_SCALE = 2;
+  const LOGICAL_WIDTH = 1280;
+  const MARGIN = 34;
+  const HERO_H = 112;
+  const GAP = 14;
+  const HEADER_H = 54;
+  const ROW_H = 54;
+  const NOTE_H = 52;
+
   const darkMode = () => root.getAttribute("data-theme") === "dark";
-  const tail = () => darkMode() ? "rgba(0,0,0,0)" : "rgba(255,255,255,0)";
+  const cssVar = (name, fallback = "") => getComputedStyle(root).getPropertyValue(name).trim() || fallback;
+  const bodyStyle = () => getComputedStyle(document.body);
+  const fontFamily = () => bodyStyle().fontFamily || '-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif';
+
+  const showToast = (message, duration = 2600) => {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.hidden = false;
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(() => { toast.hidden = true; }, duration);
+  };
 
   const roundRect = (ctx, x, y, w, h, r) => {
-    const rr = Math.min(r, w / 2, h / 2);
+    const rr = Math.max(0, Math.min(r, w / 2, h / 2));
     ctx.beginPath();
     ctx.moveTo(x + rr, y);
     ctx.arcTo(x + w, y, x + w, y + h, rr);
@@ -17,252 +36,334 @@
     ctx.closePath();
   };
 
+  const rgba0 = "rgba(0,0,0,0)";
+
   const drawText = (ctx, text, x, y, options = {}) => {
     ctx.save();
-    ctx.font = options.font || '600 24px -apple-system,"PingFang TC",sans-serif';
-    ctx.fillStyle = options.color || token("--gi-text", "#222936");
+    const size = options.size || 16;
+    const weight = options.weight || 600;
+    ctx.font = `${weight} ${size}px ${fontFamily()}`;
+    ctx.fillStyle = options.color || cssVar("--text", darkMode() ? "#dce5ef" : "#232936");
     ctx.textAlign = options.align || "left";
-    ctx.textBaseline = "middle";
-    ctx.fillText(String(text), x, y);
+    ctx.textBaseline = options.baseline || "middle";
+    if (options.maxWidth) ctx.fillText(String(text), x, y, options.maxWidth);
+    else ctx.fillText(String(text), x, y);
     ctx.restore();
   };
 
-  const showToast = message => {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.textContent = message;
-    toast.hidden = false;
-    setTimeout(() => { toast.hidden = true; }, 2600);
+  const ellipseGlow = (ctx, width, height, px, py, rx, ry, color, fadeAt = .70) => {
+    const cx = width * px;
+    const cy = height * py;
+    const radiusX = width * rx;
+    const radiusY = height * ry;
+    if (radiusX <= 0 || radiusY <= 0) return;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(1, radiusY / radiusX);
+    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, radiusX);
+    gradient.addColorStop(0, color);
+    gradient.addColorStop(Math.min(.99, fadeAt), rgba0);
+    gradient.addColorStop(1, rgba0);
+    ctx.fillStyle = gradient;
+    const ySpan = height * radiusX / radiusY;
+    ctx.fillRect(-width, -ySpan, width * 2, ySpan * 2);
+    ctx.restore();
   };
 
-  const collectLiveTable = () => {
+  const circleGlow = (ctx, width, height, px, py, radiusRatio, color, fadeAt = .55) => {
+    const cx = width * px;
+    const cy = height * py;
+    const radius = Math.max(width, height) * radiusRatio;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    g.addColorStop(0, color);
+    g.addColorStop(fadeAt, rgba0);
+    g.addColorStop(1, rgba0);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, width, height);
+  };
+
+  function paintAtmosphere(ctx, width, height) {
+    ctx.fillStyle = cssVar("--page-base", darkMode() ? "#050A12" : "#EEF1FA");
+    ctx.fillRect(0, 0, width, height);
+
+    circleGlow(ctx, width, height, .15, .40, .62, cssVar("--page-grad-cyan", darkMode() ? "rgba(85,195,255,.34)" : "rgba(156,234,254,.64)"));
+    circleGlow(ctx, width, height, .85, .60, .62, cssVar("--page-grad-violet", darkMode() ? "rgba(181,112,218,.27)" : "rgba(200,141,221,.50)"));
+    circleGlow(ctx, width, height, .50, .10, .46, cssVar("--page-grad-blue", darkMode() ? "rgba(85,195,255,.21)" : "rgba(167,211,246,.32)"), .42);
+
+    ellipseGlow(ctx, width, height, .18, .22, .21, .10, cssVar("--page-detail-light", darkMode() ? "rgba(189,228,255,.038)" : "rgba(255,255,255,.10)"), .69);
+    ellipseGlow(ctx, width, height, .42, .53, .15, .23, cssVar("--page-detail-cool", darkMode() ? "rgba(85,195,255,.065)" : "rgba(89,139,178,.050)"), .70);
+    ellipseGlow(ctx, width, height, .76, .30, .19, .09, cssVar("--page-detail-soft", darkMode() ? "rgba(186,211,242,.026)" : "rgba(255,255,255,.054)"), .69);
+    ellipseGlow(ctx, width, height, .62, .75, .21, .13, cssVar("--page-detail-violet", darkMode() ? "rgba(181,112,218,.035)" : "rgba(139,104,176,.032)"), .72);
+
+    const line = ctx.createLinearGradient(width * .12, height * .10, width * .88, height * .90);
+    line.addColorStop(0, rgba0);
+    line.addColorStop(.22, cssVar("--page-detail-line-a", darkMode() ? "rgba(189,228,255,.018)" : "rgba(255,255,255,.030)"));
+    line.addColorStop(.38, rgba0);
+    line.addColorStop(.60, cssVar("--page-detail-line-b", darkMode() ? "rgba(85,195,255,.016)" : "rgba(111,133,173,.020)"));
+    line.addColorStop(.82, rgba0);
+    ctx.fillStyle = line;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  const createBackgroundCanvas = (width, height) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(width * EXPORT_SCALE);
+    canvas.height = Math.round(height * EXPORT_SCALE);
+    const ctx = canvas.getContext("2d");
+    ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
+    paintAtmosphere(ctx, width, height);
+    return canvas;
+  };
+
+  function drawGlassSurface(ctx, backgroundCanvas, width, height, x, y, w, h, radius, energy = 1) {
+    const dark = darkMode();
+
+    ctx.save();
+    ctx.shadowColor = dark ? "rgba(0,0,0,.28)" : "rgba(35,42,75,.11)";
+    ctx.shadowBlur = dark ? 22 : 18;
+    ctx.shadowOffsetY = dark ? 8 : 6;
+    ctx.fillStyle = dark ? "rgba(3,9,18,.025)" : "rgba(255,255,255,.018)";
+    roundRect(ctx, x, y, w, h, radius);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    roundRect(ctx, x, y, w, h, radius);
+    ctx.clip();
+    ctx.filter = "blur(2.6px) saturate(120%)";
+    ctx.drawImage(backgroundCanvas, 0, 0, backgroundCanvas.width, backgroundCanvas.height, 0, 0, width, height);
+    ctx.filter = "none";
+    ctx.fillStyle = dark ? "rgba(3,9,18,.10)" : "rgba(255,255,255,.040)";
+    ctx.fillRect(x, y, w, h);
+
+    const reflect = ctx.createLinearGradient(x, y, x + w, y + h);
+    reflect.addColorStop(0, dark ? "rgba(255,255,255,.042)" : "rgba(255,255,255,.10)");
+    reflect.addColorStop(.24, rgba0);
+    reflect.addColorStop(.76, rgba0);
+    reflect.addColorStop(1, dark ? "rgba(255,255,255,.012)" : "rgba(255,255,255,.035)");
+    ctx.fillStyle = reflect;
+    ctx.fillRect(x, y, w, h);
+    ctx.restore();
+
+    ctx.save();
+    roundRect(ctx, x + .5, y + .5, w - 1, h - 1, radius - .5);
+    const rim = ctx.createLinearGradient(x, y, x + w, y + h);
+    const cyanA = dark ? .10 * energy : .18 * energy;
+    const violetA = dark ? .08 * energy : .14 * energy;
+    rim.addColorStop(0, `rgba(156,234,254,${cyanA})`);
+    rim.addColorStop(.42, dark ? "rgba(235,249,255,.12)" : "rgba(255,255,255,.44)");
+    rim.addColorStop(1, `rgba(200,141,221,${violetA})`);
+    ctx.strokeStyle = rim;
+    ctx.lineWidth = energy < .5 ? .8 : 1.15;
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    roundRect(ctx, x + 1.2, y + 1.2, w - 2.4, h - 2.4, Math.max(2, radius - 1.2));
+    const sharp = ctx.createLinearGradient(x, y, x + w, y + h);
+    sharp.addColorStop(0, dark ? "rgba(235,249,255,.30)" : "rgba(255,255,255,.64)");
+    sharp.addColorStop(.50, dark ? "rgba(225,239,255,.08)" : "rgba(255,255,255,.18)");
+    sharp.addColorStop(1, dark ? "rgba(225,239,255,.12)" : "rgba(255,255,255,.28)");
+    ctx.strokeStyle = sharp;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  const nodeColor = (selector, fallback) => {
+    const node = document.querySelector(selector);
+    return node ? getComputedStyle(node).color : fallback;
+  };
+
+  const collectLive = () => {
     const header = [...document.querySelectorAll(".data-header > div")].map(node => node.textContent.trim());
     const rows = [...document.querySelectorAll(".data-row")].map(row => ({
       values: [...row.querySelectorAll(".data-cell")].map(cell => cell.textContent.trim()),
       hasUnlock: Boolean(row.querySelector(".unlock-mark"))
     }));
     if (header.length !== 5 || !rows.length || rows.some(row => row.values.length !== 5)) throw new Error("找不到目前畫面的五欄資料表");
-    return { header, rows };
+
+    return {
+      eyebrow: document.querySelector(".hero-compact .eyebrow")?.textContent.trim() || "Growth · Light Sanctum",
+      title: document.querySelector(".hero-compact h2")?.textContent.trim() || "光之聖所祈禱經驗表",
+      button: document.querySelector("#save-table-image")?.textContent.trim() || "儲存 / 分享表格圖片",
+      note: document.querySelector(".note-only")?.textContent.trim() || "遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。",
+      header,
+      rows,
+      colors: {
+        strong: nodeColor(".hero-compact h2", darkMode() ? "#f3f7fb" : "#151a24"),
+        text: nodeColor(".data-row .data-cell:not(.data-unlock)", darkMode() ? "#dce5ef" : "#232936"),
+        soft: nodeColor(".hero-compact .eyebrow", darkMode() ? "#788696" : "#919aa8"),
+        unlock: nodeColor(".data-unlock", darkMode() ? "#dbe6ef" : "#394659"),
+        note: nodeColor(".note-only", darkMode() ? "#aebdca" : "#566173"),
+        buttonText: nodeColor("#save-table-image", darkMode() ? "#edf4fb" : "#2c3e50")
+      }
+    };
   };
 
-  const collectLiveMeta = () => ({
-    siteTitle: document.querySelector(".site-title")?.textContent.trim() || "楓之谷M 也許有用的工具",
-    title: document.querySelector(".hero-compact h2")?.textContent.trim() || "光之聖所祈禱經驗表",
-    subtitle: document.querySelector(".hero-compact p")?.textContent.trim() || "",
-    theme: darkMode() ? "dark" : "light"
-  });
-
-  function paintPage(ctx, width, height) {
-    const bg = ctx.createLinearGradient(0, 0, width, height);
-    bg.addColorStop(0, token("--gi-page-a", darkMode() ? "#07111b" : "#dff8ff"));
-    bg.addColorStop(.47, token("--gi-page-b", darkMode() ? "#0a111b" : "#eef2ff"));
-    bg.addColorStop(1, token("--gi-page-c", darkMode() ? "#11131a" : "#ffe9f7"));
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, width, height);
-
-    const fields = [
-      [width * .04, height * .05, width * .43, token("--gi-atmos-cyan", "rgba(72,215,255,.34)")],
-      [width * .96, height * .14, width * .38, token("--gi-atmos-violet", "rgba(187,160,255,.20)")],
-      [width * .52, height * .88, width * .44, token("--gi-atmos-pink", "rgba(255,177,221,.18)")]
-    ];
-    fields.forEach(([x, y, r, color]) => {
-      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, color);
-      g.addColorStop(1, tail());
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, width, height);
-    });
-  }
-
-  function panel(ctx, x, y, w, h, r) {
+  function drawPill(ctx, x, y, w, h, text, colors) {
     ctx.save();
-    roundRect(ctx, x, y, w, h, r);
-    ctx.clip();
-    const fill = ctx.createLinearGradient(x, y, x + w, y + h);
-    fill.addColorStop(0, token("--gi-panel-a", "rgba(255,255,255,.30)"));
-    fill.addColorStop(.48, token("--gi-panel-b", "rgba(255,255,255,.105)"));
-    fill.addColorStop(1, token("--gi-panel-c", "rgba(255,255,255,.18)"));
-    ctx.fillStyle = fill;
-    ctx.fillRect(x, y, w, h);
-
-    const hi = ctx.createLinearGradient(x, y, x + w, y + h * .45);
-    hi.addColorStop(0, darkMode() ? "rgba(226,238,247,.10)" : "rgba(255,255,255,.34)");
-    hi.addColorStop(.28, tail());
-    ctx.fillStyle = hi;
-    ctx.fillRect(x, y, w, h);
-    ctx.restore();
-
-    ctx.save();
-    roundRect(ctx, x, y, w, h, r);
-    ctx.strokeStyle = token("--gi-panel-border", "rgba(255,255,255,.78)");
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawMarker(ctx, x, y) {
-    const w = 11, h = 2;
-    const g = ctx.createLinearGradient(x, y, x + w, y);
-    g.addColorStop(0, tail());
-    g.addColorStop(.24, token("--gi-marker-cyan", "#79dce9"));
-    g.addColorStop(.56, token("--gi-marker-violet", "#9b9bd7"));
-    g.addColorStop(.78, token("--gi-marker-pink", "#dda8ca"));
-    g.addColorStop(1, tail());
-    ctx.save();
-    roundRect(ctx, x, y - h / 2, w, h, 1);
-    ctx.globalAlpha = darkMode() ? .48 : .74;
-    ctx.fillStyle = g;
+    ctx.shadowColor = darkMode() ? "rgba(0,0,0,.22)" : "rgba(35,42,75,.07)";
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetY = 4;
+    ctx.fillStyle = darkMode() ? "rgba(15,20,30,.56)" : "rgba(255,255,255,.38)";
+    roundRect(ctx, x, y, w, h, h / 2);
     ctx.fill();
     ctx.restore();
+
+    ctx.save();
+    roundRect(ctx, x + .5, y + .5, w - 1, h - 1, (h - 1) / 2);
+    ctx.strokeStyle = darkMode() ? "rgba(178,187,237,.20)" : "rgba(255,255,255,.58)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+
+    drawText(ctx, text, x + w / 2, y + h / 2 + .5, { size: 13, weight: 680, color: colors.buttonText, align: "center" });
   }
 
-  async function buildCanvas(meta, table, data) {
-    const width = 1440;
-    const margin = 70;
-    const heroH = 205;
-    const headerH = 64;
-    const rowH = 66;
-    const footerH = 105;
-    const tableY = margin + heroH + 20;
-    const tableH = headerH + table.rows.length * rowH;
-    const height = tableY + tableH + footerH + margin;
+  function drawUnlockMarker(ctx, textX, y) {
+    const g = ctx.createLinearGradient(textX - 18, y, textX - 4, y);
+    g.addColorStop(0, rgba0);
+    g.addColorStop(.35, darkMode() ? "rgba(85,195,255,.54)" : "rgba(121,220,233,.76)");
+    g.addColorStop(.68, darkMode() ? "rgba(200,141,221,.42)" : "rgba(200,141,221,.62)");
+    g.addColorStop(1, rgba0);
+    ctx.fillStyle = g;
+    roundRect(ctx, textX - 18, y - 1, 14, 2, 1);
+    ctx.fill();
+  }
+
+  async function buildCanvas() {
+    if (document.fonts?.ready) await document.fonts.ready;
+    const live = collectLive();
+
+    const contentW = LOGICAL_WIDTH - MARGIN * 2;
+    const tableH = HEADER_H + live.rows.length * ROW_H;
+    const tableY = MARGIN + HERO_H + GAP;
+    const noteY = tableY + tableH + 12;
+    const logicalH = noteY + NOTE_H + MARGIN;
+
     const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
+    canvas.width = Math.round(LOGICAL_WIDTH * EXPORT_SCALE);
+    canvas.height = Math.round(logicalH * EXPORT_SCALE);
+    const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) throw new Error("瀏覽器無法建立 Canvas");
+    ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
 
-    paintPage(ctx, width, height);
-    panel(ctx, margin, margin, width - margin * 2, heroH, 34);
+    const backgroundCanvas = createBackgroundCanvas(LOGICAL_WIDTH, logicalH);
+    ctx.drawImage(backgroundCanvas, 0, 0, backgroundCanvas.width, backgroundCanvas.height, 0, 0, LOGICAL_WIDTH, logicalH);
 
-    drawText(ctx, meta.siteTitle, margin + 38, margin + 40, { font:'700 22px -apple-system,"PingFang TC",sans-serif', color:token("--gi-muted", "#707989") });
-    drawText(ctx, meta.title, margin + 38, margin + 96, { font:'800 48px -apple-system,"PingFang TC",sans-serif', color:token("--gi-strong", "#161b25") });
-    drawText(ctx, meta.subtitle, margin + 38, margin + 145, { font:'600 21px -apple-system,"PingFang TC",sans-serif', color:token("--gi-muted", "#707989") });
+    drawGlassSurface(ctx, backgroundCanvas, LOGICAL_WIDTH, logicalH, MARGIN, MARGIN, contentW, HERO_H, 22, .34);
+    drawText(ctx, live.eyebrow, MARGIN + 24, MARGIN + 28, { size: 12, weight: 700, color: live.colors.soft });
+    drawText(ctx, live.title, MARGIN + 24, MARGIN + 69, { size: 34, weight: 780, color: live.colors.strong });
+    const buttonW = 170;
+    const buttonH = 38;
+    drawPill(ctx, MARGIN + contentW - buttonW - 20, MARGIN + (HERO_H - buttonH) / 2, buttonW, buttonH, live.button, live.colors);
 
-    const tableX = margin;
-    const tableW = width - margin * 2;
+    drawGlassSurface(ctx, backgroundCanvas, LOGICAL_WIDTH, logicalH, MARGIN, tableY, contentW, tableH, 24, 1);
 
-    ctx.save();
-    roundRect(ctx, tableX, tableY, tableW, tableH, 30);
-    ctx.clip();
-    const fill = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY + tableH);
-    fill.addColorStop(0, token("--gi-table-a", "rgba(255,255,255,.24)"));
-    fill.addColorStop(.46, token("--gi-table-b", "rgba(255,255,255,.075)"));
-    fill.addColorStop(1, token("--gi-table-c", "rgba(255,255,255,.14)"));
-    ctx.fillStyle = fill;
-    ctx.fillRect(tableX, tableY, tableW, tableH);
+    const first = 96;
+    const remaining = contentW - first;
+    const unit = remaining / 4.75;
+    const cols = [first, unit, unit, unit, unit * 1.75];
+    const colX = [MARGIN];
+    for (let i = 0; i < cols.length - 1; i++) colX.push(colX[i] + cols[i]);
 
-    const spec = ctx.createRadialGradient(tableX + tableW * .22, tableY + tableH * .14, 0, tableX + tableW * .22, tableY + tableH * .14, 330);
-    spec.addColorStop(0, token("--gi-spec", "rgba(255,255,255,.46)"));
-    spec.addColorStop(.28, token("--gi-spec-soft", "rgba(255,255,255,.13)"));
-    spec.addColorStop(1, tail());
-    ctx.fillStyle = spec;
-    ctx.fillRect(tableX, tableY, tableW, tableH);
-
-    const chroma = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY);
-    chroma.addColorStop(0, token("--gi-edge-cyan", "rgba(93,220,255,.18)"));
-    chroma.addColorStop(.22, tail());
-    chroma.addColorStop(.78, tail());
-    chroma.addColorStop(1, token("--gi-edge-pink", "rgba(255,157,224,.13)"));
-    ctx.fillStyle = chroma;
-    ctx.fillRect(tableX, tableY, tableW, tableH);
-
-    const topHi = ctx.createLinearGradient(tableX, tableY, tableX + tableW, tableY + tableH * .35);
-    topHi.addColorStop(0, darkMode() ? "rgba(226,238,247,.17)" : "rgba(255,255,255,.34)");
-    topHi.addColorStop(.18, darkMode() ? "rgba(202,222,236,.04)" : "rgba(255,255,255,.08)");
-    topHi.addColorStop(.36, tail());
-    ctx.fillStyle = topHi;
-    ctx.fillRect(tableX, tableY, tableW, tableH);
-
-    ctx.fillStyle = darkMode() ? "rgba(190,210,228,.020)" : "rgba(255,255,255,.035)";
-    ctx.fillRect(tableX, tableY, tableW, headerH);
-    ctx.restore();
-
-    ctx.save();
-    roundRect(ctx, tableX, tableY, tableW, tableH, 30);
-    ctx.strokeStyle = token("--gi-table-border", "rgba(255,255,255,.84)");
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.restore();
-
-    const cols = [120, 260, 240, 240, tableW - 860];
-    let x = tableX;
-    table.header.forEach((label, index) => {
-      drawText(ctx, label, x + cols[index] / 2, tableY + headerH / 2, { font:'800 17px -apple-system,"PingFang TC",sans-serif', color:token("--gi-strong", "#303744"), align:"center" });
-      x += cols[index];
+    live.header.forEach((label, index) => {
+      drawText(ctx, label, colX[index] + cols[index] / 2, tableY + HEADER_H / 2, { size: 13.5, weight: 760, color: live.colors.strong, align: "center" });
     });
 
-    ctx.strokeStyle = token("--gi-line", "rgba(72,91,126,.105)");
+    const lineColor = darkMode() ? "rgba(194,212,230,.085)" : "rgba(69,87,124,.10)";
+    ctx.strokeStyle = lineColor;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(tableX + 16, tableY + headerH);
-    ctx.lineTo(tableX + tableW - 16, tableY + headerH);
+    ctx.moveTo(MARGIN + 14, tableY + HEADER_H);
+    ctx.lineTo(MARGIN + contentW - 14, tableY + HEADER_H);
     ctx.stroke();
 
-    let y = tableY + headerH;
-    table.rows.forEach((row, rowIndex) => {
-      if (rowIndex) {
-        ctx.strokeStyle = token("--gi-line", "rgba(72,91,126,.105)");
+    live.rows.forEach((row, rowIndex) => {
+      const y = tableY + HEADER_H + rowIndex * ROW_H;
+      if (rowIndex > 0) {
+        ctx.strokeStyle = lineColor;
         ctx.beginPath();
-        ctx.moveTo(tableX + 16, y);
-        ctx.lineTo(tableX + tableW - 16, y);
+        ctx.moveTo(MARGIN + 14, y);
+        ctx.lineTo(MARGIN + contentW - 14, y);
         ctx.stroke();
       }
-      x = tableX;
+
       row.values.forEach((value, index) => {
-        const font = `${index === 0 ? 750 : index === 4 ? 560 : 620} ${index === 4 ? 14 : 18}px -apple-system,"PingFang TC",sans-serif`;
-        const color = index === 4 ? token("--gi-muted", "#707989") : index === 0 ? token("--gi-strong", "#161b25") : token("--gi-text", "#222936");
-        if (index === 4 && row.hasUnlock) {
+        const centerX = colX[index] + cols[index] / 2;
+        const centerY = y + ROW_H / 2;
+        const isUnlock = index === 4;
+        const color = isUnlock ? live.colors.unlock : live.colors.text;
+        const size = isUnlock ? 13 : 15.5;
+        const weight = index === 0 ? 730 : isUnlock ? 650 : 600;
+        if (isUnlock && row.hasUnlock) {
           ctx.save();
-          ctx.font = font;
+          ctx.font = `${weight} ${size}px ${fontFamily()}`;
           const tw = ctx.measureText(String(value)).width;
           ctx.restore();
-          drawMarker(ctx, x + cols[index] / 2 - tw / 2 - 20, y + rowH / 2);
+          drawUnlockMarker(ctx, centerX - tw / 2, centerY);
         }
-        drawText(ctx, value, x + cols[index] / 2, y + rowH / 2, { font, color, align:"center" });
-        x += cols[index];
+        drawText(ctx, value, centerX, centerY, { size, weight, color, align: "center", maxWidth: cols[index] - 20 });
       });
-      y += rowH;
     });
 
-    drawText(ctx, `資料來源：${data.source?.path || "light-sanctum-pray/runtime/sanctuary-gameplay-data.js"}`, margin, y + 48, { font:'600 15px -apple-system,"PingFang TC",sans-serif', color:token("--gi-soft", "#9199a8") });
-    drawText(ctx, `資料版本：${data.updatedAt || ""} · ${meta.theme === "dark" ? "夜間" : "日間"}主題 · 由「也許有用的資訊」產生`, width - margin, y + 48, { font:'600 15px -apple-system,"PingFang TC",sans-serif', color:token("--gi-soft", "#9199a8"), align:"right" });
+    drawGlassSurface(ctx, backgroundCanvas, LOGICAL_WIDTH, logicalH, MARGIN, noteY, contentW, NOTE_H, 18, .20);
+    drawText(ctx, live.note, LOGICAL_WIDTH / 2, noteY + NOTE_H / 2, { size: 12.5, weight: 540, color: live.colors.note, align: "center", maxWidth: contentW - 40 });
+
     return canvas;
   }
 
-  const toBlob = canvas => new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("無法建立 PNG")), "image/png"));
+  const toBlob = canvas => new Promise((resolve, reject) => {
+    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("無法建立 PNG")), "image/png");
+  });
 
-  async function exportV12(button) {
+  const getUpdatedAt = async () => {
+    try {
+      const response = await fetch("data/light-sanctum-pray-exp.json", { cache: "no-store" });
+      if (!response.ok) return "MapleStoryM";
+      const data = await response.json();
+      return data.updatedAt || "MapleStoryM";
+    } catch (_) {
+      return "MapleStoryM";
+    }
+  };
+
+  async function deliver(blob) {
+    const updatedAt = await getUpdatedAt();
+    const theme = darkMode() ? "夜間" : "日間";
+    const name = `光之聖所祈禱經驗表_${updatedAt}_${theme}_完整.png`;
+    const file = new File([blob], name, { type: "image/png" });
+
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: "光之聖所祈禱經驗表" });
+      showToast("完整圖片已交給系統分享選單");
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1600);
+    showToast("完整 PNG 已建立並下載");
+  }
+
+  async function exportManual(button) {
+    if (button.disabled) return;
     button.disabled = true;
     try {
-      showToast("正在依目前主題產生圖片…");
-      const meta = collectLiveMeta();
-      const table = collectLiveTable();
-      const response = await fetch("data/light-sanctum-pray-exp.json", { cache:"no-store" });
-      if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-      const data = await response.json();
-      const canvas = await buildCanvas(meta, table, data);
+      showToast("正在依目前 Light / Dark 主題繪製完整圖片…", 3600);
+      const canvas = await buildCanvas();
       const blob = await toBlob(canvas);
-      const name = `光之聖所祈禱經驗表_${data.updatedAt || "MapleStoryM"}_${meta.theme === "dark" ? "夜間" : "日間"}.png`;
-      const file = new File([blob], name, { type:"image/png" });
-      if (navigator.share && navigator.canShare && navigator.canShare({ files:[file] })) {
-        await navigator.share({ files:[file], title:"光之聖所祈禱經驗表" });
-        showToast("圖片已交給系統分享選單");
-        return;
-      }
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = name;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1500);
-      showToast("PNG 已建立並下載");
+      await deliver(blob);
     } catch (error) {
       if (error?.name !== "AbortError") {
-        console.error("V12 export failed", error);
-        showToast(`圖片建立失敗：${error?.message || error}`);
+        console.error("P5B manual canvas export failed", error);
+        showToast(`圖片建立失敗：${error?.message || error}`, 4200);
       }
     } finally {
       button.disabled = false;
@@ -275,6 +376,6 @@
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
-    exportV12(button);
+    exportManual(button);
   }, true);
 })();
