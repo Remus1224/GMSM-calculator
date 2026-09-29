@@ -1,7 +1,8 @@
-/* V21-P3Q — Fine Rim / Surface Glass.
-   Keep P3O/P3P's artifact-safe self-refraction, but reduce geometric edge thickness.
-   Glass presence now comes primarily from the surface film, fine contour, internal
-   reflection and restrained separation shadow rather than a thick acrylic rim. */
+/* V21-P3R — Fine Rim / Surface Glass + Subtle Lift.
+   P3Q remains the accepted static material baseline. P3R adds only the author's
+   restrained hover-motion language for fine-pointer devices: the table rises 2px
+   and its existing separation shadow opens slightly. No scale, tilt, pointer
+   tracking, geometry change or refraction rewrite is introduced. */
 
 .data-section::before,
 .data-section::after{
@@ -35,6 +36,30 @@
   --glass-edge-end:rgba(225,239,255,.12);
   --glass-reflection:rgba(235,249,255,.10);
   --glass-shade:rgba(0,0,0,.18);
+}
+
+/* P3R interaction: preserve P3Q geometry and typography. On desktop/fine pointer,
+   the large glass surface lifts by 2px and the existing shadow separates slightly.
+   This mirrors the author's hover-expansion/rebound language without reflowing the
+   15-row table or scaling its text. */
+@media (hover:hover) and (pointer:fine){
+  .data-section{
+    transition:
+      transform .40s cubic-bezier(.175,.885,.32,2.2),
+      box-shadow .40s cubic-bezier(.175,.885,.32,2.2);
+    transform:translateY(0);
+  }
+  .data-section:hover{
+    transform:translateY(-2px);
+    box-shadow:
+      0 21px 42px -18px rgba(35,42,75,.30),
+      0 4px 9px rgba(35,42,75,.09);
+  }
+  [data-theme="dark"] .data-section:hover{
+    box-shadow:
+      0 23px 44px -16px rgba(0,0,0,.48),
+      0 4px 10px rgba(0,0,0,.20);
+  }
 }
 
 .liquid_glass-outer,
@@ -130,7 +155,7 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3Q · Fine Rim / Surface Glass · 此頁只讀。";
+  content:"Beta V21-P3R · Fine Rim / Surface Glass + Subtle Lift · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
@@ -139,6 +164,14 @@
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
   .liquid_glass-cover{background:rgba(255,255,255,.13)}
   [data-theme="dark"] .liquid_glass-cover{background:rgba(7,11,20,.26)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .data-section,
+  .data-section:hover{
+    transform:none!important;
+    transition:none!important;
+  }
 }
 
 @media(max-width:720px){
