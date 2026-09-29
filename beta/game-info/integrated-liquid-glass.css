@@ -1,8 +1,9 @@
-/* V21-P3N — Exact Author Material Port + Artifact Guard.
-   Canonical material is the author's four-layer integrated liquid-glass design:
-   outer / cover / sharp / reflect. No extra specular, Fresnel, glint or custom
-   tint layers are added here. Only the table geometry and safe refraction source
-   sampling are adapted for this large Game Info surface. */
+/* V21-P3O — Author Material / Safe Self-Refraction.
+   Preserve the author's four-layer liquid-glass model: outer / cover / sharp /
+   reflect. The only rendering adaptation is that OUTER now owns a viewport-fixed
+   copy of the same page atmosphere and filters those pixels directly, instead of
+   applying SVG displacement through backdrop-filter. This avoids the moving black
+   compositor artifacts seen on the large scrolling table. */
 
 .data-section::before,
 .data-section::after{
@@ -10,7 +11,7 @@
   display:none!important;
 }
 
-/* Author wrapper semantics, while retaining the Game Info table's own geometry. */
+/* Author wrapper semantics; Game Info keeps its existing table geometry. */
 .data-section{
   position:relative;
   isolation:isolate;
@@ -32,12 +33,20 @@
   pointer-events:none;
 }
 
-/* 1. OUTER — author's edge-only liquid refraction role.
-   The 5px ring is the author's geometry; the mask is expressed with CSS so it
-   follows the table's existing radius instead of forcing the author's pill shape. */
+/* 1. OUTER — author's edge-only refraction role, but with a self-contained source.
+   The copied background uses the exact same page atmosphere variables/geometry as
+   body and background-attachment:fixed, so the 5px ring samples matching pixels
+   without asking Chromium to displace a live backdrop compositor surface. */
 .liquid_glass-outer{
   z-index:0;
   padding:5px;
+  background-color:var(--page-base);
+  background-image:
+    radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
+    radial-gradient(circle at 85% 60%,var(--page-grad-violet) 0%,transparent 55%),
+    radial-gradient(circle at 50% 10%,var(--page-grad-blue) 0%,transparent 40%);
+  background-attachment:fixed;
+  background-repeat:no-repeat;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -46,16 +55,24 @@
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   mask-composite:exclude;
-  backdrop-filter:url(#liquid_edge_refraction);
-  -webkit-backdrop-filter:url(#liquid_edge_refraction);
+  filter:url(#liquid_edge_refraction);
+  -webkit-filter:url(#liquid_edge_refraction);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
 }
 
-/* 2. COVER — exact values from the author's integrated example. */
+/* 2. COVER — same author role and blur depth, with only the tint adapted to this
+   site's pastel cyan/violet background. The author's .12 black film was verified
+   to gray out Light mode here, so the role is preserved without that photo-specific
+   darkening. */
 .liquid_glass-cover{
   z-index:2;
-  background:rgba(0,0,0,.12);
+  background:rgba(255,255,255,.025);
   backdrop-filter:blur(2px);
   -webkit-backdrop-filter:blur(2px);
+}
+[data-theme="dark"] .liquid_glass-cover{
+  background:rgba(0,0,0,.055);
 }
 
 /* 3. SHARP — exact inset optical rim from the author's integrated example. */
@@ -75,20 +92,17 @@
     inset -2px -2px 4px -1px rgba(255,255,255,.20);
 }
 
-/* Table content stays above the author's four material layers. */
+/* Table content remains optically clean above the author's four material layers. */
 .data-header,
 .data-row{
   position:relative;
   z-index:5;
-}
-.data-header,
-.data-row{
   background:transparent;
 }
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3N · Exact Author Material Port + Artifact Guard · 此頁只讀。";
+  content:"Beta V21-P3O · Author Material / Safe Self-Refraction · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
