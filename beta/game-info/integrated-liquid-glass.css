@@ -1,7 +1,8 @@
-/* V21-P3I — Specular Reflection Recovery.
-   Keep the artifact-free P3H material baseline, reduce the remaining neutral veil,
-   and recover the author's micro-bright liquid-glass edge language with a static
-   specular ring. No SVG displacement, animation, mouse tracking, or scroll work. */
+/* V21-P3J — Real Inward Edge Refraction.
+   Keep the accepted P3I cover / sharp / reflect / specular material unchanged.
+   P3J adds a real displacement-map lens only to the masked edge band.
+   The map is generated from the table's actual geometry, samples inward only,
+   uses explicit sRGB channel decoding, and never updates on scroll/mousemove. */
 
 /* Retire previous pseudo-lens experiments for the data table. */
 .data-section::before,
@@ -39,13 +40,12 @@
   pointer-events:none;
 }
 
-/* 1. Artifact-free edge band.
-   Keep the safe 5px band from P3H. It only changes the sampled backdrop very
-   slightly; the visible "micro-light" is now owned by the specular layer below. */
+/* 1. Real edge refraction.
+   Before the JS map is ready, keep the P3I safe optical fallback. Once the
+   size-aware inward displacement map has been installed, switch only this
+   5px ring to the SVG refraction filter. The centre never uses displacement. */
 .liquid_glass-outer{
   z-index:0;
-  backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
-  -webkit-backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
   -webkit-mask-image:
     linear-gradient(#fff 0 0),
     linear-gradient(#fff 0 0);
@@ -60,15 +60,20 @@
   mask-composite:exclude;
   opacity:.98;
 }
-[data-theme="dark"] .liquid_glass-outer{
+.data-section:not(.has-real-edge-refraction) .liquid_glass-outer{
+  backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
+  -webkit-backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
+}
+.data-section.has-real-edge-refraction .liquid_glass-outer{
+  backdrop-filter:url(#liquid_edge_refraction);
+  -webkit-backdrop-filter:url(#liquid_edge_refraction);
+}
+[data-theme="dark"] .data-section:not(.has-real-edge-refraction) .liquid_glass-outer{
   backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
   -webkit-backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
 }
 
-/* 2. Cover.
-   P3H restored the desired material weight, but .055 + 2px blur still dulled
-   this low-detail cyan/violet background. P3I keeps a real glass body while
-   reducing the neutral veil instead of removing it entirely as P3G did. */
+/* 2. Cover — unchanged from P3I. */
 .liquid_glass-cover{
   z-index:1;
   background:rgba(255,255,255,.035);
@@ -81,7 +86,7 @@
   -webkit-backdrop-filter:blur(1.5px);
 }
 
-/* 3. Sharp optical edge — retain the P3D/P3H values. */
+/* 3. Sharp optical edge — unchanged from P3I. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
@@ -94,11 +99,7 @@
     inset -1px -1px 0 0 rgba(255,255,255,.22);
 }
 
-/* 3a. Static specular reflection ring.
-   This is intentionally non-uniform: the upper-left arc catches the strongest
-   light, the upper/right run is softer, and the lower edge only gets a faint
-   return. The centre is fully masked out, so this cannot turn the table into a
-   bright card and it does not require displacement/compositor re-sampling. */
+/* 3a. Static specular reflection ring — unchanged from P3I. */
 .liquid_glass-sharp::before{
   content:"";
   position:absolute;
@@ -130,8 +131,6 @@
   pointer-events:none;
 }
 
-/* A second very soft inner glint gives the top-left corner a lens-like depth
-   without drawing a uniform white outline around the entire table. */
 .liquid_glass-sharp::after{
   content:"";
   position:absolute;
@@ -167,7 +166,7 @@
   opacity:.62;
 }
 
-/* 4. Soft internal reflection — keep the accepted P3D/P3H values. */
+/* 4. Soft internal reflection — unchanged from P3I. */
 .liquid_glass-reflect{
   inset:1px;
   z-index:2;
@@ -197,7 +196,7 @@
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3I · Specular Reflection Recovery · 此頁只讀。";
+  content:"Beta V21-P3J · Real Inward Edge Refraction · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
