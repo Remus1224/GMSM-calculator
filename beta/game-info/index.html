@@ -12,18 +12,9 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="style.css?v=20260929-v21p2e">
-  <link rel="stylesheet" href="refractive-glass-p3.css?v=20260929-v21p3a">
+  <link rel="stylesheet" href="refractive-glass-p3.css?v=20260929-v21p3b">
 </head>
 <body>
-  <svg class="glass-filter-defs" aria-hidden="true" focusable="false" width="0" height="0">
-    <defs>
-      <filter id="gi-liquid-displacement" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.006 0.012" numOctaves="1" seed="7" result="lensNoise" />
-        <feGaussianBlur in="lensNoise" stdDeviation="2.2" result="softLensNoise" />
-        <feDisplacementMap in="SourceGraphic" in2="softLensNoise" scale="10" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
-  </svg>
   <main class="shell">
     <header>
       <h1 class="site-title">楓之谷M 也許有用的工具</h1>
@@ -32,12 +23,13 @@
         <div id="nav-title" class="nav-title">也許有用的資訊</div>
         <div class="top-nav-side"><button id="theme-toggle" class="theme-btn glass-control" type="button" aria-label="切換至夜間模式" aria-pressed="false">🌙</button></div>
       </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V21-P3A</div>
+      <div class="beta-strip">BETA · 資料型資訊中心 V21-P3B</div>
     </header>
     <div id="app" aria-live="polite"><div class="glass-panel loading">正在載入資訊中心…</div></div>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script src="script.js?v=20260927-v10"></script>
+  <script src="liquid-glass-table.js?v=20260929-v21p3b"></script>
   <script src="v12-export.js?v=20260927-v12"></script>
 </body>
 </html>
