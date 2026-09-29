@@ -1,8 +1,8 @@
-/* V21-P3S — Fine Rim / Surface Glass + Main-Site Lift + Row Hover.
-   P3Q remains the protected static glass baseline. P3S changes only interaction:
-   the whole table now follows the Main Site entry-card lift language, while each
-   data row gains a subtle glass-band hover so the cursor position is easy to track.
-   No scale, tilt, pointer tracking, geometry change or refraction rewrite. */
+/* V21-P4A — Light Sanctum UI Completion.
+   P3Q remains the protected static glass baseline and P3S remains the accepted
+   table interaction baseline. P4A finishes the rest of the Light Sanctum page UI
+   only: navigation controls, hero, provenance chip, save/share action, note panel
+   and footer. The table material, row hover and data geometry are not redesigned. */
 
 .data-section::before,
 .data-section::after{
@@ -38,9 +38,7 @@
   --glass-shade:rgba(0,0,0,.18);
 }
 
-/* P3S interaction — match the Main Site entry-card motion language instead of
-   P3R's spring lift. The large table uses the same 0.30s easing and -4px rise, but
-   side glows are deliberately reduced because this surface is much wider. */
+/* P3S accepted interaction — Main Site entry-card motion language. */
 @media (hover:hover) and (pointer:fine){
   .data-section{
     transition:
@@ -62,8 +60,6 @@
        0 16px 28px rgba(0,0,0,.30);
   }
 
-  /* Row tracking — visual only. A shallow translucent band marks exactly which
-     table row the pointer is over without moving, scaling or changing row height. */
   .data-row{
     transition:
       background .16s ease,
@@ -177,7 +173,6 @@
   );
 }
 
-/* Content stays crisp. */
 .data-header,
 [data-theme="dark"] .data-header,
 .data-row{
@@ -188,22 +183,247 @@
 .data-unlock{color:#596477}
 [data-theme="dark"] .data-unlock{color:#b0bfcd}
 
+/* --------------------------------------------------------------------------
+   P4A — remaining Light Sanctum page chrome.
+   This is intentionally page-scoped so the Game Info home page is untouched.
+   -------------------------------------------------------------------------- */
+.is-light-sanctum-page{
+  --ls-ui-film:rgba(255,255,255,.060);
+  --ls-ui-film-soft:rgba(255,255,255,.040);
+  --ls-ui-border:rgba(255,255,255,.52);
+  --ls-ui-edge:rgba(255,255,255,.24);
+  --ls-ui-reflect:rgba(255,255,255,.13);
+  --ls-ui-shadow:0 14px 34px -22px rgba(35,42,75,.28),0 2px 7px rgba(35,42,75,.055);
+}
+[data-theme="dark"].is-light-sanctum-page{
+  --ls-ui-film:rgba(4,9,17,.145);
+  --ls-ui-film-soft:rgba(4,9,17,.095);
+  --ls-ui-border:rgba(225,239,255,.15);
+  --ls-ui-edge:rgba(225,239,255,.075);
+  --ls-ui-reflect:rgba(235,249,255,.055);
+  --ls-ui-shadow:0 16px 36px -20px rgba(0,0,0,.46),0 2px 8px rgba(0,0,0,.14);
+}
+
+/* Top navigation: thinner floating controls, same geometry as before. */
+.is-light-sanctum-page .glass-control,
+.is-light-sanctum-page .nav-title{
+  border:1px solid var(--ls-ui-border);
+  background:var(--ls-ui-film-soft);
+  box-shadow:
+    var(--ls-ui-shadow),
+    inset 1px 1px 0 rgba(255,255,255,.28),
+    inset -1px -1px 0 var(--ls-ui-edge);
+  backdrop-filter:blur(10px) saturate(122%);
+  -webkit-backdrop-filter:blur(10px) saturate(122%);
+}
+.is-light-sanctum-page .glass-control::before,
+.is-light-sanctum-page .nav-title::before{
+  background:linear-gradient(115deg,rgba(255,255,255,.10),transparent 28%,transparent 76%,rgba(255,255,255,.025));
+  mix-blend-mode:normal;
+  opacity:1;
+}
+[data-theme="dark"].is-light-sanctum-page .glass-control,
+[data-theme="dark"].is-light-sanctum-page .nav-title{
+  border-color:var(--ls-ui-border);
+  background:var(--ls-ui-film-soft);
+  box-shadow:
+    var(--ls-ui-shadow),
+    inset 1px 1px 0 rgba(235,249,255,.10),
+    inset -1px -1px 0 rgba(225,239,255,.04);
+  backdrop-filter:blur(10px) saturate(112%);
+  -webkit-backdrop-filter:blur(10px) saturate(112%);
+}
+[data-theme="dark"].is-light-sanctum-page .glass-control::before,
+[data-theme="dark"].is-light-sanctum-page .nav-title::before{opacity:.56}
+
+.is-light-sanctum-page .beta-strip{
+  border-color:rgba(255,255,255,.30);
+  background:rgba(255,255,255,.035);
+  color:var(--soft);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+[data-theme="dark"].is-light-sanctum-page .beta-strip{
+  border-color:rgba(225,239,255,.09);
+  background:rgba(4,9,17,.07);
+  box-shadow:inset 0 1px 0 rgba(235,249,255,.045);
+}
+
+/* Hero: information surface, not a clickable card. Keep it still and light. */
+.is-light-sanctum-page .hero-compact{
+  border:1px solid var(--ls-ui-border);
+  background:var(--ls-ui-film);
+  box-shadow:
+    var(--ls-ui-shadow),
+    inset 1px 1px 0 rgba(255,255,255,.34),
+    inset -1px -1px 0 var(--ls-ui-edge);
+  backdrop-filter:blur(12px) saturate(125%);
+  -webkit-backdrop-filter:blur(12px) saturate(125%);
+}
+.is-light-sanctum-page .hero-compact::before{
+  background:linear-gradient(115deg,rgba(255,255,255,.11),transparent 27%,transparent 76%,rgba(255,255,255,.026));
+  mix-blend-mode:normal;
+  opacity:1;
+}
+[data-theme="dark"].is-light-sanctum-page .hero-compact{
+  border-color:var(--ls-ui-border);
+  background:var(--ls-ui-film);
+  box-shadow:
+    var(--ls-ui-shadow),
+    inset 1px 1px 0 rgba(235,249,255,.10),
+    inset -1px -1px 0 rgba(225,239,255,.035);
+  backdrop-filter:blur(11px) saturate(112%);
+  -webkit-backdrop-filter:blur(11px) saturate(112%);
+}
+[data-theme="dark"].is-light-sanctum-page .hero-compact::before{
+  background:linear-gradient(115deg,rgba(255,255,255,.035),transparent 27%,transparent 76%,rgba(255,255,255,.010));
+}
+
+.is-light-sanctum-page .eyebrow{color:var(--soft)}
+.is-light-sanctum-page .source-chip{
+  border:1px solid rgba(112,205,228,.22);
+  background:rgba(156,234,254,.085);
+  color:#4f6875;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30);
+}
+[data-theme="dark"].is-light-sanctum-page .source-chip{
+  border-color:rgba(156,234,254,.11);
+  background:rgba(85,195,255,.055);
+  color:#b6d5df;
+  box-shadow:inset 0 1px 0 rgba(235,249,255,.055);
+}
+
+/* Save/share is the one deliberate action in the hero, so it gets the Main Site
+   floating response while the hero surface itself remains stationary. */
+.is-light-sanctum-page .action-btn{
+  border:1px solid rgba(255,255,255,.48);
+  background:rgba(255,255,255,.070);
+  color:var(--text);
+  box-shadow:
+    0 8px 20px -15px rgba(35,42,75,.28),
+    inset 1px 1px 0 rgba(255,255,255,.30),
+    inset -1px -1px 0 rgba(255,255,255,.12);
+  backdrop-filter:blur(9px) saturate(122%);
+  -webkit-backdrop-filter:blur(9px) saturate(122%);
+  transition:
+    transform .30s cubic-bezier(.25,.8,.25,1),
+    box-shadow .30s cubic-bezier(.25,.8,.25,1),
+    background .20s ease;
+}
+[data-theme="dark"].is-light-sanctum-page .action-btn{
+  border-color:rgba(225,239,255,.13);
+  background:rgba(5,10,18,.11);
+  box-shadow:
+    0 9px 22px -15px rgba(0,0,0,.48),
+    inset 1px 1px 0 rgba(235,249,255,.085),
+    inset -1px -1px 0 rgba(225,239,255,.025);
+}
+@media (hover:hover) and (pointer:fine){
+  .is-light-sanctum-page .glass-control,
+  .is-light-sanctum-page .action-btn{
+    transition:
+      transform .30s cubic-bezier(.25,.8,.25,1),
+      box-shadow .30s cubic-bezier(.25,.8,.25,1),
+      background .20s ease;
+  }
+  .is-light-sanctum-page .glass-control:hover,
+  .is-light-sanctum-page .action-btn:hover{
+    transform:translateY(-3px);
+    background:rgba(255,255,255,.105);
+    box-shadow:
+      -5px 0 16px rgba(85,195,255,.16),
+       5px 0 16px rgba(200,141,221,.16),
+       0 10px 18px rgba(35,42,75,.08);
+  }
+  [data-theme="dark"].is-light-sanctum-page .glass-control:hover,
+  [data-theme="dark"].is-light-sanctum-page .action-btn:hover{
+    background:rgba(8,15,25,.16);
+    box-shadow:
+      -4px 0 14px rgba(85,195,255,.11),
+       4px 0 14px rgba(200,141,221,.11),
+       0 12px 20px rgba(0,0,0,.24);
+  }
+}
+
+.is-light-sanctum-page .glass-control:focus-visible,
+.is-light-sanctum-page .action-btn:focus-visible{
+  outline:2px solid rgba(113,132,244,.42);
+  outline-offset:3px;
+}
+
+/* Note panel: quieter than the hero/table but made from the same thin surface
+   language so it no longer looks like a separate legacy glass component. */
+.is-light-sanctum-page .note-panel{
+  border:1px solid rgba(255,255,255,.38);
+  background:var(--ls-ui-film-soft);
+  box-shadow:
+    0 10px 26px -22px rgba(35,42,75,.22),
+    inset 1px 1px 0 rgba(255,255,255,.24),
+    inset -1px -1px 0 rgba(255,255,255,.09);
+  backdrop-filter:blur(9px) saturate(118%);
+  -webkit-backdrop-filter:blur(9px) saturate(118%);
+}
+.is-light-sanctum-page .note-panel::before{
+  background:linear-gradient(115deg,rgba(255,255,255,.070),transparent 28%,transparent 77%,rgba(255,255,255,.018));
+  mix-blend-mode:normal;
+  opacity:1;
+}
+[data-theme="dark"].is-light-sanctum-page .note-panel{
+  border-color:rgba(225,239,255,.085);
+  background:var(--ls-ui-film-soft);
+  box-shadow:
+    0 12px 28px -21px rgba(0,0,0,.42),
+    inset 1px 1px 0 rgba(235,249,255,.055),
+    inset -1px -1px 0 rgba(0,0,0,.12);
+  backdrop-filter:blur(9px) saturate(108%);
+  -webkit-backdrop-filter:blur(9px) saturate(108%);
+}
+[data-theme="dark"].is-light-sanctum-page .note-panel::before{
+  background:linear-gradient(115deg,rgba(255,255,255,.020),transparent 28%,transparent 77%,rgba(255,255,255,.007));
+}
+
+.is-light-sanctum-page .note-panel h3{letter-spacing:-.015em}
+.is-light-sanctum-page .note-panel p{color:var(--muted)}
+.is-light-sanctum-page .code-inline{
+  background:rgba(255,255,255,.10);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+  overflow-wrap:anywhere;
+}
+[data-theme="dark"].is-light-sanctum-page .code-inline{
+  background:rgba(255,255,255,.035);
+  box-shadow:inset 0 1px 0 rgba(235,249,255,.035);
+}
+
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3S · Main-Site Lift + Row Hover · 此頁只讀。";
+  content:"Beta V21-P4A · Light Sanctum UI Completion · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
 }
+.is-light-sanctum-page .footer{opacity:.82}
 
 @supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){
   .liquid_glass-cover{background:rgba(255,255,255,.13)}
   [data-theme="dark"] .liquid_glass-cover{background:rgba(7,11,20,.26)}
+  .is-light-sanctum-page .hero-compact,
+  .is-light-sanctum-page .note-panel,
+  .is-light-sanctum-page .glass-control,
+  .is-light-sanctum-page .nav-title{background:rgba(255,255,255,.14)}
+  [data-theme="dark"].is-light-sanctum-page .hero-compact,
+  [data-theme="dark"].is-light-sanctum-page .note-panel,
+  [data-theme="dark"].is-light-sanctum-page .glass-control,
+  [data-theme="dark"].is-light-sanctum-page .nav-title{background:rgba(7,11,20,.28)}
 }
 
 @media(prefers-reduced-motion:reduce){
   .data-section,
-  .data-section:hover{
+  .data-section:hover,
+  .is-light-sanctum-page .glass-control,
+  .is-light-sanctum-page .glass-control:hover,
+  .is-light-sanctum-page .action-btn,
+  .is-light-sanctum-page .action-btn:hover{
     transform:none!important;
     transition:none!important;
   }
@@ -212,5 +432,12 @@
 
 @media(max-width:720px){
   .liquid_glass-outer{padding:2px}
+  .is-light-sanctum-page .hero-compact{
+    backdrop-filter:blur(10px) saturate(120%);
+    -webkit-backdrop-filter:blur(10px) saturate(120%);
+  }
+  .is-light-sanctum-page .source-chip{white-space:nowrap}
+  .is-light-sanctum-page .action-btn{min-height:32px}
+  .is-light-sanctum-page .note-panel{backdrop-filter:blur(8px) saturate(114%);-webkit-backdrop-filter:blur(8px) saturate(114%)}
   .footer::after{font-size:8.5px}
 }
