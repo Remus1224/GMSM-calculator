@@ -1,4 +1,4 @@
-# AI_HANDOFF_START_HERE — Game Info V21-P4G
+# AI_HANDOFF_START_HERE — Game Info V21-P5A
 
 ## Current state
 - Repo: `Remus1224/GMSM-calculator`
@@ -7,81 +7,96 @@
 - Protected static table glass baseline: **V21-P3Q — Fine Rim / Surface Glass**
 - Accepted interaction baseline: **V21-P3S — Main-Site Lift + Row Hover**
 - Protected surface/layout baseline: **V21-P4D — Perceptual Surface Unification + Auto-Width Nav Title**
-- Background/chrome baseline before final polish: **V21-P4F**
-- Current visual test: **V21-P4G — Final Visual Polish**
+- Accepted/frozen visible polish candidate: **V21-P4G — Final Visual Polish**
+- Current feature test: **V21-P5A — WYSIWYG Export Prototype**
 
-## Protected contracts
-- Do not redesign the accepted Table glass core (`outer / cover / sharp / reflect`).
-- Never return to live `backdrop-filter:url(...)` displacement; it produced moving black compositor artifacts.
-- Hero / Table / Note remain one glass family.
-- Whole-surface hover remains Main-Site-like `translateY(-4px)` with restrained cyan/violet glow.
-- Per-row hover remains informational only and must not move row geometry.
-- Top navigation title sizes to its text on desktop.
-- Theme switch keeps the Main Site two-icon sliding control.
-- No scale, 3D tilt, pointer tracking or layout-growth hover.
+## Visual state is frozen during P5A
+P5A does not redesign the accepted P4G page. Preserve:
+- Light/Dark atmosphere.
+- P3Q four-layer glass (`outer / cover / sharp / reflect`).
+- Hero / Table / Note material family.
+- P3S surface lift and per-row hover.
+- Main-Site-like navigation title/theme switch.
+- Table labels and compact density.
+- Light/Dark unlock readability tuning.
 
-## P4G changes
-### Light atmosphere — localized, not stronger overall
-P4G does not add any new mist/image layer. It only reshapes the existing CSS atmosphere so the Light page keeps clean open space while glass has more local contrast to refract.
+Do not restart Liquid Glass or background experimentation while validating export.
 
-Changes from P4F:
-- Base remains `#EEF1FA`.
-- Cyan is slightly reduced from `.68` to `.66` and its main field is tightened toward the left.
-- Violet is reduced from `.55` to `.48` and localized farther to the right.
-- Blue is slightly reduced from `.32` to `.30`.
-- The four existing detail fields are smaller/more concentrated while their local contrast is increased slightly.
-- The visible page background and every `.liquid_glass-outer` still share the same `--page-atmosphere`.
+## Active runtime files
+### CSS
+1. `style.css`
+2. `integrated-liquid-glass.css`
 
-### Dark atmosphere — intentionally frozen
-Dark keeps the P4F palette and P4F spatial field geometry:
-- base `#050A12`
-- cyan `.34`
-- violet `.27`
-- blue `.21`
+The P4G accepted atmosphere/polish values are still kept in the page-local style block in `index.html` while final cleanup is deferred.
 
-Do not continue changing Dark background unless a clear regression is reported.
+### JavaScript
+1. `script.js` — routing/theme/data/page rendering.
+2. `liquid-edge-refraction.js` — safe self-contained refraction maps.
+3. `wysiwyg-export.js` — P5A real-tab-pixel capture path.
+4. `v12-export.js` — legacy hand-drawn Canvas exporter retained only as compatibility fallback during P5A.
 
-### Dark center navigation title
-One final restraint pass only:
-- text glow `.60 -> .52`
-- cyan/violet outer glow `.40 -> .34`
-- geometry, auto-width, border and material are unchanged.
+## Why P5A exists
+The previous V12 export is not a screenshot of the live page. It independently redraws a 1440px Canvas with its own background, Hero, Table and metadata footer. Therefore the saved PNG visibly diverges from the accepted P4G browser UI.
 
-### Light Save/Share button
-- background `.43 -> .38`
-- border `.62 -> .58`
-- hover background `.76 -> .68`
-- hover cyan border `.78 -> .72`
-- Dark button styling is unchanged.
+P5A changes the preferred export architecture to **What You See Is What You Get**:
+- Browser compositor renders the actual P4G page.
+- User clicks `儲存 / 分享表格圖片`.
+- Browser screen-capture permission opens.
+- User must choose **the current browser tab / 這個分頁**.
+- P5A captures the real rendered tab pixels.
+- It crops only the union of:
+  1. Hero
+  2. Table
+  3. bottom game-version Note
+- Navigation/header/BETA strip/test footer are excluded.
+- The resulting PNG therefore includes the browser's actual Liquid Glass, backdrop blur, masks, self-refraction, typography and current Light/Dark atmosphere rather than a second approximation renderer.
 
-### Unlock readability
-No size/layout change:
-- Light unlock text becomes `#354255`, weight `650`.
-- Dark unlock text becomes `#dbe6ef`, weight `640`.
-- Row-hover behavior remains the accepted P3S behavior.
+## WYSIWYG technical contract
+File: `wysiwyg-export.js`
 
-### Version markers
-- Top visible marker: `V21-P4G`.
-- CSS/JS cache query markers in `index.html`: `v21p4g`.
-- Test-only footer: `Beta V21-P4G · 測試版。`
-- Formal release requirement remains: remove the test-only footer entirely.
+- Uses `navigator.mediaDevices.getDisplayMedia()` with current-tab preference.
+- Requires a browser-tab capture surface when the browser exposes `displaySurface`.
+- Uses current `getBoundingClientRect()` values for Hero/Table/Note and maps CSS viewport coordinates into captured video pixels using `videoWidth/window.innerWidth` and `videoHeight/window.innerHeight`.
+- Adds 14px crop padding so card shadows/glass edges are retained.
+- Hides the toast before the frame is captured.
+- Does not visually disable the save button during capture, avoiding an exported disabled-state button.
+- Stops all capture tracks immediately after a frame is obtained.
+- Keeps current theme in the filename.
 
-## Protected content / functionality
-- Table labels remain `等級 / 升等所需經驗 / 累積經驗 / 聖痕結晶 / 解鎖內容`.
+### Visibility limitation in P5A
+For true pixel parity, Hero + Table + Note must all fit inside the currently visible tab viewport. If they do not, P5A currently invokes the V12 compatibility fallback rather than pretending the off-screen DOM was captured.
+
+### Wrong source behavior
+If the browser reports that the user selected a window/monitor instead of a browser tab, P5A stops and asks the user to choose the current tab. It does not silently crop an unrelated screen source.
+
+### Permission cancellation
+If the user cancels or denies the capture picker, export is cancelled cleanly; legacy export is not started.
+
+## Legacy V12 fallback
+`v12-export.js` remains unchanged during P5A so the old exporter is still available as a fallback for unsupported environments / non-visible full target.
+
+`wysiwyg-export.js` is loaded **before** `v12-export.js` and intercepts the save button first. When fallback is intentionally requested, it bypasses itself once and re-dispatches the click so the existing V12 listener handles it.
+
+Do not remove V12 until P5A browser testing confirms the WYSIWYG path is reliable.
+
+## Protected content / page behavior
+- Table labels: `等級 / 升等所需經驗 / 累積經驗 / 聖痕結晶 / 解鎖內容`.
 - Lv.1 has no `初始：` prefix.
 - Lv.15 does not add `滿等`.
-- Bottom note remains only: `遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
+- Bottom Note: `遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
 - Data JSON and numeric derivation remain unchanged.
-- `v12-export.js` remains the sole export owner; export-image parity is still deferred until the visible UI is frozen.
+- Test-only footer remains during beta; remove for formal release.
 
-## Current acceptance task
-After `git pull`, inspect Light and Dark:
-1. Light should feel cleaner through the middle while retaining enough local spatial detail for glass refraction.
-2. The violet wash on the lower/right Light background should be less dominant than P4F.
-3. Dark background should look essentially unchanged from P4F.
-4. Dark center nav should remain branded but no longer be the brightest/most neon element on the page.
-5. Light Save/Share should read as a glass control rather than a solid white pill.
-6. Unlock copy should be easier to read in both themes without becoming visually dominant.
-7. Hero / Table / Note glass, hover, row hover, routing and theme switching must remain unchanged.
+## Current acceptance test
+After `git pull`:
+1. Open `?page=light-sanctum-pray-exp` in desktop Edge/Chrome.
+2. Ensure Hero + full Table + Note are visible in the viewport (the user's current desktop layout already satisfies this).
+3. Test Light first.
+4. Click `儲存 / 分享表格圖片`.
+5. In the browser picker choose **這個分頁 / current tab**.
+6. Compare exported PNG directly with the live Hero + Table + Note pixels.
+7. Repeat in Dark.
+8. Confirm glass/refraction/background/text/card geometry match the live page, apart from the intentional 14px crop margin.
+9. Confirm capture permission is stopped immediately after export.
 
-If P4G passes, freeze **background + glass + hover + navigation chrome**. Next work should be formal cleanup (remove beta/footer/internal legacy markers) and export-image parity / regression checks, not another visual redesign.
+If P5A passes, next step is to retire the hand-drawn V12 path or keep it only as explicitly labeled compatibility fallback, then perform formal-release cleanup (remove beta/test footer and legacy markers).
