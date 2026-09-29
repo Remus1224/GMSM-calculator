@@ -17,9 +17,8 @@ body{position:relative;isolation:isolate;min-height:100vh;overflow-x:hidden;colo
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
 
 /* 2. Visual material / theme */
-/* Game Info Beta V19-R3 — Table-only Mist Containment.
-   V17 remains the flattened runtime architecture.
-   Main-site page atmosphere is restored; mist is confined to the data table only. */
+/* Game Info V21-P2C — Liquid Glass Edge Optics.
+   Hero / Note stay on the existing material; the data table uses a clear-center shell with optical rim emphasis. */
 :root{
   --page-base:#F3E8FF;
   --page-grad-cyan:rgba(156,234,254,.90);
@@ -96,7 +95,7 @@ body::before,body::after{content:none!important;display:none!important}
   -webkit-backdrop-filter:blur(27px) saturate(168%) contrast(104%);
 }
 
-/* V19-R3 containment: Hero / Note remain clean glass. Only the table owns mist. */
+/* Hero / Note remain on the established clean-glass material. */
 .hero-compact::after,.note-panel::after{content:none!important;display:none!important}
 
 .beta-strip{border:1px solid rgba(151,130,109,.17);background:rgba(255,214,168,.075);color:var(--muted)}
@@ -107,64 +106,77 @@ body::before,body::after{content:none!important;display:none!important}
 .status-pill{background:rgba(44,163,112,.065);color:var(--ready)}
 .status-pill.soon{background:rgba(130,140,155,.055);color:var(--muted)}
 
-/* V21-P2B: liquid-glass outer shell; rows remain clean content. */
+/* V21-P2C: clear-center liquid glass. Optical energy is concentrated at the rim, not across the data field. */
 .data-section{
   position:relative;isolation:isolate;overflow:hidden;border:1px solid transparent;
   background:
-    linear-gradient(135deg,rgba(255,255,255,.085),rgba(255,255,255,.018) 48%,rgba(255,255,255,.055)) padding-box,
-    linear-gradient(135deg,rgba(255,255,255,.82),rgba(156,234,254,.36) 22%,rgba(255,255,255,.20) 48%,rgba(200,141,221,.34) 76%,rgba(255,255,255,.66)) border-box;
+    linear-gradient(145deg,rgba(255,255,255,.050),rgba(255,255,255,.006) 40%,rgba(255,255,255,.012) 64%,rgba(255,255,255,.040)) padding-box,
+    linear-gradient(135deg,rgba(255,255,255,.96),rgba(156,234,254,.58) 17%,rgba(255,255,255,.22) 38%,rgba(255,255,255,.14) 56%,rgba(200,141,221,.50) 81%,rgba(255,255,255,.84)) border-box;
   box-shadow:
-    0 24px 58px rgba(40,53,88,.12),
-    0 8px 20px rgba(40,53,88,.05),
-    inset 0 1px 0 rgba(255,255,255,.78),
-    inset 0 -1px 0 rgba(255,255,255,.16),
-    inset 1px 0 0 rgba(156,234,254,.20),
-    inset -1px 0 0 rgba(200,141,221,.18);
-  backdrop-filter:blur(14px) saturate(150%) contrast(103%);
-  -webkit-backdrop-filter:blur(14px) saturate(150%) contrast(103%);
+    0 26px 62px rgba(40,53,88,.12),
+    0 5px 16px rgba(40,53,88,.045),
+    inset 0 1.5px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(255,255,255,.22),
+    inset 0 0 0 1px rgba(47,62,94,.035),
+    inset 1px 0 0 rgba(156,234,254,.28),
+    inset -1px 0 0 rgba(200,141,221,.25);
+  backdrop-filter:blur(9px) saturate(160%) contrast(104%) brightness(101%);
+  -webkit-backdrop-filter:blur(9px) saturate(160%) contrast(104%) brightness(101%);
 }
 [data-theme="dark"] .data-section{
   background:
-    linear-gradient(135deg,rgba(9,15,25,.24),rgba(10,14,24,.10) 50%,rgba(20,16,30,.17)) padding-box,
-    linear-gradient(135deg,rgba(214,230,241,.34),rgba(156,234,254,.12) 24%,rgba(255,255,255,.09) 50%,rgba(200,141,221,.10) 76%,rgba(206,223,235,.26)) border-box;
+    linear-gradient(145deg,rgba(12,19,30,.16),rgba(8,13,22,.045) 42%,rgba(12,13,24,.07) 64%,rgba(20,16,30,.12)) padding-box,
+    linear-gradient(135deg,rgba(228,239,247,.48),rgba(156,234,254,.20) 18%,rgba(255,255,255,.075) 39%,rgba(255,255,255,.045) 57%,rgba(200,141,221,.16) 81%,rgba(220,233,243,.38)) border-box;
   box-shadow:
-    0 24px 58px rgba(0,0,0,.28),
-    0 8px 22px rgba(0,0,0,.14),
-    inset 0 1px 0 rgba(225,238,247,.16),
-    inset 0 -1px 0 rgba(255,255,255,.06),
-    inset 1px 0 0 rgba(156,234,254,.07),
-    inset -1px 0 0 rgba(200,141,221,.06);
-  backdrop-filter:blur(14px) saturate(135%) contrast(103%);
-  -webkit-backdrop-filter:blur(14px) saturate(135%) contrast(103%);
+    0 26px 62px rgba(0,0,0,.31),
+    0 6px 18px rgba(0,0,0,.15),
+    inset 0 1.5px 0 rgba(230,241,248,.24),
+    inset 0 -1px 0 rgba(255,255,255,.055),
+    inset 0 0 0 1px rgba(0,0,0,.14),
+    inset 1px 0 0 rgba(156,234,254,.10),
+    inset -1px 0 0 rgba(200,141,221,.085);
+  backdrop-filter:blur(9px) saturate(142%) contrast(104%);
+  -webkit-backdrop-filter:blur(9px) saturate(142%) contrast(104%);
 }
 .data-section::before,.data-section::after{content:"";position:absolute;pointer-events:none;border-radius:inherit}
 .data-section::before{
   inset:0;z-index:0;
   background:
-    radial-gradient(120% 34% at 50% -8%,rgba(255,255,255,.30),transparent 56%),
-    linear-gradient(110deg,rgba(156,234,254,.060),transparent 34%,rgba(255,255,255,.035) 50%,transparent 66%,rgba(200,141,221,.055));
+    radial-gradient(72% 10% at 50% 0%,rgba(255,255,255,.68),transparent 74%),
+    linear-gradient(90deg,rgba(156,234,254,.16),transparent 4%,transparent 96%,rgba(200,141,221,.15)),
+    linear-gradient(180deg,rgba(255,255,255,.17),transparent 7%,transparent 92%,rgba(255,255,255,.075));
   mix-blend-mode:screen;
   opacity:.92;
 }
 .data-section::after{
-  inset:1px;z-index:1;
-  background:linear-gradient(180deg,rgba(255,255,255,.105),transparent 10%,transparent 88%,rgba(255,255,255,.035));
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.055);
-  opacity:.90;
+  inset:2px;z-index:1;
+  background:transparent;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.075),
+    inset 0 14px 18px -20px rgba(255,255,255,.95),
+    inset 14px 0 20px -22px rgba(156,234,254,.78),
+    inset -14px 0 20px -22px rgba(200,141,221,.72),
+    inset 0 -10px 18px -20px rgba(88,72,122,.18);
+  opacity:.95;
 }
 [data-theme="dark"] .data-section::before{
   background:
-    radial-gradient(120% 34% at 50% -8%,rgba(225,238,247,.12),transparent 56%),
-    linear-gradient(110deg,rgba(156,234,254,.026),transparent 36%,rgba(255,255,255,.018) 50%,transparent 66%,rgba(200,141,221,.022));
-  opacity:.42;
+    radial-gradient(72% 10% at 50% 0%,rgba(230,241,248,.22),transparent 74%),
+    linear-gradient(90deg,rgba(156,234,254,.065),transparent 4%,transparent 96%,rgba(200,141,221,.055)),
+    linear-gradient(180deg,rgba(229,240,247,.060),transparent 7%,transparent 92%,rgba(255,255,255,.018));
+  opacity:.62;
 }
 [data-theme="dark"] .data-section::after{
-  background:linear-gradient(180deg,rgba(225,238,247,.045),transparent 10%,transparent 90%,rgba(255,255,255,.012));
-  box-shadow:inset 0 0 0 1px rgba(225,238,247,.025);
-  opacity:.42;
+  box-shadow:
+    inset 0 0 0 1px rgba(225,238,247,.035),
+    inset 0 14px 18px -20px rgba(225,238,247,.34),
+    inset 14px 0 20px -22px rgba(156,234,254,.26),
+    inset -14px 0 20px -22px rgba(200,141,221,.21),
+    inset 0 -10px 18px -20px rgba(0,0,0,.42);
+  opacity:.66;
 }
-.data-header{position:relative;z-index:3;color:var(--strong);background:rgba(255,255,255,.018);border-bottom:1px solid var(--line)}
-[data-theme="dark"] .data-header{background:rgba(190,210,228,.010)}
+.data-header{position:relative;z-index:3;color:var(--strong);background:rgba(255,255,255,.014);border-bottom:1px solid var(--line)}
+[data-theme="dark"] .data-header{background:rgba(190,210,228,.008)}
 .data-row{position:relative;z-index:3;color:var(--text);background:transparent}
 .data-row+.data-row{border-top:1px solid var(--line)}
 .data-row.is-milestone{background:transparent}.data-row.is-milestone::before,.data-row.is-milestone::after{content:none;display:none}
@@ -178,15 +190,15 @@ body::before,body::after{content:none!important;display:none!important}
 [data-theme="dark"] .note-panel p{color:#a8b5c2}
 [data-theme="dark"] .code-inline{color:#c7d3de;background:rgba(160,186,208,.05)}
 .toast{border:1px solid rgba(255,255,255,.24);background:rgba(24,31,45,.76);box-shadow:0 10px 30px rgba(0,0,0,.20);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
-.footer{font-size:0!important}.footer::after{content:"Beta V19-R3 · Table-only Mist Containment · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
+.footer{font-size:0!important}.footer::after{content:"Beta V21-P2C · Liquid Glass Edge Optics · 此頁只讀。";font-size:9.5px;line-height:1.5;color:inherit}
 
 @media(max-width:720px){
   .glass-control,.nav-title,.glass-panel,.info-row,.note-panel{backdrop-filter:blur(17px) saturate(145%) contrast(103%);-webkit-backdrop-filter:blur(17px) saturate(145%) contrast(103%)}
-  .data-section{backdrop-filter:blur(12px) saturate(142%) contrast(103%);-webkit-backdrop-filter:blur(12px) saturate(142%) contrast(103%)}
-  [data-theme="dark"] .data-section{backdrop-filter:blur(12px) saturate(128%) contrast(103%);-webkit-backdrop-filter:blur(12px) saturate(128%) contrast(103%)}
-  .data-section::before{opacity:.72}
-  [data-theme="dark"] .data-section::before{opacity:.34}
-  .data-section::after{opacity:.72}
-  [data-theme="dark"] .data-section::after{opacity:.34}
+  .data-section{backdrop-filter:blur(8px) saturate(150%) contrast(103%);-webkit-backdrop-filter:blur(8px) saturate(150%) contrast(103%)}
+  [data-theme="dark"] .data-section{backdrop-filter:blur(8px) saturate(136%) contrast(103%);-webkit-backdrop-filter:blur(8px) saturate(136%) contrast(103%)}
+  .data-section::before{opacity:.80}
+  [data-theme="dark"] .data-section::before{opacity:.52}
+  .data-section::after{opacity:.82}
+  [data-theme="dark"] .data-section::after{opacity:.56}
   .footer::after{font-size:8.5px}
 }
