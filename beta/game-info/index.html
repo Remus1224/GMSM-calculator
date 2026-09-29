@@ -13,31 +13,29 @@
   </script>
   <link rel="stylesheet" href="style.css?v=20260929-v21p4g">
   <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4g">
-  <style id="p4g-final-visual-polish">
-    /* V21-P4G — Final Visual Polish.
-       Protected glass / hover / layout values stay unchanged.
-       Light atmosphere becomes more localized; Dark remains visually frozen
-       except for a small nav-glow reduction. */
+  <style id="p5a-visual-baseline">
+    /* V21-P5A keeps the accepted P4G visible UI frozen.
+       This block is unchanged visually; P5A only adds WYSIWYG export. */
     :root{
       --page-base:#EEF1FA;
-      --page-grad-cyan:rgba(156,234,254,.66);
-      --page-grad-violet:rgba(200,141,221,.48);
-      --page-grad-blue:rgba(167,211,246,.30);
-      --page-detail-light:rgba(255,255,255,.105);
+      --page-grad-cyan:rgba(156,234,254,.64);
+      --page-grad-violet:rgba(200,141,221,.50);
+      --page-grad-blue:rgba(167,211,246,.32);
+      --page-detail-light:rgba(255,255,255,.10);
       --page-detail-cool:rgba(89,139,178,.050);
       --page-detail-violet:rgba(139,104,176,.032);
-      --page-detail-soft:rgba(255,255,255,.058);
-      --page-detail-line-a:rgba(255,255,255,.032);
-      --page-detail-line-b:rgba(111,133,173,.022);
+      --page-detail-soft:rgba(255,255,255,.054);
+      --page-detail-line-a:rgba(255,255,255,.030);
+      --page-detail-line-b:rgba(111,133,173,.020);
       --page-atmosphere:
-        radial-gradient(ellipse 18% 9% at 18% 23%,var(--page-detail-light) 0%,transparent 68%),
-        radial-gradient(ellipse 13% 20% at 41% 52%,var(--page-detail-cool) 0%,transparent 70%),
-        radial-gradient(ellipse 17% 8% at 75% 31%,var(--page-detail-soft) 0%,transparent 68%),
-        radial-gradient(ellipse 19% 11% at 63% 74%,var(--page-detail-violet) 0%,transparent 72%),
-        linear-gradient(112deg,transparent 19%,var(--page-detail-line-a) 33%,transparent 46%,var(--page-detail-line-b) 61%,transparent 78%),
-        radial-gradient(circle at 14% 38%,var(--page-grad-cyan) 0%,transparent 50%),
-        radial-gradient(circle at 88% 61%,var(--page-grad-violet) 0%,transparent 50%),
-        radial-gradient(circle at 50% 8%,var(--page-grad-blue) 0%,transparent 36%);
+        radial-gradient(ellipse 21% 10% at 18% 22%,var(--page-detail-light) 0%,transparent 69%),
+        radial-gradient(ellipse 15% 23% at 42% 53%,var(--page-detail-cool) 0%,transparent 70%),
+        radial-gradient(ellipse 19% 9% at 76% 30%,var(--page-detail-soft) 0%,transparent 69%),
+        radial-gradient(ellipse 21% 13% at 62% 75%,var(--page-detail-violet) 0%,transparent 72%),
+        linear-gradient(112deg,transparent 19%,var(--page-detail-line-a) 33%,transparent 47%,var(--page-detail-line-b) 61%,transparent 78%),
+        radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
+        radial-gradient(circle at 85% 60%,var(--page-grad-violet) 0%,transparent 55%),
+        radial-gradient(circle at 50% 10%,var(--page-grad-blue) 0%,transparent 40%);
     }
     [data-theme="dark"]{
       --page-base:#050A12;
@@ -50,15 +48,6 @@
       --page-detail-soft:rgba(186,211,242,.026);
       --page-detail-line-a:rgba(189,228,255,.018);
       --page-detail-line-b:rgba(85,195,255,.016);
-      --page-atmosphere:
-        radial-gradient(ellipse 23% 11% at 18% 23%,var(--page-detail-light) 0%,transparent 70%),
-        radial-gradient(ellipse 16% 25% at 43% 54%,var(--page-detail-cool) 0%,transparent 72%),
-        radial-gradient(ellipse 21% 10% at 77% 31%,var(--page-detail-soft) 0%,transparent 70%),
-        radial-gradient(ellipse 25% 15% at 62% 77%,var(--page-detail-violet) 0%,transparent 74%),
-        linear-gradient(112deg,transparent 18%,var(--page-detail-line-a) 33%,transparent 47%,var(--page-detail-line-b) 62%,transparent 79%),
-        radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
-        radial-gradient(circle at 85% 60%,var(--page-grad-violet) 0%,transparent 55%),
-        radial-gradient(circle at 50% 10%,var(--page-grad-blue) 0%,transparent 40%);
     }
     body,
     .liquid_glass-outer{
@@ -67,7 +56,6 @@
       background-repeat:no-repeat;
     }
 
-    /* Dark chrome: one last restraint pass; geometry/material stay unchanged. */
     [data-theme="dark"].is-light-sanctum-page .nav-title{
       text-shadow:
         -2px 0 8px rgba(85,195,255,.52),
@@ -79,7 +67,6 @@
         inset 0 0 6px rgba(255,255,255,.30);
     }
 
-    /* Light action: keep affordance, reduce the opaque-white-pill impression. */
     .is-light-sanctum-page .action-btn{
       border-color:rgba(255,255,255,.58);
       background:rgba(255,255,255,.38);
@@ -91,20 +78,23 @@
       }
     }
 
-    /* Unlock copy: same size/geometry, slightly stronger legibility. */
-    .is-light-sanctum-page .data-unlock{
-      color:#354255;
+    .data-unlock{
+      color:#394659;
       font-weight:650;
     }
-    [data-theme="dark"].is-light-sanctum-page .data-unlock{
+    [data-theme="dark"] .data-unlock{
       color:#dbe6ef;
-      font-weight:640;
+      font-weight:650;
+    }
+    @media (hover:hover) and (pointer:fine){
+      .data-row:hover .data-unlock{color:#2f3b4e}
+      [data-theme="dark"] .data-row:hover .data-unlock{color:#edf4fa}
     }
 
     /* Test-only version marker; remove the whole footer for formal release. */
     .is-light-sanctum-page .footer{font-size:0!important}
     .is-light-sanctum-page .footer::after{
-      content:"Beta V21-P4G · 測試版。";
+      content:"Beta V21-P5A · WYSIWYG Export Prototype · 測試版。";
       display:inline;
       font-size:9px;
       line-height:1.5;
@@ -129,13 +119,14 @@
           </button>
         </div>
       </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V21-P4G</div>
+      <div class="beta-strip">BETA · 資料型資訊中心 V21-P5A</div>
     </header>
     <div id="app" aria-live="polite"><div class="glass-panel loading">正在載入資訊中心…</div></div>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script src="script.js?v=20260929-v21p4g"></script>
   <script src="liquid-edge-refraction.js?v=20260929-v21p4g"></script>
+  <script src="wysiwyg-export.js?v=20260930-v21p5a"></script>
   <script src="v12-export.js?v=20260927-v12"></script>
 </body>
 </html>
