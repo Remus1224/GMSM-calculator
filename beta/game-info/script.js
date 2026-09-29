@@ -104,6 +104,10 @@
     return rows.map(r => `<div class="data-row ${r.hasUnlock ? "is-milestone" : ""}"><div class="data-cell data-level">Lv.${r.level}</div><div class="data-cell">${fmt(r.expToNext)}</div><div class="data-cell">${fmt(r.needPoint)}</div><div class="data-cell">${fmt(r.expPerPray)}</div><div class="data-cell data-unlock">${r.hasUnlock ? `<span class="unlock-mark">${esc(r.unlockText)}</span>` : "—"}</div></div>`).join("");
   }
 
+  function glassLayers() {
+    return `<div class="liquid_glass-outer" aria-hidden="true"></div><div class="liquid_glass-cover" aria-hidden="true"></div><div class="liquid_glass-sharp" aria-hidden="true"></div><div class="liquid_glass-reflect" aria-hidden="true"></div>`;
+  }
+
   async function renderLightSanctum(item) {
     root.classList.add("is-light-sanctum-page");
     setNav(item.title);
@@ -115,7 +119,7 @@
       const rows = derivedRows(Array.isArray(data.levels) ? data.levels : []);
       if (!rows.length) throw new Error("找不到等級資料");
 
-      app.innerHTML = `<section class="glass-panel hero-compact"><div class="hero-line"><div><div class="eyebrow">Growth · Light Sanctum</div><h2>${esc(data.title)}</h2></div></div><div class="hero-actions"><button id="save-table-image" class="action-btn" type="button">儲存 / 分享表格圖片</button></div></section><section class="data-section" aria-label="光之聖所祈禱經驗表"><div class="liquid_glass-outer" aria-hidden="true"></div><div class="liquid_glass-cover" aria-hidden="true"></div><div class="liquid_glass-sharp" aria-hidden="true"></div><div class="liquid_glass-reflect" aria-hidden="true"></div><div class="data-header" aria-hidden="true"><div>等級</div><div>升等所需經驗</div><div>累積經驗</div><div>聖痕結晶</div><div>解鎖內容</div></div>${renderDataRows(rows)}</section><section class="note-panel"><p class="note-only">遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。</p></section><div class="footer">Beta V21-P4B · 測試版。</div>`;
+      app.innerHTML = `<section class="hero-compact liquid-surface-card" data-liquid-refraction>${glassLayers()}<div class="liquid-surface-content hero-surface-content"><div class="hero-copy"><div class="eyebrow">Growth · Light Sanctum</div><h2>${esc(data.title)}</h2></div><div class="hero-actions"><button id="save-table-image" class="action-btn" type="button">儲存 / 分享表格圖片</button></div></div></section><section class="data-section" data-liquid-refraction aria-label="光之聖所祈禱經驗表">${glassLayers()}<div class="data-header" aria-hidden="true"><div>等級</div><div>升等所需經驗</div><div>累積經驗</div><div>聖痕結晶</div><div>解鎖內容</div></div>${renderDataRows(rows)}</section><section class="note-panel liquid-surface-card" data-liquid-refraction>${glassLayers()}<div class="liquid-surface-content note-surface-content"><p class="note-only">遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。</p></div></section><div class="footer">Beta V21-P4C · 測試版。</div>`;
     } catch (e) {
       app.innerHTML = `<div class="glass-panel error-box">資料載入失敗：${esc(e.message)}<br>請確認你是透過 GitHub Pages 網址開啟。</div>`;
     }
