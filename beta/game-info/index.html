@@ -13,9 +13,9 @@
   </script>
   <link rel="stylesheet" href="style.css?v=20260929-v21p4g">
   <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4g">
-  <style id="p5a-visual-baseline">
-    /* V21-P5A keeps the accepted P4G visible UI frozen.
-       This block is unchanged visually; P5A only adds WYSIWYG export. */
+  <style id="p5b-visual-baseline">
+    /* V21-P5B keeps the accepted P4G visible UI frozen.
+       P5B changes only the export renderer back to a high-fidelity manual Canvas test. */
     :root{
       --page-base:#EEF1FA;
       --page-grad-cyan:rgba(156,234,254,.64);
@@ -94,7 +94,7 @@
     /* Test-only version marker; remove the whole footer for formal release. */
     .is-light-sanctum-page .footer{font-size:0!important}
     .is-light-sanctum-page .footer::after{
-      content:"Beta V21-P5A · WYSIWYG Export Prototype · 測試版。";
+      content:"Beta V21-P5B · Manual Canvas Fidelity Test · 測試版。";
       display:inline;
       font-size:9px;
       line-height:1.5;
@@ -119,14 +119,13 @@
           </button>
         </div>
       </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V21-P5A</div>
+      <div class="beta-strip">BETA · 資料型資訊中心 V21-P5B</div>
     </header>
     <div id="app" aria-live="polite"><div class="glass-panel loading">正在載入資訊中心…</div></div>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script src="script.js?v=20260929-v21p4g"></script>
   <script src="liquid-edge-refraction.js?v=20260929-v21p4g"></script>
-  <script src="wysiwyg-export.js?v=20260930-v21p5a"></script>
-  <script src="v12-export.js?v=20260927-v12"></script>
+  <script src="v12-export.js?v=20260930-v21p5b"></script>
 </body>
 </html>
