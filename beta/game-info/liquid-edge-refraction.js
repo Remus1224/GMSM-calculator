@@ -1,16 +1,16 @@
 (() => {
   "use strict";
 
-  // V21-P3N — artifact guard for the author's liquid-glass outer layer.
-  // Keep the author's feDisplacementMap scale=200, but feed it a geometry-aware
-  // displacement map whose vectors always point inward. This preserves the
-  // author's material structure while preventing Edge/Chromium from sampling
-  // transparent / undefined pixels outside a large table surface.
+  // V21-P3O — safe self-refraction map for the author's OUTER layer.
+  // The SVG filter no longer displaces a live backdrop surface. CSS gives OUTER
+  // its own viewport-fixed copy of the page atmosphere; this map only bends those
+  // owned pixels. Geometry follows the real table width / height / radius and is
+  // rebuilt only on first render or resize (never on scroll or mousemove).
 
   const FILTER_ID = "liquid_edge_refraction";
   const MAP_ID = "liquid_edge_refraction_map";
-  const FILTER_SCALE = 200; // author's integrated example value
-  const MAX_SHIFT = 11;     // safety-limited real source offset in CSS pixels
+  const FILTER_SCALE = 200; // retain the author's feDisplacementMap scale
+  const MAX_SHIFT = 11;     // bounded real source offset in CSS pixels
   const EDGE_BAND = 14;     // edge-only bend; centre remains neutral
   const MAX_MAP_EDGE = 480;
 
@@ -47,8 +47,6 @@
     const defs = document.createElementNS(ns, "defs");
     const filter = document.createElementNS(ns, "filter");
     filter.setAttribute("id", FILTER_ID);
-    // Expanded output region is an artifact guard only. The displacement itself
-    // remains edge-only and samples inward, so this does not add visual material.
     filter.setAttribute("x", "-12%");
     filter.setAttribute("y", "-12%");
     filter.setAttribute("width", "124%");
@@ -111,7 +109,6 @@
         const sdf = roundedRectSdf(x, y, width, height, cssRadius);
         const i = (py * mapWidth + px) * 4;
 
-        // Neutral map everywhere outside the rounded surface and in the centre.
         if (sdf > 0) {
           pixels[i] = 128;
           pixels[i + 1] = 128;
@@ -132,8 +129,6 @@
           continue;
         }
 
-        // The SDF gradient points outward; negate it so every displaced sample
-        // comes from inside the glass. This is the black-artifact guard.
         const gx = roundedRectSdf(x + epsilon, y, width, height, cssRadius)
           - roundedRectSdf(x - epsilon, y, width, height, cssRadius);
         const gy = roundedRectSdf(x, y + epsilon, width, height, cssRadius)
@@ -145,9 +140,8 @@
         const dx = inwardX * shift;
         const dy = inwardY * shift;
 
-        // feDisplacementMap offset = FILTER_SCALE * (channel - 0.5).
-        // Encoding small channel deltas lets us retain the author's scale=200
-        // while keeping the actual source offset safely bounded.
+        // feDisplacementMap offset = scale * (channel - 0.5). Small encoded
+        // channel deltas retain the author's scale while bounding real movement.
         pixels[i] = Math.round(clamp(0.5 + dx / FILTER_SCALE, 0, 1) * 255);
         pixels[i + 1] = Math.round(clamp(0.5 + dy / FILTER_SCALE, 0, 1) * 255);
         pixels[i + 2] = 128;
