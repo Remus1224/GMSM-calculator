@@ -1,7 +1,8 @@
-/* V21-P3M — Author Four-Layer Fidelity.
-   Keep the author's four material layers only: outer / cover / sharp / reflect.
-   Remove extra pseudo-specular additions and let real edge refraction provide the
-   optical motion. The displacement map remains geometry-adaptive on resize. */
+/* V21-P3N — Exact Author Material Port + Artifact Guard.
+   Canonical material is the author's four-layer integrated liquid-glass design:
+   outer / cover / sharp / reflect. No extra specular, Fresnel, glint or custom
+   tint layers are added here. Only the table geometry and safe refraction source
+   sampling are adapted for this large Game Info surface. */
 
 .data-section::before,
 .data-section::after{
@@ -9,21 +10,14 @@
   display:none!important;
 }
 
+/* Author wrapper semantics, while retaining the Game Info table's own geometry. */
 .data-section{
   position:relative;
   isolation:isolate;
   overflow:hidden;
   border:0;
   background:transparent;
-  box-shadow:0 14px 34px rgba(40,53,88,.09);
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-}
-
-[data-theme="dark"] .data-section{
-  border:0;
-  background:transparent;
-  box-shadow:0 18px 42px rgba(0,0,0,.24);
+  box-shadow:none;
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
 }
@@ -38,63 +32,41 @@
   pointer-events:none;
 }
 
-/* 1. Outer — author-style edge-only refraction ring. */
+/* 1. OUTER — author's edge-only liquid refraction role.
+   The 5px ring is the author's geometry; the mask is expressed with CSS so it
+   follows the table's existing radius instead of forcing the author's pill shape. */
 .liquid_glass-outer{
   z-index:0;
-  -webkit-mask-image:
-    linear-gradient(#fff 0 0),
-    linear-gradient(#fff 0 0);
-  -webkit-mask-clip:border-box,content-box;
-  -webkit-mask-composite:xor;
-  -webkit-mask-origin:border-box;
   padding:5px;
-  mask-image:
-    linear-gradient(#fff 0 0),
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
-  mask-clip:border-box,content-box;
+  -webkit-mask-composite:xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   mask-composite:exclude;
-  opacity:.98;
-}
-.data-section:not(.has-real-edge-refraction) .liquid_glass-outer{
-  backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
-  -webkit-backdrop-filter:blur(.32px) saturate(1.065) contrast(1.045) brightness(1.008);
-}
-.data-section.has-real-edge-refraction .liquid_glass-outer{
   backdrop-filter:url(#liquid_edge_refraction);
   -webkit-backdrop-filter:url(#liquid_edge_refraction);
 }
-[data-theme="dark"] .data-section:not(.has-real-edge-refraction) .liquid_glass-outer{
-  backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
-  -webkit-backdrop-filter:blur(.30px) saturate(1.04) contrast(1.03) brightness(1.004);
-}
 
-/* 2. Cover — keep the accepted translucent body. */
+/* 2. COVER — exact values from the author's integrated example. */
 .liquid_glass-cover{
-  z-index:1;
-  background:rgba(255,255,255,.035);
-  backdrop-filter:blur(1.35px);
-  -webkit-backdrop-filter:blur(1.35px);
-}
-[data-theme="dark"] .liquid_glass-cover{
-  background:rgba(0,0,0,.105);
-  backdrop-filter:blur(1.5px);
-  -webkit-backdrop-filter:blur(1.5px);
+  z-index:2;
+  background:rgba(0,0,0,.12);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
 }
 
-/* 3. Sharp — directly follow the author's thin optical rim idea. */
+/* 3. SHARP — exact inset optical rim from the author's integrated example. */
 .liquid_glass-sharp{
   z-index:3;
   box-shadow:
     inset 1px 1px 0 0 rgba(255,255,255,.50),
     inset -1px -1px 0 0 rgba(255,255,255,.60);
 }
-[data-theme="dark"] .liquid_glass-sharp{
-  box-shadow:
-    inset 1px 1px 0 0 rgba(255,255,255,.28),
-    inset -1px -1px 0 0 rgba(255,255,255,.22);
-}
 
-/* 4. Reflect — directly follow the author's internal reflection layer. */
+/* 4. REFLECT — exact internal reflection from the author's integrated example. */
 .liquid_glass-reflect{
   inset:1px;
   z-index:2;
@@ -102,35 +74,26 @@
     inset 2px 2px 6px 2px rgba(255,255,255,.20),
     inset -2px -2px 4px -1px rgba(255,255,255,.20);
 }
-[data-theme="dark"] .liquid_glass-reflect{
-  box-shadow:
-    inset 2px 2px 6px 2px rgba(255,255,255,.085),
-    inset -2px -2px 4px -1px rgba(255,255,255,.07);
-}
 
-/* Content remains optically clean above the four material layers. */
+/* Table content stays above the author's four material layers. */
 .data-header,
 .data-row{
   position:relative;
   z-index:5;
 }
-.data-header{
-  background:rgba(255,255,255,.014);
+.data-header,
+.data-row{
+  background:transparent;
 }
-[data-theme="dark"] .data-header{
-  background:rgba(255,255,255,.006);
-}
-.data-row{background:transparent}
 
 .footer{font-size:0!important}
 .footer::after{
-  content:"Beta V21-P3M · Author Four-Layer Fidelity · 此頁只讀。";
+  content:"Beta V21-P3N · Exact Author Material Port + Artifact Guard · 此頁只讀。";
   font-size:9.5px;
   line-height:1.5;
   color:inherit;
 }
 
 @media(max-width:720px){
-  .liquid_glass-outer{padding:4px}
   .footer::after{font-size:8.5px}
 }
