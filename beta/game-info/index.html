@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="glass-theme">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="robots" content="index,follow">
   <title>也許有用的資訊｜楓之谷M 也許有用的工具</title>
   <meta name="description" content="楓之谷M 成長需求、等級門檻與系統資料整理。">
   <script>
@@ -11,121 +11,29 @@
       if (localStorage.getItem('msm-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     } catch (error) {}
   </script>
-  <link rel="stylesheet" href="style.css?v=20260929-v21p4g">
-  <link rel="stylesheet" href="integrated-liquid-glass.css?v=20260929-v21p4g">
-  <style id="p5b-visual-baseline">
-    /* V21-P5B keeps the accepted P4G visible UI frozen.
-       P5B changes only the export renderer back to a high-fidelity manual Canvas test. */
-    :root{
-      --page-base:#EEF1FA;
-      --page-grad-cyan:rgba(156,234,254,.64);
-      --page-grad-violet:rgba(200,141,221,.50);
-      --page-grad-blue:rgba(167,211,246,.32);
-      --page-detail-light:rgba(255,255,255,.10);
-      --page-detail-cool:rgba(89,139,178,.050);
-      --page-detail-violet:rgba(139,104,176,.032);
-      --page-detail-soft:rgba(255,255,255,.054);
-      --page-detail-line-a:rgba(255,255,255,.030);
-      --page-detail-line-b:rgba(111,133,173,.020);
-      --page-atmosphere:
-        radial-gradient(ellipse 21% 10% at 18% 22%,var(--page-detail-light) 0%,transparent 69%),
-        radial-gradient(ellipse 15% 23% at 42% 53%,var(--page-detail-cool) 0%,transparent 70%),
-        radial-gradient(ellipse 19% 9% at 76% 30%,var(--page-detail-soft) 0%,transparent 69%),
-        radial-gradient(ellipse 21% 13% at 62% 75%,var(--page-detail-violet) 0%,transparent 72%),
-        linear-gradient(112deg,transparent 19%,var(--page-detail-line-a) 33%,transparent 47%,var(--page-detail-line-b) 61%,transparent 78%),
-        radial-gradient(circle at 15% 40%,var(--page-grad-cyan) 0%,transparent 55%),
-        radial-gradient(circle at 85% 60%,var(--page-grad-violet) 0%,transparent 55%),
-        radial-gradient(circle at 50% 10%,var(--page-grad-blue) 0%,transparent 40%);
-    }
-    [data-theme="dark"]{
-      --page-base:#050A12;
-      --page-grad-cyan:rgba(85,195,255,.34);
-      --page-grad-violet:rgba(181,112,218,.27);
-      --page-grad-blue:rgba(85,195,255,.21);
-      --page-detail-light:rgba(189,228,255,.038);
-      --page-detail-cool:rgba(85,195,255,.065);
-      --page-detail-violet:rgba(181,112,218,.035);
-      --page-detail-soft:rgba(186,211,242,.026);
-      --page-detail-line-a:rgba(189,228,255,.018);
-      --page-detail-line-b:rgba(85,195,255,.016);
-    }
-    body,
-    .liquid_glass-outer{
-      background-image:var(--page-atmosphere);
-      background-attachment:fixed;
-      background-repeat:no-repeat;
-    }
-
-    [data-theme="dark"].is-light-sanctum-page .nav-title{
-      text-shadow:
-        -2px 0 8px rgba(85,195,255,.52),
-         2px 0 8px rgba(200,141,221,.52);
-      box-shadow:
-        0 4px 12px rgba(0,0,0,.60),
-        -4px 0 12px rgba(85,195,255,.34),
-         4px 0 12px rgba(200,141,221,.34),
-        inset 0 0 6px rgba(255,255,255,.30);
-    }
-
-    .is-light-sanctum-page .action-btn{
-      border-color:rgba(255,255,255,.58);
-      background:rgba(255,255,255,.38);
-    }
-    @media (hover:hover) and (pointer:fine){
-      .is-light-sanctum-page .action-btn:hover{
-        background:rgba(255,255,255,.68);
-        border-color:rgba(156,234,254,.72);
-      }
-    }
-
-    .data-unlock{
-      color:#394659;
-      font-weight:650;
-    }
-    [data-theme="dark"] .data-unlock{
-      color:#dbe6ef;
-      font-weight:650;
-    }
-    @media (hover:hover) and (pointer:fine){
-      .data-row:hover .data-unlock{color:#2f3b4e}
-      [data-theme="dark"] .data-row:hover .data-unlock{color:#edf4fa}
-    }
-
-    /* Test-only version marker; remove the whole footer for formal release. */
-    .is-light-sanctum-page .footer{font-size:0!important}
-    .is-light-sanctum-page .footer::after{
-      content:"Beta V21-P5B · Manual Canvas Fidelity Test · 測試版。";
-      display:inline;
-      font-size:9px;
-      line-height:1.5;
-      color:inherit;
-    }
-    @media(max-width:720px){
-      .is-light-sanctum-page .footer::after{font-size:8.3px}
-    }
-  </style>
+  <link rel="stylesheet" href="glass.css?v=20260930-css1">
+  <link rel="stylesheet" href="page.css?v=20260930-css1">
 </head>
 <body>
   <main class="shell">
     <header>
       <h1 class="site-title">楓之谷M 也許有用的工具</h1>
-      <div class="top-nav">
-        <div class="top-nav-side"><button id="nav-back" class="nav-btn glass-control" type="button">主選單</button></div>
-        <div id="nav-title" class="nav-title">也許有用的資訊</div>
-        <div class="top-nav-side">
-          <button id="theme-toggle" class="theme-btn theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false">
+      <nav class="unified-nav" aria-label="頁面導覽">
+        <span class="nav-glass-light" aria-hidden="true"></span>
+        <button id="nav-back" class="unified-home" type="button"><span class="back-chevron" aria-hidden="true">‹</span><span id="nav-back-label">主選單</span></button>
+        <div class="unified-current"><span id="nav-title">也許有用的資訊</span></div>
+        <div class="theme-seat">
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false">
             <span class="icon-sun" aria-hidden="true">☀️</span>
             <span class="icon-moon" aria-hidden="true">🌙</span>
           </button>
         </div>
-      </div>
-      <div class="beta-strip">BETA · 資料型資訊中心 V21-P5B</div>
+      </nav>
     </header>
     <div id="app" aria-live="polite"><div class="glass-panel loading">正在載入資訊中心…</div></div>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <script src="script.js?v=20260929-v21p4g"></script>
-  <script src="liquid-edge-refraction.js?v=20260929-v21p4g"></script>
-  <script src="v12-export.js?v=20260930-v21p5b"></script>
+  <script src="script.js?v=20260930-css1"></script>
+  <script src="dom-export.js?v=20260930-css1"></script>
 </body>
 </html>
