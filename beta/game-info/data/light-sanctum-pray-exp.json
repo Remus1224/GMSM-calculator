@@ -1,9 +1,12 @@
 {
   "schema": "MapleStoryM.GameInfo.LightSanctumPrayExp.V1",
   "updatedAt": "2026-09-27",
+  "gameVersion": "2026-09",
+  "verificationNotice": "數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主",
   "title": "光之聖所祈禱經驗表",
   "authority": "ClientTableNormalized",
   "source": {
+    "label": "遊戲客戶端資料表（整理資料）",
     "path": "light-sanctum-pray/runtime/sanctuary-gameplay-data.js",
     "schema": "MapleStoryM.SanctuaryGameplayWebData.P121",
     "sourceCommit": "75ab1b24b94e9ddf9d12545e4ab75c5b408a04ad",
