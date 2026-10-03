@@ -48,6 +48,12 @@ GMSM-calculator 收錄多種楓之谷M相關模擬器、計算機與 HEXA 工具
 
 遊戲版本更新後，公式、機率、素材需求或其他數值可能發生變動；如發現結果與遊戲內實際內容不同，歡迎透過 GitHub Issues 回報，並盡量附上版本、操作步驟與可供核對的資料。
 
+## 里程碑 / Milestones
+
+- [`2026.10`](docs/releases/2026.10.md) — 全站 Unified Glass UI 與共通視覺基線
+- [`2026.09.1`](docs/releases/2026.09.1.md) — 1204 產生器與光之聖所祈禱模擬器
+- [`2026.09`](docs/releases/2026.09.md) — 第一份 OSS Stable Baseline
+
 ## 使用方式
 
 不需要安裝程式，直接開啟線上網站即可：
