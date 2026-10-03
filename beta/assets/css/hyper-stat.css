@@ -1,0 +1,123 @@
+/* One shell owns the glass and light; its inner number stays transparent. */
+.glass-theme #tab-hyper-stat :is(.hyper-level-input,.hyper-skill-level-input).site-value-control {width:100%;min-width:0;--site-card-width:100%;border-radius:var(--site-control-radius)}
+#tab-hyper-stat :is(.hyper-level-input,.hyper-skill-level-input) > .liquid-surface-content {min-height:38px;padding:2px 10px;gap:4px;width:100%}
+#tab-hyper-stat :is(.hyper-level-input,.hyper-skill-level-input) > .liquid-surface-content > span {color:var(--site-muted);font-size:12px;flex:none}
+.glass-theme #tab-hyper-stat input.site-field-inner {width:100%;min-width:0;height:34px;min-height:0;margin:0;padding:0 2px;color:var(--site-text);font:inherit;font-size:16px;font-weight:700;box-sizing:border-box}
+#tab-hyper-stat .hyper-level-input input.site-field-inner {line-height:1}
+#tab-hyper-stat input.site-field-inner::-webkit-inner-spin-button,#tab-hyper-stat input.site-field-inner::-webkit-outer-spin-button {-webkit-appearance:none;margin:0}
+#tab-hyper-stat input.site-field-inner {appearance:textfield;-moz-appearance:textfield}
+.hyper-profile-tabs {width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0;border:0;box-sizing:border-box}
+#tab-hyper-stat .hyper-profile-tab {--site-card-width:100%;width:100%;margin:0;padding:12px 14px;min-height:48px;color:var(--site-text);cursor:pointer;border-radius:var(--accepted-radius)}
+.hyper-profile-tab > .liquid-surface-content {display:flex;align-items:center;justify-content:center;gap:10px}
+.hyper-profile-tab > .liquid-surface-content > span {font-size:14px;font-weight:750}
+.hyper-profile-tab > .liquid-surface-content > small {font-size:11px;color:var(--site-muted);white-space:nowrap}
+/* Category material and check visibility come from the shared opt-in component. */
+.hyper-profile-tab[aria-selected=true] small {color:var(--site-text)}
+/* The small card owns editor feedback and moves once; its inner shell keeps its rim. */
+.glass-theme #tab-hyper-stat .hyper-skill-card.site-card-group .site-value-control {box-shadow:none !important}
+
+.hyper-profile-panel {width:100%;min-width:0}
+.hyper-profile-panel[hidden] {display:none}
+.hyper-skill-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hyper-skill-card {min-width:0;color:var(--site-text)}
+.hyper-skill-card > .liquid-surface-content {padding:14px}
+.hyper-skill-heading {display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:34px;margin-bottom:10px}
+.hyper-skill-heading h3 {min-width:0;margin:0;font-size:14px;font-weight:750;line-height:1.45;overflow-wrap:anywhere}
+.hyper-skill-heading-actions {flex:none}
+.glass-theme #tab-hyper-stat .hyper-max-button.site-operation {min-height:32px !important;min-width:44px;padding:5px 7px !important;font-size:11px !important;color:var(--site-text);cursor:pointer}
+.hyper-skill-stepper {display:grid;grid-template-columns:36px minmax(0,1fr) 36px;gap:7px;align-items:center}
+.glass-theme #tab-hyper-stat .hyper-skill-stepper > button.site-operation {width:36px;min-height:38px !important;padding:0 !important;font-size:20px !important;color:var(--site-text);cursor:pointer}
+.hyper-skill-cost {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;margin-top:12px}
+.hyper-skill-cost-main {display:flex;align-items:center;gap:5px;min-width:0}
+.hyper-skill-cost-main img {width:18px;height:18px;flex:none;object-fit:contain}
+.hyper-skill-cost-main strong {font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hyper-skill-cost-main strong:focus-visible {outline:1px solid var(--site-focus-rim);outline-offset:3px;border-radius:3px}
+.hyper-cost-short,.hyper-next-short {display:none}
+.hyper-skill-cost > small {color:var(--site-muted);font-size:11px;text-align:right;white-space:nowrap}
+.hyper-bottom-actions {display:flex;justify-content:flex-end;width:100%}
+#tab-hyper-stat .hyper-bottom-actions button {width:100%;min-width:0;color:var(--site-danger)}
+
+/* A single information board: editor, point balance, then cost. */
+#tab-hyper-stat {color:var(--site-text);gap:var(--site-section-gap,20px)}
+#tab-hyper-stat .hyper-overview > .liquid-surface-content {display:grid;grid-template-columns:140px minmax(0,1fr);gap:20px;padding:18px 20px}
+.hyper-level-field {min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding-right:20px;border-right:1px solid var(--site-line);position:relative}
+.hyper-level-field > label {font-size:13px;font-weight:650;line-height:1.3}
+.hyper-level-field > small {position:absolute;left:0;right:20px;bottom:0;text-align:center;font-size:10px;line-height:1.2;color:var(--site-muted)}
+.hyper-level-field > small:empty {display:none}
+.glass-theme #tab-hyper-stat .hyper-level-field .hyper-level-input.site-value-control {width:96px;--site-card-width:96px}
+.hyper-overview-stats {min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px;row-gap:12px}
+.hyper-summary-metric {min-width:0;box-sizing:border-box}
+.hyper-summary-metric:not(.hyper-overview-mesos) {display:grid;grid-template-rows:16px 30px;gap:4px;text-align:center;align-items:center;justify-items:center;position:relative}
+.hyper-summary-metric:not(.hyper-overview-mesos) > span {color:var(--site-muted);font-size:12px;line-height:1.3;grid-column:1;grid-row:1}
+.hyper-summary-metric > strong {font-size:25px;font-weight:650;line-height:1;font-variant-numeric:tabular-nums;grid-column:1;grid-row:2}
+.hyper-summary-metric > small {grid-column:1;grid-row:1;font-size:12px;line-height:1.3;white-space:nowrap}
+.hyper-summary-metric > small[hidden] {display:none}
+.hyper-overview-used::before,#hyper-remaining-card::before {content:"";position:absolute;left:-8px;top:5px;bottom:5px;border-left:1px solid var(--site-line)}
+#hyper-remaining-card > strong {color:var(--site-accent);font-size:29px;font-weight:750}
+#hyper-remaining-card.is-over :is(strong,small) {color:var(--site-danger)}
+#hyper-remaining-card.is-over > span {visibility:hidden}
+.hyper-overview-mesos {grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:14px;border-top:1px solid var(--site-line);padding-top:10px}
+.hyper-overview-mesos > span {color:var(--site-muted);font-size:12px;line-height:1.3;white-space:nowrap}
+.hyper-mesos-value {display:flex;align-items:center;gap:6px;min-width:0}
+.hyper-mesos-value img {width:20px;height:20px;object-fit:contain;flex:none}
+.hyper-mesos-value strong {font-size:21px;font-weight:650;line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* Keep the established glass input shell; no nested glass on read-only metrics. */
+.glass-theme #tab-hyper-stat .hyper-level-field .hyper-level-input > .liquid-surface-content {min-height:36px;padding:2px 8px;position:relative}
+/* The prefix is independent of the centered number, so it cannot shift the value. */
+.glass-theme #tab-hyper-stat .hyper-level-input input.site-field-inner {height:32px;font-size:20px;font-variant-numeric:tabular-nums}
+@media(max-width:900px) {
+ #tab-hyper-stat .hyper-overview > .liquid-surface-content {grid-template-columns:120px minmax(0,1fr);gap:16px;padding:16px}
+ .hyper-level-field {padding-right:16px}
+ .hyper-level-field > small {right:16px}
+ .hyper-overview-stats {column-gap:12px}
+ .hyper-overview-used::before,#hyper-remaining-card::before {left:-6px}
+}
+@media(max-width:560px) {
+ #tab-hyper-stat .hyper-overview > .liquid-surface-content {grid-template-columns:minmax(0,1fr);gap:14px;padding:14px}
+ .hyper-level-field {display:grid;grid-template-columns:max-content 88px;justify-content:center;gap:0 12px;align-items:center;border-right:0;border-bottom:1px solid var(--site-line);padding:0 0 12px}
+ .hyper-level-field > label {grid-column:1;grid-row:1;font-size:13px;align-self:center}
+ .hyper-level-field > small {position:static;grid-column:1;grid-row:1;align-self:end;right:auto;font-size:10px}
+ .hyper-level-field:has(> small:not(:empty)) > label {align-self:start}
+ .glass-theme #tab-hyper-stat .hyper-level-field .hyper-level-input.site-value-control {width:88px;--site-card-width:88px;grid-column:2;grid-row:1}
+ .hyper-overview-stats {column-gap:12px;row-gap:12px}
+ .hyper-summary-metric:not(.hyper-overview-mesos) {grid-template-rows:16px 28px;gap:4px}
+ .hyper-summary-metric > strong {font-size:23px}
+ #hyper-remaining-card > strong {font-size:27px}
+ .hyper-summary-metric > small {font-size:11px}
+ .hyper-overview-mesos {gap:10px;padding-top:10px}
+ .hyper-overview-mesos > span {font-size:11px}
+ .hyper-mesos-value {gap:4px}
+ .hyper-mesos-value img {width:18px;height:18px}
+ .hyper-mesos-value strong {font-size:clamp(16px,4.7vw,19px)}
+}
+
+@media(max-width:900px) { .hyper-skill-grid {grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media(max-width:560px) {
+ .hyper-profile-tabs {gap:8px}
+ #tab-hyper-stat .hyper-profile-tab {padding:10px 6px}
+ .hyper-profile-tab > .liquid-surface-content {gap:5px}
+ .hyper-skill-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .hyper-skill-card > .liquid-surface-content {padding:8px}
+ .hyper-skill-heading {min-height:36px;gap:4px;margin-bottom:6px}
+ .hyper-skill-heading h3 {font-size:13px;line-height:1.45}
+ .glass-theme #tab-hyper-stat .hyper-max-button.site-operation {min-width:44px;min-height:32px !important;padding:4px !important;font-size:11px !important}
+ .hyper-skill-stepper {grid-template-columns:32px minmax(0,1fr) 32px;gap:4px}
+ .glass-theme #tab-hyper-stat .hyper-skill-stepper > button.site-operation {width:32px;min-height:34px !important;font-size:18px !important}
+ #tab-hyper-stat .hyper-skill-level-input > .liquid-surface-content {min-height:34px;padding:0 2px}
+ #tab-hyper-stat .hyper-skill-level-input > .liquid-surface-content > span {display:none}
+ .glass-theme #tab-hyper-stat .hyper-skill-level-input input.site-field-inner {height:34px;padding:0;font-size:16px}
+ .hyper-skill-cost {grid-template-columns:minmax(0,1fr) auto;gap:3px;margin-top:8px;min-height:16px}
+ .hyper-skill-cost-main {gap:2px;justify-content:flex-start}
+ .hyper-skill-cost-main img {width:14px;height:14px}
+ .hyper-skill-cost-main strong,
+.hyper-skill-cost > small {font-size:11px;line-height:1.4}
+ .hyper-cost-full,.hyper-next-full {display:none}
+ .hyper-cost-short,.hyper-next-short {display:inline}
+ /* Tapping the amount reveals the exact number inside its card without stretching the row. */
+ .hyper-skill-cost-main strong:focus .hyper-cost-full {
+  display:block;position:absolute;left:6px;right:6px;bottom:28px;z-index:8;
+  padding:6px 2px;border:1px solid var(--site-focus-rim);border-radius:8px;
+  background:var(--crystal-fill);backdrop-filter:var(--crystal-filter);
+  -webkit-backdrop-filter:var(--crystal-filter);font-size:12px;text-align:center;
+ }
+}

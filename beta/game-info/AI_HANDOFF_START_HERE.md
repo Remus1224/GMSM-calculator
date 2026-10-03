@@ -1,40 +1,87 @@
-# AI_HANDOFF_START_HERE — Game Info Beta V19-R3
+# AI_HANDOFF_START_HERE — Game Info Frozen RC Baseline
 
-## Current version
+## Status
 - Repo: `Remus1224/GMSM-calculator`
-- Area: `main/beta/game-info/`
-- Current runtime: **V19-R3 — Table-only Mist Containment**
-- Test page: `https://remus1224.github.io/GMSM-calculator/beta/game-info/?page=light-sanctum-pray-exp`
-- Production `game-info/` has not been created yet.
+- Branch: `feature/game-info-v21-local-ui`
+- Area: `beta/game-info/`
+- Date: 2026-09-30
+- Verdict: **APPROVED / RC PASS / READY TO FREEZE**
 
-## What changed
-- V19-R2 is treated as rejected because the full-page mist returned to a regular left-cyan / right-violet read.
-- Restored the page background to the main-site atmosphere model: light `#F3E8FF` with the accepted cyan/violet/blue radial fields, and dark `#070B14` with the main-site restrained cyan/violet fields.
-- Removed mist from the page background, Hero, and Note panels.
-- Mist is now confined to the table internal atmosphere only.
-- Kept V17 flattened CSS architecture; no new version override stylesheet.
-- No data, EXP, unlock, routing, five-column layout, typography, export, animation, turbulence, or pointer-interaction changes.
+## User acceptance already completed
+The final RC has been browser-tested by the user and accepted on desktop and mobile. The following are PASS:
+- Light theme.
+- Dark theme.
+- Mobile responsive layout, including compact widths.
+- Theme persistence after reload.
+- Direct `?page=light-sanctum-pray-exp` navigation and back/home behavior.
+- Image save/share on a real mobile device.
+- Unlock copy without the previous `開放` prefix.
+- Unified top navigation alignment, including the Dark theme toggle knob.
 
-## PASS so far
-- V13 Light static-glass baseline: PASS by user visual review.
-- V15 color vitality: PASS by user visual review.
-- V17 CSS consolidation/runtime flatten: PASS by user visual review.
-- V19-R1 Dark cleanup / clean-base direction was visibly better than V19 initial.
-- User explicitly requested main-site page background with smoke/mist restricted to the table only.
+## Search indexing
+`index.html` explicitly uses `meta name="robots" content="index,follow"`. This page is no longer intentionally blocked from search-engine indexing. Actual indexing remains up to the search engine and site-level crawl conditions.
 
-## Rejected / revised
-- V18-R1: rejected and rolled back.
-- V18-R3: rejected as final atmosphere because the color flow read as regular lines / bands.
-- V19 initial: revised because Light was too pale and Dark too muddy.
-- V19-R2: rejected because full-page mist again produced a regular large-scale left-cyan / right-violet layout.
+## Frozen runtime
+Keep the runtime intentionally small:
+- `index.html`
+- `glass.css`
+- `page.css`
+- `script.js`
+- `dom-export.js`
+- `data/catalog.json`
+- `data/light-sanctum-pray-exp.json`
 
-## Not finished
-- V19-R3 needs Browser Acceptance in Light and Dark.
-- Table mist intensity/topology may still need one focused adjustment after browser review.
-- Premium glass refinement, interaction, PNG export parity, mobile/thermal acceptance, and production promotion remain pending.
+Do **not** reintroduce retired experiments such as:
+- `style.css`
+- `integrated-liquid-glass.css`
+- `liquid-edge-refraction.js`
+- `v12-export.js`
+- `wysiwyg-export.js`
+- old mist/particle assets
 
-## Next plan
-1. Verify page background now reads like the main site again in both themes.
-2. Verify Hero and Note are clean glass without smoke.
-3. Judge only the table mist: natural enough, visible enough, and not reading as a regular left/right color split.
-4. If the table mist still fails, change only the table atmosphere source/treatment; do not touch page background or add another CSS override layer.
+## Navigation baseline
+This RC is the visual reference for future Main Site navigation work.
+- One unified glass navigation surface.
+- Left control changes between `主選單` and `資訊首頁` without changing the overall navigation balance.
+- Center current-page label keeps its content-driven width/space within the unified bar.
+- Theme control uses the accepted two-icon switch.
+- Dark knob geometry is aligned with Light; do not reintroduce border-driven size drift.
+- Desktop and mobile use compact, equalized vertical control geometry.
+
+Treat this navigation as **frozen reference behavior** unless a later user-approved change explicitly replaces it.
+
+## Light Sanctum data contract
+Visible table columns remain:
+1. 等級
+2. 升等所需經驗
+3. 累積經驗
+4. 聖痕結晶
+5. 解鎖內容
+
+Display rules:
+- Lv.1: `1個欄位 2組預設`
+- Lv.3: `第2個欄位`
+- Lv.7: `第3個欄位`
+- Lv.11: `第4個欄位 第3組預設`
+- Lv.15: `第5個欄位`
+- Do not restore the display prefixes `初始：`, `開放`, or `滿等`.
+- Source JSON may retain provenance wording; only the player-facing derived copy follows the rules above.
+
+Bottom note remains:
+`遊戲版本 2026-09。數據來源部分尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。`
+
+## Export baseline
+`dom-export.js` is the sole export owner.
+- Export is DOM/CSS based and renders the complete Hero + Table + Note independent of the visible mobile viewport height.
+- It supports current Light/Dark theme.
+- Mobile save/share has been user-tested PASS.
+- Do not revive viewport capture or the retired manual Canvas exporter unless explicitly requested.
+
+## Formal-release cleanup already reflected in this RC
+- No visible BETA/test footer.
+- No legacy V12/WYSIWYG export runtime.
+- No old particle/mist/refraction experiment dependencies.
+- HTML/CSS/JS structure has been reduced to the frozen runtime listed above.
+
+## Next planned work
+Game Info itself should remain frozen. The next design task is to use this RC's unified navigation/glass language as the reference when updating the Main Site, without changing this Game Info baseline.

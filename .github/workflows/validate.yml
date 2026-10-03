@@ -55,6 +55,14 @@ jobs:
           node --check script.js
           node --check craft-effects.js
           node --check 1204/script.js
+          # Check every shared module in both published trees.
+          for file in assets/js/*.js beta/assets/js/*.js; do
+            node --check "$file"
+          done
+          # Game Info changes are included in this PR's full branch scope.
+          node --check beta/game-info/script.js
+          node --check beta/game-info/dom-export.js
+          node --check .github/scripts/verify-formal-paths.cjs
           node --check light-sanctum-pray/script.js
           node --check light-sanctum-pray/sound-toggle.js
           node --check light-sanctum-pray/runtime/click-audio.js
@@ -75,6 +83,8 @@ jobs:
             node --check beta/light-sanctum-pray/script.js
           fi
 
+      - name: Verify formal entry paths and preserved prayer runtime
+        run: node .github/scripts/verify-formal-paths.cjs
       - name: Check README links to local policy files
         shell: bash
         run: |

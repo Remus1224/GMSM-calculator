@@ -1,0 +1,64 @@
+/* Website shells only. Local CSS owns layout; explicit opt-in controls are sized below. */
+.glass-theme .standalone-tool .site-title { text-align:center; }
+.glass-theme .standalone-tool :is(.panel,.settings-panel,.stats-text,.orientation-hint).site-card {
+ --glass-lift:0px; background:transparent !important; border:1px solid transparent !important;
+ border-radius:var(--accepted-radius); box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none;
+ color:var(--site-text);
+}
+.glass-theme .standalone-tool .section-title,
+.glass-theme .standalone-tool .settings-title { color:var(--site-text); border-bottom-color:var(--site-line); }
+.glass-theme .standalone-tool :is(.site-field,.site-native-field):not(.site-glass-field) {
+ background:var(--site-input); border-color:var(--site-line); border-radius:var(--site-control-radius);
+ color:var(--site-text); outline:0; backdrop-filter:none; -webkit-backdrop-filter:none;
+}
+.glass-theme .standalone-tool :is(.site-field,.site-native-field):not(.site-glass-field):focus {
+ border-color:var(--site-field-focus-rim); box-shadow:var(--site-field-focus-glow); outline:0;
+}
+.glass-theme .generator-tool .custom-mode-toggle.site-card {
+ --site-control-layout-border:1px;
+ display:inline-flex; width:auto; border-radius:var(--site-control-radius); --glass-lift:-1px;
+}
+.glass-theme .generator-tool .custom-mode-toggle > .liquid-surface-content {
+ display:inline-flex; align-items:center; gap:9px;
+}
+.glass-theme .generator-tool .custom-mode-toggle:has(input:checked) {
+ --crystal-fill:var(--site-choice-fill); --crystal-border:var(--site-choice-rim); --crystal-side-border:var(--site-choice-rim);
+}
+.glass-theme .generator-tool .site-choice {
+ --site-hover-glow:var(--site-selection-hover-glow);
+ --site-hover-rim:var(--site-selection-hover-rim);
+}
+
+.glass-theme .generator-tool .message-preview { border-radius:var(--site-control-radius); border-color:var(--site-line); }
+.glass-theme .generator-tool .message-preview p { color:var(--site-text); }
+/* Prayer settings follow the same hierarchy and mobile threshold as other simulators. */
+.glass-theme .pray-tool .settings-panel .settings-title {font-size:var(--site-settings-title-size);font-weight:var(--site-settings-title-weight);}
+.glass-theme .pray-tool .settings-panel .setting-row {font-size:var(--site-settings-row-size);}
+.glass-theme .pray-tool .settings-panel .stats-text {font-size:var(--site-settings-stats-size);}
+.glass-theme .pray-tool .settings-panel .stats-heading {font-size:var(--site-settings-stats-size);font-weight:var(--site-settings-title-weight);}
+.glass-theme .pray-tool .site-select-shell { --site-select-font-weight:var(--site-settings-select-weight); }
+.glass-theme .pray-tool .level-setting-row { display:flex; flex-wrap:wrap; gap:10px; }
+.glass-theme .pray-tool .level-setting-row label { font-size:inherit;line-height:inherit;font-weight:inherit; }
+.glass-theme .pray-tool .orientation-hint > .liquid-surface-content {
+ display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.glass-theme .pray-tool :is(.stats-text,.consumption-item) { border-radius:var(--site-control-radius); }
+.glass-theme .pray-tool .consumption-item { background:transparent; border-color:var(--site-line); }
+@media(max-width:620px) {
+
+ .glass-theme .pray-tool .settings-title { flex-wrap:wrap; }
+}
+@media(max-height:520px) and (orientation:landscape) {
+ .glass-theme .pray-tool .site-title { display:none; }
+ .glass-theme .pray-tool .unified-nav { margin-bottom:5px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .standalone-tool :is(.site-field,.site-native-field):focus { transform:none; transition:none; }
+}
+
+@media(max-width:560px) {
+ .glass-theme .generator-tool .custom-mode-toggle.site-card { width:100%; }
+}
+
+/* Choices inherit the adjacent field label typography, without the old large selector boxes. */
+.glass-theme .generator-tool .field-block { font-size:14px; }

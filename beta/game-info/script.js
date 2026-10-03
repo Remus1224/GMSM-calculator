@@ -1,32 +1,190 @@
 (() => {
   "use strict";
-  const root=document.documentElement,app=document.getElementById("app"),navBack=document.getElementById("nav-back"),navTitle=document.getElementById("nav-title"),themeToggle=document.getElementById("theme-toggle"),toast=document.getElementById("toast");
-  const nf=new Intl.NumberFormat("zh-TW");let catalog=null,toastTimer=0;
-  const isBetaPath=()=>/\/beta\/game-info\/?/.test(location.pathname);
-  const mainSiteUrl=()=>isBetaPath()?"../../":"../";
-  const currentPageId=()=>new URL(location.href).searchParams.get("page")||"";
-  function setTheme(theme){theme==="dark"?root.setAttribute("data-theme","dark"):root.removeAttribute("data-theme");const dark=theme==="dark";themeToggle.textContent=dark?"☀️":"🌙";themeToggle.setAttribute("aria-label",dark?"切換至日間模式":"切換至夜間模式");themeToggle.setAttribute("aria-pressed",String(dark))}
-  function initTheme(){let saved="light";try{saved=localStorage.getItem("msm-theme")==="dark"?"dark":"light"}catch(_){}setTheme(saved);themeToggle.addEventListener("click",()=>{const next=root.getAttribute("data-theme")==="dark"?"light":"dark";try{localStorage.setItem("msm-theme",next)}catch(_){}setTheme(next)})}
-  async function fetchJson(path){const r=await fetch(path,{cache:"no-store"});if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.json()}
-  function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-  function setRoute(pageId,replace=false){const u=new URL(location.href);pageId?u.searchParams.set("page",pageId):u.searchParams.delete("page");history[replace?"replaceState":"pushState"]({},"",u);renderRoute()}
-  function setNav(pageTitle=""){const detail=Boolean(pageTitle);navTitle.textContent=detail?pageTitle:"也許有用的資訊";navBack.textContent=detail?"資訊首頁":"主選單";navBack.onclick=detail?()=>setRoute(""):()=>{location.href=mainSiteUrl()}}
-  function showToast(msg){clearTimeout(toastTimer);toast.textContent=msg;toast.hidden=false;toastTimer=setTimeout(()=>toast.hidden=true,2600)}
-  const fmt=v=>v==null?"—":nf.format(v);
-  function derivedRows(levels){return levels.map((level,index)=>{const next=levels[index+1]||null,prev=levels[index-1]||null;const coin=Number(level.upgradeCostAmount0||0)*Number(level.slotCount||0),unlock=[];if(index===0){unlock.push(`${level.slotCount} 個欄位`);unlock.push(`${level.presetCount} 組預設`)}else{if(Number(level.slotCount)>Number(prev.slotCount))unlock.push(`第 ${level.slotCount} 個欄位`);if(Number(level.presetCount)>Number(prev.presetCount))unlock.push(`第 ${level.presetCount} 組預設`)}if(!next)unlock.push("滿等");return{...level,expToNext:next?Number(next.needPoint)-Number(level.needPoint):null,expPerPray:Number(level.gainPoint||0)+Number(level.gainPointPerCoin||0)*coin,unlockText:unlock.length?(index===0?`初始：${unlock.join("・")}`:`開放 ${unlock.join("・")}`):"—",hasUnlock:unlock.length>0}})}
-  function renderHome(){setNav("");document.title="也許有用的資訊｜楓之谷M 也許有用的工具";const rows=catalog.items.map(item=>{const ready=item.status==="ready";return `<button class="info-row" type="button" data-page="${esc(item.id)}" ${ready?"":"disabled"}><span class="info-icon" aria-hidden="true">${esc(item.icon)}</span><span class="info-copy"><span class="info-title">${esc(item.title)}</span><span class="info-subtitle">${esc(item.subtitle)}</span></span><span class="status-pill ${ready?"":"soon"}">${ready?"查看":"準備中"}</span></button>`}).join("");app.innerHTML=`<section class="glass-panel hero-compact"><div class="eyebrow">MapleStory M · Data Library</div><h2>也許有用的資訊</h2><p>遊戲內成長需求、等級門檻與系統資料。以簡單的一列式資訊為主，方便手機查詢與保存。</p></section><section class="info-list" aria-label="資訊分類">${rows}</section><div class="footer">Beta V7-R1 · Turbulence Smoke Root Fix。</div>`;app.querySelectorAll("[data-page]:not(:disabled)").forEach(b=>b.addEventListener("click",()=>setRoute(b.dataset.page)))}
-  function renderDataRows(rows){return rows.map(r=>`<div class="data-row ${r.hasUnlock?"is-milestone":""}"><div class="data-cell data-level">Lv.${r.level}</div><div class="data-cell">${fmt(r.expToNext)}</div><div class="data-cell">${fmt(r.needPoint)}</div><div class="data-cell">${fmt(r.expPerPray)}</div><div class="data-cell data-unlock">${r.hasUnlock?`<span class="unlock-mark">${esc(r.unlockText)}</span>`:"—"}</div></div>`).join("")}
-  function roundRect(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.arcTo(x+w,y,x+w,y+h,rr);ctx.arcTo(x+w,y+h,x,y+h,rr);ctx.arcTo(x,y+h,x,y,rr);ctx.arcTo(x,y,x+w,y,rr);ctx.closePath()}
-  function drawText(ctx,text,x,y,o={}){ctx.save();ctx.font=o.font||'600 24px -apple-system,"PingFang TC",sans-serif';ctx.fillStyle=o.color||"#222735";ctx.textAlign=o.align||"left";ctx.textBaseline="middle";ctx.fillText(String(text),x,y);ctx.restore()}
-  function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error("煙霧背景載入失敗"));img.src=src})}
-  async function createShareCanvas(data,rows){const width=1440,margin=70,headerH=205,colHeadH=64,rowH=66,footerH=105,height=margin+headerH+colHeadH+rows.length*rowH+footerH+margin,c=document.createElement("canvas");c.width=width;c.height=height;const ctx=c.getContext("2d"),bg=ctx.createLinearGradient(0,0,width,height);bg.addColorStop(0,"#edf6f9");bg.addColorStop(.48,"#eef3f9");bg.addColorStop(1,"#f7eef5");ctx.fillStyle=bg;ctx.fillRect(0,0,width,height);
-    try{const smoke=await loadImage(`smoke-v7.svg?v=20260927-r1`);ctx.save();ctx.globalAlpha=.86;ctx.drawImage(smoke,0,0,width,height);ctx.restore()}catch(_){/* keep base background if image decode fails */}
-    ctx.save();roundRect(ctx,margin,margin,width-margin*2,headerH,34);ctx.fillStyle="rgba(255,255,255,.20)";ctx.fill();ctx.strokeStyle="rgba(255,255,255,.76)";ctx.lineWidth=2;ctx.stroke();ctx.restore();drawText(ctx,"楓之谷M 也許有用的工具",margin+38,margin+40,{font:'700 22px -apple-system,"PingFang TC",sans-serif',color:"#697080"});drawText(ctx,data.title||"光之聖所祈禱經驗表",margin+38,margin+96,{font:'800 48px -apple-system,"PingFang TC",sans-serif',color:"#202532"});drawText(ctx,`Lv.1～Lv.${rows.at(-1)?.level||15} · 升級 EXP / 累積 EXP / 每次祈禱 EXP / 解鎖內容`,margin+38,margin+145,{font:'600 21px -apple-system,"PingFang TC",sans-serif',color:"#727887"});const tableX=margin,tableW=width-margin*2;let y=margin+headerH+20;const cols=[{t:"等級",w:120},{t:"升下一級 EXP",w:260},{t:"累積 EXP",w:240},{t:"每次祈禱 EXP",w:240},{t:"解鎖內容",w:tableW-860}];let cx=tableX;ctx.save();roundRect(ctx,tableX,y,tableW,colHeadH+rows.length*rowH,28);ctx.fillStyle="rgba(255,255,255,.16)";ctx.fill();ctx.strokeStyle="rgba(255,255,255,.78)";ctx.lineWidth=2;ctx.stroke();ctx.restore();cols.forEach(col=>{drawText(ctx,col.t,cx+col.w/2,y+colHeadH/2,{font:'800 17px -apple-system,"PingFang TC",sans-serif',color:"#3f4655",align:"center"});cx+=col.w});y+=colHeadH;rows.forEach((r,idx)=>{if(idx){ctx.strokeStyle="rgba(75,90,120,.11)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(tableX+16,y);ctx.lineTo(tableX+tableW-16,y);ctx.stroke()}const vals=[`Lv.${r.level}`,fmt(r.expToNext),fmt(r.needPoint),fmt(r.expPerPray),r.unlockText];cx=tableX;cols.forEach((col,i)=>{if(i===4&&r.hasUnlock){const dotX=cx+col.w/2-ctx.measureText(String(vals[i])).width*.23-13;const dotY=y+rowH/2;const glow=ctx.createRadialGradient(dotX,dotY,0,dotX,dotY,16);glow.addColorStop(0,"rgba(255,255,255,.95)");glow.addColorStop(.18,"rgba(104,221,255,.88)");glow.addColorStop(.50,"rgba(141,131,255,.48)");glow.addColorStop(1,"rgba(255,139,218,0)");ctx.fillStyle=glow;ctx.beginPath();ctx.arc(dotX,dotY,16,0,Math.PI*2);ctx.fill();ctx.fillStyle="#8c89ff";ctx.beginPath();ctx.arc(dotX,dotY,4,0,Math.PI*2);ctx.fill()}
-        drawText(ctx,vals[i],cx+col.w/2,y+rowH/2,{font:`${i===0?750:i===4?560:620} ${i===4?14:18}px -apple-system,"PingFang TC",sans-serif`,color:i===4?"#697180":i===0?"#252a36":"#303642",align:"center"});cx+=col.w});y+=rowH});drawText(ctx,`資料來源：${data.source?.path||"light-sanctum-pray/runtime/sanctuary-gameplay-data.js"}`,margin,y+48,{font:'600 15px -apple-system,"PingFang TC",sans-serif',color:"#7a8090"});drawText(ctx,`資料版本：${data.updatedAt||""} · 由「也許有用的資訊」產生`,width-margin,y+48,{font:'600 15px -apple-system,"PingFang TC",sans-serif',color:"#7a8090",align:"right"});return c}
-  function canvasToBlob(c){return new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(new Error("無法建立 PNG")),"image/png"))}
-  async function saveOrShareImage(data,rows){const b=document.getElementById("save-table-image");if(b)b.disabled=true;try{showToast("正在產生高解析圖片…");const canvas=await createShareCanvas(data,rows),blob=await canvasToBlob(canvas),name=`光之聖所祈禱經驗表_${data.updatedAt||"MapleStoryM"}.png`,file=new File([blob],name,{type:"image/png"});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"光之聖所祈禱經驗表"});showToast("圖片已交給系統分享選單");return}const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);showToast("PNG 已建立並下載")}catch(e){if(e?.name!=="AbortError")showToast(`圖片建立失敗：${e.message}`)}finally{if(b)b.disabled=false}}
-  async function renderLightSanctum(item){setNav(item.title);document.title=`${item.title}｜也許有用的資訊`;app.innerHTML=`<div class="glass-panel loading">正在載入資料…</div>`;try{const data=await fetchJson(item.data),rows=derivedRows(Array.isArray(data.levels)?data.levels:[]);if(!rows.length)throw new Error("找不到等級資料");const max=rows.at(-1);app.innerHTML=`<section class="glass-panel hero-compact"><div class="hero-line"><div><div class="eyebrow">Growth · Light Sanctum</div><h2>${esc(data.title)}</h2><p>Lv.1～Lv.${max.level} 升級經驗、累積 EXP、每次祈禱 EXP 與解鎖內容。</p></div><span class="source-chip">Client Table</span></div><div class="hero-actions"><button id="save-table-image" class="action-btn" type="button">儲存 / 分享表格圖片</button></div></section><section class="data-section" aria-label="光之聖所祈禱經驗表"><div class="data-header" aria-hidden="true"><div>等級</div><div>升下一級 EXP</div><div>累積 EXP</div><div>每次祈禱 EXP</div><div>解鎖內容</div></div>${renderDataRows(rows)}</section><section class="note-panel"><h3>資料說明</h3><p>「累積 EXP」直接對應 Client Table 的 <span class="code-inline">LevelInfo.needPoint</span>；「升下一級 EXP」由下一級 needPoint 減目前級 needPoint。</p><p>「每次祈禱 EXP」依正式模擬器公式 <span class="code-inline">GainPoint + GainPointPerCoin × CharacterCoin cost</span> 推導。Lv.${max.level} 為滿等，因此顯示 0。</p><p>「解鎖內容」由前後等級的欄位數與預設組數變化自動推導。來源：<span class="code-inline">${esc(data.source?.path||"")}</span>，資料版本 ${esc(data.updatedAt||"")}。</p></section><div class="footer">Beta V7-R1 · Turbulence Smoke Root Fix · 此頁只讀。</div>`;document.getElementById("save-table-image")?.addEventListener("click",()=>saveOrShareImage(data,rows))}catch(e){app.innerHTML=`<div class="glass-panel error-box">資料載入失敗：${esc(e.message)}<br>請確認你是透過 GitHub Pages 網址開啟。</div>`}}
-  async function renderRoute(){if(!catalog)return;const id=currentPageId();if(!id){renderHome();return}const item=catalog.items.find(x=>x.id===id&&x.status==="ready");if(!item){setRoute("",true);return}if(item.id==="light-sanctum-pray-exp"){await renderLightSanctum(item);return}renderHome()}
-  async function init(){initTheme();app.innerHTML=`<div class="glass-panel loading">正在載入資訊中心…</div>`;try{catalog=await fetchJson("data/catalog.json");await renderRoute()}catch(e){setNav("");app.innerHTML=`<div class="glass-panel error-box">資訊中心載入失敗：${esc(e.message)}<br>請使用 GitHub Pages 測試網址開啟。</div>`}}
-  addEventListener("popstate",renderRoute);init();
+
+  const root = document.documentElement;
+  const app = document.getElementById("app");
+  const navBack = document.getElementById("nav-back");
+  const navTitle = document.getElementById("nav-title");
+  const themeToggle = document.getElementById("theme-toggle");
+  const nf = new Intl.NumberFormat("zh-TW");
+  let catalog = null;
+  let routeRevision = 0;
+  let routeRequest = null;
+  let catalogRequest = null;
+
+  const isBetaPath = () => /\/beta\/game-info\/?/.test(location.pathname);
+  const mainSiteUrl = () => isBetaPath() ? "../../" : "../";
+  const currentPageId = () => new URL(location.href).searchParams.get("page") || "";
+
+  function setTheme(theme) {
+    theme === "dark" ? root.setAttribute("data-theme", "dark") : root.removeAttribute("data-theme");
+    const dark = theme === "dark";
+    themeToggle.setAttribute("aria-label", dark ? "切換至日間模式" : "切換至夜間模式");
+    themeToggle.setAttribute("aria-pressed", String(dark));
+  }
+
+  function initTheme() {
+    let saved = "light";
+    try { saved = localStorage.getItem("msm-theme") === "dark" ? "dark" : "light"; } catch (_) {}
+    setTheme(saved);
+    themeToggle.addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      try { localStorage.setItem("msm-theme", next); } catch (_) {}
+      setTheme(next);
+    });
+  }
+
+  async function fetchJson(path, signal) {
+    const r = await fetch(path, { cache: "no-store", signal });
+    if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+    return r.json();
+  }
+
+  function esc(v) {
+    return String(v ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function setRoute(pageId, replace = false) {
+    const u = new URL(location.href);
+    pageId ? u.searchParams.set("page", pageId) : u.searchParams.delete("page");
+    history[replace ? "replaceState" : "pushState"]({}, "", u);
+    renderRoute();
+  }
+
+  function setNav(pageTitle = "") {
+    const detail = Boolean(pageTitle);
+    navTitle.textContent = detail ? pageTitle : "也許有用的資訊";
+    document.getElementById("nav-back-label").textContent = detail ? "資訊首頁" : "主選單";
+    const current = navTitle.parentElement;
+    detail ? current.setAttribute("aria-current", "page") : current.removeAttribute("aria-current");
+    navBack.onclick = detail ? () => setRoute("") : () => { location.href = mainSiteUrl(); };
+  }
+
+  const fmt = v => v == null ? "—" : nf.format(v);
+
+  function derivedRows(levels) {
+    return levels.map((level, index) => {
+      const next = levels[index + 1] || null;
+      const prev = levels[index - 1] || null;
+      const coin = Number(level.upgradeCostAmount0 || 0) * Number(level.slotCount || 0);
+      const unlock = [];
+
+      if (index === 0) {
+        unlock.push(`${level.slotCount}個欄位`);
+        unlock.push(`${level.presetCount}組預設`);
+      } else {
+        if (Number(level.slotCount) > Number(prev.slotCount)) unlock.push(`第${level.slotCount}個欄位`);
+        if (Number(level.presetCount) > Number(prev.presetCount)) unlock.push(`第${level.presetCount}組預設`);
+      }
+
+      return {
+        ...level,
+        expToNext: next ? Number(next.needPoint) - Number(level.needPoint) : null,
+        expPerPray: Number(level.gainPoint || 0) + Number(level.gainPointPerCoin || 0) * coin,
+        unlockText: unlock.length ? unlock.join(" ") : "—",
+        unlockParts: unlock,
+        hasUnlock: unlock.length > 0
+      };
+    });
+  }
+
+  function renderHome() {
+    app.setAttribute("aria-busy", "false");
+    root.classList.remove("is-light-sanctum-page");
+    setNav("");
+    document.title = "也許有用的資訊｜楓之谷M 也許有用的工具";
+    const rows = catalog.items.map(item => {
+      const ready = item.status === "ready";
+      return `<button class="info-row" type="button" data-page="${esc(item.id)}" ${ready ? "" : "disabled"}><span class="info-icon" aria-hidden="true">${esc(item.icon)}</span><span class="info-copy"><span class="info-title">${esc(item.title)}</span><span class="info-subtitle">${esc(item.subtitle)}</span></span><span class="status-pill ${ready ? "" : "soon"}">${ready ? "查看" : "準備中"}</span></button>`;
+    }).join("");
+
+    app.innerHTML = `<section class="glass-panel hero-compact"><div class="eyebrow">MapleStory M · Data Library</div><h2>也許有用的資訊</h2><p>遊戲內成長需求、等級門檻與系統資料。以簡單的一列式資訊為主，方便手機查詢與保存。</p></section><section class="info-list" aria-label="資訊分類">${rows}</section>`;
+    app.querySelectorAll("[data-page]:not(:disabled)").forEach(b => b.addEventListener("click", () => setRoute(b.dataset.page)));
+  }
+
+  function renderDataRows(rows) {
+    return rows.map(r => `<div role="row" class="data-row ${r.hasUnlock ? "is-milestone" : ""}"><div role="rowheader" class="data-cell data-level">Lv.${r.level}</div><div role="cell" class="data-cell">${fmt(r.expToNext)}</div><div role="cell" class="data-cell">${fmt(r.needPoint)}</div><div role="cell" class="data-cell">${fmt(r.expPerPray)}</div><div role="cell" class="data-cell data-unlock">${r.hasUnlock ? `<span class="unlock-mark"><span class="unlock-copy">${r.unlockParts.map(part => `<span class="unlock-part">${esc(part)}</span>`).join(" ")}</span></span>` : "—"}</div></div>`).join("");
+  }
+
+  function glassLayers() {
+    return `<div class="liquid_glass-cover" aria-hidden="true"></div><div class="liquid_glass-sharp" aria-hidden="true"></div><div class="liquid_glass-reflect" aria-hidden="true"></div>`;
+  }
+
+  function showLoadError(label, retry) {
+    app.setAttribute("aria-busy", "false");
+    app.innerHTML = `<div class="glass-panel error-box"><p>${esc(label)}載入失敗，請確認連線後重試。</p><button class="action-btn retry-btn" type="button" data-retry="${retry}">重新載入</button></div>`;
+  }
+
+  async function renderLightSanctum(item, revision, controller) {
+    root.classList.add("is-light-sanctum-page");
+    setNav(item.title);
+    document.title = `${item.title}｜也許有用的資訊`;
+    app.innerHTML = `<div class="glass-panel loading">正在載入資料…</div>`;
+    app.setAttribute("aria-busy", "true");
+
+    try {
+      const data = await fetchJson(item.data, controller.signal);
+      if (revision !== routeRevision || controller.signal.aborted) return;
+      const rows = derivedRows(Array.isArray(data.levels) ? data.levels : []);
+      if (!rows.length) throw new Error("找不到等級資料");
+
+      app.innerHTML = `<section class="hero-compact liquid-surface-card glass-surface">${glassLayers()}<div class="liquid-surface-content hero-surface-content"><div class="hero-copy"><div class="eyebrow">Growth · Light Sanctum</div><h2>${esc(data.title)}</h2></div><div class="hero-actions"><button id="save-table-image" class="action-btn" type="button">儲存圖片</button></div></div></section><section class="data-section glass-surface" role="table" aria-label="光之聖所祈禱經驗表">${glassLayers()}<div class="data-header" role="row"><div role="columnheader">等級</div><div role="columnheader"><span class="header-phrase">升等所需</span><span class="header-phrase">經驗</span></div><div role="columnheader">累積經驗</div><div role="columnheader">聖痕結晶</div><div role="columnheader">解鎖內容</div></div>${renderDataRows(rows)}</section><section class="note-panel liquid-surface-card glass-surface">${glassLayers()}<div class="liquid-surface-content note-surface-content"><p class="note-only"><span class="note-version">遊戲版本 ${esc(data.gameVersion)}</span><span class="note-detail">${esc(data.verificationNotice)}</span></p></div></section>`;
+      app.setAttribute("aria-busy", "false");
+    } catch (e) {
+      if (revision !== routeRevision || controller.signal.aborted) return;
+      console.error("資料載入失敗", e);
+      showLoadError("資料", "page");
+    }
+  }
+
+  async function renderRoute() {
+    const revision = ++routeRevision;
+    routeRequest?.abort();
+    routeRequest = null;
+    if (!catalog) return;
+    const id = currentPageId();
+    if (!id) { renderHome(); return; }
+    const item = catalog.items.find(x => x.id === id && x.status === "ready");
+    if (!item) { setRoute("", true); return; }
+    if (item.id === "light-sanctum-pray-exp") {
+      routeRequest = new AbortController();
+      await renderLightSanctum(item, revision, routeRequest);
+      return;
+    }
+    renderHome();
+  }
+
+  async function loadCatalog() {
+    catalogRequest?.abort();
+    const controller = new AbortController();
+    catalogRequest = controller;
+    app.innerHTML = `<div class="glass-panel loading">正在載入資訊中心…</div>`;
+    app.setAttribute("aria-busy", "true");
+    try {
+      const data = await fetchJson("data/catalog.json", controller.signal);
+      if (controller.signal.aborted) return;
+      catalog = data;
+      await renderRoute();
+    } catch (e) {
+      if (controller.signal.aborted) return;
+      root.classList.remove("is-light-sanctum-page");
+      setNav("");
+      console.error("資訊中心載入失敗", e);
+      showLoadError("資訊中心", "catalog");
+    }
+  }
+
+  addEventListener("popstate", renderRoute);
+  app.addEventListener("click", event => {
+    const button = event.target.closest("[data-retry]");
+    if (!button) return;
+    button.dataset.retry === "catalog" ? loadCatalog() : renderRoute();
+  });
+  initTheme();
+  loadCatalog();
 })();
