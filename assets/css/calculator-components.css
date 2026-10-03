@@ -1,0 +1,82 @@
+/* Shared calculator controls. Scope excludes every simulator scene and popup. */
+.glass-theme .site-calculator .site-card { display:block; }
+
+.glass-theme .site-calculator .calculator-section { --glass-lift:0px; }
+
+.glass-theme .site-calculator .site-card { color:var(--site-text); }
+
+/* Small operable groups own focus through the shared interaction contract. */
+
+.glass-theme :is(#tab-ignore,#tab-rune,#tab-hexa-prog,#tab-liberation,#tab-hexa-lazy,#tab-hexa-reset,#tab-hexa-sim).site-calculator input.site-field:not(.site-field-inner):not(.site-glass-field),
+.glass-theme :is(#tab-ignore,#tab-rune,#tab-hexa-prog,#tab-liberation,#tab-hexa-lazy,#tab-hexa-reset,#tab-hexa-sim).site-calculator select.site-field:not(.site-field-inner):not(.site-select-control) {
+ background:var(--site-input) !important; border-radius:var(--site-control-radius);
+ border-color:var(--site-line); color:var(--site-text);
+ backdrop-filter:none; -webkit-backdrop-filter:none;
+}
+
+.glass-theme .site-calculator .site-field:not(.site-select-control):disabled { background:var(--site-inset) !important; }
+
+.glass-theme .site-calculator .site-field { max-width:100%; min-width:0; }
+
+/* Website card hover is owned by the shared explicit role rules. */
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .site-calculator .site-card { transition:none; transform:none !important; }
+
+.glass-theme .site-calculator :is(.rune-category-panel.active,.genesis-panel.is-active) { animation:none; }
+
+ .glass-theme .site-calculator.tab-content.active { animation:none; } }
+
+/* Focus belongs to the actual control, or to a composite control's whole shell.
+   Never draw a second ring or move an inner input separately from its unit. */
+/* Ordinary field colours come from shared site-components.css; tools override only semantic hues. */
+.glass-theme :is(#tab-ignore,#tab-rune,#tab-hexa-prog,#tab-liberation,#tab-hexa-lazy,#tab-hexa-reset,#tab-hexa-sim).site-calculator .site-field:not(.site-field-inner):not(.site-select-control):focus {
+ outline:0 !important;
+ border-color:var(--site-field-focus-rim) !important;
+ box-shadow:var(--site-field-focus-glow) !important;
+}
+.glass-theme :is(#tab-ignore,#tab-rune,#tab-hexa-prog,#tab-liberation,#tab-hexa-lazy,#tab-hexa-reset,#tab-hexa-sim).site-calculator .site-field-inner {
+ background:transparent !important; border:0 !important; border-radius:0;
+ outline:0 !important; box-shadow:none !important; transform:none !important;
+}
+.glass-theme .site-calculator .site-field-shell { background:var(--site-input); }
+.glass-theme .site-calculator .site-field-shell:not(:has(.site-select-shell)):focus-within {
+ border-color:var(--site-field-focus-rim);
+ box-shadow:var(--site-field-focus-glow);
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .site-calculator .site-field:focus { transform:none !important; }
+}
+
+/* Compact controls share the accepted glass layers with the control radius. */
+.glass-theme .site-calculator .site-card.site-glass-compact {
+ border-radius:var(--site-control-radius); --glass-lift:-1px;
+}
+.glass-theme .site-calculator .site-card.site-glass-toggle > .liquid-surface-content {
+ display:flex; align-items:center; gap:6px;
+}
+.glass-theme .site-calculator .site-glass-toggle:has(input:checked) {
+ --crystal-fill:var(--site-hover-icon-fill);
+ --crystal-border:var(--site-accent); --crystal-side-border:var(--site-accent);
+}
+.glass-theme .site-calculator .site-glass-toggle:has(input:focus-visible) {
+ outline:0; box-shadow:var(--site-focus-glow);
+}
+
+/* Opt-in categories share the accepted check, film and edge. Other tabs retain their marker. */
+.site-category-check-tab {--site-category-check-width:16px;}
+.glass-theme .site-category-tab.site-category-check-tab::after {display:none;content:none;}
+.glass-theme .site-category-tab.site-category-check-tab[aria-selected=true] {--site-category-fill:var(--site-summary-film);--site-category-rim:var(--site-focus-rim);}
+.site-category-check-tab .site-category-check-marker {width:var(--site-category-check-width);visibility:hidden;color:var(--site-accent);}
+.site-category-check-tab[aria-selected=true] .site-category-check-marker {visibility:visible;}
+.site-category-check-balanced > .liquid-surface-content::after {content:"";width:var(--site-category-check-width);flex:0 0 var(--site-category-check-width);}
+
+/* Only the value shell paints material and feedback. The inner editor stays transparent. */
+.glass-theme .site-value-control.site-value-centered input.site-field-inner {
+ border:0 !important;background:transparent !important;box-shadow:none !important;outline:0 !important;transform:none !important;
+}
+/* Balanced editor padding keeps the number centered; affixes have independent positions.
+   Tools own shell size, typography, and the amount of space reserved for their affix. */
+.glass-theme .site-value-control.site-value-centered input.site-field-inner {text-align:center;padding-inline:var(--site-value-padding,2px);}
+.site-value-centered .site-value-affix {position:absolute;top:50%;transform:translateY(-50%);padding:0;pointer-events:none;}
+.site-value-centered .site-value-prefix {left:var(--site-value-affix-offset,8px);}
+.site-value-centered .site-value-suffix {right:var(--site-value-affix-offset,9px);}

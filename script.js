@@ -55,6 +55,7 @@ function clearReset() {
     document.getElementById('reset-rolls').value = '10';
     document.getElementById('reset-target-a').value = '';
     document.getElementById('reset-target-sub').value = '';
+    document.getElementById('reset-target-sub2').value = '';
     
     if (document.getElementById('sim-million-reset')) {
         document.getElementById('sim-million-reset').checked = false;
@@ -74,6 +75,7 @@ function clearSim() {
     document.getElementById('sim-rolls').value = '';
     document.getElementById('target-a').value = '';
     document.getElementById('target-sub').value = '';
+    document.getElementById('target-sub2').value = '';
     document.getElementById('sim-stoploss').checked = true;
     
     if (document.getElementById('sim-million')) {
@@ -144,7 +146,7 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-09-25';
+const latestNoticeVersion = '2026-10-04';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'liberation': {
@@ -518,6 +520,7 @@ function switchTab(tabId) {
         initLiberationCalculator();
         liberationInitialized = true;
     }
+    window.GMSMSite?.decorateTab(tabId);
     if (calculatorPersistenceConfig[tabId]) {
         setTimeout(() => restoreCalculatorTabState(tabId), 0);
     }
@@ -576,20 +579,10 @@ function switchTab(tabId) {
             subPageTitle.innerText = titleMap[tabId];
         }
 
-        // 判斷是否在首頁
-        if (tabId === 'home') {
-            // 首頁：將返回鍵「隱形」但保留佔據的空間，這樣中間的大廳選單才不會歪掉
-            backBtn.style.visibility = 'hidden';
-
-            // 強制移除 home-hide，確保按鈕與標題的本體還在畫面上
-            backBtn.classList.remove('home-hide');
-            subPageTitle.classList.remove('home-hide');
-        } else {
-            // 其他頁面：顯示返回鍵
-            backBtn.style.visibility = 'visible';
-            backBtn.classList.remove('home-hide');
-            subPageTitle.classList.remove('home-hide');
-        }
+        // Unified navigation follows title width; home needs no back slot.
+        backBtn.hidden = tabId === 'home';
+        backBtn.style.removeProperty('visibility');
+        document.getElementById('site-navigation')?.classList.toggle('is-home', tabId === 'home');
     }
 
     window.requestAnimationFrame(updateMobileBackToTopButton);
@@ -668,7 +661,8 @@ function restoreCalculatorTabState(tabId) {
 
     if (state && typeof state === 'object') {
         getPersistedControlEntries(tabElement).forEach(({ control, key }) => {
-            const savedControl = state[key];
+            // Preserve previously saved simulator values after separating its duplicate field ID.
+            const savedControl = state[key] || (tabId === 'hexa-sim' && key === 'id:target-sub2' ? state['id:reset-target-sub2'] : null);
             if (!savedControl) return;
 
             if (savedControl.kind === 'checked') {
@@ -855,7 +849,7 @@ function initLiberationCalculator() {
 
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 痕跡</option>`).join('');
-        const difficultyControl = `<select class="liberation-boss-difficulty" id="liberation-${boss.id}-difficulty"><option value="">未設定</option>${options}</select><input class="liberation-boss-custom-traces" id="liberation-${boss.id}-custom-traces" type="text" inputmode="numeric" placeholder="自訂痕跡" autocomplete="off">`;
+        const difficultyControl = `<select class="liberation-boss-difficulty" id="liberation-${boss.id}-difficulty"><option value="">未設定</option>${options}</select><input class="liberation-boss-custom-traces" id="liberation-${boss.id}-custom-traces" type="text" aria-label="${boss.name}自訂獎勵" inputmode="numeric" placeholder="自訂痕跡" autocomplete="off">`;
         return `<article class="liberation-boss-card" data-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="liberation-boss-reward">0</b> 痕跡</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="liberationAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="liberation-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="liberationAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
     }).join('');
 
@@ -878,16 +872,19 @@ function switchGenesisPanel(panelName, button) {
         const isActive = tab === button;
         tab.classList.toggle('is-active', isActive);
         tab.setAttribute('aria-selected', String(isActive));
+        tab.tabIndex = isActive ? 0 : -1;
     });
 
     calculator.querySelectorAll('.genesis-panel').forEach(panel => {
         const isActive = panel.id === `genesis-panel-${panelName}`;
         panel.classList.toggle('is-active', isActive);
         panel.setAttribute('aria-hidden', String(!isActive));
+        panel.hidden = !isActive;
     });
 
     if (panelName === 'alchemy') genesisAlchemyUpdateUI();
     if (panelName === 'stone') genesisStoneUpdateUI();
+    window.GMSMGenesisLayout?.update();
 }
 
 function liberationParseDate(value) {
@@ -1029,6 +1026,7 @@ function liberationUpdateUI() {
         if (forecastDate) forecastDate.textContent = liberationFormatDate(forecast.date);
         if (remainingDays) remainingDays.textContent = liberationFormatNumber(forecast.days);
     }
+    window.GMSMGenesisLayout?.update();
 }
 
 function liberationReset() {
@@ -1131,13 +1129,6 @@ function genesisAlchemyAdjustTickets(bossId, amount) {
     input.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
-function genesisAlchemySelectTarget(level) {
-    const target = document.getElementById('genesis-alchemy-target-level');
-    if (!target) return;
-    target.value = String(level);
-    target.dispatchEvent(new Event('change', { bubbles: true }));
-}
-
 function genesisAlchemyForecast(remaining, weeklyReward, monthlyReward, ticketReward, referenceDate, weeklyCleared, monthlyCleared) {
     if (remaining <= 0) return { completed: true, date: referenceDate, days: 0 };
     if (weeklyReward <= 0 && monthlyReward <= 0 && ticketReward <= 0) return null;
@@ -1172,10 +1163,9 @@ function initGenesisAlchemyCalculator() {
     const panel = document.getElementById('genesis-panel-alchemy');
     const currentSelect = document.getElementById('genesis-alchemy-current-level');
     const targetSelect = document.getElementById('genesis-alchemy-target-level');
-    const levelGrid = document.getElementById('genesis-alchemy-level-grid');
     const bossList = document.getElementById('genesis-alchemy-boss-list');
     const tableRows = document.getElementById('genesis-alchemy-table-rows');
-    if (!panel || !currentSelect || !targetSelect || !levelGrid || !bossList || !tableRows || panel.dataset.initialized === 'true') return;
+    if (!panel || !currentSelect || !targetSelect || !bossList || !tableRows || panel.dataset.initialized === 'true') return;
 
     currentSelect.innerHTML = '<option value="0">尚未鍊成</option>' + Array.from(
         { length: GENESIS_ALCHEMY_MAX_LEVEL },
@@ -1186,18 +1176,9 @@ function initGenesisAlchemyCalculator() {
         (_, index) => `<option value="${index + 1}"${index === GENESIS_ALCHEMY_MAX_LEVEL - 1 ? ' selected' : ''}>Lv.${index + 1}</option>`
     ).join('');
 
-    levelGrid.innerHTML = Array.from({ length: GENESIS_ALCHEMY_MAX_LEVEL }, (_, index) => {
-        const level = index + 1;
-        const material = level === 1 ? '鍊成石 ×1' : '殘像 1,000';
-        const materialImage = level === 1
-            ? 'assets/liberation/material/創世鍊成石.png'
-            : 'assets/liberation/material/黑暗的殘像.png';
-        return `<button type="button" class="genesis-alchemy-level" data-alchemy-level="${level}" onclick="genesisAlchemySelectTarget(${level})"><span>Lv.${level}</span><strong>${liberationFormatNumber(genesisAlchemyAttack(level))}</strong><small><img src="${materialImage}" alt="">${material}</small></button>`;
-    }).join('');
-
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
-        const difficultyControl = `<select class="liberation-boss-difficulty" id="genesis-alchemy-${boss.id}-difficulty"><option value="">不計入</option>${options}</select><input class="liberation-boss-custom-traces" id="genesis-alchemy-${boss.id}-custom-traces" type="text" inputmode="numeric" placeholder="自訂殘像" autocomplete="off">`;
+        const difficultyControl = `<select class="liberation-boss-difficulty" id="genesis-alchemy-${boss.id}-difficulty"><option value="">不計入</option>${options}</select><input class="liberation-boss-custom-traces" id="genesis-alchemy-${boss.id}-custom-traces" type="text" aria-label="${boss.name}自訂獎勵" inputmode="numeric" placeholder="自訂殘像" autocomplete="off">`;
         return `<article class="liberation-boss-card" data-alchemy-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="genesis-alchemy-boss-reward">0</b> 殘像</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="genesisAlchemyAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="genesis-alchemy-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="genesisAlchemyAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
     }).join('');
 
@@ -1207,9 +1188,9 @@ function initGenesisAlchemyCalculator() {
         const materialImage = isFirstLevel
             ? 'assets/liberation/material/創世鍊成石.png'
             : 'assets/liberation/material/黑暗的殘像.png';
-        const materialText = isFirstLevel ? '創世鍊成石 ×1' : '黑暗的殘像 ×1,000';
+        const materialText = isFirstLevel ? '鍊成石 ×1' : '殘像 ×1,000';
         const increase = isFirstLevel ? 1000 : 300;
-        return `<button type="button" class="genesis-alchemy-table-row" data-alchemy-level="${level}" onclick="genesisAlchemySelectTarget(${level})" aria-label="鍊成 Lv.${level}，${materialText}，楓幣 500,000,000，累積攻擊力 ${liberationFormatNumber(genesisAlchemyAttack(level))}"><span class="genesis-alchemy-table-level"><small>鍊成階段</small><b>Lv.${level}</b></span><span class="genesis-alchemy-table-material"><small>需求材料</small><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-meso"><small>楓幣</small><b>500,000,000</b></span><span class="genesis-alchemy-table-attack"><small>累積攻擊力</small><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-increase"><small>本階增加</small><b>+${liberationFormatNumber(increase)}</b></span></button>`;
+        return `<div class="genesis-alchemy-table-row" role="row"><span class="genesis-alchemy-table-level" role="rowheader"><b>Lv.${level}</b></span><span class="genesis-alchemy-table-material" role="cell"><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-meso" role="cell"><b>500,000,000</b></span><span class="genesis-alchemy-table-attack" role="cell"><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-increase" role="cell"><b>+${liberationFormatNumber(increase)}</b></span></div>`;
     }).join('');
 
     const dateInput = document.getElementById('genesis-alchemy-reference-date');
@@ -1283,14 +1264,9 @@ function genesisAlchemyUpdateUI() {
     if (mesos) mesos.textContent = liberationFormatNumber(neededMesos);
     if (stones) stones.textContent = liberationFormatNumber(neededStones);
     if (currentAttack) currentAttack.textContent = liberationFormatNumber(genesisAlchemyAttack(currentLevel));
-    if (attackGain) attackGain.textContent = `預計再增加 ${liberationFormatNumber(genesisAlchemyAttack(targetLevel) - genesisAlchemyAttack(currentLevel))}`;
+    if (attackGain) attackGain.textContent = `達標增加 +${liberationFormatNumber(genesisAlchemyAttack(targetLevel) - genesisAlchemyAttack(currentLevel))}`;
 
-    panel.querySelectorAll('[data-alchemy-level]').forEach(button => {
-        const level = Number(button.dataset.alchemyLevel);
-        button.classList.toggle('is-complete', level <= currentLevel);
-        button.classList.toggle('is-planned', level > currentLevel && level < targetLevel);
-        button.classList.toggle('is-target', level === targetLevel);
-    });
+    window.GMSMGenesisLayout?.update();
 }
 
 function genesisAlchemyReset() {
@@ -1366,7 +1342,7 @@ function initGenesisStoneCalculator() {
 
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
-        const difficultyControl = `<select class="liberation-boss-difficulty" id="genesis-stone-${boss.id}-difficulty"><option value="">不計入</option>${options}</select><input class="liberation-boss-custom-traces" id="genesis-stone-${boss.id}-custom-traces" type="text" inputmode="numeric" placeholder="自訂殘像" autocomplete="off">`;
+        const difficultyControl = `<select class="liberation-boss-difficulty" id="genesis-stone-${boss.id}-difficulty"><option value="">不計入</option>${options}</select><input class="liberation-boss-custom-traces" id="genesis-stone-${boss.id}-custom-traces" type="text" aria-label="${boss.name}自訂獎勵" inputmode="numeric" placeholder="自訂殘像" autocomplete="off">`;
         return `<article class="liberation-boss-card" data-stone-boss-id="${boss.id}"><div class="liberation-boss-art"><img src="${boss.image}" alt="${boss.name}" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><span class="liberation-boss-art-placeholder" hidden>${boss.name}</span><b>${boss.cycle}</b></div><div class="liberation-boss-body"><header><strong>${boss.name}</strong><span>可得 <b class="genesis-stone-boss-reward">0</b> 殘像</span></header><div class="liberation-boss-controls">${difficultyControl}</div><div class="liberation-ticket-row"><span class="liberation-ticket-icon" title="${boss.name}入場券"><img src="${boss.ticket}" alt="${boss.name}入場券" onerror="this.hidden=true; this.nextElementSibling.hidden=false"><i hidden>券</i></span><div class="liberation-ticket-stepper" role="group" aria-label="${boss.name}入場券張數"><button type="button" onclick="genesisStoneAdjustTickets('${boss.id}', -1)" aria-label="減少${boss.name}入場券">−</button><input id="genesis-stone-${boss.id}-tickets" type="text" inputmode="numeric" aria-label="${boss.name}入場券張數" autocomplete="off"><button type="button" onclick="genesisStoneAdjustTickets('${boss.id}', 1)" aria-label="增加${boss.name}入場券">＋</button></div></div></div></article>`;
     }).join('');
 
@@ -1432,6 +1408,7 @@ function genesisStoneUpdateUI() {
         if (forecastDate) forecastDate.textContent = liberationFormatDate(forecast.date);
         if (remainingDays) remainingDays.textContent = liberationFormatNumber(forecast.days);
     }
+    window.GMSMGenesisLayout?.update();
 }
 
 function genesisStoneReset() {
@@ -1664,20 +1641,20 @@ const reqData = {
 };
 
 const coreConfig = [
-    { id: 'sk1', label: '啟源技能', type: 'skill', mandatory: true, default: true, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
+    { id: 'sk1', label: '啟源技能', type: 'skill', mandatory: false, default: true, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
     { id: 'sk2', label: '技能核心 2', type: 'skill', mandatory: false, default: false, border: '#6A3CBB', bg: 'rgba(106, 60, 187, 0.08)' },
     { id: 'ma1', label: '精通核心 1', type: 'mastery', mandatory: false, default: true, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
     { id: 'ma2', label: '精通核心 2', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
-    { id: 'ma3', label: '精通核心 3', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
-    { id: 'ma4', label: '精通核心 4', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma3', hidden: true, label: '精通核心 3', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
+    { id: 'ma4', hidden: true, label: '精通核心 4', type: 'mastery', mandatory: false, default: false, border: '#9D3EA8', bg: 'rgba(157, 62, 168, 0.08)' },
     { id: 'en1', label: '強化核心 1', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
     { id: 'en2', label: '強化核心 2', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
     { id: 'en3', label: '強化核心 3', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
     { id: 'en4', label: '強化核心 4', type: 'enhance', mandatory: false, default: true, border: '#73D6FF', bg: 'rgba(115, 214, 255, 0.15)' },
     { id: 'co1', label: '共通核心 1', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
     { id: 'co2', label: '共通核心 2', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
-    { id: 'co3', label: '共通核心 3', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
-    { id: 'co4', label: '共通核心 4', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' }
+    { id: 'co3', wideOnly: true, label: '共通核心 3', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' },
+    { id: 'co4', wideOnly: true, label: '共通核心 4', type: 'common', mandatory: false, default: false, border: '#4D518C', bg: 'rgba(77, 81, 140, 0.08)' }
 ];
 
 function getCumul(arr, lv) {
@@ -1688,34 +1665,7 @@ function getCumul(arr, lv) {
 
 function initHexaProg() {
     const container = document.getElementById('prog-cores-container');
-    if (!container) return;
-    
-    let html = '';
-    let selectOptions = '';
-    for (let i = 0; i <= 30; i++) selectOptions += `<option value="${i}">Lv. ${i}</option>`;
-
-    const categories = [{ type: 'skill' }, { type: 'mastery' }, { type: 'enhance' }, { type: 'common' }];
-    categories.forEach(cat => {
-        let cores = coreConfig.filter(c => c.type === cat.type);
-        html += `<div class="core-row">`;
-        cores.forEach(core => {
-            let isChecked = core.default ? 'checked' : '';
-            let cbHtml = core.mandatory ?
-                `<span style="font-weight:bold; color:#333333; font-size: 14px;">${core.label}</span>` :
-                `<label style="cursor:pointer; display:flex; align-items:center; color:#333333; font-weight:bold; font-size: 14px; gap: 6px;"><input type="checkbox" id="cb-${core.id}" onchange="toggleCoreProg('${core.id}')" ${isChecked} style="width:16px;height:16px;margin:0;"> ${core.label}</label>`;
-
-            html += `
-                <div class="prog-item" id="item-${core.id}" style="background-color: ${core.bg}; border-left: 5px solid ${core.border}; ${(!core.mandatory && !core.default) ? 'opacity: 0.5;' : ''}">
-                    <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 8px; height: 24px;">
-                        ${cbHtml}
-                    </div>
-                    <select id="sel-${core.id}" ${(!core.mandatory && !core.default) ? 'disabled' : ''}>${selectOptions}</select>
-                </div>
-            `;
-        });
-        html += `</div>`;
-    });
-    container.innerHTML = html;
+    if (container) window.GMSMHexaProgress.renderCores(container, coreConfig);
 }
 
 function toggleCoreProg(id) {
@@ -1726,7 +1676,7 @@ function toggleCoreProg(id) {
 
     let isChecked = cb.checked;
     sel.disabled = !isChecked;
-    item.style.opacity = isChecked ? '1' : '0.5';
+    item.classList.toggle('is-unselected', !isChecked);
     if (!isChecked) sel.value = '0';
 }
 
@@ -1737,6 +1687,7 @@ function calcHexaProg() {
     let investedSmall = 0;
 
     coreConfig.forEach(core => {
+        if (core.hidden) return;
         let isActive = false;
         if (core.mandatory) {
             isActive = true;
@@ -1764,9 +1715,10 @@ function calcHexaProg() {
     let invFrag = parseInt(document.getElementById('inv-frag').value) || 0;
     let invConc = parseInt(document.getElementById('inv-conc').value) || 0;
     let invNrg = parseInt(document.getElementById('inv-nrg').value) || 0;
+    let invNrg100 = parseInt(document.getElementById('inv-nrg100').value) || 0;
     let invWeak = parseInt(document.getElementById('inv-weak').value) || 0;
 
-    let currentBagEnergy = (invBig * 1000) + (invConc * 500) + (invNrg * 200) + (invWeak * 10);
+    let currentBagEnergy = (invBig * 1000) + (invConc * 500) + (invNrg * 200) + (invNrg100 * 100) + (invWeak * 10);
     let remainingFrag = Math.max(0, totalSmallNeeded - investedSmall);
     let remainingEnergy = Math.max(0, (totalBigNeeded - investedBig) * 1000);
 
@@ -1798,40 +1750,12 @@ function calcHexaProg() {
     let energyInvested = investedBig * 1000;
     let solPct = energyTotalNeeded > 0 ? ((energyInvested + Math.min(currentBagEnergy, remainingEnergy)) / energyTotalNeeded) * 100 : 100;
 
-    document.getElementById('prog-bar-frag').style.width = fragPct.toFixed(1) + '%';
-    document.getElementById('prog-bar-frag').innerText = fragPct.toFixed(1) + '%';
-    document.getElementById('prog-txt-frag').innerText = `${(investedSmall).toLocaleString()} / ${totalSmallNeeded.toLocaleString()} (短缺: ${shortfallFrag.toLocaleString()})`;
-
-    document.getElementById('prog-bar-sol').style.width = solPct.toFixed(1) + '%';
-    document.getElementById('prog-bar-sol').innerText = solPct.toFixed(1) + '%';
-    document.getElementById('prog-txt-sol').innerText = `${investedBig.toLocaleString()} / ${totalBigNeeded.toLocaleString()} (氣息短缺: ${shortfallEnergy.toLocaleString()})`;
-
-    let timeBox = document.getElementById('prog-time-result');
-
-    function formatTime(days, hours) {
-        if (days === Infinity) return "無限期 (請填寫獲取速度)";
-        if (days <= 0) return "✅ 庫存已可畢業";
-
-        let gradDate = new Date();
-        gradDate.setDate(gradDate.getDate() + Math.ceil(days));
-        let m = gradDate.getMonth() + 1;
-        let d = gradDate.getDate();
-        let dateString = `${gradDate.getFullYear()}/${m.toString().padStart(2, '0')}/${d.toString().padStart(2, '0')}`;
-
-        return `約 ${Math.ceil(days)} 天 (共需掛機 ${Math.ceil(hours).toLocaleString()} 小時) - 預計 ${dateString}`;
-    }
-
-    if (totalBigNeeded === 0 && totalSmallNeeded === 0) {
-        timeBox.innerHTML = `⚠️ 請先在上方勾選要養成的核心。`;
-    } else {
-        timeBox.innerHTML = `
-            <div style="font-weight: bold; margin-bottom: 10px; color: #444;">預估畢業時間</div>
-            <div style="display:flex; flex-direction:column; gap:8px; font-size: 15px;">
-                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/hexa/icon_靈魂艾爾達斯.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯：</strong> <span style="color:#8e44ad;">${formatTime(daysEnergy, grindHoursEnergy)}</span></div>
-                <div><strong style="display:inline-flex; align-items:center;"><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" style="width:16px; margin-right:4px;" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片：</strong> <span style="color:#2980b9;">${formatTime(daysFrag, grindHoursFrag)}</span></div>
-            </div>
-        `;
-    }
+    window.GMSMHexaProgress.renderResults({
+        totalBigNeeded, totalSmallNeeded, investedBig, investedSmall,
+        currentBagEnergy, invFrag, remainingEnergy, remainingFrag,
+        shortfallEnergy, shortfallFrag, solPct, fragPct,
+        daysEnergy, daysFrag, grindHoursEnergy, grindHoursFrag
+    });
 }
 
 /* ========================================== */
@@ -1865,7 +1789,7 @@ function initIgnoreGrid() {
             card.innerHTML = `
                 <div class="card-title">${displayTitle}</div>
                 <div class="card-input-wrapper">
-                    <button type="button" class="ignore-sign-toggle" onclick="toggleIgnoreSign('${equip}')" aria-label="切換${displayTitle}正負值" aria-pressed="false">±</button>
+                    <button type="button" class="ignore-sign-toggle" onclick="toggleIgnoreSign('${equip}')" aria-label="切換${displayTitle}正負值" aria-pressed="false" title="改為負值"><span class="ignore-sign-symbol" aria-hidden="true">＋</span></button>
                     <input type="text" inputmode="decimal" id="input-${equip}" oninput="calculateIgnore()" placeholder="" autocomplete="off" aria-label="${displayTitle}無視防禦百分比">
                 </div>
             `;
@@ -1880,6 +1804,9 @@ function syncIgnoreSignToggle(input) {
 
     const isNegative = /^[\-−－]/.test(input.value.trim());
     button.classList.toggle('is-negative', isNegative);
+    // Sign is a symbol; equipment category alone owns the control's colour.
+    const symbol = button.querySelector('.ignore-sign-symbol');
+    if (symbol) symbol.textContent = isNegative ? '−' : '＋';
     button.setAttribute('aria-pressed', String(isNegative));
     button.title = isNegative ? '改為正值' : '改為負值';
 }
@@ -2101,19 +2028,42 @@ function formatHyperNextCost(value) {
     return value.toLocaleString('zh-TW');
 }
 
+function formatHyperCompactCost(value) {
+    // Display only: calculations and full accessible amounts retain exact values.
+    return value >= 10000000 ? `${Number((value / 100000000).toFixed(2))}億` : formatHyperNextCost(value);
+}
+
+function formatHyperNextMarkup(level) {
+    const full = level < 25 ? `下一級 ${formatHyperNextCost(hyperStatLevelCosts[level + 1])}` : '已達最高等級';
+    const compact = level < 25 ? `↑${formatHyperCompactCost(hyperStatLevelCosts[level + 1])}` : '已滿';
+    return `<span class="hyper-next-full" aria-hidden="true">${full}</span><span class="hyper-next-short" aria-hidden="true">${compact}</span>`;
+}
+
+function formatHyperCostMarkup(value) {
+    return `<span class="hyper-cost-full" aria-hidden="true">${value.toLocaleString('zh-TW')}</span><span class="hyper-cost-short" aria-hidden="true">${formatHyperCompactCost(value)}</span>`;
+}
+
+function decorateHyperStatControls(root) {
+    const glass = window.GMSMGlass;
+    if (!glass || !root) return;
+    glass.decorateAll(root.querySelectorAll('.hyper-skill-card'), 'group');
+    glass.decorateControls(root);
+    root.querySelectorAll('.hyper-max-button,.hyper-skill-stepper > button').forEach(button => {
+        glass.decorateAction(button, {kind:button.classList.contains('is-clear') ? 'danger' : 'neutral'});
+    });
+}
+
 function renderHyperSkillGrid(profile) {
     const grid = document.getElementById(`hyper-skill-grid-${profile}`);
     if (!grid) return;
 
     grid.innerHTML = hyperStatSkills.map(skill => {
         const level = clampHyperLevel(hyperStatState.profiles[profile][skill.id]);
-        const nextCost = level < 25 ? hyperStatLevelCosts[level + 1] : 0;
         return `
             <article class="hyper-skill-card${level === 25 ? ' is-max' : ''}" id="hyper-card-${profile}-${skill.id}">
                 <div class="hyper-skill-heading">
                     <h3>${skill.name}</h3>
                     <div class="hyper-skill-heading-actions">
-                        <span id="hyper-badge-${profile}-${skill.id}">Lv.${level}</span>
                         <button id="hyper-max-${profile}-${skill.id}"
                             class="hyper-max-button${level === 25 ? ' is-clear' : ''}" type="button"
                             onclick="toggleHyperSkillMax('${profile}', '${skill.id}')"
@@ -2123,7 +2073,7 @@ function renderHyperSkillGrid(profile) {
                 <div class="hyper-skill-stepper">
                     <button type="button" aria-label="${skill.name}降低一級"
                         onclick="adjustHyperSkill('${profile}', '${skill.id}', -1)">−</button>
-                    <div class="hyper-skill-level-input">
+                    <div class="hyper-skill-level-input site-value-control site-value-centered">
                         <span>Lv.</span>
                         <input id="hyper-level-${profile}-${skill.id}" type="number" inputmode="numeric"
                             min="0" max="25" value="${level === 0 ? '' : level}" aria-label="${skill.name}等級"
@@ -2135,22 +2085,22 @@ function renderHyperSkillGrid(profile) {
                 </div>
                 <div class="hyper-skill-cost">
                     <span class="hyper-skill-cost-main">
-                        <img src="assets/common/icon_金幣.png" alt="" aria-hidden="true">
-                        <strong id="hyper-cost-${profile}-${skill.id}">${(hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW')}</strong>
+                        <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="" aria-hidden="true">
+                        <strong id="hyper-cost-${profile}-${skill.id}" tabindex="0" title="${(hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW')} 楓幣" aria-label="目前費用 ${(hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW')} 楓幣">${formatHyperCostMarkup(hyperStatCumulativeCosts[level] || 0)}</strong>
                     </span>
-                    <small id="hyper-next-${profile}-${skill.id}">
-                        ${level < 25 ? `下一級 ${formatHyperNextCost(nextCost)}` : '已達最高等級'}
+                    <small id="hyper-next-${profile}-${skill.id}" title="${level < 25 ? '下一級 ' + hyperStatLevelCosts[level + 1].toLocaleString('zh-TW') + ' 楓幣' : '已達最高等級'}" aria-label="${level < 25 ? '下一級 ' + hyperStatLevelCosts[level + 1].toLocaleString('zh-TW') + ' 楓幣' : '已達最高等級'}">
+                        ${formatHyperNextMarkup(level)}
                     </small>
                 </div>
             </article>
         `;
     }).join('');
+    decorateHyperStatControls(grid);
 }
 
 function updateHyperSkillCard(profile, skillId, syncInput = false) {
     const level = clampHyperLevel(hyperStatState.profiles[profile][skillId]);
     const input = document.getElementById(`hyper-level-${profile}-${skillId}`);
-    const badge = document.getElementById(`hyper-badge-${profile}-${skillId}`);
     const cost = document.getElementById(`hyper-cost-${profile}-${skillId}`);
     const next = document.getElementById(`hyper-next-${profile}-${skillId}`);
     const card = document.getElementById(`hyper-card-${profile}-${skillId}`);
@@ -2158,18 +2108,23 @@ function updateHyperSkillCard(profile, skillId, syncInput = false) {
     const skill = hyperStatSkills.find(item => item.id === skillId);
 
     if (input && syncInput) input.value = level === 0 ? '' : String(level);
-    if (badge) badge.textContent = `Lv.${level}`;
-    if (cost) cost.textContent = (hyperStatCumulativeCosts[level] || 0).toLocaleString('zh-TW');
+    if (cost) {
+        const value = hyperStatCumulativeCosts[level] || 0;
+        cost.innerHTML = formatHyperCostMarkup(value);
+        cost.title = `${value.toLocaleString('zh-TW')} 楓幣`;
+        cost.setAttribute('aria-label', `目前費用 ${value.toLocaleString('zh-TW')} 楓幣`);
+    }
     if (next) {
-        next.textContent = level < 25
-            ? `下一級 ${formatHyperNextCost(hyperStatLevelCosts[level + 1])}`
-            : '已達最高等級';
+        next.innerHTML = formatHyperNextMarkup(level);
+        next.title = level < 25 ? `下一級 ${hyperStatLevelCosts[level + 1].toLocaleString('zh-TW')} 楓幣` : '已達最高等級';
+        next.setAttribute('aria-label', next.title);
     }
     if (card) card.classList.toggle('is-max', level === 25);
     if (maxButton) {
         const isMax = level === 25;
-        maxButton.textContent = isMax ? '歸零' : 'MAX';
+        (maxButton.querySelector('.liquid-surface-content') || maxButton).textContent = isMax ? '歸零' : 'MAX';
         maxButton.classList.toggle('is-clear', isMax);
+        window.GMSMGlass?.decorateAction(maxButton, {kind:isMax ? 'danger' : 'neutral'});
         maxButton.setAttribute('aria-label', `${skill?.name || '技能'}${isMax ? '歸零' : '設為最高等級'}`);
     }
 }
@@ -2217,6 +2172,7 @@ function switchHyperProfile(profile, shouldSave = true) {
         if (button) {
             button.classList.toggle('active', isActive);
             button.setAttribute('aria-selected', String(isActive));
+            button.tabIndex = isActive ? 0 : -1;
         }
         if (panel) {
             panel.classList.toggle('active', isActive);
@@ -2230,27 +2186,28 @@ function switchHyperProfile(profile, shouldSave = true) {
 
 function updateHyperStatSummary() {
     const characterLevel = Number.parseInt(hyperStatState.characterLevel, 10);
-    const totalPoints = Number.isFinite(characterLevel) ? Math.max(0, characterLevel - 140) : 0;
+    const hasCharacterLevel = Number.isFinite(characterLevel);
+    const totalPoints = hasCharacterLevel ? Math.max(0, characterLevel - 140) : 0;
     const activeTotals = getHyperProfileTotals(hyperStatState.activeProfile);
     const remainingPoints = totalPoints - activeTotals.points;
+    const isOver = hasCharacterLevel && remainingPoints < 0;
+    const setText = (id, value) => {const node = document.getElementById(id); if (node) node.textContent = value;};
 
-    const totalElement = document.getElementById('hyper-total-points');
-    const usedElement = document.getElementById('hyper-used-points');
-    const remainingElement = document.getElementById('hyper-remaining-points');
-    const mesoElement = document.getElementById('hyper-total-mesos');
-    const remainingCard = document.getElementById('hyper-remaining-card');
-
-    if (totalElement) totalElement.textContent = totalPoints.toLocaleString('zh-TW');
-    if (usedElement) usedElement.textContent = activeTotals.points.toLocaleString('zh-TW');
-    if (remainingElement) remainingElement.textContent = remainingPoints.toLocaleString('zh-TW');
-    if (mesoElement) mesoElement.textContent = activeTotals.mesos.toLocaleString('zh-TW');
-    if (remainingCard) remainingCard.classList.toggle('is-over', remainingPoints < 0);
+    setText('hyper-total-points', hasCharacterLevel ? totalPoints.toLocaleString('zh-TW') : '—');
+    setText('hyper-used-points', activeTotals.points.toLocaleString('zh-TW'));
+    setText('hyper-remaining-points', hasCharacterLevel ? remainingPoints.toLocaleString('zh-TW') : '—');
+    setText('hyper-total-mesos', activeTotals.mesos.toLocaleString('zh-TW'));
+    setText('hyper-level-hint', hasCharacterLevel ? '' : '請填寫角色等級');
+    setText('hyper-budget-status', isOver ? `超出 ${Math.abs(remainingPoints).toLocaleString('zh-TW')} 點` : '');
+    const status = document.getElementById('hyper-budget-status');
+    if (status) status.hidden = !isOver;
+    document.getElementById('hyper-remaining-card')?.classList.toggle('is-over', isOver);
+    const reset = document.querySelector('#tab-hyper-stat .hyper-bottom-actions button');
+    if (reset) (reset.querySelector('.liquid-surface-content') || reset).textContent =
+        `重設${hyperStatState.activeProfile === 'boss' ? '打王' : '掛機'}配置`;
 
     ['boss', 'farm'].forEach(profile => {
-        const profileUsed = document.getElementById(`hyper-profile-used-${profile}`);
-        if (profileUsed) {
-            profileUsed.textContent = `已用 ${getHyperProfileTotals(profile).points.toLocaleString('zh-TW')} 點`;
-        }
+        setText(`hyper-profile-used-${profile}`, `已用 ${getHyperProfileTotals(profile).points.toLocaleString('zh-TW')} 點`);
     });
 }
 
@@ -2274,6 +2231,13 @@ function initHyperStatCalculator() {
     renderHyperSkillGrid('boss');
     renderHyperSkillGrid('farm');
     switchHyperProfile(hyperStatState.activeProfile, false);
+    document.querySelector('.hyper-profile-tabs')?.addEventListener('keydown', event => {
+        if (!event.target.matches('[role="tab"]') || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 'boss' : event.key === 'End' ? 'farm' : hyperStatState.activeProfile === 'boss' ? 'farm' : 'boss';
+        switchHyperProfile(next);
+        document.getElementById(`hyper-profile-btn-${next}`)?.focus();
+    });
     hyperStatStateReady = true;
     updateHyperStatSummary();
 }
@@ -2362,9 +2326,9 @@ function initRuneCalculator() {
                 </label>
                 <label>
                     <span>已投入成長值</span>
-                    <div class="rune-progress-input">
+                    <div class="rune-progress-input site-value-centered">
                         <input id="rune-progress-${symbol.id}" type="text" inputmode="numeric" value="0" aria-label="${symbol.name}已投入成長值" oninput="updateRuneCard('${symbol.id}')">
-                        <small>個</small>
+                        <small class="site-value-affix site-value-suffix">個</small>
                     </div>
                     <small class="rune-current-requirement" id="rune-next-requirement-${symbol.id}">升級需要 15</small>
                 </label>
@@ -2389,7 +2353,7 @@ function initRuneCalculator() {
                     <span class="rune-card-meso-line">
                         <span class="rune-card-coin-icon" aria-hidden="true">
                             <span class="rune-coin-fallback">₥</span>
-                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="" onerror="this.style.display='none'">
                         </span>
                         <strong id="rune-mesos-${symbol.id}">0</strong>
                     </span>
@@ -2574,9 +2538,9 @@ function renderAuthenticRuneCard(symbol) {
                 </label>
                 <label>
                     <span>已投入成長值</span>
-                    <div class="rune-progress-input">
+                    <div class="rune-progress-input site-value-centered">
                         <input id="authentic-progress-${symbol.id}" type="text" inputmode="numeric" value="0" aria-label="${symbol.name}已投入成長值" oninput="updateAuthenticRuneCard('${symbol.id}')">
-                        <small>個</small>
+                        <small class="site-value-affix site-value-suffix">個</small>
                     </div>
                     <small class="rune-current-requirement" id="authentic-next-requirement-${symbol.id}">目前升級需要 13</small>
                 </label>
@@ -2601,7 +2565,7 @@ function renderAuthenticRuneCard(symbol) {
                     <span class="rune-card-meso-line">
                         <span class="rune-card-coin-icon" aria-hidden="true">
                             <span class="rune-coin-fallback">₥</span>
-                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="" onerror="this.style.display='none'">
                         </span>
                         <strong id="authentic-mesos-${symbol.id}">0</strong>
                     </span>
@@ -3804,7 +3768,7 @@ function runHexaSimulation() {
 
     let valTa = document.getElementById('target-a').value;
     let valTsub1 = document.getElementById('target-sub').value;
-    let valTsub2 = document.getElementById('reset-target-sub2') ? document.getElementById('reset-target-sub2').value : "";
+    let valTsub2 = document.getElementById('target-sub2') ? document.getElementById('target-sub2').value : "";
 
     let tA = valTa === "" ? 0 : parseInt(valTa);
     let tSub1 = valTsub1 === "" ? 0 : parseInt(valTsub1);

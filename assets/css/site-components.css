@@ -1,0 +1,725 @@
+/* Explicit website opt-in; never target generic game panels or popups. */
+/* Compact controls own their visible edge, independently of a tool's panel rules.
+   Low specificity lets selected/semantic states retain their category colours. */
+.glass-theme {
+ /* Choices share the select's focus light and rim; their glass film stays normal.
+    The theme-thumb gradient remains reserved for important actions. */
+ --site-choice-fill:var(--crystal-fill);--site-choice-rim:var(--site-focus-rim);
+ --site-choice-edge:none;
+ --site-primary-fill:linear-gradient(135deg,rgba(156,234,254,.50),rgba(255,255,255,.32) 45%,rgba(200,141,221,.42));
+ --site-primary-rim:rgba(165,181,232,.55);
+}
+.glass-theme[data-theme=dark] {
+ --site-primary-fill:linear-gradient(135deg,rgba(103,203,235,.28),rgba(151,159,223,.16) 45%,rgba(179,116,216,.28));
+ --site-primary-rim:rgba(180,205,245,.38);
+}
+.glass-theme {--site-control-rest-rim:rgba(118,87,220,.28);--site-field-focus-rim:var(--site-focus-rim);--site-field-focus-glow:var(--site-focus-glow);}
+.glass-theme[data-theme=dark] {--site-control-rest-rim:rgba(156,234,254,.32);}
+.glass-theme :where(.site-select-shell,.site-radio-option,.site-toggle-control,.site-value-control,.site-sound-control,.site-choice,.site-glass-toggle) {
+ --crystal-border:var(--site-control-rest-rim); --crystal-side-border:var(--site-control-rest-rim);
+}
+/* Website settings typography shared by integrated and independent simulators.
+   Large resource numerals and special game headings keep their own roles. */
+.glass-theme {
+ --site-settings-title-size:16px;--site-settings-title-weight:700;
+ --site-settings-row-size:14px;--site-settings-stats-size:14px;
+ --site-settings-select-weight:700;
+}
+@media(max-width:500px){.glass-theme {--site-settings-row-size:13px;}}
+
+/* Preserve the transparent layout border without retaining legacy checkbox paint. */
+.glass-theme .site-card.glass-surface.site-choice {overflow:visible;background:transparent !important;border:var(--site-control-layout-border,0px) solid transparent !important;box-shadow:none;}
+.glass-theme .site-card { background:transparent; border:0; border-radius:var(--accepted-radius); box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none; }
+.site-card > .liquid-surface-content { min-width:0; }
+.site-card:focus-visible { outline:2px solid var(--glass-focus-color); outline-offset:3px; }
+.site-button {
+ position:relative; min-height:42px; padding:9px 14px; border:1px solid var(--site-line);
+ border-radius:var(--site-control-radius); background:var(--site-button); color:var(--site-text);
+ font:inherit; font-size:12px; font-weight:650; cursor:pointer;
+}
+.site-button:focus-visible { outline:2px solid var(--glass-focus-color); outline-offset:3px; }
+.site-button:disabled { opacity:.5; cursor:default; }
+.glass-theme .site-header { display:flex; flex-direction:column; align-items:center; width:100%; }
+.glass-theme .site-title { margin:0 0 14px; color:var(--glass-title-color); font-size:clamp(22px,2.6vw,28px); font-weight:760; letter-spacing:-.032em; line-height:1.12; text-shadow:none; }
+.glass-theme .unified-nav.is-home { grid-template-columns:minmax(0,1fr) auto; }
+.glass-theme .unified-nav [hidden] { display:none; }
+.glass-theme .unified-current { margin:0; }
+.glass-theme .site-entry:active { transform:translateY(-1px) scale(.98); }
+@media(hover:hover) and (pointer:fine) {
+ .site-button:hover { border-color:var(--site-accent); }
+}
+@media(prefers-reduced-motion:reduce) {
+ .site-button,.glass-theme .site-entry:active { transition:none; transform:none; }
+}
+
+
+.glass-theme .site-card { width:var(--site-card-width,100%); min-width:0; }
+
+/* Glass actions keep their semantic tint in the film, with shared edge/reflection layers. */
+.glass-theme .site-card.glass-action.glass-surface {
+ background:transparent !important;
+ border:var(--glass-action-layout-border,0px) solid transparent !important;
+ border-radius:var(--site-control-radius);
+ backdrop-filter:none;
+ -webkit-backdrop-filter:none;
+ --glass-lift:-2px;
+}
+/* A transparent layout border may preserve native dimensions. Paint the glass
+   at the outer boundary instead of drawing an inset second frame. */
+.glass-theme .site-card.glass-action > :is(.liquid_glass-cover,.liquid_glass-sharp) {
+ inset:calc(0px - var(--glass-action-layout-border,0px));
+}
+.glass-theme .site-card:is(.glass-action,.site-choice-film) > .liquid_glass-cover {
+ background:var(--glass-action-fill,var(--site-button));
+ transition:background-color .2s ease;
+}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .site-card:is(.glass-action,.site-choice-film):hover > .liquid_glass-cover {
+  background:var(--glass-action-hover-fill,var(--glass-action-fill,var(--site-button)));
+ }
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .site-card:is(.glass-action,.site-choice-film) > .liquid_glass-cover { transition:none; }
+}
+
+/* Choice film uses the same single-layer paint as an action, not its geometry
+   or motion role. Tools supply category colour and selected strength. */
+.glass-theme .site-radio-option.site-choice-film {
+ --glass-action-fill:var(--site-choice-rest-fill,var(--site-button));
+ --glass-action-hover-fill:var(--site-choice-hover-fill,var(--site-choice-rest-fill,var(--site-button)));
+}
+.glass-theme .site-radio-option.site-choice-film:has(input:checked) {
+ --glass-action-fill:var(--site-choice-fill);--glass-action-hover-fill:var(--site-choice-fill);
+}
+/* Destructive website actions share one red film and interaction light.
+   The glow stays outside the accepted glass edge; hover adds no second frame. */
+.glass-theme .site-card.glass-action.glass-action-danger {
+ --glass-action-fill:rgba(255,59,48,.08);
+ --glass-action-hover-fill:rgba(255,59,48,.15);
+ --crystal-border:rgba(255,59,48,.2);
+ --crystal-side-border:var(--crystal-border);
+ --site-hover-glow:var(--site-danger-hover-glow);
+ --site-hover-rim:rgba(255,59,48,.45);
+ --site-focus-glow:var(--site-danger-focus-glow);
+ --site-focus-rim:#FF3B30;
+ --glass-focus-color:var(--site-focus-rim);
+ color:#FF3B30 !important;
+}
+.glass-theme[data-theme=dark] .site-card.glass-action.glass-action-danger {
+ --glass-action-fill:rgba(255,59,48,.1);
+ --glass-action-hover-fill:rgba(255,59,48,.2);
+ --crystal-border:rgba(255,59,48,.5);
+ --site-hover-rim:rgba(255,107,107,.6);
+ --site-focus-rim:#ff6b6b;
+ color:#ff6b6b !important;
+}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .site-card.glass-action:not(:disabled):hover { box-shadow:var(--site-hover-glow); }
+}
+/* Keyboard focus uses the existing glass edge and a soft light, not an extra outline. */
+.glass-theme .site-card.glass-action:not(:disabled):focus-visible {
+ outline:0; box-shadow:var(--site-focus-glow);
+}
+.glass-theme .site-card.glass-action:not(:disabled):focus-visible > .liquid_glass-sharp { border-color:var(--site-focus-rim); }
+
+/* Opt-in category color film. Each tool supplies its own semantic RGB value.
+   Light rim, reflection, blur and motion remain owned by glass.css. */
+.glass-theme .site-card.site-tinted-card > .liquid_glass-cover {
+ background:
+  linear-gradient(rgba(var(--site-card-tint-rgb),var(--site-card-tint-opacity)),rgba(var(--site-card-tint-rgb),var(--site-card-tint-opacity))),
+  linear-gradient(var(--site-card-tint-neutral),var(--site-card-tint-neutral)),
+  var(--crystal-fill);
+}
+
+
+/* Dense resource summaries use the same category film without adding another DOM card. */
+.glass-theme .site-tinted-inset {
+ background:
+  linear-gradient(rgba(var(--site-card-tint-rgb),var(--site-card-tint-opacity)),rgba(var(--site-card-tint-rgb),var(--site-card-tint-opacity))),
+  linear-gradient(var(--site-card-tint-neutral),var(--site-card-tint-neutral)),
+  var(--site-inset) !important;
+}
+
+/* Passive calculated output: quieter blue/violet film than a primary action.
+   Opt in explicitly so notices, input cards and category colours stay separate.
+   Insets reuse the same paint without extra wrappers or nested glass layers. */
+.glass-theme {
+ --site-summary-film:linear-gradient(135deg,rgba(104,182,239,.18),rgba(255,255,255,.06) 45%,rgba(173,139,225,.14));
+ --site-summary-warning-film:linear-gradient(rgba(255,59,48,.08),rgba(255,59,48,.08));
+}
+.glass-theme[data-theme=dark] {
+ --site-summary-film:linear-gradient(135deg,rgba(85,172,255,.14),rgba(194,212,230,.02) 45%,rgba(163,126,240,.12));
+ --site-summary-warning-film:linear-gradient(rgba(255,107,107,.12),rgba(255,107,107,.12));
+}
+.glass-theme .site-card.site-summary-card > .liquid_glass-cover {
+ background:var(--site-summary-film),var(--crystal-fill);
+}
+.glass-theme .site-summary-inset {
+ background:var(--site-summary-film),var(--crystal-fill) !important;
+}
+/* Actual error/over-budget feedback keeps its meaning over the summary film. */
+.glass-theme .site-summary-card:has(.error-msg),
+.glass-theme .site-summary-inset.is-over {--site-summary-film:var(--site-summary-warning-film);}
+
+/* Keep backdrop sampling stable during entry. Fading a glass ancestor changes
+   its backdrop boundary until opacity reaches 1 and produces a colour jump. */
+@keyframes siteGlassEnter {
+ from { transform:translateY(6px); }
+ to { transform:translateY(0); }
+}
+.glass-theme .tab-content.active:has(.glass-surface) {
+ animation:siteGlassEnter .4s ease;
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .tab-content.active:has(.glass-surface) { animation:none; }
+}
+
+/* Native select: shared glass shell, with the original control owning its dimensions.
+   The decorative arrow never intercepts clicks or replaces the platform option picker. */
+.glass-theme .site-card.site-select-shell.glass-surface {
+ --site-card-width:max-content; --glass-lift:0px;
+ display:inline-grid; max-width:100%; padding:0; border:0 !important;
+ border-radius:var(--site-control-radius); background:transparent !important;
+ box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none;
+}
+.glass-theme .site-select-shell > .liquid-surface-content { width:100%; min-width:0; }
+.glass-theme .site-select-shell select.site-select-control {
+ display:block; width:100%; min-height:var(--site-select-min-height,0px); appearance:none; -webkit-appearance:none;
+ background:transparent !important; border-color:transparent !important;
+ border-radius:var(--site-control-radius); color:var(--site-text); cursor:pointer;
+ box-shadow:none !important; outline:0 !important; transform:none !important;
+}
+.glass-theme .site-select-shell select.site-select-control:focus {
+ border-color:transparent !important; box-shadow:none !important; outline:0 !important;
+}
+.glass-theme .site-select-affordance {
+ position:absolute; z-index:6; top:var(--site-select-arrow-inset,6px); bottom:var(--site-select-arrow-inset,6px); right:var(--site-select-arrow-inset,6px); width:var(--site-select-arrow-width,25px);
+ display:grid; place-items:center; border-radius:6px; pointer-events:none;
+ background:var(--site-button);
+ color:var(--site-accent); box-shadow:inset 1px 0 0 var(--site-line);
+ transition:background-color .2s ease;
+}
+.glass-theme .site-select-affordance::after {
+ content:''; width:6px; height:6px; margin-top:-3px;
+ border-right:1.6px solid currentColor; border-bottom:1.6px solid currentColor;
+ transform:rotate(45deg);
+}
+.glass-theme .site-card.site-select-shell:focus-within {
+ box-shadow:var(--site-select-glow,var(--site-focus-glow));
+}
+.glass-theme .site-card.site-select-shell:focus-within > .liquid_glass-sharp { border-color:var(--site-focus-rim); }
+.glass-theme .site-card.site-select-shell:focus-within > .site-select-affordance { background:var(--site-hover-icon-fill); }
+.glass-theme .site-select-shell:has(select:disabled) { opacity:.55; }
+.glass-theme .site-select-shell select:disabled { opacity:1; cursor:default; }
+.glass-theme .site-select-control option { color:var(--site-text); background:#f5f7fb; }
+.glass-theme[data-theme=dark] .site-select-control option { background:#162133; }
+@media(hover:hover) and (pointer:fine) {
+ /* Compact light follows input-field reach; focus retains its own edge cue. */
+ .glass-theme .site-card.site-select-shell.glass-surface:not(:has(select:disabled)):not(:focus-within):hover { box-shadow:var(--site-select-glow,var(--site-hover-glow)); }
+ .glass-theme .site-select-shell:not(:has(select:disabled)):hover > .site-select-affordance { background:var(--site-hover-icon-fill); }
+ .glass-theme .site-select-shell:not(:has(select:disabled)):not(:focus-within):hover > .liquid_glass-sharp { border-color:var(--site-hover-rim); }
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .site-select-affordance { transition:none; }
+}
+@media(forced-colors:active) {
+ .glass-theme .site-select-shell > :is(.liquid_glass-cover,.liquid_glass-sharp,.liquid_glass-reflect,.site-select-affordance) { display:none; }
+ .glass-theme .site-select-shell select.site-select-control {
+  appearance:auto; -webkit-appearance:auto;
+  background:Canvas !important; color:CanvasText; border-color:ButtonText !important;
+ }
+ .glass-theme .site-select-shell select.site-select-control:focus { outline:1px solid Highlight !important; outline-offset:2px; }
+}
+
+/* Desktop picker is still the native select: no duplicate list or change bridge.
+   Unsupported browsers and touch devices keep the existing platform picker. */
+@supports (appearance:base-select) {
+ @media(hover:hover) and (pointer:fine) and (forced-colors:none) {
+  .glass-theme .site-select-shell select.site-select-control,
+  .glass-theme .site-select-control::picker(select) {
+   appearance:base-select; -webkit-appearance:base-select;
+  }
+  .glass-theme .site-select-shell select.site-select-control {
+   display:flex; align-items:center; text-align:start;
+  }
+  .glass-theme .site-select-control::picker-icon { display:none; }
+  .glass-theme .site-select-control::picker(select) {
+   box-sizing:border-box; width:max-content; min-width:anchor-size(width); max-width:calc(100dvw - 16px); max-height:min(320px,50dvh);
+   margin-block:7px; padding:5px; border:1px solid var(--crystal-border);
+   border-radius:var(--site-control-radius); color:var(--site-text);
+   background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,.04)),rgba(245,249,255,.80);
+   backdrop-filter:blur(14px) saturate(105%); -webkit-backdrop-filter:blur(14px) saturate(105%);
+   box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 8px 24px rgba(36,48,77,.15);
+   font:inherit; scrollbar-width:thin; scrollbar-color:var(--site-line) transparent;
+   overflow-y:auto; overscroll-behavior:contain;
+  }
+  .glass-theme[data-theme=dark] .site-select-control::picker(select) {
+   background:linear-gradient(135deg,rgba(156,234,254,.07),rgba(200,141,221,.04)),rgba(16,25,40,.86);
+   box-shadow:inset 0 1px 0 rgba(220,238,255,.20),0 8px 24px rgba(0,0,0,.30);
+  }
+  .glass-theme .site-select-shell .site-select-control option {
+   box-sizing:border-box; display:flex; align-items:center; gap:8px; min-height:33px;
+   padding:6px 9px; margin:2px 0; border:0; border-radius:6px;
+   background:transparent; color:var(--site-text); font:inherit; font-weight:500; line-height:1.4;
+   cursor:pointer; outline:0;
+  }
+  .glass-theme .site-select-shell .site-select-control option:hover,
+  .glass-theme .site-select-shell .site-select-control option:focus { background:var(--site-button); }
+  .glass-theme .site-select-shell .site-select-control option:checked {
+   background:var(--site-hover-icon-fill); color:var(--site-text); font-weight:700;
+  }
+  .glass-theme .site-select-shell .site-select-control option::checkmark {
+   order:1; margin-inline-start:auto; color:var(--site-accent); font-size:12px;
+  }
+  .glass-theme .site-select-shell .site-select-control option:disabled { opacity:.45; cursor:default; }
+ }
+}
+
+/* Opt-in width follows the longest option, even when base-select sizes its trigger
+   using only the current value. The hidden grid participates in width, not height. */
+.glass-theme .site-select-fit-content > .liquid-surface-content { grid-area:1 / 1; }
+.glass-theme .site-select-sizer {
+ display:grid; grid-area:1 / 1; height:0; overflow:hidden; visibility:hidden; pointer-events:none;
+ padding-inline:var(--site-select-padding-start,10px) var(--site-select-padding-end,32px);
+ border-inline:1px solid transparent; white-space:pre;
+}
+.glass-theme .site-select-sizer > span { grid-area:1 / 1; }
+/* Accepted select geometry. Tool adapters supply only typography/layout context. */
+.glass-theme .site-card.site-select-shell.site-select-compact {
+ --site-select-min-height:calc(1lh + 8px);
+ --site-select-padding-start:10px; --site-select-padding-end:32px;
+ --site-select-arrow-inset:4px; --site-select-arrow-width:20px;
+ font-size:var(--site-select-font-size,inherit);
+ font-weight:var(--site-select-font-weight,700); line-height:var(--site-select-line-height,normal);
+ align-self:center; flex:0 1 auto;
+}
+.glass-theme .site-select-shell.site-select-compact select.site-select-control {
+ box-sizing:border-box; width:100% !important; min-width:0 !important; max-width:100%;
+ height:auto !important; min-height:var(--site-select-min-height) !important;
+ padding:3px var(--site-select-padding-end) 3px var(--site-select-padding-start) !important;
+ font:inherit !important; text-align:start; margin:0;
+}
+.glass-theme .site-select-sizer,.glass-theme .site-select-sizer > span { font:inherit !important; }
+.glass-theme .site-select-shell:has(select[hidden]) { display:none !important; }
+
+/* Website scroll control: original visibility, safe-area offsets and tap size. */
+.glass-theme .mobile-back-to-top {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .glass-theme .mobile-back-to-top {
+        position: fixed;
+        right: max(14px, env(safe-area-inset-right, 0px));
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        z-index: 1500;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: var(--site-control-radius);
+        color: #684bd1;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px) scale(0.92);
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .glass-theme .mobile-back-to-top.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    .glass-theme .mobile-back-to-top:active {
+        transform: translateY(1px) scale(0.95);
+    }
+
+
+    .glass-theme .mobile-back-to-top .liquid-surface-content > span {
+        display: block;
+        margin-top: -2px;
+        font-size: 23px;
+        font-weight: 650;
+        line-height: 1;
+    }
+
+.glass-theme[data-theme="dark"] .mobile-back-to-top { color: #b6a4ff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glass-theme .mobile-back-to-top {
+        transition: none;
+    }
+}
+
+.glass-theme .mobile-back-to-top.glass-action { --site-card-width:44px; --glass-action-layout-border:1px; --glass-lift:0px; min-height:0; box-shadow:none; }
+
+
+/* Daylight contrast uses the existing glass edge; geometry and dark paint stay unchanged. */
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme:not([data-theme="dark"]) .site-card.glass-action:not(:disabled):hover > .liquid_glass-sharp {
+  border-color:var(--site-hover-rim);
+ }
+}
+.glass-theme:not([data-theme="dark"]) .site-card.glass-action.glass-action-danger {
+ --site-hover-rim:rgba(225,38,55,.55); --site-focus-rim:#e12637;
+}
+
+/* Opt-in choice controls: one compact glass film per native radio option.
+   Does not style game radios or alter native checked/change behavior. */
+.glass-theme .site-radio-row {
+ display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+}
+.site-choice-heading{flex:0 0 auto;line-height:1.4;white-space:nowrap}
+.site-radio-group{display:flex;flex:0 1 auto;flex-wrap:wrap;align-items:center;gap:8px;min-width:0;max-width:100%}
+.glass-theme .site-radio-option.site-card {
+ --site-card-width:auto;--glass-lift:0px;
+ flex:0 0 auto;width:auto;min-width:0;border-radius:var(--site-control-radius);
+ font:inherit;line-height:normal;color:var(--site-text);overflow:visible;
+}
+.site-radio-option > .liquid-surface-content{display:flex;align-items:center;gap:6px;box-sizing:border-box;min-height:calc(1lh + 8px)}
+.site-radio-option input[type=radio]{
+ position:absolute;width:1px;height:1px;padding:0;margin:0;border:0;
+ clip-path:inset(50%);overflow:hidden;white-space:nowrap;
+}
+.glass-theme .site-radio-option .site-radio-text {
+ display:flex;align-items:center;justify-content:center;gap:6px;
+ padding:4px 10px;margin:0;position:relative;
+ font:inherit;white-space:nowrap;cursor:pointer;color:var(--site-text);
+}
+.site-radio-option:has(input[type=radio]:checked){--crystal-border:var(--site-choice-rim);--crystal-side-border:var(--site-choice-rim)}
+.site-radio-option:has(input[type=radio]:checked) > .liquid_glass-cover {
+ background:var(--site-choice-fill);
+}
+.site-radio-option > .liquid_glass-cover{transition:background-color .2s ease}
+.glass-theme [data-site-interaction=choice]:is(.active,.is-selected,[aria-selected=true]) {--crystal-fill:var(--site-choice-fill);}
+/* Selected film retains ordinary glass; the shared interaction rule owns its light. */
+.glass-theme :is([data-site-interaction=choice],.site-radio-custom):is(.active,.is-selected,[aria-selected=true],:has(input[type=radio]:checked)) > .liquid_glass-cover {box-shadow:var(--site-choice-edge);}
+.site-radio-custom > .liquid-surface-content{padding:2px 10px;gap:6px}
+.glass-theme .site-radio-custom .site-radio-text{padding:0}
+.glass-theme .site-radio-option.site-radio-custom input.site-field {
+ width:50px;height:calc(1lh + 4px);min-height:0;padding:1px 5px;border-radius:6px;
+ font:inherit;font-weight:600;box-sizing:border-box;
+}
+/* Custom radio editors share their option shell; the inner field never paints another frame. */
+.glass-theme .simulator-settings-surface .site-radio-option.site-radio-custom input.site-field-inner {
+ background:transparent !important; border:0 !important; box-shadow:none !important;
+ outline:0 !important; transform:none !important;
+}
+.site-radio-unit{font-size:12px;color:var(--site-muted)}
+
+/* Choice focus and hover use the compact-control rules below. */
+.site-radio-option:has(input[type=radio]:disabled){opacity:.5}
+.site-radio-option:has(input[type=radio]:disabled) .site-radio-text{cursor:default}
+@media(max-width:600px){
+ .glass-theme .site-radio-row{gap:6px}
+ .site-radio-group{gap:10px 8px}
+}
+@media(pointer:coarse){
+ .site-radio-option .site-radio-text::after{content:"";position:absolute;inset:-4px 0;background:transparent}
+}
+@media(prefers-reduced-motion:reduce){.site-radio-option > .liquid_glass-cover{transition:none}}
+
+/* Website operations are opt-in, and their geometry must not inherit a tool's legacy button rules.
+   Width, flex and placement stay local. Sound, game controls and choice buttons are excluded. */
+.glass-theme .site-card.glass-action.site-operation {
+ --glass-action-layout-border:0px !important; --glass-lift:-2px !important;
+ display:inline-flex !important; align-self:center !important; align-items:center; justify-content:center; box-sizing:border-box;
+ height:auto !important; min-height:42px !important; padding:8px 12px !important;
+ border:0 !important; border-radius:var(--site-control-radius) !important;
+ font-family:inherit !important; font-size:13px !important; font-weight:650 !important; line-height:1.4 !important;
+ text-align:center; text-shadow:none !important; filter:none !important; outline:0 !important;
+ box-shadow:none;
+}
+.glass-theme .site-operation > :is(.liquid_glass-cover,.liquid_glass-sharp) { inset:0 !important; }
+.glass-theme .site-card.glass-action.site-operation.glass-action-primary {
+ --glass-action-fill:rgba(118,87,220,.08); --glass-action-hover-fill:rgba(118,87,220,.15);
+ --crystal-border:rgba(118,87,220,.2); --crystal-side-border:var(--crystal-border);
+ color:var(--site-text) !important;
+}
+.glass-theme[data-theme=dark] .site-card.glass-action.site-operation.glass-action-primary {
+ --glass-action-fill:rgba(156,234,254,.1); --glass-action-hover-fill:rgba(156,234,254,.2);
+ --crystal-border:rgba(156,234,254,.5);
+}
+/* Explicit priority, reusable by independent tools; never infer from button text. */
+.glass-theme .site-card.glass-action.site-operation.glass-action-primary.site-important-action {
+ --glass-action-fill:var(--site-primary-fill);--glass-action-hover-fill:var(--site-primary-fill);
+ --crystal-border:var(--site-primary-rim);--crystal-side-border:var(--site-primary-rim);
+}
+@media(hover:hover) and (pointer:fine){
+ .glass-theme .site-card.glass-action.site-operation:not(:disabled):hover {
+  box-shadow:var(--site-hover-glow) !important;
+ }
+ .glass-theme .site-operation:not(:disabled):hover > .liquid_glass-sharp { border-color:var(--site-hover-rim); }
+}
+.glass-theme .site-card.glass-action.site-operation:not(:disabled):focus-visible { box-shadow:var(--site-focus-glow) !important; }
+.glass-theme .site-card.glass-action.site-operation:disabled { opacity:.5; cursor:default; transform:none !important; box-shadow:none !important; }
+@media(prefers-reduced-motion:reduce){
+ .glass-theme .site-card.glass-action.site-operation,
+ .glass-theme .site-card.glass-action.site-operation:is(:hover,:active) { transform:none !important; transition:none; }
+}
+/* Native checkboxes remain visible and keyboard operable inside their compact glass label. */
+.glass-theme :is(.site-toggle-control,.site-value-control).site-card {
+ --site-card-width:max-content; --glass-lift:0px; width:auto; border-radius:var(--site-control-radius);
+ font:inherit; line-height:normal; overflow:visible;
+}
+.glass-theme :is(.site-toggle-control,.site-value-control) > .liquid-surface-content {
+ display:flex; align-items:center; gap:6px; min-height:calc(1lh + 8px); padding:4px 10px; box-sizing:border-box;
+}
+.site-toggle-control { cursor:pointer; }
+.glass-theme .site-toggle-control:has(input:checked){--crystal-border:var(--site-focus-rim);--crystal-side-border:var(--site-focus-rim);}
+.site-toggle-control:has(input:checked) > .liquid_glass-cover { background:var(--site-hover-icon-fill),var(--crystal-fill); }
+.site-toggle-control input[type=checkbox]{margin:0;flex:none;}
+
+
+.glass-theme .site-value-control > .liquid-surface-content{padding:2px 10px;}
+.glass-theme .simulator-settings-surface .site-value-control.site-card input.site-field {
+ width:50px; height:calc(1lh + 4px); min-height:0; padding:1px 5px; font:inherit; box-sizing:border-box;
+ border:0 !important; background:transparent !important; box-shadow:none !important; outline:0 !important; transform:none !important;
+}
+
+.glass-theme .site-value-control:focus-within {box-shadow:var(--site-focus-glow);--crystal-border:var(--site-focus-rim);--crystal-side-border:var(--site-focus-rim);}
+.glass-theme .simulator-settings-surface .site-value-control.site-card input.site-field:is(:hover,:focus) {border:0 !important;box-shadow:none !important;outline:0 !important;transform:none !important;}
+
+/* Compact website sound controls share geometry in main and independent tools.
+   A transparent layout border preserves the native size; only the glass layer paints the edge. */
+.glass-theme .site-card.glass-action.site-sound-control {
+ --site-card-width:auto; --glass-action-layout-border:1px !important; --glass-lift:-2px !important;
+ --glass-action-fill:var(--site-button); --glass-action-hover-fill:var(--site-inset);
+ width:auto; flex:0 0 auto; align-self:center; box-sizing:border-box; overflow:visible;
+ height:auto !important; min-height:0 !important; padding:6px 12px !important;
+ border:1px solid transparent !important; border-radius:var(--site-control-radius) !important;
+ font-family:inherit !important; font-size:13px !important; font-weight:700 !important; line-height:normal !important;
+ color:var(--site-text) !important; white-space:nowrap; cursor:pointer;
+}
+.glass-theme .site-card.glass-action.site-sound-control.muted {
+ --glass-action-fill:var(--site-danger-film); --glass-action-hover-fill:rgba(255,59,48,.18);
+ --crystal-border:var(--site-danger); --crystal-side-border:var(--site-danger);
+ --site-hover-rim:var(--site-danger); --site-focus-rim:var(--site-danger);
+ --site-hover-glow:var(--site-danger-hover-glow); --site-focus-glow:var(--site-danger-focus-glow);
+ color:var(--site-danger) !important;
+}
+
+.glass-theme .site-card.site-choice > :is(.liquid_glass-cover,.liquid_glass-sharp) {inset:calc(0px - var(--site-control-layout-border,0px));}
+
+/* Accepted compact-control interaction: one existing rim, centered soft light.
+   Selected edges and keyboard focus take precedence over hover. No layout border is added. */
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .site-card:is(.site-radio-option,.site-toggle-control,.site-value-control,.site-sound-control,.site-choice,.site-glass-toggle):not(:disabled):not(:has(input:disabled)):not(:focus-visible):not(:has(input:focus-visible)):hover {
+  box-shadow:var(--site-choice-hover-glow,var(--site-hover-glow));
+ }
+ .glass-theme .site-card:is(.site-radio-option,.site-toggle-control,.site-value-control,.site-sound-control,.site-choice,.site-glass-toggle):not(:disabled):not(:has(input:disabled)):not(:has(input:checked)):not(:focus-within):hover > .liquid_glass-sharp {
+  border-color:var(--site-choice-hover-rim,var(--site-hover-rim));
+ }
+}
+.glass-theme .site-card:is(.site-radio-option,.site-toggle-control,.site-value-control,.site-choice,.site-glass-toggle):has(input:focus-visible) {
+ outline:0; box-shadow:var(--site-choice-focus-glow,var(--site-focus-glow));
+}
+.glass-theme .site-card:is(.site-radio-option,.site-toggle-control,.site-value-control,.site-choice,.site-glass-toggle):has(input:focus-visible) > .liquid_glass-sharp {
+ border-color:var(--site-choice-focus-rim,var(--site-focus-rim));
+}
+
+/* Interaction contract: containers stay calm; each small operable unit owns motion.
+   Entrances retain their accepted easing. Editors use the original equipment-card ease. */
+.glass-theme .glass-surface:is(.site-card-static,.site-card-input) {--glass-lift:0px;transform:none !important;box-shadow:none !important;}
+.glass-theme .glass-surface.site-card-info {--glass-lift:0px;--site-info-reflection-hover:.75;--site-info-hover-brightness:1.035;transform:none !important;box-shadow:none !important;}
+.glass-theme[data-theme=dark] .site-card-info {--site-info-reflection-hover:.85;--site-info-hover-brightness:1.08;}
+.glass-theme .site-card-info > .liquid_glass-reflect {transition:opacity .2s ease;}
+.glass-theme .site-card-info > .liquid_glass-cover {transition:filter .2s ease;}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .site-card-info:not(:disabled):hover > .liquid_glass-reflect {opacity:var(--site-info-reflection-hover);}
+ .glass-theme .site-card-info:not(:disabled):hover > .liquid_glass-cover {filter:brightness(var(--site-info-hover-brightness));}
+}
+.glass-theme .site-interactive {
+ --site-interaction-lift:-1px;
+ --site-interaction-hover-light:var(--site-choice-hover-glow,var(--site-hover-glow));
+ --site-interaction-focus-light:var(--site-choice-focus-glow,var(--site-focus-glow));
+ --site-interaction-hover-rim:var(--site-choice-hover-rim,var(--site-hover-rim));
+ --site-interaction-focus-rim:var(--site-choice-focus-rim,var(--site-focus-rim));
+ transform:translateY(0) !important;
+ transition:transform var(--glass-motion-duration) var(--glass-motion-easing),box-shadow var(--glass-motion-duration) var(--glass-motion-easing),border-color var(--glass-motion-duration) var(--glass-motion-easing) !important;
+}
+/* Original .equip-card and its editor used all .3s ease, not the entrance curve.
+   Keep one motion owner, so an editor inside a small card does not move twice. */
+.glass-theme .site-interactive:is([data-site-interaction=field],[data-site-interaction=group]) {
+ transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease !important;
+}
+.glass-theme .site-interactive[data-site-interaction=entry] {--site-interaction-lift:-4px;}
+.glass-theme .site-interactive:is([data-site-interaction=action],[data-site-interaction=group]) {--site-interaction-lift:-2px;}
+.glass-theme .site-interactive:is([data-site-interaction=choice],[data-site-interaction=toggle]) {box-shadow:none !important;}
+.glass-theme .site-interactive[data-site-interaction=field] {
+ --site-interaction-hover-light:var(--site-field-focus-glow,var(--site-hover-glow));
+ --site-interaction-focus-light:var(--site-field-focus-glow,var(--site-focus-glow));
+ --site-interaction-hover-rim:var(--site-field-focus-rim,var(--site-hover-rim));
+ --site-interaction-focus-rim:var(--site-field-focus-rim,var(--site-focus-rim));
+}
+/* Native base-select moves focus into its option while the picker is open.
+   :open keeps glow and lift from the initial click, including grouped selects.
+   Touch/older native pickers still use focus-within. No change-event animation. */
+/* Selects and composite values share hover/focus paint. Other numeric fields keep local hues. */
+.glass-theme :is(.site-select-shell,.site-value-control).site-interactive {
+ --site-interaction-hover-light:var(--site-select-glow,var(--site-hover-glow));
+ --site-interaction-focus-light:var(--site-select-glow,var(--site-focus-glow));
+ --site-interaction-hover-rim:var(--site-hover-rim);
+ --site-interaction-focus-rim:var(--site-focus-rim);
+}
+.glass-theme .site-interactive[data-site-interaction=group] {
+ --site-interaction-hover-light:var(--site-group-hover-glow,var(--site-hover-glow));
+ --site-interaction-focus-light:var(--site-group-focus-glow,var(--site-focus-glow));
+ --site-interaction-hover-rim:var(--site-input-group-rim,var(--site-hover-rim));
+ --site-interaction-focus-rim:var(--site-input-group-rim,var(--site-focus-rim));
+}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .site-interactive:not(:disabled):not([aria-disabled=true]):hover {box-shadow:var(--site-interaction-hover-light) !important;}
+ .glass-theme .site-interactive:not(:disabled):not([aria-disabled=true]):not(:focus-within):not(:has(input:checked)):not(.is-ready):not(.is-max):hover > .liquid_glass-sharp {border-color:var(--site-interaction-hover-rim);}
+ /* Composite controls already glow at their outer shell; do not add an inner hover glow. */
+ .glass-theme input.site-field:not(.site-field-inner):not(:where(.site-value-control input,.site-radio-custom input)):not(:disabled):hover {border-color:var(--site-field-focus-rim,var(--site-hover-rim)) !important;box-shadow:var(--site-field-focus-glow,var(--site-hover-glow)) !important;}
+}
+.glass-theme .site-interactive:not(:disabled):not([aria-disabled=true]):is(:focus-visible,:has(:focus-visible)),
+.glass-theme .site-interactive[data-site-interaction=field]:not(:disabled):is(:focus-within,:has(select:open)),
+.glass-theme .site-interactive[data-site-interaction=group]:has(:is(input:not([type=radio]):not([type=checkbox]):not([type=hidden]),select,textarea):is(:focus,:open)) {outline:0 !important;box-shadow:var(--site-interaction-focus-light) !important;}
+.glass-theme .site-interactive:not(:disabled):not([aria-disabled=true]):is(:focus-visible,:has(:focus-visible)) > .liquid_glass-sharp,
+.glass-theme .site-interactive[data-site-interaction=field]:not(:disabled):is(:focus-within,:has(select:open)) > .liquid_glass-sharp,
+.glass-theme .site-interactive[data-site-interaction=group]:has(:is(input:not([type=radio]):not([type=checkbox]):not([type=hidden]),select,textarea):is(:focus,:open)) > .liquid_glass-sharp {border-color:var(--site-interaction-focus-rim);}
+.glass-theme input.site-field:not(.site-field-inner):focus {border-color:var(--site-field-focus-rim,var(--site-focus-rim)) !important;box-shadow:var(--site-field-focus-glow,var(--site-focus-glow)) !important;}
+@media(prefers-reduced-motion:no-preference) {
+ .glass-theme .site-interactive:is([data-site-interaction=entry],[data-site-interaction=action]):not(:disabled):not([aria-disabled=true]):focus-visible,
+ .glass-theme .site-interactive[data-site-interaction=field]:not(:disabled):is(:focus-within,:has(select:open)),
+ .glass-theme .site-interactive[data-site-interaction=group]:has(:is(input:not([type=radio]):not([type=checkbox]):not([type=hidden]),select,textarea):is(:focus,:open)) {transform:translateY(var(--site-interaction-lift)) !important;}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+ .glass-theme .site-interactive:is([data-site-interaction=entry],[data-site-interaction=action]):not(:disabled):not([aria-disabled=true]):hover {transform:translateY(var(--site-interaction-lift)) !important;}
+}
+/* Selection is persistent even after blur, unlike a hover preview.
+   Reuse the approved select light (8px, no spread) and the same focus edge.
+   Local category tokens win for equipment sets. No motion is added here. */
+.glass-theme .site-interactive:is([data-site-interaction=choice],.site-radio-custom):not(.site-category-tab):not(:disabled):not([aria-disabled=true]):not(:has(input:disabled)):is(.active,.is-selected,.is-current,.is-target,[aria-selected=true],:has(input[type=radio]:checked)) {
+ box-shadow:var(--site-choice-focus-glow,var(--site-select-glow,var(--site-focus-glow))) !important;
+}
+.glass-theme .site-interactive:is([data-site-interaction=choice],.site-radio-custom):not(:disabled):not([aria-disabled=true]):not(:has(input:disabled)):is(.active,.is-selected,.is-current,.is-target,[aria-selected=true],:has(input[type=radio]:checked)) > .liquid_glass-sharp {border-color:var(--site-choice-rim);}
+/* A focused editor lifts its small card once. Independent actions can react while the card rests. */
+.glass-theme .site-interactive[data-site-interaction=entry] .site-interactive,
+.glass-theme .site-interactive[data-site-interaction=group] .site-interactive:not([data-site-interaction=action]),
+.glass-theme .site-interactive[data-site-interaction=group]:has(:is(input:not([type=radio]):not([type=checkbox]):not([type=hidden]),select,textarea):is(:focus,:open)) .site-interactive {transform:translateY(0) !important;}
+.glass-theme .site-interactive[data-site-interaction]:is(:disabled,[aria-disabled=true]),
+.glass-theme .site-interactive[data-site-interaction]:is([data-site-interaction=field],[data-site-interaction=choice],[data-site-interaction=toggle]):has(:disabled),
+.glass-theme .site-interactive[data-site-interaction][data-site-interaction=group]:not(:has(:is(input:not([type=hidden]),select,textarea,button):enabled)) {transform:none !important;box-shadow:none !important;}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .site-interactive,.glass-theme .site-interactive:is(:hover,:focus-visible,:focus-within,:active) {transform:none !important;transition:none !important;}
+ .glass-theme .site-card-info > :is(.liquid_glass-reflect,.liquid_glass-cover) {transition:none;}
+}
+
+
+/* Quiet tool categories: the accepted rune tab material, shared by role=tab.
+   Radio choices keep their persistent category light. */
+.glass-theme .site-category-tab {
+ --site-choice-rim:var(--site-category-rim);
+ --site-interaction-focus-light:var(--site-select-glow,var(--site-focus-glow));
+ --site-interaction-focus-rim:var(--site-focus-rim);
+ --site-category-rim:rgba(255,255,255,.65);
+ --site-category-fill:linear-gradient(135deg,rgba(104,182,239,.14),rgba(173,139,225,.10));
+ --site-category-marker:linear-gradient(90deg,#6eabc9,#958cc6);
+}
+.glass-theme[data-theme=dark] .site-category-tab {
+ --site-category-rim:rgba(194,212,230,.28);
+ --site-category-fill:linear-gradient(135deg,rgba(129,186,232,.13),rgba(153,139,220,.10));
+ --site-category-marker:linear-gradient(90deg,#8acaff,#b3a5eb);
+}
+.glass-theme .site-category-tab[aria-selected=true] > .liquid_glass-cover {background:var(--site-category-fill),var(--crystal-fill);}
+.glass-theme .site-category-tab[aria-selected=true] > .liquid_glass-sharp {border-color:var(--site-category-rim);}
+.glass-theme .site-category-tab::after {
+ content:'';position:absolute;z-index:6;pointer-events:none;
+ bottom:5px;left:calc(50% - 16px);width:32px;height:3px;border-radius:3px;
+ background:var(--site-category-marker);opacity:0;transform:scaleX(.65);
+ transition:opacity 180ms ease-out,transform 180ms ease-out;
+}
+.glass-theme .site-category-tab[aria-selected=true]::after {opacity:1;transform:scaleX(1);}
+/* Keyboard focus remains a temporary focus light, including the selected tab. */
+.glass-theme .site-category-tab:focus-visible > .liquid_glass-sharp {border-color:var(--site-focus-rim);}
+
+/* Touch feedback replaces the browser grey tap highlight on operated controls.
+   No hover simulation, click interception, focus changes or scrolling restriction. */
+.glass-theme .site-interactive:is([data-site-interaction=entry],[data-site-interaction=action],[data-site-interaction=choice],[data-site-interaction=toggle]),
+.glass-theme .site-radio-custom { -webkit-tap-highlight-color:transparent; }
+.glass-theme .site-interactive.site-touch-feedback {
+ transition:transform 160ms ease-out,box-shadow 160ms ease-out !important;
+}
+.glass-theme .site-interactive.site-touch-pressed {
+ box-shadow:var(--site-interaction-inset,0 0 0 0 transparent),var(--site-interaction-focus-light,var(--site-focus-glow)) !important;
+ transition:transform 80ms ease-out,box-shadow 80ms ease-out !important;
+}
+.glass-theme .site-interactive.site-touch-pressed:is([data-site-touch-kind=entry],[data-site-touch-kind=action],[data-site-touch-kind=category]) {
+ transform:translateY(2px) scale(.985) !important;
+}
+.glass-theme .site-interactive.site-touch-pressed > .liquid_glass-sharp {border-color:var(--site-interaction-focus-rim,var(--site-focus-rim));}
+.glass-theme .site-interactive.site-touch-feedback > .liquid_glass-reflect {transition:opacity 120ms ease-out;}
+.glass-theme .site-interactive.site-touch-pressed > .liquid_glass-reflect {opacity:.9;}
+/* Checked choice paint must not override an actual touch press's temporary light. */
+.glass-theme .site-interactive.site-touch-pressed:is([data-site-touch-kind=choice],[data-site-touch-kind=toggle]) {
+ box-shadow:var(--site-interaction-inset,0 0 0 0 transparent),var(--site-interaction-focus-light,var(--site-focus-glow)) !important;
+ transform:translateY(0) !important;
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .site-category-tab::after {transition:none;}
+ .glass-theme .site-interactive.site-touch-feedback,
+ .glass-theme .site-interactive.site-touch-feedback.site-touch-pressed[data-site-touch-kind] {transform:none !important;transition:none !important;}
+ .glass-theme .site-interactive.site-touch-feedback > .liquid_glass-reflect {transition:none;}
+}
+
+/* Inline navigation feedback: this is a segment of the rounded nav shell.
+   Light its text instead of painting a zero-radius button box or shifting its divider. */
+.glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction],
+.glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction]:is(:hover,:focus-visible,:active,.site-touch-pressed) {
+ --site-nav-text-light:rgba(99,148,213,.6);
+ box-shadow:none !important;
+ transform:none !important;
+ transition:color 160ms ease-out,text-shadow 160ms ease-out !important;
+}
+.glass-theme[data-theme=dark] .unified-nav .unified-home.site-interactive[data-site-interaction] {--site-nav-text-light:rgba(156,211,255,.8);}
+.glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction]:is(:focus-visible,.site-touch-pressed) {
+ color:var(--glass-title-color);
+ text-shadow:0 0 8px var(--site-nav-text-light);
+}
+/* A visible text underline retains keyboard focus without a rectangular outline. */
+.glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction]:focus-visible {
+ outline:0 !important;
+ text-decoration:underline;
+ text-decoration-color:var(--glass-focus-color);
+ text-decoration-thickness:2px;
+ text-underline-offset:4px;
+}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction]:hover {text-shadow:0 0 8px var(--site-nav-text-light);}
+}
+@media(prefers-reduced-motion:reduce) {
+ .glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction],
+ .glass-theme .unified-nav .unified-home.site-interactive[data-site-interaction]:is(:hover,:focus-visible,:active,.site-touch-pressed) {transition:none !important;}
+}
+
+/* Opt-in numeric editors reuse the accepted glass material without a second shell.
+   Tools keep dimensions; the shared control owns paint and hover/focus edges. */
+.glass-theme input.site-field.site-glass-field:not(.site-field-inner) {
+ appearance:none; -webkit-appearance:none;
+ background:var(--crystal-fill) !important; color:var(--site-text);
+ border:1px solid var(--site-control-rest-rim); border-radius:var(--site-control-radius);
+ box-shadow:var(--crystal-edge); outline:0;
+ backdrop-filter:var(--crystal-filter); -webkit-backdrop-filter:var(--crystal-filter);
+ --site-interaction-hover-light:var(--site-hover-glow);
+ --site-interaction-focus-light:var(--site-focus-glow);
+ --site-interaction-hover-rim:var(--site-hover-rim);
+ --site-interaction-focus-rim:var(--site-focus-rim);
+}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme input.site-field.site-glass-field:not(.site-field-inner):not(:disabled):not(:focus):hover {
+  border-color:var(--site-hover-rim) !important; box-shadow:var(--site-hover-glow) !important;
+ }
+}
+.glass-theme input.site-field.site-glass-field:not(.site-field-inner):focus {
+ border-color:var(--site-focus-rim) !important; box-shadow:var(--site-focus-glow) !important;
+}

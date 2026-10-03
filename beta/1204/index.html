@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="site-theme glass-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -18,7 +18,7 @@
             // 瀏覽器停用儲存時仍維持日間模式。
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=css-cleanup23">
     <link rel="icon" href="../assets/site/icon_尼尼葉.png" type="image/png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
     <script>
@@ -27,73 +27,62 @@
         gtag('js', new Date());
         gtag('config', 'G-FSW7VLPBYS');
     </script>
+<link rel="stylesheet" href="../../assets/css/site-theme.css?v=night-vivid1">
+<link rel="stylesheet" href="../../assets/css/glass.css?v=shell-glass2">
+<link rel="stylesheet" href="../../assets/css/site-components.css?v=custom-radio-contract1">
+<link rel="stylesheet" href="../../assets/css/calculator-components.css?v=css-cleanup18">
+<link rel="stylesheet" href="../assets/css/standalone-tools.css?v=generator-field-contract1">
+<link rel="stylesheet" href="../assets/css/tool-shell.css?v=notice-rounded25">
 </head>
-<body>
+<body class="standalone-tool generator-tool">
     <main class="container">
-        <header class="top-header-section">
-            <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
-
-            <div class="top-nav-bar">
-                <div class="nav-side left-side">
-                    <a class="nav-btn" href="../" onclick="if (window.location.protocol === 'file:') this.href='../index.html';">主選單</a>
-                </div>
-
-                <div class="nav-title-glass">1204 產生器</div>
-
-                <div class="nav-side right-side">
-                    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false">
-                        <span class="icon-sun">☀️</span>
-                        <span class="icon-moon">🌙</span>
-                    </button>
-                </div>
-            </div>
-        </header>
+        <header class="site-header"><h1 class="site-title">楓之谷M 也許有用的工具</h1><nav class="unified-nav" aria-label="頁面導覽"><span class="nav-glass-light" aria-hidden="true"></span><a class="unified-home" href="../" onclick="if(window.location.protocol==='file:')this.href='../index.html';"><span class="back-chevron" aria-hidden="true">‹</span><span>主選單</span></a><div class="unified-current" aria-current="page"><span>1204 產生器</span></div><div class="theme-seat"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false"><span class="icon-sun" aria-hidden="true">☀️</span><span class="icon-moon" aria-hidden="true">🌙</span></button></div></nav></header>
 
         <section class="tool-layout" aria-label="1204 梗圖產生器">
-            <div class="panel settings-panel">
+            <div class="panel settings-panel site-calculator calculator-section glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
                 <div class="section-title">內容設定</div>
 
                 <div class="field-block">
                     <span class="field-label">圖片樣式</span>
-                    <div class="style-selector" role="radiogroup" aria-label="圖片樣式">
-                        <label class="style-option">
-                            <input type="radio" name="image-style" value="classic" checked>
-                            <span class="style-option-title">樣式一</span>
-                        </label>
-                        <label class="style-option">
-                            <input type="radio" name="image-style" value="game-ui">
-                            <span class="style-option-title">樣式二</span>
-                        </label>
+                    <div class="site-radio-group" role="radiogroup" aria-label="圖片樣式">
+                    <div class="site-radio-option">
+                        <input id="site-choice-image-style-classic" type="radio" name="image-style" value="classic" checked>
+                        <label class="site-radio-text" for="site-choice-image-style-classic"><span >樣式一</span></label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-image-style-game-ui" type="radio" name="image-style" value="game-ui">
+                        <label class="site-radio-text" for="site-choice-image-style-game-ui"><span >樣式二</span></label>
+                    </div>
                     </div>
                 </div>
 
                 <div class="custom-mode-row">
-                    <label class="custom-mode-toggle" for="custom-mode-toggle">
+                    <label class="custom-mode-toggle site-choice glass-surface site-card site-interactive" for="custom-mode-toggle" data-site-interaction="toggle"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">
                         <input id="custom-mode-toggle" type="checkbox">
                         <span class="custom-checkbox" aria-hidden="true"></span>
                         <span class="custom-mode-label">啟用自訂文字</span>
-                    </label>
+                    </span></label>
                 </div>
 
                 <div id="normal-fields">
                     <label class="field-label" for="reason-input">懲處原因</label>
-                    <input id="reason-input" class="reason-input" type="text" maxlength="120" placeholder="輸入懲處原因">
+                    <input id="reason-input" class="reason-input site-field site-glass-field site-interactive" type="text" maxlength="120" placeholder="輸入懲處原因" data-site-interaction="field">
                 </div>
 
                 <div id="custom-fields" class="custom-fields" hidden>
                     <div class="custom-field-block">
                         <label class="field-label" for="custom-prefix-input">前置文字（選填）</label>
-                        <input id="custom-prefix-input" class="custom-text-input" type="text" maxlength="60" placeholder="例如：某個人的ID">
+                        <input id="custom-prefix-input" class="custom-text-input site-field site-glass-field site-interactive" type="text" maxlength="60" placeholder="例如：某個人的ID" data-site-interaction="field">
                     </div>
 
                     <div class="custom-field-block">
                         <label class="field-label" for="custom-reason-input">懲處原因</label>
-                        <input id="custom-reason-input" class="reason-input custom-reason-input" type="text" maxlength="120" placeholder="輸入懲處原因">
+                        <input id="custom-reason-input" class="reason-input custom-reason-input site-field site-glass-field site-interactive" type="text" maxlength="120" placeholder="輸入懲處原因" data-site-interaction="field">
                     </div>
 
                     <div class="custom-field-block">
                         <label class="field-label" for="custom-ending-input">結尾內容</label>
-                        <input id="custom-ending-input" class="custom-text-input" type="text" maxlength="100" placeholder="例如：遊戲服務">
+                        <input id="custom-ending-input" class="custom-text-input site-field site-glass-field site-interactive" type="text" maxlength="100" placeholder="例如：遊戲服務" data-site-interaction="field">
                     </div>
                 </div>
 
@@ -103,12 +92,12 @@
                 </div>
 
                 <div class="btn-group">
-                    <button id="download-btn" class="action-btn" type="button">儲存 PNG</button>
-                    <button id="reset-btn" class="action-btn clear-btn" type="button">重設</button>
+                    <button id="download-btn" class="action-btn site-important-action site-button glass-action site-operation glass-action-primary glass-surface site-card site-interactive" type="button" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">儲存圖片</span></button>
+                    <button id="reset-btn" class="action-btn clear-btn site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" type="button" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">重設</span></button>
                 </div>
-            </div>
+            </div></div>
 
-            <div class="panel preview-panel">
+            <div class="panel preview-panel site-calculator calculator-section glass-surface site-card site-card-info"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
                 <div class="preview-header">
                     <div class="section-title">圖片預覽</div>
                     <span id="preview-size" class="preview-size">1604 × 963</span>
@@ -119,10 +108,11 @@
                     <canvas id="meme-canvas" width="1633" height="963" aria-hidden="true"></canvas>
                 </div>
                 <p id="preview-hint" class="preview-hint">圖片會在瀏覽器內產生，不會上傳輸入內容。iPhone / iPad 可直接長按預覽圖片後選擇儲存影像。</p>
-            </div>
+            </div></div>
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=css-cleanup2"></script>
+<script src="../../assets/js/glass.js?v=composite-hover2"></script><script src="../assets/js/standalone-tools.js?v=summary-film1"></script><script src="../assets/js/tool-shell.js?v=notice-compact24"></script>
 </body>
 </html>

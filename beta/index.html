@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="glass-theme site-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,7 +17,20 @@
             // 瀏覽器停用儲存時仍維持日間模式。
         }
     </script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=css-cleanup27">
+    <link rel="stylesheet" href="../assets/css/site-theme.css?v=night-vivid1">
+    <link rel="stylesheet" href="../assets/css/glass.css?v=glass-pilot1">
+    <link rel="stylesheet" href="../assets/css/site-components.css?v=custom-radio-contract1">
+    <link rel="stylesheet" href="assets/css/home.css?v=home-desktop27">
+    <link rel="stylesheet" href="assets/css/hyper-stat.css?v=css-consolidation3">
+
+    <link rel="stylesheet" href="assets/css/ignore.css?v=css-consolidation3">
+    <link rel="stylesheet" href="assets/css/rune.css?v=css-consolidation3">
+    <link rel="stylesheet" href="assets/css/hexa-progress.css?v=css-consolidation2">
+    <link rel="stylesheet" href="assets/css/liberation.css?v=genesis-audit23">
+    <link rel="stylesheet" href="assets/css/hexa-decisions.css?v=css-consolidation3">
+    <link rel="stylesheet" href="assets/css/simulator-settings.css?v=css-cleanup17">
+    <link rel="stylesheet" href="../assets/css/calculator-components.css?v=css-consolidation3">
     <link rel="icon" href="assets/site/icon_尼尼葉.png" type="image/png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSW7VLPBYS"></script>
     <script>
@@ -26,130 +39,178 @@
         gtag('js', new Date());
         gtag('config', 'G-FSW7VLPBYS');
     </script>
+<link rel="stylesheet" href="assets/css/notice.css?v=css-cleanup28">
+<link rel="stylesheet" href="assets/css/tool-shell.css?v=notice-rounded25">
 </head>
 <body>
 
 <div class="container">
 
-    <div class="top-header-section">
-        <h1 class="main-site-title">楓之谷M 也許有用的工具</h1>
-
-        <div class="top-nav-bar">
-            <div class="nav-side left-side">
-                <button id="btn-home" onclick="switchTab('home')" class="nav-btn">主選單</button>
-            </div>
-
-            <div id="sub-page-title" class="nav-title-glass">主選單</div>
-
-            <div class="nav-side right-side">
-                <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()"
-                    aria-label="切換至夜間模式" aria-pressed="false">
-                    <span class="icon-sun">☀️</span>
-                    <span class="icon-moon">🌙</span>
+    <header class="site-header">
+        <h1 class="site-title">楓之谷M 也許有用的工具</h1>
+        <nav id="site-navigation" class="unified-nav is-home" aria-label="頁面導覽">
+            <span class="nav-glass-light" aria-hidden="true"></span>
+            <button id="btn-home" class="unified-home" type="button" onclick="switchTab('home')" hidden>
+                <span class="back-chevron" aria-hidden="true">‹</span><span>主選單</span>
+            </button>
+            <div class="unified-current" aria-current="page"><span id="sub-page-title">主選單</span></div>
+            <div class="theme-seat">
+                <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="切換至夜間模式" aria-pressed="false">
+                    <span class="icon-sun" aria-hidden="true">☀️</span><span class="icon-moon" aria-hidden="true">🌙</span>
                 </button>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
 
-    <div id="tab-home" class="tab-content active">
-        <div class="app-grid">
-            <button type="button" class="app-card app-card-notice app-card-has-badge" onclick="switchTab('notice')">
+
+    <div id="tab-home" class="tab-content active site-tool-flow">
+        <div class="app-grid site-flow-item" data-site-space="cards">
+            <button type="button" class="app-card app-card-notice app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('notice')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_公告.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">布告欄</span>
                 </span>
+                </span>
                 <span id="notice-unread-badge" class="app-status-badge app-status-badge-new app-status-badge-unread" hidden>NEW</span>
             </button>
 
-            <div class="home-menu-category home-menu-category-simulator" role="heading" aria-level="2">
+            <div class="home-menu-category home-menu-category-simulator site-space-item" role="heading" aria-level="2">
                 <span>模擬器</span>
                 <small>8</small>
             </div>
 
-            <button type="button" class="app-card" onclick="switchTab('transcend')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('transcend')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_超越模擬器.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">超越模擬器</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('craft')">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('craft')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_製作模擬器.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">製作模擬器</span>
                 </span>
+                </span>
                 <span id="menu-badge-craft" class="app-status-badge app-status-badge-update" hidden>新增製作階段</span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('emb-enhance')">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('emb-enhance')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/emblem/icon_紋章模擬.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">紋章模擬器</span>
                 </span>
+                </span>
                 <span id="menu-badge-emb-enhance" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('acc-enhance')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('acc-enhance')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_飾品模擬.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">飾品強化模擬器</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('star')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('star')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_星力模擬.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">星力強化模擬器</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('will')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('will')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_威爾練習機.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">威爾二階練習機</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="markMenuToolBadgeAsRead('light-sanctum-pray'); window.location.href = window.location.protocol === 'file:' ? 'light-sanctum-pray/index.html' : 'light-sanctum-pray/'">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="markMenuToolBadgeAsRead('light-sanctum-pray'); window.location.href = window.location.protocol === 'file:' ? 'light-sanctum-pray/index.html' : 'light-sanctum-pray/'" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_光之聖所祈禱模擬器.png" class="menu-custom-img" alt="" onerror="this.style.display='none'">
                 </span>
                 <span class="app-info">
                     <span class="app-title">光之聖所祈禱模擬器</span>
                 </span>
+                </span>
                 <span id="menu-badge-light-sanctum-pray" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="markMenuToolBadgeAsRead('1204'); window.location.href = window.location.protocol === 'file:' ? '1204/index.html' : '1204/'">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="markMenuToolBadgeAsRead('1204'); window.location.href = window.location.protocol === 'file:' ? '1204/index.html' : '1204/'" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_1204產生器.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">1204 產生器</span>
                 </span>
+                </span>
                 <span id="menu-badge-1204" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <div class="home-menu-category home-menu-category-calculator" role="heading" aria-level="2">
+            <div class="home-menu-category home-menu-category-calculator site-space-item" role="heading" aria-level="2">
                 <span>計算機</span>
                 <small>5</small>
             </div>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('hyper-stat')">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('hyper-stat')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_極限屬性計算機.png" class="menu-custom-img" alt=""
                         onerror="this.style.display='none'">
@@ -157,10 +218,15 @@
                 <span class="app-info">
                     <span class="app-title">極限屬性計算機</span>
                 </span>
+                </span>
                 <span id="menu-badge-hyper-stat" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('rune')">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('rune')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <span class="rune-menu-icon" aria-hidden="true">
                         <span>✦</span>
@@ -170,81 +236,121 @@
                 <span class="app-info">
                     <span class="app-title">符文計算機</span>
                 </span>
+                </span>
                 <span id="menu-badge-rune" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('ignore')">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('ignore')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_無視防禦計算機.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">無視防禦計算機</span>
                 </span>
+                </span>
                 <span id="menu-badge-ignore" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('hexa-prog')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('hexa-prog')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/hexa/icon_HEXA矩陣_紫.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">六轉進度計算機</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card app-card-has-badge" onclick="switchTab('liberation')">
+            <button type="button" class="app-card app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('liberation')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_解放進度計算機.png" class="menu-custom-img" alt="" onerror="this.style.display='none'">
                 </span>
                 <span class="app-info">
                     <span class="app-title">創世解放計算機</span>
                 </span>
+                </span>
                 <span id="menu-badge-liberation" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <div class="home-menu-category home-menu-category-hexa" role="heading" aria-level="2">
+            <div class="home-menu-category home-menu-category-hexa site-space-item" role="heading" aria-level="2">
                 <span>HEXA 相關</span>
                 <small>4</small>
             </div>
 
-            <button type="button" class="app-card" onclick="switchTab('hexa-visual')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('hexa-visual')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/menu/icon_HEXA屬性模擬器.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">HEXA 屬性模擬器</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('hexa-lazy')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('hexa-lazy')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">HEXA 懶人重製表</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('hexa-reset')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('hexa-reset')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">HEXA 重置決策模擬</span>
                 </span>
+                </span>
             </button>
 
-            <button type="button" class="app-card" onclick="switchTab('hexa-sim')">
+            <button type="button" class="app-card site-entry glass-surface site-card site-card-entry site-interactive site-space-item" onclick="switchTab('hexa-sim')" data-site-interaction="entry">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">
                 <span class="app-icon">
                     <img src="assets/hexa/icon_HEXA矩陣_藍.png" class="menu-custom-img" alt="">
                 </span>
                 <span class="app-info">
                     <span class="app-title">HEXA 目標機率模擬</span>
                 </span>
+                </span>
             </button>
         </div>
 
-        <section class="data-backup-panel" aria-labelledby="data-backup-title">
+        <section class="data-backup-panel glass-surface site-card site-card-input site-flow-item" aria-labelledby="data-backup-title">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+            <div class="liquid-surface-content">
             <div class="data-backup-heading">
                 <span class="data-backup-icon" aria-hidden="true">
                     <img src="assets/menu/icon_資料備份與還原.webp" alt="" onerror="this.style.display='none'">
@@ -255,16 +361,39 @@
                 </div>
             </div>
             <div class="data-backup-actions">
-                <button class="data-backup-btn data-backup-export" type="button" onclick="exportSiteDataBackup()">匯出備份</button>
-                <button class="data-backup-btn data-backup-import" type="button" onclick="openSiteDataBackupImport()">匯入備份</button>
-                <button class="data-backup-btn data-backup-clear" type="button" onclick="clearSavedCalculatorData()">清除計算資料</button>
+                <button class="data-backup-btn data-backup-export site-important-action site-button glass-action site-operation glass-action-primary glass-surface site-card site-interactive" type="button" onclick="exportSiteDataBackup()" data-site-interaction="action">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">匯出備份
+                </span>
+            </button>
+                <button class="data-backup-btn data-backup-import site-important-action site-button glass-action site-operation glass-action-primary glass-surface site-card site-interactive" type="button" onclick="openSiteDataBackupImport()" data-site-interaction="action">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">匯入備份
+                </span>
+            </button>
+                <button class="data-backup-btn data-backup-clear site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" type="button" onclick="clearSavedCalculatorData()" data-site-interaction="action">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+                <span class="liquid-surface-content">清除計算資料
+                </span>
+            </button>
                 <input id="data-backup-file-input" type="file" accept=".json,application/json" hidden
                     onchange="importSiteDataBackup(this.files[0]); this.value = ''">
             </div>
             <p id="data-backup-status" class="data-backup-status" role="status" aria-live="polite"></p>
+                    </div>
         </section>
 
-        <div class="settings-panel instructions-panel memo-card">
+        <div class="memo-card glass-surface site-card site-card-info site-flow-item">
+                <span class="liquid_glass-cover" aria-hidden="true"></span>
+                <span class="liquid_glass-sharp" aria-hidden="true"></span>
+                <span class="liquid_glass-reflect" aria-hidden="true"></span>
+            <div class="liquid-surface-content">
             <div class="memo-content">
                 <picture class="memo-media">
                     <source srcset="assets/site/image_Discord_ID.webp" type="image/webp">
@@ -277,6 +406,7 @@
                     <p class="memo-simple-text">紙條：露娜-迷你安安 <br class="mobile-br">（留言 Discord 名稱我方便確認好友）</p>
                 </div>
             </div>
+                    </div>
         </div>
     </div>
 
@@ -288,10 +418,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-09-25">2026.09.25</time>
+                    <time datetime="2026-10-04">2026.10.04</time>
                 </div>
-                <h2 id="notice-latest-title">新增 光之聖所祈禱模擬器</h2>
-                <p>依照遊戲介面還原祈禱流程，並加入目前等級設定與累積消耗紀錄。</p>
+                <h2 id="notice-latest-title">網站介面更新與手機版優化</h2>
+                <p>統一各工具的玻璃介面，調整計算資訊、輸入欄位與手機版排版。</p>
             </div>
         </section>
 
@@ -308,8 +438,21 @@
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
                         <header>
-                            <time datetime="2026-09-25">2026 / 09 / 25</time>
+                            <time datetime="2026-10-04">2026 / 10 / 04</time>
                             <span class="notice-latest-badge">最新</span>
+                        </header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-update">介面</span><span>統一網站的玻璃樣式、日夜配色與互動效果。</span></li>
+                            <li><span class="notice-tag notice-tag-update">排版</span><span>調整主選單與各工具的資訊排列，改善手機與電腦上的閱讀、操作體驗。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
+                        <header>
+                            <time datetime="2026-09-25">2026 / 09 / 25</time>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-new">新增</span><span>光之聖所祈禱模擬器，依照遊戲 UI 還原祈禱流程與確認彈窗。</span></li>
@@ -554,7 +697,7 @@
 
     <div id="tab-ignore" class="tab-content">
         <div class="ignore-layout-wrapper">
-            <div class="left-panel panel ignore-left-panel">
+            <div class="left-panel ignore-left-panel">
                 <div class="section-title ignore-input-header">
                     <span class="ignore-input-title">自訂數值輸入區</span>
                     <span class="ignore-input-notice"><span class="ignore-input-notice-icon" aria-hidden="true">i</span><span>雙排星火無視請先自行加總</span></span>
@@ -563,29 +706,53 @@
             </div>
 
             <div class="right-panel ignore-right-panel">
-                <div class="panel panel-absolab" style="margin: 0;">
+                <div class="panel-absolab" style="margin: 0;">
                     <div class="section-title">航海師套組 (單選)</div>
-                    <div class="radio-grid absolab-group">
-                        <label class="radio-label"><input type="radio" name="absolab" value="0" checked onchange="calculateIgnore()"> 無</label>
-                        <label class="radio-label"><input type="radio" name="absolab" value="3" onchange="calculateIgnore()"> 4set (3%)</label>
-                        <label class="radio-label"><input type="radio" name="absolab" value="6" onchange="calculateIgnore()"> 6set (6%)</label>
-                        <label class="radio-label"><input type="radio" name="absolab" value="10" onchange="calculateIgnore()"> 7set (10%)</label>
+                    <div class="site-radio-group absolab-group" role="group" aria-label="航海師套組">
+                    <div class="site-radio-option">
+                        <input id="site-choice-absolab-0" type="radio" name="absolab" value="0" checked onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-absolab-0">無</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-absolab-3" type="radio" name="absolab" value="3" onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-absolab-3">4set (3%)</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-absolab-6" type="radio" name="absolab" value="6" onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-absolab-6">6set (6%)</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-absolab-10" type="radio" name="absolab" value="10" onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-absolab-10">7set (10%)</label>
+                    </div>
                     </div>
                 </div>
 
-                <div class="panel panel-arcane" style="margin: 0;">
+                <div class="panel-arcane" style="margin: 0;">
                     <div class="section-title">神秘冥界幽靈套組 (單選)</div>
-                    <div class="radio-grid arcane-group">
-                        <label class="radio-label"><input type="radio" name="arcane" value="0" checked onchange="calculateIgnore()"> 無</label>
-                        <label class="radio-label"><input type="radio" name="arcane" value="4" onchange="calculateIgnore()"> 1set (4%)</label>
-                        <label class="radio-label"><input type="radio" name="arcane" value="8" onchange="calculateIgnore()"> 2set (8%)</label>
-                        <label class="radio-label"><input type="radio" name="arcane" value="12" onchange="calculateIgnore()"> 4set (12%)</label>
+                    <div class="site-radio-group arcane-group" role="group" aria-label="神秘冥界幽靈套組">
+                    <div class="site-radio-option">
+                        <input id="site-choice-arcane-0" type="radio" name="arcane" value="0" checked onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-arcane-0">無</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-arcane-4" type="radio" name="arcane" value="4" onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-arcane-4">1set (4%)</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-arcane-8" type="radio" name="arcane" value="8" onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-arcane-8">2set (8%)</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-arcane-12" type="radio" name="arcane" value="12" onchange="calculateIgnore()">
+                        <label class="site-radio-text" for="site-choice-arcane-12">4set (12%)</label>
+                    </div>
                     </div>
                 </div>
 
-                <div class="result-box result-gradient" id="result-ignore">總無視防禦：0.00%</div>
+                <div class="ignore-result-surface"><div class="result-box result-gradient" id="result-ignore" aria-live="polite">總無視防禦：0.00%</div></div>
 
-                <button onclick="clearIgnore()" class="btn-clear">清除重置</button>
+                <button onclick="clearIgnore()" class="btn-clear site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">清除重置</span></button>
                 <aside class="ignore-bug-notice" aria-labelledby="ignore-bug-title">
                     <strong id="ignore-bug-title">⚠ HEXA 無視防禦已知 BUG</strong>
                     <p>依目前實測，納入 HEXA 屬性的無視防禦後，本計算機結果可能與遊戲內面板出現小幅差異。（遊戲版本：2026/06 測試）</p>
@@ -597,46 +764,51 @@
     <div id="tab-hyper-stat" class="tab-content">
         <div class="hint">（遊戲版本：2026/07/29）</div>
 
-        <section class="hyper-overview panel">
+        <section class="hyper-overview">
             <div class="hyper-level-field">
                 <label for="hyper-character-level">角色等級</label>
-                <div class="hyper-level-input">
-                    <span>Lv.</span>
-                    <input id="hyper-character-level" type="number" inputmode="numeric" min="1" max="300" value=""
+                <div class="hyper-level-input site-value-control site-value-centered">
+                    <span class="site-value-affix site-value-prefix">Lv.</span>
+                    <input id="hyper-character-level" aria-describedby="hyper-level-hint" type="number" inputmode="numeric" min="1" max="300" value=""
                         oninput="setHyperCharacterLevel(this.value)" onchange="setHyperCharacterLevel(this.value, true)">
                 </div>
+                <small id="hyper-level-hint">請填寫角色等級</small>
             </div>
 
             <div class="hyper-overview-stats" aria-live="polite">
-                <div class="hyper-overview-item">
-                    <span>可用點數</span>
-                    <strong id="hyper-total-points">0</strong>
+                <div class="hyper-summary-metric hyper-overview-total">
+                    <span>總點數</span>
+                    <strong id="hyper-total-points">—</strong>
                 </div>
-                <div class="hyper-overview-item">
-                    <span>已分配</span>
+                <div class="hyper-summary-metric hyper-overview-used">
+                    <span>已用</span>
                     <strong id="hyper-used-points">0</strong>
                 </div>
-                <div class="hyper-overview-item" id="hyper-remaining-card">
-                    <span>剩餘點數</span>
-                    <strong id="hyper-remaining-points">0</strong>
+                <div class="hyper-summary-metric" id="hyper-remaining-card">
+                    <span>剩餘</span>
+                    <strong id="hyper-remaining-points">—</strong>
+                    <small id="hyper-budget-status" hidden></small>
                 </div>
-                <div class="hyper-overview-item hyper-overview-mesos">
-                    <span class="hyper-coin-wrap" aria-hidden="true">
-                        <img src="assets/common/icon_金幣.png" alt="">
-                    </span>
-                    <strong id="hyper-total-mesos">0</strong>
+                <div class="hyper-summary-metric hyper-overview-mesos">
+                    <span>目前配置總費用</span>
+                    <div class="hyper-mesos-value">
+                        <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="" aria-hidden="true">
+                        <strong id="hyper-total-mesos">0</strong>
+                    </div>
                 </div>
             </div>
         </section>
 
         <div class="hyper-profile-tabs" role="tablist" aria-label="極限屬性配置">
-            <button id="hyper-profile-btn-boss" class="hyper-profile-tab active" type="button" role="tab"
-                aria-selected="true" onclick="switchHyperProfile('boss')">
+            <button id="hyper-profile-btn-boss" class="hyper-profile-tab site-category-check-tab active" type="button" role="tab"
+                aria-controls="hyper-profile-panel-boss" aria-selected="true" tabindex="0" onclick="switchHyperProfile('boss')">
+                <span class="hyper-profile-current site-category-check-marker" aria-hidden="true">✓</span>
                 <span>打王</span>
                 <small id="hyper-profile-used-boss">已用 0 點</small>
             </button>
-            <button id="hyper-profile-btn-farm" class="hyper-profile-tab" type="button" role="tab"
-                aria-selected="false" onclick="switchHyperProfile('farm')">
+            <button id="hyper-profile-btn-farm" class="hyper-profile-tab site-category-check-tab" type="button" role="tab"
+                aria-controls="hyper-profile-panel-farm" aria-selected="false" tabindex="-1" onclick="switchHyperProfile('farm')">
+                <span class="hyper-profile-current site-category-check-marker" aria-hidden="true">✓</span>
                 <span>掛機</span>
                 <small id="hyper-profile-used-farm">已用 0 點</small>
             </button>
@@ -653,7 +825,7 @@
         </section>
 
         <div class="hyper-bottom-actions">
-            <button class="btn-clear" type="button" onclick="resetHyperProfile()">重設目前配置</button>
+            <button class="btn-clear site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" type="button" onclick="resetHyperProfile()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">重設打王配置</span></button>
         </div>
     </div>
 
@@ -664,14 +836,16 @@
         </div>
 
         <div class="rune-category-switch" role="tablist" aria-label="符文類型">
-            <button id="rune-tab-arcane" class="rune-category-btn active" type="button" role="tab" aria-selected="true" onclick="switchRuneCategory('arcane')">
+            <button id="rune-tab-arcane" class="rune-category-btn site-category-check-tab site-category-check-balanced active" type="button" role="tab" aria-selected="true" onclick="switchRuneCategory('arcane')">
+                <span class="rune-category-current site-category-check-marker" aria-hidden="true">✓</span>
                 <span class="rune-category-glyph arcane-glyph" aria-hidden="true">
                     <span>✦</span>
                     <img src="assets/runes/icon_祕法符文.png" alt="" onerror="this.style.display='none'">
                 </span>
                 <span><b>祕法符文</b></span>
             </button>
-            <button id="rune-tab-authentic" class="rune-category-btn" type="button" role="tab" aria-selected="false" onclick="switchRuneCategory('authentic')">
+            <button id="rune-tab-authentic" class="rune-category-btn site-category-check-tab site-category-check-balanced" type="button" role="tab" aria-selected="false" onclick="switchRuneCategory('authentic')">
+                <span class="rune-category-current site-category-check-marker" aria-hidden="true">✓</span>
                 <span class="rune-category-glyph authentic-glyph" aria-hidden="true">
                     <span>◆</span>
                     <img src="assets/runes/icon_真實符文.png" alt="" onerror="this.style.display='none'">
@@ -696,7 +870,7 @@
                     <div class="rune-grand-item">
                         <div class="rune-summary-image coin-image">
                             <span aria-hidden="true">₥</span>
-                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="" onerror="this.style.display='none'">
                         </div>
                         <div>
                             <strong id="rune-grand-mesos">0</strong>
@@ -706,7 +880,7 @@
             </div>
 
             <div class="rune-bottom-actions">
-                <button class="rune-reset-all btn-clear" type="button" onclick="resetAllRuneCards()">全部重設</button>
+                <button class="rune-reset-all btn-clear site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" type="button" onclick="resetAllRuneCards()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">全部重設</span></button>
             </div>
         </section>
 
@@ -726,7 +900,7 @@
                     <div class="rune-grand-item">
                         <div class="rune-summary-image coin-image">
                             <span aria-hidden="true">₥</span>
-                            <img src="assets/common/icon_金幣.png" alt="" onerror="this.style.display='none'">
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="" onerror="this.style.display='none'">
                         </div>
                         <div>
                             <strong id="authentic-grand-mesos">0</strong>
@@ -736,7 +910,7 @@
             </div>
 
             <div class="rune-bottom-actions">
-                <button class="rune-reset-all btn-clear" type="button" onclick="resetAllAuthenticRuneCards()">全部重設</button>
+                <button class="rune-reset-all btn-clear site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" type="button" onclick="resetAllAuthenticRuneCards()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">全部重設</span></button>
             </div>
         </section>
     </div>
@@ -809,7 +983,7 @@
 
                     <div class="sec-bottom" id="ui-sec-bottom">
                         <div class="coin-box" id="ui-coin-box">
-                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 1,204
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 1,204
                         </div>
                         <button class="btn-action-tr" id="btn-main-action" onclick="tr_execute_action()">超越</button>
                     </div>
@@ -817,18 +991,31 @@
             </div>
         </div>
 
-        <div class="settings-panel">
+        <div class="settings-panel simulator-settings-surface site-calculator glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
             <div class="settings-title">
                 <span>⚙️ 超越模擬器設定</span>
-                <button id="btn-sound-toggle" class="btn-sound" onclick="tr_toggleSound()">🔊 音效：開啟</button>
+                <button id="btn-sound-toggle" class="btn-sound glass-action site-sound-control glass-surface site-card site-interactive" onclick="tr_toggleSound()" data-site-interaction="toggle"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">🔊 音效：開啟</span></button>
             </div>
             <div class="setting-row">
                 <label>裝備選擇：</label>
                 <select id="tr-equip-select" onchange="tr_changeEquip()" style="width: 160px;"></select>
             </div>
-            <div class="setting-row" style="font-weight: bold; color: #c0392b;">
-                <label><input type="radio" name="sim-mode" value="enhance" checked onchange="tr_updateUI()"> 超越模式</label>
-                <label style="margin-left: 20px;"><input type="radio" name="sim-mode" value="scroll" onchange="tr_updateUI()"> 超越扣除模式</label>
+            <div class="setting-row site-radio-row">
+                <span class="site-choice-heading" id="tr-mode-heading">模擬模式：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="tr-mode-heading">
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-sim-mode-enhance" name="sim-mode" value="enhance" checked onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-sim-mode-enhance">
+                            <span>超越模式</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-sim-mode-scroll" name="sim-mode" value="scroll" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-sim-mode-scroll">
+                            <span>超越扣除模式</span>
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="setting-row" style="margin-top: 15px;">
                 <label>裝備等級：</label>
@@ -840,22 +1027,73 @@
                     <script>for (let i = 0; i <= 7; i++) document.write(`<option value="${i}">${i}</option>`);</script>
                 </select>
             </div>
-            <div class="setting-row">
-                超越石機率：
-                <label><input type="radio" name="stone-rate" value="80" onchange="tr_updateUI()"> 80%</label>
-                <label><input type="radio" name="stone-rate" value="50" checked onchange="tr_updateUI()"> 50%</label>
-                <label><input type="radio" name="stone-rate" value="30" onchange="tr_updateUI()"> 30%</label>
-                <label><input type="radio" name="stone-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
-                <input type="text" inputmode="decimal" id="custom-stone-rate" value="50" min="1" max="100" style="width:50px;" data-group="stone-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
+            <div class="setting-row site-radio-row">
+                <span class="site-choice-heading" id="tr-stone-rate-heading">超越石機率：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="tr-stone-rate-heading">
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-stone-rate-80" name="stone-rate" value="80" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-stone-rate-80">
+                            <span>80%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-stone-rate-50" name="stone-rate" value="50" checked onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-stone-rate-50">
+                            <span>50%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-stone-rate-30" name="stone-rate" value="30" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-stone-rate-30">
+                            <span>30%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option site-radio-custom">
+                        <input type="radio" id="tr-choice-stone-rate-custom" name="stone-rate" value="custom" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-stone-rate-custom">
+                            <span>自訂</span>
+                        </label>
+                        <input class="site-field site-field-inner" type="text" inputmode="decimal" id="custom-stone-rate" value="50" min="1" max="100" data-group="stone-rate" aria-label="自訂超越石機率，百分比" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)">
+                        <span class="site-radio-unit" aria-hidden="true">%</span>
+                    </div>
+                </div>
             </div>
-            <div class="setting-row">
-                超越扣除卷軸機率：
-                <label><input type="radio" name="scroll-rate" value="27" checked onchange="tr_updateUI()"> 27%</label>
-                <label><input type="radio" name="scroll-rate" value="40" onchange="tr_updateUI()"> 40%</label>
-                <label><input type="radio" name="scroll-rate" value="70" onchange="tr_updateUI()"> 70%</label>
-                <label><input type="radio" name="scroll-rate" value="100" onchange="tr_updateUI()"> 100%</label>
-                <label><input type="radio" name="scroll-rate" value="custom" onchange="tr_updateUI()"> 自訂</label>
-                <input type="text" inputmode="decimal" id="custom-scroll-rate" value="30" min="1" max="100" style="width:50px;" data-group="scroll-rate" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)"> %
+            <div class="setting-row site-radio-row">
+                <span class="site-choice-heading" id="tr-scroll-rate-heading">超越扣除卷軸機率：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="tr-scroll-rate-heading">
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-scroll-rate-27" name="scroll-rate" value="27" checked onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-scroll-rate-27">
+                            <span>27%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-scroll-rate-40" name="scroll-rate" value="40" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-scroll-rate-40">
+                            <span>40%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-scroll-rate-70" name="scroll-rate" value="70" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-scroll-rate-70">
+                            <span>70%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input type="radio" id="tr-choice-scroll-rate-100" name="scroll-rate" value="100" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-scroll-rate-100">
+                            <span>100%</span>
+                        </label>
+                    </div>
+                    <div class="site-radio-option site-radio-custom">
+                        <input type="radio" id="tr-choice-scroll-rate-custom" name="scroll-rate" value="custom" onchange="tr_updateUI()">
+                        <label class="site-radio-text" for="tr-choice-scroll-rate-custom">
+                            <span>自訂</span>
+                        </label>
+                        <input class="site-field site-field-inner" type="text" inputmode="decimal" id="custom-scroll-rate" value="30" min="1" max="100" data-group="scroll-rate" aria-label="自訂超越扣除卷軸機率，百分比" oninput="tr_validateCustomRate(this)" onblur="tr_onBlurCustomRate(this)">
+                        <span class="site-radio-unit" aria-hidden="true">%</span>
+                    </div>
+                </div>
             </div>
 
             <div class="stats-text">
@@ -881,8 +1119,8 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-reset-tr" onclick="tr_action_reset()"> 重新模擬 (清除所有狀態)</button>
-        </div>
+            <button class="btn-reset-tr site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" onclick="tr_action_reset()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content"> 重新模擬 (清除所有狀態)</span></button>
+        </div></div>
 
         <div class="modal-backdrop" id="result-modal">
             
@@ -1034,7 +1272,7 @@
 
                     <div class="sec-bottom">
                         <div class="coin-box" id="cr-coin-box">
-                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;"> 
                             <span id="cr-meso-cost">1,024</span>
                         </div>
                         <button class="btn-action-tr" id="btn-craft-action" onclick="cr_showConfirm()">製作</button>
@@ -1043,10 +1281,10 @@
             </div>
         </div>
 
-        <div class="settings-panel">
+        <div class="settings-panel simulator-settings-surface site-calculator glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
             <div class="settings-title">
                 <span>⚙️ 製作模擬器設定</span>
-                <button id="btn-sound-toggle-cr" class="btn-sound" onclick="cr_toggleSound()">🔊 音效：開啟</button>
+                <button id="btn-sound-toggle-cr" class="btn-sound glass-action site-sound-control glass-surface site-card site-interactive" onclick="cr_toggleSound()" data-site-interaction="toggle"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">🔊 音效：開啟</span></button>
             </div>
             
             <div class="setting-row">
@@ -1054,13 +1292,25 @@
                 <select id="cr-equip-select" onchange="cr_changeEquip()"></select>
             </div>
 
-            <div class="setting-row cr-stage-setting-row" style="font-weight: bold; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                <span class="cr-setting-heading">選擇製作階段</span>
-                <div class="cr-stage-options">
-                    <label><input type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()"> 神話－古代</label>
-                    <label><input type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()"> 死靈－航海師</label>
-                    <label><input type="radio" name="cr-stage" value="chaos_absolab" onchange="cr_forceStageChange()"> 混沌－航海師</label>
-                    <label><input type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()"> 航海師－神秘</label>
+            <div class="setting-row site-radio-row">
+                <span class="site-choice-heading" id="site-heading-cr-stage">選擇製作階段：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="site-heading-cr-stage">
+                    <div class="site-radio-option">
+                        <input id="site-choice-cr-stage-necro" type="radio" name="cr-stage" value="necro" onchange="cr_forceStageChange()">
+                        <label class="site-radio-text" for="site-choice-cr-stage-necro">神話－古代</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-cr-stage-absolab" type="radio" name="cr-stage" value="absolab" onchange="cr_forceStageChange()">
+                        <label class="site-radio-text" for="site-choice-cr-stage-absolab">死靈－航海師</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-cr-stage-chaos_absolab" type="radio" name="cr-stage" value="chaos_absolab" onchange="cr_forceStageChange()">
+                        <label class="site-radio-text" for="site-choice-cr-stage-chaos_absolab">混沌－航海師</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-cr-stage-arcane" type="radio" name="cr-stage" value="arcane" checked onchange="cr_forceStageChange()">
+                        <label class="site-radio-text" for="site-choice-cr-stage-arcane">航海師－神秘</label>
+                    </div>
                 </div>
             </div>
 
@@ -1117,8 +1367,8 @@
                 </div>
             </div>
             
-            <button class="btn-reset-tr" onclick="cr_action_reset()"> 重新模擬 (清除所有狀態)</button>
-        </div>
+            <button class="btn-reset-tr site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" onclick="cr_action_reset()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content"> 重新模擬 (清除所有狀態)</span></button>
+        </div></div>
 
         <div class="modal-backdrop" id="cr-confirm-modal">
             <div class="cr-confirm-box">
@@ -1156,78 +1406,34 @@
     </div>
 
     <div id="tab-hexa-prog" class="tab-content">
-        <div class="panel">
-            <div class="section-title" style="margin-bottom: 5px;">第一步：設定目前核心等級</div>
-            <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 15px;">💡 提示：共通核心尚未開放，暫時採用韓服（Kmsm）需求。</div>
+        <div class="hexa-progress-panel">
+            <div class="section-title prog-step-heading"><span class="prog-step-number">1</span>目前核心等級<small>勾選要納入計算的核心・目標 Lv.30</small></div>
+            <p class="prog-note"><span class="prog-common-note">💡 提示：共通核心尚未開放，暫時採用韓服（KMSM）需求。</span></p>
             <div id="prog-cores-container"></div>
         </div>
-
-        <div class="panel">
-            <div class="section-title">第二步：背包剩餘庫存 (選填，直接抵扣需求)</div>
-            <div class="inv-grid">
-                <div class="inv-item">
-                    <label><img src="assets/hexa/icon_靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯</label>
-                    <input type="text" inputmode="decimal" id="inv-big" min="0" value="">
-                </div>
-                <div class="inv-item">
-                    <label><img src="assets/hexa/icon_濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息 (1=500)</label>
-                    <input type="text" inputmode="decimal" id="inv-conc" min="0" value="">
-                </div>
-                <div class="inv-item">
-                    <label><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 (1=200)</label>
-                    <input type="text" inputmode="decimal" id="inv-nrg" min="0" value="">
-                </div>
-                <div class="inv-item">
-                    <label><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 (1=10)</label>
-                    <input type="text" inputmode="decimal" id="inv-weak" min="0" value="">
-                </div>
-                <div class="inv-item">
-                    <label><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label>
-                    <input type="text" inputmode="decimal" id="inv-frag" min="0" value="">
-                </div>
+        <div class="prog-resource-settings">
+            <div class="hexa-progress-panel prog-stock-panel">
+                <div class="section-title prog-step-heading"><span class="prog-step-number">2</span>背包庫存<small>選填・直接抵扣需求</small></div>
+                <div class="prog-stock-list"><div class="prog-stock-row"><div class="prog-stock-caption"><label for="inv-big"><img src="assets/hexa/icon_靈魂艾爾達斯.png" class="res-icon" alt="">靈魂艾爾達斯</label><small id="inv-big-unit">1,000 氣息／個</small></div><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="inv-big" min="0" value="" aria-describedby="inv-big-unit"></div>
+<div class="prog-stock-row"><div class="prog-stock-caption"><label for="inv-conc"><img src="assets/hexa/icon_濃郁靈魂艾爾達斯氣息.png" class="res-icon" alt="">濃郁氣息</label><small id="inv-conc-unit">500 氣息／個</small></div><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="inv-conc" min="0" value="" aria-describedby="inv-conc-unit"></div>
+<div class="prog-stock-row"><div class="prog-stock-caption"><label for="inv-nrg"><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" alt="">氣息（200）</label><small id="inv-nrg-unit">200 氣息／個</small></div><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="inv-nrg" min="0" value="" aria-describedby="inv-nrg-unit"></div>
+<div class="prog-stock-row"><div class="prog-stock-caption"><label for="inv-nrg100"><img src="assets/hexa/icon_靈魂艾爾達斯氣息100.png" class="res-icon" alt="">氣息（100）</label><small id="inv-nrg100-unit">100 氣息／個</small></div><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="inv-nrg100" min="0" value="" aria-describedby="inv-nrg100-unit"></div>
+<div class="prog-stock-row"><div class="prog-stock-caption"><label for="inv-weak"><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" alt="">微弱氣息</label><small id="inv-weak-unit">10 氣息／個</small></div><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="inv-weak" min="0" value="" aria-describedby="inv-weak-unit"></div>
+<div class="prog-stock-row"><div class="prog-stock-caption"><label for="inv-frag"><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" alt="">碎片</label><small id="inv-frag-unit">持有數量</small></div><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="inv-frag" min="0" value="" aria-describedby="inv-frag-unit"></div></div>
             </div>
+            <div class="hexa-progress-panel prog-rate-panel">
+                <div class="section-title prog-step-heading"><span class="prog-step-number">3</span>資源獲取速度<small>每週固定：王團／海洛斯等獲取。</small></div>
+                
+                <table class="prog-rate-table"><caption class="prog-accessible-label">每日掛機時數與材料的每小時、每週獲取數量</caption><colgroup><col class="prog-rate-caption-column"><col><col></colgroup><tbody><tr class="prog-hours-row"><th scope="row"><label for="farm-hours"><img src="assets/hexa/icon_自動戰鬥卷.png" class="res-icon" alt="">每日掛機</label></th><td><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-hours" min="0" max="24" value=""><span>小時</span></div></td><td></td></tr><tr><th scope="row"><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" alt="">碎片</th><td><label class="prog-accessible-label" for="farm-frag-hr">碎片每小時獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-frag-hr" min="0" value=""><span aria-hidden="true">／時</span></div></td><td><label class="prog-accessible-label" for="farm-frag-wk">碎片每週固定獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-frag-wk" min="0" value=""><span aria-hidden="true">／週</span></div></td></tr>
+<tr><th scope="row"><img src="assets/hexa/icon_濃郁靈魂艾爾達斯氣息.png" class="res-icon" alt="">濃郁氣息</th><td><span class="prog-rate-unavailable">—<span class="prog-accessible-label">未提供每小時獲取設定</span></span></td><td><label class="prog-accessible-label" for="farm-conc-wk">濃郁氣息每週固定獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-conc-wk" min="0" value=""><span aria-hidden="true">／週</span></div></td></tr>
+<tr><th scope="row"><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" alt="">氣息</th><td><label class="prog-accessible-label" for="farm-nrg-hr">氣息每小時獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-nrg-hr" min="0" value=""><span aria-hidden="true">／時</span></div></td><td><label class="prog-accessible-label" for="farm-nrg-wk">氣息每週固定獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-nrg-wk" min="0" value=""><span aria-hidden="true">／週</span></div></td></tr>
+<tr><th scope="row"><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" alt="">微弱氣息</th><td><label class="prog-accessible-label" for="farm-weak-hr">微弱氣息每小時獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-weak-hr" min="0" value=""><span aria-hidden="true">／時</span></div></td><td><label class="prog-accessible-label" for="farm-weak-wk">微弱氣息每週固定獲取</label><div class="prog-rate-input"><input class="prog-number-input site-field site-glass-field" type="text" inputmode="decimal" id="farm-weak-wk" min="0" value=""><span aria-hidden="true">／週</span></div></td></tr></tbody></table>
+            </div>
+            <button class="action-btn site-important-action prog-calculate-action site-button glass-action site-operation glass-action-primary glass-surface site-card site-interactive" onclick="calcHexaProg()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">計算六轉畢業進度</span></button>
         </div>
-
-        <div class="panel">
-            <div class="section-title">第三步：資源獲取速度 (用於推算畢業時間)</div>
-            <div style="font-weight:bold; color:var(--text-main); margin-bottom: 10px;">每日掛機獲取</div>
-            <div class="inv-grid" style="margin-bottom: 15px;">
-                <div class="inv-item">
-                    <label style="color:#0071E3;"><img src="assets/hexa/icon_自動戰鬥卷.png" class="res-icon" onerror="this.style.display='none'"> 每日平均掛機時數</label>
-                    <input type="text" inputmode="decimal" id="farm-hours" min="0" max="24" value="">
-                </div>
-                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 碎片 / 小時</label><input type="text" inputmode="decimal" id="farm-frag-hr" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-nrg-hr" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息 / 小時</label><input type="text" inputmode="decimal" id="farm-weak-hr" min="0" value=""></div>
-            </div>
-
-            <div style="font-weight:bold; color:#FF9500; margin-top: 20px; margin-bottom: 10px;">每週固定獲取（王團/海洛斯）</div>
-            <div class="inv-grid">
-                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 碎片</label><input type="text" inputmode="decimal" id="farm-frag-wk" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/hexa/icon_濃郁靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 濃郁氣息</label><input type="text" inputmode="decimal" id="farm-conc-wk" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/hexa/icon_靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 氣息</label><input type="text" inputmode="decimal" id="farm-nrg-wk" min="0" value=""></div>
-                <div class="inv-item"><label><img src="assets/hexa/icon_微弱靈魂艾爾達斯氣息.png" class="res-icon" onerror="this.style.display='none'"> 微弱氣息</label><input type="text" inputmode="decimal" id="farm-weak-wk" min="0" value=""></div>
-            </div>
-        </div>
-
-        <button class="action-btn" onclick="calcHexaProg()">計算六轉畢業進度</button>
-
-        <div id="result-hexa-prog" style="display:none; width: 100%;">
-            <div class="prog-bar-wrap">
-                <div class="prog-header">
-                    <div style="display: flex; align-items: center;"><img src="assets/hexa/icon_靈魂艾爾達斯.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯 進度</div>
-                    <div id="prog-txt-sol">0 / 0 (剩餘 0)</div>
-                </div>
-                <div class="prog-bar-bg"><div class="prog-bar-fill prog-fill-sol" id="prog-bar-sol" style="width: 0%;">0%</div></div>
-
-                <div class="prog-header" style="margin-top: 15px;">
-                    <div style="display: flex; align-items: center;"><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" onerror="this.style.display='none'"> 靈魂艾爾達斯碎片 進度</div>
-                    <div id="prog-txt-frag">0 / 0 (剩餘 0)</div>
-                </div>
-                <div class="prog-bar-bg"><div class="prog-bar-fill prog-fill-frag" id="prog-bar-frag" style="width: 0%;">0%</div></div>
-                <div style="font-size: 12px; color: #888; text-align: right; margin-top: 5px;">*計算靈魂艾爾達斯時已自動將庫存的所有氣息換算為最高單位。</div>
-            </div>
-            <div class="time-box" id="prog-time-result"></div>
+        <div id="result-hexa-prog" style="display:none;width:100%;">
+            <div class="hexa-time-surface"><div class="time-box" id="prog-time-result" aria-live="polite"></div></div>
+            <div class="prog-bar-wrap"><div class="prog-resource-grid"><article class="prog-resource-sol"><div class="prog-header"><div><img src="assets/hexa/icon_靈魂艾爾達斯.png" class="res-icon" alt="">靈魂艾爾達斯</div><strong id="prog-percent-sol">0%</strong></div><div class="prog-bar-bg" role="progressbar" aria-label="靈魂艾爾達斯可達成進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="prog-bar-fill prog-fill-sol" id="prog-bar-sol" style="width:0%"></div></div><div id="prog-txt-sol"></div></article><article class="prog-resource-frag"><div class="prog-header"><div><img src="assets/hexa/icon_靈魂艾爾達斯碎片.png" class="res-icon" alt="">艾爾達斯碎片</div><strong id="prog-percent-frag">0%</strong></div><div class="prog-bar-bg" role="progressbar" aria-label="艾爾達斯碎片可達成進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="prog-bar-fill prog-fill-frag" id="prog-bar-frag" style="width:0%"></div></div><div id="prog-txt-frag"></div></article></div><p class="prog-progress-note">進度包含已投入與庫存可抵；尚缺為抵扣庫存後的需求。氣息已折合為靈魂艾爾達斯。</p></div>
         </div>
     </div>
 
@@ -1236,15 +1442,15 @@
         <div class="liberation-data-notice">數據來源尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。<br>（希望有大老在解放時可以幫留意數據是否有誤）</div>
 
         <nav class="genesis-subtabs" role="tablist" aria-label="創世系統分頁">
-            <button type="button" class="genesis-subtab is-active" role="tab" aria-selected="true"
+            <button type="button" id="genesis-tab-liberation" class="genesis-subtab is-active site-interaction-exempt" role="tab" tabindex="0" aria-selected="true"
                 aria-controls="genesis-panel-liberation" onclick="switchGenesisPanel('liberation', this)">創世解放</button>
-            <button type="button" class="genesis-subtab" role="tab" aria-selected="false"
+            <button type="button" id="genesis-tab-alchemy" class="genesis-subtab site-interaction-exempt" role="tab" tabindex="-1" aria-selected="false"
                 aria-controls="genesis-panel-alchemy" onclick="switchGenesisPanel('alchemy', this)">創世鍊成</button>
-            <button type="button" class="genesis-subtab" role="tab" aria-selected="false"
+            <button type="button" id="genesis-tab-stone" class="genesis-subtab site-interaction-exempt" role="tab" tabindex="-1" aria-selected="false"
                 aria-controls="genesis-panel-stone" onclick="switchGenesisPanel('stone', this)">創世鍊成石</button>
         </nav>
 
-        <div id="genesis-panel-liberation" class="genesis-panel is-active" role="tabpanel">
+        <div id="genesis-panel-liberation" class="genesis-panel is-active" role="tabpanel" aria-labelledby="genesis-tab-liberation">
 
         <div class="liberation-journey-panel">
             <section class="liberation-hero" aria-labelledby="liberation-title">
@@ -1252,18 +1458,17 @@
                     <img id="liberation-current-stage-image" src="" alt="目前解放階段" hidden
                         onerror="this.hidden=true; this.nextElementSibling.hidden=false">
                     <span id="liberation-current-stage-placeholder" class="liberation-current-stage-placeholder">II</span>
-                    <strong id="liberation-progress-percent">0%</strong>
                 </div>
                 <div class="liberation-forecast">
                     <span class="liberation-kicker">預計解放完成日</span>
                     <strong id="liberation-forecast-date">請先設定進度</strong>
                     <div class="liberation-forecast-stats">
-                        <span>剩餘 <b id="liberation-remaining-days">—</b> 天</span>
-                        <span>尚缺 <b id="liberation-remaining-traces">13,500</b> 痕跡</span>
+                        <div class="liberation-forecast-stat"><span>剩餘</span><strong><b id="liberation-remaining-days">—</b><small>天</small></strong></div>
+                        <div class="liberation-forecast-stat"><span>尚缺</span><strong><b id="liberation-remaining-traces">13,500</b><small>痕跡</small></strong></div>
                     </div>
                 </div>
                 <div class="liberation-total-summary">
-                    <span>本階段黑暗的痕跡</span>
+                    <span>本階段持有／需求</span>
                     <strong id="liberation-current-traces">0 <small>/ 13,500</small></strong>
                     <span id="liberation-current-stage">尚未開始解放</span>
                 </div>
@@ -1274,11 +1479,23 @@
                 </div>
             </section>
 
-            <section class="liberation-stage-section">
+            
+        </div>
+
+        <div class="genesis-workspace liberation-workspace-panel">
+            <section class="liberation-panel liberation-status-panel">
                 <div class="liberation-section-heading">
                     <div>
-                        <h2 id="liberation-title">解放階段</h2>
-                        <p>點選目前所在階段，再填入該階段持有的黑暗的痕跡。</p>
+                        <h2>解放進度設定</h2>
+                        <p>先選擇階段，再填入該階段持有的痕跡。</p>
+                    </div>
+                </div>
+
+                <section class="liberation-stage-section">
+                <div class="liberation-section-heading">
+                    <div>
+                        <h2 id="liberation-title">目前階段</h2>
+                        
                     </div>
                 </div>
                 <select id="liberation-stage-index" hidden aria-label="目前解放階段">
@@ -1293,38 +1510,27 @@
                     <option value="7">階段 XI</option>
                 </select>
                 <div id="liberation-stage-list" class="liberation-stage-list"></div>
-            </section>
-        </div>
-
-        <div class="liberation-layout liberation-workspace-panel">
-            <section class="liberation-panel liberation-status-panel">
-                <div class="liberation-section-heading">
-                    <div>
-                        <h2>目前狀態設定</h2>
-                        <p>填入目前進度與本期是否已完成。</p>
-                    </div>
-                </div>
-
-                <div class="genesis-unified-controls">
+<div class="genesis-stage-description" aria-live="polite"><span>目前選擇</span><strong id="genesis-stage-description"></strong></div>
+            </section><div class="genesis-unified-controls">
                     <fieldset class="genesis-unified-field-group genesis-unified-field-group--three">
                         <legend>進度資料</legend>
                         <div>
                             <label class="genesis-unified-field">
-                                <span>角色名稱</span>
-                                <input id="liberation-character-name" type="text" placeholder="選填">
+                                <span>角色名稱（選填）</span>
+                                <div class="genesis-editor site-value-control"><input id="liberation-character-name" type="text" placeholder="選填"></div>
                             </label>
                             <label class="genesis-unified-field">
-                                <span>目前持有黑暗的痕跡</span>
-                                <input id="liberation-traces-input" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
+                                <span>本階段持有痕跡</span>
+                                <div class="genesis-editor site-value-control site-value-centered"><input id="liberation-traces-input" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
                             </label>
                             <label class="genesis-unified-field">
                                 <span>參考日期</span>
-                                <input id="liberation-reference-date" type="date">
+                                <div class="genesis-editor site-value-control"><input id="liberation-reference-date" type="date"></div>
                             </label>
                         </div>
                     </fieldset>
                     <fieldset class="genesis-stone-status-group">
-                        <legend>完成狀態</legend>
+                        <legend>本期完成狀態</legend>
                         <div>
                             <label class="genesis-stone-status-option">
                                 <input id="liberation-weekly-cleared" type="checkbox">
@@ -1344,46 +1550,22 @@
                 <div class="liberation-section-heading">
                     <div>
                         <h2>每週／每月痕跡</h2>
-                        <p>票券依實際持有張數設定，不會自動重複計入。</p>
+                        <p>選擇可完成的難度，收益會即時更新。</p>
                     </div>
                     <label class="liberation-custom-toggle"><input id="liberation-custom-traces" type="checkbox"><span>自訂</span></label>
                 </div>
-                <div class="liberation-boss-legend">選擇可完成的難度；每使用 1 張票券，可額外獲得 1 次相同痕跡。</div>
-                <div id="liberation-boss-list" class="liberation-boss-list"></div>
+                
+                <div class="genesis-reward-help"><dl><div><dt>入場券</dt><dd>每張追加 1 次獎勵。</dd></div><div><dt>加成規則</dt><dd>依持有張數計入一次，不列入固定收益。</dd></div></dl></div>
+                <div class="genesis-income-summary" aria-label="預估收益"><div><span>每週固定</span><strong id="liberation-weekly-income">0</strong></div><div><span>每月固定</span><strong id="liberation-monthly-income">0</strong></div><div><span>票券加成</span><strong id="liberation-ticket-income">0</strong></div></div><div id="liberation-boss-list" class="liberation-boss-list"></div>
             </section>
         </div>
         </div>
 
-        <div id="genesis-panel-alchemy" class="genesis-panel" role="tabpanel" aria-hidden="true">
-            <section class="genesis-alchemy-hero">
-                <div class="genesis-alchemy-heading">
-                    <span>GENESIS ALCHEMY</span>
-                    <h2>創世鍊成需求</h2>
-                    <p>成功率皆為 100%；Lv.1 使用創世鍊成石，Lv.2～20 每階消耗 1,000 黑暗的殘像。</p>
-                </div>
-                <div class="genesis-alchemy-primary">
-                    <span>預計完成日期</span>
-                    <strong id="genesis-alchemy-forecast-date">請設定可完成王</strong>
-                    <small>剩餘 <b id="genesis-alchemy-remaining-days">—</b> 天</small>
-                </div>
-                <div class="genesis-alchemy-summary-grid">
-                    <div class="genesis-alchemy-summary-material"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>尚缺黑暗的殘像</span><strong id="genesis-alchemy-needed-afterimages">0</strong><small>個</small></div></div>
-                    <div><span>所需楓幣</span><strong id="genesis-alchemy-needed-mesos">0</strong><small>楓幣</small></div>
-                    <div class="genesis-alchemy-summary-material"><img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石"><div><span>創世鍊成石</span><strong id="genesis-alchemy-needed-stones">0</strong><small>個</small></div></div>
-                    <div class="genesis-alchemy-attack-summary"><span>鍊成攻擊力 · 已累積</span><strong id="genesis-alchemy-current-attack">0</strong><small id="genesis-alchemy-attack-gain">預計再增加 0</small></div>
-                </div>
-            </section>
-
-            <section class="liberation-panel genesis-alchemy-settings">
-                <div class="liberation-section-heading">
-                    <div>
-                        <h2>鍊成設定</h2>
-                        <p>輸入目前武器進度與持有材料。</p>
-                    </div>
-                    <span class="genesis-alchemy-rate">成功率 100%</span>
-                </div>
-                <div class="genesis-unified-controls">
-                    <fieldset class="genesis-unified-field-group genesis-unified-field-group--four">
+        <div id="genesis-panel-alchemy" class="genesis-panel" role="tabpanel" aria-labelledby="genesis-tab-alchemy" hidden aria-hidden="true">
+            <section class="liberation-panel genesis-alchemy-settings genesis-alchemy-progress-panel">
+                <div class="liberation-section-heading"><div><h2>創世鍊成進度</h2><p>設定目前與目標階段，查看材料需求及預計完成日期。</p></div></div>
+                <div class="genesis-progress-layout">
+                    <div class="genesis-unified-controls"><fieldset class="genesis-unified-field-group genesis-unified-field-group--four">
                         <legend>進度資料</legend>
                         <div>
                             <label class="genesis-unified-field">
@@ -1391,21 +1573,20 @@
                                 <select id="genesis-alchemy-current-level"></select>
                             </label>
                             <label class="genesis-unified-field">
-                                <span>目前持有黑暗的殘像</span>
-                                <input id="genesis-alchemy-current-afterimages" type="text" inputmode="numeric" placeholder="0" autocomplete="off">
-                            </label>
-                            <label class="genesis-unified-field">
                                 <span>目標鍊成階段</span>
                                 <select id="genesis-alchemy-target-level"></select>
                             </label>
                             <label class="genesis-unified-field">
+                                <span>持有黑暗的殘像</span>
+                                <div class="genesis-editor site-value-control site-value-centered"><input id="genesis-alchemy-current-afterimages" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+                            </label>
+                            <label class="genesis-unified-field">
                                 <span>參考日期</span>
-                                <input id="genesis-alchemy-reference-date" type="date">
+                                <div class="genesis-editor site-value-control"><input id="genesis-alchemy-reference-date" type="date"></div>
                             </label>
                         </div>
-                    </fieldset>
-                    <fieldset class="genesis-stone-status-group">
-                        <legend>完成狀態</legend>
+                    </fieldset><fieldset class="genesis-stone-status-group">
+                        <legend>本期完成狀態</legend>
                         <div>
                             <label class="genesis-stone-status-option">
                                 <input id="genesis-alchemy-weekly-cleared" type="checkbox">
@@ -1416,98 +1597,56 @@
                                 <span><b>本月黑魔法師</b><small>已完成</small></span>
                             </label>
                         </div>
-                    </fieldset>
-                    <button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisAlchemyReset()">重設鍊成進度</button>
+                    </fieldset><button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisAlchemyReset()">重設鍊成進度</button></div>
+                    <div class="genesis-results">
+                        <div class="genesis-forecast">
+                            <div class="genesis-alchemy-stage-summary"><span id="genesis-alchemy-current-stage-label">尚未鍊成</span><span aria-hidden="true">→</span><span id="genesis-alchemy-target-stage-label">Lv.20</span></div>
+                            <span>預計完成日期</span><strong id="genesis-alchemy-forecast-date">請設定可完成王</strong>
+                            <small>剩餘 <b id="genesis-alchemy-remaining-days">—</b> 天</small>
+                        </div>
+                        <div class="genesis-resource-grid">
+                            <div class="genesis-resource genesis-resource-material"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>尚缺殘像</span><strong id="genesis-alchemy-needed-afterimages">0</strong></div></div>
+                            <div class="genesis-resource genesis-resource-material"><img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石"><div><span>所需鍊成石</span><strong id="genesis-alchemy-needed-stones">0</strong></div></div>
+                            <div class="genesis-resource genesis-alchemy-mesos"><div><span>所需楓幣</span><div class="genesis-alchemy-amount"><img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣"><strong id="genesis-alchemy-needed-mesos">0</strong></div></div></div>
+                            <div class="genesis-resource genesis-alchemy-attack-summary"><div><span><span class="genesis-alchemy-label-part">目前累積</span><span class="genesis-alchemy-label-part">攻擊力</span></span><strong id="genesis-alchemy-current-attack">0</strong><small id="genesis-alchemy-attack-gain">達標增加 +0</small></div></div>
+                        </div>
+                    </div>
                 </div>
-                <div id="genesis-alchemy-level-grid" class="genesis-alchemy-level-grid" aria-label="鍊成階段一覽"></div>
             </section>
-
             <section class="liberation-panel genesis-alchemy-boss-panel">
                 <div class="liberation-section-heading">
                     <div>
-                        <h2>每週／每月黑暗的殘像</h2>
-                        <p>預設選擇最高收益難度；票券依持有張數額外計入一次相同獎勵。</p>
+                        <h2>每週／每月殘像</h2>
+                        <p>預設為最高收益難度，可依實際進度調整。</p>
                     </div>
                     <label class="liberation-custom-toggle"><input id="genesis-alchemy-custom-traces" type="checkbox"><span>自訂</span></label>
                 </div>
-                <div id="genesis-alchemy-boss-list" class="liberation-boss-list"></div>
+                <div class="genesis-reward-help"><dl><div><dt>入場券</dt><dd>每張追加 1 次獎勵。</dd></div><div><dt>加成規則</dt><dd>依持有張數計入一次，不列入固定收益。</dd></div></dl></div>
+                <div class="genesis-income-summary" aria-label="預估收益"><div><span>每週固定</span><strong id="genesis-alchemy-weekly-income">0</strong></div><div><span>每月固定</span><strong id="genesis-alchemy-monthly-income">0</strong></div><div><span>票券加成</span><strong id="genesis-alchemy-ticket-income">0</strong></div></div><div id="genesis-alchemy-boss-list" class="liberation-boss-list"></div>
             </section>
-
             <section class="liberation-panel genesis-alchemy-table-panel">
-                <div class="liberation-section-heading">
-                    <div>
-                        <h2>鍊成階段資料</h2>
-                        <p>各階成功率皆為 100%，目前與目標階段會依上方設定同步標示。</p>
-                    </div>
-                    <span class="genesis-alchemy-table-rate">成功率 100%</span>
+                <div class="liberation-section-heading"><div><h2>鍊成需求明細</h2><p>各階段材料、楓幣與攻擊力需求。</p></div></div>
+                <div class="genesis-alchemy-rules"><dl><div><dt>Lv.1</dt><dd>1 顆創世鍊成石</dd></div><div><dt>Lv.2～20</dt><dd>每階 1,000 黑暗的殘像</dd></div><div><dt>鍊成費用</dt><dd>每階 5 億楓幣 · 成功率 100%</dd></div></dl></div>
+                <div class="genesis-alchemy-data-table" role="table" aria-label="各階鍊成需求與累積攻擊力">
+                    <div class="genesis-alchemy-table-header" role="row"><span role="columnheader">鍊成階段</span><span role="columnheader">需求材料</span><span role="columnheader">楓幣</span><span role="columnheader">累積<br>攻擊力</span><span role="columnheader">本階<br>增加</span></div>
+                    <div id="genesis-alchemy-table-rows" class="genesis-alchemy-table-rows" role="rowgroup"></div>
                 </div>
-                <div class="genesis-alchemy-table-header" aria-hidden="true">
-                    <span>鍊成階段</span><span>需求材料</span><span>楓幣</span><span>累積攻擊力</span><span>本階增加</span>
-                </div>
-                <div id="genesis-alchemy-table-rows" class="genesis-alchemy-table-rows"></div>
             </section>
         </div>
 
-        <div id="genesis-panel-stone" class="genesis-panel" role="tabpanel" aria-hidden="true">
-            <section class="genesis-stone-panel">
-                <div class="genesis-stone-heading">
-                    <div>
-                        <span>GENESIS ALCHEMY STONE</span>
-                        <h2>創世鍊成石兌換</h2>
-                        <p>每累積 20,000 個黑暗的殘像，即可兌換 1 顆創世鍊成石。</p>
-                    </div>
-                    <div class="genesis-stone-rule"><strong>20,000</strong><span>殘像／顆</span></div>
-                </div>
-
-                <div class="genesis-stone-exchange">
-                    <label class="genesis-stone-material-card" for="genesis-stone-held-afterimages">
-                        <img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像">
-                        <span>目前持有黑暗的殘像</span>
-                        <input id="genesis-stone-held-afterimages" type="text" inputmode="numeric"
-                            placeholder="請輸入持有數量" autocomplete="off">
-                    </label>
-                    <div class="genesis-stone-exchange-arrow" aria-hidden="true"><span>20,000</span><b>→</b></div>
-                    <div class="genesis-stone-result-card">
-                        <img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石">
-                        <span>可兌換創世鍊成石</span>
-                        <strong><b id="genesis-stone-redeemable">0</b> 顆</strong>
-                    </div>
-                </div>
-
-                <div class="genesis-stone-progress-block">
-                    <div class="genesis-stone-progress-copy">
-                        <span>下一顆兌換進度</span>
-                        <strong><b id="genesis-stone-progress-current">0</b> / 20,000</strong>
-                    </div>
-                    <div class="genesis-stone-progress-track" aria-hidden="true"><i id="genesis-stone-progress-bar"></i></div>
-                    <span id="genesis-stone-progress-percent">0%</span>
-                </div>
-
-                <div class="genesis-stone-summary">
-                    <div class="genesis-stone-forecast">
-                        <span>下一顆預計可兌換日</span>
-                        <strong id="genesis-stone-forecast-date">請設定可完成王</strong>
-                        <small>剩餘 <b id="genesis-stone-remaining-days">—</b> 天</small>
-                    </div>
-                    <div><span>兌換後剩餘</span><strong id="genesis-stone-remainder">0</strong><small>黑暗的殘像</small></div>
-                    <div><span>距下一顆尚缺</span><strong id="genesis-stone-needed">20,000</strong><small>黑暗的殘像</small></div>
-                </div>
-            </section>
-
-            <section class="liberation-panel genesis-stone-settings">
-                <div class="liberation-section-heading">
-                    <div>
-                        <h2>計算設定</h2>
-                        <p>依參考日期與已完成狀態，推算下一顆鍊成石可兌換時間。</p>
-                    </div>
-                </div>
-                <div class="genesis-stone-controls">
-                    <label class="genesis-stone-date-field">
+        <div id="genesis-panel-stone" class="genesis-panel" role="tabpanel" aria-labelledby="genesis-tab-stone" hidden aria-hidden="true">
+            <section class="liberation-panel genesis-stone-settings genesis-stone-progress-panel">
+                <div class="liberation-section-heading"><div><h2>創世鍊成石兌換</h2><p>輸入持有殘像，查看可兌換數量及下一顆預計日期。</p></div></div>
+                <div class="genesis-progress-layout">
+                    <div class="genesis-unified-controls">
+                        <fieldset class="genesis-unified-field-group"><legend>進度資料</legend><div><label class="genesis-unified-field"><span>目前持有黑暗的殘像</span><div class="genesis-editor site-value-control site-value-centered"><input id="genesis-stone-held-afterimages" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div></label>
+                    <label class="genesis-unified-field">
                         <span>參考日期</span>
-                        <input id="genesis-stone-reference-date" type="date">
-                    </label>
-                    <fieldset class="genesis-stone-status-group">
-                        <legend>完成狀態</legend>
+                        <div class="genesis-editor site-value-control"><input id="genesis-stone-reference-date" type="date"></div>
+                    </label></div></fieldset>
+                        <div class="genesis-stone-exchange-rule"><span>兌換規則</span><strong>20,000 <span>殘像／顆</span></strong></div>
+                        <fieldset class="genesis-stone-status-group">
+                        <legend>本期完成狀態</legend>
                         <div>
                             <label class="genesis-stone-status-option">
                                 <input id="genesis-stone-weekly-cleared" type="checkbox">
@@ -1519,19 +1658,29 @@
                             </label>
                         </div>
                     </fieldset>
-                    <button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisStoneReset()">重設兌換資料</button>
+                        <button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisStoneReset()">重設兌換資料</button>
+                    </div>
+                    <div class="genesis-results">
+                        <div class="genesis-forecast"><span>下一顆預計可兌換日</span><strong id="genesis-stone-forecast-date">請設定可完成王</strong><small>剩餘 <b id="genesis-stone-remaining-days">—</b> 天</small></div>
+                        <div class="genesis-resource-grid">
+                            <div class="genesis-resource genesis-stone-redeemable-card"><img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石"><div><span>可兌換鍊成石</span><strong><b id="genesis-stone-redeemable">0</b> <span>顆</span></strong></div></div>
+                            <div class="genesis-resource"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>兌換後剩餘殘像</span><strong id="genesis-stone-remainder">0</strong></div></div>
+                            <div class="genesis-resource"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>距下一顆尚缺</span><strong id="genesis-stone-needed">20,000</strong></div></div>
+                            <div class="genesis-resource genesis-stone-progress-card"><div><span>下一顆兌換進度</span><strong><b id="genesis-stone-progress-current">0</b><span>／20,000</span></strong><div class="genesis-stone-progress-track" aria-hidden="true"><i id="genesis-stone-progress-bar"></i></div><small id="genesis-stone-progress-percent">0%</small></div></div>
+                        </div>
+                    </div>
                 </div>
             </section>
-
             <section class="liberation-panel genesis-alchemy-boss-panel genesis-stone-boss-panel">
                 <div class="liberation-section-heading">
                     <div>
-                        <h2>每週／每月黑暗的殘像</h2>
-                        <p>預設選擇最高收益難度；票券依持有張數額外計入一次相同獎勵。</p>
+                        <h2>每週／每月殘像</h2>
+                        <p>預設為最高收益難度，可依實際進度調整。</p>
                     </div>
                     <label class="liberation-custom-toggle"><input id="genesis-stone-custom-traces" type="checkbox"><span>自訂</span></label>
                 </div>
-                <div id="genesis-stone-boss-list" class="liberation-boss-list"></div>
+                <div class="genesis-reward-help"><dl><div><dt>入場券</dt><dd>每張追加 1 次獎勵。</dd></div><div><dt>加成規則</dt><dd>依持有張數計入一次，不列入固定收益。</dd></div></dl></div>
+                <div class="genesis-income-summary" aria-label="預估收益"><div><span>每週固定</span><strong id="genesis-stone-weekly-income">0</strong></div><div><span>每月固定</span><strong id="genesis-stone-monthly-income">0</strong></div><div><span>票券加成</span><strong id="genesis-stone-ticket-income">0</strong></div></div><div id="genesis-stone-boss-list" class="liberation-boss-list"></div>
             </section>
         </div>
     </div>
@@ -1608,11 +1757,11 @@
 
     <div id="tab-hexa-lazy" class="tab-content">
         <div class="hint">目標【主屬性 8 或 任一附屬 10】。點完前 10 次後，<br class="mobile-br">請直接對照下方表格，判斷是否該繼續點，<br class="mobile-br">主屬9以上決策請使用HEXA重製決策模擬。</div>
-        <div class="panel">
+        <div class="panel hexa-website-panel">
             <div id="lazy-table-wrapper" class="lazy-table-container">
                 <div class="loader" id="lazy-loader">正在由系統為您生成十萬次深度運算決策表，請稍候...</div>
             </div>
-            <div style="font-size: 12px; color: #7f8c8d; text-align: center; margin-top: 10px;">
+            <div class="hexa-note" style="font-size: 12px; text-align: center; margin-top: 10px;">
                 💡 表格已隱藏極端罕見 (發生率 < 0.05%) 及無法達成主屬性8和附屬性10的組合，保持版面乾淨。
             </div>
         </div>
@@ -1620,83 +1769,87 @@
 
     <div id="tab-hexa-reset" class="tab-content">
         <div class="hint">請輸入目前的核心等級狀態、剩餘強化次數與畢業目標，<br class="mobile-br">系統將即時推算剩餘勝率與全新核心進行決策 PK。</div>
-        <div class="panel">
+        <div class="panel hexa-website-panel">
             <div class="section-title">目前核心狀態</div>
             <div class="hexa-inputs">
-                <div><label>主屬性 (A)</label><input type="text" inputmode="decimal" id="reset-a" min="0" max="10" value=""></div>
-                <div><label>附屬性 (B)</label><input type="text" inputmode="decimal" id="reset-b" min="0" max="10" value=""></div>
-                <div><label>附屬性 (C)</label><input type="text" inputmode="decimal" id="reset-c" min="0" max="10" value=""></div>
-                <div><label>剩餘次數</label><input type="text" inputmode="decimal" id="reset-rolls" min="1" max="20" value="10"></div>
+                <div><label>主屬性 (A)</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-a" min="0" max="10" value=""></div>
+                <div><label>附屬性 (B)</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-b" min="0" max="10" value=""></div>
+                <div><label>附屬性 (C)</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-c" min="0" max="10" value=""></div>
+                <div><label>剩餘次數</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-rolls" min="1" max="20" value="10"></div>
             </div>
             
             <div class="target-divider"></div>
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--text-main);">畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
-                <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-a" min="0" max="10" value=""></div>
-                <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub" min="0" max="10" value=""></div>
-                <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub2" min="0" max="10" value=""></div>
+                <div><label>目標主屬 &gt;=</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-target-a" min="0" max="10" value=""></div>
+                <div><label>目標附屬 &gt;=</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-target-sub" min="0" max="10" value=""></div>
+                <div><label>目標附屬 &gt;=</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="reset-target-sub2" min="0" max="10" value=""></div>
             </div>
 
-            <div style="margin-top: 15px; margin-bottom: 5px; font-size: 14px; font-weight: bold; ">
-                 畢業條件判定：
-                <label style="margin-left: 0px; cursor: pointer;">
-                <input type="radio" name="reset-condition" value="or" checked> 達成任一目標
-                </label>
-                <label style="margin-left: 5px; cursor: pointer;">
-                <input type="radio" name="reset-condition" value="and"> 達成所有目標
-                </label>
+            <div class="setting-row site-radio-row hexa-choice-row">
+                <span class="site-choice-heading" id="site-heading-reset-condition">畢業條件判定：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="site-heading-reset-condition">
+                    <div class="site-radio-option">
+                        <input id="site-choice-reset-condition-or" type="radio" name="reset-condition" value="or" checked>
+                        <label class="site-radio-text" for="site-choice-reset-condition-or">達成任一目標</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-reset-condition-and" type="radio" name="reset-condition" value="and">
+                        <label class="site-radio-text" for="site-choice-reset-condition-and">達成所有目標</label>
+                    </div>
+                </div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px;  margin-bottom: 15px;">
                 <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start;" title="將運算次數從 3 萬提升至 100 萬次，適合極端目標">
                     <input type="checkbox" id="sim-million-reset"> ⚠️ 啟用極限運算 (100萬次模擬，按下後可能卡頓 1~3 秒)
                 </label>
-                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
+                <div class="hexa-note" style="font-size: 12px; text-align: left; padding-left: 28px;">
                     💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的數據。
                 </div>
             </div>
 
             <div class="btn-group">
-                <button class="action-btn" onclick="checkHexaReset()">分析重置決策</button>
-                <button class="action-btn clear-btn" onclick="clearReset()">清除</button>
+                <button class="action-btn site-important-action site-button glass-action site-operation glass-action-primary glass-surface site-card site-interactive" onclick="checkHexaReset()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">分析重置決策</span></button>
+                <button class="action-btn clear-btn site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" onclick="clearReset()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">清除</span></button>
             </div>
         </div>
         
-        <div id="res-main-panel" class="panel" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;">
+        <div id="res-main-panel" class="panel hexa-website-panel hexa-website-result site-tinted-card" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;">
             <div id="result-hexa-reset-main"></div>
         </div>
-        <div id="res-detail-panel" class="panel" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;">
+        <div id="res-detail-panel" class="panel hexa-website-panel hexa-website-result site-tinted-card" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;">
             <div id="result-hexa-reset-details"></div>
         </div>
     </div>
 
     <div id="tab-hexa-sim" class="tab-content">
         <div class="hint">自訂你的起點與畢業目標，系統將進行深度模擬，<br class="mobile-br">計算達成機率與需要的碎片預估。</div>
-        <div class="panel">
+        <div class="panel hexa-website-panel">
             <div class="section-title">設定模擬條件</div>
             
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--text-main);">目前狀態</div>
             <div class="hexa-inputs">
-                <div><label>主屬 (A)</label><input type="text" inputmode="decimal" id="sim-a" min="0" max="10" value=""></div>
-                <div><label>附屬 (B)</label><input type="text" inputmode="decimal" id="sim-b" min="0" max="10" value=""></div>
-                <div><label>附屬 (C)</label><input type="text" inputmode="decimal" id="sim-c" min="0" max="10" value=""></div>
-                <div><label>剩餘次數</label><input type="text" inputmode="decimal" id="sim-rolls" min="1" max="20" value=""></div>
+                <div><label>主屬 (A)</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="sim-a" min="0" max="10" value=""></div>
+                <div><label>附屬 (B)</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="sim-b" min="0" max="10" value=""></div>
+                <div><label>附屬 (C)</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="sim-c" min="0" max="10" value=""></div>
+                <div><label>剩餘次數</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="sim-rolls" min="1" max="20" value=""></div>
             </div>
 
             <div class="target-divider"></div>
             
             <div style="text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--text-main);">畢業目標 (輸入 0 代表不要求該屬性)</div>
             <div class="hexa-inputs">
-                <div><label>目標主屬 &gt;=</label><input type="text" inputmode="decimal" id="target-a" min="0" max="10" value=""></div>
-                <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="target-sub" min="0" max="10" value=""></div>
-                <div><label>目標附屬 &gt;=</label><input type="text" inputmode="decimal" id="reset-target-sub2" min="0" max="10" value=""></div>
+                <div><label>目標主屬 &gt;=</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="target-a" min="0" max="10" value=""></div>
+                <div><label>目標附屬 &gt;=</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="target-sub" min="0" max="10" value=""></div>
+                <div><label>目標附屬 &gt;=</label><input class="site-field site-glass-field" type="text" inputmode="decimal" id="target-sub2" min="0" max="10" value=""></div>
             </div>
 
             <div style="display:flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 15px;">
                 <label class="checkbox-label" style="justify-content: flex-start; color:#3498db;" title="若剩下的次數絕對無法達成目標，就會提早判定失敗以省下後續碎片">
                     <input type="checkbox" id="sim-stoploss" checked>啟用策略模式 (含停損與重置決策)
                 </label>
-                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px; line-height: 1.6;">
+                <div class="hexa-note" style="font-size: 12px; text-align: left; padding-left: 28px; line-height: 1.6;">
                     💡 <strong>提早停損</strong>：當剩餘次數「絕對不可能」達成目標時，提早放棄以省下碎片。<br>
                     💡 <strong>重置決策</strong>：僅針對難度最高的單一目標 [主9] 與 [主10] 生效。<br>
                       🎯 拚主 10：前 10 次若主屬性未達 5 級，果斷重置。<br>    
@@ -1706,18 +1859,20 @@
                 <label class="checkbox-label" style="color: #e67e22; justify-content: flex-start; margin-top: 10px;">
                     <input type="checkbox" id="sim-million"> ⚠️ 啟用極限運算 (100萬次模擬，計算可能需1~2秒)
                 </label>
-                <div style="font-size: 12px; color: #7f8c8d; text-align: left; padding-left: 28px;">
+                <div class="hexa-note" style="font-size: 12px; text-align: left; padding-left: 28px;">
                     💡 提示：若你的目標為「主屬性 9 或 10」，強烈建議勾選極限運算以取得更精準的期望值。
                 </div>
             </div>
 
             <div class="btn-group">
-                <button class="action-btn" onclick="runHexaSimulation()">啟動目標模擬</button>
-                <button class="action-btn clear-btn" onclick="clearSim()">清除</button>
+                <button class="action-btn site-important-action site-button glass-action site-operation glass-action-primary glass-surface site-card site-interactive" onclick="runHexaSimulation()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">啟動目標模擬</span></button>
+                <button class="action-btn clear-btn site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" onclick="clearSim()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">清除</span></button>
             </div>
         </div>
         
-        <div class="panel" id="result-hexa-sim" style="display: none; animation: appleFadeIn 0.4s ease; margin-top: 1px;"></div>
+        <div class="panel hexa-website-panel hexa-website-result site-tinted-card hexa-sim-result-surface" hidden>
+            <div id="result-hexa-sim" aria-live="polite" style="display: none;"></div>
+        </div>
     </div>
 
     <div id="tab-will" class="tab-content">
@@ -1838,36 +1993,57 @@
         </div>
 
         <div class="will-settings-wrapper">
-            <div class="settings-panel">
+            <div class="settings-panel simulator-settings-surface site-calculator glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
                 <div class="settings-title">⚙️ 威爾練習機設定</div>
                 
-                <div class="setting-row">
-                    <span class="setting-label">威爾難度：</span>
-                    <label class="setting-opt"><input type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">混沌</label>
-                    <label class="setting-opt"><input type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">困難</label>
-                    <label class="setting-opt"><input type="radio" name="will-mode" value="random" onchange="will_updateSettings()">動態隨機</label>
+            <div class="setting-row site-radio-row">
+                <span class="site-choice-heading" id="site-heading-will-mode">威爾難度：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="site-heading-will-mode">
+                    <div class="site-radio-option">
+                        <input id="site-choice-will-mode-chaos" type="radio" name="will-mode" value="chaos" checked onchange="will_updateSettings()">
+                        <label class="site-radio-text" for="site-choice-will-mode-chaos">混沌</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-will-mode-hard" type="radio" name="will-mode" value="hard" onchange="will_updateSettings()">
+                        <label class="site-radio-text" for="site-choice-will-mode-hard">困難</label>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-will-mode-random" type="radio" name="will-mode" value="random" onchange="will_updateSettings()">
+                        <label class="site-radio-text" for="site-choice-will-mode-random">動態隨機</label>
+                    </div>
                 </div>
+            </div>
 
-                <div class="setting-row">
-                    <span class="setting-label">遊戲模式：</span>
-                    <label class="setting-opt"><input type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">全機制1次</label>
-                    <label class="setting-opt">
-                        <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">全機制
+            <div class="setting-row site-radio-row">
+                <span class="site-choice-heading" id="site-heading-will-length">遊戲模式：</span>
+                <div class="site-radio-group" role="group" aria-labelledby="site-heading-will-length">
+                    <div class="site-radio-option">
+                        <input id="site-choice-will-length-normal" type="radio" name="will-length" value="normal" checked onchange="will_updateSettings()">
+                        <label class="site-radio-text" for="site-choice-will-length-normal">全機制1次</label>
+                    </div>
+                    <div class="site-radio-option site-radio-custom">
+                        <input type="radio" name="will-length" value="custom" id="radio-custom-length" onchange="will_updateSettings()">
+                        <label class="site-radio-text" for="radio-custom-length">全機制</label>
                         <input type="text" id="will-custom-rounds" value="" inputmode="numeric" pattern="[0-9]*" 
                                onfocus="document.getElementById('radio-custom-length').checked = true; will_updateSettings()" 
                                oninput="will_updateSettings()" 
-                               class="custom-num-input">次
-                    </label>
-                    <label class="setting-opt"><input type="radio" name="will-length" value="endless" onchange="will_updateSettings()">無限練習</label>
+                               class="custom-num-input site-field site-field-inner" aria-label="全機制自訂回合數">
+                        <span class="site-radio-unit" aria-hidden="true">次</span>
+                    </div>
+                    <div class="site-radio-option">
+                        <input id="site-choice-will-length-endless" type="radio" name="will-length" value="endless" onchange="will_updateSettings()">
+                        <label class="site-radio-text" for="site-choice-will-length-endless">無限練習</label>
+                    </div>
                 </div>
+            </div>
 
                 <div class="setting-row">
-                    <label class="setting-opt">機制提示
+                    <label class="site-toggle-control" for="will-hint-toggle">機制提示
                         <input type="checkbox" id="will-hint-toggle" onchange="will_updateSettings()" class="will-checkbox">
                     </label>
                     
                     <div class="will-vol-group-wrapper">
-                        <label class="setting-opt">背景音樂
+                        <label class="site-toggle-control" for="will-bgm-toggle">背景音樂
                             <input type="checkbox" id="will-bgm-toggle" checked onchange="will_updateSettings()" class="will-checkbox">
                         </label>
                         <div class="vol-group">
@@ -1876,9 +2052,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div></div>
 
-            <div class="settings-panel instructions-panel">
+            <div class="settings-panel instructions-panel simulator-settings-surface site-calculator glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
                 <h3 class="settings-title will-inst-title">📖 說明書</h3>
 
                 <div class="inst-section inst-section-compact">
@@ -1934,7 +2110,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div></div>
         </div> 
     </div>
 
@@ -2040,7 +2216,7 @@
 
                     <div class="sec-bottom">
                         <div class="coin-box">
-                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
                             <span>1,204</span>
                         </div>
                         <button class="btn-action-tr" id="btn-acc-action" onclick="acc_executeEnhance()">強化</button>
@@ -2049,10 +2225,10 @@
             </div>
         </div>
         
-        <div class="settings-panel">
+        <div class="settings-panel simulator-settings-surface site-calculator glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
             <div class="settings-title">
                 <span>⚙️ 飾品強化模擬器設定</span>
-                <button id="btn-sound-toggle-acc" class="btn-sound" onclick="acc_toggleSound()">🔊 音效：開啟</button>
+                <button id="btn-sound-toggle-acc" class="btn-sound glass-action site-sound-control glass-surface site-card site-interactive" onclick="acc_toggleSound()" data-site-interaction="toggle"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">🔊 音效：開啟</span></button>
             </div>
             
             <div class="setting-row">
@@ -2068,17 +2244,17 @@
             </div>
             
             <div class="setting-row">
-                <label>自訂機率(%)：</label>
+                <label for="acc-in-s">自訂機率(%)：</label>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-                    <label><input type="text" inputmode="decimal" id="acc-in-s" style="width: 50px;" oninput="acc_customProbChange()"> <span style="color:#f3724c; font-weight:bold;">成功</span></label>
+                    <div class="site-value-control accessory-rate-control"><input class="site-field-inner" type="text" inputmode="decimal" id="acc-in-s" oninput="acc_customProbChange()"><span class="accessory-rate-caption">成功</span></div>
                     <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">(失敗時自動維持星力)</span>
                 </div>
             </div>
 
             <div class="stats-text" id="acc-stats-container"></div>
 
-            <button class="btn-reset-tr" onclick="acc_reset()">重新模擬 (清除所有狀態)</button>
-        </div>
+            <button class="btn-reset-tr site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" onclick="acc_reset()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">重新模擬 (清除所有狀態)</span></button>
+        </div></div>
 
         <div class="modal-backdrop" id="acc-result-modal">
             <div class="modal-box acc-modal-box" id="modal-box-acc">
@@ -2196,7 +2372,7 @@
 
                     <div class="sec-bottom" style="background-color: #FCFCFC;">
                         <div class="coin-box">
-                            <img src="assets/common/icon_楓幣.png" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
+                            <img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣" style="width: 22px; height: 22px; object-fit: contain;" onerror="this.style.display='none'"> 
                             <span>1,204</span>
                         </div>
                         <button class="btn-action-tr" id="btn-emb-action" onclick="emb_executeEnhance()">紋章強化</button>
@@ -2219,10 +2395,10 @@
             </div>
         </div>
 
-        <div class="settings-panel">
+        <div class="settings-panel simulator-settings-surface site-calculator glass-surface site-card site-card-input"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
             <div class="settings-title">
                 <span>⚙️ 紋章模擬器設定</span>
-                <button id="btn-sound-toggle-emb" class="btn-sound" onclick="emb_toggleSound()">🔊 音效：開啟</button>
+                <button id="btn-sound-toggle-emb" class="btn-sound glass-action site-sound-control glass-surface site-card site-interactive" onclick="emb_toggleSound()" data-site-interaction="toggle"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">🔊 音效：開啟</span></button>
             </div>
 
             <div class="setting-row">
@@ -2251,8 +2427,8 @@
             </div>
 
             <div class="stats-text" id="emb-stats-container"></div>
-            <button class="btn-reset-tr" onclick="emb_reset()">重新模擬 (清除所有狀態)</button>
-        </div>
+            <button class="btn-reset-tr site-button glass-action site-operation glass-action-danger glass-surface site-card site-interactive" onclick="emb_reset()" data-site-interaction="action"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><span class="liquid-surface-content">重新模擬 (清除所有狀態)</span></button>
+        </div></div>
 
         <div class="modal-backdrop" id="emb-result-modal">
             <div class="modal-box acc-modal-box">
@@ -2320,7 +2496,13 @@
     window.MAPLEM_EFFECT_DATA = null;
 </script>
 <script src="craft-effects.js"></script>
-<script src="script.js"></script>
+<script src="../assets/js/glass.js?v=composite-hover2"></script>
+<script src="assets/js/hexa-progress.js?v=sixth-layout7"></script>
+<script src="script.js?v=notice-update28"></script>
+<script src="assets/js/simulator-settings.js?v=summary-film1"></script>
+<script src="assets/js/site-pilot.js?v=genesis-stone21"></script>
 
+<script src="assets/js/tool-shell.js?v=notice-compact24"></script>
+<script src="assets/js/genesis-layout.js?v=genesis-audit23"></script>
 </body>
 </html>

@@ -441,7 +441,8 @@
     }
 
     if (isIOSDevice()) {
-        downloadBtn.textContent = '長按圖片儲存';
+        const downloadLabel = downloadBtn.querySelector(':scope > .liquid-surface-content') || downloadBtn;
+        downloadLabel.textContent = '長按圖片儲存';
         previewHint.textContent = 'iPhone / iPad：圖片產生後可直接長按預覽圖，再選擇「儲存到照片」或「儲存影像」。';
     }
 

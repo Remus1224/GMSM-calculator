@@ -1,0 +1,47 @@
+/* Shared Beta website layout. Opt-in shells never include the simulator runtime or canvas UI. */
+.glass-theme {
+ --site-space-section:20px; --site-space-card:12px; --site-space-field:8px;
+ --site-notice-critical:#ff0000; --site-notice-operation:#0066ff;
+ --site-notice-breath-min:.78;
+}
+/* Keep critical and operation notices legible on the dark glass. */
+.glass-theme[data-theme="dark"] {
+ --site-notice-critical:#ff7373;
+ --site-notice-operation:#80b3ff;
+ --site-notice-breath-min:.92;
+}
+@media(max-width:600px) {.glass-theme {--site-space-section:16px;--site-space-card:8px;}}
+.glass-theme .site-tool-flow {gap:var(--site-space-section) !important;}
+.glass-theme .site-tool-flow:not(.tab-content) {display:flex;flex-direction:column;}
+.glass-theme .site-home-category {display:flex;flex-direction:column;width:100%;}
+.glass-theme .site-tool-flow > .site-flow-item {margin-top:0 !important;margin-bottom:0 !important;}
+/* The nav already supplies the header-to-content gap. Standalone roots include
+   the header in their flex flow, so cancel the additional section gap once. */
+.glass-theme .site-tool-flow > .site-header {margin-bottom:calc(0px - var(--site-space-section)) !important;}
+.glass-theme [data-site-space="sections"] {gap:var(--site-space-section) !important;}
+.glass-theme [data-site-space="cards"] {gap:var(--site-space-card) !important;}
+.glass-theme [data-site-space="fields"] {row-gap:var(--site-space-field) !important;}
+.glass-theme :is([data-site-space="sections"],[data-site-space="cards"]) > .site-space-item {margin-top:0 !important;margin-bottom:0 !important;}
+.glass-theme .site-tool-flow :is(.rune-category-panel.active,.authentic-world-panel.active,.genesis-panel.is-active),
+.glass-theme .site-tool-flow .ignore-right-panel {display:flex;flex-direction:column;}
+.glass-theme .site-tool-flow .setting-row {margin-bottom:var(--site-space-field);}
+.glass-theme .site-tool-flow .simulator-stats-surface,
+.glass-theme .site-tool-flow :is(.btn-reset-tr,.btn-reset-simulator,.btn-group) {margin-top:var(--site-space-field);}
+.glass-theme .site-tool-flow .rune-bottom-actions {margin-top:0;}
+.glass-theme .site-tool-flow :is(.site-tool-notices,.site-tool-version) {width:100%;box-sizing:border-box;--glass-lift:0px;}
+.glass-theme .site-tool-notices > .liquid-surface-content {padding:6px 10px;}
+.glass-theme .site-tool-flow .site-tool-notices {width:fit-content;max-width:100%;min-width:0;border-radius:16px;align-self:center;margin-inline:auto;}
+.glass-theme .site-tool-notice {margin:0;font-size:12px;font-weight:500;line-height:1.6;text-align:center;}
+.glass-theme .site-tool-notice + .site-tool-notice {margin-top:8px;}
+.glass-theme .site-note-phrase {display:inline-block;max-width:100%;vertical-align:top;white-space:normal;word-break:normal;line-break:strict;overflow-wrap:break-word;}
+.glass-theme .site-tool-notice[data-severity="critical"] {color:var(--site-notice-critical);}
+.glass-theme .site-tool-notice[data-severity="critical"] .site-note-text {animation:siteNoticeBreath 2.4s ease-in-out infinite;}
+.glass-theme .site-tool-notice[data-severity="operation"] {color:var(--site-notice-operation);}
+/* The prayer experience table's small, centred glass note is the footer reference. */
+.glass-theme .site-tool-version {padding:0;border-radius:12px;}
+.glass-theme .site-tool-version > .liquid-surface-content {min-height:36px;padding:8px 12px;text-align:center;}
+.glass-theme .site-tool-version p {margin:0;color:var(--site-muted);font-size:10.8px;font-weight:560;line-height:1.6;}
+.glass-theme .site-tool-version .site-version-line {display:block;}
+.glass-theme .site-tool-flow .preview-hint {color:var(--site-notice-operation);}
+@keyframes siteNoticeBreath {0%,100% {opacity:1;}50% {opacity:var(--site-notice-breath-min);}}
+@media(prefers-reduced-motion:reduce) {.glass-theme .site-tool-notice[data-severity="critical"] .site-note-text {animation:none;opacity:1;}}
