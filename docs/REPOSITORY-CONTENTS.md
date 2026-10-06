@@ -25,7 +25,6 @@
 | `docs/MAINTENANCE.md` | 共通樣式及檢查方式 | 整併新增 |
 | `docs/REPOSITORY-CONTENTS.md` | 上傳內容分類，即本文件 | 新增 |
 | `docs/analytics/GA4-TOOL-TRACKING.md` | GA4 事件與後台設定說明 | 移動並保留 |
-| `docs/screenshots/shared-cleanup-round2/` | 6 張前後截圖與 1 個比較 HTML | 移動並保留，主站不載入 |
 | `.github/workflows/validate.yml` | GitHub Actions CI | 更新 |
 | `.github/scripts/verify-formal-paths.cjs` | CI/本機入口檢查 | 更新 |
 | `.github/ISSUE_TEMPLATE/` | GitHub 問題回報格式 | 沿用既有檔案 |
@@ -36,6 +35,6 @@
 
 ## 本機保留、不再納入分支最新內容
 
-`.local-docs/` 集中保存 13 份交接/調查/過程紀錄，以及私人 GA4 後台紀錄與 4 張截圖。原始內容保留，依交接、調查、歷史、私人紀錄分類；此資料夾不會被 Git 備份。
+`.local-docs/` 集中保存 13 份交接/調查/過程紀錄、私人 GA4 後台紀錄與 4 張截圖，以及已檢視的 6 張介面前後截圖和 1 個比較 HTML。原始內容保留，依交接、調查、歷史、私人紀錄與介面截圖分類；此資料夾不會被 Git 備份。
 
 先前提交過的公開開發文件仍可能存在 Git 歷史；本次移除的是分支最新版本及 PR 最終檔案內容，不改寫既有提交歷史。私人 GA4 帳戶紀錄從未納入提交。

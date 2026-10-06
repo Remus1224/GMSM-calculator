@@ -3,3 +3,5 @@
 # Also exclude old locations if these files are recreated.
 /docs/ui-migration/screenshots/ga4-setup-*/
 /docs/ui-migration/GA4-BACKEND-SETUP-*.md
+/docs/screenshots/shared-cleanup-round2/
+/docs/ui-migration/screenshots/shared-cleanup-round2/

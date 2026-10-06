@@ -33,7 +33,7 @@ node .github/scripts/verify-formal-paths.cjs
 
 本機祈禱預覽入口為 `light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`，搭配同目錄的 `.ps1`。這兩個檔案供開發預覽，正式網站不載入。
 
-靜態檢查不取代桌面/手機、圖片儲存與遊戲數值實際確認。已保留[共通樣式修改前後對照](screenshots/shared-cleanup-round2/index.html)。
+靜態檢查不取代桌面/手機、圖片儲存與遊戲數值實際確認。
 
 ## 開發紀錄
 
