@@ -1,5 +1,5 @@
 /* Genesis geometry and states. Materials and input feedback use shared components. */
-#tab-liberation {color:var(--site-text);font-variant-numeric:tabular-nums;--genesis-enter-offset:6px;--genesis-trace-accent:#c932a2;--genesis-slide-easing:cubic-bezier(.34,1.56,.64,1);}
+#tab-liberation {color:var(--site-text);font-variant-numeric:tabular-nums;--genesis-trace-accent:#c932a2;}
 [data-theme="dark"] #tab-liberation {--genesis-trace-accent:#f69bdf;}
 .container:has(#tab-liberation.active) {max-width:1000px;}
 #tab-liberation [hidden] {display:none !important;}
@@ -10,17 +10,7 @@
 #tab-liberation :is(button,input,select) {font-family:inherit;}
 #tab-liberation :is(button,label,summary) { -webkit-tap-highlight-color:transparent; }
 #tab-liberation .genesis-panel {display:none;min-width:0;width:100%;box-sizing:border-box;flex:0 0 100%;}
-#tab-liberation .genesis-panel.is-active {display:flex;flex-direction:column;animation:genesis-panel-enter .24s ease-out;}
-@keyframes genesis-panel-enter {from{transform:translateX(var(--genesis-enter-offset));}to{transform:translateX(0);}}
-
-/* One travelling selection plate; text never shifts with the plate. */
-#tab-liberation .genesis-subtabs {overflow:visible;padding:5px;border-radius:16px;width:100%;--glass-lift:0px;}
-#tab-liberation .genesis-subtabs > .liquid-surface-content {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;position:relative;overflow:visible;}
-#tab-liberation .genesis-subtab {position:relative;z-index:2;border:0;background:transparent;color:var(--site-muted);box-shadow:none;transform:none;min-width:0;min-height:42px;padding:8px 4px;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;transition:color .2s;}
-#tab-liberation .genesis-subtab.is-active {color:var(--site-text);font-weight:700;}
-#tab-liberation .genesis-subtab:focus-visible {outline:2px solid var(--site-focus-rim);outline-offset:-3px;}
-#tab-liberation .genesis-tab-indicator {position:absolute;top:0;left:0;z-index:0;pointer-events:none;min-height:0;padding:0;border-radius:12px;--crystal-border:var(--site-choice-rim);--crystal-side-border:var(--site-choice-rim);--glass-lift:0px;}
-#tab-liberation .genesis-subtabs.is-ready .genesis-tab-indicator {transition:translate .4s var(--genesis-slide-easing),width .3s,height .3s;}
+#tab-liberation .genesis-panel.is-active {display:flex;flex-direction:column;}
 
 /* Main cards share the material; each page owns its layout. */
 #tab-liberation :is(.liberation-journey-panel,.liberation-panel) {padding:16px;min-width:0;--glass-lift:0px;}
@@ -50,8 +40,8 @@
 #tab-liberation .liberation-total-summary small {font-size:13px;color:var(--site-muted);}
 #tab-liberation .liberation-total-summary > .liquid-surface-content > span:last-child {font-size:11px;line-height:1.4;color:var(--site-accent);white-space:normal;overflow-wrap:break-word;}
 #tab-liberation .liberation-overall-progress {grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-size:10px;color:var(--site-muted);}
-#tab-liberation :is(.liberation-overall-progress > div,.genesis-stone-progress-track) {height:5px;background:var(--site-inset);border-radius:8px;overflow:hidden;}
-#tab-liberation :is(.liberation-overall-progress i,.genesis-stone-progress-track i) {display:block;height:100%;background:linear-gradient(90deg,#5abbd9,#8465e8);border-radius:inherit;transition:width .25s;}
+#tab-liberation :is(.liberation-overall-progress > div,.genesis-stone-progress-track) {--site-progress-height:5px;--site-progress-radius:8px;}
+#tab-liberation :is(.liberation-overall-progress i,.genesis-stone-progress-track i) {--site-progress-fill:linear-gradient(90deg,#5abbd9,#8465e8);border-radius:inherit;--site-progress-duration:.25s;}
 #tab-liberation .liberation-overall-progress i {width:var(--liberation-progress-width,0%);}
 #tab-liberation :is(.genesis-forecast small,.genesis-resource-grid small) {font-size:10px;color:var(--site-muted);}
 #tab-liberation #genesis-stone-progress-percent {font-size:10px;line-height:1;}
@@ -74,7 +64,7 @@
 #tab-liberation .genesis-editor:has(input[type=date]) > .liquid-surface-content {padding:0 5px;}
 #tab-liberation .genesis-editor input[type=date] {font-size:11px;}
 #tab-liberation .site-select-shell {width:100%;max-width:100%;--site-card-width:100%;--site-select-font-size:12px;--site-select-min-height:36px;--site-select-padding-start:26px;--site-select-padding-end:26px;}
-#tab-liberation .site-select-shell select {width:100%;min-height:36px;text-align:center;text-align-last:center;}
+#tab-liberation .site-select-shell select {width:100%;min-height:36px;}
 #tab-liberation .genesis-unified-field:has(select) {background:transparent;box-shadow:none;}
 #tab-liberation .genesis-stone-status-option {min-width:0;min-height:42px;padding:7px 9px;font-size:11px;cursor:pointer;}
 #tab-liberation .genesis-stone-status-option b {font-weight:500;}
@@ -198,13 +188,8 @@
  #tab-liberation .liberation-forecast-stat b {font-size:18px;}
  #tab-liberation .liberation-total-summary {grid-column:1/-1;padding:12px 14px;}
 }
-/* A long three-tab jump needs less spring on phones to stay inside the viewport. */
-@media(max-width:600px) {
- #tab-liberation {--genesis-slide-easing:cubic-bezier(.34,1.42,.64,1);}
-}
 @media(max-width:480px) {
  #tab-liberation :is(.liberation-journey-panel,.liberation-panel) {padding:12px;}
- #tab-liberation .genesis-subtab {font-size:12px;min-height:40px;}
  #tab-liberation .liberation-boss-card {--genesis-boss-image-width:52px;}
  #tab-liberation .liberation-boss-card > .liquid-surface-content {row-gap:4px;}
  #tab-liberation .liberation-boss-body header {padding:7px 6px 0;}
@@ -238,8 +223,6 @@
  #tab-liberation .genesis-stone-status-option {padding:7px;font-size:10px;}
 }
 @media(prefers-reduced-motion:reduce) {
- #tab-liberation .genesis-panel.is-active {animation:none;}
- #tab-liberation :is(.genesis-tab-indicator,.genesis-subtab,.liberation-overall-progress i,.genesis-stone-progress-track i) {transition:none !important;}
  #tab-liberation .site-glass-compact {transform:none !important;}
 }
 
@@ -255,16 +238,15 @@
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-forecast > .liquid-surface-content > small {font-size:13px;color:var(--site-muted);line-height:1.5;}
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource {padding:8px 10px;min-width:0;text-align:center;}
-#tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource > .liquid-surface-content {display:flex;align-items:center;justify-content:center;gap:9px;min-height:48px;}
+#tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource > .liquid-surface-content {--site-stat-gap:9px;min-height:48px;}
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource > .liquid-surface-content > div {display:grid;gap:3px;min-width:0;}
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource img {width:34px;height:34px;object-fit:contain;flex:0 0 34px;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-mesos img {width:24px;height:24px;flex-basis:24px;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-amount {display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;}
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource span {font-size:11px;line-height:1.4;color:var(--site-muted);}
-#tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource strong {font-size:22px;line-height:1.2;white-space:nowrap;color:var(--site-text);}
+#tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource strong {font-size:22px;line-height:1.2;color:var(--site-text);}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-mesos strong {font-size:clamp(17px,1.9vw,21px);}
 #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-resource small {font-size:10px;color:var(--site-accent);line-height:1.4;}
-#tab-liberation #genesis-panel-alchemy .genesis-alchemy-settings select.site-select-control {justify-content:center;text-align:center;text-align-last:center;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-rules {padding:8px 10px;margin-bottom:12px;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-rules dl {display:flex;flex-wrap:wrap;gap:6px 24px;margin:0;font-size:11px;line-height:1.5;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-rules dl > div {display:flex;gap:8px;}
@@ -283,10 +265,7 @@
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-table-level b {font-weight:730;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-table-material > span {display:flex;align-items:center;justify-content:center;gap:5px;}
 #tab-liberation #genesis-panel-alchemy .genesis-alchemy-table-material img {width:22px;height:22px;object-fit:contain;}
-@media(hover:hover) and (pointer:fine) {
- #tab-liberation #genesis-panel-alchemy .genesis-alchemy-table-row:hover {background:linear-gradient(90deg,rgba(156,234,254,.10),rgba(255,255,255,.18) 42%,rgba(200,141,221,.10));}
- [data-theme=dark] #tab-liberation #genesis-panel-alchemy .genesis-alchemy-table-row:hover {background:linear-gradient(90deg,rgba(85,195,255,.075),rgba(255,255,255,.050) 42%,rgba(200,141,221,.060));}
-}
+/* Row hover, highlight edges and reduced-motion handling use site-table-hover. */
 /* Let the forecast absorb spare height so both desktop columns share a baseline. */
 @media(min-width:801px) {
  #tab-liberation :is(#genesis-panel-alchemy,#genesis-panel-stone) .genesis-progress-layout {align-items:stretch;}

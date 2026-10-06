@@ -1,0 +1,3019 @@
+{
+  "schema": "MapleStoryM.HierosForceRequirements.V1",
+  "updatedAt": "2026-10-04",
+  "title": "海洛斯封印能力需求表",
+  "gameVersion": "2026/06",
+  "clientTableVersion": "2.420.5697_04fb425d",
+  "sourceTable": "ThemaDungeon/Hieros/HierosForceRequired",
+  "sourceFiles": [
+    "Hieros_Seal_Force_Requirements_1_to_500.csv",
+    "HierosForceRequired_source_rules.csv"
+  ],
+  "sourceRules": "hieros-force-rules.json",
+  "notice": "資料來源為拆檔，部分樓層已與遊戲內確認，實際請以遊戲內顯示為主。",
+  "verifiedFloors": [
+    55
+  ],
+  "levels": [
+    {
+      "floor": 1,
+      "starForce": 230,
+      "arcaneForce": 1000,
+      "authenticForce": 10
+    },
+    {
+      "floor": 2,
+      "starForce": 230,
+      "arcaneForce": 1000,
+      "authenticForce": 10
+    },
+    {
+      "floor": 3,
+      "starForce": 230,
+      "arcaneForce": 1000,
+      "authenticForce": 10
+    },
+    {
+      "floor": 4,
+      "starForce": 231,
+      "arcaneForce": 1000,
+      "authenticForce": 10
+    },
+    {
+      "floor": 5,
+      "starForce": 231,
+      "arcaneForce": 1020,
+      "authenticForce": 10
+    },
+    {
+      "floor": 6,
+      "starForce": 231,
+      "arcaneForce": 1020,
+      "authenticForce": 10
+    },
+    {
+      "floor": 7,
+      "starForce": 232,
+      "arcaneForce": 1020,
+      "authenticForce": 10
+    },
+    {
+      "floor": 8,
+      "starForce": 232,
+      "arcaneForce": 1020,
+      "authenticForce": 10
+    },
+    {
+      "floor": 9,
+      "starForce": 232,
+      "arcaneForce": 1020,
+      "authenticForce": 10
+    },
+    {
+      "floor": 10,
+      "starForce": 233,
+      "arcaneForce": 1040,
+      "authenticForce": 10
+    },
+    {
+      "floor": 11,
+      "starForce": 233,
+      "arcaneForce": 1040,
+      "authenticForce": 10
+    },
+    {
+      "floor": 12,
+      "starForce": 233,
+      "arcaneForce": 1040,
+      "authenticForce": 10
+    },
+    {
+      "floor": 13,
+      "starForce": 234,
+      "arcaneForce": 1040,
+      "authenticForce": 10
+    },
+    {
+      "floor": 14,
+      "starForce": 234,
+      "arcaneForce": 1040,
+      "authenticForce": 10
+    },
+    {
+      "floor": 15,
+      "starForce": 234,
+      "arcaneForce": 1060,
+      "authenticForce": 10
+    },
+    {
+      "floor": 16,
+      "starForce": 235,
+      "arcaneForce": 1060,
+      "authenticForce": 10
+    },
+    {
+      "floor": 17,
+      "starForce": 235,
+      "arcaneForce": 1060,
+      "authenticForce": 10
+    },
+    {
+      "floor": 18,
+      "starForce": 235,
+      "arcaneForce": 1060,
+      "authenticForce": 10
+    },
+    {
+      "floor": 19,
+      "starForce": 236,
+      "arcaneForce": 1060,
+      "authenticForce": 10
+    },
+    {
+      "floor": 20,
+      "starForce": 236,
+      "arcaneForce": 1080,
+      "authenticForce": 10
+    },
+    {
+      "floor": 21,
+      "starForce": 236,
+      "arcaneForce": 1080,
+      "authenticForce": 10
+    },
+    {
+      "floor": 22,
+      "starForce": 237,
+      "arcaneForce": 1080,
+      "authenticForce": 10
+    },
+    {
+      "floor": 23,
+      "starForce": 237,
+      "arcaneForce": 1080,
+      "authenticForce": 10
+    },
+    {
+      "floor": 24,
+      "starForce": 237,
+      "arcaneForce": 1080,
+      "authenticForce": 10
+    },
+    {
+      "floor": 25,
+      "starForce": 238,
+      "arcaneForce": 1100,
+      "authenticForce": 10
+    },
+    {
+      "floor": 26,
+      "starForce": 238,
+      "arcaneForce": 1100,
+      "authenticForce": 10
+    },
+    {
+      "floor": 27,
+      "starForce": 238,
+      "arcaneForce": 1100,
+      "authenticForce": 10
+    },
+    {
+      "floor": 28,
+      "starForce": 239,
+      "arcaneForce": 1100,
+      "authenticForce": 10
+    },
+    {
+      "floor": 29,
+      "starForce": 239,
+      "arcaneForce": 1100,
+      "authenticForce": 10
+    },
+    {
+      "floor": 30,
+      "starForce": 239,
+      "arcaneForce": 1120,
+      "authenticForce": 10
+    },
+    {
+      "floor": 31,
+      "starForce": 240,
+      "arcaneForce": 1120,
+      "authenticForce": 10
+    },
+    {
+      "floor": 32,
+      "starForce": 240,
+      "arcaneForce": 1120,
+      "authenticForce": 10
+    },
+    {
+      "floor": 33,
+      "starForce": 240,
+      "arcaneForce": 1120,
+      "authenticForce": 10
+    },
+    {
+      "floor": 34,
+      "starForce": 241,
+      "arcaneForce": 1120,
+      "authenticForce": 10
+    },
+    {
+      "floor": 35,
+      "starForce": 241,
+      "arcaneForce": 1140,
+      "authenticForce": 10
+    },
+    {
+      "floor": 36,
+      "starForce": 241,
+      "arcaneForce": 1140,
+      "authenticForce": 10
+    },
+    {
+      "floor": 37,
+      "starForce": 242,
+      "arcaneForce": 1140,
+      "authenticForce": 10
+    },
+    {
+      "floor": 38,
+      "starForce": 242,
+      "arcaneForce": 1140,
+      "authenticForce": 10
+    },
+    {
+      "floor": 39,
+      "starForce": 242,
+      "arcaneForce": 1140,
+      "authenticForce": 10
+    },
+    {
+      "floor": 40,
+      "starForce": 243,
+      "arcaneForce": 1160,
+      "authenticForce": 20
+    },
+    {
+      "floor": 41,
+      "starForce": 243,
+      "arcaneForce": 1160,
+      "authenticForce": 20
+    },
+    {
+      "floor": 42,
+      "starForce": 243,
+      "arcaneForce": 1160,
+      "authenticForce": 20
+    },
+    {
+      "floor": 43,
+      "starForce": 244,
+      "arcaneForce": 1160,
+      "authenticForce": 20
+    },
+    {
+      "floor": 44,
+      "starForce": 244,
+      "arcaneForce": 1160,
+      "authenticForce": 20
+    },
+    {
+      "floor": 45,
+      "starForce": 244,
+      "arcaneForce": 1180,
+      "authenticForce": 20
+    },
+    {
+      "floor": 46,
+      "starForce": 245,
+      "arcaneForce": 1180,
+      "authenticForce": 20
+    },
+    {
+      "floor": 47,
+      "starForce": 245,
+      "arcaneForce": 1180,
+      "authenticForce": 20
+    },
+    {
+      "floor": 48,
+      "starForce": 245,
+      "arcaneForce": 1180,
+      "authenticForce": 20
+    },
+    {
+      "floor": 49,
+      "starForce": 246,
+      "arcaneForce": 1180,
+      "authenticForce": 20
+    },
+    {
+      "floor": 50,
+      "starForce": 246,
+      "arcaneForce": 1200,
+      "authenticForce": 20
+    },
+    {
+      "floor": 51,
+      "starForce": 246,
+      "arcaneForce": 1200,
+      "authenticForce": 20
+    },
+    {
+      "floor": 52,
+      "starForce": 247,
+      "arcaneForce": 1200,
+      "authenticForce": 20
+    },
+    {
+      "floor": 53,
+      "starForce": 247,
+      "arcaneForce": 1200,
+      "authenticForce": 20
+    },
+    {
+      "floor": 54,
+      "starForce": 247,
+      "arcaneForce": 1200,
+      "authenticForce": 20
+    },
+    {
+      "floor": 55,
+      "starForce": 248,
+      "arcaneForce": 1220,
+      "authenticForce": 20
+    },
+    {
+      "floor": 56,
+      "starForce": 248,
+      "arcaneForce": 1220,
+      "authenticForce": 20
+    },
+    {
+      "floor": 57,
+      "starForce": 248,
+      "arcaneForce": 1220,
+      "authenticForce": 20
+    },
+    {
+      "floor": 58,
+      "starForce": 249,
+      "arcaneForce": 1220,
+      "authenticForce": 20
+    },
+    {
+      "floor": 59,
+      "starForce": 249,
+      "arcaneForce": 1220,
+      "authenticForce": 20
+    },
+    {
+      "floor": 60,
+      "starForce": 249,
+      "arcaneForce": 1240,
+      "authenticForce": 20
+    },
+    {
+      "floor": 61,
+      "starForce": 250,
+      "arcaneForce": 1240,
+      "authenticForce": 20
+    },
+    {
+      "floor": 62,
+      "starForce": 250,
+      "arcaneForce": 1240,
+      "authenticForce": 20
+    },
+    {
+      "floor": 63,
+      "starForce": 250,
+      "arcaneForce": 1240,
+      "authenticForce": 20
+    },
+    {
+      "floor": 64,
+      "starForce": 251,
+      "arcaneForce": 1240,
+      "authenticForce": 20
+    },
+    {
+      "floor": 65,
+      "starForce": 251,
+      "arcaneForce": 1260,
+      "authenticForce": 20
+    },
+    {
+      "floor": 66,
+      "starForce": 251,
+      "arcaneForce": 1260,
+      "authenticForce": 20
+    },
+    {
+      "floor": 67,
+      "starForce": 252,
+      "arcaneForce": 1260,
+      "authenticForce": 20
+    },
+    {
+      "floor": 68,
+      "starForce": 252,
+      "arcaneForce": 1260,
+      "authenticForce": 20
+    },
+    {
+      "floor": 69,
+      "starForce": 252,
+      "arcaneForce": 1260,
+      "authenticForce": 20
+    },
+    {
+      "floor": 70,
+      "starForce": 253,
+      "arcaneForce": 1280,
+      "authenticForce": 20
+    },
+    {
+      "floor": 71,
+      "starForce": 253,
+      "arcaneForce": 1280,
+      "authenticForce": 20
+    },
+    {
+      "floor": 72,
+      "starForce": 253,
+      "arcaneForce": 1280,
+      "authenticForce": 20
+    },
+    {
+      "floor": 73,
+      "starForce": 254,
+      "arcaneForce": 1280,
+      "authenticForce": 20
+    },
+    {
+      "floor": 74,
+      "starForce": 254,
+      "arcaneForce": 1280,
+      "authenticForce": 20
+    },
+    {
+      "floor": 75,
+      "starForce": 254,
+      "arcaneForce": 1300,
+      "authenticForce": 20
+    },
+    {
+      "floor": 76,
+      "starForce": 255,
+      "arcaneForce": 1300,
+      "authenticForce": 20
+    },
+    {
+      "floor": 77,
+      "starForce": 255,
+      "arcaneForce": 1300,
+      "authenticForce": 20
+    },
+    {
+      "floor": 78,
+      "starForce": 255,
+      "arcaneForce": 1300,
+      "authenticForce": 20
+    },
+    {
+      "floor": 79,
+      "starForce": 256,
+      "arcaneForce": 1300,
+      "authenticForce": 20
+    },
+    {
+      "floor": 80,
+      "starForce": 256,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 81,
+      "starForce": 256,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 82,
+      "starForce": 257,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 83,
+      "starForce": 257,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 84,
+      "starForce": 257,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 85,
+      "starForce": 258,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 86,
+      "starForce": 258,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 87,
+      "starForce": 258,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 88,
+      "starForce": 259,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 89,
+      "starForce": 259,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 90,
+      "starForce": 259,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 91,
+      "starForce": 260,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 92,
+      "starForce": 260,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 93,
+      "starForce": 260,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 94,
+      "starForce": 261,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 95,
+      "starForce": 261,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 96,
+      "starForce": 261,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 97,
+      "starForce": 262,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 98,
+      "starForce": 262,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 99,
+      "starForce": 262,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 100,
+      "starForce": 263,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 101,
+      "starForce": 263,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 102,
+      "starForce": 263,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 103,
+      "starForce": 264,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 104,
+      "starForce": 264,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 105,
+      "starForce": 264,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 106,
+      "starForce": 265,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 107,
+      "starForce": 265,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 108,
+      "starForce": 265,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 109,
+      "starForce": 266,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 110,
+      "starForce": 266,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 111,
+      "starForce": 266,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 112,
+      "starForce": 267,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 113,
+      "starForce": 267,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 114,
+      "starForce": 267,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 115,
+      "starForce": 268,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 116,
+      "starForce": 268,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 117,
+      "starForce": 268,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 118,
+      "starForce": 269,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 119,
+      "starForce": 269,
+      "arcaneForce": 1320,
+      "authenticForce": 30
+    },
+    {
+      "floor": 120,
+      "starForce": 269,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 121,
+      "starForce": 270,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 122,
+      "starForce": 270,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 123,
+      "starForce": 270,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 124,
+      "starForce": 271,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 125,
+      "starForce": 271,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 126,
+      "starForce": 271,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 127,
+      "starForce": 272,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 128,
+      "starForce": 272,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 129,
+      "starForce": 272,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 130,
+      "starForce": 273,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 131,
+      "starForce": 273,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 132,
+      "starForce": 273,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 133,
+      "starForce": 274,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 134,
+      "starForce": 274,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 135,
+      "starForce": 274,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 136,
+      "starForce": 275,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 137,
+      "starForce": 275,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 138,
+      "starForce": 275,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 139,
+      "starForce": 276,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 140,
+      "starForce": 276,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 141,
+      "starForce": 276,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 142,
+      "starForce": 277,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 143,
+      "starForce": 277,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 144,
+      "starForce": 277,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 145,
+      "starForce": 278,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 146,
+      "starForce": 278,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 147,
+      "starForce": 278,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 148,
+      "starForce": 279,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 149,
+      "starForce": 279,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 150,
+      "starForce": 279,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 151,
+      "starForce": 280,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 152,
+      "starForce": 280,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 153,
+      "starForce": 280,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 154,
+      "starForce": 281,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 155,
+      "starForce": 281,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 156,
+      "starForce": 281,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 157,
+      "starForce": 282,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 158,
+      "starForce": 282,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 159,
+      "starForce": 282,
+      "arcaneForce": 1320,
+      "authenticForce": 40
+    },
+    {
+      "floor": 160,
+      "starForce": 283,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 161,
+      "starForce": 283,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 162,
+      "starForce": 283,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 163,
+      "starForce": 284,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 164,
+      "starForce": 284,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 165,
+      "starForce": 284,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 166,
+      "starForce": 285,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 167,
+      "starForce": 285,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 168,
+      "starForce": 285,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 169,
+      "starForce": 286,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 170,
+      "starForce": 286,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 171,
+      "starForce": 286,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 172,
+      "starForce": 287,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 173,
+      "starForce": 287,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 174,
+      "starForce": 287,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 175,
+      "starForce": 288,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 176,
+      "starForce": 288,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 177,
+      "starForce": 288,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 178,
+      "starForce": 289,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 179,
+      "starForce": 289,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 180,
+      "starForce": 289,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 181,
+      "starForce": 290,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 182,
+      "starForce": 290,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 183,
+      "starForce": 290,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 184,
+      "starForce": 291,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 185,
+      "starForce": 291,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 186,
+      "starForce": 291,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 187,
+      "starForce": 292,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 188,
+      "starForce": 292,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 189,
+      "starForce": 292,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 190,
+      "starForce": 293,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 191,
+      "starForce": 293,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 192,
+      "starForce": 293,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 193,
+      "starForce": 294,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 194,
+      "starForce": 294,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 195,
+      "starForce": 294,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 196,
+      "starForce": 295,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 197,
+      "starForce": 295,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 198,
+      "starForce": 295,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 199,
+      "starForce": 296,
+      "arcaneForce": 1320,
+      "authenticForce": 50
+    },
+    {
+      "floor": 200,
+      "starForce": 296,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 201,
+      "starForce": 296,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 202,
+      "starForce": 297,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 203,
+      "starForce": 297,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 204,
+      "starForce": 297,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 205,
+      "starForce": 298,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 206,
+      "starForce": 298,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 207,
+      "starForce": 298,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 208,
+      "starForce": 299,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 209,
+      "starForce": 299,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 210,
+      "starForce": 299,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 211,
+      "starForce": 300,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 212,
+      "starForce": 300,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 213,
+      "starForce": 300,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 214,
+      "starForce": 301,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 215,
+      "starForce": 301,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 216,
+      "starForce": 301,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 217,
+      "starForce": 302,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 218,
+      "starForce": 302,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 219,
+      "starForce": 302,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 220,
+      "starForce": 303,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 221,
+      "starForce": 303,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 222,
+      "starForce": 303,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 223,
+      "starForce": 304,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 224,
+      "starForce": 304,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 225,
+      "starForce": 304,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 226,
+      "starForce": 305,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 227,
+      "starForce": 305,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 228,
+      "starForce": 305,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 229,
+      "starForce": 306,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 230,
+      "starForce": 306,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 231,
+      "starForce": 306,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 232,
+      "starForce": 307,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 233,
+      "starForce": 307,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 234,
+      "starForce": 307,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 235,
+      "starForce": 308,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 236,
+      "starForce": 308,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 237,
+      "starForce": 308,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 238,
+      "starForce": 309,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 239,
+      "starForce": 309,
+      "arcaneForce": 1320,
+      "authenticForce": 60
+    },
+    {
+      "floor": 240,
+      "starForce": 309,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 241,
+      "starForce": 310,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 242,
+      "starForce": 310,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 243,
+      "starForce": 310,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 244,
+      "starForce": 311,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 245,
+      "starForce": 311,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 246,
+      "starForce": 311,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 247,
+      "starForce": 312,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 248,
+      "starForce": 312,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 249,
+      "starForce": 312,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 250,
+      "starForce": 313,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 251,
+      "starForce": 313,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 252,
+      "starForce": 313,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 253,
+      "starForce": 314,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 254,
+      "starForce": 314,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 255,
+      "starForce": 314,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 256,
+      "starForce": 315,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 257,
+      "starForce": 315,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 258,
+      "starForce": 315,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 259,
+      "starForce": 316,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 260,
+      "starForce": 316,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 261,
+      "starForce": 316,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 262,
+      "starForce": 317,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 263,
+      "starForce": 317,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 264,
+      "starForce": 317,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 265,
+      "starForce": 318,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 266,
+      "starForce": 318,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 267,
+      "starForce": 318,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 268,
+      "starForce": 319,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 269,
+      "starForce": 319,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 270,
+      "starForce": 319,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 271,
+      "starForce": 320,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 272,
+      "starForce": 320,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 273,
+      "starForce": 320,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 274,
+      "starForce": 321,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 275,
+      "starForce": 321,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 276,
+      "starForce": 321,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 277,
+      "starForce": 322,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 278,
+      "starForce": 322,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 279,
+      "starForce": 322,
+      "arcaneForce": 1320,
+      "authenticForce": 70
+    },
+    {
+      "floor": 280,
+      "starForce": 323,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 281,
+      "starForce": 323,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 282,
+      "starForce": 323,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 283,
+      "starForce": 324,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 284,
+      "starForce": 324,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 285,
+      "starForce": 324,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 286,
+      "starForce": 325,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 287,
+      "starForce": 325,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 288,
+      "starForce": 325,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 289,
+      "starForce": 326,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 290,
+      "starForce": 326,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 291,
+      "starForce": 326,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 292,
+      "starForce": 327,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 293,
+      "starForce": 327,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 294,
+      "starForce": 327,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 295,
+      "starForce": 328,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 296,
+      "starForce": 328,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 297,
+      "starForce": 328,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 298,
+      "starForce": 329,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 299,
+      "starForce": 329,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 300,
+      "starForce": 330,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 301,
+      "starForce": 331,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 302,
+      "starForce": 332,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 303,
+      "starForce": 333,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 304,
+      "starForce": 334,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 305,
+      "starForce": 335,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 306,
+      "starForce": 336,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 307,
+      "starForce": 337,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 308,
+      "starForce": 338,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 309,
+      "starForce": 339,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 310,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 311,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 312,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 313,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 314,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 315,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 316,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 317,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 318,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 319,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 80
+    },
+    {
+      "floor": 320,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 321,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 322,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 323,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 324,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 325,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 326,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 327,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 328,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 329,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 330,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 331,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 332,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 333,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 334,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 335,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 336,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 337,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 338,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 339,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 340,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 341,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 342,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 343,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 344,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 345,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 346,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 347,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 348,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 349,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 350,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 351,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 352,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 353,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 354,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 355,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 356,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 357,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 358,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 359,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 90
+    },
+    {
+      "floor": 360,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 361,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 362,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 363,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 364,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 365,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 366,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 367,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 368,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 369,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 370,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 371,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 372,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 373,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 374,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 375,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 376,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 377,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 378,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 379,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 380,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 381,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 382,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 383,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 384,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 385,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 386,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 387,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 388,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 389,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 390,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 391,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 392,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 393,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 394,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 395,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 396,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 397,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 398,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 399,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 100
+    },
+    {
+      "floor": 400,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 401,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 402,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 403,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 404,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 405,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 406,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 407,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 408,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 409,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 410,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 411,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 412,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 413,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 414,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 415,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 416,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 417,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 418,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 419,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 420,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 421,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 422,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 423,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 424,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 425,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 426,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 427,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 428,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 429,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 430,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 431,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 432,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 433,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 434,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 435,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 436,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 437,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 438,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 439,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 440,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 441,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 442,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 443,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 444,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 445,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 446,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 447,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 448,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 449,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 110
+    },
+    {
+      "floor": 450,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 451,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 452,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 453,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 454,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 455,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 456,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 457,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 458,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 459,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 460,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 461,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 462,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 463,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 464,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 465,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 466,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 467,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 468,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 469,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 470,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 471,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 472,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 473,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 474,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 475,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 476,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 477,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 478,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 479,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 480,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 481,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 482,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 483,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 484,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 485,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 486,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 487,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 488,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 489,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 490,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 491,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 492,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 493,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 494,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 495,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 496,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 497,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 498,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 499,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 120
+    },
+    {
+      "floor": 500,
+      "starForce": 340,
+      "arcaneForce": 1320,
+      "authenticForce": 130
+    }
+  ]
+}

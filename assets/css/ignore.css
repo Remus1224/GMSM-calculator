@@ -122,7 +122,7 @@
 .ignore-input-title { white-space: nowrap; }
 
 .ignore-input-notice {
-    --ignore-input-glow: 0, 113, 227;
+    --site-notice-glow-rgb: 0, 113, 227;
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -137,7 +137,6 @@
     font-weight: 600;
     line-height: 1.5;
     text-align: left;
-    animation: ignoreInputNoticeBreath 2.4s ease-in-out infinite;
 }
 
 .ignore-input-notice-icon {
@@ -156,23 +155,13 @@
 }
 
 [data-theme="dark"] .ignore-input-notice {
-    --ignore-input-glow: 105, 189, 255;
+    --site-notice-glow-rgb: 105, 189, 255;
     border-color: rgba(105, 189, 255, 0.25);
     background: rgba(105, 189, 255, 0.07);
     color: #9ad2ff !important;
 }
 
-@keyframes ignoreInputNoticeBreath {0% {
-        box-shadow: 0 0 0 rgba(var(--ignore-input-glow), 0);
-    }
-100% {
-        box-shadow: 0 0 0 rgba(var(--ignore-input-glow), 0);
-    }50% {
-        box-shadow: 0 0 5px rgba(var(--ignore-input-glow), 0.14);
-    }
-}
-@media (prefers-reduced-motion: reduce) {.ignore-input-notice { animation: none; }
-}
+/* The shared glow-breath variant preserves this inline notice's original pulse. */
 
 #tab-ignore {
     --ignore-notice-text: #ba2035;

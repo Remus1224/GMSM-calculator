@@ -39,6 +39,9 @@ jobs:
             "light-sanctum-pray/index.html"
             "light-sanctum-pray/script.js"
             "light-sanctum-pray/style.css"
+            "game-info/index.html"
+            "game-info/script.js"
+            "game-info/page.css"
           )
 
           for file in "${required_files[@]}"; do
@@ -55,13 +58,13 @@ jobs:
           node --check script.js
           node --check craft-effects.js
           node --check 1204/script.js
-          # Check every shared module in both published trees.
-          for file in assets/js/*.js beta/assets/js/*.js; do
+          # Check the single shared module tree.
+          for file in assets/js/*.js; do
             node --check "$file"
           done
-          # Game Info changes are included in this PR's full branch scope.
-          node --check beta/game-info/script.js
-          node --check beta/game-info/dom-export.js
+          # Check the information pages and image export helper.
+          node --check game-info/script.js
+          node --check game-info/dom-export.js
           node --check .github/scripts/verify-formal-paths.cjs
           node --check light-sanctum-pray/script.js
           node --check light-sanctum-pray/sound-toggle.js
@@ -72,16 +75,6 @@ jobs:
           node --check light-sanctum-pray/runtime/site-bridge.js
           node --check light-sanctum-pray/runtime/pray-confirm-popup/confirm-bypass-popup.js
           node --check light-sanctum-pray/runtime/pray-confirm-popup/player.js
-          # Feature-branch Beta gate: direct-edit Beta runtime only; no runtime source-patch loader.
-          if [[ -f beta/light-sanctum-pray/runtime/player-presentation.js ]]; then
-            node --check beta/light-sanctum-pray/runtime/player-presentation.js
-          fi
-          if [[ -f beta/light-sanctum-pray/runtime/player-presentation-patch.js ]]; then
-            node --check beta/light-sanctum-pray/runtime/player-presentation-patch.js
-          fi
-          if [[ -f beta/light-sanctum-pray/script.js ]]; then
-            node --check beta/light-sanctum-pray/script.js
-          fi
 
       - name: Verify formal entry paths and preserved prayer runtime
         run: node .github/scripts/verify-formal-paths.cjs

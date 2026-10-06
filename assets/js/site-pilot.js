@@ -27,6 +27,14 @@
    return;
   }
   tab.classList.add('site-calculator');
+  tab.querySelectorAll('.rune-category-panel,.authentic-world-panel,.genesis-panel').forEach(panel=>panel.classList.add('site-panel-enter'));
+  tab.querySelectorAll('.prog-bar-bg,.liberation-overall-progress > div,.genesis-stone-progress-track').forEach(track=>track.classList.add('site-progress-track'));
+  tab.querySelectorAll('.prog-bar-fill,.liberation-overall-progress i,.genesis-stone-progress-track i').forEach(fill=>fill.classList.add('site-progress-fill'));
+  tab.querySelectorAll('.genesis-alchemy-data-table').forEach(table=>table.classList.add('site-table-hover'));
+  if(id==='hexa-lazy')tab.querySelectorAll('.lazy-table-container').forEach(scroll=>{
+   scroll.classList.add('site-table-scroll');scroll.tabIndex=0;
+   scroll.setAttribute('role','region');scroll.setAttribute('aria-label','HEXA 懶人重製表，可左右捲動');
+  });
   G.decorateChoices(tab);
   if(id==='ignore')tab.querySelectorAll('.absolab-group .site-radio-option,.arcane-group .site-radio-option').forEach(control=>control.classList.add('site-choice-film'));
   tab.querySelectorAll(selectors[id]).forEach(surface=>{
@@ -54,6 +62,15 @@
     surface.classList.add('genesis-info-surface','site-summary-card');
     G.decorate(surface);G.setCardRole(surface,'info');
    });
+  }
+  if(id==='liberation'){
+   tab.querySelectorAll('.genesis-resource > .liquid-surface-content').forEach(node=>node.classList.add('site-stat-content'));
+   tab.querySelectorAll('.genesis-resource strong').forEach(node=>node.classList.add('site-stat-value'));
+  }
+  if(id==='rune'){
+   tab.querySelectorAll('.rune-grand-item:not(.rune-grand-symbols-panel),.rune-grand-symbol-entry').forEach(node=>node.classList.add('site-stat-content'));
+   tab.querySelectorAll('.rune-grand-item strong').forEach(node=>node.classList.add('site-stat-value'));
+   tab.querySelectorAll('.rune-grand-symbol-list').forEach(node=>node.classList.add('site-stat-grid'));
   }
   if(id==='liberation')tab.querySelectorAll('.genesis-alchemy-table-panel').forEach(surface=>G.setCardRole(surface,'info'));
   tab.querySelectorAll('.ignore-bug-notice').forEach(notice=>notice.classList.add('calculator-section'));
@@ -90,7 +107,8 @@
     const core=field.closest('.prog-item')?.querySelector('.liquid-surface-content > div')?.textContent.trim();
     if(boss||core)field.setAttribute('aria-label',boss?boss+'難度':core+'等級');
    }
-   G.decorateSelect(field,{fitContent:true});
+   const selectShell=G.decorateSelect(field,{fitContent:true});
+   if(selectShell&&(field.matches('.liberation-boss-difficulty')||field.closest('.rune-card-inputs,#genesis-panel-alchemy .genesis-alchemy-settings')))selectShell.classList.add('site-select-centered');
   });
   tab.querySelectorAll('.btn-clear,.action-btn,.liberation-reset-btn').forEach(button=>{
    const isClear=button.matches('.btn-clear,.clear-btn,.liberation-reset-btn');
@@ -100,11 +118,17 @@
  }
  window.GMSMSite=Object.freeze({decorateTab});
 })();
-/* Beta pilot allowlist: no game scene or modal decoration. */
+/* Website decoration allowlist: no game scene or modal decoration. */
 document.addEventListener('DOMContentLoaded', () => {
  const G=window.GMSMGlass;
  document.querySelectorAll('#tab-home .app-card').forEach(card=>{
-  card.classList.add('site-entry');
+  card.classList.add('site-entry','site-menu-entry');
+  card.classList.toggle('site-menu-entry-has-badge',card.classList.contains('app-card-has-badge'));
+  card.classList.toggle('site-menu-entry-banner',card.classList.contains('app-card-notice'));
+  card.querySelector('.app-info')?.classList.add('site-entry-copy');
+  card.querySelector('.app-icon')?.classList.add('site-entry-icon');
+  card.querySelector('.app-title')?.classList.add('site-entry-title');
+  card.querySelector('.app-info p')?.classList.add('site-entry-caption');
   G.decorate(card,'.app-status-badge');G.setCardRole(card,'entry');
  });
  G.decorateAll(document.querySelectorAll('#tab-home .data-backup-panel,#tab-home .memo-card,#tab-hyper-stat .hyper-overview,#tab-hyper-stat .hyper-profile-tab'));

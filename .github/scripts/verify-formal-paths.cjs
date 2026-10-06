@@ -10,7 +10,7 @@ const sharedCss = [
 ];
 const sharedJs = [
   'genesis-layout', 'glass', 'hexa-progress', 'simulator-settings',
-  'site-pilot', 'standalone-tools', 'tool-shell',
+  'site-pilot', 'standalone-tools', 'tool-shell', 'site-view-switch', 'site-notify', 'site-image-export', 'site-analytics',
 ];
 
 for (const file of [
@@ -24,7 +24,7 @@ function attribute(tag, name) {
   return tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'))?.[2];
 }
 
-for (const entry of ['index.html', '1204/index.html', 'light-sanctum-pray/index.html']) {
+for (const entry of ['index.html', '1204/index.html', 'light-sanctum-pray/index.html', 'game-info/index.html']) {
   const html = fs.readFileSync(path.join(root, entry), 'utf8').replace(/<!--[\s\S]*?-->/g, '');
   const sharedReferences = new Set();
   for (const [tag] of html.matchAll(/<(?:script|link|iframe)\b[^>]*>/gi)) {
@@ -40,8 +40,8 @@ for (const entry of ['index.html', '1204/index.html', 'light-sanctum-pray/index.
   }
   for (const file of [
     'assets/css/site-theme.css', 'assets/css/glass.css', 'assets/css/site-components.css',
-    'assets/css/calculator-components.css', 'assets/css/tool-shell.css',
-    'assets/js/glass.js', 'assets/js/tool-shell.js',
+    ...(entry === 'game-info/index.html' ? [] : ['assets/css/calculator-components.css']), 'assets/css/tool-shell.css',
+    'assets/js/glass.js', 'assets/js/tool-shell.js', 'assets/js/site-analytics.js',
   ]) {
     assert.ok(sharedReferences.has(file), `${entry} is missing shared reference: ${file}`);
   }

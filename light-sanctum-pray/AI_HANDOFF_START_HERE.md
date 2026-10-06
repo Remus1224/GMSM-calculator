@@ -1,6 +1,11 @@
 # AI_HANDOFF_START_HERE — Light Sanctum Pray Post-Release Cost Label Fit R1
 
-## Current status — 2026-09-26
+## Current development policy — 2026-10-05
+- The user retired the duplicated beta directory. Work and visual acceptance now use Git branches and the single root website.
+- Preserve the production Will asset reliability patch and prayer runtime behavior.
+- The beta-only instructions below are historical and superseded by the current user request. Historical Beta prayer handoff is retained under docs/ui-migration/PRAYER-BETA-HANDOFF-HISTORY.md.
+
+## Historical status — 2026-09-26
 - Repo: `Remus1224/GMSM-calculator`
 - Production simulator has been promoted by the user and is live.
 - Last production/browser-accepted baseline remains the Mobile Audio Latency R1 release lineage.

@@ -1,0 +1,3 @@
+# Keep GA4 account screenshots and backend setup notes local.
+/docs/ui-migration/screenshots/ga4-setup-*/
+/docs/ui-migration/GA4-BACKEND-SETUP-*.md

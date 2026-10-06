@@ -1,5 +1,7 @@
 /* Website tokens only. Legacy game variables are deliberately untouched. */
 .site-theme {
+ --site-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Icons","Helvetica Neue","PingFang TC","Microsoft JhengHei",sans-serif;
+ --site-background-base:#F3E8FF;
  --site-text:#232936; --site-muted:#6f7888; --site-line:rgba(69,87,124,.14);
  --site-accent:#7657dc; --site-inset:rgba(255,255,255,.16);
  --site-input:rgba(255,255,255,.68); --site-button:rgba(255,255,255,.40);
@@ -21,6 +23,7 @@
  --site-focus-glow:var(--site-select-glow); --site-focus-rim:#7657dc;
 }
 .site-theme[data-theme="dark"] {
+ --site-background-base:#070B14;
  /* Background light only: preserve the accepted control lights and glass film. */
  --site-night-blue-rgb:105,175,255;
  --site-night-blue-strength:1.5;
@@ -40,6 +43,7 @@
  --site-selection-hover-rim:var(--site-hover-rim);
  --site-focus-glow:var(--site-select-glow); --site-focus-rim:#9CEAFE;
 }
+.site-theme > body {font-family:var(--site-font-family);background-color:var(--site-background-base);background-attachment:fixed;background-repeat:no-repeat;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 /* Shared day/night geometry. Percentage radii track the active viewport;
    portrait uses the approved daylight arrangement, with the same crossing patches.
    Only the atmosphere colors/strength differ by theme. */

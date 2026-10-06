@@ -1,4 +1,110 @@
 /* Explicit website opt-in; never target generic game panels or popups. */
+.glass-theme {--site-width-duration:.4s;--site-width-easing:cubic-bezier(.25,.8,.25,1);--site-view-slide-easing:cubic-bezier(.34,1.56,.64,1);}
+.glass-theme .site-width-motion {transition:max-width var(--site-width-duration) var(--site-width-easing),width var(--site-width-duration) var(--site-width-easing),padding-inline var(--site-width-duration) var(--site-width-easing);}
+/* Main-menu and information-directory widths share one contract; tool pages keep their own widths. */
+.glass-theme {--site-directory-content-width:800px;--site-directory-padding:20px;--site-directory-screen-padding:20px;}
+.glass-theme > body:has(> .container > #tab-home.active) {padding-inline:var(--site-directory-screen-padding);}
+.glass-theme .container:has(> #tab-home.active),
+.glass-theme.is-info-home .shell {max-width:calc(var(--site-directory-content-width) + var(--site-directory-padding) + var(--site-directory-padding));padding-inline:var(--site-directory-padding);}
+.glass-theme.is-info-home .shell {width:calc(100% - var(--site-directory-screen-padding) - var(--site-directory-screen-padding));}
+@media(max-width:500px) {.glass-theme {--site-directory-padding:8px;--site-directory-screen-padding:4px;}}
+/* The main Genesis switch and information-table switches use the same component. */
+.glass-theme .site-view-switch {--site-card-width:100%;--accepted-radius:16px;--glass-lift:0px;width:100%;min-width:0;padding:5px;overflow:visible;}
+.glass-theme .site-view-switch > .liquid-surface-content {display:grid;grid-template-columns:repeat(var(--site-view-columns,3),minmax(0,1fr));gap:5px;position:relative;overflow:visible;}
+.glass-theme .site-view-tab {position:relative;z-index:2;appearance:none;border:0;background:transparent;color:var(--site-muted);box-shadow:none;transform:none;min-width:0;min-height:42px;padding:8px 4px;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;transition:color .2s;-webkit-tap-highlight-color:transparent;}
+.glass-theme .site-view-tab:is(.is-active,[aria-selected=true]) {color:var(--site-text);font-weight:700;}
+.glass-theme[data-theme=dark] .site-view-tab:is(.is-active,[aria-selected=true]) {color:var(--glass-title-color);}
+.glass-theme .site-view-tab:focus-visible {outline:2px solid var(--site-focus-rim);outline-offset:-3px;}
+.glass-theme .site-view-switch .site-view-indicator {position:absolute;top:0;left:0;z-index:0;pointer-events:none;min-height:0;padding:0;--accepted-radius:12px;--crystal-border:var(--site-choice-rim);--crystal-side-border:var(--site-choice-rim);--glass-lift:0px;}
+.glass-theme .site-view-switch.is-ready .site-view-indicator {transition:translate .4s var(--site-view-slide-easing),width .3s,height .3s;}
+@media(max-width:600px){.glass-theme {--site-view-slide-easing:cubic-bezier(.34,1.42,.64,1);}}
+@media(max-width:480px){.glass-theme .site-view-tab {font-size:12px;min-height:40px;}}
+@media(prefers-reduced-motion:reduce){.glass-theme :is(.site-width-motion,.site-view-tab,.site-view-indicator){transition:none !important;}}
+/* Information headings: tools choose their content and placement, not a second title style. */
+.glass-theme .site-content-heading {padding:0;}
+.glass-theme .site-heading-content {min-height:68px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--site-space-field,8px);}
+.glass-theme .site-heading-copy {min-width:0;display:flex;flex-direction:column;justify-content:center;}
+.glass-theme .site-content-heading h2 {margin:4px 0 0;color:var(--glass-title-color);font-size:26px;font-weight:780;letter-spacing:-.036em;line-height:1.12;}
+.glass-theme .site-heading-kicker {color:var(--site-muted);font-size:10px;font-weight:700;letter-spacing:.145em;line-height:1.2;text-transform:uppercase;}
+.glass-theme .site-heading-actions {display:flex;align-items:center;flex:0 0 auto;flex-wrap:wrap;gap:var(--site-space-field,8px);margin:0;}
+.glass-theme .site-content-heading[data-heading-layout=intro] > .liquid-surface-content {padding:clamp(18px,2.8vw,27px);}
+.glass-theme .site-content-heading[data-heading-layout=intro] h2 {margin:6px 0;font-size:clamp(24px,3.7vw,33px);}
+.glass-theme .site-content-heading p {margin:0;color:var(--site-muted);font-size:12.5px;font-weight:450;letter-spacing:-.012em;line-height:1.58;}
+@media(max-width:720px) {
+ .glass-theme .site-heading-content {min-height:0;padding:12px;}
+ .glass-theme .site-content-heading h2 {font-size:clamp(19px,5.1vw,23px);}
+ .glass-theme .site-heading-kicker {font-size:8.5px;}
+ .glass-theme .site-content-heading[data-heading-layout=intro] > .liquid-surface-content {padding:15px 15px 14px;}
+ .glass-theme .site-content-heading[data-heading-layout=intro] h2 {margin-top:5px;font-size:20px;}
+ .glass-theme .site-content-heading p {font-size:10.5px;line-height:1.48;}
+}
+/* Main-menu and information-directory entries share layout, icons and interaction feedback. */
+.glass-theme {--site-entry-icon-fill:linear-gradient(135deg,rgba(85,195,255,.3),rgba(200,141,221,.3));--site-entry-icon-rim:rgba(200,141,221,.2);}
+.glass-theme[data-theme=dark] {--site-entry-icon-fill:linear-gradient(135deg,rgba(85,195,255,.15),rgba(200,141,221,.15));--site-entry-icon-rim:rgba(178,187,237,.3);}
+.glass-theme .site-entry-icon {display:flex;align-items:center;justify-content:center;flex-shrink:0;width:var(--site-entry-icon-size,46px);height:var(--site-entry-icon-size,46px);font-size:var(--site-entry-icon-font,26px);border-radius:12px;border:1px solid var(--site-entry-icon-rim);background:var(--site-entry-icon-fill);overflow:hidden;transition:background .3s,transform .3s;}
+.glass-theme .site-entry-icon > img {display:block;width:100%;height:100%;object-fit:contain;}
+.glass-theme .site-entry-icon-transparent {--site-entry-icon-fill:radial-gradient(circle at 25% 20%,rgba(153,236,255,.65),transparent 60%),linear-gradient(135deg,#4079d1,#7752bc);--site-hover-icon-fill:var(--site-entry-icon-fill);border:0;padding:0;}
+.glass-theme .site-entry-title {display:block;margin:0;color:var(--site-text);font-size:var(--site-entry-title-size,15.5px);font-weight:var(--site-entry-title-weight,600);letter-spacing:var(--site-entry-title-tracking,-.2px);}
+.glass-theme .site-entry-caption {color:var(--site-muted);font-size:var(--site-entry-caption-size,13px);line-height:var(--site-entry-caption-line,1.42);}
+.glass-theme .site-menu-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--site-space-card,12px);width:100%;}
+.glass-theme .site-menu-entry {position:relative;width:100%;min-width:0;margin:0;appearance:none;-webkit-appearance:none;padding:12px 20px;display:flex;align-items:center;gap:12px;color:var(--site-text);font:inherit;text-align:left;text-decoration:none;cursor:pointer;}
+.glass-theme .site-menu-entry > .liquid-surface-content {display:flex;align-items:center;gap:12px;width:100%;min-width:0;}
+.glass-theme .site-menu-entry .site-entry-copy {display:flex;flex-direction:column;gap:4px;min-width:0;overflow:hidden;}
+.glass-theme .site-menu-entry .site-entry-caption {margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.glass-theme .site-menu-entry-has-badge {padding-right:96px;}
+.glass-theme .site-menu-entry-banner {grid-column:1 / -1;}
+.glass-theme .site-menu-entry > .app-status-badge {z-index:5;}
+.glass-theme .site-menu-entry:disabled {cursor:default;}
+.glass-theme .site-menu-entry:disabled .site-entry-icon {opacity:.65;}
+@media(max-width:600px) {
+ .glass-theme .site-menu-entry {min-height:88px;padding:10px 8px;flex-direction:column;justify-content:center;gap:8px;text-align:center;}
+ .glass-theme .site-menu-entry > .liquid-surface-content {flex-direction:column;justify-content:center;gap:8px;}
+ .glass-theme .site-menu-entry .site-entry-icon {--site-entry-icon-size:44px;}
+ .glass-theme .site-menu-entry .site-entry-copy {width:100%;align-items:center;overflow:visible;}
+ .glass-theme .site-menu-entry .site-entry-title {display:flex;align-items:center;justify-content:center;min-height:18px;width:100%;font-size:13px;line-height:1.3;white-space:normal;overflow-wrap:anywhere;text-align:center;}
+ .glass-theme .site-menu-entry.site-menu-entry-has-badge {padding:10px 8px;}
+ .glass-theme .site-menu-entry-banner.site-menu-entry-has-badge {min-height:66px;padding:10px 72px 10px 14px;flex-direction:row;justify-content:flex-start;text-align:left;}
+ .glass-theme .site-menu-entry-banner > .liquid-surface-content {flex-direction:row;justify-content:flex-start;gap:12px;}
+ .glass-theme .site-menu-entry-banner .app-status-badge {top:50%;right:14px;transform:translateY(-50%);}
+ .glass-theme .site-menu-entry-banner .site-entry-copy {align-items:flex-start;}
+ .glass-theme .site-menu-entry-banner .site-entry-title {min-height:0;justify-content:flex-start;text-align:left;}
+}
+@media(max-width:350px) {
+ .glass-theme .site-menu-grid {grid-template-columns:minmax(0,1fr);}
+ .glass-theme .site-menu-entry {min-height:68px;padding:10px 14px;flex-direction:row;justify-content:flex-start;text-align:left;}
+ .glass-theme .site-menu-entry > .liquid-surface-content {flex-direction:row;justify-content:flex-start;gap:12px;}
+ .glass-theme .site-menu-entry.site-menu-entry-has-badge {padding:10px 76px 10px 14px;}
+ .glass-theme .site-menu-entry .site-entry-copy {align-items:flex-start;}
+ .glass-theme .site-menu-entry .site-entry-title {min-height:0;justify-content:flex-start;text-align:left;}
+}
+.glass-theme .site-entry > .liquid_glass-sharp {transition:border-color var(--glass-motion-duration) var(--glass-motion-easing);}
+.glass-theme .site-entry:focus-visible {outline:0;box-shadow:var(--site-focus-glow);}
+.glass-theme .site-entry:focus-visible > .liquid_glass-sharp {border-color:var(--site-focus-rim);}
+@media(hover:hover) and (pointer:fine) {
+ .glass-theme .site-entry:not(:disabled):hover {box-shadow:var(--site-hover-glow);}
+ .glass-theme .site-entry:not(:disabled):hover > .liquid_glass-sharp {border-color:var(--site-hover-rim);}
+ .glass-theme .site-entry:not(:disabled):hover .site-entry-icon {background:var(--site-hover-icon-fill);box-shadow:var(--site-hover-icon-glow);transform:scale(1.05);}
+}
+@media(prefers-reduced-motion:reduce) {.glass-theme .site-entry :is(.site-entry-icon,.liquid_glass-sharp){transition:none;}.glass-theme .site-entry:hover .site-entry-icon{transform:none;}}
+/* Native scrolling remains independent of the tool's data/grid minimum widths. */
+.glass-theme .site-table-scroll {min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--site-line) transparent;}
+.glass-theme .site-table-scroll:focus-visible {outline:2px solid var(--site-focus-rim);outline-offset:-2px;border-radius:var(--site-control-radius);}
+.glass-theme .site-scroll-hint {display:none;margin:0;color:var(--site-muted);font-size:10px;line-height:1.4;text-align:center;}
+@media(max-width:830px){.glass-theme .site-scroll-hint[data-scroll-at=wide]{display:block;}}
+@media(max-width:600px){.glass-theme .site-scroll-hint[data-scroll-at=phone]{display:block;}}
+/* Whole-table pages keep native scrolling and snap to one complete content group. */
+.glass-theme .site-table-paged-scroll {scroll-snap-type:x mandatory;}
+.glass-theme .site-table-pages {display:flex;min-width:0;align-items:flex-start;gap:var(--site-table-page-gap,var(--site-space-field,8px));}
+.glass-theme .site-table-page {flex:0 0 var(--site-table-page-width,100%);min-width:0;scroll-snap-align:start;scroll-snap-stop:always;}
+/* A tool controls visibility; the fixed column and grouped-page geometry share this contract. */
+.glass-theme :is(.site-table-paged-layout,.site-table-fixed-layout) {grid-template-columns:var(--site-table-fixed-column-width,48px) minmax(0,1fr);gap:var(--site-table-page-gap,var(--site-space-field,8px));min-width:0;}
+.glass-theme .site-table-page-grid {display:grid;grid-template-columns:repeat(var(--site-table-page-columns,2),minmax(0,1fr));gap:var(--site-table-page-gap,var(--site-space-field,8px));align-items:start;}
+/* Intrinsic widths can be measured and packed into shared whole-column pages. */
+.glass-theme table.site-table-intrinsic {width:max-content;min-width:0;table-layout:auto;}
+/* Transient notices use the same glass film and title/body colors as other info cards. */
+.glass-theme .site-toast {position:fixed;left:50%;bottom:max(26px,env(safe-area-inset-bottom));z-index:9999;translate:-50% 0;--site-card-width:max-content;max-width:calc(100vw - 32px);--accepted-radius:var(--site-control-radius);--glass-lift:0px;padding:0;}
+.glass-theme .site-toast > .liquid-surface-content {padding:9px 13px;color:var(--site-text);font-size:11px;font-weight:630;line-height:1.5;overflow-wrap:anywhere;}
+.glass-theme .site-toast[hidden] {display:none !important;}
 /* Compact controls own their visible edge, independently of a tool's panel rules.
    Low specificity lets selected/semantic states retain their category colours. */
 .glass-theme {
@@ -132,14 +238,6 @@
 }
 
 
-/* Dense resource summaries use the same category film without adding another DOM card. */
-.glass-theme .site-tinted-inset {
- background:
-  linear-gradient(rgba(var(--site-card-tint-rgb),var(--site-card-tint-opacity)),rgba(var(--site-card-tint-rgb),var(--site-card-tint-opacity))),
-  linear-gradient(var(--site-card-tint-neutral),var(--site-card-tint-neutral)),
-  var(--site-inset) !important;
-}
-
 /* Passive calculated output: quieter blue/violet film than a primary action.
    Opt in explicitly so notices, input cards and category colours stay separate.
    Insets reuse the same paint without extra wrappers or nested glass layers. */
@@ -170,8 +268,13 @@
 .glass-theme .tab-content.active:has(.glass-surface) {
  animation:siteGlassEnter .4s ease;
 }
+/* Inner panels and generated results share glass-safe entry without changing backdrop opacity. */
+.site-result-enter {--site-panel-enter-duration:.4s;}
+.glass-theme :is(.site-panel-enter:is(.active,.is-active),.site-result-enter) {
+ animation:siteGlassEnter var(--site-panel-enter-duration,.3s) ease;
+}
 @media(prefers-reduced-motion:reduce) {
- .glass-theme .tab-content.active:has(.glass-surface) { animation:none; }
+ .glass-theme :is(.tab-content.active:has(.glass-surface),.site-panel-enter:is(.active,.is-active),.site-result-enter) { animation:none; }
 }
 
 /* Native select: shared glass shell, with the original control owning its dimensions.
@@ -299,6 +402,7 @@
  padding:3px var(--site-select-padding-end) 3px var(--site-select-padding-start) !important;
  font:inherit !important; text-align:start; margin:0;
 }
+.glass-theme .site-select-shell.site-select-centered select.site-select-control {text-align:center;text-align-last:center;justify-content:center;}
 .glass-theme .site-select-sizer,.glass-theme .site-select-sizer > span { font:inherit !important; }
 .glass-theme .site-select-shell:has(select[hidden]) { display:none !important; }
 
@@ -475,7 +579,8 @@
 .site-toggle-control { cursor:pointer; }
 .glass-theme .site-toggle-control:has(input:checked){--crystal-border:var(--site-focus-rim);--crystal-side-border:var(--site-focus-rim);}
 .site-toggle-control:has(input:checked) > .liquid_glass-cover { background:var(--site-hover-icon-fill),var(--crystal-fill); }
-.site-toggle-control input[type=checkbox]{margin:0;flex:none;}
+/* Shared native checkbox geometry and theme colour; game-scene controls are excluded. */
+.glass-theme :is(.site-toggle-control,.site-glass-toggle) input[type=checkbox]{width:var(--site-checkbox-size,14px);height:var(--site-checkbox-size,14px);margin:0;flex:none;accent-color:var(--site-checkbox-color,var(--site-accent));}
 
 
 .glass-theme .site-value-control > .liquid-surface-content{padding:2px 10px;}
@@ -599,10 +704,10 @@
 /* Selection is persistent even after blur, unlike a hover preview.
    Reuse the approved select light (8px, no spread) and the same focus edge.
    Local category tokens win for equipment sets. No motion is added here. */
-.glass-theme .site-interactive:is([data-site-interaction=choice],.site-radio-custom):not(.site-category-tab):not(:disabled):not([aria-disabled=true]):not(:has(input:disabled)):is(.active,.is-selected,.is-current,.is-target,[aria-selected=true],:has(input[type=radio]:checked)) {
+.glass-theme .site-interactive:is([data-site-interaction=choice],.site-radio-custom):not(.site-category-tab):not(:disabled):not([aria-disabled=true]):not(:has(input:disabled)):is(.active,.is-selected,.is-current,[aria-selected=true],:has(input[type=radio]:checked)) {
  box-shadow:var(--site-choice-focus-glow,var(--site-select-glow,var(--site-focus-glow))) !important;
 }
-.glass-theme .site-interactive:is([data-site-interaction=choice],.site-radio-custom):not(:disabled):not([aria-disabled=true]):not(:has(input:disabled)):is(.active,.is-selected,.is-current,.is-target,[aria-selected=true],:has(input[type=radio]:checked)) > .liquid_glass-sharp {border-color:var(--site-choice-rim);}
+.glass-theme .site-interactive:is([data-site-interaction=choice],.site-radio-custom):not(:disabled):not([aria-disabled=true]):not(:has(input:disabled)):is(.active,.is-selected,.is-current,[aria-selected=true],:has(input[type=radio]:checked)) > .liquid_glass-sharp {border-color:var(--site-choice-rim);}
 /* A focused editor lifts its small card once. Independent actions can react while the card rests. */
 .glass-theme .site-interactive[data-site-interaction=entry] .site-interactive,
 .glass-theme .site-interactive[data-site-interaction=group] .site-interactive:not([data-site-interaction=action]),
@@ -624,22 +729,13 @@
  --site-interaction-focus-rim:var(--site-focus-rim);
  --site-category-rim:rgba(255,255,255,.65);
  --site-category-fill:linear-gradient(135deg,rgba(104,182,239,.14),rgba(173,139,225,.10));
- --site-category-marker:linear-gradient(90deg,#6eabc9,#958cc6);
 }
 .glass-theme[data-theme=dark] .site-category-tab {
  --site-category-rim:rgba(194,212,230,.28);
  --site-category-fill:linear-gradient(135deg,rgba(129,186,232,.13),rgba(153,139,220,.10));
- --site-category-marker:linear-gradient(90deg,#8acaff,#b3a5eb);
 }
 .glass-theme .site-category-tab[aria-selected=true] > .liquid_glass-cover {background:var(--site-category-fill),var(--crystal-fill);}
 .glass-theme .site-category-tab[aria-selected=true] > .liquid_glass-sharp {border-color:var(--site-category-rim);}
-.glass-theme .site-category-tab::after {
- content:'';position:absolute;z-index:6;pointer-events:none;
- bottom:5px;left:calc(50% - 16px);width:32px;height:3px;border-radius:3px;
- background:var(--site-category-marker);opacity:0;transform:scaleX(.65);
- transition:opacity 180ms ease-out,transform 180ms ease-out;
-}
-.glass-theme .site-category-tab[aria-selected=true]::after {opacity:1;transform:scaleX(1);}
 /* Keyboard focus remains a temporary focus light, including the selected tab. */
 .glass-theme .site-category-tab:focus-visible > .liquid_glass-sharp {border-color:var(--site-focus-rim);}
 
@@ -666,7 +762,6 @@
  transform:translateY(0) !important;
 }
 @media(prefers-reduced-motion:reduce) {
- .glass-theme .site-category-tab::after {transition:none;}
  .glass-theme .site-interactive.site-touch-feedback,
  .glass-theme .site-interactive.site-touch-feedback.site-touch-pressed[data-site-touch-kind] {transform:none !important;transition:none !important;}
  .glass-theme .site-interactive.site-touch-feedback > .liquid_glass-reflect {transition:none;}
@@ -723,3 +818,113 @@
 .glass-theme input.site-field.site-glass-field:not(.site-field-inner):focus {
  border-color:var(--site-focus-rim) !important; box-shadow:var(--site-focus-glow) !important;
 }
+
+/* Opt-in table row feedback. Preserve the accepted Light Sanctum film and lights.
+   Cells draw the row's edges because native table rows do not reliably paint inset shadows.
+   Segmented tables leave layout gaps transparent; no independent glass layers are added. */
+.glass-theme {
+ --site-table-hover-fill:linear-gradient(90deg,rgba(156,234,254,.10),rgba(255,255,255,.18) 42%,rgba(200,141,221,.10));
+ --site-table-hover-top:rgba(255,255,255,.20);--site-table-hover-bottom:rgba(255,255,255,.14);
+ --site-table-hover-edge:inset 0 1px 0 var(--site-table-hover-top),inset 0 -1px 0 var(--site-table-hover-bottom);
+}
+.glass-theme[data-theme=dark] {
+ --site-table-hover-fill:linear-gradient(90deg,rgba(85,195,255,.075),rgba(255,255,255,.050) 42%,rgba(200,141,221,.060));
+ --site-table-hover-top:rgba(225,239,255,.075);--site-table-hover-bottom:rgba(225,239,255,.050);
+}
+/* Table hover is shared and only enabled for a mouse pointer. */
+@media (hover:hover) and (pointer:fine) {
+ .glass-theme :where(.site-table-hover) :is(tbody > tr,.data-row) {transition:background .16s ease,box-shadow .16s ease;}
+ .glass-theme :where(.site-table-hover) :is(tbody > tr,.data-row):hover {background:var(--site-table-hover-fill) !important;}
+ .glass-theme .site-table-hover .data-row:hover {box-shadow:var(--site-table-hover-edge);}
+ .glass-theme :where(.site-table-hover) > tbody > tr > :is(th,td) {transition:background .16s ease,box-shadow .16s ease;}
+ .glass-theme :where(.site-table-hover) > tbody > tr:hover > :is(th,td):not(.site-table-hover-gap) {background:transparent;box-shadow:var(--site-table-hover-edge);}
+ .glass-theme .site-table-hover-segmented > tbody > tr:hover {background:transparent !important;}
+ .glass-theme .site-table-hover-segmented > tbody > tr:hover > :is(th,td):not(.site-table-hover-gap) {background:var(--site-table-hover-fill);}
+ .glass-theme :where(.site-table-hover) > :is(thead,tfoot) > tr:hover {background:transparent !important;box-shadow:none;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .glass-theme :where(.site-table-hover) :is(tbody > tr,.data-row),
+ .glass-theme :where(.site-table-hover) > tbody > tr > :is(th,td) {transition:none;}
+}
+
+/* Opt-in table rules: horizontal separators are inset; neutral fills stay full width.
+   Paint only, preserving column widths and the accepted glass geometry. */
+.glass-theme {--site-table-neutral-fill:rgba(255,255,255,.22);}
+.glass-theme[data-theme=dark] {--site-table-neutral-fill:var(--site-inset);}
+.glass-theme .site-table-rules {--site-table-rule-inset:16px;}
+/* A padded glass frame already provides the margin for both films and rules. */
+.glass-theme {--site-table-frame-padding:16px;}
+.glass-theme .site-table-frame-content {padding:var(--site-table-frame-padding);}
+.glass-theme .site-table-frame-content > .site-table-rules,
+.glass-theme .site-table-rules.site-table-framed {--site-table-rule-inset:0px;}
+.glass-theme table.site-table-rules > :is(thead,tbody,tfoot) > tr > :is(th,td):not(.site-table-hover-gap) {
+ position:relative;border-inline-width:0;border-top-color:transparent;border-bottom-color:transparent;
+}
+.glass-theme .site-table-rules > :is(.data-header,.data-row),
+.glass-theme .site-table-rules .site-table-rule-block,
+.glass-theme .site-table-rules > caption {position:relative;border-top-color:transparent;border-bottom-color:transparent;--site-table-rule-start:var(--site-table-rule-inset);--site-table-rule-end:var(--site-table-rule-inset);}
+.glass-theme table.site-table-rules:not(.site-table-hover-segmented) > :is(thead,tbody,tfoot) > tr > :first-child {--site-table-rule-start:var(--site-table-rule-inset);}
+.glass-theme table.site-table-rules:not(.site-table-hover-segmented) > :is(thead,tbody,tfoot) > tr > :last-child {--site-table-rule-end:var(--site-table-rule-inset);}
+.glass-theme .site-table-rules .site-table-rule-start {--site-table-rule-start:var(--site-table-rule-inset);}
+.glass-theme .site-table-rules .site-table-rule-end {--site-table-rule-end:var(--site-table-rule-inset);}
+.glass-theme table.site-table-rules:not(.site-table-hover-segmented) .site-table-rule-join-start {--site-table-rule-start:0px;}
+.glass-theme .site-table-rules .site-table-rule-fill,
+.glass-theme table.site-table-rules > :is(tbody,tfoot) > tr.site-table-rule-fill-row > :is(th,td):not(.site-table-hover-gap),
+.glass-theme .site-table-rules > :is(.data-header,caption),
+.glass-theme table.site-table-rules > thead > tr > :is(th,td):not(.site-table-hover-gap) {
+ background:var(--site-table-neutral-fill);
+}
+.glass-theme .site-table-rules > :is(.data-header,caption),
+.glass-theme table.site-table-rules:not(.site-table-hover-segmented) > thead > tr:last-child > :is(th,td),
+.glass-theme table.site-table-rules:not(.site-table-hover-segmented) > thead > tr > th[rowspan],
+.glass-theme .site-table-rules .site-table-rule-block {--site-table-rule-bottom:var(--site-line);}
+.glass-theme .site-table-rules > .data-row + .data-row,
+.glass-theme table.site-table-rules:not(.site-table-hover-segmented) > tbody > tr + tr > :is(th,td),
+.glass-theme table.site-table-rules > tfoot > tr:first-child > :is(th,td):not(.site-table-hover-gap) {--site-table-rule-top:var(--site-line);}
+.glass-theme .site-table-rules > :is(.data-header,.data-row,caption)::before,
+.glass-theme .site-table-rules .site-table-rule-block::before,
+.glass-theme table.site-table-rules > :is(thead,tbody,tfoot) > tr > :is(th,td):not(.site-table-hover-gap)::before {
+ content:"";position:absolute;pointer-events:none;inset-inline:var(--site-table-rule-start,0px) var(--site-table-rule-end,0px);top:0;bottom:0;z-index:-1;
+ background-image:linear-gradient(var(--site-table-rule-top,transparent),var(--site-table-rule-top,transparent)),var(--site-table-rule-fill-image,linear-gradient(transparent,transparent));
+ background-size:100% 1px,var(--site-table-hover-width,100%) 100%;
+ background-position:left top,calc(0px - var(--site-table-hover-offset,0px) - var(--site-table-rule-start,0px)) top;background-repeat:no-repeat;
+}
+.glass-theme .site-table-rules > :is(.data-header,.data-row,caption)::after,
+.glass-theme .site-table-rules .site-table-rule-block::after,
+.glass-theme table.site-table-rules > :is(thead,tbody,tfoot) > tr > :is(th,td):not(.site-table-hover-gap)::after {
+ content:"";position:absolute;pointer-events:none;inset-inline:var(--site-table-rule-start,0px) var(--site-table-rule-end,0px);bottom:0;height:1px;background:var(--site-table-rule-bottom,transparent);
+}
+@media (hover:hover) and (pointer:fine) {
+ .glass-theme table.site-table-rules > tbody > tr:hover {background:transparent !important;}
+ .glass-theme .site-table-rules > .data-row:hover,
+ .glass-theme table.site-table-rules > tbody > tr:hover > :is(th,td):not(.site-table-hover-gap) {background:transparent !important;box-shadow:none;--site-table-rule-fill-image:var(--site-table-hover-fill);--site-table-rule-top:var(--site-table-hover-top);--site-table-rule-bottom:var(--site-table-hover-bottom);}
+}
+.glass-theme .site-table-rules > :is(.data-header,.data-row,caption),
+.glass-theme .site-table-rules .site-table-rule-block,
+.glass-theme table.site-table-rules > :is(thead,tbody,tfoot) > tr > :is(th,td):not(.site-table-hover-gap) {isolation:isolate;}
+@media (max-width:760px) {
+ .glass-theme .site-table-rules {--site-table-rule-inset:12px;}
+ .glass-theme {--site-table-frame-padding:12px;}
+}
+
+/* Shared content structure, independent of each tool's dimensions and semantic colours. */
+.glass-theme :where(.site-data-table) {width:100%;border-collapse:separate;border-spacing:0;table-layout:var(--site-table-layout,fixed);text-align:center;color:var(--site-text);font-variant-numeric:tabular-nums lining-nums;}
+/* Opt-in table numbers: current, cumulative and combined modes share legibility. */
+.glass-theme .site-table-number {font-weight:var(--site-table-number-weight,650);color:var(--site-table-number-color,var(--glass-title-color));font-variant-numeric:tabular-nums lining-nums;}
+.glass-theme .site-section-title {margin:var(--site-section-title-margin,0);color:var(--glass-title-color);font-size:var(--site-settings-title-size);font-weight:var(--site-settings-title-weight);}
+.glass-theme .site-table-number-aligned {display:inline-block;min-width:var(--site-table-number-width,0px);text-align:var(--site-table-number-align,right);}
+.glass-theme :where(.site-stat-content) {display:var(--site-stat-display,flex);align-items:center;justify-content:center;gap:var(--site-stat-gap,8px);min-width:0;}
+.glass-theme :where(.site-stat-value) {font-variant-numeric:tabular-nums lining-nums;white-space:var(--site-stat-white-space,nowrap);}
+.glass-theme :where(.site-stat-grid) {display:grid;grid-template-columns:repeat(var(--site-stat-columns,3),minmax(0,1fr));gap:var(--site-stat-grid-gap,8px);}
+.glass-theme :where(.site-stat-grid) > * {min-width:0;}
+.site-sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
+
+/* Website progress: tools provide their height, palette and transition duration. */
+.glass-theme :where(.site-progress-track) {height:var(--site-progress-height,8px);background:var(--site-progress-track-fill,var(--site-inset));border-radius:var(--site-progress-radius,5px);overflow:hidden;}
+.glass-theme :where(.site-progress-fill) {display:block;height:100%;background:var(--site-progress-fill,transparent);border-radius:var(--site-progress-fill-radius,0px);transition:width var(--site-progress-duration,.4s) ease;}
+@media(prefers-reduced-motion:reduce) {.glass-theme .site-progress-fill {transition:none;}}
+
+/* Optional fixed numeric slot with a stationary unit; preserves natural precision. */
+.glass-theme .site-table-number-unit {display:inline-grid;grid-template-columns:auto auto;align-items:baseline;column-gap:0;white-space:nowrap;}
+.glass-theme .site-table-number-unit > .site-table-number-value {display:inline-block;min-width:var(--site-table-number-width,0px);text-align:center;}
+.glass-theme .site-table-number-unit > .site-table-number-unit-symbol {text-align:left;}

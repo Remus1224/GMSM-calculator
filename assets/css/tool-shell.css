@@ -1,4 +1,4 @@
-/* Shared Beta website layout. Opt-in shells never include the simulator runtime or canvas UI. */
+/* Shared website layout. Opt-in shells never include the simulator runtime or canvas UI. */
 .glass-theme {
  --site-space-section:20px; --site-space-card:12px; --site-space-field:8px;
  --site-notice-critical:#ff0000; --site-notice-operation:#0066ff;
@@ -35,13 +35,34 @@
 .glass-theme .site-tool-notice + .site-tool-notice {margin-top:8px;}
 .glass-theme .site-note-phrase {display:inline-block;max-width:100%;vertical-align:top;white-space:normal;word-break:normal;line-break:strict;overflow-wrap:break-word;}
 .glass-theme .site-tool-notice[data-severity="critical"] {color:var(--site-notice-critical);}
-.glass-theme .site-tool-notice[data-severity="critical"] .site-note-text {animation:siteNoticeBreath 2.4s ease-in-out infinite;}
+.glass-theme .site-note-breath {animation:siteNoticeBreath 2.4s ease-in-out infinite;}
+/* Compact inline reminders can pulse their edge without fading their text. */
+.glass-theme .site-note-glow-breath {animation:siteNoticeGlowBreath 2.4s ease-in-out infinite;}
 .glass-theme .site-tool-notice[data-severity="operation"] {color:var(--site-notice-operation);}
-/* The prayer experience table's small, centred glass note is the footer reference. */
+/* Source notes are consumed by tool-shell; rendered reminders use one shared component. */
+.glass-theme .site-source-note {display:none;}
+/* Shared version/reminder card; alignment variants opt in below. */
 .glass-theme .site-tool-version {padding:0;border-radius:12px;}
-.glass-theme .site-tool-version > .liquid-surface-content {min-height:36px;padding:8px 12px;text-align:center;}
+.glass-theme .site-tool-version > .liquid-surface-content {display:flex;align-items:center;justify-content:center;min-height:36px;padding:8px 12px;text-align:center;}
 .glass-theme .site-tool-version p {margin:0;color:var(--site-muted);font-size:10.8px;font-weight:560;line-height:1.6;}
 .glass-theme .site-tool-version .site-version-line {display:block;}
+/* Shared left-aligned data reminders retain the existing glass and typography. */
+.glass-theme .site-tool-version.site-note-left > .liquid-surface-content {text-align:left;justify-content:flex-start;}
+.glass-theme .site-tool-version.site-note-left p {width:100%;text-align:left;text-wrap:wrap;}
+.glass-theme .site-tool-version.site-note-left .note-detail {text-wrap:wrap;}
+/* Opt-in version breaks keep mobile version labels on their own intact line. */
+.glass-theme .site-note-mobile-break {display:none;}
+@media(max-width:600px) {
+ .glass-theme .site-note-mobile-break {display:initial;}
+ .glass-theme .site-note-version-inline {white-space:nowrap;}
+}
+/* Opt-in compact phone notes keep their original font size and natural wrapping. */
+@media(max-width:600px) {
+ .glass-theme .site-tool-version.site-note-compact-mobile > .liquid-surface-content {min-height:0;padding:6px 12px;justify-content:flex-start;}
+ .glass-theme .site-tool-version.site-note-compact-mobile p {width:100%;text-align:left;}
+ .glass-theme .site-tool-version.site-note-compact-mobile .site-note-detail {text-wrap:wrap;}
+}
 .glass-theme .site-tool-flow .preview-hint {color:var(--site-notice-operation);}
 @keyframes siteNoticeBreath {0%,100% {opacity:1;}50% {opacity:var(--site-notice-breath-min);}}
-@media(prefers-reduced-motion:reduce) {.glass-theme .site-tool-notice[data-severity="critical"] .site-note-text {animation:none;opacity:1;}}
+@keyframes siteNoticeGlowBreath {0%,100% {box-shadow:0 0 0 rgba(var(--site-notice-glow-rgb),0);}50% {box-shadow:0 0 5px rgba(var(--site-notice-glow-rgb),.14);}}
+@media(prefers-reduced-motion:reduce) {.glass-theme :is(.site-note-breath,.site-note-glow-breath) {animation:none;opacity:1;}}

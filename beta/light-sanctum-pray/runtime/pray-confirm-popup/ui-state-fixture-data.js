@@ -1,1 +1,0 @@
-window.MAPLEM_UI_STATE_FIXTURE = {"id":"asset-default","label":"原始 Prefab","forcedActivePaths":{},"textByHierarchyPath":{},"fieldOverridesByHierarchyPath":{},"runtimeState":{},"knownRuntimeInjectedCommonUi":[],"motionActions":[]};
