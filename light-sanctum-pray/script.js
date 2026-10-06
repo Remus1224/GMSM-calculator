@@ -21,6 +21,7 @@
     let handshakeTimer = 0;
     let handshakeAttempts = 0;
     let applyingLevel = false;
+    let lastSeenCrystalConsumption = null;
     let fakeFullscreenReturnY = 0;
 
     function applyTheme(theme, shouldSave = false) {
@@ -88,7 +89,7 @@
     function requestHandshake(){handshakeAttempts+=1;postToRuntime({type:'hello',attempt:handshakeAttempts});if(bridgeReady||handshakeAttempts>=40)stopHandshake()}
     function startHandshake(){bridgeReady=false;handshakeAttempts=0;setControlsEnabled(false);stopHandshake();requestHandshake();handshakeTimer=window.setInterval(requestHandshake,250)}
     function applyRuntimeState(state){bridgeReady=true;stopHandshake();setControlsEnabled(true);if(currentLevelSelect&&!applyingLevel){const level=Math.max(1,Math.min(15,Math.round(finiteNumber(state.level,1))));currentLevelSelect.value=String(level)}setConsumptionValue(statCrystalUsed,state.cumulativeCrystalUsed);setConsumptionValue(statMesoUsed,state.cumulativeMesoUsed)}
-    function handleRuntimeMessage(event){if(!simulatorFrame||event.source!==simulatorFrame.contentWindow)return;const data=event.data||{};if(data.channel!==BRIDGE_CHANNEL)return;if(data.type==='toggle-fullscreen-from-runtime'){toggleFullscreen();return}if(data.type==='ready'){bridgeReady=true;stopHandshake();setControlsEnabled(true);postToRuntime({type:'get-state'});return}if(data.type==='state'){applyRuntimeState(data);applyingLevel=false;return}if(data.type==='ack'&&data.ok===false){applyingLevel=false;setControlsEnabled(true);postToRuntime({type:'get-state'})}}
+    function handleRuntimeMessage(event){if(!simulatorFrame||event.source!==simulatorFrame.contentWindow)return;const data=event.data||{};if(data.channel!==BRIDGE_CHANNEL)return;if(data.type==='toggle-fullscreen-from-runtime'){toggleFullscreen();return}if(data.type==='ready'){bridgeReady=true;stopHandshake();setControlsEnabled(true);postToRuntime({type:'get-state'});return}if(data.type==='state'){const crystalUsed=finiteNumber(data.cumulativeCrystalUsed,0);if(lastSeenCrystalConsumption===null){lastSeenCrystalConsumption=crystalUsed}else{if(crystalUsed>lastSeenCrystalConsumption)window.GMSMAnalytics?.use('simulate');lastSeenCrystalConsumption=crystalUsed}applyRuntimeState(data);applyingLevel=false;return}if(data.type==='ack'&&data.ok===false){applyingLevel=false;setControlsEnabled(true);postToRuntime({type:'get-state'})}}
     function applyCurrentLevel(){if(!currentLevelSelect||!bridgeReady||applyingLevel)return;applyingLevel=true;const level=Math.max(1,Math.min(15,Number(currentLevelSelect.value)||1));setConsumptionValue(statCrystalUsed,0);setConsumptionValue(statMesoUsed,0);postToRuntime({type:'set-level',level});window.setTimeout(()=>{if(!applyingLevel)return;applyingLevel=false;postToRuntime({type:'get-state'})},1000)}
     function clearSimulatorRecords(){if(!bridgeReady)return;postToRuntime({type:'reset'})}
     let savedTheme='light';try{savedTheme=localStorage.getItem('msm-theme')==='dark'?'dark':'light'}catch(error){console.warn('無法讀取主題設定：',error)}

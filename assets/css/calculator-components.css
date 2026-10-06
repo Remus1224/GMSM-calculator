@@ -22,8 +22,6 @@
 @media(prefers-reduced-motion:reduce) {
  .glass-theme .site-calculator .site-card { transition:none; transform:none !important; }
 
-.glass-theme .site-calculator :is(.rune-category-panel.active,.genesis-panel.is-active) { animation:none; }
-
  .glass-theme .site-calculator.tab-content.active { animation:none; } }
 
 /* Focus belongs to the actual control, or to a composite control's whole shell.
@@ -62,9 +60,8 @@
  outline:0; box-shadow:var(--site-focus-glow);
 }
 
-/* Opt-in categories share the accepted check, film and edge. Other tabs retain their marker. */
+/* Opt-in categories share the accepted check, film and edge. */
 .site-category-check-tab {--site-category-check-width:16px;}
-.glass-theme .site-category-tab.site-category-check-tab::after {display:none;content:none;}
 .glass-theme .site-category-tab.site-category-check-tab[aria-selected=true] {--site-category-fill:var(--site-summary-film);--site-category-rim:var(--site-focus-rim);}
 .site-category-check-tab .site-category-check-marker {width:var(--site-category-check-width);visibility:hidden;color:var(--site-accent);}
 .site-category-check-tab[aria-selected=true] .site-category-check-marker {visibility:visible;}

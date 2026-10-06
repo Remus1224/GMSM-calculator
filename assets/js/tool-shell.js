@@ -8,11 +8,11 @@
   // Ignore keeps its original in-place BUG notice and game-version text; share spacing only.
   ignore:{title:'無視防禦計算機'},
   'hyper-stat':{title:'極限屬性計算機',gameVersion:'2026/07/29',remove:':scope > .hint'},
-  rune:{title:'符文計算機',gameVersion:'2026/07/29',criticalSource:'.rune-version-notice',remove:'.rune-version-hint'},
+  rune:{title:'符文計算機',gameVersion:'2026/07/29',criticalSource:'[data-tool-note=rune]'},
   transcend:{title:'超越模擬器'},
   craft:{title:'製作模擬器'},
-  'hexa-prog':{title:'六轉進度計算機',criticalSource:'.prog-common-note',remove:':scope > .hexa-progress-panel .prog-note'},
-  liberation:{title:'創世解放與鍊成',gameVersion:'2026/07',criticalSource:'.liberation-data-notice',remove:'.liberation-version'},
+  'hexa-prog':{title:'六轉進度計算機',criticalSource:'[data-tool-note=hexa-prog]'},
+  liberation:{title:'創世解放與鍊成',gameVersion:'2026/07',criticalSource:'[data-tool-note=liberation]'},
   'hexa-visual':{title:'HEXA 屬性模擬器'},
   'hexa-lazy':{title:'HEXA 懶人重製表',operationSource:':scope > .hint'},
   'hexa-reset':{title:'HEXA 重置決策模擬',operationSource:':scope > .hint'},
@@ -47,8 +47,17 @@
   if(!G)return;
   G.decorate(node);G.setCardRole(node,'info');
  }
- function noticeText(text){
-  const content=make('span','site-note-text');
+ // Format supplied game-data versions to month precision, without changing source metadata.
+ function formatGameMonth(value){
+  const match=String(value||'').trim().match(/^(\d{4})[-/](\d{1,2})(?:[-/]\d{1,2})?$/);
+  return match?match[1]+'/'+match[2].padStart(2,'0'):'';
+ }
+ function dataNote(text,version){
+  const month=formatGameMonth(version);
+  return String(text||'')+(month?'（遊戲版本'+month+'）':'');
+ }
+ function noticeText(text,breathing=false){
+  const content=make('span','site-note-text'+(breathing?' site-note-breath':''));
   // Keep clauses together when they fit; long clauses may still wrap on narrow screens.
   for(const phrase of text.match(/[^，,。；;！？!?]*[，,。；;！？!?]+[）」』】]*|[^，,。；;！？!?]+$/g)||[text]){
    content.append(make('span','site-note-phrase',phrase));
@@ -108,19 +117,19 @@
   for(const [severity,text]of [['critical',critical],['operation',operation]]){
    if(!text)continue;
    const row=make('p','site-tool-notice');row.dataset.severity=severity;
-   row.append(noticeText(text));notices.append(row);
+   row.append(noticeText(text,severity==='critical'));notices.append(row);
   }
   const header=root.querySelector(':scope > .site-header,:scope > header');
   if(critical||operation){if(header)header.after(notices);else root.prepend(notices);}
   if(critical||operation){material(notices);alignNotice(root,notices,config.noticeWidthSource);}
   // Show only a supplied game-data version; never create an empty version card.
-  if(config.gameVersion){
+  if(formatGameMonth(config.gameVersion)){
    const footer=config.footerNode||make('footer','');
    footer.classList.add('site-tool-version');
    // Keep the prayer table's export hook (.note-panel).
    footer.replaceChildren();
    const version=make('p','');
-   version.append(make('span','site-version-line','遊戲版本 '+config.gameVersion));
+   version.append(make('span','site-version-line','遊戲版本 '+formatGameMonth(config.gameVersion)));
    footer.append(version);root.append(footer);material(footer);
   }else config.footerNode?.remove();
   spacing(root);
@@ -133,7 +142,72 @@
    }).observe(root,{subtree:true,childList:true});
   }
  }
- window.GMSMToolShell=Object.freeze({mount,spacing});
+ // Align opt-in cell films to one table-wide gradient, including segmented rows.
+ // Drawing remains in site-components.css; cells only supply their shared origin.
+ // Pack intrinsic columns into whole viewport pages, repeating the boundary column.
+ function columnPages(widths,available,{maxPages=0}={}) {
+  if(!Number.isFinite(available)||available<=0||!Array.isArray(widths)||widths.some(width=>!Number.isFinite(width)||width<=0))return [];
+  const pages=[];
+  let start=0;
+  while(start<widths.length){
+   let end=start,total=0;
+   while(end<widths.length&&total+widths[end]<=available){total+=widths[end];end++;}
+   // An exceptionally narrow host still has to advance; ordinary phone widths fit every column.
+   if(end===start){total=widths[end];end++;}
+   if(end===widths.length){
+    while(start>0&&total+widths[start-1]<=available){start--;total+=widths[start];}
+   }
+   pages.push(Array.from({length:end-start},(_,index)=>start+index));
+   if(end===widths.length)break;
+   start=end-start>1?end-1:end;
+  }
+  // When requested, trade redundant columns for fewer complete screens.
+  if(!Number.isInteger(maxPages)||maxPages<1||pages.length<=maxPages)return pages;
+  let best=null,bestOverlap=-1;
+  const visit=(start,groups)=>{
+   if(groups.length>=maxPages)return;
+   let limit=start,total=0;
+   while(limit<widths.length&&total+widths[limit]<=available){total+=widths[limit];limit++;}
+   for(let end=limit;end>start;end--){
+    let first=start;
+    if(end===widths.length){
+     let used=widths.slice(first,end).reduce((sum,width)=>sum+width,0);
+     while(first>0&&used+widths[first-1]<=available){first--;used+=widths[first];}
+    }
+    const group=Array.from({length:end-first},(_,index)=>first+index);
+    const next=[...groups,group];
+    if(end===widths.length){
+     const overlap=next.slice(1).reduce((sum,page,index)=>sum+(page.some(column=>next[index].includes(column))?1:0),0);
+     if(overlap>bestOverlap||(overlap===bestOverlap&&(!best||next.length<best.length))){best=next;bestOverlap=overlap;}
+    }else{
+     if(end-start>1)visit(end-1,next);
+     visit(end,next);
+    }
+   }
+  };
+  visit(0,[]);
+  return best||pages;
+ }
+ function tableRules(root) {
+  const tables=[...root.querySelectorAll('table.site-table-rules')];
+  let frame=0;
+  const update=()=>{
+   frame=0;
+   for(const table of tables){
+    const rect=table.getBoundingClientRect();if(!rect.width)continue;
+    table.style.setProperty('--site-table-hover-width',rect.width+'px');
+    for(const row of table.rows)for(const cell of row.cells){
+     if(cell.classList.contains('site-table-hover-gap'))continue;
+     cell.style.setProperty('--site-table-hover-offset',(cell.getBoundingClientRect().left-rect.left)+'px');
+    }
+   }
+  };
+  const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
+  const observer=new ResizeObserver(schedule);
+  tables.forEach(table=>observer.observe(table));schedule();
+  return ()=>{observer.disconnect();cancelAnimationFrame(frame);};
+ }
+ window.GMSMToolShell=Object.freeze({mount,spacing,tableRules,columnPages,formatGameMonth,dataNote});
  const init=()=>{
   for(const [id,config]of Object.entries(rules))mount(document.getElementById('tab-'+id),{...config,id});
   for(const id of ['home','notice']){

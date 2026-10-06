@@ -41,9 +41,9 @@
 
 .prog-header span { color: var(--site-muted); font-size: 13px; }
 
-.prog-bar-bg { width: 100%; background-color: rgba(0,0,0,0.05); overflow: hidden; position: relative; }
+.prog-bar-bg {width:100%;position:relative;--site-progress-track-fill:rgba(0,0,0,.05);}
 
-.prog-bar-fill { height: 100%; transition: width 0.4s ease; align-items: center; justify-content: flex-end; font-size: 11px; font-weight: bold; }
+.prog-bar-fill {font-size:11px;font-weight:bold;}
 
 .time-box { border-radius: 8px; font-size: 15px; line-height: 1.6; color: var(--site-text); }
 
@@ -72,7 +72,7 @@
 .glass-theme[data-theme="dark"] #tab-hexa-prog { --progress-energy-text:#c89bdf; --progress-fragment-text:#80d8ff; }
 
 .glass-theme #tab-hexa-prog .prog-bar-fill {
- display:block; padding-right:0; text-align:left; text-indent:8px;
+ padding-right:0; text-align:left; text-indent:8px;
  line-height:20px; white-space:nowrap; color:var(--site-text);
 }
 
@@ -104,8 +104,6 @@
 #tab-hexa-prog .prog-step-heading {display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
 #tab-hexa-prog .prog-step-number {display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:rgba(123,153,218,.12);color:var(--site-muted);font-size:12px;flex:none;}
 #tab-hexa-prog .prog-step-heading small {font-size:12px;font-weight:400;color:var(--site-muted);}
-#tab-hexa-prog .prog-note {font-size:12px;line-height:1.6;color:var(--site-muted);margin:8px 0 12px;}
-#tab-hexa-prog .prog-common-note {display:block;}
 #tab-hexa-prog .core-row {grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0;}
 .glass-theme #tab-hexa-prog .prog-item {padding:6px;border-radius:10px;container:hexa-core / inline-size;}
 #tab-hexa-prog .prog-item > .liquid-surface-content {display:grid;justify-items:center;gap:2px;}
@@ -140,14 +138,14 @@
 #tab-hexa-prog .prog-header .res-icon {margin:0;flex:none;}
 #tab-hexa-prog .prog-header > strong {font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--progress-energy-text);}
 #tab-hexa-prog .prog-resource-frag .prog-header > strong {color:var(--progress-fragment-text);}
-#tab-hexa-prog .prog-bar-bg {height:8px;border-radius:5px;margin-bottom:10px;}
+#tab-hexa-prog .prog-bar-bg {margin-bottom:10px;}
 #tab-hexa-prog .prog-fill-sol {background:linear-gradient(90deg,#9e83cc,#bc9be0);}
 #tab-hexa-prog .prog-fill-frag {background:linear-gradient(90deg,#599ed1,#82c3e8);}
 #tab-hexa-prog .prog-resource-total {font-size:12px;color:var(--site-muted);margin:0 0 10px;}
 #tab-hexa-prog .prog-resource-total b {font-weight:600;color:var(--site-text);}
-#tab-hexa-prog .prog-resource-stats {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;}
+#tab-hexa-prog .prog-resource-stats {margin:0;}
 #tab-hexa-prog .prog-resource-stats dt {font-size:12px;color:var(--site-muted);margin-bottom:4px;}
-#tab-hexa-prog .prog-resource-stats dd {margin:0;font-size:16px;font-weight:600;color:var(--site-text);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
+#tab-hexa-prog .prog-resource-stats dd {margin:0;font-size:16px;font-weight:600;color:var(--site-text);--site-stat-white-space:normal;overflow-wrap:anywhere;}
 #tab-hexa-prog .prog-resource-note {font-size:11px;color:var(--site-muted);margin:8px 0 0;}
 #tab-hexa-prog .prog-progress-note {font-size:12px;color:var(--site-muted);margin:14px 0 0;line-height:1.5;}
 @media(max-width:600px) {
@@ -177,7 +175,6 @@
 }
 
 /* Compact rows use the space beside fields instead of repeated unit captions. */
-#tab-hexa-prog .prog-accessible-label {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
 .glass-theme #tab-hexa-prog .prog-number-input {width:min(100%,104px);height:30px;min-height:30px;padding:4px 8px;box-sizing:border-box;font-size:13px;line-height:20px;text-align:center;}
 #tab-hexa-prog .prog-stock-list {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px;}
 #tab-hexa-prog .prog-stock-row {display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0;}

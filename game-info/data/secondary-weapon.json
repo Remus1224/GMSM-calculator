@@ -1,0 +1,600 @@
+{
+  "schema": "MapleStoryM.SecondaryWeaponAlchemyRequirements.V1",
+  "updatedAt": "2026-10-06",
+  "title": "輔助武器鍊成需求表",
+  "notice": "資料來源為拆檔，部分數據來源尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。",
+  "costBasis": "per-attempt",
+  "abilityBasis": "alchemy-added-total-excluding-item-base",
+  "material": {
+    "name": "魯碧安",
+    "itemId": 51076,
+    "icon": "../assets/common/icon_魯碧安.png"
+  },
+  "mesosIcon": "../assets/common/icon_楓幣.png",
+  "source": {
+    "files": [
+      {
+        "name": "副武器鍊成_玩家版完整表.xlsx",
+        "sha256": "2b49c330c71c5cf6499ceb08cb30af5b7280a698ef29755342b37412243f24ae"
+      },
+      {
+        "name": "EvidenceLedger.csv",
+        "sha256": "e960f9fd7a3cb47ec8a176a40d20690dc891da7edf5b7b1d6fce16e4e76e87cd"
+      }
+    ],
+    "table": "Item/Ductility",
+    "matchedStaticValues": 210
+  },
+  "grades": [
+    {
+      "id": "rare",
+      "name": "罕見",
+      "levels": [
+        {
+          "level": 1,
+          "fromLevel": null,
+          "physicalAttack": 1,
+          "magicAttack": 1,
+          "bossAttackPercent": 3,
+          "finalDamagePercent": 0,
+          "successRatePercent": 100,
+          "materialCount": 200,
+          "mesos": 25000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 3,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51941
+        },
+        {
+          "level": 2,
+          "fromLevel": 1,
+          "physicalAttack": 2,
+          "magicAttack": 2,
+          "bossAttackPercent": 3.2,
+          "finalDamagePercent": 0,
+          "successRatePercent": 80,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51942
+        },
+        {
+          "level": 3,
+          "fromLevel": 2,
+          "physicalAttack": 3,
+          "magicAttack": 3,
+          "bossAttackPercent": 3.4,
+          "finalDamagePercent": 0,
+          "successRatePercent": 60,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51943
+        },
+        {
+          "level": 4,
+          "fromLevel": 3,
+          "physicalAttack": 4,
+          "magicAttack": 4,
+          "bossAttackPercent": 3.6,
+          "finalDamagePercent": 0,
+          "successRatePercent": 50,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51944
+        },
+        {
+          "level": 5,
+          "fromLevel": 4,
+          "physicalAttack": 5,
+          "magicAttack": 5,
+          "bossAttackPercent": 3.8,
+          "finalDamagePercent": 0,
+          "successRatePercent": 40,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51945
+        },
+        {
+          "level": 6,
+          "fromLevel": 5,
+          "physicalAttack": 6,
+          "magicAttack": 6,
+          "bossAttackPercent": 4,
+          "finalDamagePercent": 0,
+          "successRatePercent": 30,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51946
+        },
+        {
+          "level": 7,
+          "fromLevel": 6,
+          "physicalAttack": 7,
+          "magicAttack": 7,
+          "bossAttackPercent": 4.2,
+          "finalDamagePercent": 0,
+          "successRatePercent": 15,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51947
+        },
+        {
+          "level": 8,
+          "fromLevel": 7,
+          "physicalAttack": 8,
+          "magicAttack": 8,
+          "bossAttackPercent": 4.4,
+          "finalDamagePercent": 1,
+          "successRatePercent": 15,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 1
+          },
+          "sourceIndex": 51948
+        },
+        {
+          "level": 9,
+          "fromLevel": 8,
+          "physicalAttack": 9,
+          "magicAttack": 9,
+          "bossAttackPercent": 4.6,
+          "finalDamagePercent": 1,
+          "successRatePercent": 10,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.2,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51949
+        },
+        {
+          "level": 10,
+          "fromLevel": 9,
+          "physicalAttack": 10,
+          "magicAttack": 10,
+          "bossAttackPercent": 5,
+          "finalDamagePercent": 1.5,
+          "successRatePercent": 5,
+          "materialCount": 50,
+          "mesos": 5000000,
+          "increase": {
+            "physicalAttack": 1,
+            "magicAttack": 1,
+            "bossAttackPercent": 0.4,
+            "finalDamagePercent": 0.5
+          },
+          "sourceIndex": 51950
+        }
+      ],
+      "firstTryTotals": {
+        "materialCount": 650,
+        "mesos": 70000000
+      }
+    },
+    {
+      "id": "legendary",
+      "name": "傳說",
+      "levels": [
+        {
+          "level": 1,
+          "fromLevel": null,
+          "physicalAttack": 5,
+          "magicAttack": 5,
+          "bossAttackPercent": 4,
+          "finalDamagePercent": 0,
+          "successRatePercent": 100,
+          "materialCount": 300,
+          "mesos": 75000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 4,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51951
+        },
+        {
+          "level": 2,
+          "fromLevel": 1,
+          "physicalAttack": 10,
+          "magicAttack": 10,
+          "bossAttackPercent": 4.5,
+          "finalDamagePercent": 0,
+          "successRatePercent": 70,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 0.5,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51952
+        },
+        {
+          "level": 3,
+          "fromLevel": 2,
+          "physicalAttack": 15,
+          "magicAttack": 15,
+          "bossAttackPercent": 5,
+          "finalDamagePercent": 1,
+          "successRatePercent": 60,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 0.5,
+            "finalDamagePercent": 1
+          },
+          "sourceIndex": 51953
+        },
+        {
+          "level": 4,
+          "fromLevel": 3,
+          "physicalAttack": 20,
+          "magicAttack": 20,
+          "bossAttackPercent": 5.5,
+          "finalDamagePercent": 1,
+          "successRatePercent": 50,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 0.5,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51954
+        },
+        {
+          "level": 5,
+          "fromLevel": 4,
+          "physicalAttack": 25,
+          "magicAttack": 25,
+          "bossAttackPercent": 6,
+          "finalDamagePercent": 1,
+          "successRatePercent": 30,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 0.5,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51955
+        },
+        {
+          "level": 6,
+          "fromLevel": 5,
+          "physicalAttack": 30,
+          "magicAttack": 30,
+          "bossAttackPercent": 6.5,
+          "finalDamagePercent": 1.5,
+          "successRatePercent": 15,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 0.5,
+            "finalDamagePercent": 0.5
+          },
+          "sourceIndex": 51956
+        },
+        {
+          "level": 7,
+          "fromLevel": 6,
+          "physicalAttack": 35,
+          "magicAttack": 35,
+          "bossAttackPercent": 7,
+          "finalDamagePercent": 1.5,
+          "successRatePercent": 10,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 0.5,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51957
+        },
+        {
+          "level": 8,
+          "fromLevel": 7,
+          "physicalAttack": 40,
+          "magicAttack": 40,
+          "bossAttackPercent": 8,
+          "finalDamagePercent": 2,
+          "successRatePercent": 5,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 1,
+            "finalDamagePercent": 0.5
+          },
+          "sourceIndex": 51958
+        },
+        {
+          "level": 9,
+          "fromLevel": 8,
+          "physicalAttack": 45,
+          "magicAttack": 45,
+          "bossAttackPercent": 9,
+          "finalDamagePercent": 2,
+          "successRatePercent": 3,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 1,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51959
+        },
+        {
+          "level": 10,
+          "fromLevel": 9,
+          "physicalAttack": 50,
+          "magicAttack": 50,
+          "bossAttackPercent": 10,
+          "finalDamagePercent": 3,
+          "successRatePercent": 2,
+          "materialCount": 120,
+          "mesos": 8000000,
+          "increase": {
+            "physicalAttack": 5,
+            "magicAttack": 5,
+            "bossAttackPercent": 1,
+            "finalDamagePercent": 1
+          },
+          "sourceIndex": 51960
+        }
+      ],
+      "firstTryTotals": {
+        "materialCount": 1380,
+        "mesos": 147000000
+      }
+    },
+    {
+      "id": "mythic",
+      "name": "神話",
+      "levels": [
+        {
+          "level": 1,
+          "fromLevel": null,
+          "physicalAttack": 10,
+          "magicAttack": 10,
+          "bossAttackPercent": 6,
+          "finalDamagePercent": 0,
+          "successRatePercent": 100,
+          "materialCount": 700,
+          "mesos": 150000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 6,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51961
+        },
+        {
+          "level": 2,
+          "fromLevel": 1,
+          "physicalAttack": 20,
+          "magicAttack": 20,
+          "bossAttackPercent": 6.7,
+          "finalDamagePercent": 0,
+          "successRatePercent": 50,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 0.7,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51962
+        },
+        {
+          "level": 3,
+          "fromLevel": 2,
+          "physicalAttack": 30,
+          "magicAttack": 30,
+          "bossAttackPercent": 7.5,
+          "finalDamagePercent": 2,
+          "successRatePercent": 30,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 0.8,
+            "finalDamagePercent": 2
+          },
+          "sourceIndex": 51963
+        },
+        {
+          "level": 4,
+          "fromLevel": 3,
+          "physicalAttack": 40,
+          "magicAttack": 40,
+          "bossAttackPercent": 8.2,
+          "finalDamagePercent": 2,
+          "successRatePercent": 15,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 0.7,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51964
+        },
+        {
+          "level": 5,
+          "fromLevel": 4,
+          "physicalAttack": 50,
+          "magicAttack": 50,
+          "bossAttackPercent": 9,
+          "finalDamagePercent": 2,
+          "successRatePercent": 15,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 0.8,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51965
+        },
+        {
+          "level": 6,
+          "fromLevel": 5,
+          "physicalAttack": 60,
+          "magicAttack": 60,
+          "bossAttackPercent": 9.7,
+          "finalDamagePercent": 3,
+          "successRatePercent": 10,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 0.7,
+            "finalDamagePercent": 1
+          },
+          "sourceIndex": 51966
+        },
+        {
+          "level": 7,
+          "fromLevel": 6,
+          "physicalAttack": 70,
+          "magicAttack": 70,
+          "bossAttackPercent": 10.5,
+          "finalDamagePercent": 3,
+          "successRatePercent": 5,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 0.8,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51967
+        },
+        {
+          "level": 8,
+          "fromLevel": 7,
+          "physicalAttack": 80,
+          "magicAttack": 80,
+          "bossAttackPercent": 12,
+          "finalDamagePercent": 4,
+          "successRatePercent": 3,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 1.5,
+            "finalDamagePercent": 1
+          },
+          "sourceIndex": 51968
+        },
+        {
+          "level": 9,
+          "fromLevel": 8,
+          "physicalAttack": 90,
+          "magicAttack": 90,
+          "bossAttackPercent": 13.5,
+          "finalDamagePercent": 4,
+          "successRatePercent": 1,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 1.5,
+            "finalDamagePercent": 0
+          },
+          "sourceIndex": 51969
+        },
+        {
+          "level": 10,
+          "fromLevel": 9,
+          "physicalAttack": 100,
+          "magicAttack": 100,
+          "bossAttackPercent": 15,
+          "finalDamagePercent": 5,
+          "successRatePercent": 1,
+          "materialCount": 250,
+          "mesos": 10000000,
+          "increase": {
+            "physicalAttack": 10,
+            "magicAttack": 10,
+            "bossAttackPercent": 1.5,
+            "finalDamagePercent": 1
+          },
+          "sourceIndex": 51970
+        }
+      ],
+      "firstTryTotals": {
+        "materialCount": 2950,
+        "mesos": 240000000
+      }
+    }
+  ]
+}

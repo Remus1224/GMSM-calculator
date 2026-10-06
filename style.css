@@ -1,4 +1,4 @@
-/* Calculator styles are split into beta/assets/css; simulator UI remains here. */
+/* Calculator styles are split into assets/css; simulator UI remains here. */
 /* Home, navigation and hyper-stat moved to dedicated/shared CSS. */
 /* ========================================== */
 /* 0. 核心主題變數 (CSS Variables)             */
@@ -111,10 +111,6 @@ button, input, select, label {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
-    background-color: var(--bg-base);
-    background-image: radial-gradient(circle at 15% 40%, var(--bg-grad-1) 0%, transparent 55%), radial-gradient(circle at 85% 60%, var(--bg-grad-2) 0%, transparent 55%), radial-gradient(circle at 50% 10%, var(--bg-grad-3) 0%, transparent 40%);
-    background-attachment: fixed;
     color: var(--text-main);
     display: flex;
     justify-content: center;
@@ -124,10 +120,6 @@ body {
     margin: 0;
     min-height: 100vh;
     align-items: flex-start;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
 }
 
 /* Width stays local; destructive material and motion live in site-components.css. */
@@ -136,7 +128,7 @@ body {
 /* 全局容器與卡片 */
 .container {
     background: transparent !important; border: none !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
-    padding: 10px 20px; max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap;  align-content: flex-start; transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); margin: 3vh auto 20px auto;
+    padding: 10px 20px; max-width: 1000px; width: 100%; display: flex; flex-wrap: wrap;  align-content: flex-start; margin: 3vh auto 20px auto;
 }
 
  .container:has(#tab-transcend.active),
@@ -220,13 +212,6 @@ h1 { width: 100%; text-align: center; color: var(--text-main); margin-bottom: 5p
 .target-divider { width: 100%; height: 1px; background-color: rgba(0,0,0,0.05); margin: 10px 0; }
 .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: #FF3B30; font-weight: bold; margin-top: 10px;}
 .checkbox-label input { margin-right: 8px; width: 16px; height: 16px;}
-
-.lazy-table-container { width: 100%; max-width: 100%; border: none !important; background: transparent !important; box-shadow: none !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; border-radius: 12px; }
-.lazy-table { width: 100%; border-collapse: collapse; font-size: 14.5px; text-align: center; background: var(--glass-bg) !important; backdrop-filter: blur(8px); }
-.lazy-table th { background-color: var(--glass-border) !important; color: var(--text-main) !important; padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.1) !important; font-weight: 700 !important; }
-.lazy-table td { padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.05) !important; vertical-align: middle; border-left: none !important; border-right: none !important; color: var(--text-main);}
-.lazy-table tr:hover { background-color: var(--card-hover) !important; }
-.lazy-table tr:last-child td { border-bottom: none !important; }
 
 .tag { padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: bold; color: #fff; display: inline-block; }
 .tag-green { background-color: #34C759; }
@@ -1337,20 +1322,8 @@ body.body-no-scroll { overflow: hidden !important; touch-action: none !important
     #tab-will .inst-btn-grid > div:nth-child(5), #tab-will .inst-btn-grid > div:nth-child(6) { grid-column: span 2 !important; }
 }
 
-@keyframes hexaResultPop { 0% { transform: translateY(15px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
 @keyframes popInPortraitStart { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.52); } }
 @keyframes popInPortraitResult { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(0.46); } }
-@keyframes runeVersionNoticeBreath {
-    0%, 100% {
-        opacity: 0.82;
-        text-shadow: 0 0 0 rgba(227, 38, 61, 0);
-    }
-    50% {
-        opacity: 1;
-        text-shadow: 0 0 6px rgba(227, 38, 61, 0.28);
-    }
-}
-
 /* ========================================== */
 /* 布告欄：最新摘要、更新時間軸與網站說明 */
 /* ========================================== */

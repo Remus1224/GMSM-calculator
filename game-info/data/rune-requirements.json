@@ -1,0 +1,218 @@
+{
+  "schema": "MapleStoryM.RuneRequirements.V1",
+  "updatedAt": "2026-10-06",
+  "title": "符文需求表",
+  "gameVersion": "2026/07",
+  "source": "主網站符文計算機",
+  "sourceVariables": {
+    "arcane": [
+      "runeUpgradeRequirements",
+      "arcaneRuneCosts"
+    ],
+    "authentic": [
+      "authenticRuneRequirements",
+      "esetraAuthenticRuneCosts",
+      "cerniumAuthenticRuneCosts"
+    ]
+  },
+  "types": {
+    "arcane": {
+      "title": "祕法符文",
+      "icon": "../assets/runes/icon_祕法符文.png",
+      "symbols": [
+        { "name": "消逝的旅途", "icon": "../assets/runes/icon_消逝的旅途.png" },
+        { "name": "啾啾艾爾蘭", "icon": "../assets/runes/icon_啾啾艾爾蘭.png" },
+        { "name": "拉契爾恩", "icon": "../assets/runes/icon_拉契爾恩.png" },
+        { "name": "阿爾卡娜", "icon": "../assets/runes/icon_阿爾卡娜.png" },
+        { "name": "魔菈斯", "icon": "../assets/runes/icon_魔菈斯.png" },
+        { "name": "艾斯佩拉", "icon": "../assets/runes/icon_艾斯佩拉.png" }
+      ],
+      "rows": [
+        {
+          "from": 1,
+          "to": 2,
+          "runes": 15,
+          "mesos": 12600000
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "runes": 19,
+          "mesos": 15300000
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "runes": 24,
+          "mesos": 18700000
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "runes": 31,
+          "mesos": 22700000
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "runes": 40,
+          "mesos": 27600000
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "runes": 50,
+          "mesos": 33600000
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "runes": 62,
+          "mesos": 40800000
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "runes": 77,
+          "mesos": 49700000
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "runes": 96,
+          "mesos": 60400000
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "runes": 120,
+          "mesos": 73400000
+        },
+        {
+          "from": 11,
+          "to": 12,
+          "runes": 156,
+          "mesos": 92900000
+        },
+        {
+          "from": 12,
+          "to": 13,
+          "runes": 202,
+          "mesos": 117500000
+        },
+        {
+          "from": 13,
+          "to": 14,
+          "runes": 262,
+          "mesos": 148700000
+        },
+        {
+          "from": 14,
+          "to": 15,
+          "runes": 340,
+          "mesos": 188200000
+        },
+        {
+          "from": 15,
+          "to": 16,
+          "runes": 442,
+          "mesos": 235300000
+        },
+        {
+          "from": 16,
+          "to": 17,
+          "runes": 574,
+          "mesos": 294100000
+        },
+        {
+          "from": 17,
+          "to": 18,
+          "runes": 746,
+          "mesos": 367600000
+        },
+        {
+          "from": 18,
+          "to": 19,
+          "runes": 1007,
+          "mesos": 459500000
+        },
+        {
+          "from": 19,
+          "to": 20,
+          "runes": 1359,
+          "mesos": 574300000
+        }
+      ]
+    },
+    "authentic": {
+      "title": "真實符文",
+      "icon": "../assets/runes/icon_真實符文.png",
+      "symbols": [
+        { "name": "埃賽特拉", "icon": "../assets/runes/icon_埃賽特拉.png" },
+        { "name": "賽爾尼溫", "icon": "../assets/runes/icon_賽爾尼溫.png" }
+      ],
+      "rows": [
+        {
+          "from": 1,
+          "to": 2,
+          "runes": 13,
+          "mesos": 7600000
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "runes": 33,
+          "mesos": 27000000
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "runes": 53,
+          "mesos": 65800000
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "runes": 73,
+          "mesos": 132600000
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "runes": 93,
+          "mesos": 235000000
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "runes": 113,
+          "mesos": 381500000
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "runes": 133,
+          "mesos": 579900000
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "runes": 153,
+          "mesos": 738300000
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "runes": 173,
+          "mesos": 1064800000
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "runes": 193,
+          "mesos": 1267500000
+        }
+      ]
+    }
+  }
+}

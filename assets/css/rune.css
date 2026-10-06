@@ -53,35 +53,9 @@
 
 .rune-category-panel { width: 100%; }
 
-.rune-category-panel.active { display: block; animation: appleFadeIn 0.3s ease; }
+.rune-category-panel.active { display:block; }
 
-.rune-version-hint {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2px 12px;
-    line-height: 1.5;
-}
-
-.rune-version-notice {
-    width: 100%;
-    color: #e3263d !important;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.5;
-    text-align: center;
-    animation: runeVersionNoticeBreath 2.4s ease-in-out infinite;
-}
-
-[data-theme="dark"] .rune-version-notice {
-    color: #ff6978 !important;
-}
-
-@media (prefers-reduced-motion: reduce) {.rune-version-notice { animation: none; opacity: 1; }
-}
-
-.authentic-world-panel.active { display: block; animation: appleFadeIn 0.25s ease; }
+.authentic-world-panel.active { display:block; }
 @media (max-width: 500px) {
 
 .rune-category-btn > .liquid-surface-content { gap: 9px;}
@@ -430,12 +404,12 @@
 }
 
 .rune-grand-item {
-    min-width: 0;
-    padding: 9px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid rgba(255,255,255,0.16);
+    min-width:0;
+    padding:9px 12px;
+    --site-stat-gap:10px;
+    border:1px solid var(--site-line);
+    background:var(--site-inset);
+    border-radius:var(--site-control-radius);
 }
 
 .rune-summary-image {
@@ -457,13 +431,6 @@
 
 .rune-grand-item > div:last-child { min-width: 0; }
 
-.rune-grand-item > div:last-child > span {
-    display: block;
-    margin-bottom: 2px;
-    font-size: 9px;
-    font-weight: 800;
-}
-
 .rune-grand-item strong {
     font-size: clamp(17px, 2.4vw, 23px);
     overflow-wrap: anywhere;
@@ -471,10 +438,7 @@
 
 .rune-grand-item:not(.rune-grand-symbols-panel) strong {
     font-size: clamp(17px, 2vw, 21px);
-    white-space: nowrap;
 }
-
-.rune-grand-item small { margin-left: 3px; font-size: 9px; }
 
 .rune-grand-symbols-panel {
     display: block;
@@ -487,18 +451,12 @@
     font-weight: 800;
 }
 
-.rune-grand-symbol-list {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px 8px;
-}
+.rune-grand-symbol-list {--site-stat-grid-gap:6px 8px;}
 
 .rune-grand-symbol-entry {
-    min-width: 0;
-    display: grid;
-    grid-template-columns: 24px minmax(0, 1fr);
-    align-items: center;
-    column-gap: 6px;
+    --site-stat-display:grid;
+    --site-stat-gap:0 6px;
+    grid-template-columns:24px minmax(0,1fr);
 }
 
 .rune-grand-symbol-image {
@@ -581,9 +539,7 @@
     border-color: rgba(174, 190, 211, 0.16);
 }
 
-.authentic-grand-total .rune-grand-symbol-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
+.authentic-grand-total .rune-grand-symbol-list {--site-stat-columns:2;}
 
 @media (max-width: 720px) {.rune-cards-grid,
 .authentic-rune-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -618,7 +574,7 @@
 
 .rune-grand-results { grid-template-columns: 1fr; }
 
-.rune-grand-symbol-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rune-grand-symbol-list {--site-stat-columns:2;}
 
 .rune-cards-grid { gap: 8px; }
 
@@ -763,8 +719,6 @@
         white-space: nowrap;
     }
 }
-@media (max-width: 470px) {.rune-version-notice { font-size: 11px; }
-}
 /* Accepted glass adapter: layout and semantic states remain local to this tool. */
 
 /* Selected category edges are owned by the shared category-tab component. */
@@ -777,9 +731,7 @@
 
 .glass-theme #tab-rune .rune-grand-total :is(.rune-grand-heading > span,strong) { color:var(--site-text) !important; }
 
-.glass-theme #tab-rune .rune-grand-total :is(small,.rune-grand-item-title,.rune-grand-item > div:last-child > span) { color:var(--site-muted) !important; }
-
-.glass-theme #tab-rune .rune-grand-item { background:var(--site-inset); border-color:var(--site-line); border-radius:var(--site-control-radius); }
+.glass-theme #tab-rune .rune-grand-total :is(small,.rune-grand-item-title) { color:var(--site-muted) !important; }
 
 .glass-theme #tab-rune .rune-category-btn > .liquid-surface-content { width:100%; }
 
@@ -845,7 +797,6 @@
   .glass-theme #tab-rune .rune-card-inputs > label:nth-child(n) {grid-column:auto;grid-row:auto;}
  }
 
-
 /* Touch feedback and category navigation now use shared site-components.css. */
 
 /* Mobile totals: six symbols fit three columns without shrinking the quantities.
@@ -855,15 +806,16 @@
  .glass-theme #tab-rune .rune-grand-total > .liquid-surface-content {gap:8px;}
  .glass-theme #tab-rune .rune-grand-heading {flex-direction:row;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:3px 8px;}
  .glass-theme #tab-rune .rune-grand-results {gap:8px;}
- .glass-theme #tab-rune .rune-grand-item {padding:8px 10px;gap:8px;}
+ .glass-theme #tab-rune .rune-grand-item {padding:8px 10px;--site-stat-gap:8px;}
  .glass-theme #tab-rune .rune-grand-item-title {margin-bottom:5px;}
- .glass-theme #tab-rune .rune-grand-symbol-list {grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px;}
- .glass-theme #tab-rune .authentic-grand-total .rune-grand-symbol-list {grid-template-columns:repeat(2,minmax(0,1fr));}
- .glass-theme #tab-rune .rune-grand-symbol-entry {grid-template-columns:20px minmax(0,1fr);column-gap:4px;}
+ .glass-theme #tab-rune .rune-grand-symbol-list {--site-stat-columns:3;}
+ .glass-theme #tab-rune .authentic-grand-total .rune-grand-symbol-list {--site-stat-columns:2;}
+
+ .glass-theme #tab-rune .rune-grand-symbol-entry {grid-template-columns:20px minmax(0,1fr);--site-stat-gap:0 4px;}
  .glass-theme #tab-rune .rune-grand-symbol-image {width:20px;height:20px;}
- .glass-theme #tab-rune .rune-grand-symbol-entry strong {font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums;}
+ .glass-theme #tab-rune .rune-grand-symbol-entry strong {font-size:13px;}
  .glass-theme #tab-rune .rune-summary-image {width:26px;height:26px;flex:0 0 26px;}
- .glass-theme #tab-rune .rune-grand-item:not(.rune-grand-symbols-panel) strong {font-size:20px;white-space:nowrap;overflow-wrap:normal;font-variant-numeric:tabular-nums;}
+ .glass-theme #tab-rune .rune-grand-item:not(.rune-grand-symbols-panel) strong {font-size:20px;--site-stat-white-space:nowrap;overflow-wrap:normal;}
 }
 
 /* Match the accepted hyper-stat category choice, retaining rune icons. */
@@ -880,10 +832,7 @@
 
 /* The shared balanced category modifier keeps icon and title centered. */
 .glass-theme #tab-rune .rune-card-inputs > label > span {text-align:center;}
-.glass-theme #tab-rune .rune-grand-item:not(.rune-grand-symbols-panel) {justify-content:center;}
 
-/* Center the selected value in native and base-select renderers. */
-.glass-theme #tab-rune .rune-card-inputs select.site-select-control {text-align:center;text-align-last:center;justify-content:center;}
 /* Wide cards give all three editors an equal track and a full-width shell.
    Balanced padding keeps text centered independently of the arrow. */
 @container rune-card (min-width:300px) {
@@ -892,4 +841,14 @@
   width:100%;--site-card-width:100%;min-width:0;align-self:stretch;
   --site-select-padding-start:26px;--site-select-padding-end:26px;
  }
+}
+
+/* Totals respond to their own available space before columns squeeze quantities. */
+.glass-theme #tab-rune .rune-grand-total {container:rune-summary / inline-size;}
+@container rune-summary (max-width:780px) {
+ .rune-grand-total > .liquid-surface-content {grid-template-columns:minmax(0,1fr);gap:13px;}
+ .rune-grand-results {grid-template-columns:minmax(0,1.6fr) minmax(160px,.7fr);}
+}
+@container rune-summary (max-width:500px) {
+ .rune-grand-results {grid-template-columns:minmax(0,1fr);}
 }

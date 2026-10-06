@@ -1,0 +1,419 @@
+{
+  "schema": "MapleStoryM.PetFoodRequirements.V1",
+  "title": "寵物食品需求表",
+  "updatedAt": "2026-10-05",
+  "gameVersion": "2026/09",
+  "route": {
+    "name": "LunaPetit",
+    "startLevel": 1,
+    "maxLevel": 50
+  },
+  "food": {
+    "name": "有機寵物食品",
+    "experience": 300,
+    "packSizes": [20, 30],
+    "icon": "assets/icon_寵物食品.png"
+  },
+  "totalExperience": 520500,
+  "totalFoodEquivalent": 1735,
+  "source": {
+    "workbook": "PetLevel_AllRoutes_中文整理版.xlsx",
+    "worksheet": "LunaPetit 1-50",
+    "range": "A1:F50"
+  },
+  "notice": "資料來源為提供的 Excel 整理資料，實際請以遊戲內顯示為主。",
+  "levels": [
+    {
+      "fromLevel": 1,
+      "toLevel": 2,
+      "experience": 1800,
+      "cumulativeExperience": 1800,
+      "foodEquivalent": 6,
+      "cumulativeFoodEquivalent": 6
+    },
+    {
+      "fromLevel": 2,
+      "toLevel": 3,
+      "experience": 2100,
+      "cumulativeExperience": 3900,
+      "foodEquivalent": 7,
+      "cumulativeFoodEquivalent": 13
+    },
+    {
+      "fromLevel": 3,
+      "toLevel": 4,
+      "experience": 2400,
+      "cumulativeExperience": 6300,
+      "foodEquivalent": 8,
+      "cumulativeFoodEquivalent": 21
+    },
+    {
+      "fromLevel": 4,
+      "toLevel": 5,
+      "experience": 2700,
+      "cumulativeExperience": 9000,
+      "foodEquivalent": 9,
+      "cumulativeFoodEquivalent": 30
+    },
+    {
+      "fromLevel": 5,
+      "toLevel": 6,
+      "experience": 3000,
+      "cumulativeExperience": 12000,
+      "foodEquivalent": 10,
+      "cumulativeFoodEquivalent": 40
+    },
+    {
+      "fromLevel": 6,
+      "toLevel": 7,
+      "experience": 3300,
+      "cumulativeExperience": 15300,
+      "foodEquivalent": 11,
+      "cumulativeFoodEquivalent": 51
+    },
+    {
+      "fromLevel": 7,
+      "toLevel": 8,
+      "experience": 3600,
+      "cumulativeExperience": 18900,
+      "foodEquivalent": 12,
+      "cumulativeFoodEquivalent": 63
+    },
+    {
+      "fromLevel": 8,
+      "toLevel": 9,
+      "experience": 3900,
+      "cumulativeExperience": 22800,
+      "foodEquivalent": 13,
+      "cumulativeFoodEquivalent": 76
+    },
+    {
+      "fromLevel": 9,
+      "toLevel": 10,
+      "experience": 4200,
+      "cumulativeExperience": 27000,
+      "foodEquivalent": 14,
+      "cumulativeFoodEquivalent": 90
+    },
+    {
+      "fromLevel": 10,
+      "toLevel": 11,
+      "experience": 4500,
+      "cumulativeExperience": 31500,
+      "foodEquivalent": 15,
+      "cumulativeFoodEquivalent": 105
+    },
+    {
+      "fromLevel": 11,
+      "toLevel": 12,
+      "experience": 4800,
+      "cumulativeExperience": 36300,
+      "foodEquivalent": 16,
+      "cumulativeFoodEquivalent": 121
+    },
+    {
+      "fromLevel": 12,
+      "toLevel": 13,
+      "experience": 5100,
+      "cumulativeExperience": 41400,
+      "foodEquivalent": 17,
+      "cumulativeFoodEquivalent": 138
+    },
+    {
+      "fromLevel": 13,
+      "toLevel": 14,
+      "experience": 5400,
+      "cumulativeExperience": 46800,
+      "foodEquivalent": 18,
+      "cumulativeFoodEquivalent": 156
+    },
+    {
+      "fromLevel": 14,
+      "toLevel": 15,
+      "experience": 5700,
+      "cumulativeExperience": 52500,
+      "foodEquivalent": 19,
+      "cumulativeFoodEquivalent": 175
+    },
+    {
+      "fromLevel": 15,
+      "toLevel": 16,
+      "experience": 6000,
+      "cumulativeExperience": 58500,
+      "foodEquivalent": 20,
+      "cumulativeFoodEquivalent": 195
+    },
+    {
+      "fromLevel": 16,
+      "toLevel": 17,
+      "experience": 6300,
+      "cumulativeExperience": 64800,
+      "foodEquivalent": 21,
+      "cumulativeFoodEquivalent": 216
+    },
+    {
+      "fromLevel": 17,
+      "toLevel": 18,
+      "experience": 6600,
+      "cumulativeExperience": 71400,
+      "foodEquivalent": 22,
+      "cumulativeFoodEquivalent": 238
+    },
+    {
+      "fromLevel": 18,
+      "toLevel": 19,
+      "experience": 6900,
+      "cumulativeExperience": 78300,
+      "foodEquivalent": 23,
+      "cumulativeFoodEquivalent": 261
+    },
+    {
+      "fromLevel": 19,
+      "toLevel": 20,
+      "experience": 7200,
+      "cumulativeExperience": 85500,
+      "foodEquivalent": 24,
+      "cumulativeFoodEquivalent": 285
+    },
+    {
+      "fromLevel": 20,
+      "toLevel": 21,
+      "experience": 7500,
+      "cumulativeExperience": 93000,
+      "foodEquivalent": 25,
+      "cumulativeFoodEquivalent": 310
+    },
+    {
+      "fromLevel": 21,
+      "toLevel": 22,
+      "experience": 7800,
+      "cumulativeExperience": 100800,
+      "foodEquivalent": 26,
+      "cumulativeFoodEquivalent": 336
+    },
+    {
+      "fromLevel": 22,
+      "toLevel": 23,
+      "experience": 8100,
+      "cumulativeExperience": 108900,
+      "foodEquivalent": 27,
+      "cumulativeFoodEquivalent": 363
+    },
+    {
+      "fromLevel": 23,
+      "toLevel": 24,
+      "experience": 8400,
+      "cumulativeExperience": 117300,
+      "foodEquivalent": 28,
+      "cumulativeFoodEquivalent": 391
+    },
+    {
+      "fromLevel": 24,
+      "toLevel": 25,
+      "experience": 8700,
+      "cumulativeExperience": 126000,
+      "foodEquivalent": 29,
+      "cumulativeFoodEquivalent": 420
+    },
+    {
+      "fromLevel": 25,
+      "toLevel": 26,
+      "experience": 9000,
+      "cumulativeExperience": 135000,
+      "foodEquivalent": 30,
+      "cumulativeFoodEquivalent": 450
+    },
+    {
+      "fromLevel": 26,
+      "toLevel": 27,
+      "experience": 9300,
+      "cumulativeExperience": 144300,
+      "foodEquivalent": 31,
+      "cumulativeFoodEquivalent": 481
+    },
+    {
+      "fromLevel": 27,
+      "toLevel": 28,
+      "experience": 9600,
+      "cumulativeExperience": 153900,
+      "foodEquivalent": 32,
+      "cumulativeFoodEquivalent": 513
+    },
+    {
+      "fromLevel": 28,
+      "toLevel": 29,
+      "experience": 9900,
+      "cumulativeExperience": 163800,
+      "foodEquivalent": 33,
+      "cumulativeFoodEquivalent": 546
+    },
+    {
+      "fromLevel": 29,
+      "toLevel": 30,
+      "experience": 10200,
+      "cumulativeExperience": 174000,
+      "foodEquivalent": 34,
+      "cumulativeFoodEquivalent": 580
+    },
+    {
+      "fromLevel": 30,
+      "toLevel": 31,
+      "experience": 10800,
+      "cumulativeExperience": 184800,
+      "foodEquivalent": 36,
+      "cumulativeFoodEquivalent": 616
+    },
+    {
+      "fromLevel": 31,
+      "toLevel": 32,
+      "experience": 11400,
+      "cumulativeExperience": 196200,
+      "foodEquivalent": 38,
+      "cumulativeFoodEquivalent": 654
+    },
+    {
+      "fromLevel": 32,
+      "toLevel": 33,
+      "experience": 12000,
+      "cumulativeExperience": 208200,
+      "foodEquivalent": 40,
+      "cumulativeFoodEquivalent": 694
+    },
+    {
+      "fromLevel": 33,
+      "toLevel": 34,
+      "experience": 12600,
+      "cumulativeExperience": 220800,
+      "foodEquivalent": 42,
+      "cumulativeFoodEquivalent": 736
+    },
+    {
+      "fromLevel": 34,
+      "toLevel": 35,
+      "experience": 13200,
+      "cumulativeExperience": 234000,
+      "foodEquivalent": 44,
+      "cumulativeFoodEquivalent": 780
+    },
+    {
+      "fromLevel": 35,
+      "toLevel": 36,
+      "experience": 13800,
+      "cumulativeExperience": 247800,
+      "foodEquivalent": 46,
+      "cumulativeFoodEquivalent": 826
+    },
+    {
+      "fromLevel": 36,
+      "toLevel": 37,
+      "experience": 14400,
+      "cumulativeExperience": 262200,
+      "foodEquivalent": 48,
+      "cumulativeFoodEquivalent": 874
+    },
+    {
+      "fromLevel": 37,
+      "toLevel": 38,
+      "experience": 15000,
+      "cumulativeExperience": 277200,
+      "foodEquivalent": 50,
+      "cumulativeFoodEquivalent": 924
+    },
+    {
+      "fromLevel": 38,
+      "toLevel": 39,
+      "experience": 15600,
+      "cumulativeExperience": 292800,
+      "foodEquivalent": 52,
+      "cumulativeFoodEquivalent": 976
+    },
+    {
+      "fromLevel": 39,
+      "toLevel": 40,
+      "experience": 16200,
+      "cumulativeExperience": 309000,
+      "foodEquivalent": 54,
+      "cumulativeFoodEquivalent": 1030
+    },
+    {
+      "fromLevel": 40,
+      "toLevel": 41,
+      "experience": 17100,
+      "cumulativeExperience": 326100,
+      "foodEquivalent": 57,
+      "cumulativeFoodEquivalent": 1087
+    },
+    {
+      "fromLevel": 41,
+      "toLevel": 42,
+      "experience": 18000,
+      "cumulativeExperience": 344100,
+      "foodEquivalent": 60,
+      "cumulativeFoodEquivalent": 1147
+    },
+    {
+      "fromLevel": 42,
+      "toLevel": 43,
+      "experience": 18900,
+      "cumulativeExperience": 363000,
+      "foodEquivalent": 63,
+      "cumulativeFoodEquivalent": 1210
+    },
+    {
+      "fromLevel": 43,
+      "toLevel": 44,
+      "experience": 19800,
+      "cumulativeExperience": 382800,
+      "foodEquivalent": 66,
+      "cumulativeFoodEquivalent": 1276
+    },
+    {
+      "fromLevel": 44,
+      "toLevel": 45,
+      "experience": 20700,
+      "cumulativeExperience": 403500,
+      "foodEquivalent": 69,
+      "cumulativeFoodEquivalent": 1345
+    },
+    {
+      "fromLevel": 45,
+      "toLevel": 46,
+      "experience": 21600,
+      "cumulativeExperience": 425100,
+      "foodEquivalent": 72,
+      "cumulativeFoodEquivalent": 1417
+    },
+    {
+      "fromLevel": 46,
+      "toLevel": 47,
+      "experience": 22500,
+      "cumulativeExperience": 447600,
+      "foodEquivalent": 75,
+      "cumulativeFoodEquivalent": 1492
+    },
+    {
+      "fromLevel": 47,
+      "toLevel": 48,
+      "experience": 23400,
+      "cumulativeExperience": 471000,
+      "foodEquivalent": 78,
+      "cumulativeFoodEquivalent": 1570
+    },
+    {
+      "fromLevel": 48,
+      "toLevel": 49,
+      "experience": 24300,
+      "cumulativeExperience": 495300,
+      "foodEquivalent": 81,
+      "cumulativeFoodEquivalent": 1651
+    },
+    {
+      "fromLevel": 49,
+      "toLevel": 50,
+      "experience": 25200,
+      "cumulativeExperience": 520500,
+      "foodEquivalent": 84,
+      "cumulativeFoodEquivalent": 1735
+    }
+  ]
+}

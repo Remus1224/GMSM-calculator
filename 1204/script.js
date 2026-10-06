@@ -378,6 +378,7 @@
     }
 
     function downloadImage() {
+        const analyticsContext = window.GMSMAnalytics?.captureContext?.();
         const reason = getActiveReason();
         const style = getSelectedStyle();
         const config = STYLES[style] || STYLES.classic;
@@ -396,6 +397,8 @@
             link.click();
             link.remove();
         }
+
+        window.GMSMAnalytics?.exportImage?.(analyticsContext, isIOSDevice() ? 'long_press' : 'download');
 
         if (typeof window.gtag === 'function') {
             window.gtag('event', 'download_1204_generator', {

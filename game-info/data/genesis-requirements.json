@@ -1,0 +1,71 @@
+{
+  "schema": "MapleStoryM.GenesisRequirements.V1",
+  "title": "創世解放需求表",
+  "source": {
+    "file": "script.js",
+    "stages": "liberationStages",
+    "alchemy": "GENESIS_ALCHEMY_* / genesisAlchemyUpdateUI / genesisAlchemyAttack",
+    "stone": "GENESIS_STONE_EXCHANGE_COST",
+    "gameVersion": "2026/07"
+  },
+  "notice": "資料來源為拆檔，部分數據來源尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。",
+  "stages": [
+    {
+      "phase": "階段 II",
+      "name": "黑暗的痕跡",
+      "traces": 500
+    },
+    {
+      "phase": "階段 III",
+      "name": "時間大神官阿卡伊農的行蹤",
+      "traces": 1000
+    },
+    {
+      "phase": "階段 V",
+      "name": "暴君梅格耐斯和赤紅魔女希拉的痕跡",
+      "traces": 1500
+    },
+    {
+      "phase": "階段 VI",
+      "name": "翼之主史烏的痕跡",
+      "traces": 1500
+    },
+    {
+      "phase": "階段 VIII",
+      "name": "獅子王凡雷恩和破滅的劍戴米安的痕跡",
+      "traces": 2000
+    },
+    {
+      "phase": "階段 IX",
+      "name": "惡夢的主人露希妲的痕跡",
+      "traces": 2000
+    },
+    {
+      "phase": "階段 X",
+      "name": "蜘蛛之王威爾的痕跡",
+      "traces": 2500
+    },
+    {
+      "phase": "階段 XI",
+      "name": "最後的痕跡",
+      "traces": 2500
+    }
+  ],
+  "totalTraces": 13500,
+  "alchemy": {
+    "maxLevel": 20,
+    "afterimagesPerLevel": 1000,
+    "mesosPerLevel": 500000000,
+    "firstLevelStones": 1,
+    "firstLevelAttack": 1000,
+    "attackPerLevel": 300
+  },
+  "stone": {
+    "afterimagesPerStone": 20000
+  },
+  "assets": {
+    "afterimage": "../assets/liberation/material/黑暗的殘像.png",
+    "stone": "../assets/liberation/material/創世鍊成石.png",
+    "mesos": "../assets/common/icon_楓幣.png"
+  }
+}

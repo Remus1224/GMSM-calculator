@@ -1,0 +1,25 @@
+{
+  "schema": "MapleStoryM.ConstellationCoreRequirements.V1",
+  "updatedAt": "2026-10-04",
+  "title": "星座核心需求表",
+  "gameVersion": "2026/09",
+  "material": "賽里昂",
+  "source": "拆檔資料（使用者提供）",
+  "verifiedThroughLevel": 11,
+  "notice": "數據來源為拆檔目前正式驗證僅到11等，實際請以遊戲內顯示為主。",
+  "steps": [
+    { "from": 0, "to": 1, "cost": 1, "basis": "unlock" },
+    { "from": 1, "to": 2, "cost": 2, "basis": "level" },
+    { "from": 2, "to": 3, "cost": 3, "basis": "level" },
+    { "from": 3, "to": 4, "cost": 4, "basis": "level" },
+    { "from": 4, "to": 5, "cost": 5, "basis": "level" },
+    { "from": 5, "to": 6, "cost": 6, "basis": "level" },
+    { "from": 6, "to": 7, "cost": 7, "basis": "level" },
+    { "from": 7, "to": 8, "cost": 8, "basis": "level" },
+    { "from": 8, "to": 9, "cost": 9, "basis": "level" },
+    { "from": 9, "to": 10, "cost": 20, "basis": "level" },
+    { "from": 10, "to": 19, "cost": 20, "basis": "per-level" },
+    { "from": 19, "to": 20, "cost": 30, "basis": "level" },
+    { "from": 20, "to": 30, "cost": 30, "basis": "per-level" }
+  ]
+}

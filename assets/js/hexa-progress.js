@@ -46,10 +46,10 @@
   document.getElementById('prog-percent-'+material).textContent=fraction+'%';
   document.getElementById('prog-txt-'+material).innerHTML=`
    <p class="prog-resource-total">需求合計 <b>${number(total)}</b> 個</p>
-   <dl class="prog-resource-stats">
-    <div><dt>已投入</dt><dd>${number(invested)}</dd></div>
-    <div><dt>庫存可抵</dt><dd>${number(credited)}</dd></div>
-    <div><dt>尚缺</dt><dd>${number(shortfall)}</dd></div>
+   <dl class="prog-resource-stats site-stat-grid">
+    <div><dt>已投入</dt><dd class="site-stat-value">${number(invested)}</dd></div>
+    <div><dt>庫存可抵</dt><dd class="site-stat-value">${number(credited)}</dd></div>
+    <div><dt>尚缺</dt><dd class="site-stat-value">${number(shortfall)}</dd></div>
    </dl>
    ${energy?`<p class="prog-resource-note">尚缺折合 ${number(energy)} 氣息</p>`:''}`;
  }

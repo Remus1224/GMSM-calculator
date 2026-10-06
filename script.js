@@ -586,6 +586,7 @@ function switchTab(tabId) {
     }
 
     window.requestAnimationFrame(updateMobileBackToTopButton);
+    window.GMSMAnalytics?.viewMain(tabId);
 }
 
 function getPersistedCalculatorControls(tabElement) {
@@ -1190,7 +1191,7 @@ function initGenesisAlchemyCalculator() {
             : 'assets/liberation/material/黑暗的殘像.png';
         const materialText = isFirstLevel ? '鍊成石 ×1' : '殘像 ×1,000';
         const increase = isFirstLevel ? 1000 : 300;
-        return `<div class="genesis-alchemy-table-row" role="row"><span class="genesis-alchemy-table-level" role="rowheader"><b>Lv.${level}</b></span><span class="genesis-alchemy-table-material" role="cell"><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-meso" role="cell"><b>500,000,000</b></span><span class="genesis-alchemy-table-attack" role="cell"><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-increase" role="cell"><b>+${liberationFormatNumber(increase)}</b></span></div>`;
+        return `<div class="genesis-alchemy-table-row data-row" role="row"><span class="genesis-alchemy-table-level" role="rowheader"><b>Lv.${level}</b></span><span class="genesis-alchemy-table-material" role="cell"><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-meso" role="cell"><b>500,000,000</b></span><span class="genesis-alchemy-table-attack" role="cell"><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-increase" role="cell"><b>+${liberationFormatNumber(increase)}</b></span></div>`;
     }).join('');
 
     const dateInput = document.getElementById('genesis-alchemy-reference-date');
@@ -3499,17 +3500,18 @@ function generateLazyTable() {
     renderTable(results);
 }
 
+let cleanupLazyTableRules = () => {};
 function renderTable(results) {
     let arrow = currentSort.asc ? " ▲" : " ▼";
     let html = `
-        <table class="lazy-table">
+        <table class="lazy-table site-data-table site-table-hover site-table-rules site-table-framed">
             <thead>
                 <tr>
-                    <th onclick="sortTable('a')" style="cursor:pointer; background-color:#003d99;">主屬性${currentSort.col === 'a' ? arrow : ''}</th>
+                    <th onclick="sortTable('a')" style="cursor:pointer;">主屬性${currentSort.col === 'a' ? arrow : ''}</th>
                     <th>較高附屬</th>
                     <th>較低附屬</th>
-                    <th onclick="sortTable('occProb')" style="cursor:pointer; background-color:#003d99;">發生機率${currentSort.col === 'occProb' ? arrow : ''}</th>
-                    <th onclick="sortTable('winRate')" style="cursor:pointer; background-color:#003d99;">畢業機率${currentSort.col === 'winRate' ? arrow : ''}</th>
+                    <th onclick="sortTable('occProb')" style="cursor:pointer;">發生機率${currentSort.col === 'occProb' ? arrow : ''}</th>
+                    <th onclick="sortTable('winRate')" style="cursor:pointer;">畢業機率${currentSort.col === 'winRate' ? arrow : ''}</th>
                     <th>建議決策</th>
                 </tr>
             </thead>
@@ -3539,7 +3541,10 @@ function renderTable(results) {
     });
     
     html += `</tbody></table>`;
-    document.getElementById('lazy-table-wrapper').innerHTML = html;
+    cleanupLazyTableRules();
+    const wrapper = document.getElementById('lazy-table-wrapper');
+    wrapper.innerHTML = html;
+    cleanupLazyTableRules = window.GMSMToolShell?.tableRules(wrapper) || (() => {});
 }
 
 function sortTable(col) {
@@ -4786,15 +4791,6 @@ const CONFIG = {
 };
 
 const POS = { LL: 225, L2: 440, L1: 655, M: 870, R1: 1085, R2: 1300, RR: 1515 };
-
-function will_togglePause(forceState) {
-    wGame.isPaused = forceState;
-    if (wGame.isPaused) {
-        will_updateUI("⏸ 遊戲暫停", "#f1c40f", "點擊 ▶ 繼續");
-    } else {
-        will_updateUI("▶ 遊戲繼續", "#2ecc71", "準備...");
-    }
-}
 
 function will_zoomStep(amount) {
     let newZoom = Math.max(1.0, Math.min(2.5, CONFIG.camera.zoom + amount));
