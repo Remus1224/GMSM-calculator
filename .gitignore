@@ -1,3 +1,5 @@
-# Keep GA4 account screenshots and backend setup notes local.
+# Development history, handoff notes and private account records stay local.
+/.local-docs/
+# Also exclude old locations if these files are recreated.
 /docs/ui-migration/screenshots/ga4-setup-*/
 /docs/ui-migration/GA4-BACKEND-SETUP-*.md

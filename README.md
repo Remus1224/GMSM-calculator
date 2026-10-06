@@ -50,6 +50,8 @@ GMSM-calculator 收錄多種楓之谷M相關模擬器、計算機與 HEXA 工具
 
 本次新增內容與維護紀錄：[2026/10/06 變更紀錄](docs/releases/2026.10.06.md)。
 
+維護文件：[資料與計算規則](docs/DATA-NOTES.md)、[共通樣式與維護](docs/MAINTENANCE.md)、[上傳內容分類](docs/REPOSITORY-CONTENTS.md)。
+
 網站亦提供日間／夜間模式，以及瀏覽器端的計算資料備份與還原功能。
 
 ## 專案狀態
