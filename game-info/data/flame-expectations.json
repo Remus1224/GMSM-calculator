@@ -1,0 +1,248 @@
+{
+  "schema": "MapleStoryM.FlameExpectations.V1",
+  "title": "輪迴星火",
+  "gameVersion": "2026/09",
+  "source": {
+    "file": "Reincarnation_Flame_Analysis.xlsx",
+    "sheet": "三能力整合版",
+    "sha256": "abb03fb5d9f1f9ecf2f48dd460f1e26d66a78835bfd74ddd0c80b57c6d5ef2cb"
+  },
+  "model": {
+    "equalWeightCandidates": true,
+    "independentLines": true,
+    "repeatedAbilityAllowed": true,
+    "secondLineProbability": null
+  },
+  "abilities": [
+    {
+      "id": "final-damage",
+      "name": "最終傷害",
+      "groups": [
+        {
+          "parts": [
+            "武器",
+            "輔助武器",
+            "機器人",
+            "戒指",
+            "項鍊",
+            "臉部裝飾",
+            "眼部裝飾"
+          ],
+          "candidateCount": 64,
+          "targetValueCount": 4,
+          "single": {
+            "probability": 0.0625,
+            "expectedFlames": 16
+          },
+          "double": {
+            "probability": 0.00390625,
+            "expectedFlames": 256
+          },
+          "double-max": {
+            "probability": 0.000244140625,
+            "expectedFlames": 4096
+          },
+          "legendaryValues": [
+            2.5,
+            3.0,
+            3.5,
+            4.0
+          ],
+          "mythicValues": [
+            4.5,
+            5.0,
+            5.5,
+            6.0
+          ],
+          "sourceRow": 14
+        }
+      ]
+    },
+    {
+      "id": "ignore-defense",
+      "name": "無視防禦",
+      "groups": [
+        {
+          "parts": [
+            "腰帶"
+          ],
+          "candidateCount": 56,
+          "targetValueCount": 4,
+          "single": {
+            "probability": 0.07142857142857142,
+            "expectedFlames": 14
+          },
+          "double": {
+            "probability": 0.00510204081632653,
+            "expectedFlames": 196
+          },
+          "double-max": {
+            "probability": 0.00031887755102040814,
+            "expectedFlames": 3136
+          },
+          "legendaryValues": [
+            1.5,
+            1.8,
+            2.1,
+            2.4
+          ],
+          "mythicValues": [
+            2.8,
+            3.2,
+            3.6,
+            4.0
+          ],
+          "sourceRow": 15
+        },
+        {
+          "parts": [
+            "手套"
+          ],
+          "candidateCount": 60,
+          "targetValueCount": 4,
+          "single": {
+            "probability": 0.06666666666666667,
+            "expectedFlames": 15
+          },
+          "double": {
+            "probability": 0.0044444444444444444,
+            "expectedFlames": 225
+          },
+          "double-max": {
+            "probability": 0.0002777777777777778,
+            "expectedFlames": 3600
+          },
+          "legendaryValues": [
+            1.5,
+            1.8,
+            2.1,
+            2.4
+          ],
+          "mythicValues": [
+            2.8,
+            3.2,
+            3.6,
+            4.0
+          ],
+          "sourceRow": 16
+        },
+        {
+          "parts": [
+            "帽子",
+            "鞋子",
+            "披風",
+            "護肩",
+            "口袋",
+            "耳環",
+            "胸章"
+          ],
+          "candidateCount": 64,
+          "targetValueCount": 4,
+          "single": {
+            "probability": 0.0625,
+            "expectedFlames": 16
+          },
+          "double": {
+            "probability": 0.00390625,
+            "expectedFlames": 256
+          },
+          "double-max": {
+            "probability": 0.000244140625,
+            "expectedFlames": 4096
+          },
+          "legendaryValues": [
+            1.5,
+            1.8,
+            2.1,
+            2.4
+          ],
+          "mythicValues": [
+            2.8,
+            3.2,
+            3.6,
+            4.0
+          ],
+          "sourceRow": 17
+        },
+        {
+          "parts": [
+            "套服",
+            "上衣",
+            "徽章"
+          ],
+          "candidateCount": 68,
+          "targetValueCount": 4,
+          "single": {
+            "probability": 0.058823529411764705,
+            "expectedFlames": 17
+          },
+          "double": {
+            "probability": 0.0034602076124567475,
+            "expectedFlames": 289
+          },
+          "double-max": {
+            "probability": 0.00021626297577854672,
+            "expectedFlames": 4624
+          },
+          "legendaryValues": [
+            1.5,
+            1.8,
+            2.1,
+            2.4
+          ],
+          "mythicValues": [
+            2.8,
+            3.2,
+            3.6,
+            4.0
+          ],
+          "sourceRow": 18
+        }
+      ]
+    },
+    {
+      "id": "item-drop",
+      "name": "道具掉落率",
+      "groups": [
+        {
+          "parts": [
+            "戒指",
+            "項鍊",
+            "臉部裝飾",
+            "眼部裝飾",
+            "口袋",
+            "耳環",
+            "胸章"
+          ],
+          "candidateCount": 64,
+          "targetValueCount": 4,
+          "single": {
+            "probability": 0.0625,
+            "expectedFlames": 16
+          },
+          "double": {
+            "probability": 0.00390625,
+            "expectedFlames": 256
+          },
+          "double-max": {
+            "probability": 0.000244140625,
+            "expectedFlames": 4096
+          },
+          "legendaryValues": [
+            1.6,
+            1.9,
+            2.2,
+            2.5
+          ],
+          "mythicValues": [
+            3.8,
+            4.2,
+            4.6,
+            5.0
+          ],
+          "sourceRow": 19
+        }
+      ]
+    }
+  ]
+}

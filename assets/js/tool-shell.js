@@ -188,6 +188,38 @@
   visit(0,[]);
   return best||pages;
  }
+ // Size numeric slots per column/group; units remain outside the measured slot.
+ // The original formatted value is retained, including integers without .0.
+ function tableNumberSlots(root,selector='[data-site-number-group]',groupAttribute='data-site-number-group') {
+  const nodes=[...root.querySelectorAll(selector)],slots=new Map();
+  nodes.forEach(node=>node.style.removeProperty('--site-table-number-width'));
+  nodes.forEach(node=>{
+   const key=node.getAttribute(groupAttribute);
+   if(key===null)return;
+   slots.set(key,Math.max(slots.get(key)||0,Math.ceil(node.getBoundingClientRect().width)));
+  });
+  nodes.forEach(node=>{
+   const width=slots.get(node.getAttribute(groupAttribute));
+   if(width)node.style.setProperty('--site-table-number-width',width+'px');
+  });
+  return slots;
+ }
+ function tableNumbers(root) {
+  let frame=0,disposed=false;
+  const update=()=>{frame=0;if(!disposed)tableNumberSlots(root);};
+  const schedule=()=>{if(!disposed&&!frame)frame=requestAnimationFrame(update);};
+  const resize=new ResizeObserver(schedule);
+  const mutation=new MutationObserver(schedule);
+  resize.observe(root);
+  mutation.observe(root,{childList:true,subtree:true,characterData:true});
+  document.fonts?.ready.then(schedule);
+  document.fonts?.addEventListener('loadingdone',schedule);
+  update();
+  return ()=>{
+   disposed=true;cancelAnimationFrame(frame);resize.disconnect();mutation.disconnect();
+   document.fonts?.removeEventListener('loadingdone',schedule);
+  };
+ }
  function tableRules(root) {
   const tables=[...root.querySelectorAll('table.site-table-rules')];
   let frame=0;
@@ -207,7 +239,7 @@
   tables.forEach(table=>observer.observe(table));schedule();
   return ()=>{observer.disconnect();cancelAnimationFrame(frame);};
  }
- window.GMSMToolShell=Object.freeze({mount,spacing,tableRules,columnPages,formatGameMonth,dataNote});
+ window.GMSMToolShell=Object.freeze({mount,spacing,tableRules,tableNumberSlots,tableNumbers,columnPages,formatGameMonth,dataNote});
  const init=()=>{
   for(const [id,config]of Object.entries(rules))mount(document.getElementById('tab-'+id),{...config,id});
   for(const id of ['home','notice']){

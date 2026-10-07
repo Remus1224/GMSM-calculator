@@ -21,6 +21,10 @@
 
 數字對齊使用 `site-table-number-aligned` 的固定數字槽位；百分號使用 `site-table-number-unit`。不要只用等寬欄的中心距離判斷文字間距，仍需考慮實際數字寬度。
 
+`GMSMToolShell.tableNumberSlots(root, selector, groupAttribute)` 統一量測每組數字的最大寬度，設定 `--site-table-number-width`，不補 `.0`。預設以 `data-site-number-group` 分組，輔助武器沿用原有欄位群組。需隨資料、字型與容器變動重測的表格使用 `tableNumbers(root)`，離頁時呼叫回傳的清理函式。極限屬性百分比與複合效果均採此共通功能。
+
+下拉選單須明確呼叫 `GMSMGlass.decorateSelect`；只有 `site-field` 類別不會產生共通選單。卡片內文沿用 `site-table-frame-content` 內距，避免標籤貼邊或在不同卡片重複指定內距。
+
 呼吸提醒使用 `site-note-breath` 等共通類別，並遵守減少動畫偏好。規則採選用方式，避免影響未套用的工具。
 
 ## 檢查與預覽
@@ -35,6 +39,16 @@ node .github/scripts/verify-formal-paths.cjs
 
 靜態檢查不取代桌面/手機、圖片儲存與遊戲數值實際確認。
 
+## 分支上傳與 CI 流程
+
+1. 整理本機變更並執行現有檢查；交接、截圖、資料轉換與私人帳戶紀錄留在 `.local-docs/`，不納入提交。
+2. 在功能分支提交並推送至 GitHub。單純推送功能分支不觸發目前的 CI，也不更新正式網站。
+3. 建立以 main 為目標的 Pull Request，觸發 `.github/workflows/validate.yml` 的 `Validate project`。
+4. 檢查 CI、程式差異、遊戲數值與電腦/手機操作；CI 失敗時修正並再次推送，PR 會重跑檢查。
+5. 維護者確認後再合併。main 的 push 會再執行 CI，正式站由既有部署流程更新。
+
 ## 開發紀錄
+
+資訊首頁與主選單共用 `site-home-category`、`home-menu-category` 和 `site-menu-grid` 結構。分類標題的直條、分隔線、數量標籤及手機規則集中在 `assets/css/site-components.css`；勿另外為分類標題加入玻璃裝飾層。
 
 交接、階段性調查與私人 GA4 設定保留在不納入 Git 的 `.local-docs/`；該資料夾的 README 提供移動對照。歷史紀錄含舊版指示，現行程式與本文件優先。

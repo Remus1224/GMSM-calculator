@@ -928,3 +928,73 @@
 .glass-theme .site-table-number-unit {display:inline-grid;grid-template-columns:auto auto;align-items:baseline;column-gap:0;white-space:nowrap;}
 .glass-theme .site-table-number-unit > .site-table-number-value {display:inline-block;min-width:var(--site-table-number-width,0px);text-align:center;}
 .glass-theme .site-table-number-unit > .site-table-number-unit-symbol {text-align:left;}
+
+/* Directory category headings: main menu and information library share one style. */
+.home-menu-category {
+    --category-accent: #7c5ce7;
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 28px;
+    margin: 8px 3px -3px;
+    color: var(--site-text);
+}
+
+.home-menu-category::before {
+    content: "";
+    width: 5px;
+    height: 16px;
+    flex: 0 0 5px;
+    border-radius: 999px;
+    background: var(--category-accent);
+    box-shadow: 0 0 10px rgba(124, 92, 231, 0.22);
+}
+
+.home-menu-category::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    margin-left: 3px;
+    background: linear-gradient(90deg, rgba(124, 92, 231, 0.2), transparent);
+}
+
+.home-menu-category > span {
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.home-menu-category > small {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(124, 92, 231, 0.1);
+    color: var(--category-accent);
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.home-menu-category-simulator { --category-accent: #159fbd; }
+
+.home-menu-category-calculator { --category-accent: #7c5ce7; }
+
+.home-menu-category-hexa { --category-accent: #497ce8; }
+
+[data-theme="dark"] .home-menu-category > small {
+    background: rgba(169, 148, 255, 0.11);
+}
+
+[data-theme="dark"] .home-menu-category::after {
+    background: linear-gradient(90deg, rgba(178, 187, 237, 0.2), transparent);
+}
+
+@media (max-width: 768px) {
+    .home-menu-category { min-height: 24px; margin: 9px 2px -2px; }
+    .home-menu-category > span { font-size: 13px; }
+    .home-menu-category::before { height: 14px; }
+}
