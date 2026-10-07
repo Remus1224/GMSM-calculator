@@ -32,6 +32,8 @@
 | 資訊頁 | `info-secondary-weapon` | 輔助武器鍊成 | information | info |
 | 資訊頁 | `info-rune-requirements` | 神秘/真實符文 | information | info |
 | 資訊頁 | `info-starforce-requirements` | 星力強化 | information | info |
+| 資訊頁 | `info-hyper-stat-requirements` | 極限屬性 | information | info |
+| 資訊頁 | `info-flame-expectations` | 輪迴星火 | information | info |
 | 獨立頁 | `1204-generator` | 1204 產生器 | site | generator |
 | 獨立頁 | `light-sanctum-pray` | 光之聖所祈禱模擬器 | simulator | pray |
 
@@ -46,6 +48,12 @@
 `tool_export` 僅在 PNG 建立並觸發下載或長按預覽後記錄；`save_method` 僅為 `download` 或 `long_press`。舊事件（例如 `use_simulator`、`toggle_sound`、`download_1204_generator`）保留給既有報表。舊事件與新 `tool_use`／`tool_export` 是不同事件，不要相加當作同一指標。
 
 三種新事件共用 `tool_id`、`tool_name`、`tool_category`、`tool_surface`。`tool_use` 另帶 `action_type`，`tool_export` 另帶 `save_method`。不傳輸欄位值、輸入文字、價格、等級、玩家名稱、消耗數值或整份表單。GA4 自動 page_view 維持開啟；本程式不另外送 virtual page_view，避免與 enhanced measurement 重複。
+
+### 極限屬性資訊追蹤
+
+極限屬性資訊沿用上述三種共通事件，工具 ID 為 `info-hyper-stat-requirements`，中文工具名稱為「極限屬性」，與主頁的「極限屬性計算機」分開統計。
+
+進入頁面記錄 `tool_view`，首次使用能力選單記錄 `tool_use`，成功儲存圖片記錄 `tool_export`。能力選單不傳送所選的能力名稱或 ID；同一頁內切換能力不增加頁面進入次數。既有工具人氣報表與已設定的共通維度即可統計，不需要新增事件或維度。本機預覽仍不載入 GA4、不送事件。
 
 ## GA4 後台設定
 

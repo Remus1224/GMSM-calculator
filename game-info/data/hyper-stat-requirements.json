@@ -1,0 +1,2442 @@
+{
+  "schema": "MapleStoryM.HyperStatRequirements.V1",
+  "title": "極限屬性",
+  "gameVersion": "2026/10",
+  "source": {
+    "file": "HyperStatPlayerTable.csv",
+    "sha256": "d149da1d0b697350f4e06bd8cff942a518ef223aa16cc944312004e8d0fe7f86",
+    "rowCount": 385
+  },
+  "abilities": [
+    {
+      "id": "final-damage",
+      "name": "最終傷害",
+      "sourceName": "最終傷害增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.3%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.6%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "0.9%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.2%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "1.5%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.1%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "2.7%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "3.3%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "3.9%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "4.5%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "5.4%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "6.3%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "7.2%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "8.1%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "9%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "10.2%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "11.4%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "12.6%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "13.8%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "15%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "16.5%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "18%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "19.5%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "21%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "22.5%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "max-damage",
+      "name": "最大傷害",
+      "sourceName": "最大傷害增加",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "30000",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "60000",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "90000",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "120000",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "150000",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "210000",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "270000",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "330000",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "390000",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "450000",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "540000",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "630000",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "720000",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "810000",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "900000",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "1020000",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "1140000",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "1260000",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "1380000",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "1500000",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "1650000",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "1800000",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "1950000",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "2100000",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "2250000",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "physical-damage",
+      "name": "物理傷害",
+      "sourceName": "物理傷害增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.4%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.8%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.2%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.6%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.8%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "3.6%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "4.4%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "5.2%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "6%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "7.2%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "8.4%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "9.6%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "10.8%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "12%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "13.6%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "15.2%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "16.8%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "18.4%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "20%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "22%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "24%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "26%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "28%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "30%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "magic-damage",
+      "name": "魔法傷害",
+      "sourceName": "魔法傷害增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.4%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.8%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.2%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.6%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.8%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "3.6%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "4.4%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "5.2%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "6%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "7.2%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "8.4%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "9.6%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "10.8%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "12%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "13.6%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "15.2%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "16.8%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "18.4%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "20%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "22%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "24%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "26%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "28%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "30%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "critical-rate",
+      "name": "致命攻擊率",
+      "sourceName": "致命攻擊率增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.4%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.8%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.2%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.6%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.8%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "3.6%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "4.4%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "5.2%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "6%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "7.2%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "8.4%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "9.6%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "10.8%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "12%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "13.6%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "15.2%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "16.8%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "18.4%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "20%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "22%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "24%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "26%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "28%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "30%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "critical-damage",
+      "name": "致命攻擊傷害",
+      "sourceName": "致命攻擊傷害(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.3%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.6%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "0.9%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.2%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "1.5%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.1%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "2.7%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "3.3%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "3.9%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "4.5%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "5.4%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "6.3%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "7.2%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "8.1%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "9%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "10.2%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "11.4%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "12.6%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "13.8%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "15%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "16.5%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "18%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "19.5%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "21%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "22.5%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "boss-damage",
+      "name": "BOSS攻擊力",
+      "sourceName": "BOSS攻擊力增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.4%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.8%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.2%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.6%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.8%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "3.6%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "4.4%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "5.2%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "6%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "7.2%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "8.4%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "9.6%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "10.8%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "12%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "13.6%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "15.2%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "16.8%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "18.4%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "20%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "22%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "24%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "26%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "28%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "30%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "exp",
+      "name": "經驗值",
+      "sourceName": "經驗值增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.5%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "1%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.5%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "2%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2.5%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "3.5%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "4.5%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "5.5%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "6.5%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "7.5%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "9%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "10.5%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "12%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "13.5%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "15%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "17%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "19%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "21%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "23%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "25%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "27.5%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "30%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "32.5%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "35%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "37.5%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "star-force",
+      "name": "星力",
+      "sourceName": "星力增加",
+      "maxLevel": 20,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "1",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "2",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "3",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "4",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "5",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "6",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "7",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "8",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "9",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "10",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "11",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "12",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "13",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "14",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "15",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "16",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "17",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "18",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "19",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "20",
+          "nextLevelCost": null,
+          "cumulativeCost": 799000000
+        }
+      ]
+    },
+    {
+      "id": "party-exp",
+      "name": "組隊經驗",
+      "sourceName": "隊伍經驗值增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.5%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "1%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.5%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "2%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2.5%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "3.5%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "4.5%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "5.5%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "6.5%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "7.5%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "9%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "10.5%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "12%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "13.5%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "15%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "17%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "19%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "21%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "23%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "25%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "27.5%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "30%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "32.5%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "35%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "37.5%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "knockback-resistance",
+      "name": "格擋",
+      "sourceName": "格擋增加",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "1",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "2",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "3",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "4",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "5",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "7",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "9",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "11",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "13",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "15",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "18",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "21",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "24",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "27",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "30",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "34",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "38",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "42",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "46",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "50",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "55",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "60",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "65",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "70",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "75",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "fever-duration",
+      "name": "Fever Buff時間",
+      "sourceName": "增加Fever Buff時間",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.2",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.4",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "0.6",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "0.8",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "1",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "1.3",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "1.6",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "1.9",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "2.2",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "2.5",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "2.9",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "3.4",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "3.9",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "4.4",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "4.9",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "5.4",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "5.9",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "6.4",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "6.9",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "7.5",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "8.1",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "8.7",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "9.3",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "9.9",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "10.5",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "buff-item-duration",
+      "name": "Buff道具時間",
+      "sourceName": "增加Buff道具時間",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "15",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "30",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "45",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "60",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "75",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "90",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "105",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "120",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "135",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "150",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "165",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "180",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "195",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "210",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "225",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "240",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "255",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "270",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "285",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "300",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "315",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "330",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "345",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "360",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "375",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "ignore-damage-rate",
+      "name": "無視傷害率",
+      "sourceName": "無視傷害率增加(%)",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0%",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "0.4%",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "0.8%",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "1.2%",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "1.6%",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "2%",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "2.8%",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "3.6%",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "4.4%",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "5.2%",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "6%",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "7.2%",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "8.4%",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "9.6%",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "10.8%",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "12%",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "13.6%",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "15.2%",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "16.8%",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "18.4%",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "20%",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "21%",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "22%",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "23%",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "24%",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "25%",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    },
+    {
+      "id": "additional-skill-damage",
+      "name": "攻擊時追加技能傷害",
+      "sourceName": "攻擊時追加技能傷害",
+      "maxLevel": 25,
+      "levels": [
+        {
+          "level": 0,
+          "effect": "0 hits / 0% / 0 sec",
+          "nextLevelCost": 1000000,
+          "cumulativeCost": 0
+        },
+        {
+          "level": 1,
+          "effect": "2 hits / 105% / 1.5 sec",
+          "nextLevelCost": 3000000,
+          "cumulativeCost": 1000000
+        },
+        {
+          "level": 2,
+          "effect": "2 hits / 110% / 1.5 sec",
+          "nextLevelCost": 5000000,
+          "cumulativeCost": 4000000
+        },
+        {
+          "level": 3,
+          "effect": "3 hits / 115% / 1.5 sec",
+          "nextLevelCost": 10000000,
+          "cumulativeCost": 9000000
+        },
+        {
+          "level": 4,
+          "effect": "3 hits / 120% / 1.5 sec",
+          "nextLevelCost": 14000000,
+          "cumulativeCost": 19000000
+        },
+        {
+          "level": 5,
+          "effect": "4 hits / 125% / 1.5 sec",
+          "nextLevelCost": 20000000,
+          "cumulativeCost": 33000000
+        },
+        {
+          "level": 6,
+          "effect": "4 hits / 130% / 1.5 sec",
+          "nextLevelCost": 21000000,
+          "cumulativeCost": 53000000
+        },
+        {
+          "level": 7,
+          "effect": "5 hits / 135% / 1.5 sec",
+          "nextLevelCost": 22000000,
+          "cumulativeCost": 74000000
+        },
+        {
+          "level": 8,
+          "effect": "5 hits / 140% / 1.5 sec",
+          "nextLevelCost": 23000000,
+          "cumulativeCost": 96000000
+        },
+        {
+          "level": 9,
+          "effect": "6 hits / 145% / 1.5 sec",
+          "nextLevelCost": 24000000,
+          "cumulativeCost": 119000000
+        },
+        {
+          "level": 10,
+          "effect": "6 hits / 150% / 1.5 sec",
+          "nextLevelCost": 42000000,
+          "cumulativeCost": 143000000
+        },
+        {
+          "level": 11,
+          "effect": "7 hits / 155% / 1.5 sec",
+          "nextLevelCost": 44000000,
+          "cumulativeCost": 185000000
+        },
+        {
+          "level": 12,
+          "effect": "7 hits / 160% / 1.5 sec",
+          "nextLevelCost": 46000000,
+          "cumulativeCost": 229000000
+        },
+        {
+          "level": 13,
+          "effect": "8 hits / 165% / 1.5 sec",
+          "nextLevelCost": 48000000,
+          "cumulativeCost": 275000000
+        },
+        {
+          "level": 14,
+          "effect": "8 hits / 170% / 1.5 sec",
+          "nextLevelCost": 50000000,
+          "cumulativeCost": 323000000
+        },
+        {
+          "level": 15,
+          "effect": "9 hits / 175% / 1.5 sec",
+          "nextLevelCost": 80000000,
+          "cumulativeCost": 373000000
+        },
+        {
+          "level": 16,
+          "effect": "9 hits / 180% / 1.5 sec",
+          "nextLevelCost": 83000000,
+          "cumulativeCost": 453000000
+        },
+        {
+          "level": 17,
+          "effect": "10 hits / 185% / 1.5 sec",
+          "nextLevelCost": 85000000,
+          "cumulativeCost": 536000000
+        },
+        {
+          "level": 18,
+          "effect": "10 hits / 190% / 1.5 sec",
+          "nextLevelCost": 88000000,
+          "cumulativeCost": 621000000
+        },
+        {
+          "level": 19,
+          "effect": "11 hits / 195% / 1.5 sec",
+          "nextLevelCost": 90000000,
+          "cumulativeCost": 709000000
+        },
+        {
+          "level": 20,
+          "effect": "12 hits / 200% / 1.5 sec",
+          "nextLevelCost": 124000000,
+          "cumulativeCost": 799000000
+        },
+        {
+          "level": 21,
+          "effect": "12 hits / 205% / 1.5 sec",
+          "nextLevelCost": 128000000,
+          "cumulativeCost": 923000000
+        },
+        {
+          "level": 22,
+          "effect": "13 hits / 210% / 1.5 sec",
+          "nextLevelCost": 130000000,
+          "cumulativeCost": 1051000000
+        },
+        {
+          "level": 23,
+          "effect": "13 hits / 215% / 1.5 sec",
+          "nextLevelCost": 133000000,
+          "cumulativeCost": 1181000000
+        },
+        {
+          "level": 24,
+          "effect": "14 hits / 220% / 1.5 sec",
+          "nextLevelCost": 135000000,
+          "cumulativeCost": 1314000000
+        },
+        {
+          "level": 25,
+          "effect": "15 hits / 225% / 1.5 sec",
+          "nextLevelCost": null,
+          "cumulativeCost": 1449000000
+        }
+      ]
+    }
+  ]
+}

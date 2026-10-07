@@ -1,40 +1,38 @@
 # GitHub 上傳內容與網站運作的關係
 
-本清單區分「瀏覽器實際使用」與「開發/專案管理」檔案。公開儲存庫包含兩者；不被網站載入不代表應刪除，CI、授權與維護文件仍有用途。
+網站程式與維護資料分開管理。本輪新增極限屬性與輪迴星火資訊；本機開發過程不納入公開分支。
 
-## 網站功能
+## 網站實際使用
 
 | 位置 | 用途 |
 | --- | --- |
-| 根目錄 `index.html`、`script.js`、`style.css`、`craft-effects.js` | 主選單與各工具 |
-| `assets/css/`、`assets/js/`、圖示/音效素材 | 共通樣式、操作、GA4、圖片匯出及遊戲素材 |
-| `1204/` 的頁面、樣式、腳本與素材 | 1204 產生器 |
-| `light-sanctum-pray/` 的頁面、樣式、腳本、runtime 與素材 | 光之聖所祈禱模擬器 |
-| `game-info/` 的 HTML/CSS/JS、`data/` 與 `assets/` | 九項資訊、寵物食品計算機與資料 |
+| 根目錄 HTML/CSS/JS | 主選單與計算工具 |
+| `assets/css/`、`assets/js/`、圖示與音效 | 共通樣式、GA4、圖片匯出及遊戲素材 |
+| `1204/`、`light-sanctum-pray/` | 既有獨立工具與祈禱 runtime |
+| `game-info/` 的 HTML/CSS/JS 與 `data/` | 十一項資訊、寵物食品計算機及其資料 |
 
-此處分類是目錄用途，不表示每一個歷史素材都經過執行時使用率檢查。
+新增的兩份資訊 JSON、星火素材與裝備 PNG 會由網站讀取，必須上傳。
 
-## 不屬於網站功能、但仍保留上傳
+## 不由網站載入，但保留於 GitHub
 
-| 檔案/位置 | 用途 | 本次 PR 的情況 |
+| 位置 | 用途 | 本輪狀態 |
 | --- | --- | --- |
-| `README.md` | GitHub 專案介紹與文件入口 | 更新 |
-| `LICENSE`、`THIRD_PARTY_NOTICES.md` | 原始碼授權與第三方素材聲明 | 沿用既有檔案 |
-| `docs/releases/*.md` | 更新與里程碑紀錄 | 新增 `2026.10.06.md`，其餘沿用 main |
-| `docs/DATA-NOTES.md` | 資料來源與計算規則 | 整併新增 |
-| `docs/MAINTENANCE.md` | 共通樣式及檢查方式 | 整併新增 |
-| `docs/REPOSITORY-CONTENTS.md` | 上傳內容分類，即本文件 | 新增 |
-| `docs/analytics/GA4-TOOL-TRACKING.md` | GA4 事件與後台設定說明 | 移動並保留 |
-| `.github/workflows/validate.yml` | GitHub Actions CI | 更新 |
-| `.github/scripts/verify-formal-paths.cjs` | CI/本機入口檢查 | 更新 |
-| `.github/ISSUE_TEMPLATE/` | GitHub 問題回報格式 | 沿用既有檔案 |
-| `.gitignore` | 排除本機私人與開發紀錄 | 新增/更新 |
-| `light-sanctum-pray/RUN_LOCAL_PREVIEW.cmd`、`.ps1` | Windows 本機預覽啟動器 | 新增，瀏覽器不載入 |
+| `README.md` | 專案介紹與入口 | 更新資訊清單 |
+| `docs/DATA-NOTES.md` | 資料來源、版本與公式 | 加入兩項資訊，整併過時說明 |
+| `docs/MAINTENANCE.md` | 共通元件與維護流程 | 補上共通數字與分支/CI 流程 |
+| `docs/REPOSITORY-CONTENTS.md` | 上傳範圍分類 | 更新本輪範圍 |
+| `docs/analytics/GA4-TOOL-TRACKING.md` | 事件與報表設定 | 補上兩個中文資訊名稱 |
+| `assets/equipment/category-icons-source.json` | 圖集座標與素材雜湊追溯 | 新增來源紀錄 |
+| `LICENSE`、`THIRD_PARTY_NOTICES.md` | 授權與第三方素材聲明 | 沿用 |
+| `.github/` | GitHub Actions CI 與回報格式 | 沿用 |
+| `docs/releases/` | 既有里程碑紀錄 | 沿用，本輪不另新增 |
+| `.gitignore` | 排除本機紀錄 | 沿用 |
+| 本機預覽啟動器 | Windows 開發預覽 | 沿用，瀏覽器不載入 |
 
-注意：GA4 的 `assets/js/site-analytics.js` 是網站程式；GA4 的 MD 說明文件才是開發文件。`game-info/data/*.json` 是網站讀取的資料，也必須保留。
+GA4 JavaScript 是網站程式，GA4 Markdown 才是維護文件；測量 ID 屬網站既有設定。圖集來源 JSON 供維護追溯，頁面不讀取它。
 
-## 本機保留、不再納入分支最新內容
+## 僅留本機、不上傳
 
-`.local-docs/` 集中保存 13 份交接/調查/過程紀錄、私人 GA4 後台紀錄與 4 張截圖，以及已檢視的 6 張介面前後截圖和 1 個比較 HTML。原始內容保留，依交接、調查、歷史、私人紀錄與介面截圖分類；此資料夾不會被 Git 備份。
+`.local-docs/` 已由 `.gitignore` 排除，集中保存交接、調查、歷史 UI 迭代、資料轉換/驗證腳本、畫面截圖、比較頁、預覽暫存與私人 GA4 紀錄。舊 SVG 入口佔位圖也移入本機 `retired-assets/`。
 
-先前提交過的公開開發文件仍可能存在 Git 歷史；本次移除的是分支最新版本及 PR 最終檔案內容，不改寫既有提交歷史。私人 GA4 帳戶紀錄從未納入提交。
+目前交接摘要在 `.local-docs/handoff/game-info.md`；過時交接及 UI 修改腳本歸入 `.local-docs/history/`，保留原始內容以供回溯，不作為現行實作指示。Git 不會備份這些本機檔案，需另行保留。

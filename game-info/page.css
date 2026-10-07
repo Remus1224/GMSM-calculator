@@ -548,3 +548,89 @@ button { font: inherit; color: inherit; touch-action: manipulation; }
   .starforce-requirement-table :is(th,td) { padding: 6px 2px; }
   .starforce-reminder-list { font-size: 12px; }
 }
+/* Flame refinement stays local and uses shared glass, spacing and table tokens. */
+.is-flame-expectations-page .shell { max-width: 640px; }
+.flame-ability-card,.flame-icon-guide { --site-table-frame-padding: calc(var(--site-space-field,8px) * 1.75); }
+.flame-icon-guide .site-section-title { --site-settings-title-size: 14px; --site-settings-title-weight: 650; }
+.flame-icon-guide-grid { --site-stat-columns: 4; --site-stat-grid-gap: 4px 8px; margin: var(--site-space-field,8px) 0 0; padding: 0; list-style: none; }
+.flame-icon-guide-grid .flame-icon-guide-item { justify-content: flex-start; --site-stat-gap: 4px; font-size: 12px; }
+.flame-icon-guide-label { white-space: nowrap; }
+.flame-icon-guide .flame-result-note { margin: var(--site-space-field,8px) 0 0; }
+.flame-table .flame-ability-title { --site-settings-title-size: 18px; --site-settings-title-weight: 725; line-height: 1.3; }
+.flame-parts-caption { display: block; margin-top: 2px; --site-entry-caption-size: 11px; --site-entry-caption-line: 1.3; }
+.flame-grade-footer { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: var(--site-space-field,8px); margin-top: var(--site-space-field,8px); padding: var(--site-space-field,8px); font-size: 14px; }
+.flame-grade-caption { white-space: nowrap; line-height: 22px; }
+.flame-grade-pair { display: flex; flex-wrap: nowrap; align-items: center; min-width: 0; gap: var(--site-space-field,8px); }
+.flame-grade { display: grid; grid-template-columns: 22px minmax(0,1fr); align-items: center; gap: var(--site-space-field,8px); font-size: inherit; line-height: 1.35; }
+.flame-grade-icon { display: block; width: 22px; height: 22px; object-fit: contain; }
+.flame-values { display: block; white-space: nowrap; }
+.flame-values > .site-table-number { white-space: nowrap; }
+.flame-value-divider { color: var(--site-muted); }
+.flame-table { min-width: 0; font-size: 14px; line-height: 1.4; --site-line: color-mix(in srgb,var(--site-text) 10%,transparent); --site-table-neutral-fill: color-mix(in srgb,var(--site-inset) 50%,transparent); }
+.flame-parts-column { width: 140px; }
+.flame-result-column { width: auto; }
+.flame-table :is(th,td) { padding: var(--site-space-field,8px); vertical-align: middle; }
+.flame-table thead th { padding-block: var(--site-space-field,8px); font-size: 13px; }
+.flame-table tbody th { font-weight: 500; }
+.flame-parts { display: grid; gap: calc(var(--site-space-field,8px) * .75); text-align: center; line-height: 1.6; }
+.flame-parts-text { text-wrap: balance; }
+.flame-parts-text > span { white-space: nowrap; }
+.flame-parts .flame-part-icons { flex-wrap: wrap; justify-content: center; --site-stat-gap: calc(var(--site-space-field,8px) * .5); }
+.flame-part-icon-group { flex: 0 0 auto; --site-stat-gap: calc(var(--site-space-field,8px) * .5); }
+.flame-part-icon { display: block; width: 28px; height: 28px; object-fit: contain; }
+/* Independent equipment crops share transparent Genesis-style slots. */
+.flame-genesis-icon-slot { display: grid; place-items: center; width: 28px; height: 30px; flex: 0 0 28px; padding: 2px; }
+.flame-genesis-icon-slot > .flame-part-icon { width: 100%; height: 100%; }
+/* Optical alignment for the separately supplied square android sprite. */
+.flame-part-icon-robot { transform: translateY(-1px); }
+.flame-part-icon-category { filter: brightness(0); opacity: .72; }
+[data-theme="dark"] .flame-part-icon-category { filter: brightness(0) invert(1); opacity: .9; }
+.flame-parts .flame-part-icons-rows { display: grid; gap: calc(var(--site-space-field,8px) * .5); }
+.flame-part-icons-rows .flame-part-icon-row { justify-content: center; }
+.flame-result { display: grid; justify-items: center; text-align: center; gap: calc(var(--site-space-field,8px) * .5); font-size: 16px; line-height: 1.4; }
+.flame-result-slot { display: block; container-type: inline-size; }
+.flame-result-divider { display: none; }
+.flame-result-rate { white-space: nowrap; }
+@container (min-width:136px) {
+  .flame-result { display: flex; justify-content: center; align-items: baseline; }
+  .flame-result-divider { display: inline; }
+}
+.glass-theme .site-tool-version.flame-info-note > .liquid-surface-content { display: block; }
+.glass-theme .site-tool-version.flame-info-note p { font-size: 10px; line-height: 1.5; }
+.glass-theme .flame-info-note p + p { margin-top: calc(var(--site-space-field,8px) * .5); }
+.glass-theme .flame-table.site-table-rules > :is(thead,tbody) > tr > .flame-mode-start { border-inline-start: 1px solid color-mix(in srgb,var(--site-line) 60%,transparent); }
+@media (max-width:600px) {
+  .flame-ability-card,.flame-icon-guide { --site-table-frame-padding: calc(var(--site-space-field,8px) * 1.25); }
+  .flame-icon-guide-grid { --site-stat-columns: 3; }
+  .flame-table .flame-ability-title { --site-settings-title-size: 16px; }
+  .flame-grade-footer { font-size: clamp(10px,3.2vw,12px); gap: 4px; }
+  .flame-grade-caption { line-height: 18px; }
+  .flame-grade { grid-template-columns: 18px minmax(0,1fr); gap: 4px; font-size: inherit; }
+  .flame-grade-icon { width: 18px; height: 18px; }
+  .flame-genesis-icon-slot { width: 24px; height: 26px; flex-basis: 24px; }
+  .flame-parts :is(.flame-part-icons,.flame-part-icon-row,.flame-part-icon-group) { --site-stat-gap: 2px; }
+  .flame-parts-column { width: 106px; }
+  .flame-table { font-size: 12px; }
+  .flame-table :is(th,td) { padding: var(--site-space-field,8px) 2px; }
+  .flame-table thead th { font-size: 12px; }
+  .flame-result { font-size: 14px; }
+}
+/* Dense four-column ability details share controls, numbers and table material. */
+.is-hyper-stat-requirements-page .shell { max-width: 680px; }
+.hyper-stat-ability-picker > .liquid-surface-content { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: center; gap: var(--site-space-field,8px); }
+.hyper-stat-ability-picker .site-select-shell { --site-select-font-size: var(--site-settings-row-size); justify-self: start; }
+.hyper-stat-requirement-table { font-size: 13px; line-height: 1.35; }
+.hyper-stat-requirement-table :is(th,td) { padding: 7px 3px; vertical-align: middle; }
+.hyper-stat-requirement-table thead th { font-size: 11px; white-space: normal; }
+.hyper-stat-requirement-table tbody th { white-space: nowrap; font-weight: 600; }
+.hyper-stat-effect-parts { display: grid; justify-content: center; justify-items: center; gap: 2px; --site-table-number-align: center; }
+.hyper-stat-skill-effect { grid-template-columns: auto auto; column-gap: 8px; }
+.hyper-stat-skill-note { margin: var(--site-space-field,8px) 0 0; }
+.hyper-stat-cost { white-space: nowrap; font-size: 12px; }
+@media (max-width:600px) {
+  .hyper-stat-requirement-table { font-size: 12px; }
+  .hyper-stat-requirement-table :is(th,td) { padding: 6px 2px; }
+  .hyper-stat-requirement-table thead th { font-size: 10px; }
+  .hyper-stat-cost { font-size: 11px; }
+  .hyper-stat-skill-effect { grid-template-columns: auto; }
+}

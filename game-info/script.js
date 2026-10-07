@@ -19,6 +19,8 @@
   let cleanupSecondaryWeaponMobile = () => {};
   let updateHexaModeIndicator = () => {};
   let cleanupTableRules = () => {};
+  let cleanupHyperStatNumbers = () => {};
+  let cleanupFlameNumbers = () => {};
 
   const mainSiteUrl = () => "../";
   const currentPageId = () => new URL(location.href).searchParams.get("page") || "";
@@ -69,6 +71,11 @@
     }
     if (pageId !== "rune-requirements") u.searchParams.delete("type");
     if (pageId !== "starforce-requirements") u.searchParams.delete("cost");
+    if (pageId !== "hyper-stat-requirements") u.searchParams.delete("stat");
+    if (pageId !== "flame-expectations") {
+      u.searchParams.delete("ability");
+      u.searchParams.delete("goal");
+    }
     history[replace ? "replaceState" : "pushState"]({}, "", u);
     renderRoute();
   }
@@ -152,16 +159,22 @@
 
   function renderHome() {
     app.setAttribute("aria-busy", "false");
-    root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-starforce-requirements-page");
+    root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-starforce-requirements-page", "is-hyper-stat-requirements-page", "is-flame-expectations-page");
     root.classList.add("is-info-home");
     setNav("");
     document.title = "也許有用的資訊｜楓之谷M 也許有用的工具";
-    const rows = catalog.items.map(item => {
+    const renderEntry = item => {
       const ready = item.status === "ready";
       return `<button class="info-row site-entry site-menu-entry" type="button" data-page="${esc(item.id)}" ${ready ? "" : "disabled"}><span class="site-entry-icon${item.iconStyle === "transparent" ? " site-entry-icon-transparent" : ""}" aria-hidden="true"><img src="${esc(item.icon)}" alt="" loading="lazy" decoding="async"></span><span class="site-entry-copy"><span class="site-entry-title">${esc(item.title)}</span></span></button>`;
+    };
+    const categories = catalog.categories || [{ id: "growth", title: "成長與強化" }];
+    const groups = categories.map(category => {
+      const items = catalog.items.filter(item => (item.category || "growth") === category.id);
+      if (!items.length) return "";
+      return `<section class="site-home-category" aria-labelledby="info-category-${esc(category.id)}"><div id="info-category-${esc(category.id)}" class="home-menu-category" role="heading" aria-level="2"><span>${esc(category.title)}</span><small>${items.length}</small></div><div class="info-list site-menu-grid">${items.map(renderEntry).join("")}</div></section>`;
     }).join("");
 
-    app.innerHTML = `<section class="glass-panel hero-compact"><div class="info-home-heading"><span class="site-entry-icon info-home-icon" aria-hidden="true"><img src="${esc(catalog.icon)}" alt="" decoding="async"></span><div class="info-home-heading-copy"><div class="eyebrow">MapleStory M · Data Library</div><h2>${esc(catalog.title)}</h2></div></div></section><section class="info-list site-menu-grid" aria-label="資訊分類">${rows}</section>`;
+    app.innerHTML = `<section class="glass-panel hero-compact"><div class="info-home-heading"><span class="site-entry-icon info-home-icon" aria-hidden="true"><img src="${esc(catalog.icon)}" alt="" decoding="async"></span><div class="info-home-heading-copy"><div class="eyebrow">MapleStory M · Data Library</div><h2>${esc(catalog.title)}</h2></div></div></section>${groups}`;
     syncPageStyles();
     app.querySelectorAll("[data-page]:not(:disabled)").forEach(b => b.addEventListener("click", () => setRoute(b.dataset.page)));
   }
@@ -919,17 +932,7 @@
         return `<span class="site-table-number site-table-number-aligned" data-secondary-number="${esc(column.key)}">${value}</span>`;
       };
       const alignNumbers = () => {
-        const nodes = [...app.querySelectorAll("[data-secondary-number]")];
-        nodes.forEach(node => node.style.removeProperty("--site-table-number-width"));
-        const slots = new Map();
-        nodes.forEach(node => {
-          const key = node.dataset.secondaryNumber;
-          slots.set(key, Math.max(slots.get(key) || 0, Math.ceil(node.getBoundingClientRect().width)));
-        });
-        nodes.forEach(node => {
-          const width = slots.get(node.dataset.secondaryNumber);
-          if (width) node.style.setProperty("--site-table-number-width", `${width}px`);
-        });
+        const slots = window.GMSMToolShell.tableNumberSlots(app, "[data-secondary-number]", "data-secondary-number");
         const desktop = app.querySelector(".secondary-weapon-table");
         const tableWidth = desktop?.getBoundingClientRect().width || 0;
         if (tableWidth) root.style.setProperty("--secondary-weapon-table-width", `${Math.ceil(tableWidth)}px`);
@@ -1104,6 +1107,184 @@
     }
   }
 
+  async function renderFlameExpectations(item, revision, controller) {
+    root.classList.add("is-flame-expectations-page");
+    setNav(item.title);
+    document.title = `${item.title}｜也許有用的資訊`;
+    app.innerHTML = `<div class="glass-panel loading">正在載入資料…</div>`;
+    app.setAttribute("aria-busy", "true");
+    try {
+      const data = await fetchJson(item.data, controller.signal);
+      if (revision !== routeRevision || controller.signal.aborted) return;
+      if (!data.abilities?.length || data.abilities.some(ability => !ability.groups?.length)) throw new Error("找不到輪迴星火資料");
+      const percentFormat = new Intl.NumberFormat("zh-TW", { maximumFractionDigits: 6 });
+      const rateFormat = new Intl.NumberFormat("zh-TW", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const topRateFormat = new Intl.NumberFormat("zh-TW", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+      const percent = (value, group, isTop) => `<span class="site-table-number site-table-number-unit"><span class="site-table-number-value" data-site-number-group="${group}">${(isTop ? topRateFormat : rateFormat).format(value)}</span><span class="site-table-number-unit-symbol">%</span></span>`;
+      const modes = [{ id: "single", name: "單排" }, { id: "double", name: "雙排" }, { id: "double-max", name: "雙排頂" }];
+      const renderValues = values => {
+        const highest = Math.max(...values);
+        return `<span class="flame-values">${values.map(value => `<span class="site-table-number"${value === highest ? ' title="最高值"' : ''}>${percentFormat.format(value)}</span>`).join('<span class="flame-value-divider">/</span>')}<span class="site-table-number">%</span></span>`;
+      };
+      const gradeIcons = { legendary: "../assets/flame/icon_傳說輪迴星火.png", mythic: "../assets/flame/icon_神話輪迴星火.png" };
+      const partIcons = {
+        "武器": [{ file: "武器_分類", label: "武器", category: true }],
+        "輔助武器": [{ file: "輔助武器_分類", label: "輔助武器", category: true }],
+        "機器人": [{ file: "機器人_分類", label: "機器人", category: true, className: "flame-part-icon-robot" }],
+        "帽子": [{ file: "帽子_分類", label: "帽子", category: true }],
+        "上衣": [{ file: "上衣_分類", label: "上衣", category: true }],
+        "套服": [{ file: "套服_分類", label: "套服", category: true }],
+        "手套": [{ file: "手套_分類", label: "手套", category: true }],
+        "披風": [{ file: "披風_分類", label: "披風", category: true }],
+        "腰帶": [{ file: "腰帶_分類", label: "腰帶", category: true }],
+        "護肩": [{ file: "護肩_分類", label: "護肩", category: true }],
+        "鞋子": [{ file: "鞋子_分類", label: "鞋子", category: true }],
+        "徽章": [{ file: "徽章_分類", label: "徽章", category: true }],
+        "戒指": [{ file: "戒指", label: "戒指" }],
+        "口袋": [{ file: "口袋_紅", label: "口袋（紅）" }, { file: "口袋_藍", label: "口袋（藍）" }],
+        "耳環": [{ file: "耳環", label: "耳環" }],
+        "胸章": [{ file: "胸章", label: "胸章" }],
+        "臉部裝飾": [{ file: "臉飾", label: "臉飾" }],
+        "眼部裝飾": [{ file: "眼飾", label: "眼飾" }],
+        "項鍊": [{ file: "項鍊", label: "項鍊" }]
+      };
+      const renderIcon = (icon, decorative = false) => `<span class="flame-genesis-icon-slot"><img class="flame-part-icon${icon.category ? " flame-part-icon-category" : ""}${icon.className ? ` ${esc(icon.className)}` : ""}" src="../assets/equipment/icon_${esc(icon.file)}.png" alt="${decorative ? "" : esc(icon.label)}"${decorative ? ' aria-hidden="true"' : ""} title="${esc(icon.label)}" width="28" height="28"></span>`;
+      const dropPartOrder = ["臉部裝飾", "眼部裝飾", "戒指", "項鍊", "口袋", "耳環", "胸章"];
+      const renderParts = (parts, abilityId) => {
+        const ordered = abilityId === "item-drop" ? [...parts].sort((a, b) =>
+          (dropPartOrder.indexOf(a) < 0 ? dropPartOrder.length : dropPartOrder.indexOf(a)) -
+          (dropPartOrder.indexOf(b) < 0 ? dropPartOrder.length : dropPartOrder.indexOf(b))) : parts;
+        const textParts = ordered.filter(part => !partIcons[part]);
+        const illustrated = ordered.filter(part => partIcons[part]);
+        const text = textParts.length ? `<span class="flame-parts-text">${textParts.map((part, index) => `<span>${esc(part)}${index < textParts.length - 1 ? "、" : ""}</span>`).join("")}</span>` : "";
+        const renderIconGroup = part => `<span class="flame-part-icon-group site-stat-content" role="group" aria-label="${esc(part)}">${partIcons[part].map(icon => renderIcon(icon)).join("")}</span>`;
+        const rowBreak = abilityId === "item-drop" ? 4
+          : abilityId === "final-damage" ? illustrated.indexOf("機器人") + 1
+          : abilityId === "ignore-defense" && illustrated.includes("護肩") ? illustrated.indexOf("護肩") + 1 : 0;
+        const hasRows = rowBreak > 0 && rowBreak < illustrated.length;
+        const iconContent = hasRows
+          ? [illustrated.slice(0,rowBreak), illustrated.slice(rowBreak)].map(row => `<span class="flame-part-icon-row site-stat-content">${row.map(renderIconGroup).join("")}</span>`).join("")
+          : illustrated.map(renderIconGroup).join("");
+        const icons = illustrated.length ? `<span class="flame-part-icons site-stat-content${hasRows ? " flame-part-icons-rows" : ""}">${iconContent}</span>` : "";
+        return `<span class="flame-parts">${text}${icons}</span>`;
+      };
+      const guideParts = ["武器", "輔助武器", "機器人", "腰帶", "手套", "帽子", "鞋子", "披風", "護肩", "套服", "上衣", "徽章"];
+      const iconGuide = `<section class="data-section glass-surface flame-icon-guide" aria-labelledby="flame-icon-guide-title">${glassLayers()}<div class="liquid-surface-content site-table-frame-content"><h3 id="flame-icon-guide-title" class="site-section-title">部位圖示</h3><ul class="site-stat-grid flame-icon-guide-grid">${guideParts.map(part => `<li class="site-stat-content flame-icon-guide-item">${partIcons[part].map(icon => renderIcon(icon, true)).join("")}<span class="flame-icon-guide-label">${esc(part)}</span></li>`).join("")}</ul><p id="flame-result-note" class="site-entry-caption flame-result-note">結果：期望值／機率</p></div></section>`;
+      let groupIndex = 0;
+      const groups = data.abilities.map((ability, abilityIndex) => {
+        const abilityId = `flame-ability-${abilityIndex}`;
+        const representative = ability.groups[0];
+        const sharedValues = ability.groups.every(group =>
+          JSON.stringify(group.legendaryValues) === JSON.stringify(representative.legendaryValues) &&
+          JSON.stringify(group.mythicValues) === JSON.stringify(representative.mythicValues));
+        if (!sharedValues) throw new Error("同能力的輪迴星火數值不一致");
+        const rows = ability.groups.map(group => {
+          const index = groupIndex++;
+          const rowCount = group.legendaryValues.length;
+          if (rowCount !== group.mythicValues.length || rowCount !== group.targetValueCount) throw new Error("輪迴星火數值種類不一致");
+          const partId = `flame-parts-${index}`;
+          const pairedCells = modes.map(mode => `<td class="flame-mode-start" headers="${partId} ${abilityId}-${mode.id}"><span class="flame-result-slot"><span class="flame-result"><span class="site-table-number site-table-number-unit flame-result-mean"><span class="site-table-number-value" data-site-number-group="flame-${mode.id}-mean">${fmt(group[mode.id].expectedFlames)}</span><span class="site-table-number-unit-symbol">顆</span></span><span class="flame-result-divider" aria-hidden="true">/</span><span class="flame-result-rate">${percent(group[mode.id].probability * 100, `flame-${mode.id}-rate`, mode.id === "double-max")}</span></span></span></td>`).join("");
+          return `<tr class="flame-result-row"><th id="${partId}" scope="row">${renderParts(group.parts, ability.id)}</th>${pairedCells}</tr>`;
+        }).join("");
+        const gradeMarkup = `<div class="flame-grade-footer site-table-rule-fill"><span class="site-table-number flame-grade-caption">素質</span><div class="flame-grade-pair" aria-label="素質"><div class="flame-grade"><img class="flame-grade-icon" src="${gradeIcons.legendary}" alt="傳說輪迴星火" title="傳說輪迴星火" width="22" height="22">${renderValues(representative.legendaryValues)}</div><div class="flame-grade"><img class="flame-grade-icon" src="${gradeIcons.mythic}" alt="神話輪迴星火" title="神話輪迴星火" width="22" height="22">${renderValues(representative.mythicValues)}</div></div></div>`;
+        return `<section class="data-section glass-surface flame-ability-card" aria-labelledby="${abilityId}">${glassLayers()}<div class="liquid-surface-content site-table-frame-content site-table-rules"><div class="site-table-scroll flame-table-scroll" role="region" aria-label="${esc(ability.name)}各部位期望值與機率"><table class="flame-table site-data-table site-table-hover site-table-rules site-table-framed" aria-labelledby="${abilityId}" aria-describedby="flame-result-note flame-table-note"><colgroup><col class="flame-parts-column"></colgroup><colgroup span="3" class="flame-result-column"></colgroup><thead><tr><th scope="col" aria-label="${esc(ability.name)}適用部位"><h3 id="${abilityId}" class="site-section-title flame-ability-title">${esc(ability.name)}</h3><span class="site-entry-caption flame-parts-caption">部位</span></th>${modes.map(mode => `<th id="${abilityId}-${mode.id}" class="flame-mode-start" scope="col">${mode.name}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>${gradeMarkup}</div></section>`;
+      }).join("");
+      app.innerHTML = `<section class="hero-compact glass-surface">${glassLayers()}<div class="liquid-surface-content hero-surface-content"><div class="hero-copy"><div class="eyebrow">Probability · Reincarnation Flame</div><h2>${esc(data.title)}</h2></div><div class="hero-actions"><button id="save-table-image" class="action-btn site-important-action" type="button" data-export-title="${esc(data.title)}">儲存圖片</button></div></div></section>
+        ${iconGuide}
+        ${groups}
+        <section class="note-panel site-tool-version site-note-left flame-info-note glass-surface">${glassLayers()}<div class="liquid-surface-content"><p id="flame-table-note">以已有兩排的裝備重洗為基準；期望值為平均需求，非保底。</p><p>單排機率以單一詞條為計算基準；雙排指兩個詞條皆出現同一指定能力，兩者均不限制數值。</p><p>各數值序列的末值為該品階最高值；雙排頂要求兩排都是指定能力，且各自達到最高數值。</p><p>機率顯示至小數點後兩位，雙排頂顯示三位；期望值使用完整精度計算。依候選池等權、兩排獨立且同能力可重複的整理模型估算。</p><p>遊戲版本 ${esc(data.gameVersion)}</p></div></section>`;
+      const url = new URL(location.href);
+      url.searchParams.delete("ability");
+      url.searchParams.delete("goal");
+      history.replaceState(history.state, "", url);
+      syncPageStyles();
+      cleanupFlameNumbers = window.GMSMToolShell.tableNumbers(app);
+      app.setAttribute("aria-busy", "false");
+    } catch (e) {
+      if (revision !== routeRevision || controller.signal.aborted) return;
+      cleanupFlameNumbers();
+      cleanupFlameNumbers = () => {};
+      console.error("輪迴星火資料載入失敗", e);
+      showLoadError("輪迴星火資料", "page");
+    }
+  }
+
+
+  async function renderHyperStatRequirements(item, revision, controller) {
+    root.classList.add("is-hyper-stat-requirements-page");
+    setNav(item.title);
+    document.title = `${item.title}｜也許有用的資訊`;
+    app.innerHTML = `<div class="glass-panel loading">正在載入資料…</div>`;
+    app.setAttribute("aria-busy", "true");
+    try {
+      const data = await fetchJson(item.data, controller.signal);
+      if (revision !== routeRevision || controller.signal.aborted) return;
+      if (!Array.isArray(data.abilities) || !data.abilities.length || data.abilities.some(ability => !ability.levels?.length)) throw new Error("找不到極限屬性資料");
+      const requestedId = new URL(location.href).searchParams.get("stat");
+      const selectedAbility = data.abilities.find(ability => ability.id === requestedId) || data.abilities[0];
+      const additionalSkill = data.abilities.find(ability => ability.id === "additional-skill-damage");
+      const skillTiming = row => String(row.effect ?? "").match(/\/\s*(\d+(?:\.\d+)?)\s*sec$/i)?.[1];
+      const learnedSkillRows = additionalSkill?.levels.filter(row => row.level > 0) || [];
+      const sharedSkillTiming = learnedSkillRows.length && learnedSkillRows.every(row => skillTiming(row) === skillTiming(learnedSkillRows[0]))
+        ? skillTiming(learnedSkillRows[0]) : null;
+      const renderEffect = (effect, id) => String(effect ?? "").split(/\s*\/\s*/).map((part, index) => {
+        const match = part.trim().match(/^([+-]?\d+(?:\.\d+)?)\s*(%|hits|sec)?$/i);
+        if (!match) return esc(part);
+        if (id === "additional-skill-damage" && sharedSkillTiming && match[2]?.toLowerCase() === "sec") return "";
+        const compactDamage = id === "max-damage" && !match[2];
+        const value = fmt(Number(match[1]) / (compactDamage ? 10000 : 1));
+        const group = `${id}-${index}`;
+        const unit = compactDamage ? "萬" : { hits: "次", sec: "秒", "%": "%" }[(match[2] || "").toLowerCase()];
+        const original = compactDamage ? ` title="${fmt(Number(match[1]))}" aria-label="最大傷害 ${fmt(Number(match[1]))}"` : "";
+        return unit
+          ? `<span class="site-table-number site-table-number-unit"${original}><span class="site-table-number-value" data-site-number-group="${esc(group)}">${value}</span><span class="site-table-number-unit-symbol">${unit}</span></span>`
+          : `<span class="site-table-number site-table-number-aligned" data-site-number-group="${esc(group)}">${value}</span>`;
+      }).join("");
+      const renderRows = ability => ability.levels.map(row => `<tr class="hyper-stat-requirement-row${row.level === ability.maxLevel ? " site-table-rule-fill-row" : ""}"><th scope="row">Lv.${fmt(row.level)}</th><td><span class="hyper-stat-effect-parts${ability.id === "additional-skill-damage" && sharedSkillTiming ? " hyper-stat-skill-effect" : ""}">${renderEffect(row.effect, ability.id)}</span></td><td><span class="site-table-number hyper-stat-cost">${fmt(row.nextLevelCost)}</span></td><td><span class="site-table-number hyper-stat-cost">${fmt(row.cumulativeCost)}</span></td></tr>`).join("");
+      const options = data.abilities.map(ability => `<option value="${esc(ability.id)}" title="${esc(ability.sourceName)}"${ability.id === selectedAbility.id ? " selected" : ""}>${esc(ability.name)}</option>`).join("");
+      app.innerHTML = `<section class="hero-compact glass-surface">${glassLayers()}<div class="liquid-surface-content hero-surface-content"><div class="hero-copy"><div class="eyebrow">Growth · Hyper Stats</div><h2>${esc(data.title)}</h2></div><div class="hero-actions"><button id="save-table-image" class="action-btn site-important-action" type="button">儲存圖片</button></div></div></section>
+        <section class="data-section glass-surface hyper-stat-ability-picker" data-export-exclude>${glassLayers()}<div class="liquid-surface-content site-table-frame-content"><label for="hyper-stat-ability-select" class="site-section-title">能力</label><select id="hyper-stat-ability-select">${options}</select></div></section>
+        <section class="data-section glass-surface">${glassLayers()}<div class="liquid-surface-content site-table-frame-content"><table class="hyper-stat-requirement-table site-data-table site-table-hover site-table-rules site-table-framed" aria-label="${esc(selectedAbility.name)}效果與費用"><colgroup><col style="width:14%"><col style="width:28%"><col style="width:29%"><col style="width:29%"></colgroup><thead><tr><th scope="col">等級</th><th scope="col">目前效果</th><th scope="col">升下一級（楓幣）</th><th scope="col">累積楓幣</th></tr></thead><tbody id="hyper-stat-requirement-rows">${renderRows(selectedAbility)}</tbody></table><p id="hyper-stat-skill-note" class="site-entry-caption hyper-stat-skill-note" hidden></p></div></section>
+        <section class="note-panel site-tool-version site-note-left glass-surface">${glassLayers()}<div class="liquid-surface-content"><p>遊戲版本 ${esc(data.gameVersion)}</p></div></section>`;
+      syncPageStyles();
+      const select = app.querySelector("#hyper-stat-ability-select");
+      window.GMSMGlass.decorateSelect(select, { fitContent: true });
+      const setAbility = id => {
+        const ability = data.abilities.find(candidate => candidate.id === id);
+        if (!ability) return;
+        select.value = ability.id;
+        app.querySelector("#hyper-stat-requirement-rows").innerHTML = renderRows(ability);
+        const table = app.querySelector(".hyper-stat-requirement-table");
+        table.setAttribute("aria-label", `${ability.name}效果與費用`);
+        const skillNote = app.querySelector("#hyper-stat-skill-note");
+        const showSkillNote = ability.id === "additional-skill-damage" && Boolean(sharedSkillTiming);
+        skillNote.hidden = !showSkillNote;
+        if (showSkillNote) {
+          skillNote.textContent = `Lv.${learnedSkillRows[0].level}～${ability.maxLevel} 的秒數皆為 ${fmt(Number(sharedSkillTiming))} 秒；Lv.0 為 ${fmt(Number(skillTiming(ability.levels.find(row => row.level === 0))))} 秒。`;
+          table.setAttribute("aria-describedby", skillNote.id);
+        } else {
+          table.removeAttribute("aria-describedby");
+          skillNote.textContent = "";
+        }
+        app.querySelector("#save-table-image").dataset.exportTitle = `${data.title}｜${ability.name}`;
+        const url = new URL(location.href);
+        url.searchParams.delete("view");
+        url.searchParams.set("stat", ability.id);
+        history.replaceState(history.state, "", url);
+        cleanupTableRules();
+        cleanupTableRules = window.GMSMToolShell.tableRules(app);
+      };
+      select.addEventListener("change", () => setAbility(select.value));
+      setAbility(selectedAbility.id);
+      cleanupHyperStatNumbers = window.GMSMToolShell.tableNumbers(app.querySelector(".hyper-stat-requirement-table"));
+      app.setAttribute("aria-busy", "false");
+    } catch (e) {
+      if (revision !== routeRevision || controller.signal.aborted) return;
+      console.error("極限屬性資料載入失敗", e);
+      showLoadError("極限屬性資料", "page");
+    }
+  }
+
   async function renderStarforceRequirements(item, revision, controller) {
     root.classList.add("is-starforce-requirements-page");
     setNav(item.title);
@@ -1175,6 +1356,10 @@
   }
 
   async function renderRoute() {
+    cleanupFlameNumbers();
+    cleanupFlameNumbers = () => {};
+    cleanupHyperStatNumbers();
+    cleanupHyperStatNumbers = () => {};
     cleanupHexaModeControl();
     petFoodViewSwitch?.destroy();
     petFoodViewSwitch = null;
@@ -1191,12 +1376,17 @@
     const revision = ++routeRevision;
     routeRequest?.abort();
     routeRequest = null;
-    root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-rune-requirements-page", "is-starforce-requirements-page");
+    root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-rune-requirements-page", "is-starforce-requirements-page", "is-hyper-stat-requirements-page", "is-flame-expectations-page");
     if (!catalog) return;
     const id = currentPageId();
     if (!id) { renderHome(); return; }
     const item = catalog.items.find(x => x.id === id && x.status === "ready");
     if (!item) { setRoute("", true); return; }
+    if (item.id === "flame-expectations") {
+      routeRequest = new AbortController();
+      await renderFlameExpectations(item, revision, routeRequest);
+      return;
+    }
     if (item.id === "secondary-weapon") {
       routeRequest = new AbortController();
       await renderSecondaryWeapon(item, revision, routeRequest);
@@ -1205,6 +1395,11 @@
     if (item.id === "rune-requirements") {
       routeRequest = new AbortController();
       await renderRuneRequirements(item, revision, routeRequest);
+      return;
+    }
+    if (item.id === "hyper-stat-requirements") {
+      routeRequest = new AbortController();
+      await renderHyperStatRequirements(item, revision, routeRequest);
       return;
     }
     if (item.id === "starforce-requirements") {
@@ -1259,7 +1454,7 @@
       await renderRoute();
     } catch (e) {
       if (controller.signal.aborted) return;
-      root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-starforce-requirements-page");
+      root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-starforce-requirements-page", "is-hyper-stat-requirements-page", "is-flame-expectations-page");
       setNav("");
       console.error("資訊中心載入失敗", e);
       showLoadError("資訊中心", "catalog");

@@ -1,0 +1,145 @@
+{
+  "sourceAtlas": "light-sanctum-pray/runtime/assets/CommonSimpleAtlas__8873075961046716041.png",
+  "sourceSHA256": "4e752bee2e604c40226ed8b1e7e76978d2198bb0c5ad9427d723c9c8f80aba9b",
+  "coordinateSystem": "top-left, original pixels, RGBA",
+  "sourceDimensions": [
+    1024,
+    1024
+  ],
+  "metadataSource": "light-sanctum-pray/runtime/ui-static-scene-data.js",
+  "note": "Independent PNG crops. Runtime pages use only output files, without loading the source atlas or scene metadata.",
+  "icons": [
+    {
+      "part": "武器",
+      "spriteName": "icon_weapon_w",
+      "rectangle": [
+        252,
+        526,
+        43,
+        43
+      ],
+      "file": "assets/equipment/icon_武器_分類.png",
+      "SHA256": "5ece1b117cf03d7599210d3c7d6e20a70ffd5350608a1fa62249688e3f6b75c7"
+    },
+    {
+      "part": "輔助武器",
+      "spriteName": "icon_SubWeapon_w",
+      "rectangle": [
+        209,
+        107,
+        41,
+        43
+      ],
+      "file": "assets/equipment/icon_輔助武器_分類.png",
+      "SHA256": "ae64c75730526f0da6fa2f260848b55b3735c47482c195607cf4d6a35c6bad1f"
+    },
+    {
+      "part": "帽子",
+      "spriteName": "icon_cap_w",
+      "rectangle": [
+        252,
+        661,
+        43,
+        44
+      ],
+      "file": "assets/equipment/icon_帽子_分類.png",
+      "SHA256": "31e9b8862e74c9f8c9a8627b6a7be087f8a42352cf776728039790d6043f1717"
+    },
+    {
+      "part": "上衣",
+      "spriteName": "icon_coat_w",
+      "rectangle": [
+        252,
+        571,
+        43,
+        43
+      ],
+      "file": "assets/equipment/icon_上衣_分類.png",
+      "SHA256": "2556bf97c39b7557d521b0d1515c2cb5e771cd7ac552b4bd39d51ef8cfcf097c"
+    },
+    {
+      "part": "套服",
+      "spriteName": "Icon_longcoat_w",
+      "rectangle": [
+        95,
+        357,
+        46,
+        47
+      ],
+      "file": "assets/equipment/icon_套服_分類.png",
+      "SHA256": "42776e5a6a5b73419931bff25ecd3818a2921815da5cc6abdc887c4f0d86b9d8"
+    },
+    {
+      "part": "手套",
+      "spriteName": "icon_gloves_w",
+      "rectangle": [
+        252,
+        707,
+        43,
+        44
+      ],
+      "file": "assets/equipment/icon_手套_分類.png",
+      "SHA256": "5f324ae48b9038d744db7c3a61ce403aeafa908fdcc7536d85130dd716b3b9ad"
+    },
+    {
+      "part": "披風",
+      "spriteName": "icon_cape_w",
+      "rectangle": [
+        343,
+        674,
+        45,
+        38
+      ],
+      "file": "assets/equipment/icon_披風_分類.png",
+      "SHA256": "612807c48e29d573e3aa1f8727ec6fef3bf7e0090a60ebe68e3f2a33fbc625a3"
+    },
+    {
+      "part": "腰帶",
+      "spriteName": "icon_belt_w",
+      "rectangle": [
+        643,
+        683,
+        47,
+        29
+      ],
+      "file": "assets/equipment/icon_腰帶_分類.png",
+      "SHA256": "2edb6411782352b994881ceecf7dbebc0ae16ebc5e80022e0379fc4e17516636"
+    },
+    {
+      "part": "護肩",
+      "spriteName": "icon_shoulder_w",
+      "rectangle": [
+        515,
+        714,
+        44,
+        37
+      ],
+      "file": "assets/equipment/icon_護肩_分類.png",
+      "SHA256": "405463ef348a318dfe97fafd5cd14fc9ad4fac01fdfd44f6facdec40a5323658"
+    },
+    {
+      "part": "鞋子",
+      "spriteName": "icon_shose_w",
+      "rectangle": [
+        673,
+        718,
+        46,
+        33
+      ],
+      "file": "assets/equipment/icon_鞋子_分類.png",
+      "SHA256": "7f9c7b60d82724c7985cd4f269f65df1a01c405db229e0ee18b0cbf7f9b0b212"
+    },
+    {
+      "part": "徽章",
+      "spriteName": "icon_emblem",
+      "rectangle": [
+        95,
+        309,
+        46,
+        46
+      ],
+      "file": "assets/equipment/icon_徽章_分類.png",
+      "SHA256": "d632c8ba8a7b70c74ce3e7b650f38ac30c16b53647418391b8c0a5b457735cb7"
+    }
+  ]
+}
