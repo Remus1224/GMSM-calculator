@@ -22,6 +22,7 @@
 | 主頁 | `hexa-sim` | HEXA目標機率模擬 | hexa | main |
 | 主頁 | `will` | 威爾二階練習機 | practice | main |
 | 主頁 | `notice` | 布告欄 | site | main |
+| 資訊首頁 | `info-home` | 也許有用的資訊 | site | info |
 | 資訊頁 | `info-genesis-liberation` | 創世解放 | information | info |
 | 資訊頁 | `info-helos-seal` | 海洛斯的封印 | information | info |
 | 資訊頁 | `info-constellation-core` | 星座核心 | information | info |
@@ -36,6 +37,8 @@
 | 資訊頁 | `info-flame-expectations` | 輪迴星火 | information | info |
 | 獨立頁 | `1204-generator` | 1204 產生器 | site | generator |
 | 獨立頁 | `light-sanctum-pray` | 光之聖所祈禱模擬器 | simulator | pray |
+
+資訊首頁以 `info-home` 獨立記錄開啟，顯示「也許有用的資訊」，分類為 `site`；十一項資料頁維持 `information`，可用分類篩選個別資訊人氣。首頁切入資訊、返回首頁、重新整理與 BFCache 返回都沿用每次進入記錄規則；連續重複初始化不多記，尚在載入或載入失敗不誤記首頁。
 
 資訊頁的 `tool_name` 使用 catalog 標題；寵物食品計算機使用固定名稱。資訊頁閱讀會記錄 `tool_view`，不要求操作，因此不能只用 `tool_use` 排行判斷資訊頁是否有人查閱。
 

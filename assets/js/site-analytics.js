@@ -109,6 +109,9 @@
         clearCurrent();
         return false;
       }
+      if (id === "home") {
+        return setCurrent({ tool_id: "info-home", tool_name: "也許有用的資訊", tool_category: "site", tool_surface: "info", page_id: "home" });
+      }
       if (id === "1204-generator") {
         return setCurrent({ tool_id: id, tool_name: "1204 產生器", tool_category: "site", tool_surface: "generator" });
       }
@@ -225,7 +228,11 @@
       } else if (pageSurface === "info") {
         const currentNav = document.getElementById("nav-title")?.parentElement;
         if (!currentNav?.matches("[aria-current='page']")) {
-          clearCurrent();
+          if (document.documentElement.classList.contains("is-info-home")) {
+            viewInfo("home", "也許有用的資訊");
+          } else {
+            clearCurrent();
+          }
           return;
         }
         const params = new URL(window.location.href).searchParams;

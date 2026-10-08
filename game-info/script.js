@@ -88,7 +88,8 @@
     const current = navTitle.parentElement;
     detail ? current.setAttribute("aria-current", "page") : current.removeAttribute("aria-current");
     navBack.onclick = detail && !fromMenu ? () => setRoute("") : () => { location.href = mainSiteUrl(); };
-    window.GMSMAnalytics?.viewInfo(detail ? currentPageId() : "", pageTitle, new URL(location.href).searchParams.get("view"));
+    const analyticsPage = detail ? currentPageId() : root.classList.contains("is-info-home") ? "home" : "";
+    window.GMSMAnalytics?.viewInfo(analyticsPage, detail ? pageTitle : "也許有用的資訊", new URL(location.href).searchParams.get("view"));
   }
 
   const fmt = v => v == null ? "—" : nf.format(v);
