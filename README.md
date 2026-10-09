@@ -48,7 +48,7 @@ GMSM-calculator 收錄多種楓之谷M相關模擬器、計算機與 HEXA 工具
 
 [也許有用的資訊](game-info/) 收錄十一項資訊：創世解放、海洛斯的封印、六轉核心、星座核心、光之聖所 祈禱、極限屬性、神秘/真實符文、寵物食品、星力強化、輔助武器鍊成與輪迴星火。首頁分為「成長與強化」和「機率與期望值」。
 
-資訊館整併紀錄：[2026/10/06 變更紀錄](docs/releases/2026.10.06.md)。
+資訊館與 GA4 正式里程碑：[2026/10/09 版本紀錄](docs/releases/2026.10.09.md)（[2026/10/06 初始整併紀錄](docs/releases/2026.10.06.md)）。
 
 維護文件：[資料與計算規則](docs/DATA-NOTES.md)、[共通樣式與維護](docs/MAINTENANCE.md)、[上傳內容分類](docs/REPOSITORY-CONTENTS.md)。
 
@@ -62,6 +62,7 @@ GMSM-calculator 收錄多種楓之谷M相關模擬器、計算機與 HEXA 工具
 
 ## 里程碑 / Milestones
 
+- [`2026.10.09`](docs/releases/2026.10.09.md) — 18 個工具、11 項資訊與全站 GA4 追蹤
 - [`2026.10`](docs/releases/2026.10.md) — 全站 Unified Glass UI 與共通視覺基線
 - [`2026.09.1`](docs/releases/2026.09.1.md) — 1204 產生器與光之聖所祈禱模擬器
 - [`2026.09`](docs/releases/2026.09.md) — 第一份 OSS Stable Baseline
