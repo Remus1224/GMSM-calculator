@@ -998,3 +998,74 @@
     .home-menu-category > span { font-size: 13px; }
     .home-menu-category::before { height: 14px; }
 }
+
+/* Shared entry status badges: main menu and information directory. */
+.app-status-badge {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 22px;
+    padding: 0 9px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.055em;
+    box-shadow: 0 5px 12px rgba(57, 43, 110, 0.16);
+    pointer-events: none;
+}
+
+.app-status-badge-new {
+    background: linear-gradient(135deg, #3abbd8, #7b5de8);
+}
+
+.app-status-badge-update {
+    background: linear-gradient(135deg, #ef8e4b, #e86782);
+}
+
+.app-status-badge-unread::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 7px rgba(255, 255, 255, 0.9);
+}
+
+.app-status-badge[hidden] { display: none !important; }
+
+[data-theme="dark"] .app-status-badge {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.36);
+}
+
+@media (max-width: 600px) {
+
+.app-status-badge {
+        top: 9px;
+        right: 8px;
+        height: 19px;
+        min-width: 35px;
+        padding: 0 6px;
+        transform: none;
+        font-size: 7.5px;
+    }
+
+}
+@media (max-width: 350px) {
+
+.app-status-badge {
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+    }
+
+}

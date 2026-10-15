@@ -13,7 +13,7 @@
 - `tool-shell.css` 與 `assets/js/tool-shell.js`：工具標題、版本與來源資訊、寬度、圖片儲存等工具外框。
 - `assets/js/site-view-switch.js`：共通分頁切換；`site-notify.js`：共通提醒；`site-image-export.js`：圖片匯出支援。
 
-新增入口使用 `site-menu-entry`。透明素材可透過 catalog 的 `iconStyle: "transparent"` 套用滿版底板，不另修改圖片。下拉選單、勾選與互動狀態優先採現有共通元件。
+新增入口使用 `site-menu-entry`。透明素材可透過 catalog 的 `iconStyle: "transparent"` 套用滿版底板，不另修改圖片。下拉選單、勾選與互動狀態優先採現有共通元件。狀態標籤共用 `app-status-badge` 及 `new`／`update` 樣式，集中於 `site-components.css`；資訊入口可在 catalog 設定 `badge.type` 與 `badge.version`，開啟該資訊後以版本分別記錄已讀。
 
 表格分頁使用 `site-table-paged-scroll`、`site-table-pages`、`site-table-page`、`site-table-page-grid`；固定左欄使用 `site-table-paged-layout`。可調參數包括 `--site-table-page-gap`、`--site-table-page-width`、`--site-table-fixed-column-width` 與 `--site-table-page-columns`。
 

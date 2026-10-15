@@ -98,7 +98,7 @@
     const glass = window.GMSMGlass;
     app.querySelectorAll(".glass-panel,.info-row,.hero-compact,.data-section,.note-panel,.hexa-title-card,.hexa-body-card,.hexa-mode-control,.hexa-mode-indicator,.hieros-table-frame,.hieros-stat-card,.hieros-hint,.genesis-info-total-card,.genesis-info-attack-total,.pet-food-summary-card").forEach(surface => {
       if (surface.classList.contains("requirements-panel")) return;
-      glass.decorate(surface);
+      glass.decorate(surface, ".app-status-badge");
       surface.classList.add("site-card");
       const role = surface.matches(".info-row") ? (surface.disabled ? "static" : "entry") : "info";
       glass.setCardRole(surface, role);
@@ -158,6 +158,17 @@
     });
   }
 
+  const infoBadgeStorageKey = item => `gmsm-info-badge-seen-v1:${item.id}`;
+  function unreadInfoBadge(item) {
+    if (!item.badge?.version || !["new", "update"].includes(item.badge.type)) return false;
+    try { return localStorage.getItem(infoBadgeStorageKey(item)) !== item.badge.version; }
+    catch (_) { return true; }
+  }
+  function markInfoBadgeAsRead(item) {
+    if (!item.badge?.version) return;
+    try { localStorage.setItem(infoBadgeStorageKey(item), item.badge.version); } catch (_) {}
+  }
+
   function renderHome() {
     app.setAttribute("aria-busy", "false");
     root.classList.remove("is-info-home", "is-genesis-info-page", "is-light-sanctum-page", "is-hexa-page", "is-constellation-page", "is-hieros-page", "is-pet-food-page", "is-secondary-weapon-page", "is-starforce-requirements-page", "is-hyper-stat-requirements-page", "is-flame-expectations-page");
@@ -166,7 +177,9 @@
     document.title = "也許有用的資訊｜楓之谷M 也許有用的工具";
     const renderEntry = item => {
       const ready = item.status === "ready";
-      return `<button class="info-row site-entry site-menu-entry" type="button" data-page="${esc(item.id)}" ${ready ? "" : "disabled"}><span class="site-entry-icon${item.iconStyle === "transparent" ? " site-entry-icon-transparent" : ""}" aria-hidden="true"><img src="${esc(item.icon)}" alt="" loading="lazy" decoding="async"></span><span class="site-entry-copy"><span class="site-entry-title">${esc(item.title)}</span></span></button>`;
+      const unread = ready && unreadInfoBadge(item);
+      const badge = unread ? `<span class="app-status-badge app-status-badge-${item.badge.type}">${item.badge.type === "update" ? "UPDATE" : "NEW"}</span>` : "";
+      return `<button class="info-row site-entry site-menu-entry${unread ? " site-menu-entry-has-badge" : ""}" type="button" data-page="${esc(item.id)}" ${ready ? "" : "disabled"}><span class="site-entry-icon${item.iconStyle === "transparent" ? " site-entry-icon-transparent" : ""}" aria-hidden="true"><img src="${esc(item.icon)}" alt="" loading="lazy" decoding="async"></span><span class="site-entry-copy"><span class="site-entry-title">${esc(item.title)}</span></span>${badge}</button>`;
     };
     const categories = catalog.categories || [{ id: "growth", title: "成長與強化" }];
     const groups = categories.map(category => {
@@ -1385,6 +1398,7 @@
     if (!id) { renderHome(); return; }
     const item = catalog.items.find(x => x.id === id && x.status === "ready");
     if (!item) { setRoute("", true); return; }
+    markInfoBadgeAsRead(item);
     if (item.id === "flame-expectations") {
       routeRequest = new AbortController();
       await renderFlameExpectations(item, revision, routeRequest);
