@@ -903,8 +903,9 @@
       if (revision !== routeRevision || controller.signal.aborted) return;
       const abilityKeys = ["physicalAttack", "magicAttack", "bossAttackPercent", "finalDamagePercent"];
       if (data.costBasis !== "per-attempt" || data.abilityBasis !== "alchemy-added-total-excluding-item-base" ||
-          !Array.isArray(data.grades) || data.grades.length !== 3 ||
-          data.grades.some(grade => !Array.isArray(grade.levels) || grade.levels.length !== 10 ||
+          !Array.isArray(data.grades) || !data.grades.length ||
+          data.grades.some(grade => !Number.isInteger(grade.maxLevel) || grade.maxLevel < 1 ||
+            !Array.isArray(grade.levels) || grade.levels.length !== grade.maxLevel ||
             grade.levels.some((row, index) => row.level !== index + 1 ||
               row.fromLevel !== (index === 0 ? null : index) ||
               ![row.materialCount, row.mesos].every(value => Number.isSafeInteger(value) && value >= 0) ||
@@ -940,10 +941,10 @@
         return slots;
       };
       const header = column => `<th scope="col" aria-label="${esc(column.label)}" title="${esc(column.label)}"><span class="secondary-weapon-material-label">${column.icon ? image(column.icon) : esc(column.label)}</span></th>`;
-      const rowClass = row => `secondary-weapon-row${row.level === 1 || row.level === 10 ? " site-table-rule-fill-row" : ""}`;
+      const rowClass = (row, maxLevel) => `secondary-weapon-row${row.level === 1 || row.level === maxLevel ? " site-table-rule-fill-row" : ""}`;
       const mobileTable = grade => {
-        const fixed = `<table class="secondary-weapon-mobile-table site-data-table site-table-rules site-table-framed" aria-label="固定鍊成區間"><thead><tr><th scope="col">鍊成區間</th></tr></thead><tbody>${grade.levels.map(row => `<tr class="${rowClass(row)}"><th scope="row" aria-label="${range(row)}">${row.level === 1 ? "首次 → Lv.1" : range(row)}</th></tr>`).join("")}</tbody></table>`;
-        const rows = group => grade.levels.map(row => `<tr class="${rowClass(row)}" aria-label="${range(row)}">${group.map(column => `<td aria-label="Lv.${row.level} ${esc(column.label)} ${fmt(row[column.key])}${column.percent ? "%" : ""}">${cell(row, column)}</td>`).join("")}</tr>`).join("");
+        const fixed = `<table class="secondary-weapon-mobile-table site-data-table site-table-rules site-table-framed" aria-label="固定鍊成區間"><thead><tr><th scope="col">鍊成區間</th></tr></thead><tbody>${grade.levels.map(row => `<tr class="${rowClass(row, grade.maxLevel)}"><th scope="row" aria-label="${range(row)}">${row.level === 1 ? "首次 → Lv.1" : range(row)}</th></tr>`).join("")}</tbody></table>`;
+        const rows = group => grade.levels.map(row => `<tr class="${rowClass(row, grade.maxLevel)}" aria-label="${range(row)}">${group.map(column => `<td aria-label="Lv.${row.level} ${esc(column.label)} ${fmt(row[column.key])}${column.percent ? "%" : ""}">${cell(row, column)}</td>`).join("")}</tr>`).join("");
         return `${fixed}<div class="secondary-weapon-whole-scroll site-table-scroll site-table-paged-scroll" tabindex="0" role="region" aria-label="輔助武器能力與需求，左右滑動查看完整欄位"><div class="site-table-pages"></div></div><div class="secondary-weapon-column-probe" aria-hidden="true" inert><table class="secondary-weapon-mobile-table site-data-table site-table-intrinsic"><thead><tr>${columns.map(header).join("")}</tr></thead><tbody>${rows(columns)}</tbody></table></div>`;
       };
       const mountMobilePages = grade => {
@@ -976,7 +977,7 @@
             const share = Math.floor(spare / indices.length);
             const remainder = spare % indices.length;
             const colgroup = `<colgroup>${indices.map((index, position) => `<col style="width:${widths[index] + share + (position < remainder ? 1 : 0)}px">`).join("")}</colgroup>`;
-            const rows = grade.levels.map(row => `<tr class="${rowClass(row)}" aria-label="${range(row)}">${group.map(column => `<td aria-label="Lv.${row.level} ${esc(column.label)} ${fmt(row[column.key])}${column.percent ? "%" : ""}">${cell(row, column)}</td>`).join("")}</tr>`).join("");
+            const rows = grade.levels.map(row => `<tr class="${rowClass(row, grade.maxLevel)}" aria-label="${range(row)}">${group.map(column => `<td aria-label="Lv.${row.level} ${esc(column.label)} ${fmt(row[column.key])}${column.percent ? "%" : ""}">${cell(row, column)}</td>`).join("")}</tr>`).join("");
             return `<div class="site-table-page" data-first-column="${indices[0]}" role="group" aria-label="${esc(group.map(column => column.label).join("、"))}"><table class="secondary-weapon-mobile-table site-data-table site-table-hover site-table-rules site-table-framed" style="width:100%" aria-label="${esc(grade.name)}輔助武器${esc(group.map(column => column.label).join("、"))}" aria-describedby="secondary-weapon-note">${colgroup}<thead><tr>${group.map(header).join("")}</tr></thead><tbody>${rows}</tbody></table></div>`;
           }).join("");
           alignNumbers();
@@ -1000,13 +1001,13 @@
           document.fonts?.removeEventListener("loadingdone", schedule);
         };
       };
-      app.innerHTML = `<div id="secondary-weapon-grade-switch" class="site-view-switch" role="tablist" aria-label="輔助武器品級" data-export-exclude>
+      app.innerHTML = `<div id="secondary-weapon-grade-switch" class="site-view-switch" style="--site-view-columns:${data.grades.length}" role="tablist" aria-label="輔助武器品級" data-export-exclude>
           ${data.grades.map((grade, index) => `<button id="secondary-weapon-tab-${esc(grade.id)}" class="site-view-tab" type="button" role="tab" aria-selected="${index === 0}" aria-controls="secondary-weapon-panel" data-grade="${esc(grade.id)}">${gradeText(grade)}</button>`).join("")}
         </div>
         <section class="hero-compact glass-surface">${glassLayers()}<div class="liquid-surface-content hero-surface-content"><div class="hero-copy"><div class="eyebrow">Growth · Secondary Weapon</div><h2>${esc(data.title)}</h2></div><div class="hero-actions"><button id="save-table-image" class="action-btn site-important-action" type="button">儲存圖片</button></div></div></section>
         <section id="secondary-weapon-panel" class="data-section glass-surface" role="tabpanel" aria-labelledby="secondary-weapon-tab-${esc(data.grades[0].id)}" tabindex="0">${glassLayers()}<div class="liquid-surface-content site-table-frame-content secondary-weapon-content site-tool-flow">
           <header class="secondary-weapon-heading"><div><h3 id="secondary-weapon-grade-title"></h3><p>能力為鍊成附加的累積值，不含武器本身能力。</p></div></header>
-          <p class="secondary-weapon-cost-note">Lv.1 為首次轉換；Lv.2～10 為逐級鍊成。材料與楓幣均為單次消耗。</p>
+          <p id="secondary-weapon-cost-note" class="secondary-weapon-cost-note"></p>
           <p class="site-scroll-hint" data-scroll-at="wide" data-export-exclude><span class="secondary-weapon-desktop-hint">表格可左右滑動，查看完整能力與需求。</span><span class="secondary-weapon-mobile-hint">鍊成區間固定，左右滑動查看完整欄位。</span></p>
           <div class="secondary-weapon-desktop-scroll site-table-scroll" tabindex="0" aria-label="輔助武器鍊成能力與單次需求，可左右捲動">
             <table class="secondary-weapon-table site-data-table site-table-intrinsic site-table-hover site-table-rules" aria-describedby="secondary-weapon-note">
@@ -1015,7 +1016,7 @@
           </div>
           <div id="secondary-weapon-mobile" class="secondary-weapon-mobile-layout site-table-fixed-layout" data-export-exclude></div>
         </div></section>
-        <section class="note-panel site-tool-version site-note-left site-note-compact-mobile glass-surface">${glassLayers()}<div class="liquid-surface-content note-surface-content"><p id="secondary-weapon-note" class="note-only">${esc(window.GMSMToolShell.dataNote(data.notice))}</p></div></section>`;
+        <section class="note-panel site-tool-version site-note-left site-note-compact-mobile glass-surface">${glassLayers()}<div class="liquid-surface-content note-surface-content"><p id="secondary-weapon-note" class="note-only">${esc(window.GMSMToolShell.dataNote(data.notice))}<span class="site-version-line">資料版本 ${esc(data.source.clientBuild.split("_")[0])} · 更新 ${esc(data.updatedAt.replaceAll("-", "/"))}</span></p></div></section>`;
       const nav = app.querySelector("#secondary-weapon-grade-switch");
       const selectGrade = (gradeId, updateUrl = true) => {
         const grade = data.grades.find(candidate => candidate.id === gradeId) || data.grades[0];
@@ -1026,9 +1027,10 @@
           tab.tabIndex = selected ? 0 : -1;
         });
         app.querySelector("#secondary-weapon-panel").setAttribute("aria-labelledby", `secondary-weapon-tab-${grade.id}`);
-        app.querySelector("#secondary-weapon-grade-title").innerHTML = `${gradeText(grade)}輔助武器 · Lv.1～10`;
+        app.querySelector("#secondary-weapon-grade-title").innerHTML = `${gradeText(grade)}輔助武器 · Lv.1～${grade.maxLevel}`;
+        app.querySelector("#secondary-weapon-cost-note").textContent = `Lv.1 為首次轉換基礎表價，不適用所有 Lv.0 狀態；Lv.2～${grade.maxLevel} 為逐級鍊成。材料與楓幣均為單次消耗，楓幣未套用費用折抵。`;
         app.querySelector(".secondary-weapon-table").setAttribute("aria-label", `${grade.name}輔助武器鍊成能力與單次需求`);
-        app.querySelector("#secondary-weapon-rows").innerHTML = grade.levels.map(row => `<tr class="${rowClass(row)}"><th scope="row">${range(row)}</th>${columns.map(column => `<td>${cell(row, column)}</td>`).join("")}</tr>`).join("");
+        app.querySelector("#secondary-weapon-rows").innerHTML = grade.levels.map(row => `<tr class="${rowClass(row, grade.maxLevel)}"><th scope="row">${range(row)}</th>${columns.map(column => `<td>${cell(row, column)}</td>`).join("")}</tr>`).join("");
         cleanupSecondaryWeaponMobile();
         app.querySelector("#secondary-weapon-mobile").innerHTML = mobileTable(grade);
         app.querySelector("#save-table-image").dataset.exportTitle = `${data.title} - ${grade.name}`;

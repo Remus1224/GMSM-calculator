@@ -465,6 +465,8 @@ button { font: inherit; color: inherit; touch-action: manipulation; }
 .secondary-weapon-grade[data-grade="rare"] { color: #ff9638; }
 .secondary-weapon-grade[data-grade="legendary"] { color: #09ae64; }
 .secondary-weapon-grade[data-grade="mythic"] { color: #ff0000; }
+.secondary-weapon-grade[data-grade="ancient"] { color: #1e24be; }
+[data-theme="dark"] .secondary-weapon-grade[data-grade="ancient"] { color: #0298c6; }
 
 .secondary-weapon-heading { display: flex; align-items: center; gap: var(--site-space-field,8px); }
 .secondary-weapon-heading p, .secondary-weapon-cost-note { margin: 0; color: var(--site-muted); font-size: 11px; line-height: 1.5; }
