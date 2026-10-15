@@ -146,7 +146,7 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-10-06';
+const latestNoticeVersion = '2026-10-15';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'pet-food-calculator': {
@@ -155,7 +155,7 @@ const menuToolBadgeConfig = {
     },
     'game-info': {
         elementId: 'menu-badge-game-info',
-        version: '2026-10-06'
+        version: '2026-10-15'
     },
     'liberation': {
         elementId: 'menu-badge-liberation',

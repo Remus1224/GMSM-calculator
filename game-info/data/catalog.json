@@ -83,7 +83,11 @@
       "icon": "../assets/menu/icon_輔助武器鍊成需求表.png",
       "status": "ready",
       "data": "data/secondary-weapon.json",
-      "category": "growth"
+      "category": "growth",
+      "badge": {
+        "type": "update",
+        "version": "2026-10-15"
+      }
     },
     {
       "id": "flame-expectations",
