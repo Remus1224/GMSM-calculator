@@ -1,6 +1,6 @@
 {
   "schema": "MapleStoryM.GameInfoCatalog.V1",
-  "updatedAt": "2026-10-15",
+  "updatedAt": "2026-11-12",
   "title": "也許有用的資訊",
   "icon": "../assets/menu/icon_也許有用的資訊.png",
   "items": [
@@ -10,7 +10,11 @@
       "icon": "../assets/menu/icon_解放進度計算機.png",
       "status": "ready",
       "data": "data/genesis-requirements.json",
-      "category": "growth"
+      "category": "growth",
+      "badge": {
+        "type": "update",
+        "version": "2026-11-12"
+      }
     },
     {
       "id": "helos-seal",

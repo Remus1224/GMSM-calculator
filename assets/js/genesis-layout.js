@@ -11,8 +11,8 @@
     for(const boss of liberationBosses){const reward=getReward(boss),base=reward.baseTraces??reward.base;boss.monthly?monthly+=base:weekly+=base;tickets+=reward.customTicketTraces??reward.tickets;}
     text(prefix+'-weekly-income',liberationFormatNumber(weekly));text(prefix+'-monthly-income',liberationFormatNumber(monthly));text(prefix+'-ticket-income',liberationFormatNumber(tickets));
    }
-   const alchemyCurrent=Number(document.getElementById('genesis-alchemy-current-level')?.value)||0,alchemyTarget=Number(document.getElementById('genesis-alchemy-target-level')?.value)||20;
-   text('genesis-alchemy-current-stage-label',alchemyCurrent?'Lv.'+alchemyCurrent:'尚未鍊成');text('genesis-alchemy-target-stage-label','Lv.'+alchemyTarget);
+   const {currentLevel:alchemyCurrent,targetLevel:alchemyTarget}=genesisAlchemySelection();
+   text('genesis-alchemy-current-stage-label',alchemyCurrent?'第'+alchemyCurrent+'階':'尚未鍊成');text('genesis-alchemy-target-stage-label','第'+alchemyTarget+'階');
    const selectedIndex=liberationGetSelectedStageIndex(),stage=liberationStages[selectedIndex];
    text('genesis-stage-description',stage.phase+' · '+stage.name);
    if(document.getElementById('liberation-current-stage')?.textContent!=='已完成解放')text('liberation-current-stage',stage.phase+' · '+stage.name);

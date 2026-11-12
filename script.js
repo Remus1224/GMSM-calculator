@@ -146,7 +146,7 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-10-15';
+const latestNoticeVersion = '2026-11-12';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
     'pet-food-calculator': {
@@ -155,11 +155,11 @@ const menuToolBadgeConfig = {
     },
     'game-info': {
         elementId: 'menu-badge-game-info',
-        version: '2026-10-15'
+        version: '2026-11-12'
     },
     'liberation': {
         elementId: 'menu-badge-liberation',
-        version: '2026-08-16'
+        version: '2026-11-12'
     },
     'craft': {
         elementId: 'menu-badge-craft',
@@ -1062,10 +1062,24 @@ function liberationReset() {
 /* ========================================== */
 /* 創世鍊成計算機                              */
 /* ========================================== */
-const GENESIS_ALCHEMY_MAX_LEVEL = 20;
-const GENESIS_ALCHEMY_AFTERIMAGE_PER_LEVEL = 1000;
-const GENESIS_ALCHEMY_MESO_PER_LEVEL = 500000000;
+const GENESIS_ALCHEMY_REQUIREMENTS = [{"level": 1, "attack": 1000, "damage": 5.0, "rate": 100, "material": 1, "mesos": 500000000}, {"level": 2, "attack": 1300, "damage": 6.0, "rate": 50.0, "material": 2000, "mesos": 500000000}, {"level": 3, "attack": 1600, "damage": 7.0, "rate": 50.0, "material": 2050, "mesos": 500000000}, {"level": 4, "attack": 1900, "damage": 8.0, "rate": 50.0, "material": 2150, "mesos": 500000000}, {"level": 5, "attack": 2200, "damage": 9.0, "rate": 50.0, "material": 2200, "mesos": 500000000}, {"level": 6, "attack": 2500, "damage": 10.0, "rate": 50.0, "material": 2300, "mesos": 500000000}, {"level": 7, "attack": 2800, "damage": 11.0, "rate": 50.0, "material": 2400, "mesos": 500000000}, {"level": 8, "attack": 3100, "damage": 12.0, "rate": 45.0, "material": 2450, "mesos": 500000000}, {"level": 9, "attack": 3400, "damage": 13.0, "rate": 45.0, "material": 2550, "mesos": 500000000}, {"level": 10, "attack": 3700, "damage": 14.0, "rate": 40.0, "material": 2650, "mesos": 500000000}, {"level": 11, "attack": 4000, "damage": 15.0, "rate": 40.0, "material": 2750, "mesos": 500000000}, {"level": 12, "attack": 4300, "damage": 16.0, "rate": 35.0, "material": 2800, "mesos": 500000000}, {"level": 13, "attack": 4600, "damage": 17.0, "rate": 35.0, "material": 2900, "mesos": 500000000}, {"level": 14, "attack": 4900, "damage": 18.0, "rate": 30.0, "material": 3000, "mesos": 500000000}, {"level": 15, "attack": 5200, "damage": 19.0, "rate": 30.0, "material": 3150, "mesos": 500000000}, {"level": 16, "attack": 5500, "damage": 20.0, "rate": 25.0, "material": 3250, "mesos": 500000000}, {"level": 17, "attack": 5800, "damage": 21.0, "rate": 25.0, "material": 3350, "mesos": 500000000}, {"level": 18, "attack": 6100, "damage": 22.0, "rate": 20.0, "material": 3450, "mesos": 500000000}, {"level": 19, "attack": 6400, "damage": 23.0, "rate": 20.0, "material": 3600, "mesos": 500000000}, {"level": 20, "attack": 6700, "damage": 24.0, "rate": 20.0, "material": 3700, "mesos": 500000000}, {"level": 21, "attack": 7000, "damage": 25.0, "rate": 15.0, "material": 3850, "mesos": 500000000}, {"level": 22, "attack": 7300, "damage": 26.0, "rate": 15.0, "material": 4000, "mesos": 500000000}, {"level": 23, "attack": 7600, "damage": 27.0, "rate": 15.0, "material": 4100, "mesos": 500000000}, {"level": 24, "attack": 7900, "damage": 28.0, "rate": 15.0, "material": 4250, "mesos": 500000000}, {"level": 25, "attack": 8200, "damage": 29.0, "rate": 10.0, "material": 4400, "mesos": 500000000}, {"level": 26, "attack": 8500, "damage": 30.0, "rate": 10.0, "material": 4550, "mesos": 500000000}, {"level": 27, "attack": 8800, "damage": 31.0, "rate": 10.0, "material": 4750, "mesos": 500000000}, {"level": 28, "attack": 9100, "damage": 32.0, "rate": 10.0, "material": 4900, "mesos": 500000000}, {"level": 29, "attack": 9400, "damage": 33.0, "rate": 10.0, "material": 5050, "mesos": 500000000}, {"level": 30, "attack": 9700, "damage": 34.0, "rate": 10.0, "material": 5250, "mesos": 500000000}];
+const GENESIS_ALCHEMY_MAX_LEVEL = GENESIS_ALCHEMY_REQUIREMENTS.length;
+
 const GENESIS_ALCHEMY_DEFAULTS_VERSION_KEY = 'gmsm-genesis-alchemy-defaults-v2';
+
+function genesisAlchemySelection() {
+    const rangeMode = Boolean(document.getElementById('genesis-alchemy-mode-range')?.checked);
+    const stage = Math.max(1, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(document.getElementById('genesis-alchemy-stage')?.value) || 1));
+    const currentLevel = rangeMode ? Math.max(0, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(document.getElementById('genesis-alchemy-current-level')?.value) || 0)) : stage - 1;
+    const targetLevel = rangeMode ? Math.max(currentLevel, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(document.getElementById('genesis-alchemy-target-level')?.value) || GENESIS_ALCHEMY_MAX_LEVEL)) : stage;
+    return { rangeMode, currentLevel, targetLevel };
+}
+function genesisAlchemyNextStage() {
+    const stage = document.getElementById('genesis-alchemy-stage');
+    if (!stage) return;
+    stage.value = String(Math.min(GENESIS_ALCHEMY_MAX_LEVEL, (Number(stage.value) || 1) + 1));
+    stage.dispatchEvent(new Event('change', { bubbles: true }));
+}
 
 function genesisAlchemyAttack(level) {
     const normalizedLevel = Math.max(0, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(level) || 0));
@@ -1178,12 +1192,14 @@ function initGenesisAlchemyCalculator() {
 
     currentSelect.innerHTML = '<option value="0">尚未鍊成</option>' + Array.from(
         { length: GENESIS_ALCHEMY_MAX_LEVEL },
-        (_, index) => `<option value="${index + 1}">Lv.${index + 1}</option>`
+        (_, index) => `<option value="${index + 1}">第${index + 1}階</option>`
     ).join('');
     targetSelect.innerHTML = Array.from(
         { length: GENESIS_ALCHEMY_MAX_LEVEL },
-        (_, index) => `<option value="${index + 1}"${index === GENESIS_ALCHEMY_MAX_LEVEL - 1 ? ' selected' : ''}>Lv.${index + 1}</option>`
+        (_, index) => `<option value="${index + 1}"${index === GENESIS_ALCHEMY_MAX_LEVEL - 1 ? ' selected' : ''}>第${index + 1}階</option>`
     ).join('');
+
+    document.getElementById('genesis-alchemy-stage').innerHTML = Array.from({ length: GENESIS_ALCHEMY_MAX_LEVEL }, (_, i) => `<option value="${i + 1}">第${i + 1}階</option>`).join('');
 
     bossList.innerHTML = liberationBosses.map(boss => {
         const options = boss.options.map((option, optionIndex) => `<option value="${option.value}"${optionIndex === 0 ? ' selected' : ''}>${option.label} · ${option.traces} 殘像</option>`).join('');
@@ -1197,11 +1213,12 @@ function initGenesisAlchemyCalculator() {
         const materialImage = isFirstLevel
             ? 'assets/liberation/material/創世鍊成石.png'
             : 'assets/liberation/material/黑暗的殘像.png';
-        const materialText = isFirstLevel ? '鍊成石 ×1' : '殘像 ×1,000';
-        const increase = isFirstLevel ? 1000 : 300;
-        return `<div class="genesis-alchemy-table-row data-row" role="row"><span class="genesis-alchemy-table-level" role="rowheader"><b>Lv.${level}</b></span><span class="genesis-alchemy-table-material" role="cell"><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-meso" role="cell"><b>500,000,000</b></span><span class="genesis-alchemy-table-attack" role="cell"><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-increase" role="cell"><b>+${liberationFormatNumber(increase)}</b></span></div>`;
+        const requirement = GENESIS_ALCHEMY_REQUIREMENTS[index];
+        const materialText = `${isFirstLevel ? '鍊成石' : '殘像'} ×${liberationFormatNumber(requirement.material)}`;
+        return `<div class="genesis-alchemy-table-row data-row" role="row"><span class="genesis-alchemy-table-level" role="rowheader"><b>第${level}階</b></span><span class="genesis-alchemy-table-material" role="cell"><span><img src="${materialImage}" alt="">${materialText}</span></span><span class="genesis-alchemy-table-rate" role="cell"><b>${requirement.rate}%</b></span><span class="genesis-alchemy-table-attack" role="cell"><b>${liberationFormatNumber(genesisAlchemyAttack(level))}</b></span><span class="genesis-alchemy-table-damage" role="cell"><b>${requirement.damage}%</b></span></div>`;
     }).join('');
 
+    window.GMSMGlass?.decorateAction(document.getElementById('genesis-alchemy-next-stage'));
     const dateInput = document.getElementById('genesis-alchemy-reference-date');
     if (dateInput && !dateInput.value) dateInput.value = liberationTodayValue();
     panel.querySelectorAll('input, select').forEach(control => {
@@ -1219,19 +1236,23 @@ function genesisAlchemyUpdateUI() {
 
     const currentSelect = document.getElementById('genesis-alchemy-current-level');
     const targetSelect = document.getElementById('genesis-alchemy-target-level');
-    const currentLevel = Math.max(0, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(currentSelect?.value) || 0));
-    let targetLevel = Math.max(1, Math.min(GENESIS_ALCHEMY_MAX_LEVEL, Number(targetSelect?.value) || GENESIS_ALCHEMY_MAX_LEVEL));
-    if (targetLevel < currentLevel) {
-        targetLevel = currentLevel;
-        if (targetSelect) targetSelect.value = String(targetLevel);
-    }
+    const { rangeMode, currentLevel, targetLevel } = genesisAlchemySelection();
+    if (rangeMode && targetSelect) targetSelect.value = String(targetLevel);
+    panel.querySelectorAll('[data-alchemy-mode-field]').forEach(field => { field.hidden = (field.dataset.alchemyModeField === 'range') !== rangeMode; });
+    const next = document.getElementById('genesis-alchemy-next-stage');
+    next.disabled = targetLevel >= GENESIS_ALCHEMY_MAX_LEVEL;
+    const nextCaption = next.querySelector(':scope > .liquid-surface-content') || next;
+    nextCaption.textContent = next.disabled ? '已是最後一階' : '下一階段';
+    const successRate = document.getElementById('genesis-alchemy-success-rate');
+    const successStage = document.getElementById('genesis-alchemy-success-stage');
+    if (successRate) successRate.textContent = `${GENESIS_ALCHEMY_REQUIREMENTS[targetLevel - 1].rate}%`;
+    if (successStage) successStage.textContent = `第${targetLevel}階`;
 
     const heldAfterimages = liberationReadNumber('genesis-alchemy-current-afterimages');
-    const afterimageUpgrades = Math.max(0, targetLevel - Math.max(1, currentLevel));
-    const requiredAfterimages = afterimageUpgrades * GENESIS_ALCHEMY_AFTERIMAGE_PER_LEVEL;
+    const plannedRequirements = GENESIS_ALCHEMY_REQUIREMENTS.filter(row => row.level > currentLevel && row.level <= targetLevel);
+    const requiredAfterimages = plannedRequirements.filter(row => row.level > 1).reduce((sum, row) => sum + row.material, 0);
     const remainingAfterimages = Math.max(0, requiredAfterimages - heldAfterimages);
-    const upgradeCount = Math.max(0, targetLevel - currentLevel);
-    const neededMesos = upgradeCount * GENESIS_ALCHEMY_MESO_PER_LEVEL;
+    const neededMesos = plannedRequirements.reduce((sum, row) => sum + row.mesos, 0);
     const neededStones = currentLevel === 0 && targetLevel >= 1 ? 1 : 0;
 
     let weeklyReward = 0;
@@ -1257,7 +1278,7 @@ function genesisAlchemyUpdateUI() {
         if (forecastDate) forecastDate.textContent = '請設定可完成王';
         if (remainingDays) remainingDays.textContent = '—';
     } else if (forecast.completed) {
-        if (forecastDate) forecastDate.textContent = '材料已足夠';
+        if (forecastDate) forecastDate.textContent = requiredAfterimages === 0 ? '無需追加殘像' : '殘像已足夠';
         if (remainingDays) remainingDays.textContent = '0';
     } else {
         if (forecastDate) forecastDate.textContent = liberationFormatDate(forecast.date);
@@ -1275,6 +1296,10 @@ function genesisAlchemyUpdateUI() {
     if (currentAttack) currentAttack.textContent = liberationFormatNumber(genesisAlchemyAttack(currentLevel));
     if (attackGain) attackGain.textContent = `達標增加 +${liberationFormatNumber(genesisAlchemyAttack(targetLevel) - genesisAlchemyAttack(currentLevel))}`;
 
+    const currentDamage = currentLevel ? GENESIS_ALCHEMY_REQUIREMENTS[currentLevel - 1].damage : 0;
+    document.getElementById('genesis-alchemy-current-damage').textContent = `${currentDamage}%`;
+    document.getElementById('genesis-alchemy-damage-gain').textContent = `達標增加 +${GENESIS_ALCHEMY_REQUIREMENTS[targetLevel - 1].damage - currentDamage}%`;
+
     window.GMSMGenesisLayout?.update();
 }
 
@@ -1285,6 +1310,9 @@ function genesisAlchemyReset() {
     const target = document.getElementById('genesis-alchemy-target-level');
     const held = document.getElementById('genesis-alchemy-current-afterimages');
     const date = document.getElementById('genesis-alchemy-reference-date');
+    document.getElementById('genesis-alchemy-stage').value = '1';
+    document.getElementById('genesis-alchemy-mode-single').checked = true;
+    document.getElementById('genesis-alchemy-mode-range').checked = false;
     if (current) current.value = '0';
     if (target) target.value = String(GENESIS_ALCHEMY_MAX_LEVEL);
     if (held) held.value = '';
