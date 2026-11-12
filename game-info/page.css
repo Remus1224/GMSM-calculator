@@ -636,3 +636,31 @@ button { font: inherit; color: inherit; touch-action: manipulation; }
   .hyper-stat-cost { font-size: 11px; }
   .hyper-stat-skill-effect { grid-template-columns: auto; }
 }
+
+/* Updated Genesis reference: overview above a full-width per-stage table. */
+.genesis-info-grid {grid-template-rows:auto auto;grid-template-areas:"liberation stone" "alchemy alchemy";}
+.genesis-info-alchemy-table {table-layout:fixed;width:100%;}
+.genesis-info-alchemy-table th:first-child {width:14%;}
+.genesis-info-alchemy-table th:nth-child(2) {width:28%;}
+.genesis-info-alchemy-table th:nth-child(3) {width:16%;}
+.genesis-info-alchemy-table :is(th,td) {padding:7px 4px;}
+.genesis-info-cost-note {font-size:12px;color:var(--site-muted);line-height:1.5;margin:10px 0 0;}
+@media(max-width:760px) {
+ .genesis-info-grid {grid-template-areas:"liberation" "stone" "alchemy";}
+ .genesis-info-alchemy-table thead th {font-size:10px;}
+ .genesis-info-alchemy-table .genesis-info-material b {font-size:13px;}
+}
+
+/* Compact exchange strip avoids stretching a single conversion to table height. */
+.genesis-info-grid {grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"liberation" "stone" "alchemy";}
+.genesis-info-stone {align-self:start;}
+.genesis-info-stone .genesis-info-card-content {display:grid;grid-template-columns:minmax(150px,.6fr) minmax(0,1fr);align-items:center;gap:16px;height:auto;}
+.genesis-info-stone .genesis-info-card-heading {margin-bottom:0;}
+.genesis-info-exchange {min-height:0;padding:0;}
+.genesis-info-exchange .genesis-info-material {flex-direction:row;gap:8px;}
+.genesis-info-exchange .genesis-info-material img {width:30px;height:30px;flex-basis:30px;}
+.genesis-info-exchange .genesis-info-material b {font-size:20px;margin-top:0;}
+@media(max-width:600px) {
+ .genesis-info-stone .genesis-info-card-content {grid-template-columns:1fr;gap:12px;}
+ .genesis-info-exchange .genesis-info-material > span {font-size:11px;}
+}

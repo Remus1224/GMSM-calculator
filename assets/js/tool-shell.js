@@ -12,7 +12,7 @@
   transcend:{title:'超越模擬器'},
   craft:{title:'製作模擬器'},
   'hexa-prog':{title:'六轉進度計算機',criticalSource:'[data-tool-note=hexa-prog]'},
-  liberation:{title:'創世解放與鍊成',gameVersion:'2026/07',criticalSource:'[data-tool-note=liberation]'},
+  liberation:{title:'創世解放與鍊成',gameVersion:'2026/11',criticalSource:'[data-tool-note=liberation]'},
   'hexa-visual':{title:'HEXA 屬性模擬器'},
   'hexa-lazy':{title:'HEXA 懶人重製表',operationSource:':scope > .hint'},
   'hexa-reset':{title:'HEXA 重置決策模擬',operationSource:':scope > .hint'},

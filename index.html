@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="assets/css/ignore.css?v=20261005-shared-cleanup3">
     <link rel="stylesheet" href="assets/css/rune.css?v=20261006-shared-select1">
     <link rel="stylesheet" href="assets/css/hexa-progress.css?v=20261005-shared-cleanup3">
-    <link rel="stylesheet" href="assets/css/liberation.css?v=20261006-shared-select1">
+    <link rel="stylesheet" href="assets/css/liberation.css?v=20261112-genesis-modes8">
     <link rel="stylesheet" href="assets/css/hexa-decisions.css?v=20261005-shared-cleanup3">
     <link rel="stylesheet" href="assets/css/simulator-settings.css?v=css-cleanup17">
     <link rel="stylesheet" href="assets/css/calculator-components.css?v=20261005-shared-cleanup3">
@@ -232,7 +232,7 @@
                     <span class="app-title site-entry-title">創世解放計算機</span>
                 </span>
                 </span>
-                <span id="menu-badge-liberation" class="app-status-badge app-status-badge-new" hidden>NEW</span>
+                <span id="menu-badge-liberation" class="app-status-badge app-status-badge-update" hidden>UPDATE</span>
             </button>
 
             <a class="app-card app-card-directory app-card-has-badge site-entry glass-surface site-card site-card-entry site-interactive site-space-item site-menu-entry site-menu-entry-has-badge" href="game-info/?page=pet-food&amp;view=calculator&amp;from=menu" data-site-interaction="entry" onclick="markMenuToolBadgeAsRead('pet-food-calculator')">
@@ -444,10 +444,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-10-15">2026.10.15</time>
+                    <time datetime="2026-11-12">2026.11.12</time>
                 </div>
-                <h2 id="notice-latest-title">輔助武器鍊成資料更新</h2>
-                <p>更新神話品級數值與 Lv.15 資料，新增古代 Lv.1～20 的鍊成需求。</p>
+                <h2 id="notice-latest-title">創世鍊成資料更新</h2>
+                <p>擴充至第30階，更新材料、成功率與累積能力，並同步調整計算機。</p>
             </div>
         </section>
 
@@ -463,9 +463,18 @@
                 <li class="notice-timeline-item is-latest">
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
+                        <header><time datetime="2026-11-12">2026 / 11 / 12</time><span class="notice-latest-badge">最新</span></header>
+                        <ul class="notice-change-list">
+                            <li><span class="notice-tag notice-tag-update">更新</span><span>創世鍊成：擴充至第30階，更新材料、成功率與累積能力，並同步調整計算機。</span></li>
+                        </ul>
+                    </article>
+                </li>
+
+                <li class="notice-timeline-item">
+                    <span class="notice-timeline-dot" aria-hidden="true"></span>
+                    <article class="notice-release">
                         <header>
                             <time datetime="2026-10-15">2026 / 10 / 15</time>
-                            <span class="notice-latest-badge">最新</span>
                         </header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-update">更新</span><span>輔助武器鍊成：調整神話的能力、成功率、材料與楓幣，並擴充至 Lv.15。</span></li>
@@ -1612,16 +1621,16 @@
 
         <div id="genesis-panel-alchemy" class="genesis-panel" role="tabpanel" aria-labelledby="genesis-tab-alchemy" hidden aria-hidden="true">
             <section class="liberation-panel genesis-alchemy-settings genesis-alchemy-progress-panel">
-                <div class="liberation-section-heading"><div><h2>創世鍊成進度</h2><p>設定目前與目標階段，查看材料需求及預計完成日期。</p></div></div>
-                <div class="genesis-progress-layout">
-                    <div class="genesis-unified-controls"><fieldset class="genesis-unified-field-group genesis-unified-field-group--four">
+                <div class="liberation-section-heading"><div><h2>創世鍊成進度</h2><p>選擇本次要鍊成的階段，查看單次嘗試需求；成功後可切換下一階段。也可切換區間估算，按各階一次成功計算收集時間。</p></div></div>
+<div class="genesis-progress-layout">
+                    <div class="genesis-unified-controls"><fieldset class="genesis-alchemy-mode-options"><legend>計算方式</legend><div class="site-radio-group" role="radiogroup" aria-label="計算方式"><div class="site-radio-option"><input id="genesis-alchemy-mode-single" type="radio" name="genesis-alchemy-mode" value="single" checked><label class="site-radio-text" for="genesis-alchemy-mode-single">單一階段</label></div><div class="site-radio-option"><input id="genesis-alchemy-mode-range" type="radio" name="genesis-alchemy-mode" value="range"><label class="site-radio-text" for="genesis-alchemy-mode-range">區間估算（各階一次成功）</label></div></div></fieldset><fieldset class="genesis-unified-field-group genesis-unified-field-group--four">
                         <legend>進度資料</legend>
                         <div>
-                            <label class="genesis-unified-field">
-                                <span>目前鍊成階段</span>
+                            <label class="genesis-unified-field" data-alchemy-mode-field="single"><span>本次鍊成階段</span><select id="genesis-alchemy-stage"></select></label><div class="genesis-unified-field" data-alchemy-mode-field="single"><span>成功後繼續</span><button id="genesis-alchemy-next-stage" type="button" class="site-button glass-action site-operation glass-action-primary" onclick="genesisAlchemyNextStage()">下一階段</button></div><label class="genesis-unified-field" data-alchemy-mode-field="range" hidden>
+                                <span>起點：已完成階段</span>
                                 <select id="genesis-alchemy-current-level"></select>
                             </label>
-                            <label class="genesis-unified-field">
+                            <label class="genesis-unified-field" data-alchemy-mode-field="range" hidden>
                                 <span>目標鍊成階段</span>
                                 <select id="genesis-alchemy-target-level"></select>
                             </label>
@@ -1649,15 +1658,17 @@
                     </fieldset><button type="button" class="liberation-reset-btn genesis-stone-reset" onclick="genesisAlchemyReset()">重設鍊成進度</button></div>
                     <div class="genesis-results">
                         <div class="genesis-forecast">
-                            <div class="genesis-alchemy-stage-summary"><span id="genesis-alchemy-current-stage-label">尚未鍊成</span><span aria-hidden="true">→</span><span id="genesis-alchemy-target-stage-label">Lv.20</span></div>
-                            <span>預計完成日期</span><strong id="genesis-alchemy-forecast-date">請設定可完成王</strong>
+                            <div class="genesis-alchemy-stage-summary"><span id="genesis-alchemy-current-stage-label">尚未鍊成</span><span aria-hidden="true">→</span><span id="genesis-alchemy-target-stage-label">第30階</span></div>
+                            <span>材料收集日期估算</span><strong id="genesis-alchemy-forecast-date">請設定可完成王</strong>
                             <small>剩餘 <b id="genesis-alchemy-remaining-days">—</b> 天</small>
                         </div>
                         <div class="genesis-resource-grid">
-                            <div class="genesis-resource genesis-resource-material"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>尚缺殘像</span><strong id="genesis-alchemy-needed-afterimages">0</strong></div></div>
+                            <div class="genesis-resource genesis-resource-material"><img src="assets/liberation/material/黑暗的殘像.png" alt="黑暗的殘像"><div><span>殘像差額</span><strong id="genesis-alchemy-needed-afterimages">0</strong></div></div>
                             <div class="genesis-resource genesis-resource-material"><img src="assets/liberation/material/創世鍊成石.png" alt="創世鍊成石"><div><span>所需鍊成石</span><strong id="genesis-alchemy-needed-stones">0</strong></div></div>
-                            <div class="genesis-resource genesis-alchemy-mesos"><div><span>所需楓幣</span><div class="genesis-alchemy-amount"><img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣"><strong id="genesis-alchemy-needed-mesos">0</strong></div></div></div>
+                            <div class="genesis-resource genesis-alchemy-success-rate"><div><span>成功機率</span><strong id="genesis-alchemy-success-rate" class="site-stat-value">—</strong><small id="genesis-alchemy-success-stage">本次階段</small></div></div>
+                            <div class="genesis-resource genesis-alchemy-mesos"><div><span>楓幣需求</span><div class="genesis-alchemy-amount"><img src="assets/common/icon_楓幣.png?v=meso-asset1" alt="楓幣"><strong id="genesis-alchemy-needed-mesos">0</strong></div></div></div>
                             <div class="genesis-resource genesis-alchemy-attack-summary"><div><span><span class="genesis-alchemy-label-part">目前累積</span><span class="genesis-alchemy-label-part">攻擊力</span></span><strong id="genesis-alchemy-current-attack">0</strong><small id="genesis-alchemy-attack-gain">達標增加 +0</small></div></div>
+                            <div class="genesis-resource genesis-alchemy-damage-summary"><div><span>目前累積攻擊傷害</span><strong id="genesis-alchemy-current-damage">0%</strong><small id="genesis-alchemy-damage-gain">達標增加 +0%</small></div></div>
                         </div>
                     </div>
                 </div>
@@ -1674,10 +1685,10 @@
                 <div class="genesis-income-summary" aria-label="預估收益"><div><span>每週固定</span><strong id="genesis-alchemy-weekly-income">0</strong></div><div><span>每月固定</span><strong id="genesis-alchemy-monthly-income">0</strong></div><div><span>票券加成</span><strong id="genesis-alchemy-ticket-income">0</strong></div></div><div id="genesis-alchemy-boss-list" class="liberation-boss-list"></div>
             </section>
             <section class="liberation-panel genesis-alchemy-table-panel">
-                <div class="liberation-section-heading"><div><h2>鍊成需求明細</h2><p>各階段材料、楓幣與攻擊力需求。</p></div></div>
-                <div class="genesis-alchemy-rules"><dl><div><dt>Lv.1</dt><dd>1 顆創世鍊成石</dd></div><div><dt>Lv.2～20</dt><dd>每階 1,000 黑暗的殘像</dd></div><div><dt>鍊成費用</dt><dd>每階 5 億楓幣 · 成功率 100%</dd></div></dl></div>
+                <div class="liberation-section-heading"><div><h2>鍊成需求明細</h2></div></div>
+                <div class="genesis-alchemy-rules"><dl><div><dt>鍊成費用</dt><dd>每次嘗試 5 億楓幣 · 成功率依階段</dd></div></dl></div>
                 <div class="genesis-alchemy-data-table" role="table" aria-label="各階鍊成需求與累積攻擊力">
-                    <div class="genesis-alchemy-table-header" role="row"><span role="columnheader">鍊成階段</span><span role="columnheader">需求材料</span><span role="columnheader">楓幣</span><span role="columnheader">累積<br>攻擊力</span><span role="columnheader">本階<br>增加</span></div>
+                    <div class="genesis-alchemy-table-header" role="row"><span role="columnheader">鍊成階段</span><span role="columnheader">需求材料</span><span role="columnheader">成功率</span><span role="columnheader">累計<br>物/魔攻擊力</span><span role="columnheader">累積<br>物/魔傷害%</span></div>
                     <div id="genesis-alchemy-table-rows" class="genesis-alchemy-table-rows" role="rowgroup"></div>
                 </div>
             </section>
@@ -2548,12 +2559,12 @@
 <script src="assets/js/glass.js?v=composite-hover2"></script>
 <script src="assets/js/site-notify.js?v=20261005-shared1"></script>
 <script src="assets/js/hexa-progress.js?v=20261005-shared-cleanup2"></script>
-<script src="script.js?v=20261015-info-update1"></script>
+<script src="script.js?v=20261112-genesis-badges1"></script>
 <script src="assets/js/simulator-settings.js?v=summary-film1"></script>
 <script src="assets/js/site-pilot.js?v=20261006-shared-select2"></script>
 
-<script src="assets/js/tool-shell.js?v=20261007-shared-table-numbers1"></script>
+<script src="assets/js/tool-shell.js?v=20261112-genesis-version1"></script>
 <script src="assets/js/site-view-switch.js?v=20261005-shared1"></script>
-<script src="assets/js/genesis-layout.js?v=20261005-shared-cleanup2"></script>
+<script src="assets/js/genesis-layout.js?v=20261112-genesis-modes8"></script>
 </body>
 </html>

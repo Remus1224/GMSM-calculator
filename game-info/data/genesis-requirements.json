@@ -6,7 +6,7 @@
     "stages": "liberationStages",
     "alchemy": "GENESIS_ALCHEMY_* / genesisAlchemyUpdateUI / genesisAlchemyAttack",
     "stone": "GENESIS_STONE_EXCHANGE_COST",
-    "gameVersion": "2026/07"
+    "gameVersion": "2026/11"
   },
   "notice": "資料來源為拆檔，部分數據來源尚未於遊戲內正式驗證，實際請以遊戲內顯示為主。",
   "stages": [
@@ -53,12 +53,248 @@
   ],
   "totalTraces": 13500,
   "alchemy": {
-    "maxLevel": 20,
-    "afterimagesPerLevel": 1000,
-    "mesosPerLevel": 500000000,
-    "firstLevelStones": 1,
-    "firstLevelAttack": 1000,
-    "attackPerLevel": 300
+    "requirements": [
+      {
+        "level": 1,
+        "attack": 1000,
+        "damage": 5.0,
+        "rate": 100,
+        "material": 1,
+        "mesos": 500000000
+      },
+      {
+        "level": 2,
+        "attack": 1300,
+        "damage": 6.0,
+        "rate": 50.0,
+        "material": 2000,
+        "mesos": 500000000
+      },
+      {
+        "level": 3,
+        "attack": 1600,
+        "damage": 7.0,
+        "rate": 50.0,
+        "material": 2050,
+        "mesos": 500000000
+      },
+      {
+        "level": 4,
+        "attack": 1900,
+        "damage": 8.0,
+        "rate": 50.0,
+        "material": 2150,
+        "mesos": 500000000
+      },
+      {
+        "level": 5,
+        "attack": 2200,
+        "damage": 9.0,
+        "rate": 50.0,
+        "material": 2200,
+        "mesos": 500000000
+      },
+      {
+        "level": 6,
+        "attack": 2500,
+        "damage": 10.0,
+        "rate": 50.0,
+        "material": 2300,
+        "mesos": 500000000
+      },
+      {
+        "level": 7,
+        "attack": 2800,
+        "damage": 11.0,
+        "rate": 50.0,
+        "material": 2400,
+        "mesos": 500000000
+      },
+      {
+        "level": 8,
+        "attack": 3100,
+        "damage": 12.0,
+        "rate": 45.0,
+        "material": 2450,
+        "mesos": 500000000
+      },
+      {
+        "level": 9,
+        "attack": 3400,
+        "damage": 13.0,
+        "rate": 45.0,
+        "material": 2550,
+        "mesos": 500000000
+      },
+      {
+        "level": 10,
+        "attack": 3700,
+        "damage": 14.0,
+        "rate": 40.0,
+        "material": 2650,
+        "mesos": 500000000
+      },
+      {
+        "level": 11,
+        "attack": 4000,
+        "damage": 15.0,
+        "rate": 40.0,
+        "material": 2750,
+        "mesos": 500000000
+      },
+      {
+        "level": 12,
+        "attack": 4300,
+        "damage": 16.0,
+        "rate": 35.0,
+        "material": 2800,
+        "mesos": 500000000
+      },
+      {
+        "level": 13,
+        "attack": 4600,
+        "damage": 17.0,
+        "rate": 35.0,
+        "material": 2900,
+        "mesos": 500000000
+      },
+      {
+        "level": 14,
+        "attack": 4900,
+        "damage": 18.0,
+        "rate": 30.0,
+        "material": 3000,
+        "mesos": 500000000
+      },
+      {
+        "level": 15,
+        "attack": 5200,
+        "damage": 19.0,
+        "rate": 30.0,
+        "material": 3150,
+        "mesos": 500000000
+      },
+      {
+        "level": 16,
+        "attack": 5500,
+        "damage": 20.0,
+        "rate": 25.0,
+        "material": 3250,
+        "mesos": 500000000
+      },
+      {
+        "level": 17,
+        "attack": 5800,
+        "damage": 21.0,
+        "rate": 25.0,
+        "material": 3350,
+        "mesos": 500000000
+      },
+      {
+        "level": 18,
+        "attack": 6100,
+        "damage": 22.0,
+        "rate": 20.0,
+        "material": 3450,
+        "mesos": 500000000
+      },
+      {
+        "level": 19,
+        "attack": 6400,
+        "damage": 23.0,
+        "rate": 20.0,
+        "material": 3600,
+        "mesos": 500000000
+      },
+      {
+        "level": 20,
+        "attack": 6700,
+        "damage": 24.0,
+        "rate": 20.0,
+        "material": 3700,
+        "mesos": 500000000
+      },
+      {
+        "level": 21,
+        "attack": 7000,
+        "damage": 25.0,
+        "rate": 15.0,
+        "material": 3850,
+        "mesos": 500000000
+      },
+      {
+        "level": 22,
+        "attack": 7300,
+        "damage": 26.0,
+        "rate": 15.0,
+        "material": 4000,
+        "mesos": 500000000
+      },
+      {
+        "level": 23,
+        "attack": 7600,
+        "damage": 27.0,
+        "rate": 15.0,
+        "material": 4100,
+        "mesos": 500000000
+      },
+      {
+        "level": 24,
+        "attack": 7900,
+        "damage": 28.0,
+        "rate": 15.0,
+        "material": 4250,
+        "mesos": 500000000
+      },
+      {
+        "level": 25,
+        "attack": 8200,
+        "damage": 29.0,
+        "rate": 10.0,
+        "material": 4400,
+        "mesos": 500000000
+      },
+      {
+        "level": 26,
+        "attack": 8500,
+        "damage": 30.0,
+        "rate": 10.0,
+        "material": 4550,
+        "mesos": 500000000
+      },
+      {
+        "level": 27,
+        "attack": 8800,
+        "damage": 31.0,
+        "rate": 10.0,
+        "material": 4750,
+        "mesos": 500000000
+      },
+      {
+        "level": 28,
+        "attack": 9100,
+        "damage": 32.0,
+        "rate": 10.0,
+        "material": 4900,
+        "mesos": 500000000
+      },
+      {
+        "level": 29,
+        "attack": 9400,
+        "damage": 33.0,
+        "rate": 10.0,
+        "material": 5050,
+        "mesos": 500000000
+      },
+      {
+        "level": 30,
+        "attack": 9700,
+        "damage": 34.0,
+        "rate": 10.0,
+        "material": 5250,
+        "mesos": 500000000
+      }
+    ]
   },
   "stone": {
     "afterimagesPerStone": 20000
