@@ -1,22 +1,27 @@
 <!doctype html>
 <html lang="zh-TW" class="site-theme glass-theme">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>水晶寶箱模擬器｜楓之谷M 也許有用的工具</title>
-  <link rel="stylesheet" href="../assets/css/site-theme.css">
-  <link rel="stylesheet" href="../assets/css/glass.css">
-  <link rel="stylesheet" href="../assets/css/site-components.css">
-  <link rel="stylesheet" href="../assets/css/tool-shell.css">
-  <style>main{max-width:1280px;margin:auto;padding:16px}.crystal-stage{width:100%;aspect-ratio:16/9;border:0;display:block;background:#22262d}.crystal-notice{font-size:14px;line-height:1.6}</style>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+ <title>水晶寶箱模擬器｜楓之谷M 也許有用的工具</title>
+ <link rel="stylesheet" href="../assets/css/site-theme.css"><link rel="stylesheet" href="../assets/css/glass.css">
+ <link rel="stylesheet" href="../assets/css/site-components.css"><link rel="stylesheet" href="../assets/css/tool-shell.css">
+ <link rel="stylesheet" href="crystalchest.css?v=20261125a">
 </head>
 <body class="standalone-tool">
-  <main>
-    <header class="site-header"><h1 class="site-title">楓之谷M 也許有用的工具</h1>
-      <nav class="unified-nav" aria-label="頁面導覽"><a class="unified-home" href="../">‹ 主選單</a><span class="unified-current" aria-current="page">水晶寶箱模擬器</span></nav>
-    </header>
-    <iframe id="crystal-frame" class="crystal-stage" title="水晶寶箱模擬器" width="1280" height="720" allowfullscreen></iframe>
-    <p class="crystal-notice">非官方社群模擬器，抽取結果不代表遊戲伺服器結果，不會消耗遊戲道具。本工具與 NEXON 或 MapleStory M 官方無隸屬關係。</p>
-  </main>
-  <script>const frame=document.getElementById('crystal-frame');const target=new URL('runtime/',location.href);target.search=location.search;frame.src=target.href;</script>
-</body>
-</html>
+ <main>
+  <header class="site-header"><h1 class="site-title">楓之谷M 也許有用的工具</h1><nav class="unified-nav" aria-label="頁面導覽"><a class="unified-home" href="../">‹ 主選單</a><span class="unified-current" aria-current="page">水晶寶箱模擬器</span></nav></header>
+  <div id="stage-tools" class="stage-tools"><p class="orientation-hint">建議橫向使用；可按全螢幕，完整顯示模擬器。</p><button id="fullscreen-toggle" type="button" aria-label="全螢幕顯示模擬器" title="全螢幕">⛶</button></div>
+  <section id="stage-section" class="stage-section" aria-label="水晶寶箱模擬器">
+   <div id="stage-host" class="stage-host"><div id="stage-viewport" class="stage-viewport"><iframe id="crystal-frame" title="水晶寶箱模擬器" allowfullscreen></iframe></div></div>
+  </section>
+  <section id="player-settings" class="settings-panel site-calculator calculator-section glass-surface site-card site-card-input" aria-labelledby="settings-title">
+   <div class="settings-title"><h2 id="settings-title">水晶寶箱模擬器設定</h2><button id="sound-toggle" class="site-button glass-action" type="button" aria-pressed="false" disabled>音效：開啟</button></div>
+   <div class="stats-text site-summary-card glass-surface site-card site-card-info"><h3>累積抽取紀錄</h3><p id="draw-summary" aria-live="polite">載入模擬器後顯示紀錄</p><dl id="draw-stats" class="stat-grid"></dl></div>
+   <div class="stats-text site-summary-card glass-surface site-card site-card-info"><h3>獲得物品數量</h3><dl id="item-stats" class="stat-grid"></dl><p id="shard-summary"></p></div>
+   <p id="storage-note" class="settings-note">統計保存在此瀏覽器；每張結果計為 1 抽，10+1 計為 11 抽。交換券按張數統計。</p>
+   <button id="reset-simulator" class="btn-reset-simulator site-button glass-action glass-action-danger" type="button" disabled>重新模擬（清除所有狀態與紀錄）</button>
+  </section>
+  <p class="crystal-notice">非官方社群模擬器，抽取結果不代表遊戲伺服器結果，不會消耗遊戲道具。本工具與 NEXON 或 MapleStory M 官方無隸屬關係。</p>
+ </main>
+ <script type="module" src="crystalchest.mjs?v=20261125a"></script>
+</body></html>

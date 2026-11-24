@@ -34,3 +34,26 @@ Phone visual and thermal acceptance of this atlas version remains pending.
 
 This is an unofficial community simulator, not affiliated with NEXON or MapleStory M.
 Simulation results do not represent game-server results or consume game items.
+
+## Player shell and records (2026-11-25)
+
+The shell fits a 16:9 frame without viewport-height margins, supports mobile
+landscape sizing and native/iOS fallback fullscreen, and exposes settings below
+the game using the existing shared site styles.
+
+Each retained sampled result counts once (single=1, 10+1=11), keyed by run ID.
+Categories join the exact official source rows; repeated repaint/flip/tab changes
+do not increment records. Fever activations split actual progress-cap and Lucky
+settlements; explicit diagnostic activation is excluded. Pack quantities count
+exchange vouchers, with a separate 5/10-piece equivalent total.
+
+Records and mute preference use the browser-local crystalchest.player.v1 key.
+This does not add cross-reload persistence to the existing game Fever progress.
+Full reset clears records and preferences, invalidates old writes, stops playback
+and reloads the runtime so the current draw and Fever state also return to zero.
+Mute controls both original movie audio and the flip-effect WebAudio gain.
+
+Desktop automated acceptance covers 143 actual sampled results through natural
+Fever, two Fever draws and seeded Lucky, active sound muting, persistent records,
+mid-movie reset, mobile frame bounds, and iOS-style fullscreen rotation. Native
+iPhone Safari visual/sound/thermal acceptance of this shell is still pending.

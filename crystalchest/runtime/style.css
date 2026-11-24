@@ -157,3 +157,7 @@ html.mode-player #scene{position:absolute;inset:0;width:100%;height:100%;z-index
 /* P12-B5R2: only the five admitted shell labels; stage-bound and pointer-free. */
 #stage>#p12b5-shop-text-layer{position:absolute;inset:0;width:100%;height:100%;z-index:2;display:block;pointer-events:none;user-select:none;image-rendering:auto}
 #stage>#p12b5-shop-text-layer[hidden]{display:none!important}
+
+/* Embedded player follows its frame, not the phone viewport. */
+html.mode-player,html.mode-player body{background:transparent;height:100%;}
+html.mode-player .clean-rebuild-root{height:100%;}
