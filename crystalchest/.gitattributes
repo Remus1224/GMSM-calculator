@@ -1,0 +1,2 @@
+# Keep source-contract hashes and verified runtime assets byte-exact in Git.
+runtime/** -text
