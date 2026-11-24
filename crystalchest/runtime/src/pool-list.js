@@ -198,7 +198,7 @@ function makeIcon(entry, index) {
   }
   const img = document.createElement('img');
   img.className = 'pool-item-icon';
-  img.loading = 'lazy';
+  img.loading = 'eager';
   img.decoding = 'async';
   img.alt = '';
   img.title = info.title;
@@ -210,11 +210,12 @@ function makeIcon(entry, index) {
   if (displayPolicy) img.dataset.iconDisplayPolicy = displayPolicy;
   if (info.kind === 'SOURCE_ICON_CONNECTED') img.dataset.sourcePngSha256 = entry.icon.sourcePngSha256;
   img.dataset.atlasReady='pending';
-  loadDOMImageURL(new URL(`../${info.path}`, import.meta.url).href).then(async url=>{
-    img.src=url;await img.decode();img.dataset.atlasReady='loaded';
-  }).catch(() => {
+  // Local Blob image: rely on real load/error, not decode() on a hidden lazy IMG.
+  img.addEventListener('load',()=>{img.dataset.atlasReady='loaded';},{once:true});
+  const imageFailed = error => {
+    img.dataset.atlasReady='failed';
     if (!imageFailures.some((failure) => failure.runtimePngSha256 === info.sha256 && failure.pool === entry.pool)) {
-      imageFailures.push({ pool: entry.pool, officialSourceRowKey: entry.officialSourceRowKey, runtimePngSha256: info.sha256, path: info.path, displayEvidence: info.kind });
+      imageFailures.push({ pool: entry.pool, officialSourceRowKey: entry.officialSourceRowKey, runtimePngSha256: info.sha256, path: info.path, displayEvidence: info.kind, reason: String(error?.message||error?.type||error) });
     }
     const placeholder = document.createElement('span');
     placeholder.className = 'pool-item-placeholder';
@@ -222,7 +223,9 @@ function makeIcon(entry, index) {
     placeholder.title = `圖示載入失敗：${info.path}`;
     img.replaceWith(placeholder);
     updateSummary();
-  });
+  };
+  img.addEventListener('error',imageFailed,{once:true});
+  loadDOMImageURL(new URL(`../${info.path}`, import.meta.url).href).then(url=>{img.src=url;}).catch(imageFailed);
   return img;
 }
 
@@ -333,6 +336,8 @@ function makeDiagnostics() {
     rowsWithUnresolvedIdentityOrVariant: current.entries.filter((entry) => Boolean(entry.icon?.sourceAdmissionClass && entry.icon.sourceAdmissionClass !== 'SOURCE_ICON_CONNECTED')).length,
     officialPercentTotalRaw: current.officialPercentTotalRaw,
     imageFailures: [...imageFailures],
+    atlasDisplayRevision: 'DOM_LOAD_EVENTS_V2',
+    visibleIconStates: [...grid.querySelectorAll('.pool-item-icon')].reduce((counts,img)=>{const key=img.dataset.atlasReady||'unknown';counts[key]=(counts[key]||0)+1;return counts;},{}),
     layout: {
       sourceUIPanel: {
         normal: { path: 'GachaGlobalLucky/Root/Frame/GachaCrystalPage/list/NormalListGrid/ScrollView', clipping: 3, clipRange: { x: 252, y: -115, width: 504, height: 240 }, depth: 14 },
