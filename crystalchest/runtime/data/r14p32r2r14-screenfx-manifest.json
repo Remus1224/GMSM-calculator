@@ -1,0 +1,232 @@
+{
+  "classification": "ENGINEERING_EXPERIMENT_WEB_VISUAL_CANDIDATE_NOT_NATIVE_PARITY",
+  "assets": [
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "8851AA1E4426334D54644A023FDC235B07720B0E38487B01922D03E067AFFD7D",
+      "sourcePngSha256": "8851AA1E4426334D54644A023FDC235B07720B0E38487B01922D03E067AFFD7D",
+      "pathId": "-6898568346901109917",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_01.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_01"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "621B8E6EF226C13B3AA5FD79EDEBA7995EDED406468197207ABF783411C8BC75",
+      "sourcePngSha256": "621B8E6EF226C13B3AA5FD79EDEBA7995EDED406468197207ABF783411C8BC75",
+      "pathId": "-2023134460789920701",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_02.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_02"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "BC0BB0148E7F587D5EA501724F27D05C6C471A31D5D81111EFD1DCDC696BDC81",
+      "sourcePngSha256": "BC0BB0148E7F587D5EA501724F27D05C6C471A31D5D81111EFD1DCDC696BDC81",
+      "pathId": "6399320287874990637",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_03.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_03"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "B2EDB3764F7B3F6313EF72C2B827DB94559397A1375652E8E51F352794A5BED2",
+      "sourcePngSha256": "B2EDB3764F7B3F6313EF72C2B827DB94559397A1375652E8E51F352794A5BED2",
+      "pathId": "5549388703079615251",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_04.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_04"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "2D4CEFAC8CAE88054C5EBB9894A0D9DB0EA9403FF5DCB3008D09FFB795A81246",
+      "sourcePngSha256": "2D4CEFAC8CAE88054C5EBB9894A0D9DB0EA9403FF5DCB3008D09FFB795A81246",
+      "pathId": "7436628812640387484",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_05.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_05"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "B081CA210B7DF79C854581E55F28457245C911FD7B7D2920AA0F5B33942A0B5F",
+      "sourcePngSha256": "B081CA210B7DF79C854581E55F28457245C911FD7B7D2920AA0F5B33942A0B5F",
+      "pathId": "-8056216478172939652",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_06.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_06"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "54D97378AA74B561B50D716152D6FFAB6430F8E258724B8F03B6BA34215804DC",
+      "sourcePngSha256": "54D97378AA74B561B50D716152D6FFAB6430F8E258724B8F03B6BA34215804DC",
+      "pathId": "4418309314172400913",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_07.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_07"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "18AB8F8F829557454C960D9158133326284AD5B7275F7D667F683EDF4132F55E",
+      "sourcePngSha256": "18AB8F8F829557454C960D9158133326284AD5B7275F7D667F683EDF4132F55E",
+      "pathId": "-7679903868996400230",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_08.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_08"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "78309A3868926B882EB89B2184B1107F4CF43F9550B3A5A8641EA607F6695A89",
+      "sourcePngSha256": "78309A3868926B882EB89B2184B1107F4CF43F9550B3A5A8641EA607F6695A89",
+      "pathId": "1610068088107008655",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_09.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_09"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "C80A286B9E10E89865CBFEFDBAF817B49F55E9DB99F58BEB88EE98549F0D94C7",
+      "sourcePngSha256": "C80A286B9E10E89865CBFEFDBAF817B49F55E9DB99F58BEB88EE98549F0D94C7",
+      "pathId": "4912545673497500320",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_10.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_10"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "C9EC5180C99D3FD2577683B5CA5D9C1FC37E8812AC572F084F186D0E49F57133",
+      "sourcePngSha256": "C9EC5180C99D3FD2577683B5CA5D9C1FC37E8812AC572F084F186D0E49F57133",
+      "pathId": "-6793828018643157146",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_11.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_11"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "94923C631AD5BFC64AB5C563EE0200B187EE9640DBCF9B78EEFDAD9CEB5AB03E",
+      "sourcePngSha256": "94923C631AD5BFC64AB5C563EE0200B187EE9640DBCF9B78EEFDAD9CEB5AB03E",
+      "pathId": "8910349182541389582",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_12.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_12"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "41512FD2279B886232009D1BA0D895654247602B086430782DF4930FAE0E245A",
+      "sourcePngSha256": "41512FD2279B886232009D1BA0D895654247602B086430782DF4930FAE0E245A",
+      "pathId": "-5154330285091765417",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_13.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_13"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "1A92EA0A7A238843D2EE2D3C4C1A4201A808DFD73F153689D6D032B04DE29C5A",
+      "sourcePngSha256": "1A92EA0A7A238843D2EE2D3C4C1A4201A808DFD73F153689D6D032B04DE29C5A",
+      "pathId": "-7530620154232072992",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_14.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_14"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "F1E380B684104A1984CA11A35BCFAF6F66D6896A730B5CAECEBD08BC5AF983CE",
+      "sourcePngSha256": "F1E380B684104A1984CA11A35BCFAF6F66D6896A730B5CAECEBD08BC5AF983CE",
+      "pathId": "5199140008588555955",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_15.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_15"
+    },
+    {
+      "dimensions": [
+        1280,
+        720
+      ],
+      "runtimeSha256": "B0F88C4A120DD29604C0E657BB12E1D46E80B7D25FD8B0C40231E037EC7FA7E9",
+      "sourcePngSha256": "B0F88C4A120DD29604C0E657BB12E1D46E80B7D25FD8B0C40231E037EC7FA7E9",
+      "pathId": "-3585598726903774456",
+      "sourceFile": "2184371.msm",
+      "textureFormat": "BC7",
+      "runtimePath": "assets/fever-screenfx-candidate/Treasure_ScreenFx_16.png",
+      "classification": "SOURCE_GROUP_LINK_SUPPORTED_EXACT_IMAGE_TIMELINE_UNRESOLVED",
+      "assetName": "Treasure_ScreenFx_16"
+    }
+  ],
+  "nativeSequence": "SOURCE_UNRESOLVED_ORDER",
+  "nativeTiming": "SOURCE_UNRESOLVED_FRAME_TIME",
+  "nativeRole": "SOURCE_UNRESOLVED_ROLE"
+}

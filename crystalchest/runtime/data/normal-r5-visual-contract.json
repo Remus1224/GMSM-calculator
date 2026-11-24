@@ -1,0 +1,233 @@
+{
+  "schema": "CrystalChest.NormalR5.VisualContract.v1",
+  "classification": "WEB_VISUAL_DISPLAY_ONLY_NOT_SOURCE_BOUND_RESULT_PAYLOAD",
+  "status": "NORMAL_R5_19_UNRESOLVED_DISPLAY_ADMISSION_PLAYER_PENDING",
+  "scope": "Existing LOCAL_NORMAL_SIMULATION diagnostic only; the 3 player-confirmed appearance rows may render a static Mythic-style face with FX OFF. The other 16 remain row diagnostics.",
+  "resultPayloadMutation": false,
+  "samplerMutation": false,
+  "rerollOrSubstitution": false,
+  "liveResultGrade": "UNKNOWN",
+  "fx": "OFF",
+  "entries": [
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"13\"]",
+      "sourceIndex": 1,
+      "officialSourceRow": 13,
+      "announcementName": "古代輔助武器結晶",
+      "officialProbabilityPercentRaw": "0.01",
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "payloadEvidence": "PLAYER_VISUAL_MAPPING_ONLY",
+      "resultPayloadRemainsNull": true,
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_POOL_ROW_KEY_JOIN",
+        "icon": {
+          "path": "assets/icons/d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346.png",
+          "sourcePngSha256": "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346",
+          "runtimePngSha256": "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346",
+          "actualPngSha256": "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346",
+          "sourceRgbaSha256": "12ffac23feb33d684d697c3716dec6a55a947c7c86277cc761c1fb0de83045b8",
+          "actualRgbaSha256": "12ffac23feb33d684d697c3716dec6a55a947c7c86277cc761c1fb0de83045b8",
+          "evidence": "ICON_SOURCE_VERIFIED",
+          "iconName": "Icon_Upgrade_2610_MG2040133",
+          "bundle": "1567903.msm",
+          "cab": "CAB-176ccda760380e9cf8fed334cd5b2206",
+          "pathId": "-2692327881851389880",
+          "sourceRowJoin": "OFFICIAL_SOURCE_ROW_KEY_EXACT; ASSET_SOURCE_REFERENCE_CHECKED"
+        },
+        "cardAppearance": {
+          "displayStyle": "MYTHIC_STYLE_PLAYER_VISUAL_ONLY",
+          "displayGradeEvidence": "PLAYER_VISUAL_ACCEPTED_NON_EQUIP_MYTHIC_STYLE_APPEARANCE",
+          "liveResultGrade": "UNKNOWN",
+          "front": {
+            "assetKey": "front_mythic",
+            "file": "assets/cards/ui_item_card_lucky_mythic.png",
+            "sha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+            "sourceReferenceSha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+            "rgbaSha256": "6fea9f270f50868560286a942f20b04d726d313de420a06c4aac9aeb72fae084",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-1807413378051173248",
+            "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+          },
+          "gradeOverlay": {
+            "assetKey": "grade_mythic",
+            "file": "assets/cards/Grade.png",
+            "sha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+            "sourceReferenceSha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+            "rgbaSha256": "d94e4408c00df761f87ee636a48249577fb065c58fb9f9dfa98a666be59dd80e",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3394238052893163894",
+            "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+          },
+          "effects": "OFF_NOT_INCLUDED",
+          "specialOutline": "NOT_INCLUDED"
+        }
+      },
+      "nextStep": "DISPLAYABLE_PLAYER_PENDING",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 1
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"17\"]",
+      "sourceIndex": 5,
+      "officialSourceRow": 17,
+      "announcementName": "混沌結晶碎片5個 交換券",
+      "officialProbabilityPercentRaw": "4",
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "payloadEvidence": "PLAYER_VISUAL_MAPPING_ONLY",
+      "resultPayloadRemainsNull": true,
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_POOL_ROW_KEY_JOIN",
+        "icon": {
+          "path": "assets/icons/9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3.png",
+          "sourcePngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+          "runtimePngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+          "actualPngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+          "sourceRgbaSha256": "88ad4d93af8185b984666556d3097d481457614e2234912622f40bc1b2f57ff3",
+          "actualRgbaSha256": "88ad4d93af8185b984666556d3097d481457614e2234912622f40bc1b2f57ff3",
+          "evidence": "ICON_SOURCE_VERIFIED",
+          "iconName": "Icon_Upgrade_2302_MG2040062",
+          "bundle": "1567903.msm",
+          "cab": "CAB-176ccda760380e9cf8fed334cd5b2206",
+          "pathId": "-2033521713359178467",
+          "sourceRowJoin": "OFFICIAL_SOURCE_ROW_KEY_EXACT; ASSET_SOURCE_REFERENCE_CHECKED"
+        },
+        "cardAppearance": {
+          "displayStyle": "MYTHIC_STYLE_PLAYER_VISUAL_ONLY",
+          "displayGradeEvidence": "PLAYER_VISUAL_ACCEPTED_NON_EQUIP_MYTHIC_STYLE_APPEARANCE",
+          "liveResultGrade": "UNKNOWN",
+          "front": {
+            "assetKey": "front_mythic",
+            "file": "assets/cards/ui_item_card_lucky_mythic.png",
+            "sha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+            "sourceReferenceSha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+            "rgbaSha256": "6fea9f270f50868560286a942f20b04d726d313de420a06c4aac9aeb72fae084",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-1807413378051173248",
+            "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+          },
+          "gradeOverlay": {
+            "assetKey": "grade_mythic",
+            "file": "assets/cards/Grade.png",
+            "sha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+            "sourceReferenceSha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+            "rgbaSha256": "d94e4408c00df761f87ee636a48249577fb065c58fb9f9dfa98a666be59dd80e",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3394238052893163894",
+            "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+          },
+          "effects": "OFF_NOT_INCLUDED",
+          "specialOutline": "NOT_INCLUDED"
+        }
+      },
+      "nextStep": "DISPLAYABLE_PLAYER_PENDING",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 5
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"18\"]",
+      "sourceIndex": 6,
+      "officialSourceRow": 18,
+      "announcementName": "混沌結晶碎片 10個交換券",
+      "officialProbabilityPercentRaw": "2",
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "payloadEvidence": "PLAYER_VISUAL_MAPPING_ONLY",
+      "resultPayloadRemainsNull": true,
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_POOL_ROW_KEY_JOIN",
+        "icon": {
+          "path": "assets/icons/9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3.png",
+          "sourcePngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+          "runtimePngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+          "actualPngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+          "sourceRgbaSha256": "88ad4d93af8185b984666556d3097d481457614e2234912622f40bc1b2f57ff3",
+          "actualRgbaSha256": "88ad4d93af8185b984666556d3097d481457614e2234912622f40bc1b2f57ff3",
+          "evidence": "ICON_SOURCE_VERIFIED",
+          "iconName": "Icon_Upgrade_2302_MG2040062",
+          "bundle": "1567903.msm",
+          "cab": "CAB-176ccda760380e9cf8fed334cd5b2206",
+          "pathId": "-2033521713359178467",
+          "sourceRowJoin": "OFFICIAL_SOURCE_ROW_KEY_EXACT; ASSET_SOURCE_REFERENCE_CHECKED"
+        },
+        "cardAppearance": {
+          "displayStyle": "MYTHIC_STYLE_PLAYER_VISUAL_ONLY",
+          "displayGradeEvidence": "PLAYER_VISUAL_ACCEPTED_NON_EQUIP_MYTHIC_STYLE_APPEARANCE",
+          "liveResultGrade": "UNKNOWN",
+          "front": {
+            "assetKey": "front_mythic",
+            "file": "assets/cards/ui_item_card_lucky_mythic.png",
+            "sha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+            "sourceReferenceSha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+            "rgbaSha256": "6fea9f270f50868560286a942f20b04d726d313de420a06c4aac9aeb72fae084",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-1807413378051173248",
+            "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+          },
+          "gradeOverlay": {
+            "assetKey": "grade_mythic",
+            "file": "assets/cards/Grade.png",
+            "sha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+            "sourceReferenceSha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+            "rgbaSha256": "d94e4408c00df761f87ee636a48249577fb065c58fb9f9dfa98a666be59dd80e",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3394238052893163894",
+            "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+          },
+          "effects": "OFF_NOT_INCLUDED",
+          "specialOutline": "NOT_INCLUDED"
+        }
+      },
+      "nextStep": "DISPLAYABLE_PLAYER_PENDING",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 6
+      }
+    }
+  ],
+  "activeOddsSource": {
+    "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+    "version": "R14-P31R5_20261105",
+    "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+    "originalUploadName": "活頁簿aaa1.xlsx",
+    "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+    "unit": "PERCENTAGE_POINTS",
+    "normalizationApplied": false,
+    "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE"
+  }
+}

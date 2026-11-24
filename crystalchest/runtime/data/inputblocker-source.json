@@ -1,0 +1,227 @@
+{
+  "classification": "SOURCE_CONDITIONAL",
+  "sourceEpoch": "ace8626133ba52ed4053c4dc9e8dceaa86bb138ef919597fdaf319e8f52a57f4",
+  "sourceIDs": {
+    "controller": "level0:115",
+    "Panel": "level0:131",
+    "UITexture": "level0:97",
+    "Texture2D": "sharedassets0.assets:6",
+    "Shader": "sharedassets0.assets:9"
+  },
+  "texture": {
+    "name": "DarkNess",
+    "url": "/s9/DarkNess.png",
+    "pngSHA256": "7ea6eb99408b682fe4b3e845db81172e7a6c50f3b355e6c0497b2dc94a65b872",
+    "rgbaSHA256": "df894663e850afa3619ed3d3825d9d1c6520f15fcd76aac25c4407c405fa8cfe",
+    "width": 32,
+    "height": 32
+  },
+  "UITexture": {
+    "leftAnchor.target": [
+      0,
+      0
+    ],
+    "leftAnchor.relative": 0.0,
+    "leftAnchor.absolute": 0,
+    "rightAnchor.target": [
+      0,
+      0
+    ],
+    "rightAnchor.relative": 1.0,
+    "rightAnchor.absolute": 0,
+    "bottomAnchor.target": [
+      0,
+      0
+    ],
+    "bottomAnchor.relative": 0.0,
+    "bottomAnchor.absolute": 0,
+    "topAnchor.target": [
+      0,
+      0
+    ],
+    "topAnchor.relative": 1.0,
+    "topAnchor.absolute": 0,
+    "updateAnchors": 1,
+    "mAlphaMultiplyChild": 1,
+    "mColor": [
+      1.0,
+      1.0,
+      1.0,
+      0.7058823704719543
+    ],
+    "mPivot": 4,
+    "mWidth": 10000,
+    "mHeight": 10000,
+    "mDepth": 0,
+    "mLayoutPriority": 0,
+    "mRelativeWeight": -1.0,
+    "bCalculateScrollViewBound": 1,
+    "autoResizeBoxCollider": 0,
+    "hideIfOffScreen": 0,
+    "keepAspectRatio": 0,
+    "aspectRatio": 1.0,
+    "drawCallProperty.referenceID": -2,
+    "mType": 0,
+    "mFillDirection": 4,
+    "mFillAmount": 1.0,
+    "mInvert": 0,
+    "mFlip": 0,
+    "mEffectStyle": 0,
+    "mEffectColor": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mEffectDistance": [
+      1.0,
+      1.0
+    ],
+    "mBorderResize": 0,
+    "mBorderSize": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "centerType": 1,
+    "leftType": 1,
+    "rightType": 1,
+    "bottomType": 1,
+    "topType": 1,
+    "mGradient": 0,
+    "mColor1": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "mColor2": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "mColor3": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "mColor4": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "mRect": [
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "mTexture": [
+      3,
+      6
+    ],
+    "mMat": [
+      0,
+      0
+    ],
+    "mShader": [
+      3,
+      9
+    ],
+    "mBorder": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "references.version": 2,
+    "references.RefIds.count": 1,
+    "references.RefIds[0].rid": -2,
+    "references.RefIds[0].type.class.stringLength": 0,
+    "references.RefIds[0].type.ns.stringLength": 0,
+    "references.RefIds[0].type.asm.stringLength": 0
+  },
+  "Panel": {
+    "leftAnchor.target": [
+      0,
+      0
+    ],
+    "leftAnchor.relative": 0.0,
+    "leftAnchor.absolute": 0,
+    "rightAnchor.target": [
+      0,
+      0
+    ],
+    "rightAnchor.relative": 1.0,
+    "rightAnchor.absolute": 0,
+    "bottomAnchor.target": [
+      0,
+      0
+    ],
+    "bottomAnchor.relative": 0.0,
+    "bottomAnchor.absolute": 0,
+    "topAnchor.target": [
+      0,
+      0
+    ],
+    "topAnchor.relative": 1.0,
+    "topAnchor.absolute": 0,
+    "updateAnchors": 1,
+    "mAlphaMultiplyChild": 1,
+    "showInPanelTool": 1,
+    "generateNormals": 0,
+    "widgetsAreStatic": 0,
+    "cullWhileDragging": 1,
+    "alwaysOnScreen": 0,
+    "anchorOffset": 0,
+    "renderQueue": 0,
+    "startingRenderQueue": 3000,
+    "spareRenderQueue": 5,
+    "mAlpha": 1.0,
+    "clipping": 0,
+    "clipRange": [
+      0.0,
+      0.0,
+      300.0,
+      200.0
+    ],
+    "clipSoftnessCheck4": 0,
+    "clipSoftness": [
+      4.0,
+      4.0
+    ],
+    "clipSoftness4": [
+      4.0,
+      4.0,
+      4.0,
+      4.0
+    ],
+    "softnessSmoothEdge": 0,
+    "depth": 0,
+    "sortingOrder": 0,
+    "sortingLayer": 0,
+    "clipOffset": [
+      0.0,
+      0.0
+    ],
+    "pixelPerfectType": 0,
+    "ignoreClip": 0
+  },
+  "assumptions": [
+    "Both backgrounds draw above the unique shop, below Popup content",
+    "Saved Panel/ancestor alpha=1; live values unknown",
+    "No SetSoftDim override in this fixture",
+    "Existing S3-F7 1280x720 stage mapping; not live native Camera/VP",
+    "Canvas2D translation, not shader-variant equivalence proof"
+  ],
+  "sourceReceiptSHA256": "be6f7e538f3d8920e434a47eb67e0877d8082cf1b231263215db2c3e4f7eb1fe",
+  "sourceControl": [
+    "movie initialization: DisableBackground, Frame hidden",
+    "movie completion: same Background ShowBackground then Frame active",
+    "ShowBackground does not reset alpha or allocate another layer"
+  ]
+}

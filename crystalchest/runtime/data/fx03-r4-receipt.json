@@ -1,0 +1,891 @@
+{
+    "classification": "SOURCE_CONSTRAINED_ORIGINAL_PREFAB_NATIVE_CAPTURE_NOT_LIVE_GAME",
+    "selector": "03",
+    "sourceHierarchy": "GachaResultPopup/TenTimeGacha/UImainCam/eff_ui_itemresult03",
+    "unityVersion": "2022.3.62f2",
+    "graphicsDevice": "Direct3D11 NVIDIA GeForce RTX 4070",
+    "colorSpace": "Gamma",
+    "cameraWorldToCamera": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t-1\t0\n0\t0\t0\t1\n",
+    "cameraProjection": "0.17578125\t0\t0\t0\n0\t0.17578125\t0\t0\n0\t0\t-0.0181818176\t0.8181818\n0\t0\t0\t1\n",
+    "rootWorldMatrix": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+    "fxWorldMatrix": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+    "alphaContract": "Opaque black RGB contribution; no second particle alpha; additive byte composite is tested against native gray at sample frames.",
+    "seedContract": "03 reuses F58 controlled seeds; 04 explicit diagnostic seed per system, assigned inactive. No source particle modules or materials changed.",
+    "width": 4096,
+    "height": 4096,
+    "fps": 60,
+    "cameraSize": 5.688889026641846,
+    "uirootScale": 0.0027777778450399639,
+    "renderTargetSRGB": false,
+    "sourceParticleModulesModified": false,
+    "sourceMaterialsModified": false,
+    "allNaturallyEnded": true,
+    "systems": [
+        {
+            "name": "general_f01",
+            "material": "a_fl_mt013",
+            "shader": "Mobile/Particles/Additive",
+            "texture": "a_fl013",
+            "localPosition": "(0, 0, 0)",
+            "localScale": "(1, 1, 1)",
+            "worldMatrix": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "simulationSpace": "Local",
+            "scalingMode": "Shape",
+            "renderMode": "Mesh",
+            "layer": 31,
+            "queue": 3000,
+            "textureWidth": 128,
+            "textureHeight": 128,
+            "seed": 84813710,
+            "startDelay": 0.0,
+            "loop": false
+        },
+        {
+            "name": "bomb_p001",
+            "material": "a_flash_mts016",
+            "shader": "Mobile/Particles/Additive",
+            "texture": "a_flash_p016",
+            "localPosition": "(0, 0, 0)",
+            "localScale": "(2, 1, 2)",
+            "worldMatrix": "0.00555555569\t0\t0\t0\n0\t-3.31136923E-10\t0.005555556\t0\n0\t-0.002777778\t-6.62273847E-10\t0\n0\t0\t0\t1\n",
+            "simulationSpace": "Local",
+            "scalingMode": "Shape",
+            "renderMode": "Billboard",
+            "layer": 31,
+            "queue": 3000,
+            "textureWidth": 256,
+            "textureHeight": 256,
+            "seed": 584507176,
+            "startDelay": 0.15000000596046449,
+            "loop": false
+        },
+        {
+            "name": "bomb_p002",
+            "material": "a_flash_mts008",
+            "shader": "Mobile/Particles/Additive",
+            "texture": "a_flash_p008",
+            "localPosition": "(0, 0, 0)",
+            "localScale": "(2, 1, 2)",
+            "worldMatrix": "0.00555555569\t0\t0\t0\n0\t-3.31136923E-10\t-0.005555556\t0\n0\t0.002777778\t-6.62273847E-10\t0\n0\t0\t0\t1\n",
+            "simulationSpace": "Local",
+            "scalingMode": "Shape",
+            "renderMode": "Billboard",
+            "layer": 31,
+            "queue": 3000,
+            "textureWidth": 256,
+            "textureHeight": 256,
+            "seed": 2911765394,
+            "startDelay": 0.15000000596046449,
+            "loop": false
+        },
+        {
+            "name": "glow_m001",
+            "material": "a_gl_mt008",
+            "shader": "Mobile/Particles/Additive",
+            "texture": "a_gl007",
+            "localPosition": "(0, 0, 0)",
+            "localScale": "(1, 1, 1)",
+            "worldMatrix": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "simulationSpace": "Local",
+            "scalingMode": "Shape",
+            "renderMode": "Billboard",
+            "layer": 31,
+            "queue": 3000,
+            "textureWidth": 128,
+            "textureHeight": 128,
+            "seed": 2678654654,
+            "startDelay": 0.15000000596046449,
+            "loop": false
+        },
+        {
+            "name": "pointer_m001",
+            "material": "a_flash_mts004",
+            "shader": "Mobile/Particles/Additive",
+            "texture": "a_flash_p004",
+            "localPosition": "(0, 0, 0)",
+            "localScale": "(1, 1, 1)",
+            "worldMatrix": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "simulationSpace": "Local",
+            "scalingMode": "Shape",
+            "renderMode": "Billboard",
+            "layer": 31,
+            "queue": 3000,
+            "textureWidth": 256,
+            "textureHeight": 256,
+            "seed": 3958337682,
+            "startDelay": 0.17000000178813935,
+            "loop": false
+        }
+    ],
+    "frames": [
+        {
+            "frame": 1,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.01666666753590107,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 2,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.03333333507180214,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 3,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.05000000074505806,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 4,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.06666667014360428,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 5,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.0833333358168602,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 6,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.10000000149011612,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 7,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.11666666716337204,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 8,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.13333334028720857,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 9,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.15000000596046449,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 10,
+            "x": 1957,
+            "y": 1957,
+            "width": 182,
+            "height": 182,
+            "nonBlackPixels": 25313,
+            "age": 0.1666666716337204,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                10,
+                30,
+                2,
+                0
+            ],
+            "file": "frames/0010.png"
+        },
+        {
+            "frame": 11,
+            "x": 1883,
+            "y": 1877,
+            "width": 324,
+            "height": 347,
+            "nonBlackPixels": 64880,
+            "age": 0.18333333730697633,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                10,
+                30,
+                2,
+                1
+            ],
+            "file": "frames/0011.png"
+        },
+        {
+            "frame": 12,
+            "x": 1814,
+            "y": 1795,
+            "width": 455,
+            "height": 505,
+            "nonBlackPixels": 93157,
+            "age": 0.20000000298023225,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                10,
+                40,
+                2,
+                1
+            ],
+            "file": "frames/0012.png"
+        },
+        {
+            "frame": 13,
+            "x": 1779,
+            "y": 1745,
+            "width": 518,
+            "height": 606,
+            "nonBlackPixels": 123862,
+            "age": 0.21666666865348817,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                20,
+                40,
+                2,
+                1
+            ],
+            "file": "frames/0013.png"
+        },
+        {
+            "frame": 14,
+            "x": 1746,
+            "y": 1694,
+            "width": 576,
+            "height": 710,
+            "nonBlackPixels": 159049,
+            "age": 0.23333333432674409,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                20,
+                50,
+                2,
+                1
+            ],
+            "file": "frames/0014.png"
+        },
+        {
+            "frame": 15,
+            "x": 1733,
+            "y": 1655,
+            "width": 593,
+            "height": 779,
+            "nonBlackPixels": 176360,
+            "age": 0.25,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                1,
+                20,
+                50,
+                2,
+                1
+            ],
+            "file": "frames/0015.png"
+        },
+        {
+            "frame": 16,
+            "x": 1779,
+            "y": 1612,
+            "width": 533,
+            "height": 820,
+            "nonBlackPixels": 175991,
+            "age": 0.2666666805744171,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                20,
+                50,
+                2,
+                1
+            ],
+            "file": "frames/0016.png"
+        },
+        {
+            "frame": 17,
+            "x": 1773,
+            "y": 1572,
+            "width": 544,
+            "height": 868,
+            "nonBlackPixels": 178869,
+            "age": 0.28333333134651186,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                20,
+                50,
+                2,
+                1
+            ],
+            "file": "frames/0017.png"
+        },
+        {
+            "frame": 18,
+            "x": 1775,
+            "y": 1540,
+            "width": 541,
+            "height": 902,
+            "nonBlackPixels": 179068,
+            "age": 0.30000001192092898,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                19,
+                49,
+                2,
+                1
+            ],
+            "file": "frames/0018.png"
+        },
+        {
+            "frame": 19,
+            "x": 1788,
+            "y": 1507,
+            "width": 516,
+            "height": 920,
+            "nonBlackPixels": 165734,
+            "age": 0.3166666626930237,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                19,
+                48,
+                2,
+                1
+            ],
+            "file": "frames/0019.png"
+        },
+        {
+            "frame": 20,
+            "x": 1814,
+            "y": 1478,
+            "width": 462,
+            "height": 952,
+            "nonBlackPixels": 148709,
+            "age": 0.3333333432674408,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                19,
+                45,
+                2,
+                1
+            ],
+            "file": "frames/0020.png"
+        },
+        {
+            "frame": 21,
+            "x": 1844,
+            "y": 1452,
+            "width": 406,
+            "height": 1014,
+            "nonBlackPixels": 134756,
+            "age": 0.3499999940395355,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                19,
+                40,
+                2,
+                0
+            ],
+            "file": "frames/0021.png"
+        },
+        {
+            "frame": 22,
+            "x": 1834,
+            "y": 1437,
+            "width": 427,
+            "height": 1049,
+            "nonBlackPixels": 145721,
+            "age": 0.36666667461395266,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                15,
+                34,
+                2,
+                0
+            ],
+            "file": "frames/0022.png"
+        },
+        {
+            "frame": 23,
+            "x": 1825,
+            "y": 1417,
+            "width": 445,
+            "height": 1100,
+            "nonBlackPixels": 158712,
+            "age": 0.38333332538604739,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                12,
+                33,
+                2,
+                0
+            ],
+            "file": "frames/0023.png"
+        },
+        {
+            "frame": 24,
+            "x": 1817,
+            "y": 1404,
+            "width": 456,
+            "height": 1147,
+            "nonBlackPixels": 170774,
+            "age": 0.4000000059604645,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                7,
+                32,
+                2,
+                0
+            ],
+            "file": "frames/0024.png"
+        },
+        {
+            "frame": 25,
+            "x": 1811,
+            "y": 1396,
+            "width": 470,
+            "height": 1184,
+            "nonBlackPixels": 180894,
+            "age": 0.4166666567325592,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                5,
+                31,
+                2,
+                0
+            ],
+            "file": "frames/0025.png"
+        },
+        {
+            "frame": 26,
+            "x": 1808,
+            "y": 1413,
+            "width": 477,
+            "height": 1193,
+            "nonBlackPixels": 186682,
+            "age": 0.4333333373069763,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                3,
+                25,
+                2,
+                0
+            ],
+            "file": "frames/0026.png"
+        },
+        {
+            "frame": 27,
+            "x": 2014,
+            "y": 1396,
+            "width": 68,
+            "height": 1248,
+            "nonBlackPixels": 5343,
+            "age": 0.44999998807907107,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                2,
+                22,
+                0,
+                0
+            ],
+            "file": "frames/0027.png"
+        },
+        {
+            "frame": 28,
+            "x": 2017,
+            "y": 1396,
+            "width": 61,
+            "height": 1276,
+            "nonBlackPixels": 2960,
+            "age": 0.46666666865348818,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                1,
+                18,
+                0,
+                0
+            ],
+            "file": "frames/0028.png"
+        },
+        {
+            "frame": 29,
+            "x": 2026,
+            "y": 2506,
+            "width": 43,
+            "height": 196,
+            "nonBlackPixels": 1182,
+            "age": 0.4833333194255829,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                14,
+                0,
+                0
+            ],
+            "file": "frames/0029.png"
+        },
+        {
+            "frame": 30,
+            "x": 2035,
+            "y": 2548,
+            "width": 27,
+            "height": 188,
+            "nonBlackPixels": 854,
+            "age": 0.5,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                12,
+                0,
+                0
+            ],
+            "file": "frames/0030.png"
+        },
+        {
+            "frame": 31,
+            "x": 2030,
+            "y": 2584,
+            "width": 36,
+            "height": 188,
+            "nonBlackPixels": 1019,
+            "age": 0.5166666507720947,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                10,
+                0,
+                0
+            ],
+            "file": "frames/0031.png"
+        },
+        {
+            "frame": 32,
+            "x": 2027,
+            "y": 2618,
+            "width": 42,
+            "height": 190,
+            "nonBlackPixels": 1154,
+            "age": 0.5333333611488342,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                8,
+                0,
+                0
+            ],
+            "file": "frames/0032.png"
+        },
+        {
+            "frame": 33,
+            "x": 2025,
+            "y": 2649,
+            "width": 47,
+            "height": 119,
+            "nonBlackPixels": 1128,
+            "age": 0.550000011920929,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                5,
+                0,
+                0
+            ],
+            "file": "frames/0033.png"
+        },
+        {
+            "frame": 34,
+            "x": 2024,
+            "y": 2682,
+            "width": 49,
+            "height": 122,
+            "nonBlackPixels": 1009,
+            "age": 0.5666666626930237,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                3,
+                0,
+                0
+            ],
+            "file": "frames/0034.png"
+        },
+        {
+            "frame": 35,
+            "x": 2034,
+            "y": 2716,
+            "width": 29,
+            "height": 30,
+            "nonBlackPixels": 437,
+            "age": 0.5833333134651184,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                1,
+                0,
+                0
+            ],
+            "file": "frames/0035.png"
+        },
+        {
+            "frame": 36,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.6000000238418579,
+            "viewportEdge": false,
+            "alive": true,
+            "particleCounts": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        },
+        {
+            "frame": 37,
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "nonBlackPixels": 0,
+            "age": 0.6166666746139526,
+            "viewportEdge": false,
+            "alive": false,
+            "particleCounts": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "file": ""
+        }
+    ],
+    "lifecycle": [
+        {
+            "phase": "new-root-world-identity",
+            "localToWorld": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t1\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 0
+        },
+        {
+            "phase": "root-property-parent-keep-world-before-clones",
+            "localToWorld": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t1\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(360, 360, 360)",
+            "layer": 0
+        },
+        {
+            "phase": "Instantiate-before-parent",
+            "localToWorld": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t1\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 0
+        },
+        {
+            "phase": "clone-property-parent-keep-world",
+            "localToWorld": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t1\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 0
+        },
+        {
+            "phase": "late-root-localScale-one",
+            "localToWorld": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 31
+        },
+        {
+            "phase": "post-reset-instance-0",
+            "localToWorld": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 31
+        },
+        {
+            "phase": "FlipCard-SetActive-before-card-Tween-setup",
+            "localToWorld": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 31
+        },
+        {
+            "phase": "FlipCard-after-Tween-setup-then-worldPosition",
+            "localToWorld": "0.00277777785\t0\t0\t0\n0\t0.00277777785\t0\t0\n0\t0\t0.00277777785\t0\n0\t0\t0\t1\n",
+            "localPosition": "(0, 0, 0)",
+            "localRotation": "(0, 0, 0, 1)",
+            "localScale": "(1, 1, 1)",
+            "layer": 31
+        }
+    ]
+}

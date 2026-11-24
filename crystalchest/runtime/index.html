@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><style>html.cc-loading #cleanRebuildRoot{visibility:hidden;pointer-events:none}#release-loading{position:fixed;inset:0;display:grid;place-content:center;text-align:center;background:#22262d;color:#fff;z-index:10000;font:18px system-ui}#release-loading button{font:inherit;padding:10px}#release-loading.compact{inset:0 0 auto;display:block;padding:8px;background:#22262de8;font-size:14px}#release-loading.compact p{display:inline;margin-right:12px}</style><script src="src/release-startup.js?v=1"></script><script>(()=>{const q=new URLSearchParams(location.search);const defaults={mode:'player',flashLoadMode:'serial-early',p12A16IdleSyncReuse:'1',luckyProbe:'1',luckyUnderlayQuiet:'1',luckyAtlas:'compact',luckyStaticWarm:'1',luckySpriteCrops:'1',luckySpriteBitmaps:'1',luckyFirstFrameWarm:'1',shopDotBitmaps:'1',shopNormalCache:'1',singleMovieStartup:'audio-ready',zeroUnityCandidate:'1'};for(const[k,v]of Object.entries(defaults))if(!q.has(k))q.set(k,v);history.replaceState(null,'',location.pathname+'?'+q+location.hash);})();</script><script crossorigin="anonymous" src="src/phone-diagnostics.js?v=13"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>零 Unity 候選 · 水晶寶箱 Clean Rebuild · R12-P4-R9 Lucky Fever 商店狀態</title><script>(()=>{const q=new URLSearchParams(location.search),player=q.get('mode')==='player';document.documentElement.classList.toggle('mode-player',player);document.documentElement.classList.toggle('mode-r14-focus',q.get('mode')==='engineering'&&q.get('r14p32r2r14')==='1');document.documentElement.classList.toggle('p11-shell-instage',player);})();</script><link rel="stylesheet" href="style.css?p11d6=20261109&p12b5r2=20261110&phoneModules=3&flashFix=4&release=1"><script type="module" src="src/video-frame-diagnostics.mjs?v=30"></script></head>
+<body><div id="cleanRebuildRoot" class="clean-rebuild-root"><main class="player-acceptance">
+  <section id="normal-local-player" class="normal-local-player" aria-labelledby="normal-local-player-title">
+    <div class="normal-local-player-heading">
+      <h1 id="normal-local-player-title">本地模擬（非官方）</h1>
+      <p>本地模擬（非官方）：直接使用水晶寶箱舞台的原始購買按鈕。Normal 單抽／10+1 依玩家提供的 Lucky Fever 規則分別判定 1.5%／整次購買 16.5%；Normal 10+1 仍依公告權重抽樣並沿用 R9 翻卡。所有結果與機率判定均為 WEB_SIMULATION_ONLY，不扣款、不連伺服器；單抽動畫起播採 R8 結果顯示後的 Web 適配，原生 present 時序未閉合。</p>
+    </div>
+    <div class="normal-local-player-controls">
+      <button type="button" id="normal-local-full-flow" class="normal-local-primary" disabled>模擬抽 1 次</button>
+      <button type="button" id="normal-local-ten-full-flow" class="normal-local-primary" disabled>Normal 10+1 模擬抽獎</button>
+      <details id="normal-local-advanced" class="normal-local-advanced">
+        <summary>進階測試設定</summary>
+        <section id="movie-selector-p5-controls" hidden aria-label="P5 工程自動選片候選" style="border:1px solid #667085;border-radius:8px;padding:10px;margin:8px 0;background:#1c2028">
+          <strong>Movie Selector P5 · ENGINEERING_FIXTURE_ONLY</strong>
+          <label>選片模式
+            <select id="movie-selector-p5-mode"><option value="manual" selected>手動 N/H/R（預設）</option><option value="auto">來源欄位自動候選（Define 2128 ON 條件式）</option></select>
+          </label>
+          <p>工程模式的手動 N/H/R 與來源欄位自動候選為 ENGINEERING_FIXTURE_ONLY。P10 Player 使用同次結果中的 pool＋sourceRowKey 進行 WEB_CONDITIONAL_MOVIE_SELECTOR；P6 decision-equivalent 保留 ambiguous 身分、不建立假 ItemID。其他缺列／錯池維持 UNRESOLVED_INPUT；Define 2128 當期值與 Native parity 仍未確認。</p>
+          <pre id="movie-selector-p5-status" aria-live="polite">人工選片模式；原有 N/H/R 測試選擇不變。</pre>
+        </section>
+        <div class="normal-local-advanced-fields">
+          <label>抽樣模式
+            <select id="normal-local-flow-mode">
+              <option value="random" selected>本地隨機（預設）</option>
+              <option value="seeded">指定 Seed 重播（測試）</option>
+            </select>
+          </label>
+          <label>Seed <input id="normal-local-seed" value="CrystalChest-Normal-R6-target-115" autocomplete="off" spellcheck="false"></label>
+          <label id="movie-selector-manual-controls" hidden>測試影片 Fixture
+            <select id="movie-source"><option value="N" selected>N 原片</option><option value="H">H 原片</option><option value="R">R 原片</option></select>
+          </label>
+        </div>
+        <p>工程模式可明確選擇手動影片；Confirm 返回後會清除本次 pending 結果，但保留模式、Seed 與工程影片選擇。</p>
+      </details>
+    </div>
+    <p id="normal-local-player-status" class="normal-local-player-status" role="status" aria-live="polite">正在檢查本地 Normal 資料……</p>
+    <div class="normal-local-fever-player" aria-live="polite">
+      <p id="normal-local-fever-player-state" class="normal-local-fever-player-state">本地 Fever 測試狀態初始化中……</p>
+      <button type="button" id="local-fever-ten-start" class="normal-local-secondary" disabled>本地 Fever 10+1 模擬（非官方）</button>
+      <button type="button" id="normal-local-fever-player-reset" class="normal-local-fever-reset" data-classification="WEB_SIMULATION_MANUAL_NEW_CYCLE" hidden>重新開始本地模擬</button>
+    </div>
+  </section>
+
+  <section id="r14p32r2r14-controls" hidden aria-label="R14-P32-R2-R14 Fever ScreenFx 工程候選" data-classification="ENGINEERING_EXPERIMENT_WEB_VISUAL_CANDIDATE_NOT_NATIVE_PARITY" style="margin:0;padding:10px;border:1px solid #a875d5;border-radius:8px;background:#241b32;color:#f5edff;max-width:850px;overflow:auto;">
+    <strong>R14-P32-R2-R14｜Fever ScreenFx 16 張工程比較</strong>
+    <p style="margin:5px 0;font-size:13px">工程限定；可比較 Flash02、ScreenFX、兩者同場及 OFF。雙層僅以 Web 現有層序 Flash02 → ScreenFX → cards 疊合；原生背景角色、順序、播放時間、Alpha 與層序尚未閉合。ScreenFX 間隔／順序／合成是 VISUAL_HYPOTHESIS。</p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:7px 0">
+      <label>比較模式 <select id="r14p32r2r14-mode"><option value="CURRENT_FLASH02">目前 Flash02</option><option value="SCREENFX_CANDIDATE">ScreenFX 候選</option><option value="COMBINED_FLASH02_SCREENFX">Flash02＋ScreenFX 同場（工程假說）</option><option value="OFF">OFF</option></select></label>
+      <label>手動影格 <select id="r14p32r2r14-frame"></select></label><button type="button" id="r14p32r2r14-inspect">檢視影格</button>
+      <label>假說順序 <select id="r14p32r2r14-order"><option value="forward">01 → 16</option><option value="reverse">16 → 01</option></select></label>
+      <label>假說間隔 <input id="r14p32r2r14-interval" type="range" min="30" max="500" step="10" value="100"><output id="r14p32r2r14-interval-value">100 ms</output></label>
+      <label>透明度 <input id="r14p32r2r14-opacity" type="range" min="0" max="100" step="1" value="70"><output id="r14p32r2r14-opacity-value">70%</output></label>
+      <label>合成 <select id="r14p32r2r14-composite"><option value="source-over">Normal</option><option value="lighter">Additive（Web lighter）</option></select></label>
+      <label><input type="checkbox" id="r14p32r2r14-loop" checked>循環</label>
+      <button type="button" id="r14p32r2r14-replay">重播</button><button type="button" id="r14p32r2r14-stop">停止／隱藏</button><button type="button" id="r14p32r2r14-save-frame">下載目前 11 卡舞台 PNG</button>
+    </div>
+    <p id="r14p32r2r14-status" role="status" aria-live="polite">尚未載入素材；只作用於目前 Fever 10+1 的同一組 11 卡結果。</p>
+    <small>候選位於卡片後方，只用一張全舞台 1280×720 素材，逐幀重用已解碼 Image；不改卡片、背景資料、抽獎或 Fever 額度。Confirm／Reset／Retry 會停止並隱藏候選。</small>
+  </section>
+
+  <details id="diagnostic-mode" class="diagnostic-mode">
+  <summary>診斷模式：展開工程控制；收合返回玩家驗收模式</summary>
+  <div class="diagnostic-content">
+  <h1>水晶寶箱 Clean Rebuild · R8 本地單抽</h1>
+  <p>Normal／Fever 268/268 靜態展示圖示玩家 PASS · Normal 四品級代表卡玩家 4/4 PASS · R6 三張 Web 限定代表卡玩家 3/3 PASS · R5/R6 展示不證明 ItemID 或伺服器 payload · 03／04 FX 維持關閉</p>
+  <div class="i2-lucky-fever-diagnostic"><button type="button" id="lucky-fever-diagnostic-arm" disabled>為目前 11 卡結果設定 Lucky Fever 診斷旗標</button><span id="lucky-fever-diagnostic-status" role="status" aria-live="polite">只作用於目前一次非 Fever 11 卡 session；不代表官方 isRandomFever。</span></div><div class="actions">
+  <label><input type="checkbox" id="canvas-resolution-probe">DPR-aware Canvas backing 診斷（僅靜態商店）</label>
+<label>測試結果 <select id="fixture"><option value="0">Fixture A</option><option value="1">Fixture B</option></select></label>
+  <label>流程數量 <select id="draw-count"><option value="11">10+1（11 張固定展示）</option><option value="1">1 次（單張固定展示）</option></select></label>
+  
+  <button id="full-flow">商店流程：播放原片後進入結果</button><button id="open">直接開始 10+1 發卡（R3 測試入口）</button><button id="reset">返回初始狀態</button>
+  <label><input type="checkbox" id="backs">顯示卡背</label><label><input type="checkbox" id="fx-enabled">顯示 03／04 FX（R4 玩家 FAIL）</label>
+  <label><input type="checkbox" id="sound-enabled" checked>播放原始翻卡音效</label><label>Card.Special 音效 Fixture <select id="sound-special"><option value="false">Normal</option><option value="true">Special</option></select></label>
+  <label>遮罩情境 <select id="background"><option value="frame">Frame：序列化 Tween 端點</option><option value="blocker">InputBlocker：序列化透明度</option><option value="none">未啟用遮罩</option></select></label></div>
+
+  <section id="p30p1b-controls" hidden aria-label="R14-P30-P1B Normal 10+1 結果背景 A/B" style="margin:10px 0;padding:10px;border:1px solid #668097;border-radius:8px;background:#1b2834;color:#e9f1fa;max-width:850px;">
+    <strong>R14-P30-P1B｜Normal 10+1 結果背景 A/B（工程限定）</strong>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:7px 0;">
+      <label>比較版本 <select id="p30p1b-variant"><option value="baseline">A｜來源基準 Frame Alpha 0.70（工程對照）</option><option value="f53-reference">B｜玩家選定 Web Alpha 候選（0.85）</option></select></label>
+      <label>B Alpha（0.70–0.90） <input id="p30p1b-alpha" type="range" min="0.70" max="0.90" step="0.01" value="0.85" disabled><output id="p30p1b-alpha-value" for="p30p1b-alpha">0.70</output></label>
+    </div>
+    <p id="p30p1b-status" role="status" style="margin:5px 0;font-size:13px;">只對 Normal 10+1 11 卡結果作用。</p>
+    <small>同一批 11 卡可即時切換 A／B；A 為來源 0.70 的工程對照，B 預設玩家選定 0.85，範圍 0.70–0.90、步進 0.01。B 僅覆寫同一個 Frame 的 Web Alpha，屬 WEB_VISUAL_ADAPTATION，不代表官方原始數值；卡片、FX 與操作按鈕仍在既有前景層。</small>
+  </section>
+  <section id="p30p3-controls" hidden aria-label="R14-P30-P3 OneTime 原始背景動畫" style="margin:10px 0;padding:10px;border:1px solid #668097;border-radius:8px;background:#1b2834;color:#e9f1fa;max-width:850px;">
+    <strong>OneTime 原始 Box2 背景粒子｜P3R1 預備／入場時間收據</strong>
+    <label>同一卡動畫 <select id="p30p3-variant"><option value="still">A｜無動畫</option><option value="motion" selected>B｜原始 Box2 三組持續粒子</option></select></label>
+    <p>僅工程單抽結果。引擎預備不啟動粒子；結果入場才啟動原始三組。P2 A 預設不變；首次未預備完成會如實記錄，卡片不等待。</p>
+    <p id="p30p3-status" role="status">請進入單抽結果。</p>
+    <details><summary>P3 工程收據</summary><button type="button" id="p30p3-refresh">更新 P3 工程收據</button><pre id="p30p3-receipt"></pre></details>
+  </section>
+  <section id="p30p2-controls" hidden aria-label="R14-P30-P2 OneTime 單抽原始背景來源 A/B" style="margin:10px 0;padding:10px;border:1px solid #668097;border-radius:8px;background:#1b2834;color:#e9f1fa;max-width:850px;">
+    <strong>R14-P30-P2｜單抽背景來源整合對照（啟用後才顯示）</strong>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:7px 0;">
+      <label>比較版本 <select id="p30p2-variant"><option value="fader-only">A｜已接入的原始 Frame/Fader 單層 0.70</option><option value="historical-dual">B｜舊 S3-F10 InputBlocker＋Frame 雙來源（未證實同時啟用）</option></select></label>
+    </div>
+    <p id="p30p2-status" role="status" style="margin:5px 0;font-size:13px;">選擇 Normal 單抽並展示結果卡，即可在同一畫面比較。</p>
+    <small>A 已存在於目前正式程式；B 是舊 S3-F10 Web 條件式合成的來源對照，並非原生 OneTime 必然雙層。兩者不改卡片、影片、FX、機率或 10+1。</small>
+  </section>
+  <details id="normal-local-simulation"><summary>LOCAL_NORMAL_SIMULATION · 診斷預覽與來源收據</summary><p>下方工具僅供診斷，不接管玩家區單抽／10+1 入口，也不改原商店購買 Fixture。115 列沿用 R3 靜態來源契約；R5 三列為玩家確認神話樣式；R6 十六列為公告品級 Web 樣式，仍不選定候選 ItemID、不填 resultPayload.item、不推定部位或有效品級（liveResultGrade=UNKNOWN）。FX OFF。</p><div class="local-sim-actions"><button type="button" id="normal-local-random" disabled>診斷：本地隨機直接顯示</button><button type="button" id="normal-local-seeded" disabled>診斷：Seed 直接顯示</button><button type="button" id="normal-local-preview" disabled>重新顯示最後抽中的准入結果卡／展示</button><button type="button" id="normal-local-ten-display" disabled>R9 診斷：固定 11 列展示（不抽樣）</button></div><pre id="normal-local-output" aria-live="polite">正在檢查 134 列來源與 payload 對照……</pre>
+    <section id="local-fever-simulation" class="local-fever-simulation" aria-labelledby="local-fever-title">
+      <h2 id="local-fever-title">LOCAL_FEVER_SIMULATION · WEB_SIMULATION_ONLY</h2>
+      <p>獨立本地 Fever 模擬，不連接正式商店購買、伺服器或官方結果生成。R8 本地單抽在結果顯示後 +1；R12-P1 Normal 10+1 在 11 張翻開動畫完成、且沒有准入素材載入失敗後 +11。玩家觀察模型上限 110，達標後有兩次本地額度。一般單抽與 Normal 10+1 在 Fever 測試狀態下停用。Fever 10+1 仍為明確 Web 假設；全部翻開才扣一次本地額度。未准入卡面保留抽中來源列並顯示中性診斷，不重抽、不代換。R9 固定展示不抽樣且不計進度；FX OFF。這些均為 WEB_SIMULATION_ONLY／WEB_ADAPTATION，不代表伺服器規則。</p>
+      <div class="local-sim-actions">
+        <button type="button" id="local-fever-normal-single">診斷 Fixture：Normal +1（非抽卡流程）</button>
+        <button type="button" id="local-fever-normal-ten">診斷 Fixture：Normal 10+1 +11（非 R9 固定展示）</button>
+        <button type="button" id="local-fever-direct-fill">診斷 Fixture：直接集滿 110</button>
+        <button type="button" id="local-fever-ten-complete">診斷 Fixture：記錄本地 Fever 10+1 完成（−1）</button>
+        <button type="button" id="local-fever-reset">Reset 本地 Fever 測試</button>
+      </div>
+      <p id="local-fever-status" class="local-fever-status" role="status" aria-live="polite">正在初始化本地 Fever 測試狀態……</p>
+      <pre id="local-fever-events" class="local-fever-events">尚無本地 Fever 測試事件。</pre>
+    </section>
+  </details>
+  <details id="visual-quality-diagnostics"><summary>畫質診斷讀值</summary><button type="button" id="visual-quality-measure">量測靜態商店重繪 10 次</button><pre id="visual-quality-receipt">尚未量測。</pre></details>
+  <p id="status" role="status">正在載入來源資料……</p>
+  <details id="pool-dev-details"><summary>開發模式：獎池清單資料診斷</summary><p>商店格子依 S1C 玩家參考版面顯示圖示、道具名稱及有界活動標記；不在格子加印公告品級或機率。各列公告欄位仍保留於官方 JSON、項目輔助標籤與下方診斷摘要。本面板不重複繪製整份獎池，也不執行 RNG。</p><button type="button" id="pool-diag-refresh">更新診斷摘要</button><pre id="pool-diag-summary">尚未更新。</pre></details>
+  <details><summary>同時間 FX ON／OFF 比較</summary><p>全部開啟後，可在相同結果畫面上定格指定卡片的 FX。切換「顯示 03／04 FX」只改變特效可見性。</p>
+  <label>卡片 <select id="compare-card"><option value="0">第 1 張 · 03</option><option value="1">第 2 張 · 04</option><option value="2">第 3 張 · 03</option><option value="3">第 4 張 · 04</option><option value="4">第 5 張 · 03</option><option value="5">第 6 張 · 04</option><option value="6">第 7 張 · 03</option><option value="7">第 8 張 · 04</option><option value="8">第 9 張 · 03</option><option value="9">第 10 張 · 04</option><option value="10">第 11 張 · 03</option></select></label>
+  <label>FX 啟動後毫秒 <input id="compare-age" type="number" min="0" max="3000" step="16.666667" value="216.666667"></label>
+  <button id="compare-apply" disabled>顯示定格</button><button id="compare-clear">結束比對</button></details>
+  <details><summary>來源與功能界線</summary><p>完整流程中的 N／H／R 影片由玩家手動選擇；客戶端實際選片依結果與條件分支，當期活動 runtime 分支仍未閉合。單抽固定顯示 Fixture 首筆結果，10+1 使用 Fixture A／B；都不扣水晶、不執行真正的伺服器抽取。單抽以正面穩定結果展示，不加入 TenTimeGacha 翻牌。</p><p>翻卡音效對應原始 Treasure_Normal／Treasure_Special AudioClip；Card.Special 由上方明示診斷 Fixture 選擇，並非從目前結果自動推定。SoundManager 的重疊／打斷行為未閉合。</p><ol id="items"></ol><p>03／04 保留原掛接與可選播放程式，預設關閉且維持 R4_FX_PLAYER_VISUAL_FAIL；本輪不調整倍率、合成或粒子。Frame、InputBlocker 與 1280×720 Camera 輸入仍是條件 fixture；原生 UIRoot／CameraManager／UIPanel／VirtualDrawcall 的最終合成未閉合。</p></details>
+  <details id="performance-details"><summary>R5 工程效能收據</summary><p>收據分開記錄 Flip 事件時間與 Web Audio 排程時間；瀏覽器無法從 JavaScript 量測喇叭實際發聲時刻。FX OFF 時的 FX PNG 請求與 createImageBitmap 計數應為 0。</p><pre id="performance-receipt">尚無完成的 10+1 收據。</pre></details>
+  </div>
+  </details>
+  <div class="stage-fit" id="stage-fit"><div class="stage" id="stage"><canvas id="scene" width="1280" height="720" aria-label="Clean Rebuild 場景"></canvas>
+    <section id="official-pool-browser" class="shop-pool-overlay" aria-labelledby="pool-title">
+      <h2 id="pool-title" class="sr-only">商店右側公告獎池清單</h2>
+      <div class="pool-tabs" role="tablist" aria-label="選擇公告獎池">
+        <button type="button" id="pool-tab-normal" class="pool-tab-hit pool-tab-normal" role="tab" aria-controls="pool-grid-scroll" aria-label="一般 Normal 獎池" aria-selected="true" data-pool="NORMAL"><span class="sr-only">一般 Normal</span></button>
+        <button type="button" id="pool-tab-fever" class="pool-tab-hit pool-tab-fever" role="tab" aria-controls="pool-grid-scroll" aria-label="Fever 獎池" aria-selected="false" data-pool="FEVER"><span class="sr-only">Fever</span></button>
+      </div>
+      <p id="pool-summary" class="sr-only" role="status">載入公告獎池……</p>
+      <div id="pool-grid-scroll" class="pool-grid-scroll" tabindex="0" aria-label="獎池項目，可使用滑鼠滾輪、拖曳或方向鍵捲動">
+        <ol id="pool-grid" class="pool-grid" aria-label="公告獎品，依官方順序排列"></ol>
+      </div>
+      <div id="pool-scrollbar" class="pool-scrollbar" role="scrollbar" aria-label="獎池清單捲軸" aria-controls="pool-grid-scroll" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" tabindex="0"><span id="pool-scrollbar-thumb" class="pool-scrollbar-thumb"></span></div>
+    </section>
+    <video id="movie" class="movie-player" hidden playsinline preload="metadata" aria-label="原始開箱影片"></video><button id="movie-skip" class="movie-skip" hidden aria-label="跳過"><span class="movie-skip-content"><img id="movie-skip-bg" class="movie-skip-bg" alt=""><span id="movie-skip-label" class="movie-skip-label">跳過</span><img id="movie-skip-arrow" class="movie-skip-arrow" alt=""></span></button><button id="flip-all" class="hit flip-all" aria-label="一次開啟"></button><button id="retry" class="hit retry" aria-label="再次使用固定測試資料"></button><button id="confirm" class="hit confirm" aria-label="返回商店"></button>
+    <div id="probability-modal-overlay" class="probability-modal-overlay" hidden aria-hidden="true">
+      <section id="probability-modal" class="probability-modal" role="dialog" aria-modal="true" aria-labelledby="probability-modal-title" aria-describedby="probability-modal-body" tabindex="-1">
+        <header class="probability-modal-titlebar"><h2 id="probability-modal-title">機率資訊</h2></header>
+        <div class="probability-modal-content"><p id="probability-modal-body">你怎麼敢相信封M的機率</p><div class="probability-modal-actions"><button type="button" id="probability-modal-stay">我相信</button><button type="button" id="probability-modal-close">我錯了</button></div></div>
+      </section>
+    </div>
+  </div>
+  <div id="luckyFeverOverlay" class="i2-lucky-fever-overlay" hidden aria-hidden="true"><canvas id="compositionCanvas" class="i2-lucky-fever-canvas" aria-label="C5-R2 Lucky Fever temporary WEB_ADAPTATION overlay"></canvas><div id="compositionError" class="i2-lucky-fever-error" hidden></div><span id="compositionLoadState" class="i2-lucky-fever-sr-only">載入 Lucky Fever 來源素材…</span><span id="candidateStatus" class="i2-lucky-fever-sr-only"></span></div></div></main></div><script crossorigin="anonymous" src="i1-fever-source/data/source-model.js?i2=20261030"></script><script crossorigin="anonymous" src="i1-fever-source/transform-math.js?i2=20261030"></script><script>window.LUCKY_FEVER_EMBED_MODE=true;</script><script crossorigin="anonymous" src="i1-fever-source/composition.js?i2=20261124-lucky-firstframe15"></script><script>window.LUCKY_FEVER_COMPOSITION?.setDotParticleMode('C5');</script><script crossorigin="anonymous" src="src/shop-dot-manifest.js?r13p4=20261101"></script><script crossorigin="anonymous" src="src/shop-dot-player.js?r13p8=20261124bitmap20"></script><script crossorigin="anonymous" type="module" src="src/pool-list.js?r14p31r5=20261105b"></script><script type="module">import("./src/app.js?r14p10=20261107c&p11m3=20261108a&p11d5=20261109&p11d6=20261109&p12b5r2=20261110&phoneModules=3&flashFix=4&release=1").catch(error=>window.__releaseFail?.(error));</script></body></html>

@@ -1,0 +1,253 @@
+{
+  "classification": "DEMO_FIXTURE_NOT_SERVER_RESULT",
+  "effectiveGradeType": 6,
+  "define848": true,
+  "groups": [
+    [
+      {
+        "itemID": 59263,
+        "name": "指南羅盤",
+        "part": "輔助武器",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+        "iconWidth": 35,
+        "iconHeight": 36
+      },
+      {
+        "itemID": 54376,
+        "name": "普錫杰勒天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+        "iconWidth": 38,
+        "iconHeight": 38
+      },
+      {
+        "itemID": 54382,
+        "name": "艾利歐格天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+        "iconWidth": 38,
+        "iconHeight": 38
+      },
+      {
+        "itemID": 54388,
+        "name": "傑伊希恩天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+        "iconWidth": 37,
+        "iconHeight": 37
+      },
+      {
+        "itemID": 54394,
+        "name": "烏特卡勒德天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+        "iconWidth": 38,
+        "iconHeight": 38
+      },
+      {
+        "itemID": 40165,
+        "name": "伊克雷帝奧丁神袍",
+        "part": "套服",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+        "iconWidth": 33,
+        "iconHeight": 34
+      },
+      {
+        "itemID": 40924,
+        "name": "貴族護肩",
+        "part": "護肩",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+        "iconWidth": 30,
+        "iconHeight": 27
+      },
+      {
+        "itemID": 40923,
+        "name": "藍色黃金腰帶",
+        "part": "腰帶",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+        "iconWidth": 34,
+        "iconHeight": 26
+      },
+      {
+        "itemID": 40922,
+        "name": "天狼星披風",
+        "part": "披風",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+        "iconWidth": 30,
+        "iconHeight": 30
+      },
+      {
+        "itemID": 40942,
+        "name": "挑戰者肩膀",
+        "part": "護肩",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+        "iconWidth": 31,
+        "iconHeight": 27
+      },
+      {
+        "itemID": 40941,
+        "name": "太陽腰帶",
+        "part": "腰帶",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+        "iconWidth": 33,
+        "iconHeight": 27
+      }
+    ],
+    [
+      {
+        "itemID": 40940,
+        "name": "血腥披肩",
+        "part": "披風",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+        "iconWidth": 30,
+        "iconHeight": 30
+      },
+      {
+        "itemID": 40960,
+        "name": "皇家護肩",
+        "part": "護肩",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+        "iconWidth": 34,
+        "iconHeight": 27
+      },
+      {
+        "itemID": 40959,
+        "name": "終極腰帶",
+        "part": "腰帶",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+        "iconWidth": 32,
+        "iconHeight": 27
+      },
+      {
+        "itemID": 40958,
+        "name": "冒險家的披風",
+        "part": "披風",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+        "iconWidth": 30,
+        "iconHeight": 31
+      },
+      {
+        "itemID": 40978,
+        "name": "騎士護肩",
+        "part": "護肩",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+        "iconWidth": 31,
+        "iconHeight": 27
+      },
+      {
+        "itemID": 40977,
+        "name": "綠色鎖扣腰帶",
+        "part": "腰帶",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+        "iconWidth": 32,
+        "iconHeight": 27
+      },
+      {
+        "itemID": 40976,
+        "name": "佩沙里洛披肩",
+        "part": "披風",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+        "iconWidth": 32,
+        "iconHeight": 32
+      },
+      {
+        "itemID": 54376,
+        "name": "普錫杰勒天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+        "iconWidth": 38,
+        "iconHeight": 38
+      },
+      {
+        "itemID": 54382,
+        "name": "艾利歐格天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+        "iconWidth": 38,
+        "iconHeight": 38
+      },
+      {
+        "itemID": 54388,
+        "name": "傑伊希恩天之星光權杖",
+        "part": "武器",
+        "grade": "神話",
+        "fxSelector": "04",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+        "iconWidth": 37,
+        "iconHeight": 37
+      },
+      {
+        "itemID": 59263,
+        "name": "指南羅盤",
+        "part": "輔助武器",
+        "grade": "神話",
+        "fxSelector": "03",
+        "fxSelectorEvidence": "EXPLICIT_DEMO_FIXTURE_NOT_SERVER_RESULT",
+        "icon": "assets/icons/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+        "iconWidth": 35,
+        "iconHeight": 36
+      }
+    ]
+  ]
+}

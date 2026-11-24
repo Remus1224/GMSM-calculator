@@ -1,0 +1,168 @@
+{
+  "schema": "CrystalChest.NormalR2.PreviewIconAdmission.v1",
+  "method": "Admit a diagnostic result-card icon only when its source-row adapter path and SHA match an existing Clean manifest item path/SHA and the runtime file bytes. No icon identity inference.",
+  "rows": [
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"14\"]",
+      "itemID": 59263,
+      "itemName": "指南羅盤",
+      "runtimeAssetPath": "assets/icons/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "sha256": "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"51\"]",
+      "itemID": 54376,
+      "itemName": "普錫杰勒天之星光權杖",
+      "runtimeAssetPath": "assets/icons/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "sha256": "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"52\"]",
+      "itemID": 54382,
+      "itemName": "艾利歐格天之星光權杖",
+      "runtimeAssetPath": "assets/icons/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "sha256": "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"53\"]",
+      "itemID": 54388,
+      "itemName": "傑伊希恩天之星光權杖",
+      "runtimeAssetPath": "assets/icons/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "sha256": "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"54\"]",
+      "itemID": 54394,
+      "itemName": "烏特卡勒德天之星光權杖",
+      "runtimeAssetPath": "assets/icons/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "sha256": "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"55\"]",
+      "itemID": 40165,
+      "itemName": "伊克雷帝奧丁神袍",
+      "runtimeAssetPath": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+      "sha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"59\"]",
+      "itemID": 40924,
+      "itemName": "貴族護肩",
+      "runtimeAssetPath": "assets/icons/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "sha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"60\"]",
+      "itemID": 40923,
+      "itemName": "藍色黃金腰帶",
+      "runtimeAssetPath": "assets/icons/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "sha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"61\"]",
+      "itemID": 40922,
+      "itemName": "天狼星披風",
+      "runtimeAssetPath": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "sha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"66\"]",
+      "itemID": 40942,
+      "itemName": "挑戰者肩膀",
+      "runtimeAssetPath": "assets/icons/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "sha256": "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"67\"]",
+      "itemID": 40941,
+      "itemName": "太陽腰帶",
+      "runtimeAssetPath": "assets/icons/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "sha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"68\"]",
+      "itemID": 40940,
+      "itemName": "血腥披肩",
+      "runtimeAssetPath": "assets/icons/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "sha256": "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"73\"]",
+      "itemID": 40960,
+      "itemName": "皇家護肩",
+      "runtimeAssetPath": "assets/icons/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "sha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"74\"]",
+      "itemID": 40959,
+      "itemName": "終極腰帶",
+      "runtimeAssetPath": "assets/icons/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "sha256": "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"75\"]",
+      "itemID": 40958,
+      "itemName": "冒險家的披風",
+      "runtimeAssetPath": "assets/icons/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "sha256": "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"80\"]",
+      "itemID": 40978,
+      "itemName": "騎士護肩",
+      "runtimeAssetPath": "assets/icons/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "sha256": "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"81\"]",
+      "itemID": 40977,
+      "itemName": "綠色鎖扣腰帶",
+      "runtimeAssetPath": "assets/icons/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "sha256": "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73"
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"82\"]",
+      "itemID": 40976,
+      "itemName": "佩沙里洛披肩",
+      "runtimeAssetPath": "assets/icons/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "sha256": "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0",
+      "evidence": "SOURCE_ROW_ADAPTER_PLUS_RUNTIME_FILE_SHA256_EXACT",
+      "payloadItemIconSourcePngSha256": "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0"
+    }
+  ]
+}

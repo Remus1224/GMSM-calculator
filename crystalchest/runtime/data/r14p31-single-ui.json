@@ -1,0 +1,30 @@
+{
+  "classification": [
+    "PLAYER_DECISION",
+    "WEB_ADAPTATION"
+  ],
+  "voucher": {
+    "name": "Icon_Treasure_Box_voucher",
+    "file": "assets/ui/Icon_Treasure_Box_voucher.png",
+    "sha256": "2ae87eeff9c81bb17832c816e2ec7ba33084f7547afe13b54783e57e93219268",
+    "width": 32,
+    "height": 32
+  },
+  "quantities": {
+    "single": 1,
+    "retry": 1,
+    "ten": 10,
+    "feverTen": 10
+  },
+  "retryPrice": {
+    "display": "1",
+    "source": "PLAYER_DECISION",
+    "kind": "VOUCHER_UI_DISPLAY_RULE",
+    "chargesCurrency": false
+  },
+  "resultActivityTime": {
+    "display": "12天04小時",
+    "source": "PLAYER_DECISION",
+    "kind": "FIXED_UI_DISPLAY_NOT_LIVE_TIMER"
+  }
+}

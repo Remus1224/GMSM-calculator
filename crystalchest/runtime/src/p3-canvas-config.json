@@ -1,0 +1,406 @@
+{
+  "classification": "SOURCE_DERIVED_VISUAL_APPROXIMATION",
+  "camera": {
+    "orthographicSize": 1,
+    "logicalWidth": 1280,
+    "logicalHeight": 720
+  },
+  "webDrawOrder": [
+    "bf_p001",
+    "flash_p001"
+  ],
+  "drawOrderNativeProven": false,
+  "particles": [
+    {
+      "name": "bf_p001",
+      "texture": "../assets/p3-canvas/a_flash_p025.png",
+      "blend": "lighter",
+      "emitterScale": [
+        1,
+        1
+      ],
+      "duration": 5.0,
+      "max": 1,
+      "lifetime": {
+        "mode": 0,
+        "scalar": 5.0,
+        "minScalar": 5.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "startSize": {
+        "mode": 0,
+        "scalar": 0.4000000059604645,
+        "minScalar": 1.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "startSpeed": {
+        "mode": 0,
+        "scalar": 0.0,
+        "minScalar": 5.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 0.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "startRotation": {
+        "mode": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 0.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "size": {
+        "mode": 1,
+        "scalar": 15.0,
+        "minScalar": 1.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.8500000238418579,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 0.5,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 0.8500000238418579,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "rotation": {
+        "mode": 3,
+        "scalar": 0.12217304855585098,
+        "minScalar": -0.12217305600643158,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "rate": 10.0,
+      "shape": {
+        "enabled": true,
+        "type": 0,
+        "radius": 0.009999999776482582,
+        "thickness": 1.0
+      },
+      "colors": [
+        {
+          "t": 0.0,
+          "r": 1.0,
+          "g": 0.7450980544090271,
+          "b": 0.0
+        },
+        {
+          "t": 0.08235294117647059,
+          "r": 1.0,
+          "g": 1.0,
+          "b": 0.5215686559677124
+        },
+        {
+          "t": 1.0,
+          "r": 1.0,
+          "g": 0.7450980544090271,
+          "b": 0.0
+        }
+      ],
+      "alphas": [
+        {
+          "t": 0.0,
+          "a": 0.0
+        },
+        {
+          "t": 0.07647821774624247,
+          "a": 1.0
+        },
+        {
+          "t": 1.0,
+          "a": 0.0
+        }
+      ],
+      "startColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      }
+    },
+    {
+      "name": "flash_p001",
+      "texture": "../assets/p3-canvas/a_icon009.png",
+      "blend": "source-over",
+      "emitterScale": [
+        7,
+        8
+      ],
+      "duration": 5.0,
+      "max": 10,
+      "lifetime": {
+        "mode": 3,
+        "scalar": 2.5,
+        "minScalar": 1.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "startSize": {
+        "mode": 3,
+        "scalar": 0.10000000149011612,
+        "minScalar": 0.03999999910593033,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "startSpeed": {
+        "mode": 0,
+        "scalar": -1.0,
+        "minScalar": 5.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "startRotation": {
+        "mode": 0,
+        "scalar": 0.0,
+        "minScalar": 0.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 0.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "size": {
+        "mode": 1,
+        "scalar": 1.0,
+        "minScalar": 1.0,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 0.0,
+            "inSlope": 2.0,
+            "outSlope": 2.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "rotation": {
+        "mode": 3,
+        "scalar": 2.6179938316345215,
+        "minScalar": -2.6179938316345215,
+        "keys": [
+          {
+            "time": 0.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          },
+          {
+            "time": 1.0,
+            "value": 1.0,
+            "inSlope": 0.0,
+            "outSlope": 0.0
+          }
+        ]
+      },
+      "rate": 10.0,
+      "shape": {
+        "enabled": true,
+        "type": 6,
+        "radius": 7.0,
+        "thickness": 1.0
+      },
+      "colors": [
+        {
+          "t": 0.0,
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0
+        },
+        {
+          "t": 0.08235294117647059,
+          "r": 1.0,
+          "g": 0.929411768913269,
+          "b": 0.0
+        },
+        {
+          "t": 0.17647058823529413,
+          "r": 1.0,
+          "g": 0.43529412150382996,
+          "b": 0.0
+        },
+        {
+          "t": 0.26764324406805523,
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0
+        },
+        {
+          "t": 0.3441214618142977,
+          "r": 0.11764705926179886,
+          "g": 1.0,
+          "b": 0.16078431904315948
+        },
+        {
+          "t": 0.4794079499504082,
+          "r": 0.3529411852359772,
+          "g": 1.0,
+          "b": 1.0
+        },
+        {
+          "t": 1.0,
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0
+        }
+      ],
+      "alphas": [
+        {
+          "t": 0.0,
+          "a": 0.0
+        },
+        {
+          "t": 0.009994659342336155,
+          "a": 0.3921568691730499
+        },
+        {
+          "t": 0.3499961852445258,
+          "a": 0.3921568691730499
+        },
+        {
+          "t": 0.6558785381857023,
+          "a": 0.3921568691730499
+        },
+        {
+          "t": 1.0,
+          "a": 0.0
+        }
+      ],
+      "startColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      }
+    }
+  ],
+  "provenance": {
+    "work\\crystalchest_r14p30p3r1_timing_20261104\\nosplash6\\PRESERVED_BOX2_PS.json": "1653c151b388f8dbe000fb28942b172e6bdd68af8c6a6acccc1126dbb2f0ed59",
+    "work\\crystalchest_r14p30p3r1_timing_20261104\\nosplash6\\PRESERVED_BOX2_RENDERERS.json": "16fe55bb601f56e27a9cbc20f26a70042c4d69db7850503496627b057f8cdf6e",
+    "work\\crystalchest_r14p30p3r1_timing_20261104\\nosplash6\\UnityProbe\\Assets\\P3OneTimeBackground.unity": "7515f747f7b3adb196ad3bdf2a32aab9fec21333a67219cb7891fd543d404a74"
+  },
+  "playerVisualDecision": {
+    "center_b001": "REMOVED_BY_PLAYER_VISUAL_DECISION_20261124",
+    "reference": "Player accepted center disabled; Image2 correct; not source-equivalent claim"
+  }
+}

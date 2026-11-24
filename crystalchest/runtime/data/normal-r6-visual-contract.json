@@ -1,0 +1,1192 @@
+{
+  "schema": "CrystalChest.NormalR6.VisualContract.v1",
+  "classification": "WEB_VISUAL_DISPLAY_ONLY_NOT_SOURCE_BOUND_RESULT_PAYLOAD",
+  "status": "NORMAL_R6_16_AMBIGUOUS_DISPLAY_PLAYER_PENDING",
+  "scope": "LOCAL_NORMAL_SIMULATION only; row-keyed announcement name/odds, verified display icon and Web-only style derived from announcement grade. No ItemID, result payload, live grade, part, FX, reroll, substitute, purchase or server result.",
+  "resultPayloadMutation": false,
+  "samplerMutation": false,
+  "rerollOrSubstitution": false,
+  "liveResultGrade": "UNKNOWN",
+  "fx": "OFF",
+  "sourceHashes": {
+    "officialPools": "3c9af14021b3e55761ba6677016faec89054923fac58cc4c1a44896caa1c41c0",
+    "normalLocalResultMap": "1f711b0be656764f429b77425267ac26af6a3fc6898a75cc976aaac3032fa686",
+    "normalR3IconAdmission": "1db4a10f13bb47909ebd0e5c7d80d958974c1dc2ea83f5e46cde96ebf6cf3a12",
+    "normalR5VisualContract": "66510f2d33fff0cb7ab1c194d5ac1fba446ecbd35f5a2285530b44ce8648ce4c",
+    "assetManifest": "6227a53658636a56b6dae022b8dfc72d21fd8a34fcec72e2c5e054a41eb3fefd",
+    "r6RowInput": "adf85f44a22e4a0dc5ec72aadd60f829e91a7be70ea1e0e193c110e0f3f55aed",
+    "r5AdmissionCsv": "f6991bf091f5d1c37ec9580a46c1d8113c6c6c2ff0a7d5cd8d160f7c2a522fd4",
+    "p0ItemHeaderDiscovery": "2967d202bb640c531c81866d1c3fecb1a5e744391d6ac36b8687cb892eb90cb8",
+    "p0ItemIconMapping": "a174059bf926d0e4d7ec4f9fe056927fdccc5c822ddbac08c3e13c7a57cffa56",
+    "s3f20DisplayRecords": "f403a95474b2963b851a7bef0649f5209b7b4544661fd4e6d2e710d3dc4acab1",
+    "s3f20DisplayReceipts": "8c8e0eabb8efc71516a027f6c022e075394232f30e55ab41fbfc54048fa65ba0",
+    "ghidraGameAssemblySha256": "ACE8626133BA52ED4053C4DC9E8DCEAA86BB138EF919597FDAF319E8F52A57F4",
+    "ghidraMetadataSha256": "8721EF1E0BF55D3ADDF91DE376508440D9BB810432A2741AF210913C4ED3F5C4",
+    "ghidraCurrentDumpSha256": "9F56C3FFAA5A62684590BE565F7A5BB87ADE765C15B4972BA0A82454B47A4A3B"
+  },
+  "entries": [
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"16\"]",
+      "officialSourceRow": 16,
+      "sourceIndex": 4,
+      "announcementName": "伊克雷帝奧丁神袍",
+      "officialProbabilityPercentRaw": "0.032",
+      "officialExactFractionRaw": "0.00032",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        53376,
+        408,
+        409
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "伊克雷帝奧丁神袍",
+        "icon": {
+          "path": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+          "evidenceClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "evidence": "SOURCE_MAPPING_VERIFIED exact runtime SHA and Bundle/CAB/PathID; does not bind row to unique ItemID",
+          "iconNameOrCandidate": "Icon_Armor_LongCoat_Mage_A",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathID": "7970086077164655994",
+          "sourcePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+          "runtimePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+          "sourceRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039",
+          "actualRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "古代",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_ancient",
+          "gradeOverlayAssetKey": "grade_ancient",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_chaos.png",
+            "sha256": "d98e786651715545989efdb3d694e5a9313d18817b467b6e696d9c791c85bdce",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3809379467842194619"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_DarkBlue.png",
+            "sha256": "e3aceac49cd80237eceb036a271d79f463d68c09121339b7a5616371381b64cd",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "4129622370104587486"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 4
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"26\"]",
+      "officialSourceRow": 26,
+      "sourceIndex": 14,
+      "announcementName": "貴族護肩",
+      "officialProbabilityPercentRaw": "0.032",
+      "officialExactFractionRaw": "0.00032",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        53484,
+        417
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "貴族護肩",
+        "icon": {
+          "path": "assets/icons/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Shoulder_025_Tenacious_Noble_Pauldron",
+          "bundle": "3413224.msm",
+          "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+          "pathID": "-1130923932872811762",
+          "sourcePngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+          "runtimePngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+          "sourceRgbaSha256": "ebb5a698a8a2ff9f93b1d996fb8480392a50179bdc2f88fc8e80bf08370386a1",
+          "actualRgbaSha256": "ebb5a698a8a2ff9f93b1d996fb8480392a50179bdc2f88fc8e80bf08370386a1"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "古代",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_ancient",
+          "gradeOverlayAssetKey": "grade_ancient",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_chaos.png",
+            "sha256": "d98e786651715545989efdb3d694e5a9313d18817b467b6e696d9c791c85bdce",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3809379467842194619"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_DarkBlue.png",
+            "sha256": "e3aceac49cd80237eceb036a271d79f463d68c09121339b7a5616371381b64cd",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "4129622370104587486"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 14
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"27\"]",
+      "officialSourceRow": 27,
+      "sourceIndex": 15,
+      "announcementName": "藍色黃金腰帶",
+      "officialProbabilityPercentRaw": "0.032",
+      "officialExactFractionRaw": "0.00032",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        53483,
+        416
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "藍色黃金腰帶",
+        "icon": {
+          "path": "assets/icons/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Belt_027_Tenacious_Green_Gilded_Belt",
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathID": "5032343496030212093",
+          "sourcePngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+          "runtimePngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+          "sourceRgbaSha256": "577747a853c15c66c824f9d2feeb5159603d472a486ae67a70987b46d21e18d8",
+          "actualRgbaSha256": "577747a853c15c66c824f9d2feeb5159603d472a486ae67a70987b46d21e18d8"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "古代",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_ancient",
+          "gradeOverlayAssetKey": "grade_ancient",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_chaos.png",
+            "sha256": "d98e786651715545989efdb3d694e5a9313d18817b467b6e696d9c791c85bdce",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3809379467842194619"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_DarkBlue.png",
+            "sha256": "e3aceac49cd80237eceb036a271d79f463d68c09121339b7a5616371381b64cd",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "4129622370104587486"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 15
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"28\"]",
+      "officialSourceRow": 28,
+      "sourceIndex": 16,
+      "announcementName": "天狼星披風",
+      "officialProbabilityPercentRaw": "0.032",
+      "officialExactFractionRaw": "0.00032",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        53482,
+        415
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "天狼星披風",
+        "icon": {
+          "path": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Cape_022",
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathID": "-3441444384984736574",
+          "sourcePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+          "runtimePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+          "sourceRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4",
+          "actualRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "古代",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_ancient",
+          "gradeOverlayAssetKey": "grade_ancient",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_chaos.png",
+            "sha256": "d98e786651715545989efdb3d694e5a9313d18817b467b6e696d9c791c85bdce",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3809379467842194619"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_DarkBlue.png",
+            "sha256": "e3aceac49cd80237eceb036a271d79f463d68c09121339b7a5616371381b64cd",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "4129622370104587486"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 16
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"40\"]",
+      "officialSourceRow": 40,
+      "sourceIndex": 28,
+      "announcementName": "皇家護肩",
+      "officialProbabilityPercentRaw": "0.032",
+      "officialExactFractionRaw": "0.00032",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        53490,
+        53597
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "皇家護肩",
+        "icon": {
+          "path": "assets/icons/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Shoulder_026_Tenacious_Royal_Pauldron|Icon_Shoulder_029_Imperial_Shoulder",
+          "bundle": "",
+          "cab": "",
+          "pathID": "",
+          "sourcePngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+          "runtimePngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+          "sourceRgbaSha256": "9be431d80b95311e12093d7663dd8821f5380d6ed1712c6b4e485b78716ba2c1",
+          "actualRgbaSha256": "9be431d80b95311e12093d7663dd8821f5380d6ed1712c6b4e485b78716ba2c1"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "古代",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_ancient",
+          "gradeOverlayAssetKey": "grade_ancient",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_chaos.png",
+            "sha256": "d98e786651715545989efdb3d694e5a9313d18817b467b6e696d9c791c85bdce",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "3809379467842194619"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_DarkBlue.png",
+            "sha256": "e3aceac49cd80237eceb036a271d79f463d68c09121339b7a5616371381b64cd",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "4129622370104587486"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 28
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"50\"]",
+      "officialSourceRow": 50,
+      "sourceIndex": 38,
+      "announcementName": "歐特羅盤",
+      "officialProbabilityPercentRaw": "1.19",
+      "officialExactFractionRaw": "0.0119",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        59261,
+        38900
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "歐特羅盤",
+        "icon": {
+          "path": "assets/icons/c771b94dd2e97310063c039dd208601466738e4de150f998b8d074410c61213e.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_SubWeapon_SiaAstelle_OortCompass_Lv01",
+          "bundle": "1695122.msm",
+          "cab": "CAB-3e6dd85177349c0ce34aa1d272419094",
+          "pathID": "5715158192515904808",
+          "sourcePngSha256": "925c5310f86c9b8c239e85f1b8d0cd95de403dd74a5879d197df6b0e2517fdea",
+          "runtimePngSha256": "c771b94dd2e97310063c039dd208601466738e4de150f998b8d074410c61213e",
+          "sourceRgbaSha256": "e30c71def9470a15b64ae06adaccfa75c62a3620911b9260d29df8eb71b03fde",
+          "actualRgbaSha256": "e30c71def9470a15b64ae06adaccfa75c62a3620911b9260d29df8eb71b03fde"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 38
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"93\"]",
+      "officialSourceRow": 93,
+      "sourceIndex": 81,
+      "announcementName": "天狼星披風",
+      "officialProbabilityPercentRaw": "0.538",
+      "officialExactFractionRaw": "0.00538",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40919,
+        54177
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "天狼星披風",
+        "icon": {
+          "path": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Cape_022",
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathID": "-3441444384984736574",
+          "sourcePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+          "runtimePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+          "sourceRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4",
+          "actualRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "傳說",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_legendary",
+          "gradeOverlayAssetKey": "grade_legendary",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_legendary.png",
+            "sha256": "b37845104c31edf2f1e05826b952472c96f615d90e745bc30048006bde94f415",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "4753283477670145287"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Green.png",
+            "sha256": "bd73fa7fc4f0ff8544f90be031b148f800669a903a20db7ad21e145ec9e1ebc7",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-1655925225032646583"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 81
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"119\"]",
+      "officialSourceRow": 119,
+      "sourceIndex": 107,
+      "announcementName": "伊克雷帝奧丁神袍",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40105,
+        10354
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "伊克雷帝奧丁神袍",
+        "icon": {
+          "path": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_LongCoat_Mage_A|Icon_LongCoat_Mage_Unique_Lv120_00",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathID": "7970086077164655994",
+          "sourcePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+          "runtimePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+          "sourceRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039",
+          "actualRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 107
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"120\"]",
+      "officialSourceRow": 120,
+      "sourceIndex": 108,
+      "announcementName": "伊克雷帝帽",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40106,
+        10202
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "伊克雷帝帽",
+        "icon": {
+          "path": "assets/icons/b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_Cap_Mage_A|Icon_Cap_Mage_Unique_Lv120_00",
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathID": "-5123078592127727098",
+          "sourcePngSha256": "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137",
+          "runtimePngSha256": "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137",
+          "sourceRgbaSha256": "5e9d10719f7714b6cda12fa655d37006d52356e86b98e3c4e345240e2e9a400e",
+          "actualRgbaSha256": "5e9d10719f7714b6cda12fa655d37006d52356e86b98e3c4e345240e2e9a400e"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 108
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"121\"]",
+      "officialSourceRow": 121,
+      "sourceIndex": 109,
+      "announcementName": "伊克雷帝奧丁手套",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40107,
+        10451
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "伊克雷帝奧丁手套",
+        "icon": {
+          "path": "assets/icons/4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_Glove_Mage_A|Icon_Gloves_Mage_Unique_Lv120_00",
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathID": "-6645813801937381971",
+          "sourcePngSha256": "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9",
+          "runtimePngSha256": "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9",
+          "sourceRgbaSha256": "a971b8f78e3e3dd9e8b2555f6c9689ec736845f8d8b923bb8f7e26b741e83f74",
+          "actualRgbaSha256": "a971b8f78e3e3dd9e8b2555f6c9689ec736845f8d8b923bb8f7e26b741e83f74"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 109
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"122\"]",
+      "officialSourceRow": 122,
+      "sourceIndex": 110,
+      "announcementName": "伊克雷帝奧丁鞋",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40108,
+        10546
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "伊克雷帝奧丁鞋",
+        "icon": {
+          "path": "assets/icons/99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_Shoes_Mage_A|Icon_Shoes_Mage_Unique_Lv120_00",
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathID": "4687938372681328051",
+          "sourcePngSha256": "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33",
+          "runtimePngSha256": "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33",
+          "sourceRgbaSha256": "9d1bcb823bf891cd4967497a433dd179879a2aad53a115ed9aa04c8874a1180e",
+          "actualRgbaSha256": "9d1bcb823bf891cd4967497a433dd179879a2aad53a115ed9aa04c8874a1180e"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 110
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"131\"]",
+      "officialSourceRow": 131,
+      "sourceIndex": 119,
+      "announcementName": "太陽腰帶",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40935,
+        11853
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "太陽腰帶",
+        "icon": {
+          "path": "assets/icons/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Belt_036_Rising_Sun_Belt",
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathID": "5808162278861888344",
+          "sourcePngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+          "runtimePngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+          "sourceRgbaSha256": "c37021f4e52ffa767dd9c044d5ffc88be8f470250ac6ff35a06904ce2fad7252",
+          "actualRgbaSha256": "c37021f4e52ffa767dd9c044d5ffc88be8f470250ac6ff35a06904ce2fad7252"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 119
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"133\"]",
+      "officialSourceRow": 133,
+      "sourceIndex": 121,
+      "announcementName": "慕斯貝爾法師套裝",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40465,
+        11781
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "慕斯貝爾法師套裝",
+        "icon": {
+          "path": "assets/icons/cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_LongCoat_Mage_C|Icon_LongCoat_Bishop_Defalt_Lv130",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathID": "4252552771196577348",
+          "sourcePngSha256": "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b",
+          "runtimePngSha256": "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b",
+          "sourceRgbaSha256": "ff25d7e69f0127fc21797aaca8abffd43e6830ad7222a3afa954e56916760391",
+          "actualRgbaSha256": "ff25d7e69f0127fc21797aaca8abffd43e6830ad7222a3afa954e56916760391"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 121
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"134\"]",
+      "officialSourceRow": 134,
+      "sourceIndex": 122,
+      "announcementName": "慕斯貝爾法師帽",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40466,
+        11801
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "慕斯貝爾法師帽",
+        "icon": {
+          "path": "assets/icons/0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_Cap_Mage_C|Icon_Cap_Bishop_Defalt_Lv130",
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathID": "2232863528099933967",
+          "sourcePngSha256": "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925",
+          "runtimePngSha256": "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925",
+          "sourceRgbaSha256": "9206441608232e98c8417a57bc3d8303dc3fd823946ba92bc245fedbd06bcca3",
+          "actualRgbaSha256": "9206441608232e98c8417a57bc3d8303dc3fd823946ba92bc245fedbd06bcca3"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 122
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"135\"]",
+      "officialSourceRow": 135,
+      "sourceIndex": 123,
+      "announcementName": "慕斯貝爾法師手套",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40467,
+        11821
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "慕斯貝爾法師手套",
+        "icon": {
+          "path": "assets/icons/68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_Glove_Mage_C|Icon_Glove_Bishop_Defalt_Lv130",
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathID": "-4919474167368679722",
+          "sourcePngSha256": "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36",
+          "runtimePngSha256": "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36",
+          "sourceRgbaSha256": "8fbfb890cafde0e47eaaf3435552e5c46f9a1dae19133a86415dcfc5f7268b6c",
+          "actualRgbaSha256": "8fbfb890cafde0e47eaaf3435552e5c46f9a1dae19133a86415dcfc5f7268b6c"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 123
+      }
+    },
+    {
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"136\"]",
+      "officialSourceRow": 136,
+      "sourceIndex": 124,
+      "announcementName": "慕斯貝爾法師鞋",
+      "officialProbabilityPercentRaw": "1.779",
+      "officialExactFractionRaw": "0.01779",
+      "identityVerdict": "CLIENT_CANDIDATES_AMBIGUOUS_OR_NOT_UNIQUE",
+      "candidateClientItemIds": [
+        40468,
+        11841
+      ],
+      "verifiedClientItemId": null,
+      "resultPayloadRemainsNull": true,
+      "payloadStatus": "RESULT_PAYLOAD_UNRESOLVED",
+      "admissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "displayContract": {
+        "nameSource": "OFFICIAL_NORMAL_POOL_SOURCE_ROW_KEY_JOIN",
+        "name": "慕斯貝爾法師鞋",
+        "icon": {
+          "path": "assets/icons/20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9.png",
+          "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+          "evidence": "PLAYER_VISUAL_CONFIRMED exact row key/runtime bytes; no canonical ItemID promotion",
+          "iconNameOrCandidate": "Icon_Armor_Shoes_Mage_C|Icon_Shoes_Bishop_Defalt_Lv130",
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathID": "-8444007253993531702",
+          "sourcePngSha256": "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9",
+          "runtimePngSha256": "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9",
+          "sourceRgbaSha256": "1c9aeda044ef63e55b39637536657b26b34ab26a53bc862ff4e7f660c3107b01",
+          "actualRgbaSha256": "1c9aeda044ef63e55b39637536657b26b34ab26a53bc862ff4e7f660c3107b01"
+        },
+        "cardAppearance": {
+          "displayStyle": "ANNOUNCEMENT_GRADE_WEB_STYLE_ONLY",
+          "announcementGrade": "罕見",
+          "gradeEvidence": "OFFICIAL_ANNOUNCEMENT_GRADE_NOT_LIVE_RESULT_GRADE",
+          "frontAssetKey": "front_unique",
+          "gradeOverlayAssetKey": "grade_unique",
+          "front": {
+            "file": "assets/cards/ui_item_card_lucky_unique.png",
+            "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "8057266646643222010"
+          },
+          "gradeOverlay": {
+            "file": "assets/cards/Grade_Yellow.png",
+            "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+            "bundle": "6588604.msm",
+            "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+            "pathID": "-6688781475764350005"
+          },
+          "partText": "OMITTED",
+          "fx": "OFF",
+          "specialOutline": "NOT_INCLUDED",
+          "nativeParity": "NOT_CLAIMED"
+        }
+      },
+      "evidence": "Row and assets are source referenced; announcement-grade visual mapping is WEB_ADAPTATION; icon rows preserve SOURCE or PLAYER_VISUAL level.",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 124
+      }
+    }
+  ],
+  "activeOddsSource": {
+    "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+    "version": "R14-P31R5_20261105",
+    "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+    "originalUploadName": "活頁簿aaa1.xlsx",
+    "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+    "unit": "PERCENTAGE_POINTS",
+    "normalizationApplied": false,
+    "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE"
+  }
+}

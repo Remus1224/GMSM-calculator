@@ -1,0 +1,725 @@
+{
+  "schema": "MapleM.CrystalChest.F60.Native03Bake.v1",
+  "classification": "SOURCE_CONDITIONAL_NATIVE_CAPTURE_NOT_LIVE_GAME_1_TO_1",
+  "storage": "cropped-atlas-v1",
+  "unityVersion": "2022.3.62f2",
+  "graphicsDevice": "Direct3D11 NVIDIA GeForce RTX 4070",
+  "fps": 60,
+  "nativeCapturedFrameCount": 37,
+  "frameCount": 38,
+  "durationSeconds": 0.6333333333333333,
+  "variantCount": 1,
+  "origin": {
+    "x": 640,
+    "y": 360
+  },
+  "captureSize": {
+    "width": 1280,
+    "height": 720
+  },
+  "cardGeometryWitness": {
+    "width": 200,
+    "height": 256,
+    "renderedInCapture": false
+  },
+  "stagePixelScale": 1,
+  "geometryContract": "One native capture pixel per 1280x720 stage pixel, translated about each card center; same fixture pixel ruler as live-A, not proof of native game final FX/card ratio.",
+  "camera": {
+    "worldZ": 0,
+    "worldToCamera": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t-1\t0\n0\t0\t0\t1\n",
+    "projection": "0.5625\t0\t0\t0\n0\t1\t0\t0\n0\t0\t-0.0181818176\t0.8181818\n0\t0\t0\t1\n",
+    "activeHeight": 720.0,
+    "uirootScale": {
+      "x": 0.0027777778450399637,
+      "y": 0.0027777778450399637,
+      "z": 0.0027777778450399637
+    },
+    "near": -100.0,
+    "far": 10.0
+  },
+  "source": {
+    "popupPath": "assets/bundleresources/ui/_v4_0/gacha/gacharesultpopup.prefab",
+    "hierarchy": "GachaResultPopup/TenTimeGacha/UImainCam/eff_ui_itemresult03",
+    "particleNames": [
+      "general_f01",
+      "bomb_p001",
+      "bomb_p002",
+      "glow_m001",
+      "pointer_m001"
+    ],
+    "materials": [
+      "a_fl_mt013",
+      "a_flash_mts016",
+      "a_flash_mts008",
+      "a_gl_mt008",
+      "a_flash_mts004"
+    ],
+    "shaders": [
+      "Mobile/Particles/Additive",
+      "Mobile/Particles/Additive",
+      "Mobile/Particles/Additive",
+      "Mobile/Particles/Additive",
+      "Mobile/Particles/Additive"
+    ],
+    "bundleContainerSHA256": "39851b633802c1d515feaae0c9a68b53ae77fab95d7937a4f1f37b60c3ed15b4",
+    "loadedBundleSHA256": "ea9e0fa2ec07b26475af3a472253785cc8678f27cde971a6a93364414ed55fa7",
+    "gameAssemblySHA256": "ace8626133ba52ed4053c4dc9e8dceaa86bb138ef919597fdaf319e8f52a57f4",
+    "metadataSHA256": "8721ef1e0bf55d3addf91de376508440d9bb810432a2741af210913c4ed3f5c4",
+    "forcedSeeds": [
+      84813710,
+      584507176,
+      2911765394,
+      2678654654,
+      3958337682
+    ],
+    "seedClass": "Existing controlled native variant; no artificial rotation/scale/random variations.",
+    "runtimeTextureBindings": [
+      {
+        "name": "general_f01",
+        "material": "a_fl_mt013",
+        "shader": "Mobile/Particles/Additive",
+        "texture": "a_fl013",
+        "textureSize": "128x128",
+        "textureFormat": "dimension=Tex2D;graphicsFormat=RGBA_DXT5_UNorm;textureFormat=DXT5Crunched;sRGB=False;mipCount=1",
+        "shaderKeywords": [],
+        "materialPassCount": 1,
+        "materialRenderQueue": 3000
+      },
+      {
+        "name": "bomb_p001",
+        "material": "a_flash_mts016",
+        "shader": "Mobile/Particles/Additive",
+        "texture": "a_flash_p016",
+        "textureSize": "256x256",
+        "textureFormat": "dimension=Tex2D;graphicsFormat=RGBA_DXT5_UNorm;textureFormat=DXT5Crunched;sRGB=False;mipCount=1",
+        "shaderKeywords": [],
+        "materialPassCount": 1,
+        "materialRenderQueue": 3000
+      },
+      {
+        "name": "bomb_p002",
+        "material": "a_flash_mts008",
+        "shader": "Mobile/Particles/Additive",
+        "texture": "a_flash_p008",
+        "textureSize": "256x256",
+        "textureFormat": "dimension=Tex2D;graphicsFormat=RGBA_DXT5_UNorm;textureFormat=DXT5Crunched;sRGB=False;mipCount=1",
+        "shaderKeywords": [],
+        "materialPassCount": 1,
+        "materialRenderQueue": 3000
+      },
+      {
+        "name": "glow_m001",
+        "material": "a_gl_mt008",
+        "shader": "Mobile/Particles/Additive",
+        "texture": "a_gl007",
+        "textureSize": "128x128",
+        "textureFormat": "dimension=Tex2D;graphicsFormat=RGBA_DXT5_UNorm;textureFormat=DXT5Crunched;sRGB=False;mipCount=1",
+        "shaderKeywords": [],
+        "materialPassCount": 1,
+        "materialRenderQueue": 3000
+      },
+      {
+        "name": "pointer_m001",
+        "material": "a_flash_mts004",
+        "shader": "Mobile/Particles/Additive",
+        "texture": "a_flash_p004",
+        "textureSize": "256x256",
+        "textureFormat": "dimension=Tex2D;graphicsFormat=RGBA_DXT5_UNorm;textureFormat=DXT5Crunched;sRGB=False;mipCount=1",
+        "shaderKeywords": [],
+        "materialPassCount": 1,
+        "materialRenderQueue": 3000
+      }
+    ],
+    "textureHashScope": "Loaded source bundle SHA256 identifies the full serialized input; individual texture byte hashes not re-extracted in F60. Runtime binding identities retained in F58R3_RENDERER_IDENTITY_AND_STATE.json."
+  },
+  "alphaContract": "Opaque black additive RGB contribution from native RT; keep captured RGBA bytes. Draw with lighter/globalAlpha=1 onto opaque scene+cards destination. Do not use source-over transparent overlay or apply particle alpha again.",
+  "initialFrame0": "Null no-draw preactivation state; no captured frame0 PNG exists. Native frames1..37 retained without interpolation.",
+  "loopClaim": "This activation naturally ended in existing Runtime receipt; no claim that all child main.loop flags are false. No module re-audit or parameter edits.",
+  "captureViewportEdgeFrames": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    23,
+    25,
+    26
+  ],
+  "edgeLimitation": "Existing 1280x720 native viewport clips some rays/stars. Atlas introduces no new crop loss; geometry beyond the original viewport cannot be recovered from these frames.",
+  "atlas": {
+    "url": "/f60-assets/03_variant0.png",
+    "width": 3582,
+    "height": 2172,
+    "sha256": "3409f01909d6d65b65713efcf0e3fbfb20e7a9ccddee1d3cba1f1744a17cb403",
+    "padding": 2
+  },
+  "variants": [
+    {
+      "variant": 0,
+      "frames": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "sx": 2,
+          "sy": 2,
+          "sw": 182,
+          "sh": 182,
+          "dx": 549,
+          "dy": 269,
+          "dw": 182,
+          "dh": 182,
+          "offsetX": -91,
+          "offsetY": -91,
+          "nativeFrame": 10,
+          "fxAge": 0.16666666666666666
+        },
+        {
+          "sx": 599,
+          "sy": 2,
+          "sw": 324,
+          "sh": 347,
+          "dx": 475,
+          "dy": 189,
+          "dw": 324,
+          "dh": 347,
+          "offsetX": -165,
+          "offsetY": -171,
+          "nativeFrame": 11,
+          "fxAge": 0.18333333333333332
+        },
+        {
+          "sx": 1196,
+          "sy": 2,
+          "sw": 455,
+          "sh": 505,
+          "dx": 406,
+          "dy": 107,
+          "dw": 455,
+          "dh": 505,
+          "offsetX": -234,
+          "offsetY": -253,
+          "nativeFrame": 12,
+          "fxAge": 0.2
+        },
+        {
+          "sx": 1793,
+          "sy": 2,
+          "sw": 518,
+          "sh": 606,
+          "dx": 371,
+          "dy": 57,
+          "dw": 518,
+          "dh": 606,
+          "offsetX": -269,
+          "offsetY": -303,
+          "nativeFrame": 13,
+          "fxAge": 0.21666666666666667
+        },
+        {
+          "sx": 2390,
+          "sy": 2,
+          "sw": 576,
+          "sh": 710,
+          "dx": 338,
+          "dy": 6,
+          "dw": 576,
+          "dh": 710,
+          "offsetX": -302,
+          "offsetY": -354,
+          "nativeFrame": 14,
+          "fxAge": 0.23333333333333334
+        },
+        {
+          "sx": 2987,
+          "sy": 2,
+          "sw": 593,
+          "sh": 720,
+          "dx": 325,
+          "dy": 0,
+          "dw": 593,
+          "dh": 720,
+          "offsetX": -315,
+          "offsetY": -360,
+          "nativeFrame": 15,
+          "fxAge": 0.25
+        },
+        {
+          "sx": 2,
+          "sy": 726,
+          "sw": 533,
+          "sh": 720,
+          "dx": 371,
+          "dy": 0,
+          "dw": 533,
+          "dh": 720,
+          "offsetX": -269,
+          "offsetY": -360,
+          "nativeFrame": 16,
+          "fxAge": 0.26666666666666666
+        },
+        {
+          "sx": 599,
+          "sy": 726,
+          "sw": 544,
+          "sh": 720,
+          "dx": 365,
+          "dy": 0,
+          "dw": 544,
+          "dh": 720,
+          "offsetX": -275,
+          "offsetY": -360,
+          "nativeFrame": 17,
+          "fxAge": 0.2833333333333333
+        },
+        {
+          "sx": 1196,
+          "sy": 726,
+          "sw": 541,
+          "sh": 720,
+          "dx": 367,
+          "dy": 0,
+          "dw": 541,
+          "dh": 720,
+          "offsetX": -273,
+          "offsetY": -360,
+          "nativeFrame": 18,
+          "fxAge": 0.3
+        },
+        {
+          "sx": 1793,
+          "sy": 726,
+          "sw": 516,
+          "sh": 720,
+          "dx": 380,
+          "dy": 0,
+          "dw": 516,
+          "dh": 720,
+          "offsetX": -260,
+          "offsetY": -360,
+          "nativeFrame": 19,
+          "fxAge": 0.31666666666666665
+        },
+        {
+          "sx": 2390,
+          "sy": 726,
+          "sw": 462,
+          "sh": 699,
+          "dx": 406,
+          "dy": 21,
+          "dw": 462,
+          "dh": 699,
+          "offsetX": -234,
+          "offsetY": -339,
+          "nativeFrame": 20,
+          "fxAge": 0.3333333333333333
+        },
+        {
+          "sx": 2987,
+          "sy": 726,
+          "sw": 406,
+          "sh": 562,
+          "dx": 436,
+          "dy": 158,
+          "dw": 406,
+          "dh": 562,
+          "offsetX": -204,
+          "offsetY": -202,
+          "nativeFrame": 21,
+          "fxAge": 0.35
+        },
+        {
+          "sx": 2,
+          "sy": 1450,
+          "sw": 427,
+          "sh": 562,
+          "dx": 426,
+          "dy": 147,
+          "dw": 427,
+          "dh": 562,
+          "offsetX": -214,
+          "offsetY": -213,
+          "nativeFrame": 22,
+          "fxAge": 0.36666666666666664
+        },
+        {
+          "sx": 599,
+          "sy": 1450,
+          "sw": 445,
+          "sh": 582,
+          "dx": 417,
+          "dy": 138,
+          "dw": 445,
+          "dh": 582,
+          "offsetX": -223,
+          "offsetY": -222,
+          "nativeFrame": 23,
+          "fxAge": 0.38333333333333336
+        },
+        {
+          "sx": 1196,
+          "sy": 1450,
+          "sw": 456,
+          "sh": 568,
+          "dx": 409,
+          "dy": 129,
+          "dw": 456,
+          "dh": 568,
+          "offsetX": -231,
+          "offsetY": -231,
+          "nativeFrame": 24,
+          "fxAge": 0.4
+        },
+        {
+          "sx": 1793,
+          "sy": 1450,
+          "sw": 470,
+          "sh": 597,
+          "dx": 403,
+          "dy": 123,
+          "dw": 470,
+          "dh": 597,
+          "offsetX": -237,
+          "offsetY": -237,
+          "nativeFrame": 25,
+          "fxAge": 0.4166666666666667
+        },
+        {
+          "sx": 2390,
+          "sy": 1450,
+          "sw": 477,
+          "sh": 600,
+          "dx": 400,
+          "dy": 120,
+          "dw": 477,
+          "dh": 600,
+          "offsetX": -240,
+          "offsetY": -240,
+          "nativeFrame": 26,
+          "fxAge": 0.43333333333333335
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "nativeFrames": [
+    {
+      "frame": 1,
+      "fxAge": 0.016666666666666666,
+      "path": "f58_001.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 2,
+      "fxAge": 0.03333333333333333,
+      "path": "f58_002.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 3,
+      "fxAge": 0.05,
+      "path": "f58_003.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 4,
+      "fxAge": 0.06666666666666667,
+      "path": "f58_004.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 5,
+      "fxAge": 0.08333333333333333,
+      "path": "f58_005.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 6,
+      "fxAge": 0.1,
+      "path": "f58_006.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 7,
+      "fxAge": 0.11666666666666667,
+      "path": "f58_007.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 8,
+      "fxAge": 0.13333333333333333,
+      "path": "f58_008.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 9,
+      "fxAge": 0.15,
+      "path": "f58_009.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 10,
+      "fxAge": 0.16666666666666666,
+      "path": "f58_010.png",
+      "sha256": "b1c2ae88c2708779a878a20ed88676783cecc0eb7e43a0f2d074ab77af65c76a",
+      "nonBlackRGBPixels": 25313
+    },
+    {
+      "frame": 11,
+      "fxAge": 0.18333333333333332,
+      "path": "f58_011.png",
+      "sha256": "be185d27eb834f957ea9014bd96b4af83204cdb5f1b099454fc8b6efde5fd003",
+      "nonBlackRGBPixels": 64880
+    },
+    {
+      "frame": 12,
+      "fxAge": 0.2,
+      "path": "f58_012.png",
+      "sha256": "347e61ef40c9b351991d7b93cef65fd64377a345473dd0ed2cdd517141f12e36",
+      "nonBlackRGBPixels": 93157
+    },
+    {
+      "frame": 13,
+      "fxAge": 0.21666666666666667,
+      "path": "f58_013.png",
+      "sha256": "b2831ba46a83e24ae7e3241be72f776a0a8885dcf4f4523b656d2c41cd8132ae",
+      "nonBlackRGBPixels": 123862
+    },
+    {
+      "frame": 14,
+      "fxAge": 0.23333333333333334,
+      "path": "f58_014.png",
+      "sha256": "3498686e24ab78c4445d0126a338d2d189600dc64edf555f99eab9cb4be9194b",
+      "nonBlackRGBPixels": 159049
+    },
+    {
+      "frame": 15,
+      "fxAge": 0.25,
+      "path": "f58_015.png",
+      "sha256": "dc3418f097dc7a71f595b60351f4796e51295ed140fb01c10902528d88d0545d",
+      "nonBlackRGBPixels": 174214
+    },
+    {
+      "frame": 16,
+      "fxAge": 0.26666666666666666,
+      "path": "f58_016.png",
+      "sha256": "656a188b889f5e23ae0f410668d1402d8f0ae1ab18f8cb6eed00cffdbf2188e5",
+      "nonBlackRGBPixels": 172430
+    },
+    {
+      "frame": 17,
+      "fxAge": 0.2833333333333333,
+      "path": "f58_017.png",
+      "sha256": "cb0380f694e42bcb112ccf3e1b8619801fc0c680d9680df262164426b2115165",
+      "nonBlackRGBPixels": 173962
+    },
+    {
+      "frame": 18,
+      "fxAge": 0.3,
+      "path": "f58_018.png",
+      "sha256": "e993c803856e14d0f704025f0b6abc81f8bd6b2cd8be284f6ed12319abc550e1",
+      "nonBlackRGBPixels": 172562
+    },
+    {
+      "frame": 19,
+      "fxAge": 0.31666666666666665,
+      "path": "f58_019.png",
+      "sha256": "82aa37373cb6211b9ec8f790a611f2c1a36d3f022177ef0eaa65278696aa6f50",
+      "nonBlackRGBPixels": 160990
+    },
+    {
+      "frame": 20,
+      "fxAge": 0.3333333333333333,
+      "path": "f58_020.png",
+      "sha256": "83851a271d42e738f5affe1fa44e9056a62a08dea48d3d691421b29b448b90e4",
+      "nonBlackRGBPixels": 144175
+    },
+    {
+      "frame": 21,
+      "fxAge": 0.35,
+      "path": "f58_021.png",
+      "sha256": "e2392f7433cafa3aff46e64c3eae6db78d5bc50b722c912c36919e2321f5e73f",
+      "nonBlackRGBPixels": 128000
+    },
+    {
+      "frame": 22,
+      "fxAge": 0.36666666666666664,
+      "path": "f58_022.png",
+      "sha256": "5ac62da3958530f32bac2d2abf2a406dc05a146942f6bb11b162058aa63bd509",
+      "nonBlackRGBPixels": 139873
+    },
+    {
+      "frame": 23,
+      "fxAge": 0.38333333333333336,
+      "path": "f58_023.png",
+      "sha256": "fae87148efe2c124d51479a80568492877648990cb97ba6af8fe11c1667fe06d",
+      "nonBlackRGBPixels": 152199
+    },
+    {
+      "frame": 24,
+      "fxAge": 0.4,
+      "path": "f58_024.png",
+      "sha256": "f1e1bbdaa260120b71ba7b7d75529f1532c3de2bdfeb938579d7ed07d8bc0676",
+      "nonBlackRGBPixels": 164300
+    },
+    {
+      "frame": 25,
+      "fxAge": 0.4166666666666667,
+      "path": "f58_025.png",
+      "sha256": "041c532f7cebf8385020f1583cfa8c1cfe7fd7d31f6aeace9f46df800e2c9d92",
+      "nonBlackRGBPixels": 174311
+    },
+    {
+      "frame": 26,
+      "fxAge": 0.43333333333333335,
+      "path": "f58_026.png",
+      "sha256": "3607e6655080eb2b90a1a4768885dd702e1bcedb83e4c8e87b85169ac0e3a687",
+      "nonBlackRGBPixels": 179852
+    },
+    {
+      "frame": 27,
+      "fxAge": 0.45,
+      "path": "f58_027.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 28,
+      "fxAge": 0.4666666666666667,
+      "path": "f58_028.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 29,
+      "fxAge": 0.48333333333333334,
+      "path": "f58_029.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 30,
+      "fxAge": 0.5,
+      "path": "f58_030.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 31,
+      "fxAge": 0.5166666666666667,
+      "path": "f58_031.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 32,
+      "fxAge": 0.5333333333333333,
+      "path": "f58_032.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 33,
+      "fxAge": 0.55,
+      "path": "f58_033.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 34,
+      "fxAge": 0.5666666666666667,
+      "path": "f58_034.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 35,
+      "fxAge": 0.5833333333333334,
+      "path": "f58_035.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 36,
+      "fxAge": 0.6,
+      "path": "f58_036.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    },
+    {
+      "frame": 37,
+      "fxAge": 0.6166666666666667,
+      "path": "f58_037.png",
+      "sha256": "ede929abdeee3784b0ceb3faa063a2ab22a21b47cef09106552487c7f66dde8e",
+      "nonBlackRGBPixels": 0
+    }
+  ],
+  "p98Reuse": {
+    "runtimePath": "E:\\MapleM_SkillResearch_20260926\\integrated_projects\\GMSM-calculator\\light-sanctum-pray\\runtime\\player-presentation.js",
+    "runtimeSHA256": "99b2d9b335dea1e87be5dc24a6bee1ae6c4bfeca0315e87ba067623ca4c06da1",
+    "functions": {
+      "function p96NativeDrawItems()": "d21af7f62103271eea092f9c5d872589c9baaaa006e4c4359dde1585c728fa99",
+      "function drawP96NativeLayer(item)": "646c6d4fe81aa8d6b53b9df2c7c000f6f8a26580b1b3389542b2d37f93e306f0"
+    },
+    "cropAlgorithm": "Direct port of P98 CropVisible (RGB!=0 bbox), WriteSlotAtlas cell packing/padding, and unchanged P98 JS draw/index functions."
+  },
+  "nativeRenderTargetEvidence": {
+    "classification": "CONTROLLED_SAME_PLAYERLOOP_STATE_CAMERA_RENDER_PER_RENDERER",
+    "rendererSelection": "all",
+    "graphicsDevice": "Direct3D11 NVIDIA GeForce RTX 4070",
+    "projectColorSpace": "Gamma",
+    "renderTargetFormat": "ARGB32",
+    "renderTargetGraphicsFormat": "R8G8B8A8_UNorm",
+    "cameraWorldToCamera": "1\t0\t0\t0\n0\t1\t0\t0\n0\t0\t-1\t0\n0\t0\t0\t1\n",
+    "cameraProjection": "0.5625\t0\t0\t0\n0\t1\t0\t0\n0\t0\t-0.0181818176\t0.8181818\n0\t0\t0\t1\n",
+    "cameraPixelRect": "(x:0.00, y:0.00, width:1280.00, height:720.00)",
+    "image": "F58R3_age0.216667_all_srgb.png",
+    "note": "Renderer.enabled was changed only around Camera.Render; source ParticleSystem modules, state, age and random seeds were not changed between views. Pixel output is evidence of per-renderer contribution, not a raw GPU draw-call counter.",
+    "frame": 13,
+    "renderTargetWidth": 1280,
+    "renderTargetHeight": 720,
+    "renderTargetDepth": 32,
+    "antiAliasing": 1,
+    "fxAge": 0.21666666865348816,
+    "renderTargetSRGB": false,
+    "readbackIsLinear": false,
+    "allParticleSystemsStillSimulated": true,
+    "simulationTimeAdvancedBetweenViews": false,
+    "rendererEnabledDuringView": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "scope": "Actual controlled frame13; byte-identical to timeline frame13. Primary timeline completion text calls it sRGB, but this actual receipt says SRGB=false. Do not infer GPU sRGB=true from filename."
+  }
+}
