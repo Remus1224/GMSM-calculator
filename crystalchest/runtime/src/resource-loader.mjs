@@ -93,3 +93,15 @@ const loader=createResourceLoader();
 export const fetchResource=loader.fetchResource;
 export const loadImage=loader.loadImage;
 export const resourceSnapshot=loader.snapshot;
+// Keep the DOM's original <img> scaling path. Blob URLs are local, not downloads.
+const domUrls=new WeakMap();
+export async function loadDOMImageURL(path){
+  const source=await loadImage(path);
+  if(!domUrls.has(source))domUrls.set(source,(async()=>{
+    const canvas=document.createElement('canvas');canvas.width=source.naturalWidth;canvas.height=source.naturalHeight;
+    canvas.getContext('2d').drawImage(source,0,0);
+    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('ATLAS_DOM_PNG_REQUIRED')),'image/png'));
+    return URL.createObjectURL(blob);
+  })());
+  return domUrls.get(source);
+}

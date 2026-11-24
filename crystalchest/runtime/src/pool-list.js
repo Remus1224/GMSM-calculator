@@ -1,4 +1,4 @@
-import {fetchResource as fetch,loadImage} from './resource-loader.mjs';
+import {fetchResource as fetch,loadDOMImageURL} from './resource-loader.mjs';
 const $ = (id) => document.getElementById(id);
 const panel = $('official-pool-browser');
 const gridScroll = $('pool-grid-scroll');
@@ -196,7 +196,7 @@ function makeIcon(entry, index) {
     placeholder.title = unresolvedLabels[entry.icon?.sourceAdmissionClass] ?? '此公告列尚無可准入的原始圖示';
     return placeholder;
   }
-  const img = document.createElement('canvas');
+  const img = document.createElement('img');
   img.className = 'pool-item-icon';
   img.loading = 'lazy';
   img.decoding = 'async';
@@ -209,9 +209,9 @@ function makeIcon(entry, index) {
   const displayPolicy = iconDisplayPolicy(entry, info);
   if (displayPolicy) img.dataset.iconDisplayPolicy = displayPolicy;
   if (info.kind === 'SOURCE_ICON_CONNECTED') img.dataset.sourcePngSha256 = entry.icon.sourcePngSha256;
-  loadImage(new URL(`../${info.path}`, import.meta.url).href).then(source=>{
-    img.width=source.naturalWidth;img.height=source.naturalHeight;
-    img.getContext('2d').drawImage(source,0,0);
+  img.dataset.atlasReady='pending';
+  loadDOMImageURL(new URL(`../${info.path}`, import.meta.url).href).then(async url=>{
+    img.src=url;await img.decode();img.dataset.atlasReady='loaded';
   }).catch(() => {
     if (!imageFailures.some((failure) => failure.runtimePngSha256 === info.sha256 && failure.pool === entry.pool)) {
       imageFailures.push({ pool: entry.pool, officialSourceRowKey: entry.officialSourceRowKey, runtimePngSha256: info.sha256, path: info.path, displayEvidence: info.kind });

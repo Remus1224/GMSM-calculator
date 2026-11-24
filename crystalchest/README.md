@@ -25,9 +25,11 @@ The release WOFF2 subset has its own runtime hash; the original font hash is not
 replaced. Large source JSON files are whitespace-minified without value changes.
 
 Desktop Edge checks: all 125 browser-rendered crops equal their original images;
-visible pool pixels match; single and Normal 10+1 flow pass. Initial requests
-dropped from 295 to 185 in the measured local run. This is a request reduction,
+visible pool pixels match; single and Normal 10+1 flow pass. Initial network requests
+dropped from 277 to 167 HTTP(S) requests in the measured local run. This is a request reduction,
 not proof of faster animation, lower phone temperature or carrier/CDN reliability.
+Mobile-sized Normal/Fever pool screenshots also match exactly. Pool DOM images
+use cached local Blob URLs extracted from the atlas, not separate HTTP downloads.
 Phone visual and thermal acceptance of this atlas version remains pending.
 
 This is an unofficial community simulator, not affiliated with NEXON or MapleStory M.
