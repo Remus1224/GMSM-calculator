@@ -21,3 +21,8 @@ button:disabled{cursor:wait;opacity:.55}
 @media(max-width:620px){main{padding:12px}.settings-panel{padding:16px 14px}.settings-title{align-items:flex-start;flex-wrap:wrap}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat-grid>div{align-items:flex-start;flex-direction:column;padding:10px}.stat-grid dd{font-size:18px}}
 
 #stage-host>#fullscreen-toggle{position:absolute;right:10px;top:10px}
+
+/* Same shared glass layers as Light Sanctum: outer panel, summary groups, insets. */
+#player-settings{border-radius:24px}
+#player-settings .stats-text{border-radius:20px}
+#player-settings .stat-grid>div{border-color:var(--crystal-border,rgba(255,255,255,.6));box-shadow:inset 0 1px 3px rgba(40,50,85,.06)}

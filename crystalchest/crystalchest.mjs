@@ -1,7 +1,7 @@
 import {statLabels} from './runtime/src/player-records.mjs';
 const $=id=>document.getElementById(id),frame=$('crystal-frame'),host=$('stage-host'),viewport=$('stage-viewport'),section=$('stage-section'),settings=$('player-settings');
 const drawLabels={draws:'累積抽取（抽）',normalDraws:'一般抽取（抽）',feverDraws:'Fever 抽取（抽）',singles:'單抽購買（次）',normalTen:'一般 10+1（次）',feverTen:'Fever 10+1（次）',feverTriggers:'Fever 觸發（次）',gaugeTriggers:'進度集滿（次）',luckyTriggers:'Lucky Fever（次）'};
-function cells(id,labels){for(const[key,label]of Object.entries(labels)){const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent='0';dd.dataset.stat=key;row.append(dt,dd);$(id).append(row);}}
+function cells(id,labels){for(const[key,label]of Object.entries(labels)){const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent='0';dd.dataset.stat=key;row.classList.add('site-summary-inset');row.append(dt,dd);$(id).append(row);}}
 cells('draw-stats',drawLabels);cells('item-stats',statLabels);
 function api(){try{return frame.contentWindow?.CrystalChestPlayer;}catch{return null;}}
 function update(){const runtime=api();if(!runtime)return;const state=runtime.snapshot();for(const[key,value]of Object.entries({...state,...state.items})){const el=document.querySelector(`[data-stat="${key}"]`);if(el&&Number.isFinite(value))el.textContent=value.toLocaleString('zh-TW');}
