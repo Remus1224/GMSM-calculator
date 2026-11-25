@@ -1,5 +1,5 @@
 import {createPlayerRecords} from './player-records.mjs?v=2';
-const playerRecords=createPlayerRecords({onChange:()=>window.dispatchEvent(new Event('crystalchest-player-state'))});
+const playerRecords=createPlayerRecords({onChange:()=>window.dispatchEvent(new Event('crystal-treasure-box-player-state'))});
 import {fetchResource as fetch,loadImage,resourceSnapshot,measureStartup} from './resource-loader.mjs?startupProbe=1';
 import { createFrameLoadQueue } from './fx-frame-load-queue.mjs';
 import {sha256Digest} from './sha256-http-compat.mjs';
@@ -1929,9 +1929,9 @@ function setPlayerMuted(value){
  movie.muted=!!value;
  if(audioMasterGain&&audioContext)audioMasterGain.gain.setValueAtTime(value?0:1,audioContext.currentTime);
 }
-window.CrystalChestPlayer=Object.freeze({snapshot:()=>({...playerRecords.snapshot(),ready:!playerResetting&&window.__releaseOptionalReady===true,feverState:localFeverSimulation.snapshot()}),setMuted:setPlayerMuted,reset(){playerResetting=true;window.__releaseOptionalReady=false;playerRecords.reset({dispose:true});flowGeneration++;normalLocalDrawGeneration++;if(raf)cancelAnimationFrame(raf);luckyFeverOverlay.cancel('player-full-reset');movie.pause();audioContext?.close()?.catch(()=>{});location.reload();}});
+window.CrystalTreasureBoxPlayer=Object.freeze({snapshot:()=>({...playerRecords.snapshot(),ready:!playerResetting&&window.__releaseOptionalReady===true,feverState:localFeverSimulation.snapshot()}),setMuted:setPlayerMuted,reset(){playerResetting=true;window.__releaseOptionalReady=false;playerRecords.reset({dispose:true});flowGeneration++;normalLocalDrawGeneration++;if(raf)cancelAnimationFrame(raf);luckyFeverOverlay.cancel('player-full-reset');movie.pause();audioContext?.close()?.catch(()=>{});location.reload();}});
 setPlayerMuted(playerRecords.snapshot().muted);
-window.dispatchEvent(new Event('crystalchest-player-state'));
+window.dispatchEvent(new Event('crystal-treasure-box-player-state'));
 
 // Release startup requires essential sources before enabling purchases.
 try {

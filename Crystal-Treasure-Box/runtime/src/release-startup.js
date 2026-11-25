@@ -26,7 +26,7 @@
     window.__ccStartupProfile.end('MILESTONE',ok?'all-ready':'optional-failed',0);
     state.optionalReady=ok;window.__releaseOptionalReady=ok;updateProgress();
     const root=document.getElementById('cleanRebuildRoot');if(root)root.inert=!ok;
-    if(ok){document.getElementById('release-loading')?.remove();window.dispatchEvent(new Event('crystalchest-player-state'));}
+    if(ok){document.getElementById('release-loading')?.remove();window.dispatchEvent(new Event('crystal-treasure-box-player-state'));}
     else{state.optionalError=String(cause?.stack||cause);message('抽取動畫未能完成載入，請重新載入。');showRecovery();console.error('OPTIONAL_ASSETS_FAILED',cause);}
   };
   window.__releaseMarkReady=part=>{

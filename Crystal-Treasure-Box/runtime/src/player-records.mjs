@@ -1,6 +1,6 @@
 import categories from './player-stat-categories.mjs';
 export const statLabels={ancientCrystal:'古代輔助武器結晶',mythicSub:'神話輔助武器',legendarySub:'傳說輔助武器',chaos:'混沌裝備',ancient:'古代裝備',mythic:'神話裝備',legendary:'傳說裝備',rare:'罕見裝備',shards5:'混沌碎片 5 個交換券',shards10:'混沌碎片 10 個交換券'};
-const KEY='crystalchest.player.v1';
+const KEY='crystalchest.player.v1'; // Historical key: delete old records only.
 const fresh=()=>({version:1,muted:false,draws:0,normalDraws:0,feverDraws:0,singles:0,normalTen:0,feverTen:0,feverTriggers:0,luckyTriggers:0,gaugeTriggers:0,items:Object.fromEntries(Object.keys(statLabels).map(k=>[k,0])),runIds:[],activationIds:[]});
 export function createPlayerRecords({onChange=()=>{}}={}){
  let state=fresh(),closed=false;
