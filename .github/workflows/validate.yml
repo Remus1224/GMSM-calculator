@@ -42,6 +42,10 @@ jobs:
             "game-info/index.html"
             "game-info/script.js"
             "game-info/page.css"
+            "Crystal-Treasure-Box/index.html"
+            "Crystal-Treasure-Box/crystal-treasure-box.mjs"
+            "Crystal-Treasure-Box/runtime/index.html"
+            "assets/menu/icon_Crystal-Treasure-Box.png"
           )
 
           for file in "${required_files[@]}"; do
@@ -55,6 +59,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Validate all Crystal Treasure Box runtime modules as well as the wrapper.
+          find Crystal-Treasure-Box -type f \( -name "*.js" -o -name "*.mjs" \) -print0 | while IFS= read -r -d "" file; do
+            node --check "$file"
+          done
           node --check script.js
           node --check craft-effects.js
           node --check 1204/script.js
@@ -78,6 +86,8 @@ jobs:
 
       - name: Verify formal entry paths and preserved prayer runtime
         run: node .github/scripts/verify-formal-paths.cjs
+      - name: Verify Crystal Treasure Box entry
+        run: node .github/scripts/verify-crystal-treasure-box.cjs
       - name: Check README links to local policy files
         shell: bash
         run: |

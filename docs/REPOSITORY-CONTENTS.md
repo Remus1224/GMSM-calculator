@@ -8,6 +8,7 @@
 | --- | --- |
 | 根目錄 HTML/CSS/JS | 主選單與計算工具 |
 | `assets/css/`、`assets/js/`、圖示與音效 | 共通樣式、GA4、圖片匯出及遊戲素材 |
+| `Crystal-Treasure-Box/` | 水晶寶箱播放器、必要素材與一份維護 README；首頁入口暫停用 |
 | `1204/`、`light-sanctum-pray/` | 既有獨立工具與祈禱 runtime |
 | `game-info/` 的 HTML/CSS/JS 與 `data/` | 十一項資訊、寵物食品計算機及其資料 |
 

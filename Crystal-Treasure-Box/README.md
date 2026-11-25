@@ -2,7 +2,7 @@
 
 英文統一名稱：**Crystal Treasure Box**；正式路徑：`/GMSM-calculator/Crystal-Treasure-Box/`。
 
-本目錄僅供 `codex/crystalchest-atlas-preview-20261124` 分支驗收，首頁已加入光之聖所後方的灰階停用入口，尚未合併或部署正式站。請由網站根目錄啟動靜態 HTTP 伺服器，再開啟 `/Crystal-Treasure-Box/`。直接使用 file:// 無法執行模組與素材載入。
+本目錄由開發分支完成驗收，正式網址為 `https://remus1224.github.io/GMSM-calculator/Crystal-Treasure-Box/`。首頁在光之聖所後方保留灰階停用入口。請由網站根目錄啟動靜態 HTTP 伺服器，再開啟 `/Crystal-Treasure-Box/`。直接使用 file:// 無法執行模組與素材載入。
 
 ## 目前功能與驗收
 
@@ -38,8 +38,8 @@ JSON 中某些歷史來源路徑是證據資料，並非現行下載需求。不
 
 保留現行 p28p4r2 Fever 契約，移除兩份舊版契約與五份未引用工程資料。ASSET_MANIFEST.json 仍供商店使用，不能刪除。另移除四張未引用的介面比對圖與已關閉的 P3 中心光貼圖；Fever 的 16 張影格由程式動態組成路徑載入，全部保留。
 
-沒有減少動畫影格、修改解析度或降低影片畫質。第一、二輪已通過玩家手機驗收；第三輪僅移除未引用素材，功能與 268 筆卡片素材自動檢查報告存於研究工作區 exports/CrystalChest_Cleanup3_20261125。正式網站尚未整合發布。
+沒有減少動畫影格、修改解析度或降低影片畫質。第一、二輪已通過玩家手機驗收；第三輪僅移除未引用素材，功能與 268 筆卡片素材自動檢查報告存於研究工作區 exports/CrystalChest_Cleanup3_20261125。依網站既有 PR／CI／main 流程發布。
 
 進一步合併圖集、改寫場景資料結構或精簡工程程式，均涉及執行路徑改動，應另作候選版與回歸驗證，不當作可直接刪除的檔案處理。
 
-公開靜態網址沒有存取控制；noindex 只要求搜尋引擎不要收錄。原始來源契約的 CrystalChest schema 與歷史 localStorage 清理鍵保留，避免破壞相容性與驗證。正式發布尚待確認。
+公開靜態網址沒有存取控制；noindex 只要求搜尋引擎不要收錄。原始來源契約的 CrystalChest schema 與歷史 localStorage 清理鍵保留，避免破壞相容性與驗證。發布已獲維護者授權；實際部署狀態以 GitHub Pages 為準。

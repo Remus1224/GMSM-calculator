@@ -2,7 +2,7 @@
 
 ## 網站結構
 
-網站只有一份正式程式來源：主頁、`1204/`、`light-sanctum-pray/` 與 `game-info/`。測試修改使用 Git 分支及本機預覽，不再維護 Beta 副本。
+網站只有一份正式程式來源：主頁、`1204/`、`light-sanctum-pray/` 、`game-info/` 與 `Crystal-Treasure-Box/`。測試修改使用 Git 分支及本機預覽，不再維護 Beta 副本。
 
 資訊入口、標題與資料檔由 `game-info/data/catalog.json` 管理；資料與計算定義見 [DATA-NOTES.md](DATA-NOTES.md)，GA4 事件定義見 [GA4-TOOL-TRACKING.md](analytics/GA4-TOOL-TRACKING.md)。
 
@@ -52,3 +52,7 @@ node .github/scripts/verify-formal-paths.cjs
 資訊首頁與主選單共用 `site-home-category`、`home-menu-category` 和 `site-menu-grid` 結構。分類標題的直條、分隔線、數量標籤及手機規則集中在 `assets/css/site-components.css`；勿另外為分類標題加入玻璃裝飾層。
 
 交接、階段性調查與私人 GA4 設定保留在不納入 Git 的 `.local-docs/`；該資料夾的 README 提供移動對照。歷史紀錄含舊版指示，現行程式與本文件優先。
+
+## Crystal Treasure Box
+
+正式路徑為 `Crystal-Treasure-Box/`，中文名為水晶寶箱模擬器。首頁入口在光之聖所之後，維持灰階、disabled 且無導航；直接網址可使用。noindex 不代表存取控制。不可順手啟用首頁入口或複製成另一套 runtime。CI 包含新目錄全 JS/MJS 語法與入口檢查；產品說明集中於該目錄 README。
