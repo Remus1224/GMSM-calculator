@@ -8,6 +8,7 @@
   }};
 
   const state={app:false,pool:false,status:'LOADING',error:null,optionalReady:false};
+  let releaseTools;window.__releaseLuckyToolsGate=new Promise(resolve=>{releaseTools=resolve;});window.__releaseLuckyToolsReady=()=>releaseTools();
   let releaseOptional;window.__releaseOptionalGate=new Promise(resolve=>{releaseOptional=resolve;});
   window.__releaseOptionalReady=false;
   document.documentElement.classList.add('cc-loading');
@@ -32,6 +33,7 @@
   window.__releaseMarkReady=part=>{
     window.__ccStartupProfile.end('MILESTONE',part+'-ready',0);
     state[part]=true;updateProgress();
+    if(state.status!=='FAILED')message(part==='pool'?'素材載入中…正在準備動畫':'素材載入中…正在完成特效準備');
     if(!state.app||!state.pool||state.status==='FAILED')return;
     try{window.cleanRebuild?.render();}
     catch(cause){window.__releaseFail(cause);return;}

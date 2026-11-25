@@ -5,6 +5,8 @@ import { createFrameLoadQueue } from './fx-frame-load-queue.mjs';
 import {sha256Digest} from './sha256-http-compat.mjs';
 import * as compactLuckyTools from './compact-lucky-atlas.mjs?startupProbe=1&luckyBudget=2';
 window.__releaseLuckyTools={...compactLuckyTools,sha256Digest,loadImage};
+window.__releaseLuckyToolsReady?.();
+const earlyLuckyPreparation=new URLSearchParams(location.search).get('earlyLucky')==='0'?null:measureStartup('Lucky.prepare-early',()=>window.LUCKY_FEVER_COMPOSITION.ensureReady()).then(()=>({ok:true}),error=>({ok:false,error}));
 import { cardResultVisualPolicy, retryVoucherQuantity } from './card-result-visual-policy.mjs?r31r5=20261105a';
 import { createProbabilityInfoModal } from './probability-info-modal.mjs?p11d6=20261109';
 const p31Ui=await fetch('data/r14p31-single-ui.json?r31r5=20261105').then(r=>{if(!r.ok)throw Error('P31_UI_CONTRACT_REQUIRED');return measureStartup('data.body-and-json',()=>r.json(),r.url);});
@@ -1943,7 +1945,7 @@ try {
  }
  if(window.CrystalDot?.snapshot().loaded!==true)throw Error('SHOP_DOT_NOT_READY');
  if(screenFxCandidate?.snapshot().assetErrors.length)throw Error('FEVER_SCREEN_ASSET_FAILURE');
- window.__releaseOptionalPromise=measureStartup('Lucky.prepare',()=>window.LUCKY_FEVER_COMPOSITION.ensureReady()).then(()=>{
+ window.__releaseOptionalPromise=measureStartup('Lucky.prepare',async()=>{if(!earlyLuckyPreparation)return window.LUCKY_FEVER_COMPOSITION.ensureReady();const result=await earlyLuckyPreparation;if(!result.ok)throw result.error;}).then(()=>{
   const rect=stage.getBoundingClientRect();
   window.LUCKY_FEVER_COMPOSITION.prepareFirstFrame({width:rect.width,height:rect.height});
   window.__releaseOptionalDone?.(true);

@@ -600,7 +600,7 @@
     if (dotParticleAtlasLoadPromise) return dotParticleAtlasLoadPromise;
     dotParticleAtlasStatus = 'LOADING';
     dotParticleAtlasLoadPromise = (async () => {
-      await window.__releaseOptionalGate;
+      await (window.__releaseLuckyToolsGate||window.__releaseOptionalGate);
       if (new URLSearchParams(location.search).get('luckyAtlas') === 'compact') {
         const module = window.__releaseLuckyTools;
         if(!module)throw Error('LUCKY_TOOLS_NOT_PREPARED');
@@ -679,7 +679,7 @@
     if (inComePaAtlasLoadPromise) return inComePaAtlasLoadPromise;
     inComePaAtlasStatus = 'LOADING';
     inComePaAtlasLoadPromise = (async () => {
-      await window.__releaseOptionalGate;
+      await (window.__releaseLuckyToolsGate||window.__releaseOptionalGate);
       if (new URLSearchParams(location.search).get('luckyAtlas') === 'compact') {
         const module = window.__releaseLuckyTools;
         if(!module)throw Error('LUCKY_TOOLS_NOT_PREPARED');
@@ -1738,7 +1738,7 @@
     });
   }
 
-  const basePreparation = Promise.resolve(window.__releaseOptionalGate).then(()=>Promise.all([...uniqueImages, ...effectImagePaths].map(loadImage))).then(async results => {
+  const basePreparation = Promise.resolve((window.__releaseLuckyToolsGate||window.__releaseOptionalGate)).then(()=>Promise.all([...uniqueImages, ...effectImagePaths].map(loadImage))).then(async results => {
     const failed = results.filter(result => !result.ok).map(result => result.path);
     if (failed.length) {
       const loadedAtlases = uniqueImages.filter(path => imageByPath.has(path)).length;
