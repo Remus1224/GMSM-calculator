@@ -77,3 +77,31 @@
 5. 新自訂維度通常需約 24–48 小時才可用於探索；設定前漏掉的歷史事件無法回補。程式已送出 `tool_view`、`tool_use`、`tool_export`，不需在 GA4 UI 另外建立這三個自訂事件，也不需設為 key event。
 
 Google 官方說明：[建立事件範圍的自訂維度與指標](https://support.google.com/analytics/answer/14239696?hl=zh-Hant)、[GA4 探索](https://support.google.com/analytics/answer/9355963?hl=zh-Hant)。
+
+## 水晶寶箱（2026-11-25 發布）
+
+工具 ID `crystal-treasure-box`、中文名「水晶寶箱模擬器」、分類 simulator、surface crystal-treasure-box。僅外層頁載入單一共通 loader，iframe 不載入 GA，避免重複 page_view。
+
+沿用 tool_view 與首次真實抽取的 tool_use（simulate）；需可信 iframe 抽取按鈕操作並觀察到實際計數增加。主題、靜音、全螢幕、重設與程式合成 click 不記 use。初始化不記 use，每 visit 最多一次。
+
+tool_ready 每 visit 一次：load_time_ms 為外層導覽起至觀察到素材就緒，500ms 偵測精度；load_time_bucket 為 under_2s／2_5s／5_10s／10_20s／over_20s；cache_status 為 hit／miss／partial／unavailable。tool_load_error 每 visit 最多一次，load_stage 僅 bootstrap／assets／movies／effects／timeout。載入事件不送原始錯誤、道具、種子、runId 或診斷；分類數量另見下節。
+
+本地／LAN 維持不載入 gtag、不送事件。後台沿用既有工具排行，另建立載入時間區間、影片快取狀態、載入階段等事件維度與 load_time_ms 指標；部署後才開始收資料。
+
+
+### Crystal Treasure Box 抽取與物品統計
+
+`tool_draw_stats` 每筆送出增量，不是設定頁累積快照。回到可抽取的商店後等待 1 秒，使用 idle callback（有 1.5 秒上限）送出；動畫/發卡/翻卡期間不送出此事件。連續再使用一次的數輪可合併，17 個數量參數加 4 個工具識別參數，不逐張發送。
+
+- `draw_count`, `normal_draws`, `fever_draws`：抽數
+- `fever_triggers`, `gauge_triggers`, `lucky_triggers`：觸發次數
+- `item_ancient_crystal`, `item_mythic_sub`, `item_legendary_sub`：副武分類數量
+- `item_chaos`, `item_ancient`, `item_mythic`, `item_legendary`, `item_rare`：裝備分類數量
+- `item_shards5`, `item_shards10`：交換券張數，不乘碎片面額
+- `round_count`：本批次含幾輪，保留事件參數，未占用自訂指標
+
+GA4 已建立上述前 16 個參數的標準單位自訂指標。
+探索「水晶寶箱｜抽取與物品統計」分頁：抽取與Fever（6項）、獲得物品（10項），篩選工具 ID 完全符合 crystal-treasure-box。
+https://analytics.google.com/analytics/web/#/analysis/a394430589p537262629/edit/m2IK7zC3QKiCiu516pI11g
+
+本機/LAN不送事件；不送個別道具名稱、run ID、seed、原始診斷。傳送是 best effort：直接關閉頁面、擋廣告或網路失敗可能漏記，不把 GA4 視為精準帳本；不在離開頁面時強制重送。重新模擬不扣除歷史已送數字，未送增量在同一父頁記憶體中保留至下次商店空閒；重新整理則清除未送增量。

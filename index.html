@@ -166,7 +166,7 @@
                 <span id="menu-badge-light-sanctum-pray" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
-            <button type="button" id="crystal-treasure-box-entry" class="app-card site-entry glass-surface site-card site-card-entry site-space-item site-menu-entry crystal-treasure-box-entry-disabled" disabled aria-disabled="true" title="水晶寶箱模擬器：尚未開放首頁入口">
+            <button type="button" id="crystal-treasure-box-entry" class="app-card app-card-has-badge site-interactive site-menu-entry-has-badge site-entry glass-surface site-card site-card-entry site-space-item site-menu-entry" onclick="markMenuToolBadgeAsRead('Crystal-Treasure-Box'); window.location.href = window.location.protocol === 'file:' ? 'Crystal-Treasure-Box/index.html' : 'Crystal-Treasure-Box/'" data-site-interaction="entry">
                 <span class="liquid_glass-cover" aria-hidden="true"></span>
                 <span class="liquid_glass-sharp" aria-hidden="true"></span>
                 <span class="liquid_glass-reflect" aria-hidden="true"></span>
@@ -174,6 +174,7 @@
                     <span class="app-icon site-entry-icon"><img src="assets/menu/icon_Crystal-Treasure-Box.png" class="menu-custom-img" alt=""></span>
                     <span class="app-info site-entry-copy"><span class="app-title site-entry-title">水晶寶箱模擬器</span></span>
                 </span>
+                <span id="menu-badge-Crystal-Treasure-Box" class="app-status-badge app-status-badge-new" hidden>NEW</span>
             </button>
 
             <div class="home-menu-category home-menu-category-calculator site-space-item" role="heading" aria-level="2">
@@ -454,10 +455,10 @@
             <div class="notice-hero-content">
                 <div class="notice-hero-meta">
                     <span class="notice-status">最新更新</span>
-                    <time datetime="2026-11-12">2026.11.12</time>
+                    <time datetime="2026-11-25">2026.11.25</time>
                 </div>
-                <h2 id="notice-latest-title">創世鍊成資料更新</h2>
-                <p>擴充至第30階，更新材料、成功率與累積能力，並同步調整計算機。</p>
+                <h2 id="notice-latest-title">新增水晶寶箱模擬器</h2>
+
             </div>
         </section>
 
@@ -470,10 +471,12 @@
             </div>
 
             <ol class="notice-timeline">
-                <li class="notice-timeline-item is-latest">
+                <li class="notice-timeline-item is-latest"><span class="notice-timeline-dot" aria-hidden="true"></span><article class="notice-release"><header><time datetime="2026-11-25">2026 / 11 / 25</time><span class="notice-latest-badge">最新</span></header><ul class="notice-change-list"><li><span class="notice-tag notice-tag-new">新增</span><span>新增水晶寶箱模擬器</span></li></ul></article></li>
+
+                <li class="notice-timeline-item">
                     <span class="notice-timeline-dot" aria-hidden="true"></span>
                     <article class="notice-release">
-                        <header><time datetime="2026-11-12">2026 / 11 / 12</time><span class="notice-latest-badge">最新</span></header>
+                        <header><time datetime="2026-11-12">2026 / 11 / 12</time></header>
                         <ul class="notice-change-list">
                             <li><span class="notice-tag notice-tag-update">更新</span><span>創世鍊成：擴充至第30階，更新材料、成功率與累積能力，並同步調整計算機。</span></li>
                         </ul>
@@ -2569,7 +2572,7 @@
 <script src="assets/js/glass.js?v=composite-hover2"></script>
 <script src="assets/js/site-notify.js?v=20261005-shared1"></script>
 <script src="assets/js/hexa-progress.js?v=20261005-shared-cleanup2"></script>
-<script src="script.js?v=20261112-genesis-badges1"></script>
+<script src="script.js?v=20261125-crystal-treasure-box1"></script>
 <script src="assets/js/simulator-settings.js?v=summary-film1"></script>
 <script src="assets/js/site-pilot.js?v=20261006-shared-select2"></script>
 

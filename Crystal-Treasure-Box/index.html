@@ -9,25 +9,30 @@
  <meta property="og:description" content="楓之谷M 水晶寶箱模擬器">
  <meta property="og:type" content="website">
  <meta property="og:url" content="https://remus1224.github.io/GMSM-calculator/Crystal-Treasure-Box/">
+ <script>try{if(localStorage.getItem('msm-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(error){}</script>
  <link rel="stylesheet" href="../assets/css/site-theme.css"><link rel="stylesheet" href="../assets/css/glass.css">
  <link rel="stylesheet" href="../assets/css/site-components.css"><link rel="stylesheet" href="../assets/css/tool-shell.css">
- <link rel="stylesheet" href="crystal-treasure-box.css?v=20261125b">
+ <link rel="stylesheet" href="../assets/css/calculator-components.css"><link rel="stylesheet" href="../assets/css/standalone-tools.css"><link rel="stylesheet" href="../light-sanctum-pray/sound-toggle.css">
+ <link rel="stylesheet" href="crystal-treasure-box.css?v=20261125-release1">
+ <script src="../assets/js/site-analytics.js?v=20261125-ctb2" data-site-analytics-surface="crystal-treasure-box"></script>
+ <script type="module" src="analytics-bridge.mjs?v=2"></script>
 </head>
 <body class="standalone-tool">
  <main>
-  <header class="site-header"><h1 class="site-title">楓之谷M 也許有用的工具</h1><nav class="unified-nav" aria-label="頁面導覽"><a class="unified-home" href="../">‹ 主選單</a><span class="unified-current" aria-current="page">水晶寶箱模擬器</span></nav></header>
-  <div id="stage-tools" class="stage-tools"><p class="orientation-hint">建議橫向使用；可按全螢幕，完整顯示模擬器。</p><button id="fullscreen-toggle" type="button" aria-label="全螢幕顯示模擬器" title="全螢幕">⛶</button></div>
+  <header class="site-header"><h1 class="site-title">楓之谷M 也許有用的工具</h1><nav class="unified-nav" aria-label="頁面導覽"><span class="nav-glass-light" aria-hidden="true"></span><a class="unified-home" href="../">‹ 主選單</a><span class="unified-current" aria-current="page">水晶寶箱模擬器</span><div class="theme-seat"><button id="theme-toggle" class="theme-toggle" type="button" aria-label="切換至夜間模式" aria-pressed="false"><span class="icon-sun" aria-hidden="true">☀️</span><span class="icon-moon" aria-hidden="true">🌙</span></button></div></nav></header>
+  <div id="stage-tools" class="stage-tools"><button id="fullscreen-toggle" type="button" aria-label="全螢幕顯示模擬器" title="全螢幕">⛶</button></div>
   <section id="stage-section" class="stage-section" aria-label="水晶寶箱模擬器">
    <div id="stage-host" class="stage-host"><div id="stage-viewport" class="stage-viewport"><iframe id="crystal-frame" title="水晶寶箱模擬器" allowfullscreen></iframe></div></div>
   </section>
   <section id="player-settings" class="settings-panel site-calculator calculator-section glass-surface site-card site-card-input" aria-labelledby="settings-title"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content">
-   <div class="settings-title"><h2 id="settings-title">水晶寶箱模擬器設定</h2><button id="sound-toggle" class="site-button glass-action" type="button" aria-pressed="false" disabled>音效：開啟</button></div>
-   <div class="stats-text site-summary-card glass-surface site-card site-card-info"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content"><h3>累積抽取紀錄</h3><p id="draw-summary" aria-live="polite">載入模擬器後顯示紀錄</p><dl id="draw-stats" class="stat-grid"></dl></div></div>
-   <div class="stats-text site-summary-card glass-surface site-card site-card-info"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content"><h3>獲得物品數量</h3><dl id="item-stats" class="stat-grid"></dl><p id="shard-summary"></p></div></div>
-   <p id="storage-note" class="settings-note">統計只保留在本次頁面，重新整理後歸零；素材快取不會清除。每張結果計為 1 抽，10+1 計為 11 抽；交換券按張數統計。</p>
+   <div class="settings-title"><h2 id="settings-title">水晶寶箱模擬器設定</h2><button id="sound-toggle" class="btn-sound" type="button" aria-pressed="false" disabled>🔊 音效：開啟</button></div>
+   <div id="draw-panel" class="stats-text site-summary-card glass-surface site-card site-card-info"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content"><h3>累積抽取紀錄</h3><dl id="draw-stats" class="stat-grid"></dl></div></div>
+   <div id="item-panel" class="stats-text site-summary-card glass-surface site-card site-card-info"><span class="liquid_glass-cover" aria-hidden="true"></span><span class="liquid_glass-sharp" aria-hidden="true"></span><span class="liquid_glass-reflect" aria-hidden="true"></span><div class="liquid-surface-content"><h3>獲得物品數量</h3><dl id="item-stats" class="stat-grid"></dl></div></div>
+
    <button id="reset-simulator" class="btn-reset-simulator site-button glass-action glass-action-danger" type="button" disabled>重新模擬（清除所有狀態與紀錄）</button>
   </div></section>
-  <p class="crystal-notice">非官方社群模擬器，抽取結果不代表遊戲伺服器結果，不會消耗遊戲道具。本工具與 NEXON 或 MapleStory M 官方無隸屬關係。</p>
+
  </main>
- <script type="module" src="crystal-treasure-box.mjs?v=20261125c"></script>
+ <script src="../assets/js/glass.js"></script><script src="../assets/js/standalone-tools.js"></script><script src="../assets/js/tool-shell.js"></script>
+ <script type="module" src="crystal-treasure-box.mjs?v=20261125-release1"></script>
 </body></html>
