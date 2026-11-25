@@ -1,0 +1,3930 @@
+{
+  "classification": "SAVED_CLIENT_ASSET_EXPORTS",
+  "clientBinarySha256": "ace8626133ba52ed4053c4dc9e8dceaa86bb138ef919597fdaf319e8f52a57f4",
+  "popupBundle": "9356867.msm",
+  "popupBundleSha256": "39851b633802c1d515feaae0c9a68b53ae77fab95d7937a4f1f37b60c3ed15b4",
+  "textures": {
+    "CAB-f9d73c83169e3c3541a17c277801f437:-6048621795860257109": {
+      "file": "assets/textures/10421aacc62b31d4c0e631b9e99054fb58dd314b7420208849a11971536246cd.png",
+      "sha256": "10421aacc62b31d4c0e631b9e99054fb58dd314b7420208849a11971536246cd",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/DarkNess__Texture2D__-6048621795860257109.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-6048621795860257109",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/DarkNess__Texture2D__-6048621795860257109.png",
+      "width": 32,
+      "height": 32
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-1688769834031967983": {
+      "file": "assets/textures/0d3bc48c01d4d6f5f792ed291e12db7d3c5dbb8d3f715abaa47774409cdba213.png",
+      "sha256": "0d3bc48c01d4d6f5f792ed291e12db7d3c5dbb8d3f715abaa47774409cdba213",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/GachaAtlas__Texture2D__-1688769834031967983.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-1688769834031967983",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/GachaAtlas__Texture2D__-1688769834031967983.png",
+      "width": 1024,
+      "height": 1024
+    },
+    "CAB-b1bfdf7ef5a285b78eea61c576be6c7e:8009530456769470290": {
+      "file": "assets/textures/e28dff4a5cb1cc9179cf46fd36fd22e66d632190c1dd76c36e4540e16298be9a.png",
+      "sha256": "e28dff4a5cb1cc9179cf46fd36fd22e66d632190c1dd76c36e4540e16298be9a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/CommonSlicedAtlas__Texture2D__8009530456769470290.png",
+      "cabPathID": "CAB-b1bfdf7ef5a285b78eea61c576be6c7e:8009530456769470290",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/CommonSlicedAtlas__Texture2D__8009530456769470290.png",
+      "width": 512,
+      "height": 512
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-5246096435847536749": {
+      "file": "assets/textures/3ca855257be35444378b3cc40a8320dbe8652d867308e498db822a2c159a830f.png",
+      "sha256": "3ca855257be35444378b3cc40a8320dbe8652d867308e498db822a2c159a830f",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/Gacha_Global_Atlas__Texture2D__-5246096435847536749.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-5246096435847536749",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/Gacha_Global_Atlas__Texture2D__-5246096435847536749.png",
+      "width": 2048,
+      "height": 1024
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:6629820909576309265": {
+      "file": "assets/textures/3efd1d140a414959e73743f99fead9ffe413e1a3264e2e8d96215747be368aa4.png",
+      "sha256": "3efd1d140a414959e73743f99fead9ffe413e1a3264e2e8d96215747be368aa4",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/Treasurebox_GL_Atlas__Texture2D__6629820909576309265.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:6629820909576309265",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/Treasurebox_GL_Atlas__Texture2D__6629820909576309265.png",
+      "width": 1024,
+      "height": 1024
+    },
+    "CAB-242adabf0f3bd0c05fa335ac3b45f25e:-4496685103134070067": {
+      "file": "assets/textures/ba231752add3f1b653868707f0614f1b4852b2fc851f0cc12b687a9b15de5414.png",
+      "sha256": "ba231752add3f1b653868707f0614f1b4852b2fc851f0cc12b687a9b15de5414",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/CommonSimpleAtlas_dot__Texture2D__-4496685103134070067.png",
+      "cabPathID": "CAB-242adabf0f3bd0c05fa335ac3b45f25e:-4496685103134070067",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/CommonSimpleAtlas_dot__Texture2D__-4496685103134070067.png",
+      "width": 512,
+      "height": 256
+    },
+    "CAB-8a90e30cac12748c21c77f12411ed235:6500721227336104253": {
+      "file": "assets/textures/87b76c01ef39c091def4ce34a88554f8dc0b2e3d87e389e4ffa8c77deed181c3.png",
+      "sha256": "87b76c01ef39c091def4ce34a88554f8dc0b2e3d87e389e4ffa8c77deed181c3",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/CommonFxAtlas__Texture2D__6500721227336104253.png",
+      "cabPathID": "CAB-8a90e30cac12748c21c77f12411ed235:6500721227336104253",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/CommonFxAtlas__Texture2D__6500721227336104253.png",
+      "width": 512,
+      "height": 512
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:5162937973120383344": {
+      "file": "assets/textures/3d75c41cebbe4eca7185be562b919805e1dee3c0518607b2e115053bfb05fc22.png",
+      "sha256": "3d75c41cebbe4eca7185be562b919805e1dee3c0518607b2e115053bfb05fc22",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/LightAtlas__Texture2D__5162937973120383344.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:5162937973120383344",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/LightAtlas__Texture2D__5162937973120383344.png",
+      "width": 512,
+      "height": 512
+    },
+    "CAB-b1bfdf7ef5a285b78eea61c576be6c7e:-2437935875144350540": {
+      "file": "assets/textures/552a50f607821cd8406268770bac979e46d8c60700689b956904ee2781d2831f.png",
+      "sha256": "552a50f607821cd8406268770bac979e46d8c60700689b956904ee2781d2831f",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/CommonSlicedAtlas_ex__Texture2D__-2437935875144350540.png",
+      "cabPathID": "CAB-b1bfdf7ef5a285b78eea61c576be6c7e:-2437935875144350540",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/CommonSlicedAtlas_ex__Texture2D__-2437935875144350540.png",
+      "width": 512,
+      "height": 64
+    },
+    "CAB-8a90e30cac12748c21c77f12411ed235:-7806472557632717351": {
+      "file": "assets/textures/2b73581168494a9b23650ad034d00c8f7edbf564efc7ab3155f52f542d853aee.png",
+      "sha256": "2b73581168494a9b23650ad034d00c8f7edbf564efc7ab3155f52f542d853aee",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/r4/Files/Texture2D/CommonFxAtlas_Additive__Texture2D__-7806472557632717351.png",
+      "cabPathID": "CAB-8a90e30cac12748c21c77f12411ed235:-7806472557632717351",
+      "sourceBinding": "Web/source/r4/Files/Texture2D/CommonFxAtlas_Additive__Texture2D__-7806472557632717351.png",
+      "width": 1024,
+      "height": 1024
+    },
+    "CAB-b1bfdf7ef5a285b78eea61c576be6c7e:8873075961046716041": {
+      "file": "assets/textures/54ace9a9298826ffbd997fdfaf4fcdf05525309257b676fdbf0739544b404495.png",
+      "sha256": "54ace9a9298826ffbd997fdfaf4fcdf05525309257b676fdbf0739544b404495",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected2/Files/Texture2D/CommonSimpleAtlas__Texture2D__8873075961046716041.png",
+      "cabPathID": "CAB-b1bfdf7ef5a285b78eea61c576be6c7e:8873075961046716041",
+      "sourceBinding": "Web/source/shop/evidence/selected2/Files/Texture2D/CommonSimpleAtlas__Texture2D__8873075961046716041.png",
+      "width": 1024,
+      "height": 1024
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-611000304894697920": {
+      "file": "assets/textures/53f1327fee1c34db45b189995599b19e84910c43953caa91053006aa6bdfb1de.png",
+      "sha256": "53f1327fee1c34db45b189995599b19e84910c43953caa91053006aa6bdfb1de",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_Phantom_select_pa_st_2_glow_dot__Texture2D__-611000304894697920.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-611000304894697920",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_Phantom_select_pa_st_2_glow_dot__Texture2D__-611000304894697920.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:5752539414713512191": {
+      "file": "assets/textures/cea7f5fd359e0062e4ccc7a71dd136d6fc506f26ec3c8302c8bab9164037f360.png",
+      "sha256": "cea7f5fd359e0062e4ccc7a71dd136d6fc506f26ec3c8302c8bab9164037f360",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected2/Files/Texture2D/Treasure_Crtstal_Red_bg__Texture2D__5752539414713512191.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:5752539414713512191",
+      "sourceBinding": "Web/source/shop/evidence/selected2/Files/Texture2D/Treasure_Crtstal_Red_bg__Texture2D__5752539414713512191.png",
+      "width": 1124,
+      "height": 564
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:8242189902215042": {
+      "file": "assets/textures/5a0f8fde29d18b7ebdaf1541f88c8750921078d70caa6ab81bec836ae6b4a6d0.png",
+      "sha256": "5a0f8fde29d18b7ebdaf1541f88c8750921078d70caa6ab81bec836ae6b4a6d0",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected3/Files/Texture2D/TreasureBoxAtlas__Texture2D__8242189902215042.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:8242189902215042",
+      "sourceBinding": "Web/source/shop/evidence/selected3/Files/Texture2D/TreasureBoxAtlas__Texture2D__8242189902215042.png",
+      "width": 128,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-2373015520645106106": {
+      "file": "assets/textures/f47665ce2f7c2155ab9a1a0a66de28fec09e8567419982ae63717b5a1818aa4f.png",
+      "sha256": "f47665ce2f7c2155ab9a1a0a66de28fec09e8567419982ae63717b5a1818aa4f",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_royal_style_aura_line_trail__Texture2D__-2373015520645106106.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-2373015520645106106",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_royal_style_aura_line_trail__Texture2D__-2373015520645106106.png",
+      "width": 128,
+      "height": 64
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-2582047749624713724": {
+      "file": "assets/textures/36298bce6b161d6a8bf2f9c6a91e37f978bae4a1868c473a7f8d82c49dbcd32d.png",
+      "sha256": "36298bce6b161d6a8bf2f9c6a91e37f978bae4a1868c473a7f8d82c49dbcd32d",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_box_ms003__Texture2D__-2582047749624713724.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-2582047749624713724",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_box_ms003__Texture2D__-2582047749624713724.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-2890815721239604042": {
+      "file": "assets/textures/8c8be6255038b281229996d375ae57175b13faa08aa418f639aa733868233b22.png",
+      "sha256": "8c8be6255038b281229996d375ae57175b13faa08aa418f639aa733868233b22",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_mini_game_3_bingo_boom_star__Texture2D__-2890815721239604042.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-2890815721239604042",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_mini_game_3_bingo_boom_star__Texture2D__-2890815721239604042.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-3524041367901943003": {
+      "file": "assets/textures/36770825d4219a7202709c405d5f607c2eb07fc1f5bc6fbe0dee03d3aa5177a3.png",
+      "sha256": "36770825d4219a7202709c405d5f607c2eb07fc1f5bc6fbe0dee03d3aa5177a3",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_box_ms002__Texture2D__-3524041367901943003.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-3524041367901943003",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_box_ms002__Texture2D__-3524041367901943003.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-3750819432686132492": {
+      "file": "assets/textures/e66aa19503256982690dd63dbdc74a3f383ec9da62b8b0937a739b3c5f47c0a4.png",
+      "sha256": "e66aa19503256982690dd63dbdc74a3f383ec9da62b8b0937a739b3c5f47c0a4",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p005__Texture2D__-3750819432686132492.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-3750819432686132492",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p005__Texture2D__-3750819432686132492.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-4360940957488203388": {
+      "file": "assets/textures/7059608f6cd83ac2b5d25b617839fbc1862ec651213f1c245776d95d4e90e3fb.png",
+      "sha256": "7059608f6cd83ac2b5d25b617839fbc1862ec651213f1c245776d95d4e90e3fb",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_icon010__Texture2D__-4360940957488203388.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-4360940957488203388",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_icon010__Texture2D__-4360940957488203388.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-4680678813480141134": {
+      "file": "assets/textures/7eb86c57f0dde1fd0e969aa4b63182f0619364daffcade02b7ff4f47d836ab4e.png",
+      "sha256": "7eb86c57f0dde1fd0e969aa4b63182f0619364daffcade02b7ff4f47d836ab4e",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_gl001__Texture2D__-4680678813480141134.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-4680678813480141134",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_gl001__Texture2D__-4680678813480141134.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-4883062197625269014": {
+      "file": "assets/textures/3a93a98970ea35af16a3d14c0782568bc758cdce060bed92e5bd0284a03963ac.png",
+      "sha256": "3a93a98970ea35af16a3d14c0782568bc758cdce060bed92e5bd0284a03963ac",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_royal_style_aura_in_come_line_dot__Texture2D__-4883062197625269014.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-4883062197625269014",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/ui_effect_royal_style_aura_in_come_line_dot__Texture2D__-4883062197625269014.png",
+      "width": 256,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-4922605794323732967": {
+      "file": "assets/textures/bd658331ce75e3cfdf8d59ba4a0168c5432104dd7bf4a0bc12ca0cfe89201765.png",
+      "sha256": "bd658331ce75e3cfdf8d59ba4a0168c5432104dd7bf4a0bc12ca0cfe89201765",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p016__Texture2D__-4922605794323732967.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-4922605794323732967",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p016__Texture2D__-4922605794323732967.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-5507247710394423092": {
+      "file": "assets/textures/9f3b2a94fa8ff466d69007f72163d208c70c35150c7b4c928a2a6edae113b6df.png",
+      "sha256": "9f3b2a94fa8ff466d69007f72163d208c70c35150c7b4c928a2a6edae113b6df",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p025__Texture2D__-5507247710394423092.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-5507247710394423092",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p025__Texture2D__-5507247710394423092.png",
+      "width": 512,
+      "height": 512
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-5920558358786566108": {
+      "file": "assets/textures/f26cf15c5ad017ab82b41f85575129e170bc88817e6cf8486acf10295a88750a.png",
+      "sha256": "f26cf15c5ad017ab82b41f85575129e170bc88817e6cf8486acf10295a88750a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p009__Texture2D__-5920558358786566108.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-5920558358786566108",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p009__Texture2D__-5920558358786566108.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-6165728316579130963": {
+      "file": "assets/textures/513fe91efbbc2f8d2d59b63f0f6b3a2c580a1513467c6d73ed4283e79e2f183d.png",
+      "sha256": "513fe91efbbc2f8d2d59b63f0f6b3a2c580a1513467c6d73ed4283e79e2f183d",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p002__Texture2D__-6165728316579130963.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-6165728316579130963",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p002__Texture2D__-6165728316579130963.png",
+      "width": 64,
+      "height": 64
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-6482850623606645526": {
+      "file": "assets/textures/46126c8245a8d8864d5fa47b7bc20f6c38337f3f20f8c5a905127e4c80d8cbdf.png",
+      "sha256": "46126c8245a8d8864d5fa47b7bc20f6c38337f3f20f8c5a905127e4c80d8cbdf",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/StarGlow__Texture2D__-6482850623606645526.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-6482850623606645526",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/StarGlow__Texture2D__-6482850623606645526.png",
+      "width": 64,
+      "height": 64
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-6728194223549830753": {
+      "file": "assets/textures/e520c2e759122c20d7146a65950afadb8174bd84e3d79eac4a56b6770b1dd7a0.png",
+      "sha256": "e520c2e759122c20d7146a65950afadb8174bd84e3d79eac4a56b6770b1dd7a0",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p006__Texture2D__-6728194223549830753.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-6728194223549830753",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p006__Texture2D__-6728194223549830753.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-7520782689058228652": {
+      "file": "assets/textures/ccacaea856931d6f8d2fa39245f36f85884ddd62dee4c42ff0e87c6ac7f461be.png",
+      "sha256": "ccacaea856931d6f8d2fa39245f36f85884ddd62dee4c42ff0e87c6ac7f461be",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p008__Texture2D__-7520782689058228652.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-7520782689058228652",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p008__Texture2D__-7520782689058228652.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-7722732832175179493": {
+      "file": "assets/textures/3ce7121cd79cc0777fde1fde490bb571d638e086042c270e2b106c81f5bad4e2.png",
+      "sha256": "3ce7121cd79cc0777fde1fde490bb571d638e086042c270e2b106c81f5bad4e2",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/Effect_UniqueParticel__Texture2D__-7722732832175179493.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-7722732832175179493",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/Effect_UniqueParticel__Texture2D__-7722732832175179493.png",
+      "width": 69,
+      "height": 69
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-7877957645898680868": {
+      "file": "assets/textures/602623c3a18cdde01b3527409bf3128b8e3a65ebeb1786fa50e2fee734be944d.png",
+      "sha256": "602623c3a18cdde01b3527409bf3128b8e3a65ebeb1786fa50e2fee734be944d",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p004__Texture2D__-7877957645898680868.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-7877957645898680868",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_flash_p004__Texture2D__-7877957645898680868.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-8645346026860145994": {
+      "file": "assets/textures/83e2b5993913100ab65d3ca36317840f57ea92dc4d80bfd6d48946315245895b.png",
+      "sha256": "83e2b5993913100ab65d3ca36317840f57ea92dc4d80bfd6d48946315245895b",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p009__Texture2D__-8645346026860145994.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-8645346026860145994",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p009__Texture2D__-8645346026860145994.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:-8858002598054034555": {
+      "file": "assets/textures/d23ee8b212494113a436139f13d50f9f8b8ddc2ff87d3f8f20f0a2b358c5a374.png",
+      "sha256": "d23ee8b212494113a436139f13d50f9f8b8ddc2ff87d3f8f20f0a2b358c5a374",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_gl003__Texture2D__-8858002598054034555.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:-8858002598054034555",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_gl003__Texture2D__-8858002598054034555.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:1328050612702597918": {
+      "file": "assets/textures/7c526e278e70f5dc26bd5c0eb5b1200c11db66db41859cf75a5d3432657379d5.png",
+      "sha256": "7c526e278e70f5dc26bd5c0eb5b1200c11db66db41859cf75a5d3432657379d5",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_icon009__Texture2D__1328050612702597918.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:1328050612702597918",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_icon009__Texture2D__1328050612702597918.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:2565978325326351590": {
+      "file": "assets/textures/2126de1e123aa77d52e7b8f631a3b2926e6f8ee1485278a3bdf192ec62af99ac.png",
+      "sha256": "2126de1e123aa77d52e7b8f631a3b2926e6f8ee1485278a3bdf192ec62af99ac",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p003__Texture2D__2565978325326351590.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:2565978325326351590",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p003__Texture2D__2565978325326351590.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:2730532428164531147": {
+      "file": "assets/textures/b998aabce6c97d552fd0e86da16be912b73aa9a11aab6be99a9be40e381ffcc2.png",
+      "sha256": "b998aabce6c97d552fd0e86da16be912b73aa9a11aab6be99a9be40e381ffcc2",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/Effect_Radial__Texture2D__2730532428164531147.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:2730532428164531147",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/Effect_Radial__Texture2D__2730532428164531147.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:3003585015010042271": {
+      "file": "assets/textures/b36efe84ad13537dbfca6fb99fffef4cb632d90bb12a5e51e1f7aed178bd960f.png",
+      "sha256": "b36efe84ad13537dbfca6fb99fffef4cb632d90bb12a5e51e1f7aed178bd960f",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_fl013__Texture2D__3003585015010042271.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:3003585015010042271",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_fl013__Texture2D__3003585015010042271.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:3326392417989344786": {
+      "file": "assets/textures/c49dbfb573cc4e0894cfb970f2fc524ccede1cd5618d8865214e41e02fa02f7e.png",
+      "sha256": "c49dbfb573cc4e0894cfb970f2fc524ccede1cd5618d8865214e41e02fa02f7e",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/Effect_Unique__Texture2D__3326392417989344786.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:3326392417989344786",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/Effect_Unique__Texture2D__3326392417989344786.png",
+      "width": 266,
+      "height": 284
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:3659065068742480476": {
+      "file": "assets/textures/32901435f3ff942842eee6cc28016d3df7c3f141d815a9722f03008a644b1d59.png",
+      "sha256": "32901435f3ff942842eee6cc28016d3df7c3f141d815a9722f03008a644b1d59",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_cardglow_p002__Texture2D__3659065068742480476.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:3659065068742480476",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_cardglow_p002__Texture2D__3659065068742480476.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:4171520134016131370": {
+      "file": "assets/textures/bfc30242cbafb238184300435caeb2463de7aa09e84eab29c0018e71135182dc.png",
+      "sha256": "bfc30242cbafb238184300435caeb2463de7aa09e84eab29c0018e71135182dc",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/glow_dot__Texture2D__4171520134016131370.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:4171520134016131370",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/glow_dot__Texture2D__4171520134016131370.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:5818660339664131879": {
+      "file": "assets/textures/518ac3d785278c96d5a940d098162720c5f421b83906069aa17feced32a6a1b3.png",
+      "sha256": "518ac3d785278c96d5a940d098162720c5f421b83906069aa17feced32a6a1b3",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_box_ms001__Texture2D__5818660339664131879.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:5818660339664131879",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_box_ms001__Texture2D__5818660339664131879.png",
+      "width": 512,
+      "height": 512
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:6379972873416694890": {
+      "file": "assets/textures/a0e1829f60ea3b5bec3b20ce6ad894859520c2988bc70ba7f2967a20d5a9b18a.png",
+      "sha256": "a0e1829f60ea3b5bec3b20ce6ad894859520c2988bc70ba7f2967a20d5a9b18a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_gl006__Texture2D__6379972873416694890.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:6379972873416694890",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_gl006__Texture2D__6379972873416694890.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:7152673354668701844": {
+      "file": "assets/textures/f6ce4ba3b915938f97c2f1528fdfc8f0db276cd1df5e41109a21dbe3ba1fdea3.png",
+      "sha256": "f6ce4ba3b915938f97c2f1528fdfc8f0db276cd1df5e41109a21dbe3ba1fdea3",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_gl007__Texture2D__7152673354668701844.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:7152673354668701844",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_gl007__Texture2D__7152673354668701844.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:800502810925782010": {
+      "file": "assets/textures/b244a6522c09d8bae3c44ac67c32990ecadbc295c4b272c27c05479924c5d767.png",
+      "sha256": "b244a6522c09d8bae3c44ac67c32990ecadbc295c4b272c27c05479924c5d767",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p001__Texture2D__800502810925782010.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:800502810925782010",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_glow_p001__Texture2D__800502810925782010.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:8228900985737324146": {
+      "file": "assets/textures/0b18c544ea834b044e85da025151e31ec2f2b59c024f71a7f76e3f19004d8857.png",
+      "sha256": "0b18c544ea834b044e85da025151e31ec2f2b59c024f71a7f76e3f19004d8857",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_icon012__Texture2D__8228900985737324146.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:8228900985737324146",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_icon012__Texture2D__8228900985737324146.png",
+      "width": 128,
+      "height": 128
+    },
+    "CAB-f9d73c83169e3c3541a17c277801f437:8596127982565802600": {
+      "file": "assets/textures/7b9db9ef14e6dd17675453f3bb1d228bd8376389379d8c336c27f6525b726f7b.png",
+      "sha256": "7b9db9ef14e6dd17675453f3bb1d228bd8376389379d8c336c27f6525b726f7b",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/source/shop/evidence/selected1/Files/Texture2D/a_fl009__Texture2D__8596127982565802600.png",
+      "cabPathID": "CAB-f9d73c83169e3c3541a17c277801f437:8596127982565802600",
+      "sourceBinding": "Web/source/shop/evidence/selected1/Files/Texture2D/a_fl009__Texture2D__8596127982565802600.png",
+      "width": 256,
+      "height": 256
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-1320679715914715803": {
+      "file": "assets/textures/a0ef6ef80f78f2fff60c48108cd25d4c715196cb0e7c7e7000cec70f00309fb1.png",
+      "sha256": "a0ef6ef80f78f2fff60c48108cd25d4c715196cb0e7c7e7000cec70f00309fb1",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/dynamic/Gacha.BgBackUniqueLucky.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-1320679715914715803",
+      "sourceBinding": "Web/assets/dynamic/Gacha.BgBackUniqueLucky.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-327577898488724320": {
+      "file": "assets/textures/4c489487d9920e8ec9e137efca45bf17f3b0c32a5b25bd316f8e4d1fdd3bae1a.png",
+      "sha256": "4c489487d9920e8ec9e137efca45bf17f3b0c32a5b25bd316f8e4d1fdd3bae1a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/ui_item_card_lucky_back_legendary.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-327577898488724320",
+      "sourceBinding": "Web/assets/ui_item_card_lucky_back_legendary.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:9069475337812023144": {
+      "file": "assets/textures/410536a3a3ad099aa95d524a84498d29e5d2b951ca4c800b9e465b9b202711e1.png",
+      "sha256": "410536a3a3ad099aa95d524a84498d29e5d2b951ca4c800b9e465b9b202711e1",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/dynamic/Gacha.BgBackEpicLucky.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:9069475337812023144",
+      "sourceBinding": "Web/assets/dynamic/Gacha.BgBackEpicLucky.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:8057266646643222010": {
+      "file": "assets/textures/d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049.png",
+      "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/dynamic/Gacha.BgUniqueLucky.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:8057266646643222010",
+      "sourceBinding": "Web/assets/dynamic/Gacha.BgUniqueLucky.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:4753283477670145287": {
+      "file": "assets/textures/b37845104c31edf2f1e05826b952472c96f615d90e745bc30048006bde94f415.png",
+      "sha256": "b37845104c31edf2f1e05826b952472c96f615d90e745bc30048006bde94f415",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/ui_item_card_lucky_legendary.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:4753283477670145287",
+      "sourceBinding": "Web/assets/ui_item_card_lucky_legendary.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-1807413378051173248": {
+      "file": "assets/textures/997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c.png",
+      "sha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/ui_item_card_lucky_mythic.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-1807413378051173248",
+      "sourceBinding": "Web/assets/ui_item_card_lucky_mythic.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:9026291975587455121": {
+      "file": "assets/textures/fe05acafd0bc64b3a8df3b473132a686af78f6231290105088fc7c05ad1c8511.png",
+      "sha256": "fe05acafd0bc64b3a8df3b473132a686af78f6231290105088fc7c05ad1c8511",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/dynamic/Gacha.BgEpicLucky.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:9026291975587455121",
+      "sourceBinding": "Web/assets/dynamic/Gacha.BgEpicLucky.png",
+      "width": 199,
+      "height": 250
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:9054147374743884893": {
+      "file": "assets/textures/293d6ee5c4af1992c6ada936c21d402501282e4f915b93c7d9d591dbc045b812.png",
+      "sha256": "293d6ee5c4af1992c6ada936c21d402501282e4f915b93c7d9d591dbc045b812",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/dynamic/Gacha.BgBackNormalLucky.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:9054147374743884893",
+      "sourceBinding": "Web/assets/dynamic/Gacha.BgBackNormalLucky.png",
+      "width": 171,
+      "height": 215
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-7328262057200525031": {
+      "file": "assets/textures/7c04f50f3fb010205d49e36ceb588093cbe6f7b79c3ab02ec46557f9cb6d81e3.png",
+      "sha256": "7c04f50f3fb010205d49e36ceb588093cbe6f7b79c3ab02ec46557f9cb6d81e3",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/dynamic/Gacha.BgNormalLucky.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:-7328262057200525031",
+      "sourceBinding": "Web/assets/dynamic/Gacha.BgNormalLucky.png",
+      "width": 171,
+      "height": 215
+    },
+    "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:3394238052893163894": {
+      "file": "assets/textures/3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27.png",
+      "sha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/Grade.png",
+      "cabPathID": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e:3394238052893163894",
+      "sourceBinding": "Web/assets/Grade.png",
+      "width": 96,
+      "height": 96
+    },
+    "CAB-176ccda760380e9cf8fed334cd5b2206:-2692327881851389880": {
+      "file": "assets/textures/d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346.png",
+      "sha256": "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346.png",
+      "cabPathID": "CAB-176ccda760380e9cf8fed334cd5b2206:-2692327881851389880",
+      "sourceBinding": "Web/assets/catalog/d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346.png",
+      "width": 33,
+      "height": 34
+    },
+    "CAB-3e6dd85177349c0ce34aa1d272419094:5309426500384057747": {
+      "file": "assets/textures/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "sha256": "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "cabPathID": "CAB-3e6dd85177349c0ce34aa1d272419094:5309426500384057747",
+      "sourceBinding": "Web/assets/catalog/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "width": 35,
+      "height": 36
+    },
+    "CAB-6e522df41b59ee2d98fd91b28d2425da:-9207448817410332813": {
+      "file": "assets/textures/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "sha256": "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "cabPathID": "CAB-6e522df41b59ee2d98fd91b28d2425da:-9207448817410332813",
+      "sourceBinding": "Web/assets/catalog/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "width": 38,
+      "height": 38
+    },
+    "CAB-176ccda760380e9cf8fed334cd5b2206:-2033521713359178467": {
+      "file": "assets/textures/9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3.png",
+      "sha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3.png",
+      "cabPathID": "CAB-176ccda760380e9cf8fed334cd5b2206:-2033521713359178467",
+      "sourceBinding": "Web/assets/catalog/9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3.png",
+      "width": 22,
+      "height": 20
+    },
+    "CAB-6e522df41b59ee2d98fd91b28d2425da:-6908627623415237665": {
+      "file": "assets/textures/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "sha256": "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "cabPathID": "CAB-6e522df41b59ee2d98fd91b28d2425da:-6908627623415237665",
+      "sourceBinding": "Web/assets/catalog/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "width": 38,
+      "height": 38
+    },
+    "CAB-6e522df41b59ee2d98fd91b28d2425da:-8906170481917917944": {
+      "file": "assets/textures/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "sha256": "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "cabPathID": "CAB-6e522df41b59ee2d98fd91b28d2425da:-8906170481917917944",
+      "sourceBinding": "Web/assets/catalog/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "width": 37,
+      "height": 37
+    },
+    "CAB-6e522df41b59ee2d98fd91b28d2425da:4030006160942920219": {
+      "file": "assets/textures/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "sha256": "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "cabPathID": "CAB-6e522df41b59ee2d98fd91b28d2425da:4030006160942920219",
+      "sourceBinding": "Web/assets/catalog/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "width": 38,
+      "height": 38
+    },
+    "CAB-070be8b81429882e497eb3a6b8b1624e:-1130923932872811762": {
+      "file": "assets/textures/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "sha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "cabPathID": "CAB-070be8b81429882e497eb3a6b8b1624e:-1130923932872811762",
+      "sourceBinding": "Web/assets/catalog/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "width": 30,
+      "height": 27
+    },
+    "CAB-fb40e90c569f027b62f3cd9464f8aa6e:5032343496030212093": {
+      "file": "assets/textures/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "sha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "cabPathID": "CAB-fb40e90c569f027b62f3cd9464f8aa6e:5032343496030212093",
+      "sourceBinding": "Web/assets/catalog/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "width": 34,
+      "height": 26
+    },
+    "CAB-59b3fe589a1a2ea49e90238775945cb6:-3441444384984736574": {
+      "file": "assets/textures/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "sha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "cabPathID": "CAB-59b3fe589a1a2ea49e90238775945cb6:-3441444384984736574",
+      "sourceBinding": "Web/assets/catalog/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "width": 30,
+      "height": 30
+    },
+    "CAB-070be8b81429882e497eb3a6b8b1624e:-7733062716153220183": {
+      "file": "assets/textures/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "sha256": "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "cabPathID": "CAB-070be8b81429882e497eb3a6b8b1624e:-7733062716153220183",
+      "sourceBinding": "Web/assets/catalog/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "width": 31,
+      "height": 27
+    },
+    "CAB-fb40e90c569f027b62f3cd9464f8aa6e:5808162278861888344": {
+      "file": "assets/textures/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "sha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "cabPathID": "CAB-fb40e90c569f027b62f3cd9464f8aa6e:5808162278861888344",
+      "sourceBinding": "Web/assets/catalog/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "width": 33,
+      "height": 27
+    },
+    "CAB-59b3fe589a1a2ea49e90238775945cb6:-1192726685441079478": {
+      "file": "assets/textures/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "sha256": "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "cabPathID": "CAB-59b3fe589a1a2ea49e90238775945cb6:-1192726685441079478",
+      "sourceBinding": "Web/assets/catalog/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "width": 30,
+      "height": 30
+    },
+    "CAB-fb40e90c569f027b62f3cd9464f8aa6e:-8045165920407876536": {
+      "file": "assets/textures/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "sha256": "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "cabPathID": "CAB-fb40e90c569f027b62f3cd9464f8aa6e:-8045165920407876536",
+      "sourceBinding": "Web/assets/catalog/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "width": 32,
+      "height": 27
+    },
+    "CAB-59b3fe589a1a2ea49e90238775945cb6:-9134974911463428055": {
+      "file": "assets/textures/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "sha256": "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "cabPathID": "CAB-59b3fe589a1a2ea49e90238775945cb6:-9134974911463428055",
+      "sourceBinding": "Web/assets/catalog/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "width": 30,
+      "height": 31
+    },
+    "CAB-070be8b81429882e497eb3a6b8b1624e:-8234671437819669934": {
+      "file": "assets/textures/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "sha256": "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "cabPathID": "CAB-070be8b81429882e497eb3a6b8b1624e:-8234671437819669934",
+      "sourceBinding": "Web/assets/catalog/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "width": 31,
+      "height": 27
+    },
+    "CAB-fb40e90c569f027b62f3cd9464f8aa6e:2080249886257906133": {
+      "file": "assets/textures/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "sha256": "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "cabPathID": "CAB-fb40e90c569f027b62f3cd9464f8aa6e:2080249886257906133",
+      "sourceBinding": "Web/assets/catalog/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "width": 32,
+      "height": 27
+    },
+    "CAB-59b3fe589a1a2ea49e90238775945cb6:1088077273534518451": {
+      "file": "assets/textures/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "sha256": "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "cabPathID": "CAB-59b3fe589a1a2ea49e90238775945cb6:1088077273534518451",
+      "sourceBinding": "Web/assets/catalog/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "width": 32,
+      "height": 32
+    },
+    "CAB-070be8b81429882e497eb3a6b8b1624e:-2802915860796083411": {
+      "file": "assets/textures/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "sha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "cabPathID": "CAB-070be8b81429882e497eb3a6b8b1624e:-2802915860796083411",
+      "sourceBinding": "Web/assets/catalog/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "width": 34,
+      "height": 27
+    }
+  },
+  "cards": {
+    "front_mythic": {
+      "file": "assets/cards/ui_item_card_lucky_mythic.png",
+      "sha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+      "sourceReferenceSha256": "997ec7f8623b233b4d9964700568d0e4446c29a53f22e7d9f2eb9621f75b926c",
+      "rgbaSha256": "6fea9f270f50868560286a942f20b04d726d313de420a06c4aac9aeb72fae084",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/ui_item_card_lucky_mythic.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "-1807413378051173248",
+      "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+    },
+    "front_ancient": {
+      "file": "assets/cards/ui_item_card_lucky_chaos.png",
+      "sha256": "d98e786651715545989efdb3d694e5a9313d18817b467b6e696d9c791c85bdce",
+      "sourceReferenceSha256": "fa9f45815a1c3afc71d20ea10d9beee5280eb531484dd9a4b93a05e6a63d5a8c",
+      "rgbaSha256": "1daf55fcd818008f16353bf6d0bd5878fcc8a7476cf327f0cc0c5739bd3280c7",
+      "source": "exports/CrystalChest_P2C_ResultCards_20261016/StaticWeb/assets/cards/ui_item_card_lucky_chaos.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "3809379467842194619",
+      "binding": "Common.Card static source grade Ancient (Grade.Type=7); resource name chaos is not Item.basicGrade identity"
+    },
+    "front_legendary": {
+      "file": "assets/cards/ui_item_card_lucky_legendary.png",
+      "sha256": "b37845104c31edf2f1e05826b952472c96f615d90e745bc30048006bde94f415",
+      "sourceReferenceSha256": "b37845104c31edf2f1e05826b952472c96f615d90e745bc30048006bde94f415",
+      "rgbaSha256": "95ef6b35023a487c42e391d01f035420e59639e194cc03e3e050bc6898706e73",
+      "source": "exports/CrystalChest_P2C_ResultCards_20261016/StaticWeb/assets/cards/ui_item_card_lucky_legendary.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "4753283477670145287",
+      "binding": "Common.Card static source grade Legendary (Grade.Type=5)"
+    },
+    "front_unique": {
+      "file": "assets/cards/ui_item_card_lucky_unique.png",
+      "sha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+      "sourceReferenceSha256": "d60e6d03e5c6eaa78465292c11f21e0f1cf95fe12023a2cd0c6fe80659174049",
+      "rgbaSha256": "9d3da40b5515134879b49dc10e046446e5d8c1cbb8b0ce849310798175d1d71e",
+      "source": "exports/CrystalChest_P7_SourceSceneAssembly_20261018/Web/assets/dynamic/Gacha.BgUniqueLucky.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "8057266646643222010",
+      "binding": "Common.Card static source grade Unique (Grade.Type=4)"
+    },
+    "back_legendary": {
+      "file": "assets/cards/ui_item_card_lucky_back_legendary.png",
+      "sha256": "4c489487d9920e8ec9e137efca45bf17f3b0c32a5b25bd316f8e4d1fdd3bae1a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/ui_item_card_lucky_back_legendary.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "-327577898488724320",
+      "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+    },
+    "grade_mythic": {
+      "file": "assets/cards/Grade.png",
+      "sha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+      "sourceReferenceSha256": "3ae4596c32d17d02077f51ecfaceb4730179fb93b7b912e4b4d31a20868fec27",
+      "rgbaSha256": "d94e4408c00df761f87ee636a48249577fb065c58fb9f9dfa98a666be59dd80e",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/Grade.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "3394238052893163894",
+      "binding": "Common.Card Context; fixture effective Grade=6, Global condition=848"
+    },
+    "grade_ancient": {
+      "file": "assets/cards/Grade_DarkBlue.png",
+      "sha256": "e3aceac49cd80237eceb036a271d79f463d68c09121339b7a5616371381b64cd",
+      "sourceReferenceSha256": "2bec9f500ede73ca8fec1cdbf4966b28e5daf6b8d5866115c0e332552c248415",
+      "rgbaSha256": "80e8544ab2e558f8578b84b1b4b6d1ffde2d996d765d2dcdd6c90ae54b90de84",
+      "source": "Preview137 targeted export from 6588604.msm",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "4129622370104587486",
+      "binding": "Common.Card grade overlay mapped by sealed result template to Ancient (Grade.Type=7); image resource name is UI asset label"
+    },
+    "grade_legendary": {
+      "file": "assets/cards/Grade_Green.png",
+      "sha256": "bd73fa7fc4f0ff8544f90be031b148f800669a903a20db7ad21e145ec9e1ebc7",
+      "sourceReferenceSha256": "a6d6ce9a272a37c750f023ab9dcc8d436bbc32145213f3e4588538680c108a56",
+      "rgbaSha256": "0315e2867224068b5eb9bd494136577a7942843eb89c102529bd1fd9ce2d38aa",
+      "source": "Preview137 targeted export from 6588604.msm",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "-1655925225032646583",
+      "binding": "Common.Card grade overlay mapped by sealed result template to Legendary (Grade.Type=5)"
+    },
+    "grade_unique": {
+      "file": "assets/cards/Grade_Yellow.png",
+      "sha256": "457c8dea6d0eb73d99aa2252eadfc63dfe49208be0e5a6b9d96b6e98e50368ed",
+      "sourceReferenceSha256": "8353c97e707a67cab99cabfa8b66507bdf9c167c3def4e7aefa85a617835f769",
+      "rgbaSha256": "9afdd290c26ae59eadca26ef849e0afedc96f2203254d8bb10c659a7e7168046",
+      "source": "Preview137 targeted export from 6588604.msm",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "-6688781475764350005",
+      "binding": "Common.Card grade overlay mapped by sealed result template to Unique (Grade.Type=4)"
+    },
+    "grade_chaos": {
+      "file": "assets/cards/Grade_Pink.png",
+      "sha256": "a52b0decbb8b84c448fffec69b29e10ec8153ef97b0ed60f6704c3ad7a2ecaa6",
+      "sourceReferenceSha256": "a52b0decbb8b84c448fffec69b29e10ec8153ef97b0ed60f6704c3ad7a2ecaa6",
+      "source": "E:/MapleM_AssetDatabase/TextureStore/A5/2B/A52B0DECBB8B84C448FFFEC69B29E10EC8153EF97B0ED60F6704C3AD7A2ECAA6.png",
+      "bundle": "6588604.msm",
+      "cab": "CAB-15e5ebb051c2e9b6358a3f88eceb0b2e",
+      "pathID": "-2895317593979229170",
+      "binding": "Static/Grade Chaos GachaIconName02 exact key + AssetDatabase Container/PPtr verified; Web announcement-grade display only; live Fever result grade unverified"
+    }
+  },
+  "items": {
+    "59263": {
+      "file": "assets/icons/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "sha256": "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "bundle": "1695122.msm",
+      "cab": "CAB-3e6dd85177349c0ce34aa1d272419094",
+      "pathID": "5309426500384057747",
+      "sourceItem": {
+        "IconName": "Icon_SubWeapon_SiaAstelle_GuidingCompass_Lv02",
+        "ItemCode": "SubWeapon_Sia_Compass_Mythic_B",
+        "ItemID": 59263,
+        "ItemType": "Equip",
+        "LanguageKey": "SubWeapon_Sia_Compass_Mythic_B",
+        "basicGrade": "Mythic",
+        "rawLength": 982,
+        "rawOffset": 22110615,
+        "rawSHA256": "f8242c33d3f32219ee3b8108f31e38ceb41abadff4b184c68d8105bb4d9a297f",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_59263.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Equip present -> Equip.Grade; source enum Type, not row Level arithmetic",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "54376": {
+      "file": "assets/icons/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "sha256": "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "bundle": "5619430.msm",
+      "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+      "pathID": "-9207448817410332813",
+      "sourceItem": {
+        "IconName": "Icon_Weapon_CelestialLight_Lv120_BriserCelestialLight",
+        "ItemCode": "Weapon_CelestialLight_Mage_Mythic_A_00",
+        "ItemID": 54376,
+        "ItemType": "Equip",
+        "LanguageKey": "Weapon_CelestialLight_Mage_Mythic_A_00",
+        "basicGrade": "Mythic",
+        "rawLength": 1057,
+        "rawOffset": 2978659,
+        "rawSHA256": "b33cdeb5d6dbfe349a0530273d8088459a2b6b67e3c8ca86740c38740a329845",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_54376.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "54382": {
+      "file": "assets/icons/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "sha256": "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "bundle": "5619430.msm",
+      "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+      "pathID": "-6908627623415237665",
+      "sourceItem": {
+        "IconName": "Icon_Weapon_CelestialLight_Eligos_EligosCelestialLight",
+        "ItemCode": "Weapon_CelestialLight_Mage_Mythic_B_00",
+        "ItemID": 54382,
+        "ItemType": "Equip",
+        "LanguageKey": "Weapon_CelestialLight_Mage_Mythic_B_00",
+        "basicGrade": "Mythic",
+        "rawLength": 1058,
+        "rawOffset": 2984746,
+        "rawSHA256": "d68849879d8d2845cc573cb8f36fa8ef1bd1556edde3cd2d7e42d57c7b1a8d71",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_54382.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "54388": {
+      "file": "assets/icons/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "sha256": "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "bundle": "5619430.msm",
+      "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+      "pathID": "-8906170481917917944",
+      "sourceItem": {
+        "IconName": "Icon_Weapon_CelestialLight_Lv140_JaihinCelestialLight",
+        "ItemCode": "Weapon_CelestialLight_Mage_Mythic_C_00",
+        "ItemID": 54388,
+        "ItemType": "Equip",
+        "LanguageKey": "Weapon_CelestialLight_Mage_Mythic_C_00",
+        "basicGrade": "Mythic",
+        "rawLength": 1057,
+        "rawOffset": 2990829,
+        "rawSHA256": "0476b2c208b3838756ec5001c6e531f6d6236b254a1a90aa2736688d95dc1440",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_54388.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "54394": {
+      "file": "assets/icons/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "sha256": "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "bundle": "5619430.msm",
+      "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+      "pathID": "4030006160942920219",
+      "sourceItem": {
+        "IconName": "Icon_Weapon_CelestialLight_Lv160_UtgardCelestialLight",
+        "ItemCode": "Weapon_CelestialLight_Mage_Mythic_D_00",
+        "ItemID": 54394,
+        "ItemType": "Equip",
+        "LanguageKey": "Weapon_CelestialLight_Mage_Mythic_D_00",
+        "basicGrade": "Mythic",
+        "rawLength": 1057,
+        "rawOffset": 2996911,
+        "rawSHA256": "6cac0d0b816a36907722be80ad6b83f77eba481b81a77cc3a47c1e8dd63647ec",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_54394.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40165": {
+      "file": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+      "sha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+      "bundle": "1468077.msm",
+      "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+      "pathID": "7970086077164655994",
+      "sourceItem": {
+        "IconName": "Icon_Armor_LongCoat_Mage_A",
+        "ItemCode": "Armor_LongCoat_Mage_Mythic_A_00",
+        "ItemID": 40165,
+        "ItemType": "Equip",
+        "LanguageKey": "LongCoat_Mage_A",
+        "basicGrade": "Mythic",
+        "rawLength": 997,
+        "rawOffset": 156443,
+        "rawSHA256": "69836fd0d30042469b2c003e9c900278d5018c0868e2566bd1df8b3c970802c0",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40165.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40924": {
+      "file": "assets/icons/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "sha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "bundle": "3413224.msm",
+      "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+      "pathID": "-1130923932872811762",
+      "sourceItem": {
+        "IconName": "Icon_Shoulder_025_Tenacious_Noble_Pauldron",
+        "ItemCode": "Armor_Shoulder_Mythic_A_00",
+        "ItemID": 40924,
+        "ItemType": "Equip",
+        "LanguageKey": "Shoulder_A",
+        "basicGrade": "Mythic",
+        "rawLength": 1151,
+        "rawOffset": 697339,
+        "rawSHA256": "d8472315fc2dacdb2c34936bb0357878c3aeee39066d6a87b99691d6fccb1c40",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40924.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40923": {
+      "file": "assets/icons/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "sha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "bundle": "2071893.msm",
+      "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+      "pathID": "5032343496030212093",
+      "sourceItem": {
+        "IconName": "Icon_Belt_027_Tenacious_Green_Gilded_Belt",
+        "ItemCode": "Armor_Belt_Mythic_A_00",
+        "ItemID": 40923,
+        "ItemType": "Equip",
+        "LanguageKey": "Belt_A",
+        "basicGrade": "Mythic",
+        "rawLength": 920,
+        "rawOffset": 696419,
+        "rawSHA256": "bd1c6f64b85e5b59e73f4fcc83cf0115b64c60c660279a9e20ea958651de66a5",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40923.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40922": {
+      "file": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "sha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "bundle": "9962415.msm",
+      "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+      "pathID": "-3441444384984736574",
+      "sourceItem": {
+        "IconName": "Icon_Cape_022",
+        "ItemCode": "Armor_Cape_Mythic_A_00",
+        "ItemID": 40922,
+        "ItemType": "Equip",
+        "LanguageKey": "Cape_A",
+        "basicGrade": "Mythic",
+        "rawLength": 1070,
+        "rawOffset": 695349,
+        "rawSHA256": "bbec2ac73c7ab31368c972c8342e65df55cc0efd3d2e3c72c7a347bd7176d3b1",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40922.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40942": {
+      "file": "assets/icons/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "sha256": "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "bundle": "3413224.msm",
+      "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+      "pathID": "-7733062716153220183",
+      "sourceItem": {
+        "IconName": "Icon_Shoulder_Magic_Lv80_00",
+        "ItemCode": "Armor_Shoulder_Mythic_B_00",
+        "ItemID": 40942,
+        "ItemType": "Equip",
+        "LanguageKey": "Shoulder_B",
+        "basicGrade": "Mythic",
+        "rawLength": 1136,
+        "rawOffset": 714041,
+        "rawSHA256": "1d12da64730d6aa76fef5ca2d26d9211052742bbb1349fa3309109a6f00b8ae1",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40942.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40941": {
+      "file": "assets/icons/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "sha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "bundle": "2071893.msm",
+      "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+      "pathID": "5808162278861888344",
+      "sourceItem": {
+        "IconName": "Icon_Belt_036_Rising_Sun_Belt",
+        "ItemCode": "Armor_Belt_Mythic_B_00",
+        "ItemID": 40941,
+        "ItemType": "Equip",
+        "LanguageKey": "Belt_B",
+        "basicGrade": "Mythic",
+        "rawLength": 908,
+        "rawOffset": 713133,
+        "rawSHA256": "0f05e893084aca4a15058d9fb4c2994d361265f283bac730ee9e4c219404a9d5",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40941.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40940": {
+      "file": "assets/icons/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "sha256": "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "bundle": "9962415.msm",
+      "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+      "pathID": "-1192726685441079478",
+      "sourceItem": {
+        "IconName": "Icon_Cape_056",
+        "ItemCode": "Armor_Cape_Mythic_B_00",
+        "ItemID": 40940,
+        "ItemType": "Equip",
+        "LanguageKey": "Cape_B",
+        "basicGrade": "Mythic",
+        "rawLength": 1070,
+        "rawOffset": 712063,
+        "rawSHA256": "cb83af28bdac8f443b2ae125f4871a0bea715f00c8dfcea2c712f0f59607fce5",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40940.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40960": {
+      "file": "assets/icons/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "sha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "bundle": "3413224.msm",
+      "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+      "pathID": "-2802915860796083411",
+      "sourceItem": {
+        "IconName": "Icon_Shoulder_026_Tenacious_Royal_Pauldron",
+        "ItemCode": "Armor_Shoulder_Mythic_C_00",
+        "ItemID": 40960,
+        "ItemType": "Equip",
+        "LanguageKey": "Shoulder_C",
+        "basicGrade": "Mythic",
+        "rawLength": 1151,
+        "rawOffset": 730995,
+        "rawSHA256": "44f0ad661cde462d5e33b8f1606aacf7062b2e19f40a9ba380fb3fee44bd1b88",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40960.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40959": {
+      "file": "assets/icons/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "sha256": "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "bundle": "2071893.msm",
+      "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+      "pathID": "-8045165920407876536",
+      "sourceItem": {
+        "IconName": "Icon_Belt_032_tenacious_ Extreme_Belt",
+        "ItemCode": "Armor_Belt_Mythic_C_00",
+        "ItemID": 40959,
+        "ItemType": "Equip",
+        "LanguageKey": "Belt_C",
+        "basicGrade": "Mythic",
+        "rawLength": 916,
+        "rawOffset": 730079,
+        "rawSHA256": "53d7d146d31e6fae9e31f8a6207c52406e62ffef3c5344906feeaa3fbc7bbb0d",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40959.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40958": {
+      "file": "assets/icons/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "sha256": "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "bundle": "9962415.msm",
+      "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+      "pathID": "-9134974911463428055",
+      "sourceItem": {
+        "IconName": "Icon_Cape_Common_Pink_Adventurer_Cape",
+        "ItemCode": "Armor_Cape_Mythic_C_00",
+        "ItemID": 40958,
+        "ItemType": "Equip",
+        "LanguageKey": "Cape_C",
+        "basicGrade": "Mythic",
+        "rawLength": 1094,
+        "rawOffset": 728985,
+        "rawSHA256": "a206aa88c68f7b47622708ca18060f4a69f9ab6c375ba7f9dad6f7a76913b378",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40958.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40978": {
+      "file": "assets/icons/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "sha256": "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "bundle": "3413224.msm",
+      "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+      "pathID": "-8234671437819669934",
+      "sourceItem": {
+        "IconName": "Icon_Shoulder_Magic_Lv100_00",
+        "ItemCode": "Armor_Shoulder_Mythic_D_00",
+        "ItemID": 40978,
+        "ItemType": "Equip",
+        "LanguageKey": "Shoulder_D",
+        "basicGrade": "Mythic",
+        "rawLength": 1137,
+        "rawOffset": 747780,
+        "rawSHA256": "7a77f989ec414793200ac6a7882422c7d9f06acf5184618bbb347a87cb23f8e7",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40978.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40977": {
+      "file": "assets/icons/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "sha256": "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "bundle": "2071893.msm",
+      "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+      "pathID": "2080249886257906133",
+      "sourceItem": {
+        "IconName": "Icon_Belt_Normal_Lv60_00",
+        "ItemCode": "Armor_Belt_Mythic_D_00",
+        "ItemID": 40977,
+        "ItemType": "Equip",
+        "LanguageKey": "Belt_D",
+        "basicGrade": "Mythic",
+        "rawLength": 903,
+        "rawOffset": 746877,
+        "rawSHA256": "bf34576d141e2f4fbb7ef38befbf04cd38c68e29b5b5cdafe0d29e6357b1f604",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40977.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    },
+    "40976": {
+      "file": "assets/icons/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "sha256": "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0",
+      "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/catalog/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "bundle": "9962415.msm",
+      "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+      "pathID": "1088077273534518451",
+      "sourceItem": {
+        "IconName": "Icon_Cape_Common_Pensalir_Lv160",
+        "ItemCode": "Armor_Cape_Mythic_D_00",
+        "ItemID": 40976,
+        "ItemType": "Equip",
+        "LanguageKey": "Cape_D",
+        "basicGrade": "Mythic",
+        "rawLength": 1088,
+        "rawOffset": 745789,
+        "rawSHA256": "e4dde1f186bd3048e407e118958db221c1bc16d9762521019709df1c294e4873",
+        "rawSource": "E:/MapleM_SkillResearch_20260926/exports/CrystalChest_P0_AssetDiscovery_20261015/evidence/item_lookup/Item_40976.bin"
+      },
+      "effectiveGrade": {
+        "derived": true,
+        "type": 6,
+        "code": "Mythic",
+        "rule": "Derived fixture: direct Item.Equip.Grade reference -> saved Grade.Flyweight.Type enum; no Level/suffix inference",
+        "liveResultGrade": "UNKNOWN"
+      }
+    }
+  },
+  "fontFixture": {
+    "file": "assets/fonts/NotoSansCJKkr-Medium.otf",
+    "sha256": "15c12166634936c31307b91bd049d95b4ba30c248e8c389b5388f75ae8ba90d6",
+    "source": "exports/CrystalChest_P8R3_ReferenceLayout_20261019/WebRuntime/Web/assets/fonts/NotoSansCJKkr-Medium.otf",
+    "classification": "FONT_FIXTURE_NOT_PROVEN_LIVE",
+    "bundle": null,
+    "pathID": null,
+    "evidence": "exports/CrystalChest_P2E2A_ResultCardUI_20261016_PlayerTest/CrystalChest_P2E2A_ResultCardUI_20261016/AssetSources.json"
+  },
+  "fx03": {
+    "file": "assets/fx/03_variant0.png",
+    "sha256": "3409f01909d6d65b65713efcf0e3fbfb20e7a9ccddee1d3cba1f1744a17cb403",
+    "source": "exports/CrystalChest_S3F60_NativeBaked03_20261026/native_bake/03_variant0.png",
+    "classification": "SOURCE_CONSTRAINED_CONTROLLED_NATIVE_CAPTURE",
+    "bundle": "9356867.msm",
+    "prefabPathID": "3669603339059987218",
+    "captureViewport": [
+      1280,
+      720
+    ],
+    "liveProjection": "UNKNOWN"
+  },
+  "fxR4": {
+    "classification": "SOURCE_CONSTRAINED_ORIGINAL_PREFAB_NATIVE_CAPTURE",
+    "captureIndex": "data/fx-r4.json",
+    "captureIndexSHA256": "42ace0f260e242cf2fb0fa7405ec76322172e6f8b5052d46256c9ed6a2aeebfb",
+    "assets": [
+      {
+        "file": "assets/fx/r4/03_0010.png",
+        "sha256": "436959626b2406ea5de0b1606a0a3a228e12c0073b596fd757c53628ad48f740",
+        "width": 182,
+        "height": 182
+      },
+      {
+        "file": "assets/fx/r4/03_0011.png",
+        "sha256": "a37cb331dbff841d3f213f836ec845421ea5953517e440cb9ebca4d8dc5c5def",
+        "width": 324,
+        "height": 347
+      },
+      {
+        "file": "assets/fx/r4/03_0012.png",
+        "sha256": "a32456b0ddb393caf3bba70410b132ecad49c9cbedab4c350e0ae27994377f28",
+        "width": 455,
+        "height": 505
+      },
+      {
+        "file": "assets/fx/r4/03_0013.png",
+        "sha256": "784ccbac4548840cc2c3bd30e9dfd331103509de1a3a3acafb7a87e8057224c6",
+        "width": 518,
+        "height": 606
+      },
+      {
+        "file": "assets/fx/r4/03_0014.png",
+        "sha256": "767ad0c8bb314439e06986a35ca651b18b0dbadb097455aeba2e65aa4b164733",
+        "width": 576,
+        "height": 710
+      },
+      {
+        "file": "assets/fx/r4/03_0015.png",
+        "sha256": "dd3b4dfa492633c07c325f68af70f7bff2a0951858b71d51e99e99ed9feeee94",
+        "width": 593,
+        "height": 779
+      },
+      {
+        "file": "assets/fx/r4/03_0016.png",
+        "sha256": "28e4c56db28ff021f448c8522b9b7fbcfb2fc69404e9ac763a693ee494948630",
+        "width": 533,
+        "height": 814
+      },
+      {
+        "file": "assets/fx/r4/03_0017.png",
+        "sha256": "6a23f48b0e853e8e98550bb10ab655e842b5444be281b88a6b764255ef87478c",
+        "width": 544,
+        "height": 822
+      },
+      {
+        "file": "assets/fx/r4/03_0018.png",
+        "sha256": "c252be9fe65d0cce70742af9850ece0787cf07f13406d1d008dfa784b95f3ab1",
+        "width": 541,
+        "height": 824
+      },
+      {
+        "file": "assets/fx/r4/03_0019.png",
+        "sha256": "c9eca97c31aca0971f827b8112a7c23c30a1cf05f9cc901724878ee8cee0616b",
+        "width": 516,
+        "height": 809
+      },
+      {
+        "file": "assets/fx/r4/03_0020.png",
+        "sha256": "8c691a797025f53f511c22b7ac6e6935221c4203d3a3cda4296c8e2b5e184c2c",
+        "width": 462,
+        "height": 812
+      },
+      {
+        "file": "assets/fx/r4/03_0021.png",
+        "sha256": "0bba92ad0a8163cad8b8fe4edfea3ffc95dcde9f0eb91a87af32415ac6168406",
+        "width": 406,
+        "height": 848
+      },
+      {
+        "file": "assets/fx/r4/03_0022.png",
+        "sha256": "fc47322fb04a841fa2085634290eac1e8929f068bdf2138ca47a936a8d99128b",
+        "width": 427,
+        "height": 868
+      },
+      {
+        "file": "assets/fx/r4/03_0023.png",
+        "sha256": "27760a703237c587f4ed2ce72702592c83ab8d52da053b19e77850ff18a3fe50",
+        "width": 445,
+        "height": 899
+      },
+      {
+        "file": "assets/fx/r4/03_0024.png",
+        "sha256": "b8bfe3fa77f8bd06f585ef410f8d9e7147494693a379242d157fd8fba1c6db69",
+        "width": 456,
+        "height": 933
+      },
+      {
+        "file": "assets/fx/r4/03_0025.png",
+        "sha256": "31ed74c9f497ec282e38fcac5cfa1b4f40b0b9c49ecb73caf187797b3282e5a6",
+        "width": 470,
+        "height": 962
+      },
+      {
+        "file": "assets/fx/r4/03_0026.png",
+        "sha256": "b685150d88e9327c9f419fd0f005ee2f1e9480f1adeaca71cde06d97f23205e9",
+        "width": 477,
+        "height": 988
+      },
+      {
+        "file": "assets/fx/r4/03_0027.png",
+        "sha256": "8b6f54ec7fe8b543889989de50b5034329d06dfbaaf6b1beb819fcafbf732ef6",
+        "width": 68,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/03_0028.png",
+        "sha256": "434734d9f6ca1f17ae60c890642f77504ecd5cd4ed66774cc97ad19d02d3f69d",
+        "width": 61,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/03_0029.png",
+        "sha256": "adff2a9feca84ecbdfc5ecd8a4830b90191b14e2417fe47de7493773311d8517",
+        "width": 43,
+        "height": 109
+      },
+      {
+        "file": "assets/fx/r4/03_0030.png",
+        "sha256": "fc3d5c7bf94bf193ec999dd07ec93c49b1fb1d86aa6efc3ce79fbbf877b9078b",
+        "width": 27,
+        "height": 67
+      },
+      {
+        "file": "assets/fx/r4/03_0031.png",
+        "sha256": "e35a55a3c5ecf128c13265ecfe460c7c03bc3f05f0efc122809cf331315b6ee2",
+        "width": 36,
+        "height": 31
+      },
+      {
+        "file": "assets/fx/r4/04_0001.png",
+        "sha256": "f8da6436b9056eaeb84b7c2f8d3292d1fdf528ae1a20424b31c57c4188731172",
+        "width": 218,
+        "height": 218
+      },
+      {
+        "file": "assets/fx/r4/04_0002.png",
+        "sha256": "f840fc90b056218626e54eb052b30ef8840e6ea791d6411db1e0bb381f959b18",
+        "width": 223,
+        "height": 224
+      },
+      {
+        "file": "assets/fx/r4/04_0003.png",
+        "sha256": "73a464390933af24dad5e788f3dc11cd9500baa923236854b0e0c6a719147761",
+        "width": 230,
+        "height": 229
+      },
+      {
+        "file": "assets/fx/r4/04_0004.png",
+        "sha256": "6849550aa84d920f84aed2737d19c246e77750e219fe87e30bcb90ea56f01455",
+        "width": 232,
+        "height": 231
+      },
+      {
+        "file": "assets/fx/r4/04_0005.png",
+        "sha256": "b35dcd0d925233d5936ef069d72c6a492c2e3c2d090bdd3f1c9d45b2da7e815e",
+        "width": 234,
+        "height": 233
+      },
+      {
+        "file": "assets/fx/r4/04_0006.png",
+        "sha256": "45cd933045972dbf4ab8b5a235964239dc3eb90f26ceac01aec27024c2e99e78",
+        "width": 236,
+        "height": 235
+      },
+      {
+        "file": "assets/fx/r4/04_0007.png",
+        "sha256": "2eb0da73243efb5b375f0c11b0a4aad3174729dccea89a7f23d37037af20d1bb",
+        "width": 238,
+        "height": 237
+      },
+      {
+        "file": "assets/fx/r4/04_0008.png",
+        "sha256": "6d403111cd88fc9f02859da8226e0d4ed3e045fe17a021753de7e9670c85c3e4",
+        "width": 238,
+        "height": 237
+      },
+      {
+        "file": "assets/fx/r4/04_0009.png",
+        "sha256": "97ddd92bb120c59e8f0caf6f59e528a6c4f4e632c448b39120118effb70272be",
+        "width": 240,
+        "height": 239
+      },
+      {
+        "file": "assets/fx/r4/04_0010.png",
+        "sha256": "a4ddaa84d66af7f6043db9cbf43d3068354545428fa53cb5bf8331de3854d6a8",
+        "width": 242,
+        "height": 241
+      },
+      {
+        "file": "assets/fx/r4/04_0011.png",
+        "sha256": "17ce955b8c9fead0fecf3f4b90ae396c939d47693446fd0feb984415394fbf6e",
+        "width": 244,
+        "height": 243
+      },
+      {
+        "file": "assets/fx/r4/04_0012.png",
+        "sha256": "12f948f5d2b0b68a99e0053bfc9c4c8031106f4faeaa28ebffeb94fdc1948ad9",
+        "width": 246,
+        "height": 245
+      },
+      {
+        "file": "assets/fx/r4/04_0013.png",
+        "sha256": "566201d7fbbc32e60c47dead7487e7e75a978eecb30af6b890315baab625f6b8",
+        "width": 248,
+        "height": 247
+      },
+      {
+        "file": "assets/fx/r4/04_0014.png",
+        "sha256": "6dc9ab723cfdda8f6c7aa00f998fe42a013b6473bb192cbfc7d38bb3d711101d",
+        "width": 250,
+        "height": 249
+      },
+      {
+        "file": "assets/fx/r4/04_0015.png",
+        "sha256": "c8c1d05e1bbf4e53f5957ab4e881546756752cac6e0f4da778c943c33f5e5d88",
+        "width": 252,
+        "height": 251
+      },
+      {
+        "file": "assets/fx/r4/04_0016.png",
+        "sha256": "89b14b412ded23c3e768947ac9f35c02ff509c70520f2e7871d304f136d71ef5",
+        "width": 254,
+        "height": 253
+      },
+      {
+        "file": "assets/fx/r4/04_0017.png",
+        "sha256": "49a8b4d610ebb53a5433fbe54a4ea1b809645c89104a80767ba324591fa5ee6e",
+        "width": 254,
+        "height": 253
+      },
+      {
+        "file": "assets/fx/r4/04_0018.png",
+        "sha256": "920a64f9547f4e108bd7aa942cd289a13db6478abcaa500328152d50a3729a6d",
+        "width": 256,
+        "height": 255
+      },
+      {
+        "file": "assets/fx/r4/04_0019.png",
+        "sha256": "d3375ca0bc8bdca5023f273a8bc36f9943420a334c6cf10855be0370ee22a4a0",
+        "width": 258,
+        "height": 257
+      },
+      {
+        "file": "assets/fx/r4/04_0020.png",
+        "sha256": "50f2da37ab694df506d9e9866b37f8c126c45d8f4c920e062090688b77d9c738",
+        "width": 260,
+        "height": 259
+      },
+      {
+        "file": "assets/fx/r4/04_0021.png",
+        "sha256": "69041217da5d1ebd10c3605ce546fb8fbc1d1b78a7a499b3ec56a3113da920a9",
+        "width": 262,
+        "height": 261
+      },
+      {
+        "file": "assets/fx/r4/04_0022.png",
+        "sha256": "23e67aa499ac03fe62e9e1c7d110957b62a387aa0d89f57c728ea69c3784be50",
+        "width": 264,
+        "height": 263
+      },
+      {
+        "file": "assets/fx/r4/04_0023.png",
+        "sha256": "d054f9d271d4c14b7e76bb62bbb10e0ba236af759f0e259438116fdf499342d6",
+        "width": 266,
+        "height": 265
+      },
+      {
+        "file": "assets/fx/r4/04_0024.png",
+        "sha256": "05b4bc89ae93c3aa9f9e5cadd4591197c50562cbb200b30def007116d9ea317a",
+        "width": 268,
+        "height": 267
+      },
+      {
+        "file": "assets/fx/r4/04_0025.png",
+        "sha256": "5d7c406b2ddf2f0d16157846d719a119eb528946e8f6cf2c83e10faba4f408f1",
+        "width": 270,
+        "height": 268
+      },
+      {
+        "file": "assets/fx/r4/04_0026.png",
+        "sha256": "25216c5e6ba3cde06cf194870ff56e96cc34107c8aaf64ea6666b5df7dce3a01",
+        "width": 270,
+        "height": 269
+      },
+      {
+        "file": "assets/fx/r4/04_0027.png",
+        "sha256": "d87ccd64badd615f9172e7f9825c8204fa29da88a8207725ebbd6aa77c866a7c",
+        "width": 272,
+        "height": 271
+      },
+      {
+        "file": "assets/fx/r4/04_0028.png",
+        "sha256": "a14f4b432523fd2b327ec22511d48722ca4d8d033c5a6ad43fa876a13070a67c",
+        "width": 274,
+        "height": 273
+      },
+      {
+        "file": "assets/fx/r4/04_0029.png",
+        "sha256": "9cd22e79ccf99d84799c6362b84379add9b14758950fde45bd784e5f52824f29",
+        "width": 276,
+        "height": 275
+      },
+      {
+        "file": "assets/fx/r4/04_0030.png",
+        "sha256": "3bef1abb692d641f4290cbe1f8aa83a77da5fbd2656ecacf4d3ff51aaa7879b8",
+        "width": 278,
+        "height": 277
+      },
+      {
+        "file": "assets/fx/r4/04_0031.png",
+        "sha256": "fd96d2ebd211751d2378f9b3426b3efef68d11b12dc1a8631e2d8d22b00aa4b6",
+        "width": 280,
+        "height": 279
+      },
+      {
+        "file": "assets/fx/r4/04_0032.png",
+        "sha256": "72470f8a4e558b25a62cfa4ceb11bc56ee0659b6dc5c5db8290c4eed5428a906",
+        "width": 282,
+        "height": 281
+      },
+      {
+        "file": "assets/fx/r4/04_0033.png",
+        "sha256": "b73682e80cd3077996adcadb4cf5c4e06e0faaddfd2f36f0b69625f909442e69",
+        "width": 284,
+        "height": 283
+      },
+      {
+        "file": "assets/fx/r4/04_0034.png",
+        "sha256": "d761f05c9f8cafd405068a14784772e0f35e80cfffa042213c7af31847dcb545",
+        "width": 286,
+        "height": 284
+      },
+      {
+        "file": "assets/fx/r4/04_0035.png",
+        "sha256": "b2bbc61af92672614262f3f6c77f46659d362224e3d5d230dd5383ff295a5944",
+        "width": 286,
+        "height": 285
+      },
+      {
+        "file": "assets/fx/r4/04_0036.png",
+        "sha256": "6fbc535d24c3bee74e563e0015d811c44181b7b6cb52d6c0272a47f2b1563e58",
+        "width": 288,
+        "height": 287
+      },
+      {
+        "file": "assets/fx/r4/04_0037.png",
+        "sha256": "347100b5e263a363778ff4cf4bc2c490d75274c0e012c586780d73dac1989a85",
+        "width": 290,
+        "height": 289
+      },
+      {
+        "file": "assets/fx/r4/04_0038.png",
+        "sha256": "16d06abf3302733a0dce8dfca46e6725ddf688984c03f3a2c5370f586672b4e2",
+        "width": 292,
+        "height": 291
+      },
+      {
+        "file": "assets/fx/r4/04_0039.png",
+        "sha256": "0d68608264b63dae418dde2e17e38d8985324b609e2cf95af4226c266db3403f",
+        "width": 294,
+        "height": 293
+      },
+      {
+        "file": "assets/fx/r4/04_0040.png",
+        "sha256": "bad5be2e997542a9a2075f06aa7678c9c4b27c3c835436b4996eb826d6ed68cf",
+        "width": 296,
+        "height": 295
+      },
+      {
+        "file": "assets/fx/r4/04_0041.png",
+        "sha256": "4e10a14570c4f29e193af5ad8d818fd390ecb1458ad5273d04c543870c94b0e9",
+        "width": 298,
+        "height": 297
+      },
+      {
+        "file": "assets/fx/r4/04_0042.png",
+        "sha256": "556faf9c66b865ba9a1219b737e505560cb41f301eb3b365bad4aca9e40d2e49",
+        "width": 300,
+        "height": 299
+      },
+      {
+        "file": "assets/fx/r4/04_0043.png",
+        "sha256": "4895d837c3b5f86dcc31de34347fb1ddb0d7c5989f56ea932cb306367e1e91aa",
+        "width": 302,
+        "height": 300
+      },
+      {
+        "file": "assets/fx/r4/04_0044.png",
+        "sha256": "7ae70d7f2a9ab931e8420b8ae8de8152a9e3c69e522eaab6abb899c891ad8b40",
+        "width": 302,
+        "height": 301
+      },
+      {
+        "file": "assets/fx/r4/04_0045.png",
+        "sha256": "5f0b1b5063067329de7ea9b93664bb3a00e6c7555fa7a29ad36aefbf2855d6ac",
+        "width": 304,
+        "height": 303
+      },
+      {
+        "file": "assets/fx/r4/04_0046.png",
+        "sha256": "0c227098bffab9ba0b2782aa203ca001525ee2810f6a9d7077aad3be42d029e3",
+        "width": 306,
+        "height": 305
+      },
+      {
+        "file": "assets/fx/r4/04_0047.png",
+        "sha256": "7e4301008a8171d4bc19b7a7d397ee98d7537a9234432471a542d80f72544850",
+        "width": 308,
+        "height": 307
+      },
+      {
+        "file": "assets/fx/r4/04_0048.png",
+        "sha256": "955b45df5b421616c7feea79c534cf8391a99bd52d29abe5bb4c56ae6769ce92",
+        "width": 310,
+        "height": 309
+      },
+      {
+        "file": "assets/fx/r4/04_0049.png",
+        "sha256": "15ff291395e9b7f9a2354740a1fe2bb6009563197ac00dfa4e7012abb7b0a811",
+        "width": 312,
+        "height": 311
+      },
+      {
+        "file": "assets/fx/r4/04_0050.png",
+        "sha256": "2cfca8ec9126d62439ca9969054a50176b00ab77c822e3e2129c6e9164db10e5",
+        "width": 314,
+        "height": 313
+      },
+      {
+        "file": "assets/fx/r4/04_0051.png",
+        "sha256": "0e800478cc9181924cb194f569f9f3b491d3eeeb1ad32d8eee68b8e9248ae5bf",
+        "width": 316,
+        "height": 314
+      },
+      {
+        "file": "assets/fx/r4/04_0052.png",
+        "sha256": "2f74a75eb5382c03c37b5d97ab03186f8690a9ab07a8d3090c12d0ddeeb77908",
+        "width": 318,
+        "height": 316
+      },
+      {
+        "file": "assets/fx/r4/04_0053.png",
+        "sha256": "39a350ea29b97df1aa5488c20238a914e528f24a4ce173b0fc009030c8c10ece",
+        "width": 318,
+        "height": 317
+      },
+      {
+        "file": "assets/fx/r4/04_0054.png",
+        "sha256": "b4dde096dd8c713d62be9b9b2756f608c826db7eb191d30dc3f930a091142cca",
+        "width": 320,
+        "height": 319
+      },
+      {
+        "file": "assets/fx/r4/04_0055.png",
+        "sha256": "56c114227379e7e65c8f571bb6809a360d326862acad5e08701ce9572ede4c75",
+        "width": 322,
+        "height": 321
+      },
+      {
+        "file": "assets/fx/r4/04_0056.png",
+        "sha256": "18f21cb96118a51a7ea9591cf77524ccafa6a1c225497cc2f4c380539c45d623",
+        "width": 324,
+        "height": 323
+      },
+      {
+        "file": "assets/fx/r4/04_0057.png",
+        "sha256": "34057c9348f83b9731780002c9009b5d20e6b37aac4d15a68fe975ed2671548c",
+        "width": 326,
+        "height": 325
+      },
+      {
+        "file": "assets/fx/r4/04_0058.png",
+        "sha256": "830d18b4ea11345f201c9b7a1894046b67f86e3be1fae3d1ce1ee95eda0a3df8",
+        "width": 328,
+        "height": 326
+      },
+      {
+        "file": "assets/fx/r4/04_0059.png",
+        "sha256": "74ef113a5681d4a69e396de874b6f6d14d297314863f36319706c7b233388806",
+        "width": 330,
+        "height": 328
+      },
+      {
+        "file": "assets/fx/r4/04_0060.png",
+        "sha256": "459c461ec659ec6ee66a11b79eeef4d981c0369fff4df2b01a0dc6692aa56683",
+        "width": 330,
+        "height": 329
+      },
+      {
+        "file": "assets/fx/r4/04_0061.png",
+        "sha256": "f3113a67d2e962d246b045c76b1349fd8229bb2e829dac9f220744474b7eddf3",
+        "width": 332,
+        "height": 331
+      },
+      {
+        "file": "assets/fx/r4/04_0062.png",
+        "sha256": "0e36e4336a9c054bfd26927b65c630162a1a3e481f028e16407fe2e8bdebb8d9",
+        "width": 334,
+        "height": 333
+      },
+      {
+        "file": "assets/fx/r4/04_0063.png",
+        "sha256": "e9db5786ced33602d3decea283da7d6a0760405fc0ffc145812446548bec5b87",
+        "width": 336,
+        "height": 335
+      },
+      {
+        "file": "assets/fx/r4/04_0064.png",
+        "sha256": "5c16fa3dc01baaf2ce5dd89e0570bdc631cfd5b1fcc657dc58997341871f55d3",
+        "width": 338,
+        "height": 336
+      },
+      {
+        "file": "assets/fx/r4/04_0065.png",
+        "sha256": "b1b7bdfd8c69cbe7593458722526f07f522969c3761688bb9eb38a1d8f8c4fca",
+        "width": 340,
+        "height": 338
+      },
+      {
+        "file": "assets/fx/r4/04_0066.png",
+        "sha256": "1a537ba2807c57566c3736e86ef2c33504fdf2e75ad304fda24eda557cb8d383",
+        "width": 335,
+        "height": 336
+      },
+      {
+        "file": "assets/fx/r4/04_0067.png",
+        "sha256": "716921e7961e473330b6255d4cc9d9be29958bdf773b3e43393198a73624e6b7",
+        "width": 337,
+        "height": 338
+      },
+      {
+        "file": "assets/fx/r4/04_0068.png",
+        "sha256": "fc804404656d06142feba8dd6b8106189da7098622a2523bcaa9323e4cb5dad9",
+        "width": 339,
+        "height": 340
+      },
+      {
+        "file": "assets/fx/r4/04_0069.png",
+        "sha256": "66df4ec6696a612b0781ae4ea3e806ab74404d44398d366c988c39eba1665ac0",
+        "width": 341,
+        "height": 342
+      },
+      {
+        "file": "assets/fx/r4/04_0070.png",
+        "sha256": "8d4eab1ad515d3b7ebf344445596c4135bfd68e3a38a528e7c23df6771a041e0",
+        "width": 342,
+        "height": 343
+      },
+      {
+        "file": "assets/fx/r4/04_0071.png",
+        "sha256": "e64ab252c352653787c6357d6b9101e018cbca3ef6e3ebfd8378031f27d67eb9",
+        "width": 344,
+        "height": 345
+      },
+      {
+        "file": "assets/fx/r4/04_0072.png",
+        "sha256": "d483090bb2620bb204f4130613ee74970c8115c276425741b8c00e0e6b05ced1",
+        "width": 345,
+        "height": 346
+      },
+      {
+        "file": "assets/fx/r4/04_0073.png",
+        "sha256": "726fdcb6c3e02bafd8c06fe01ca1c991702e709556fef57c3684a751529895f9",
+        "width": 347,
+        "height": 347
+      },
+      {
+        "file": "assets/fx/r4/04_0074.png",
+        "sha256": "fe1ac7c5416c7b1ecca842fef49d6004c53e274e367767431b960b061af9a0ae",
+        "width": 348,
+        "height": 349
+      },
+      {
+        "file": "assets/fx/r4/04_0075.png",
+        "sha256": "6e22730cf8072e01e2c7a0039bf213a73cb9ba1652f9957450aa29fa4388d6f0",
+        "width": 444,
+        "height": 429
+      },
+      {
+        "file": "assets/fx/r4/04_0076.png",
+        "sha256": "38debfaf83545ba4f771769a1bd914ec44b93fbac28de4206c89ff65405afa78",
+        "width": 599,
+        "height": 588
+      },
+      {
+        "file": "assets/fx/r4/04_0077.png",
+        "sha256": "bc1d8ca807cb849a54e35446ed4dfe2fdbcfc720e8e09aa2be1f1fadf324c8b3",
+        "width": 839,
+        "height": 769
+      },
+      {
+        "file": "assets/fx/r4/04_0078.png",
+        "sha256": "451eeff1c6cf3308d245bdc037b03a966c05496da18c2f19f06ee4bf5cc6635b",
+        "width": 988,
+        "height": 870
+      },
+      {
+        "file": "assets/fx/r4/04_0079.png",
+        "sha256": "32c039298faa9a3a465b0fae52ecccd42cec91905da8c75e1e739375b787a577",
+        "width": 1146,
+        "height": 924
+      },
+      {
+        "file": "assets/fx/r4/04_0080.png",
+        "sha256": "9f9d70ba0bb4bbc68571171db0bb734a85080b18bbce39031ecf05f8de71c270",
+        "width": 1298,
+        "height": 978
+      },
+      {
+        "file": "assets/fx/r4/04_0081.png",
+        "sha256": "8c47272bbcc033680c1f2d3d177622798174852ae5e03f40948763978dc3edd9",
+        "width": 1278,
+        "height": 964
+      },
+      {
+        "file": "assets/fx/r4/04_0082.png",
+        "sha256": "e2e005be6487297806c1e6e74534ab28076e92b988a40d016ed4c6767284b753",
+        "width": 1301,
+        "height": 992
+      },
+      {
+        "file": "assets/fx/r4/04_0083.png",
+        "sha256": "6915516035930c7560b43dddb1e88a392ab197e112bff65dc84bedbb88f5bab2",
+        "width": 1349,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0084.png",
+        "sha256": "eb16af30815f4853bf6d2d56e5492dc0eaa1d62396dc080cef730fdac9a8058f",
+        "width": 1426,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0085.png",
+        "sha256": "07ee9638940bac27dd621f15c27527e27260bec74f6f0ea2452a86dff398d6ac",
+        "width": 1512,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0086.png",
+        "sha256": "984c5573d92e2c5b294f983ef432bd1f92737944d5ecda251c76bbe59637a2d1",
+        "width": 1595,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0087.png",
+        "sha256": "511bc41c762f60c0b204be8cdaf56cbf34283a432596d6aa102f77f36ed32b71",
+        "width": 1675,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0088.png",
+        "sha256": "94b1b349aef8396e4c6d02cecc126d7c19f3184d800e1d36e68e7993fb91ab9f",
+        "width": 1751,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0089.png",
+        "sha256": "c16f569df03e90c2a05b97423a536a9bbe9f779325e7ac077c6c9050f175fe36",
+        "width": 1823,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0090.png",
+        "sha256": "50a66e5f193bf1e350cec89745015900a887ae2e390f598396162ca49e53f76a",
+        "width": 1891,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0091.png",
+        "sha256": "88c8367e07756959d42b1ec242ff91e2441f510e4907aa5b6780d0e980fa4216",
+        "width": 1959,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0092.png",
+        "sha256": "0d3f6e8b7c773f7f8e39ad9483ec6d7bfb3a9dae1cd01ef867362a6d1a450854",
+        "width": 2019,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0093.png",
+        "sha256": "4e877c33c0fa8e6b8366f7c9ee831cb9fde36f80428c1c3ebec144c264d95d76",
+        "width": 2083,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0094.png",
+        "sha256": "4d7137cd34ecb24a709b7877aeba49b70f75510d2c5f72fa1747cb51fac42aca",
+        "width": 2141,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0095.png",
+        "sha256": "61e26fe82e43e2b5338c3a372b01c08d2ef0003cc395b8eed0d0bae7b4b98c62",
+        "width": 2169,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0096.png",
+        "sha256": "71ec5bf81a36b8422a8ff1de11a61e81714f4565766fe0393c4e9039c9420096",
+        "width": 2195,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0097.png",
+        "sha256": "e1c99dc6b3f4eda62eabfa013da58b398906601f771b80b217c240f91062af6e",
+        "width": 2219,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0098.png",
+        "sha256": "2c2600a3eb802ba8b5e757b10193f0715fca46ebcd1c3b99ded3a41c35f14c02",
+        "width": 2242,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0099.png",
+        "sha256": "5a07d8008393db95cb164105856332cb29bfa0733535fa4b230b826096d0d613",
+        "width": 2265,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0100.png",
+        "sha256": "dae97867c1c57ae96660d8e629e251a5dea9f49677fb9966b09e06a2d0382516",
+        "width": 2193,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0101.png",
+        "sha256": "7020c81f18f485ce9ac124bcec3d0a1bea678a6770c7c6d12c4bba190fb06051",
+        "width": 2215,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0102.png",
+        "sha256": "d2403705eef1c4d1af5959d40c66b34e09c6aba50246b70ea182018ed571ea08",
+        "width": 2240,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0103.png",
+        "sha256": "12c7ac857fb9f0d85e0552016ecbe991b85a09c30f3546f7b66dc1684da9916a",
+        "width": 2262,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0104.png",
+        "sha256": "b05b673d21d7e126b09be14187b450ec2b6425a47d3d4b52ed415d2672999474",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0105.png",
+        "sha256": "05feab0b8124481a3adee69c4d39ed324fce15cf9f95507abf71a700af257f6b",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0106.png",
+        "sha256": "5dab8a19f3b173e1bc97f9f6e7a17b73f8c625b9f26b191b42183648c6b88835",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0107.png",
+        "sha256": "f231775271763e407152387e535fc08063d538a5d11a0768446db6ac57589ebb",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0108.png",
+        "sha256": "821404904b6df37ed1de89516e79478490be6b45c6675643b87cc8d366cedfe2",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0109.png",
+        "sha256": "c0a9887ff18672289c39056f03b2b2c69ea3d0c6c83b72e5b605a696e118643a",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0110.png",
+        "sha256": "615c58969f10838fcdbfdeaa9014af565ac97d803d1125c213fdec1845e26de3",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0111.png",
+        "sha256": "5930774f9e4f1da0369e63aef201b8eb3e12bb985731ad817e57caa7c072b68b",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0112.png",
+        "sha256": "0540a10d18c7ff3b0e8f03e313729a10e5bde87681b38105b3f08ad11da4af03",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0113.png",
+        "sha256": "95090e8529b2727db1278fa8f2fb52b70e3df2414e1b9de392f1a9ce407554fa",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0114.png",
+        "sha256": "40229d7c42e51a89e0ba63e2b7d7fb3f03dfc75ba56708336449e5921367bc03",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0115.png",
+        "sha256": "ef161ebbc1973923858582db871918903696560040321024ea72e1e69cb61738",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0116.png",
+        "sha256": "e7b799bf948a88a61ca7b9c0986044c783586c259e26d7dac9aacc93e453f820",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0117.png",
+        "sha256": "4aa5afed698e8c5e47d2dc9ae08ab779c014cdf95ec5e69d6c53c9e7977f5421",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0118.png",
+        "sha256": "eccdbc3da083595383e273af57a10def62eea31e0b4bcd96460119d8d0790be5",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0119.png",
+        "sha256": "bd9da3ac395a342b0b39db349bec293954e64eec391fb1725f2ae22e43801c1f",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0120.png",
+        "sha256": "13b95dd074418c6291a6c83bc914f5d23381dbe43d4e9cca475f7bba540a7c3b",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0121.png",
+        "sha256": "9c57344290a9f22425f7751391384c26bedcba4c928c3b39aaf2fc8f7023df25",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0122.png",
+        "sha256": "c1df232ac10abb2ae6d5a91450c170600f43a7cc0a23d7556ac7f0ed6205a662",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0123.png",
+        "sha256": "673b5a3c7b04a4cab36384bbf1c697606ff978e684fbc460680cf6351602717a",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0124.png",
+        "sha256": "35bd46509fa488d3c0ff2a0423a2c05700493da8afdbefab049359043b18dac6",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0125.png",
+        "sha256": "15a2e75ff252125051a2c6baabad284b8753587769fff29f64042398fae16eb0",
+        "width": 2280,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0126.png",
+        "sha256": "ea9f5e717d00636645b6d4d310172af3bb0925e729b80979f825aa09137a00f8",
+        "width": 1805,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0127.png",
+        "sha256": "ac50099eddd4651f4c7f2ff69eebf32fbf1c6f0e2e057c3bafd891c567ecc5a0",
+        "width": 1811,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0128.png",
+        "sha256": "2646fdc8be8abf36406666f415fa35a79f33cbdfc60e6f513807f927253eb349",
+        "width": 1816,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0129.png",
+        "sha256": "d836df07adc1420adfc2efb6112ac1bca3d601d5760eb5dd7645eb2de571a57f",
+        "width": 1820,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0130.png",
+        "sha256": "127d507f6df9b32fdaa6d7e4dbbcc5545fc1f1e38affc912dab5fa02b4ee217e",
+        "width": 1824,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0131.png",
+        "sha256": "746caedec8bbdde50ffcfe8504ebc020f27ad58ea2b38222edbf23eef6680378",
+        "width": 1827,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0132.png",
+        "sha256": "5e873e0a2efc70094f4fa9c4271c363394dc24dbae2a5147f8d674b457f501e6",
+        "width": 1831,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0133.png",
+        "sha256": "68581bf8cb77b9882071a0db3e46ddf3ea5f5182850544294d2455485416d5e9",
+        "width": 1836,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0134.png",
+        "sha256": "7f67451b40e33e8eecc560890d2e21488a8bec3587d20013560898f802ce9550",
+        "width": 1840,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0135.png",
+        "sha256": "227d4758c493001971d05dcc23fd44392b44ff8c293764f3bd3a3bf7fc11e0be",
+        "width": 1842,
+        "height": 997
+      },
+      {
+        "file": "assets/fx/r4/04_0136.png",
+        "sha256": "757b23d9f3114090920019d08c00f5f92b2ca173bf32a10c32d9962ab853f79e",
+        "width": 382,
+        "height": 482
+      },
+      {
+        "file": "assets/fx/r4/04_0137.png",
+        "sha256": "e16f75a134a9b96fb6c2053b7460b4f387d0e30775495996ad5cac388e54e6fe",
+        "width": 378,
+        "height": 478
+      },
+      {
+        "file": "assets/fx/r4/04_0138.png",
+        "sha256": "922ff7e98762c2ca2dced5ade1887f459a5862def0e88331fc013849921e26cc",
+        "width": 362,
+        "height": 462
+      }
+    ],
+    "sourceBundleSHA256": "ea9e0fa2ec07b26475af3a472253785cc8678f27cde971a6a93364414ed55fa7"
+  },
+  "poolIcons": {
+    "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346": {
+      "file": "assets/icons/d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346.png",
+      "sourcePngSha256": "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346",
+      "sourceRgbaSha256": "12ffac23feb33d684d697c3716dec6a55a947c7c86277cc761c1fb0de83045b8",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "d7ccc81911166f7b859943cd1e08e45abf7d6531856ff09adf59c4f1c23c7346",
+      "width": 33,
+      "height": 34,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "LEGACY_WEBRUNTIME_EXACT_PNG_SHA_REUSE",
+      "provenanceNote": "Reused old P8R3 WebRuntime PNG only after exact source PNG SHA match. Legacy display is not used as identity evidence.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Upgrade_2610_MG2040133",
+          "bundle": "1567903.msm",
+          "cab": "CAB-176ccda760380e9cf8fed334cd5b2206",
+          "pathId": "-2692327881851389880",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617": {
+      "file": "assets/icons/e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617.png",
+      "sourcePngSha256": "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617",
+      "sourceRgbaSha256": "f4941dabf03aa028f140a7db17e7abd275e329effec7c5aadd4c9a6615040312",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "e9fa8ec95683665eca394ff24efb7420b05ab751bea7c10882d6a2da7a585617",
+      "width": 35,
+      "height": 36,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_SubWeapon_SiaAstelle_GuidingCompass_Lv02",
+          "bundle": "1695122.msm",
+          "cab": "CAB-3e6dd85177349c0ce34aa1d272419094",
+          "pathId": "5309426500384057747",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a": {
+      "file": "assets/icons/c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a.png",
+      "sourcePngSha256": "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a",
+      "sourceRgbaSha256": "9f991c8db0ac60668a2faccaac1a25a13e73199b056b384179ff6c907691b3cf",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "c9eb46f431287cfb56deac9d61cbf6e3607f22eff1e9a3c0fe1d0b9935407d2a",
+      "width": 38,
+      "height": 38,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Weapon_CelestialLight_Lv120_BriserCelestialLight",
+          "bundle": "5619430.msm",
+          "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+          "pathId": "-9207448817410332813",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718": {
+      "file": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+      "sourcePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+      "sourceRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+      "width": 33,
+      "height": 34,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_LongCoat_Mage_A",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathId": "7970086077164655994",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "c12ee97ed03d6b71a7b2687b0a782dc7f9baafe93cb075fe45ebc344840cb873",
+          "sourceBundleSha256": "fac6f9bf03bdb8fc781bdfad6936496239919a130be83e2b7df11d0ea650258b"
+        }
+      ]
+    },
+    "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3": {
+      "file": "assets/icons/9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3.png",
+      "sourcePngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+      "sourceRgbaSha256": "88ad4d93af8185b984666556d3097d481457614e2234912622f40bc1b2f57ff3",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "9808bbe17e52b4a535a356167810fe71f0aab3f633262d678e5fc0c16806c7b3",
+      "width": 22,
+      "height": 20,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "LEGACY_WEBRUNTIME_EXACT_PNG_SHA_REUSE",
+      "provenanceNote": "Reused old P8R3 WebRuntime PNG only after exact source PNG SHA match. Legacy display is not used as identity evidence.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Upgrade_2302_MG2040062",
+          "bundle": "1567903.msm",
+          "cab": "CAB-176ccda760380e9cf8fed334cd5b2206",
+          "pathId": "-2033521713359178467",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c": {
+      "file": "assets/icons/580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c.png",
+      "sourcePngSha256": "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c",
+      "sourceRgbaSha256": "979bf4c3379498409c7e76e26166d274e26a090642a4d56e3a629191b57d59f9",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "580906086afc59250cce73bc0a52076623909975e94a775fee3ed80311d55b5c",
+      "width": 38,
+      "height": 38,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Weapon_CelestialLight_Eligos_EligosCelestialLight",
+          "bundle": "5619430.msm",
+          "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+          "pathId": "-6908627623415237665",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a": {
+      "file": "assets/icons/ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a.png",
+      "sourcePngSha256": "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a",
+      "sourceRgbaSha256": "078528e246a1d609bacb8de21f5adf91ea3f2644c169475a88344d1311fd048d",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "ea234ab9342a6120a21987f4ed5118502facf7a3707836d669b0a01e4861e47a",
+      "width": 37,
+      "height": 37,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Weapon_CelestialLight_Lv140_JaihinCelestialLight",
+          "bundle": "5619430.msm",
+          "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+          "pathId": "-8906170481917917944",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500": {
+      "file": "assets/icons/255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500.png",
+      "sourcePngSha256": "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500",
+      "sourceRgbaSha256": "1f7d3c482734e11898337a8e6e81ced6bff6affdec4e06395614247d3e711f5d",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "255795541b749fb4f2846ee0fa06451033b8b5c6f1043b0fdee35d0c72fb5500",
+      "width": 38,
+      "height": 38,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Weapon_CelestialLight_Lv160_UtgardCelestialLight",
+          "bundle": "5619430.msm",
+          "cab": "CAB-6e522df41b59ee2d98fd91b28d2425da",
+          "pathId": "4030006160942920219",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137": {
+      "file": "assets/icons/8e02257168f36208f0c17808ca963670d17081aabf26aeafadedea6d706123d8.png",
+      "sourcePngSha256": "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137",
+      "sourceRgbaSha256": "5e9d10719f7714b6cda12fa655d37006d52356e86b98e3c4e345240e2e9a400e",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "8e02257168f36208f0c17808ca963670d17081aabf26aeafadedea6d706123d8",
+      "width": 37,
+      "height": 29,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Cap_Mage_A",
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathId": "-5123078592127727098",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "1864481e7264c87b02fbce8e062464ed28b27ad3ab7ef99eb6d3fe5fc2bc87e0",
+          "sourceBundleSha256": "6c120766053b2adab15907daa60547f98c9d870b30782b6ea60d57b660fc19a2"
+        }
+      ]
+    },
+    "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9": {
+      "file": "assets/icons/b304f4918e0257ab3871aba25c219b8b4c826ef8035471be86b8c79974f8046a.png",
+      "sourcePngSha256": "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9",
+      "sourceRgbaSha256": "a971b8f78e3e3dd9e8b2555f6c9689ec736845f8d8b923bb8f7e26b741e83f74",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "b304f4918e0257ab3871aba25c219b8b4c826ef8035471be86b8c79974f8046a",
+      "width": 25,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Glove_Mage_A",
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathId": "-6645813801937381971",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "642e55957c64676c8a9ecfdf82daf64322bc148345d5a6a761562a86708a64b2",
+          "sourceBundleSha256": "1c880eea7d72d6806333b32abcc3cf0c4a9e0f9a7876b7351a495609af7e4bf4"
+        }
+      ]
+    },
+    "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33": {
+      "file": "assets/icons/f180d01f27eea96c25704d3e546c8e971e32078ba4ff9330b4cbf28aa39577d7.png",
+      "sourcePngSha256": "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33",
+      "sourceRgbaSha256": "9d1bcb823bf891cd4967497a433dd179879a2aad53a115ed9aa04c8874a1180e",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "f180d01f27eea96c25704d3e546c8e971e32078ba4ff9330b4cbf28aa39577d7",
+      "width": 26,
+      "height": 30,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Shoes_Mage_A",
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathId": "4687938372681328051",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "05e845c2800541795e2372c77b60e5c1c104848dc1558b5108011259eb81c727",
+          "sourceBundleSha256": "21d155c6b43d8ac63beb6ebc2847a79c2f6147a3dd1a7c9cc03aef044f426c6c"
+        }
+      ]
+    },
+    "72c8bf00d80837287320bcdf702db803f683492fc125cda1f24d8e35d8fb823e": {
+      "file": "assets/icons/ea89df3e30778a950d6131710721f0b7073263080e5690cf18bce40c1e07c6f8.png",
+      "sourcePngSha256": "72c8bf00d80837287320bcdf702db803f683492fc125cda1f24d8e35d8fb823e",
+      "sourceRgbaSha256": "68a5bced5cae649e1c3175ac0ab90e7a56469b37914c4312c705fb9024067550",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "ea89df3e30778a950d6131710721f0b7073263080e5690cf18bce40c1e07c6f8",
+      "width": 27,
+      "height": 31,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_LongCoat_Mage_B",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathId": "-6014947669091838810",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "0cd45f85e409770a1c7b2a80b1fc7bf60619f59285eacdadba54a55d938a7a39",
+          "sourceBundleSha256": "fac6f9bf03bdb8fc781bdfad6936496239919a130be83e2b7df11d0ea650258b"
+        }
+      ]
+    },
+    "5073595c2abd10a1b4c4a610d629640625fa3dc315d52b24cb1519c388d2ee98": {
+      "file": "assets/icons/21b455aad9823f5678a56174fba41a56a2c471ed66fe35be2610238241316b0a.png",
+      "sourcePngSha256": "5073595c2abd10a1b4c4a610d629640625fa3dc315d52b24cb1519c388d2ee98",
+      "sourceRgbaSha256": "38df3626492febe37dbf7333b93aeb035aac7f7c84f50e11dee387ff3e8ab84e",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "21b455aad9823f5678a56174fba41a56a2c471ed66fe35be2610238241316b0a",
+      "width": 33,
+      "height": 29,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Cap_Mage_B",
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathId": "-9215048693769783540",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "1434364bac23723605aec829daca8c9c7118259e84f23d1388f74cd5ad535da3",
+          "sourceBundleSha256": "6c120766053b2adab15907daa60547f98c9d870b30782b6ea60d57b660fc19a2"
+        }
+      ]
+    },
+    "8caf9afc303b30cdc6b72c06ad76dfeb7161779b72d7fec3ab92d898c90ae2ec": {
+      "file": "assets/icons/0f99c83735e1ce29a169bfba6c38ac03b33dc69b1e8c98bafe74a2eefa1b2136.png",
+      "sourcePngSha256": "8caf9afc303b30cdc6b72c06ad76dfeb7161779b72d7fec3ab92d898c90ae2ec",
+      "sourceRgbaSha256": "d64491f0fcc0adf48d13b3e63e3cb6e5f44951bb5a73fcea92aa709b864c5fd1",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "0f99c83735e1ce29a169bfba6c38ac03b33dc69b1e8c98bafe74a2eefa1b2136",
+      "width": 30,
+      "height": 28,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Glove_Mage_B",
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathId": "-4474592186497073472",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "c1cdf701ee4ab7f7c34d8931b0f28133c981527c69f24043642090b34b81fe4c",
+          "sourceBundleSha256": "1c880eea7d72d6806333b32abcc3cf0c4a9e0f9a7876b7351a495609af7e4bf4"
+        }
+      ]
+    },
+    "bbfcc06850f35419ebad2ff8897ee6d2837a23bdfacf31aa2db66b408d498254": {
+      "file": "assets/icons/4d3b74a8c28ff7ae326ba567f476c2b1a0cdce948b3c05c18da6094838da084a.png",
+      "sourcePngSha256": "bbfcc06850f35419ebad2ff8897ee6d2837a23bdfacf31aa2db66b408d498254",
+      "sourceRgbaSha256": "d934199c610a6f324cbf9bde49eca38f7e424f1a0966a2a4711b12e0ae8a721a",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "4d3b74a8c28ff7ae326ba567f476c2b1a0cdce948b3c05c18da6094838da084a",
+      "width": 26,
+      "height": 30,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Shoes_Mage_B",
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathId": "-7146029932747351204",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "ba9c2ce8f51553fb875f2064254d290a93d8628edb453aeafad050a37e65baa3",
+          "sourceBundleSha256": "21d155c6b43d8ac63beb6ebc2847a79c2f6147a3dd1a7c9cc03aef044f426c6c"
+        }
+      ]
+    },
+    "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe": {
+      "file": "assets/icons/9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe.png",
+      "sourcePngSha256": "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe",
+      "sourceRgbaSha256": "d491e87d03e775089e452248b7469c7ab5709ef89d7c2c1ccec4d463b054b577",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "9ee8e242bd6aa3b09f65a22ad1ebd06f74eada24ebc1c7d363d9465be033f5fe",
+      "width": 31,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Shoulder_Magic_Lv80_00",
+          "bundle": "3413224.msm",
+          "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+          "pathId": "-7733062716153220183",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1": {
+      "file": "assets/icons/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+      "sourcePngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+      "sourceRgbaSha256": "c37021f4e52ffa767dd9c044d5ffc88be8f470250ac6ff35a06904ce2fad7252",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+      "width": 33,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Belt_036_Rising_Sun_Belt",
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathId": "5808162278861888344",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef": {
+      "file": "assets/icons/c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef.png",
+      "sourcePngSha256": "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef",
+      "sourceRgbaSha256": "15fd9e76460806d239ef94381c67acbce0a2e2d62db6c596c35fe30ff0a563c7",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "c09ee3f3873257859c4338d66ea718486d1ff7ccff3be8fa3a08e45d673a2fef",
+      "width": 30,
+      "height": 30,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Cape_056",
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathId": "-1192726685441079478",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b": {
+      "file": "assets/icons/d30cc08de74367072f4d355a19137b592fc1d7c1c630c35da823db18ce76cffb.png",
+      "sourcePngSha256": "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b",
+      "sourceRgbaSha256": "ff25d7e69f0127fc21797aaca8abffd43e6830ad7222a3afa954e56916760391",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "d30cc08de74367072f4d355a19137b592fc1d7c1c630c35da823db18ce76cffb",
+      "width": 31,
+      "height": 32,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_LongCoat_Mage_C",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathId": "4252552771196577348",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "52be3d8b81c626f9707ccab9aff7bda17d1c2ea52ea63f1991d05fefdac69889",
+          "sourceBundleSha256": "fac6f9bf03bdb8fc781bdfad6936496239919a130be83e2b7df11d0ea650258b"
+        }
+      ]
+    },
+    "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925": {
+      "file": "assets/icons/cd8667e415296392a64f3ebf3bc3c0c4a07d96d1211965d6734e23d5c523781e.png",
+      "sourcePngSha256": "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925",
+      "sourceRgbaSha256": "9206441608232e98c8417a57bc3d8303dc3fd823946ba92bc245fedbd06bcca3",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "cd8667e415296392a64f3ebf3bc3c0c4a07d96d1211965d6734e23d5c523781e",
+      "width": 32,
+      "height": 25,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Cap_Mage_C",
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathId": "2232863528099933967",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "e6229335b8262342f1b006d7eeaf1d20a30f4ed5bc8e02fc2349e509c4cb53c0",
+          "sourceBundleSha256": "6c120766053b2adab15907daa60547f98c9d870b30782b6ea60d57b660fc19a2"
+        }
+      ]
+    },
+    "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36": {
+      "file": "assets/icons/fb1abc86990b6ea34e18d7659c5fc7fa3d421de0e5a75726ac6d80b7dd57e9f8.png",
+      "sourcePngSha256": "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36",
+      "sourceRgbaSha256": "8fbfb890cafde0e47eaaf3435552e5c46f9a1dae19133a86415dcfc5f7268b6c",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "fb1abc86990b6ea34e18d7659c5fc7fa3d421de0e5a75726ac6d80b7dd57e9f8",
+      "width": 27,
+      "height": 22,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Glove_Mage_C",
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathId": "-4919474167368679722",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "411acd907266e71514cdb1585d45239a3777ffee1c9291b760344172186ead9a",
+          "sourceBundleSha256": "1c880eea7d72d6806333b32abcc3cf0c4a9e0f9a7876b7351a495609af7e4bf4"
+        }
+      ]
+    },
+    "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9": {
+      "file": "assets/icons/232383da5cf5c1e5870d5941d1fa5ce1736b5ff94712b4bde870247d963645bc.png",
+      "sourcePngSha256": "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9",
+      "sourceRgbaSha256": "1c9aeda044ef63e55b39637536657b26b34ab26a53bc862ff4e7f660c3107b01",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "232383da5cf5c1e5870d5941d1fa5ce1736b5ff94712b4bde870247d963645bc",
+      "width": 27,
+      "height": 30,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Shoes_Mage_C",
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathId": "-8444007253993531702",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "620882bdd8ad734b133dfcbcb6b7c0947c56ace220d6177814c3c2ec0269d9b5",
+          "sourceBundleSha256": "21d155c6b43d8ac63beb6ebc2847a79c2f6147a3dd1a7c9cc03aef044f426c6c"
+        }
+      ]
+    },
+    "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006": {
+      "file": "assets/icons/0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006.png",
+      "sourcePngSha256": "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006",
+      "sourceRgbaSha256": "8a716640dd41675e8bea6fdbf836e7d38d64bf360c906ab15f60337219c43e00",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "0d89e48e07bc495f8ade6d605a7a59d4805bf6a273ed52cc85200643eae22006",
+      "width": 32,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Belt_032_tenacious_ Extreme_Belt",
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathId": "-8045165920407876536",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164": {
+      "file": "assets/icons/efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164.png",
+      "sourcePngSha256": "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164",
+      "sourceRgbaSha256": "219d9f3094aa2aa3fbb4cd11d6faf28377c88e2983cffc1e3ffcd5d5b5609508",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "efd58c02a89d2a0bc6c58a039e442c2f1fc607a1e6c7a486686cc28671069164",
+      "width": 30,
+      "height": 31,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Cape_Common_Pink_Adventurer_Cape",
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathId": "-9134974911463428055",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "d86f70fb26f438ddaa27ea4829e4d38f9bd2c73cc15107c41a019cef067df837": {
+      "file": "assets/icons/52cbeb26e147abff1cbca8945bca4d5f7d2ae2c2279ab925be29df174958c8cd.png",
+      "sourcePngSha256": "d86f70fb26f438ddaa27ea4829e4d38f9bd2c73cc15107c41a019cef067df837",
+      "sourceRgbaSha256": "b58e8c34e672059bf2279000d1fcae6161ed62fdf1b2106cefbc4337882b1246",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "52cbeb26e147abff1cbca8945bca4d5f7d2ae2c2279ab925be29df174958c8cd",
+      "width": 29,
+      "height": 31,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_LongCoat_Mage_D",
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathId": "7032522192037916496",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "701afa922866220a1e2acc3b139d986599f8421cd36e2d3305ea76557eb167e9",
+          "sourceBundleSha256": "fac6f9bf03bdb8fc781bdfad6936496239919a130be83e2b7df11d0ea650258b"
+        }
+      ]
+    },
+    "32e1736c8c665710124f19951ef39aee32b83135c8c6be32f51b204498a6e181": {
+      "file": "assets/icons/7226d1d0125b15f7dc55c1276d9e2bf884e4dcbbb2300d83529cd56428fdf2c2.png",
+      "sourcePngSha256": "32e1736c8c665710124f19951ef39aee32b83135c8c6be32f51b204498a6e181",
+      "sourceRgbaSha256": "8ba8fceb6a5662a30b09c753a3de2ab4afecfce2e82449bfbf0c74d9650e9ec8",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "7226d1d0125b15f7dc55c1276d9e2bf884e4dcbbb2300d83529cd56428fdf2c2",
+      "width": 33,
+      "height": 31,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Cap_Mage_D",
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathId": "2477131506276381593",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "11b80b7bb45a4f9f3a9fa50710e756e55293bfbdf513ad173aeaadc9046cb2c1",
+          "sourceBundleSha256": "6c120766053b2adab15907daa60547f98c9d870b30782b6ea60d57b660fc19a2"
+        }
+      ]
+    },
+    "3d7da61297f215b00d4f6753638b787a4131b1e407d1d850b1c9ae86360a5fc8": {
+      "file": "assets/icons/02551211cd1d399d947d86812d063033faef571445d2eaabc89c357b19f5e9df.png",
+      "sourcePngSha256": "3d7da61297f215b00d4f6753638b787a4131b1e407d1d850b1c9ae86360a5fc8",
+      "sourceRgbaSha256": "ca4f3f5403be140d0ea2c5c24e43020ecce9e0581fc563e24ee5d63fc7cbbbfa",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "02551211cd1d399d947d86812d063033faef571445d2eaabc89c357b19f5e9df",
+      "width": 29,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Glove_Mage_D",
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathId": "-6609833099397039239",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "59af3a9a76b05f75b721cda93045acbea50e9783a48434db2b4b5fa61eb94c1d",
+          "sourceBundleSha256": "1c880eea7d72d6806333b32abcc3cf0c4a9e0f9a7876b7351a495609af7e4bf4"
+        }
+      ]
+    },
+    "44ce873c779a063c091c80fa1e8ad20b2ca35cf365b052ae791c471df5c1a447": {
+      "file": "assets/icons/7970fa2b5964e665d55d759adbe269803dae28d54b0292d787b694afd2d2d0f5.png",
+      "sourcePngSha256": "44ce873c779a063c091c80fa1e8ad20b2ca35cf365b052ae791c471df5c1a447",
+      "sourceRgbaSha256": "a5620d8aa576dfa636e7a71e8028bd605e90f8c0b4f76580819392f240cce9d5",
+      "sourceVersion": "2.450.5786_e752c71d",
+      "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+      "runtimePngSha256": "7970fa2b5964e665d55d759adbe269803dae28d54b0292d787b694afd2d2d0f5",
+      "width": 30,
+      "height": 32,
+      "runtimeAssetAdmission": "SOURCE_RGBA_MATCH",
+      "provenance": "PREVIEW137_SOURCE_RGBA_EXACT_PNG_REENCODED",
+      "provenanceNote": "Exact admitted Bundle/CAB/PathID Texture2D; source RGBA SHA matches. PNG bytes differ because Preview137 re-encoded the same pixels.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Armor_Shoes_Mage_D",
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathId": "5896680118437325823",
+          "sourceAdmissionClass": "SOURCE_MAPPING_VERIFIED_NOT_UI_CONNECTED",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "sourceBuildEvidence": "live 2.450.5786_e752c71d selected bundle bytes; DB snapshots1-4 independent historical provenance",
+          "p1RowSha256": "c289ed7e4fa418f2df548ac7d99768189e20d60f7624e248e0069ab4b7a8dc30",
+          "sourceBundleSha256": "21d155c6b43d8ac63beb6ebc2847a79c2f6147a3dd1a7c9cc03aef044f426c6c"
+        }
+      ]
+    },
+    "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030": {
+      "file": "assets/icons/851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030.png",
+      "sourcePngSha256": "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030",
+      "sourceRgbaSha256": "53d1b5c686228ef5d1a1fb93a8b67d0470258536e5c8d19b9bb2fd84ab1a9969",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "851fe7dd7286b9698e3bd2d1463f0c1aa34ae4bb2e339587863518477eae3030",
+      "width": 31,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Shoulder_Magic_Lv100_00",
+          "bundle": "3413224.msm",
+          "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+          "pathId": "-8234671437819669934",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73": {
+      "file": "assets/icons/34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73.png",
+      "sourcePngSha256": "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73",
+      "sourceRgbaSha256": "89010e295604605648b82017ed0b873702c5482b0f5d3cdd7a7d9469a13e8a23",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "34afb04b564f4956579d596398b02dce5d5db53386cfd6b920994b04ccbafd73",
+      "width": 32,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Belt_Normal_Lv60_00",
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathId": "2080249886257906133",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0": {
+      "file": "assets/icons/07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0.png",
+      "sourcePngSha256": "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0",
+      "sourceRgbaSha256": "b09ed1d58e4910830867646a7c12c7a6913d3e2210b3dc607125856f7fa5ca4c",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "07b22b904fa2edb213d05bb6b941c999b5d7cd14d01b24eab27059a8710564b0",
+      "width": 32,
+      "height": 32,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Cape_Common_Pensalir_Lv160",
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathId": "1088077273534518451",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f": {
+      "file": "assets/icons/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+      "sourcePngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+      "sourceRgbaSha256": "ebb5a698a8a2ff9f93b1d996fb8480392a50179bdc2f88fc8e80bf08370386a1",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+      "width": 30,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Shoulder_025_Tenacious_Noble_Pauldron",
+          "bundle": "3413224.msm",
+          "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+          "pathId": "-1130923932872811762",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c": {
+      "file": "assets/icons/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+      "sourcePngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+      "sourceRgbaSha256": "577747a853c15c66c824f9d2feeb5159603d472a486ae67a70987b46d21e18d8",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+      "width": 34,
+      "height": 26,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Belt_027_Tenacious_Green_Gilded_Belt",
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathId": "5032343496030212093",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78": {
+      "file": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+      "sourcePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+      "sourceRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+      "width": 30,
+      "height": 30,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Cape_022",
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathId": "-3441444384984736574",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    },
+    "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1": {
+      "file": "assets/icons/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+      "sourcePngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+      "sourceRgbaSha256": "9be431d80b95311e12093d7663dd8821f5380d6ed1712c6b4e485b78716ba2c1",
+      "sourceVersion": null,
+      "sourceBuildEvidence": null,
+      "runtimePngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+      "width": 34,
+      "height": 27,
+      "runtimeAssetAdmission": "SOURCE_PNG_SHA_MATCH",
+      "provenance": "EXISTING_CLEAN_RUNTIME_EXACT_PNG_SHA",
+      "provenanceNote": "Existing Clean Rebuild file; actual PNG SHA equals the admitted source PNG SHA.",
+      "sourceReferences": [
+        {
+          "iconName": "Icon_Shoulder_026_Tenacious_Royal_Pauldron",
+          "bundle": "3413224.msm",
+          "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+          "pathId": "-2802915860796083411",
+          "sourceAdmissionClass": "ICON_SOURCE_VERIFIED",
+          "sourceVersion": null,
+          "sourceBuildEvidence": null,
+          "p1RowSha256": null,
+          "sourceBundleSha256": null
+        }
+      ]
+    }
+  },
+  "officialPoolDisplay": {
+    "file": "data/official-pools.json",
+    "staticDisplayOnly": true,
+    "normalRngStatus": "PLAYER_REVIEW_PENDING_S3F23_NORMAL_ONLY",
+    "feverRuntimeStatus": "SOURCE_GAP",
+    "iconKey": "sourcePngSha256",
+    "uniqueAdmittedSourcePngs": 35,
+    "rowsWithAdmittedSourceIcon": 247,
+    "rowsWithNeutralPlaceholder": 21,
+    "historicalSourceTableSha256": "63b08732320ba5f80bdd34114738f8d1da2d0156445cd8a713e9b1b0ab77ee95",
+    "oddsSource": {
+      "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+      "version": "R14-P31R5_20261105",
+      "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+      "originalUploadName": "活頁簿aaa1.xlsx",
+      "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+      "unit": "PERCENTAGE_POINTS",
+      "normalizationApplied": false,
+      "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE"
+    }
+  },
+  "playerConfirmedPoolIcons": {
+    "schema": "CrystalChest.PlayerConfirmedPoolIconReuse.v1",
+    "evidenceClass": "PLAYER_VISUAL_CONFIRMED",
+    "scope": "21 exact announcement-row bindings; item identity/source admission unchanged",
+    "legacyAcceptance": {
+      "path": "exports/CrystalChest_Store_S1C_R6_ColorAB_FinalReview_20261020/SupervisorHandoff/READONLY_AND_REGRESSION_RECEIPTS.json",
+      "field": "R5CurrentPlayerAcceptance",
+      "text": "User reports268 icons/order/scroll/chest/Dot accepted; retained. ColorLogic still requires player decision."
+    },
+    "uniqueImageCount": 14,
+    "announcementRowCount": 21,
+    "icons": {
+      "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f": {
+        "legacyPngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+        "legacyRgbaSha256": "ebb5a698a8a2ff9f93b1d996fb8480392a50179bdc2f88fc8e80bf08370386a1",
+        "runtimeAssetPath": "assets/icons/3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f.png",
+        "runtimePngSha256": "3bcf2032d85d20a70fd00c672f01f070c331458ca872387dab5d8d2c1467bf8f",
+        "runtimeRgbaSha256": "ebb5a698a8a2ff9f93b1d996fb8480392a50179bdc2f88fc8e80bf08370386a1",
+        "width": 30,
+        "height": 27,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "3413224.msm",
+          "cab": "CAB-070be8b81429882e497eb3a6b8b1624e",
+          "pathId": "-1130923932872811762",
+          "classID": 28
+        },
+        "legacyMappingSource": "S1C_R5_CRYSTAL_CELL_BINDINGS",
+        "legacySourceEvidenceClass": "SOURCE_CONDITIONAL_SHARED_ICON_ALL_FROZEN_CANDIDATES; ITEM_ID_UNRESOLVED",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"26\"]",
+          "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"58\"]"
+        ]
+      },
+      "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c": {
+        "legacyPngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+        "legacyRgbaSha256": "577747a853c15c66c824f9d2feeb5159603d472a486ae67a70987b46d21e18d8",
+        "runtimeAssetPath": "assets/icons/e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c.png",
+        "runtimePngSha256": "e1aa73b722ff25a38bc2d8f3e872d1d7ecf2a0227273a6a0fb276f71264a854c",
+        "runtimeRgbaSha256": "577747a853c15c66c824f9d2feeb5159603d472a486ae67a70987b46d21e18d8",
+        "width": 34,
+        "height": 26,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathId": "5032343496030212093",
+          "classID": 28
+        },
+        "legacyMappingSource": "S1C_R5_CRYSTAL_CELL_BINDINGS",
+        "legacySourceEvidenceClass": "SOURCE_CONDITIONAL_SHARED_ICON_ALL_FROZEN_CANDIDATES; ITEM_ID_UNRESOLVED",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"27\"]",
+          "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"59\"]"
+        ]
+      },
+      "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78": {
+        "legacyPngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+        "legacyRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4",
+        "runtimeAssetPath": "assets/icons/7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78.png",
+        "runtimePngSha256": "7dd8b520a999cfd448df63c3790cc0222a2950db89fa901c59720ea7968fbf78",
+        "runtimeRgbaSha256": "1c345cd04720913863549c1e79418856928cb4df71f4bbb5641e3443d7aab1d4",
+        "width": 30,
+        "height": 30,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "9962415.msm",
+          "cab": "CAB-59b3fe589a1a2ea49e90238775945cb6",
+          "pathId": "-3441444384984736574",
+          "classID": 28
+        },
+        "legacyMappingSource": "S1C_R5_CRYSTAL_CELL_BINDINGS",
+        "legacySourceEvidenceClass": "SOURCE_CONDITIONAL_SHARED_ICON_ALL_FROZEN_CANDIDATES; ITEM_ID_UNRESOLVED",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"28\"]",
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"93\"]",
+          "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"60\"]",
+          "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"125\"]"
+        ]
+      },
+      "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1": {
+        "legacyPngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+        "legacyRgbaSha256": "9be431d80b95311e12093d7663dd8821f5380d6ed1712c6b4e485b78716ba2c1",
+        "runtimeAssetPath": "assets/icons/3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1.png",
+        "runtimePngSha256": "3b8977eefb1390ffa248db4f89d10f92362f19e45835c030aa57f50f0ec02ab1",
+        "runtimeRgbaSha256": "9be431d80b95311e12093d7663dd8821f5380d6ed1712c6b4e485b78716ba2c1",
+        "width": 34,
+        "height": 27,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Shoulder/Icon_Shoulder_026_Tenacious_Royal_Pauldron",
+          "sourceVersion": "2.450.5786_e752c71d saved Client.Icon"
+        },
+        "legacyMappingSource": "S1C_R4_PLAYER_APPROVED_ROYAL_SHOULDER",
+        "legacySourceEvidenceClass": "PLAYER_APPROVED_DISPLAY_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"40\"]",
+          "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"72\"]"
+        ]
+      },
+      "925c5310f86c9b8c239e85f1b8d0cd95de403dd74a5879d197df6b0e2517fdea": {
+        "legacyPngSha256": "925c5310f86c9b8c239e85f1b8d0cd95de403dd74a5879d197df6b0e2517fdea",
+        "legacyRgbaSha256": "e30c71def9470a15b64ae06adaccfa75c62a3620911b9260d29df8eb71b03fde",
+        "runtimeAssetPath": "assets/icons/c771b94dd2e97310063c039dd208601466738e4de150f998b8d074410c61213e.png",
+        "runtimePngSha256": "c771b94dd2e97310063c039dd208601466738e4de150f998b8d074410c61213e",
+        "runtimeRgbaSha256": "e30c71def9470a15b64ae06adaccfa75c62a3620911b9260d29df8eb71b03fde",
+        "width": 31,
+        "height": 32,
+        "encodingEvidence": "SOURCE_TEXTURE_RGBA_EXACT_REENCODED_PNG; old S1C PNG bytes were external and not copied",
+        "sourceAsset": {
+          "bundle": "1695122.msm",
+          "cab": "CAB-3e6dd85177349c0ce34aa1d272419094",
+          "pathId": "5715158192515904808",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/SubWeapon/Icon_SubWeapon_SiaAstelle_OortCompass_Lv01",
+          "sourceVersion": "2.450.5786_e752c71d saved table snapshot"
+        },
+        "legacyMappingSource": "S1C_R2_EXACT_RAW_ICON_CONSENSUS",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_RAW_ICON_CONSENSUS; Equip/Etc identity unresolved",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"50\"]",
+          "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"82\"]"
+        ]
+      },
+      "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718": {
+        "legacyPngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+        "legacyRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039",
+        "runtimeAssetPath": "assets/icons/537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718.png",
+        "runtimePngSha256": "537cafbc151ef63e58520f0a929dc79b00447ac3a0a76856742c281afb25a718",
+        "runtimeRgbaSha256": "e9bf41dd75eebbc43f5ebecbffe68f3b718dc7a09045f40512286d2202d0a039",
+        "width": 33,
+        "height": 34,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathId": "7970086077164655994",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/LongCoat/Icon_LongCoat_Mage_Unique_Lv120_00",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "c12ee97ed03d6b71a7b2687b0a782dc7f9baafe93cb075fe45ebc344840cb873"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"119\"]"
+        ]
+      },
+      "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137": {
+        "legacyPngSha256": "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137",
+        "legacyRgbaSha256": "5e9d10719f7714b6cda12fa655d37006d52356e86b98e3c4e345240e2e9a400e",
+        "runtimeAssetPath": "assets/icons/b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137.png",
+        "runtimePngSha256": "b24ab7bf477c3d249f5994e17c7385f1ec3a01264c7cc8b92df2617a417ae137",
+        "runtimeRgbaSha256": "5e9d10719f7714b6cda12fa655d37006d52356e86b98e3c4e345240e2e9a400e",
+        "width": 37,
+        "height": 29,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathId": "-5123078592127727098",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Cap/Icon_Cap_Mage_Unique_Lv120_00",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "1864481e7264c87b02fbce8e062464ed28b27ad3ab7ef99eb6d3fe5fc2bc87e0"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"120\"]"
+        ]
+      },
+      "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9": {
+        "legacyPngSha256": "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9",
+        "legacyRgbaSha256": "a971b8f78e3e3dd9e8b2555f6c9689ec736845f8d8b923bb8f7e26b741e83f74",
+        "runtimeAssetPath": "assets/icons/4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9.png",
+        "runtimePngSha256": "4cb9ae5988fe86ed00d32d0fa34a8d9e9bca774b049ce31051395d163e9d42f9",
+        "runtimeRgbaSha256": "a971b8f78e3e3dd9e8b2555f6c9689ec736845f8d8b923bb8f7e26b741e83f74",
+        "width": 25,
+        "height": 27,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathId": "-6645813801937381971",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Gloves/Icon_Gloves_Mage_Unique_Lv120_00",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "642e55957c64676c8a9ecfdf82daf64322bc148345d5a6a761562a86708a64b2"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"121\"]"
+        ]
+      },
+      "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33": {
+        "legacyPngSha256": "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33",
+        "legacyRgbaSha256": "9d1bcb823bf891cd4967497a433dd179879a2aad53a115ed9aa04c8874a1180e",
+        "runtimeAssetPath": "assets/icons/99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33.png",
+        "runtimePngSha256": "99fbcc2fc6750ea0dadf59509b7a6e55d2806b071029696031b715fb4f47aa33",
+        "runtimeRgbaSha256": "9d1bcb823bf891cd4967497a433dd179879a2aad53a115ed9aa04c8874a1180e",
+        "width": 26,
+        "height": 30,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathId": "4687938372681328051",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Shoes/Icon_Shoes_Mage_Unique_Lv120_00",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "05e845c2800541795e2372c77b60e5c1c104848dc1558b5108011259eb81c727"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"122\"]"
+        ]
+      },
+      "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1": {
+        "legacyPngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+        "legacyRgbaSha256": "c37021f4e52ffa767dd9c044d5ffc88be8f470250ac6ff35a06904ce2fad7252",
+        "runtimeAssetPath": "assets/icons/6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1.png",
+        "runtimePngSha256": "6985a09958a3f2f1e35737b926cc76f1b790636af460a191be7f7d6e70ef26b1",
+        "runtimeRgbaSha256": "c37021f4e52ffa767dd9c044d5ffc88be8f470250ac6ff35a06904ce2fad7252",
+        "width": 33,
+        "height": 27,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "2071893.msm",
+          "cab": "CAB-fb40e90c569f027b62f3cd9464f8aa6e",
+          "pathId": "5808162278861888344",
+          "classID": 28
+        },
+        "legacyMappingSource": "S1C_R5_CRYSTAL_CELL_BINDINGS",
+        "legacySourceEvidenceClass": "SOURCE_CONDITIONAL_SHARED_ICON_ALL_FROZEN_CANDIDATES; ITEM_ID_UNRESOLVED",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"131\"]"
+        ]
+      },
+      "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b": {
+        "legacyPngSha256": "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b",
+        "legacyRgbaSha256": "ff25d7e69f0127fc21797aaca8abffd43e6830ad7222a3afa954e56916760391",
+        "runtimeAssetPath": "assets/icons/cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b.png",
+        "runtimePngSha256": "cc609b79b3ce530d86205ecbe53bbd136f1cd89cd6258d2b5460a5efa579bf4b",
+        "runtimeRgbaSha256": "ff25d7e69f0127fc21797aaca8abffd43e6830ad7222a3afa954e56916760391",
+        "width": 31,
+        "height": 32,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "1468077.msm",
+          "cab": "CAB-6cadf62322adb816da8ff2ddc209665d",
+          "pathId": "4252552771196577348",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/LongCoat/Icon_LongCoat_Bishop_Defalt_Lv130",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "52be3d8b81c626f9707ccab9aff7bda17d1c2ea52ea63f1991d05fefdac69889"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"133\"]"
+        ]
+      },
+      "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925": {
+        "legacyPngSha256": "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925",
+        "legacyRgbaSha256": "9206441608232e98c8417a57bc3d8303dc3fd823946ba92bc245fedbd06bcca3",
+        "runtimeAssetPath": "assets/icons/0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925.png",
+        "runtimePngSha256": "0d4393fe031308f424c1e9eaad1bd089a8df364863bd5a9e207e2d5f8c602925",
+        "runtimeRgbaSha256": "9206441608232e98c8417a57bc3d8303dc3fd823946ba92bc245fedbd06bcca3",
+        "width": 32,
+        "height": 25,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "4437139.msm",
+          "cab": "CAB-f4a261ef09b5192418da04513dec44ed",
+          "pathId": "2232863528099933967",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Cap/Icon_Cap_Bishop_Defalt_Lv130",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "e6229335b8262342f1b006d7eeaf1d20a30f4ed5bc8e02fc2349e509c4cb53c0"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"134\"]"
+        ]
+      },
+      "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36": {
+        "legacyPngSha256": "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36",
+        "legacyRgbaSha256": "8fbfb890cafde0e47eaaf3435552e5c46f9a1dae19133a86415dcfc5f7268b6c",
+        "runtimeAssetPath": "assets/icons/68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36.png",
+        "runtimePngSha256": "68603e795e96e241adb969ffc201cf8d7a779229e6ad669b1da7fa54bb307b36",
+        "runtimeRgbaSha256": "8fbfb890cafde0e47eaaf3435552e5c46f9a1dae19133a86415dcfc5f7268b6c",
+        "width": 27,
+        "height": 22,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "2141138.msm",
+          "cab": "CAB-34da52c1313927c9c39f42dadd58a079",
+          "pathId": "-4919474167368679722",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Gloves/Icon_Glove_Bishop_Defalt_Lv130",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "411acd907266e71514cdb1585d45239a3777ffee1c9291b760344172186ead9a"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"135\"]"
+        ]
+      },
+      "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9": {
+        "legacyPngSha256": "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9",
+        "legacyRgbaSha256": "1c9aeda044ef63e55b39637536657b26b34ab26a53bc862ff4e7f660c3107b01",
+        "runtimeAssetPath": "assets/icons/20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9.png",
+        "runtimePngSha256": "20ada15beba8e6f8a5a794feed0794b17bbad5072dd89567bde6a5c8801a13d9",
+        "runtimeRgbaSha256": "1c9aeda044ef63e55b39637536657b26b34ab26a53bc862ff4e7f660c3107b01",
+        "width": 27,
+        "height": 30,
+        "encodingEvidence": "BYTE_EXACT_LEGACY_S1C_DISPLAY_PNG",
+        "sourceAsset": {
+          "bundle": "3818665.msm",
+          "cab": "CAB-adfc7e297c4d534266a4f9c4a642575b",
+          "pathId": "-8444007253993531702",
+          "classID": 28,
+          "nativePath": "DynamicTexture/ItemIcon/Equip/Shoes/Icon_Shoes_Bishop_Defalt_Lv130",
+          "sourceVersion": "2.450.5786_e752c71d",
+          "rowSHA256": "620882bdd8ad734b133dfcbcb6b7c0947c56ace220d6177814c3c2ec0269d9b5"
+        },
+        "legacyMappingSource": "S1C_R5_FINAL_EIGHT_SHARED_ICON_MAPPING",
+        "legacySourceEvidenceClass": "SOURCE_VERIFIED_SHARED_IMAGE_MAPPING",
+        "announcementRows": [
+          "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"136\"]"
+        ]
+      }
+    }
+  },
+  "shopPoolPanelIntegration": {
+    "sourceContract": {
+      "schema": "CrystalChest.ShopPoolPanel.SourceContract.v1",
+      "sourceScene": "data/scene-ui.json",
+      "iconDisplayPlayerStatus": "CLEAN_POOL_ICON_DISPLAY_268_OF_268_PLAYER_VISUAL_PASS",
+      "newLayoutReviewStatus": "CLEAN_SHOP_POOL_LAYOUT_R2_PLAYER_PENDING",
+      "normalPanel": {
+        "path": "GachaGlobalLucky/Root/Frame/GachaCrystalPage/list/NormalListGrid/ScrollView",
+        "component": "UIPanel",
+        "mClipping": 3,
+        "mClipRange": {
+          "x": 252.0,
+          "y": -115.0,
+          "z": 504.0,
+          "w": 240.0
+        },
+        "mDepth": 14,
+        "mAlpha": 1.0
+      },
+      "feverPanel": {
+        "path": "GachaGlobalLucky/Root/Frame/GachaCrystalPage/list/FeverListGrid/ScrollView",
+        "component": "UIPanel",
+        "mClipping": 3,
+        "mClipRange": {
+          "x": 252.0,
+          "y": -115.0,
+          "z": 504.0,
+          "w": 240.0
+        },
+        "mDepth": 14,
+        "mAlpha": 1.0
+      },
+      "normalScrollView": {
+        "movement": 1,
+        "scrollWheelFactor": 0.25,
+        "customMovement": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "showScrollBars": 0,
+        "contentPivot": 0
+      },
+      "feverScrollView": {
+        "movement": 1,
+        "scrollWheelFactor": 0.25,
+        "customMovement": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "showScrollBars": 0,
+        "contentPivot": 0
+      },
+      "listItemBackground": {
+        "path": "GachaGlobalLuckyListItem",
+        "component": "UISprite",
+        "localPosition": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "widget": {
+          "mWidth": 120,
+          "mHeight": 144,
+          "mPivot": 4,
+          "mDepth": 10,
+          "mSpriteName": "list_weapon"
+        },
+        "atlasBinding": {
+          "id": "atlas-sprite:CAB-f9d73c83169e3c3541a17c277801f437:-677491402961288306:list_weapon",
+          "status": "SOURCE_CONDITIONAL",
+          "rect": {
+            "name": "list_weapon",
+            "x": 0,
+            "y": 112,
+            "width": 40,
+            "height": 144,
+            "borderLeft": 20,
+            "borderRight": 20,
+            "borderTop": 0,
+            "borderBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "paddingBottom": 0,
+            "adjustSizeType": 0,
+            "EdgeAdd": 0
+          },
+          "texture": "CAB-f9d73c83169e3c3541a17c277801f437:8242189902215042",
+          "image": {
+            "width": 128,
+            "height": 256,
+            "pngSHA256": "5a0f8fde29d18b7ebdaf1541f88c8750921078d70caa6ab81bec836ae6b4a6d0",
+            "rgbaSHA256": "97abdfc0646d0222c032ae94ccc5acd56660bcd6729024b5cbe343634be757c5",
+            "file": "Web/source/shop/evidence/selected3/Files/Texture2D/TreasureBoxAtlas__Texture2D__8242189902215042.png"
+          }
+        },
+        "webSlicedSpriteAsset": {
+          "file": "assets/ui/list_weapon_9slice.png",
+          "pngSHA256": "44cd78ea35d19c2095cf6d6cae0f5fad77f1bb69ffa56230eebf4fa9a42d9087",
+          "rgbaSHA256": "2bd3a34a55d0177f517caf04335e116e886028958f80177417c27830d1973eda",
+          "width": 40,
+          "height": 144,
+          "source": {
+            "texture": "CAB-f9d73c83169e3c3541a17c277801f437:8242189902215042",
+            "sourceRect": {
+              "x": 0,
+              "y": 112,
+              "width": 40,
+              "height": 144
+            },
+            "coordinateConvention": "Top-left of the exported atlas PNG; the cropped PNG and RGBA hashes match the previously bound S1C list_weapon sprite."
+          },
+          "rendering": {
+            "serializedUISpriteType": 1,
+            "spriteType": "Sliced",
+            "borderLeft": 20,
+            "borderRight": 20,
+            "borderTop": 0,
+            "borderBottom": 0,
+            "webAdapter": "CSS border-image; 20px logical left/right slices, one source-pixel center fill, stretched to the 120x144 widget."
+          },
+          "evidence": "SOURCE_DERIVED_EXACT_ATLAS_RECT_CROP; PNG and RGBA SHA-256 match the saved S1C sprite binding."
+        }
+      },
+      "listItemIcon": {
+        "path": "GachaGlobalLuckyListItem/Item",
+        "component": "UITexture",
+        "localPosition": {
+          "X": 0.0,
+          "Y": 20.0,
+          "Z": 0.0
+        },
+        "widget": {
+          "mWidth": 64,
+          "mHeight": 64,
+          "mPivot": 4,
+          "mDepth": 14
+        },
+        "atlasBinding": null
+      },
+      "listItemName": {
+        "path": "GachaGlobalLuckyListItem/txt ",
+        "component": "UILabel",
+        "localPosition": {
+          "X": 0.0,
+          "Y": -47.0,
+          "Z": 0.0
+        },
+        "widget": {
+          "mWidth": 110,
+          "mHeight": 48,
+          "mPivot": 4,
+          "mDepth": 15,
+          "mFontSize": 16,
+          "mAlignment": 2,
+          "mSpacingX": -1
+        },
+        "atlasBinding": null,
+        "serializedDefaultColor": {
+          "rgba": {
+            "r": 0.5686275,
+            "g": 0.23529412,
+            "b": 0.8862745,
+            "a": 1.0
+          },
+          "hex": "#913ce2",
+          "evidence": "SOURCE_DIRECT from GachaGlobalLuckyListItem/txt  UILabel mColor"
+        },
+        "visibleNamePlacement": {
+          "localPositionY": -47,
+          "widgetSize": [
+            110,
+            48
+          ],
+          "fontSize": 16,
+          "spacingX": -1,
+          "evidence": "SOURCE_DIRECT serialized UILabel fields"
+        }
+      },
+      "normalTab": {
+        "path": "GachaGlobalLucky/Root/Frame/GachaCrystalPage/list/SubItemTabList/SubTab_Normal/BtnSelect/Active",
+        "component": "UISprite",
+        "localPosition": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "widget": {
+          "mWidth": 268,
+          "mHeight": 37,
+          "mPivot": 4,
+          "mDepth": 16,
+          "mSpriteName": "Img_Tap"
+        },
+        "atlasBinding": {
+          "id": "atlas-sprite:CAB-f9d73c83169e3c3541a17c277801f437:-1328296299880132424:Img_Tap",
+          "status": "SOURCE_CONDITIONAL",
+          "rect": {
+            "name": "Img_Tap",
+            "x": 986,
+            "y": 854,
+            "width": 28,
+            "height": 37,
+            "borderLeft": 12,
+            "borderRight": 12,
+            "borderTop": 0,
+            "borderBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "paddingBottom": 0,
+            "adjustSizeType": 0,
+            "EdgeAdd": 0
+          },
+          "texture": "CAB-f9d73c83169e3c3541a17c277801f437:6629820909576309265",
+          "image": {
+            "width": 1024,
+            "height": 1024,
+            "pngSHA256": "3efd1d140a414959e73743f99fead9ffe413e1a3264e2e8d96215747be368aa4",
+            "rgbaSHA256": "05c1d9e5bfb118ca9f992accae3e93dfaf06375b4b0b48380b02150d9c5dc934",
+            "file": "Web/source/r4/Files/Texture2D/Treasurebox_GL_Atlas__Texture2D__6629820909576309265.png"
+          }
+        }
+      },
+      "feverTab": {
+        "path": "GachaGlobalLucky/Root/Frame/GachaCrystalPage/list/SubItemTabList/SbuTab_Fever/BtnSelect/Active",
+        "component": "UISprite",
+        "localPosition": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "widget": {
+          "mWidth": 268,
+          "mHeight": 37,
+          "mPivot": 4,
+          "mDepth": 16,
+          "mSpriteName": "Img_Tap"
+        },
+        "atlasBinding": {
+          "id": "atlas-sprite:CAB-f9d73c83169e3c3541a17c277801f437:5875273543752262203:Img_Tap",
+          "status": "SOURCE_CONDITIONAL",
+          "rect": {
+            "name": "Img_Tap",
+            "x": 986,
+            "y": 854,
+            "width": 28,
+            "height": 37,
+            "borderLeft": 12,
+            "borderRight": 12,
+            "borderTop": 0,
+            "borderBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "paddingBottom": 0,
+            "adjustSizeType": 0,
+            "EdgeAdd": 0
+          },
+          "texture": "CAB-f9d73c83169e3c3541a17c277801f437:6629820909576309265",
+          "image": {
+            "width": 1024,
+            "height": 1024,
+            "pngSHA256": "3efd1d140a414959e73743f99fead9ffe413e1a3264e2e8d96215747be368aa4",
+            "rgbaSHA256": "05c1d9e5bfb118ca9f992accae3e93dfaf06375b4b0b48380b02150d9c5dc934",
+            "file": "Web/source/r4/Files/Texture2D/Treasurebox_GL_Atlas__Texture2D__6629820909576309265.png"
+          }
+        }
+      },
+      "tabRuntimeState": "Serialized Normal Active=true and Fever Active=false; Web tab changes override these object states locally while rendering the saved scene. Live game event timing is not claimed.",
+      "previousR1LayoutReviewStatus": "CLEAN_SHOP_POOL_LAYOUT_PLAYER_FAIL"
+    },
+    "playerReferenceWebLayout": {
+      "project": "work/crystalchest_store_s1c_r5_final_eight_20261020",
+      "renderer": "runtime/shop-renderer.js",
+      "values": {
+        "columns": 4,
+        "cell": [
+          120,
+          144
+        ],
+        "spacing": [
+          8,
+          8
+        ],
+        "cellPitch": [
+          128,
+          152
+        ]
+      },
+      "evidenceLevel": "PLAYER_REFERENCE_CALIBRATED",
+      "scope": "Previously accepted S1C Web layout; renderer explicitly labels it an inherited browser projection adapter, not NGUI parity.",
+      "visualRules": {
+        "gradeColors": {
+          "罕見": "#ed8600",
+          "傳說": "#169b35",
+          "神話": "#e92328",
+          "古代": "#163b91",
+          "混沌": "#e746b2"
+        },
+        "gradeColorEvidence": "PLAYER_REFERENCE_CALIBRATED from S1C runtime/visual-rules.js; named grade hues are the accepted S1C web rule, exact RGB remains an implementation approximation and is not a live native color reference.",
+        "gradeCaptionsVisible": false,
+        "probabilityTextVisible": false,
+        "defaultNameColor": "#913ce2",
+        "nameFontSize": 16,
+        "nameLetterSpacingPx": -1,
+        "probabilityBadge": {
+          "rows": {
+            "NORMAL": [
+              1,
+              2,
+              7
+            ],
+            "FEVER": [
+              1,
+              8
+            ]
+          },
+          "rowOrder": "1-based sourceIndex; Clean officialSourceRowKey order matches S1C for both 134-row pools.",
+          "placementEvidence": "PLAYER_REFERENCE_CALIBRATED from S1C runtime/visual-rules.js; not inferred from official probability and not native runtime proof.",
+          "sprite": {
+            "name": "Img_Prob_x3",
+            "componentPath": "GachaGlobalLuckyListItem/Event_Prob",
+            "widget": {
+              "width": 100,
+              "height": 28,
+              "depth": 35
+            },
+            "texture": "CAB-f9d73c83169e3c3541a17c277801f437:6629820909576309265",
+            "rect": {
+              "x": 882,
+              "y": 968,
+              "width": 100,
+              "height": 27
+            },
+            "evidence": "SOURCE_DERIVED from the saved atlas sprite entry; S1C web reference attaches it only to its accepted 1-based row positions."
+          }
+        }
+      }
+    },
+    "cleanWebAdaptation": {
+      "designViewport": [
+        1280,
+        720
+      ],
+      "derivedPanelRect": [
+        748,
+        329,
+        504,
+        240
+      ],
+      "projectionBasis": "Serialized hierarchy TRS + serialized clip range under existing Clean 1280x720 canvas fixture.",
+      "poolRows": [
+        "NORMAL:134",
+        "FEVER:134"
+      ],
+      "ordering": "Preserve official-pools.json row order; each rendered <li> carries officialSourceRowKey and official order.",
+      "visibleFields": [
+        "source list_weapon tile background",
+        "icon",
+        "announcementName (single line; S1C reference grade hue)"
+      ],
+      "hiddenFromTileFace": [
+        "officialGrade caption",
+        "officialProbabilityPercentRaw"
+      ],
+      "gradeHueEvidence": "PLAYER_REFERENCE_CALIBRATED from saved S1C runtime/visual-rules.js; fallback name color #913ce2 is SOURCE_DIRECT serialized UILabel mColor.",
+      "activityBadge": "Img_Prob_x3 source sprite at the S1C saved 1-based positions; placement is PLAYER_REFERENCE_CALIBRATED and is not inferred from official probability.",
+      "layoutReviewStatus": "CLEAN_SHOP_POOL_LAYOUT_R2_PLAYER_PENDING",
+      "controls": [
+        "Original source tab visual state toggles with Normal/Fever selection",
+        "Wheel",
+        "pointer drag",
+        "separate scrollbar",
+        "Arrow keys",
+        "Page Up/Down",
+        "Home/End"
+      ],
+      "responsive": "Panel and list tile geometry scale together with the stage; uses the same responsive Clean canvas fixture.",
+      "canvasHostLimit": "Not proof of live UIRoot, CameraManager, SafeArea, VirtualDrawcall, Renderer sorting or final game capture."
+    },
+    "playerAcceptance": {
+      "iconDisplay": "CLEAN_POOL_ICON_DISPLAY_268_OF_268_PLAYER_VISUAL_PASS",
+      "shopLayout": "CLEAN_SHOP_POOL_LAYOUT_R2_PLAYER_PENDING",
+      "previousShopLayoutR1": "CLEAN_SHOP_POOL_LAYOUT_PLAYER_FAIL"
+    }
+  }
+}

@@ -23,6 +23,8 @@ GMSM-calculator 收錄多種楓之谷M相關模擬器、計算機與 HEXA 工具
 - 星力強化模擬器
 - 光之聖所祈禱模擬器
 
+另提供[水晶寶箱模擬器（Crystal Treasure Box）](Crystal-Treasure-Box/)直接網址；首頁預告入口維持灰階停用，不計入上述 18 個可由首頁進入的工具。
+
 ### 計算機（5）
 
 - 無視防禦計算機

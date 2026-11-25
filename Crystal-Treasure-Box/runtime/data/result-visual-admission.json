@@ -1,0 +1,94 @@
+{
+  "schema": "CrystalChest.ResultVisualAdmission.R31R5.v1",
+  "classification": "WEB_VISUAL_ADAPTATION",
+  "sourceDocument": "exports\\CrystalChest_S3F22_AutoMovie_OneTimeNormal_20261024\\SupervisorHandoff\\THREE_PLAYER_MAPPED_ITEMS.md",
+  "sourceSHA256": "a26d72134342c5d7869cb877067fe9325a517c57b62ac51622e7a9a90ea7d732",
+  "playerExceptions": [
+    {
+      "itemId": 55827,
+      "itemType": "Manufacture",
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"13\"]",
+      "backVisualKey": "back_legendary",
+      "extraOutlineKind": 1,
+      "authority": "PLAYER_VISUAL_CONFIRMED_MYTHIC_PRESENTATION",
+      "effectiveGrade": null,
+      "nativeGradeType": null,
+      "historicalOutline": {
+        "source": "OneTime.GL_EffectSpecialCardOutline_UI",
+        "pathID": "-124594027401350365",
+        "status": "PLAYER_VISUAL_CONFIRMED_MYTHIC_PRESENTATION"
+      },
+      "currentOutline": "TenTime P7 Root1",
+      "outlineClassification": "WEB_VISUAL_ADAPTATION_ONETIME_TO_TENTIME",
+      "backClassification": "WEB_VISUAL_ADAPTATION_MYTHIC_PRESENTATION_NOT_NATIVE_BACK_PROVEN"
+    },
+    {
+      "itemId": 55387,
+      "itemType": "Box",
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"17\"]",
+      "backVisualKey": "back_legendary",
+      "extraOutlineKind": 1,
+      "authority": "PLAYER_VISUAL_CONFIRMED_MYTHIC_PRESENTATION",
+      "effectiveGrade": null,
+      "nativeGradeType": null,
+      "historicalOutline": {
+        "source": "OneTime.GL_EffectSpecialCardOutline_UI",
+        "pathID": "-124594027401350365",
+        "status": "PLAYER_VISUAL_CONFIRMED_MYTHIC_PRESENTATION"
+      },
+      "currentOutline": "TenTime P7 Root1",
+      "outlineClassification": "WEB_VISUAL_ADAPTATION_ONETIME_TO_TENTIME",
+      "backClassification": "WEB_VISUAL_ADAPTATION_MYTHIC_PRESENTATION_NOT_NATIVE_BACK_PROVEN"
+    },
+    {
+      "itemId": 55614,
+      "itemType": "Box",
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"18\"]",
+      "backVisualKey": "back_legendary",
+      "extraOutlineKind": 1,
+      "authority": "PLAYER_VISUAL_CONFIRMED_MYTHIC_PRESENTATION",
+      "effectiveGrade": null,
+      "nativeGradeType": null,
+      "historicalOutline": {
+        "source": "OneTime.GL_EffectSpecialCardOutline_UI",
+        "pathID": "-124594027401350365",
+        "status": "PLAYER_VISUAL_CONFIRMED_MYTHIC_PRESENTATION"
+      },
+      "currentOutline": "TenTime P7 Root1",
+      "outlineClassification": "WEB_VISUAL_ADAPTATION_ONETIME_TO_TENTIME",
+      "backClassification": "WEB_VISUAL_ADAPTATION_MYTHIC_PRESENTATION_NOT_NATIVE_BACK_PROVEN"
+    }
+  ],
+  "equipPolicy": {
+    "Unique": {
+      "back": "back_unique",
+      "outline": 0,
+      "authority": "PLAYER_DECISION_R31R5_WEB_VISUAL_ADAPTATION"
+    },
+    "Legendary": {
+      "back": "back_legendary",
+      "outline": 2,
+      "authority": "PLAYER_DECISION_R31R5_WEB_VISUAL_ADAPTATION"
+    },
+    "Mythic": {
+      "back": "back_legendary",
+      "outline": 1,
+      "authority": "PLAYER_DECISION_R31R5_WEB_VISUAL_ADAPTATION"
+    },
+    "Ancient": {
+      "back": "back_legendary",
+      "outline": 1,
+      "authority": "PLAYER_DECISION_R31R5_WEB_VISUAL_ADAPTATION"
+    },
+    "Chaos": {
+      "back": "back_legendary",
+      "outline": 1,
+      "authority": "PLAYER_DECISION_R31R5_WEB_VISUAL_ADAPTATION"
+    }
+  },
+  "authority": "PLAYER_DECISION_R31R5",
+  "announcementGradeFallback": "ONLY_OWN_POOL_EXACT_ROW_KEY_AND_KNOWN_GRADE; WEB_VISUAL_ADAPTATION"
+}

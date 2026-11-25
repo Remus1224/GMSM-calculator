@@ -1,0 +1,249 @@
+{
+  "schema": "CrystalChest.MovieSelectorP9.ConditionalDecisionEquivalence.v1",
+  "classification": "ENGINEERING_ONLY_CONDITIONAL_STATIC_DECISION_EQUIVALENCE_IDENTITY_UNRESOLVED",
+  "sourceEpoch": "2.450.5784_d44364c2",
+  "p6SourceSha256": "86A00D0448C664CDAFC488517398B9E997B583AC47F1D115D65F22D12DFFE9BC",
+  "p5RuntimeAdmissionSha256": "DA874072A365271D9066E5201340C78D06B7072E187AB56E3903361EE707B5B9",
+  "p5SourceAdmissionSha256": "AAC2576EDDFA363C3A5F610A3510DC76FE78811588721B6EDB3F7FD3F2E94C50",
+  "p5P6SourceBundleHashesMatch": true,
+  "rowCount": 23,
+  "candidateIdsUsedForIdentity": false,
+  "candidateSource": "P6 candidate evidence; adapter exports only equal conditional movie state, not an Item identity",
+  "nativeCaveats": [
+    "DEFINE2128_EFFECTIVE_VALUE_UNRESOLVED",
+    "LIVE_RESULT_ITEM_OVERRIDE_UNRESOLVED",
+    "NATIVE_ACTIVE_RULE_NOT_CONFIRMED"
+  ],
+  "rows": [
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"125\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "B82E48023BD1F6405C42F492542657CBB59F880ABD14D55B69D562A1EF5F68C3"
+    },
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"48\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 3,
+      "candidateStateCount": 3,
+      "candidateSetSha256": "4508C29575886C93520B50CC196DB7EA4E0A731CCD59D672F956969D27B1AA8D"
+    },
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"58\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "34B2A6DD9E687FCB9E803099F0605B68170532E07C2072AC5B45212483C11C2E"
+    },
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"59\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "1357AFBDAD812652B0FE6EC7F0E316D6A0ABA79EDD55793D7837FE7633A1AF44"
+    },
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"60\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "5DB075D737D79F36AC9B5FC3CAB4A106614742EA3A11BD9822B25FE5B1AFE8F3"
+    },
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"72\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "CE751C904777A27E4CA32A232BBFEFA34E74457EB53417A4E7E13FCF1CEBA802"
+    },
+    {
+      "pool": "FEVER",
+      "sourceRowKey": "[\"FEVER\",\"水晶寶箱 (Fever) - 輔助武器機率上升活動\",\"82\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "0DCB9BF53B30B1DF738ADE3144A048E2E6BC8ACF88AF92D9D35E837C2F2BB643"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"119\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "9A7CA1B143F18D046987A608904BE007EBB997513EEFF4666E6CC46136BEFD9D"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"120\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "2EDA216681DFF0F4782C8D334C94C78F3FA4D49B2C82E364281C9D0CB078A257"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"121\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "25C81D65BB165A3C858F87CB81EC38C69E5BFC8036C6B8DCB094F27A1D4CFFAC"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"122\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "147BD6E596CDF43BA44AB2918C30DC22642FF2224041543CEC5D252C709C240B"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"131\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "C4BD965ECA4856671C66210ED5AB69FB1F1567F9ADA82C3A9C8F4B185792E24B"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"133\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "47B332821CF83B6776A85597C41C078B6C07DCDDA4536A1B34F9593819CDBD3E"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"134\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "A8DE37B68146C08465D9C2D33DE1F8477415E869AC89B5ADF3897E2031967A5E"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"135\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "11BFF9CCD998A854CFEC52111171441607AFB854A06D07B97AD03D5248F97BD4"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"136\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "799EF178C7FD07B01C6DD41289F6002759DA73C23D5AAB38AA66DDF1BD4FD036"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"16\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 3,
+      "candidateStateCount": 3,
+      "candidateSetSha256": "4508C29575886C93520B50CC196DB7EA4E0A731CCD59D672F956969D27B1AA8D"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"26\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "34B2A6DD9E687FCB9E803099F0605B68170532E07C2072AC5B45212483C11C2E"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"27\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "1357AFBDAD812652B0FE6EC7F0E316D6A0ABA79EDD55793D7837FE7633A1AF44"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"28\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "5DB075D737D79F36AC9B5FC3CAB4A106614742EA3A11BD9822B25FE5B1AFE8F3"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"40\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 2,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "CE751C904777A27E4CA32A232BBFEFA34E74457EB53417A4E7E13FCF1CEBA802"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"50\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "0DCB9BF53B30B1DF738ADE3144A048E2E6BC8ACF88AF92D9D35E837C2F2BB643"
+    },
+    {
+      "pool": "NORMAL",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"93\"]",
+      "identity": "AMBIGUOUS",
+      "movieDecisionEquivalent": true,
+      "conditionalMovieState": 0,
+      "candidateCount": 2,
+      "candidateStateCount": 2,
+      "candidateSetSha256": "B82E48023BD1F6405C42F492542657CBB59F880ABD14D55B69D562A1EF5F68C3"
+    }
+  ]
+}

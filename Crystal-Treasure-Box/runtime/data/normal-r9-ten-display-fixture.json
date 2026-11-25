@@ -1,0 +1,269 @@
+{
+  "schema": "CrystalChest.NormalR9.TenDisplayFixture.v1",
+  "classification": "LOCAL_NORMAL_TEN_DISPLAY_TEST_NOT_OFFICIAL_DRAW",
+  "pool": "NORMAL",
+  "drawCount": 11,
+  "resultOrder": [
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"14\"]",
+      "expectedName": "指南羅盤",
+      "resultIndex": 0,
+      "expectedOfficialProbabilityPercentRaw": "0.01",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 2
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"30\"]",
+      "expectedName": "艾利歐格血腥頭箍",
+      "resultIndex": 1,
+      "expectedOfficialProbabilityPercentRaw": "0.032",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 18
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"52\"]",
+      "expectedName": "艾利歐格天之星光權杖",
+      "resultIndex": 2,
+      "expectedOfficialProbabilityPercentRaw": "0.518",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 40
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"54\"]",
+      "expectedName": "烏特卡勒德天之星光權杖",
+      "resultIndex": 3,
+      "expectedOfficialProbabilityPercentRaw": "0.518",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 42
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"70\"]",
+      "expectedName": "慕斯貝爾法師帽",
+      "resultIndex": 4,
+      "expectedOfficialProbabilityPercentRaw": "0.296",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 58
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"88\"]",
+      "expectedName": "伊克雷帝帽",
+      "resultIndex": 5,
+      "expectedOfficialProbabilityPercentRaw": "0.538",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 76
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"90\"]",
+      "expectedName": "伊克雷帝奧丁鞋",
+      "resultIndex": 6,
+      "expectedOfficialProbabilityPercentRaw": "0.538",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 78
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"100\"]",
+      "expectedName": "血腥披肩",
+      "resultIndex": 7,
+      "expectedOfficialProbabilityPercentRaw": "0.538",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 88
+      }
+    },
+    {
+      "expectedAdmissionClass": "SOURCE_BOUND_STATIC_PREVIEW",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": null,
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"118\"]",
+      "expectedName": "烏特卡勒德天之星光權杖",
+      "resultIndex": 8,
+      "expectedOfficialProbabilityPercentRaw": "3.113",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 106
+      }
+    },
+    {
+      "expectedAdmissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": "normal-local-r5-player-visual-only",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"13\"]",
+      "expectedName": "古代輔助武器結晶",
+      "resultIndex": 9,
+      "expectedOfficialProbabilityPercentRaw": "0.01",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 1
+      }
+    },
+    {
+      "expectedAdmissionClass": "WEB_VISUAL_DISPLAY_ONLY",
+      "ticketRule": "NORMAL_BUCKET_START_TEST_ONLY",
+      "expectedPreviewKind": "normal-local-r6-announcement-grade-web-only",
+      "sourceRowKey": "[\"NORMAL\",\"水晶寶箱 (一般) - 輔助武器機率上升活動\",\"26\"]",
+      "expectedName": "貴族護肩",
+      "resultIndex": 10,
+      "expectedOfficialProbabilityPercentRaw": "0.032",
+      "oddsSource": {
+        "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+        "version": "R14-P31R5_20261105",
+        "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+        "originalUploadName": "活頁簿aaa1.xlsx",
+        "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+        "unit": "PERCENTAGE_POINTS",
+        "normalizationApplied": false,
+        "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE",
+        "sheet": "一般",
+        "excelRow": 14
+      }
+    }
+  ],
+  "displayOrder": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "displayOrderEvidence": "WEB_ADAPTATION_IDENTITY_MAP; Native ShuffleItem internal effect is unresolved and is not simulated.",
+  "notes": [
+    "Fixed source-row fixture only; no random draws are executed.",
+    "Each result is reconstructed with createNormalLocalSimulator.resultAtTicket(bucket.start) solely as a deterministic source-row adapter.",
+    "R5/R6 resultPayload remains null and liveResultGrade remains UNKNOWN.",
+    "The fixture is not an official 10+1 pull, 11 independent Normal pulls, pity, or Fever selection."
+  ],
+  "activeOddsSource": {
+    "classification": "PLAYER_PROVIDED_CURRENT_GAME_EXCEL",
+    "version": "R14-P31R5_20261105",
+    "fileName": "PLAYER_LATEST_GAME_POOLS_ORIGINAL.xlsx",
+    "originalUploadName": "活頁簿aaa1.xlsx",
+    "sha256": "53577ddbae03f9270f6a0fe8b7c0b56a5e864f71502ad592059fa1b012e810fe",
+    "unit": "PERCENTAGE_POINTS",
+    "normalizationApplied": false,
+    "legacyRowKeys": "IDENTITY_JOIN_ALIAS_ONLY_NOT_ODDS_SOURCE"
+  }
+}

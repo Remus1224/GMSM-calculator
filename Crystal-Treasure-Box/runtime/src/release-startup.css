@@ -1,0 +1,13 @@
+html.cc-loading #cleanRebuildRoot{visibility:hidden;pointer-events:none}
+#release-loading{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:#15171b;color:#e8edf1;font-family:'PingFang TC','Microsoft JhengHei',sans-serif}
+#release-loading .loading-content{box-sizing:border-box;max-width:450px;width:90%;padding:20px;text-align:center}
+#release-loading .loading-title{font-size:24px;font-weight:700;line-height:1.4;margin:0 0 12px;letter-spacing:1px;color:#e8edf1}
+#release-loading-message{font-size:16px;line-height:1.6;margin:0;color:#c7ccd5}
+#release-loading-progress{display:block;appearance:none;-webkit-appearance:none;width:min(220px,80%);height:5px;margin:20px auto 0;border:0;border-radius:4px;overflow:hidden;background:#353c48;color:#aab9d2}
+#release-loading-progress::-webkit-progress-bar{background:#353c48;border-radius:4px}
+#release-loading-progress::-webkit-progress-value{background:#aab9d2;border-radius:4px}
+#release-loading-progress::-moz-progress-bar{background:#aab9d2;border-radius:4px}
+#release-loading-hint{font-size:14px;line-height:1.6;color:#c7ccd5;margin:12px 0 0}
+#release-loading button{margin-top:16px;font:inherit;color:#e8edf1;background:#303846;border:1px solid #69788f;border-radius:8px;padding:9px 22px;cursor:pointer}
+#release-loading [hidden]{display:none!important}
+@media(max-width:600px){#release-loading .loading-title{font-size:20px}#release-loading-message{font-size:14px}}

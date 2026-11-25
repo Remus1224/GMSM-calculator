@@ -1,0 +1,90 @@
+{
+  "schema": "CrystalChest.CleanRebuild.NonFxAssets.v1",
+  "movieSelection": {
+    "mode": "MANUAL_DIAGNOSTIC_FIXTURE",
+    "reason": "GachaResultPopup.Start derives movieIndex from result records and conditional client branches; this activity runtime route is not closed.",
+    "downloadPlayAddress": "0x1819B9EB0",
+    "conditionalIndexMap": {
+      "N": 0,
+      "H": 1,
+      "R": 6
+    },
+    "define": "_CN_DOWNLOADMOVIE_TO_STREAMINGASSETS (0x40e)",
+    "movies": {
+      "N": {
+        "file": "assets/movies/TreasureBox_N_04.mp4",
+        "sha256": "b80a829b102fcfed2e60c18408b08bcfed6ed66e5c4bfb2b7a6d91d7fd29a5aa",
+        "durationSeconds": 9.708333,
+        "source": "exports/CrystalChest_P2B_MovieFlow_20261016/StaticWeb/movies/TreasureBox_N_04.mp4",
+        "sourceClassification": "CONFIRMED_NATIVE"
+      },
+      "H": {
+        "file": "assets/movies/TreasureBox_H_04.mp4",
+        "sha256": "b7cdd5d2df18a6fe35bfb5fdd691f86788b91da6c7629fc91bd50729e921deee",
+        "durationSeconds": 12.041667,
+        "source": "exports/CrystalChest_P2B_MovieFlow_20261016/StaticWeb/movies/TreasureBox_H_04.mp4",
+        "sourceClassification": "CONFIRMED_NATIVE"
+      },
+      "R": {
+        "file": "assets/movies/TreasureBox_R_04.mp4",
+        "sha256": "77e2d364303f0fdee4919f952de2ac2fc39808e1c4acf1b08a46f7f04f949f63",
+        "durationSeconds": 12.041667,
+        "source": "exports/CrystalChest_P2B_MovieFlow_20261016/StaticWeb/movies/TreasureBox_R_04.mp4",
+        "sourceClassification": "CONFIRMED_NATIVE"
+      }
+    }
+  },
+  "movieSkip": {
+    "sourceClassification": "SOURCE_DIRECT_ASSET_LAYOUT",
+    "sourceFile": "work/crystalchest_draw_p0d_native_skip_source_20261021/SKIP_SOURCE_TREES.json",
+    "sourceBundle": "Steam AssetData/1006311.msm",
+    "sourceBundleSha256": "9754e4182a4f13418a55a5ebbb09388178aad912071d2c6e017e77ba0ae1d6de",
+    "root": {
+      "gameObject": "VideoPlayer/VideoPlayer/SkipButtonTopRight",
+      "transformPathId": "-4094010290132702302",
+      "localPosition": { "x": 740, "y": 360, "z": 0 },
+      "uiAnchor": { "pathId": "4676594138611158395", "side": 4, "relativeOffset": { "x": 0, "y": 0 }, "pixelOffset": { "x": 0, "y": 0 } },
+      "safeAreaAnchor": { "constraintHeight": 1, "portraitConstraintTop": 1, "portraitConstraintBottom": 1, "customAnchor": 0, "useOriginalAnchor": 0 }
+    },
+    "button": {
+      "gameObject": "VideoPlayer/VideoPlayer/SkipButtonTopRight/TutorialSkipButton",
+      "activeSelfSerialized": false,
+      "transform": { "x": -70, "y": -30, "z": 0 },
+      "collider": { "size": { "x": 170, "y": 50, "z": 1 }, "center": { "x": 0, "y": 0, "z": 0 } },
+      "cUIButton": { "pathId": "-5678030572883702261", "depth": 10, "soundPath": "Sound/UI/BtMouseClick", "eventStr": "", "eventIndex": 0, "flashScale": { "x": 1.1, "y": 1.1, "z": 1 } }
+    },
+    "art": {
+      "background": { "file": "assets/ui/skip_bg.png", "spriteName": "skip_bg", "componentPathId": "2821907608667317849", "width": 164, "height": 48, "pivot": 4, "depth": 10, "sha256": "463ad6f980e8d9b7347b369481844125ab4f6325f992a2470650693da82163ba" },
+      "arrow": { "file": "assets/ui/skip_arrow.png", "spriteName": "skip_arrow", "componentPathId": "6875596089714770620", "width": 22, "height": 18, "position": { "x": 42, "y": 0 }, "pivot": 4, "depth": 11, "sha256": "e8a722f91f0f86a1562111e1d67bc631d3c866404ad880487e0e8599875e26b1" },
+      "label": { "textKey": "UI_Generic_VideoPlayer_7", "text": "跳過", "componentPathId": "4567209930053296051", "position": { "x": -14, "y": 0 }, "width": 150, "height": 60, "fontSize": 20, "depth": 11, "fontReferencesSerializedNull": true }
+    },
+    "atlas": { "pathId": "3687669207000277166", "texture2DPathId": "2264027443434507031", "texturePayloadSha256": "09093360544cf8d37ade6d89e07f11f0a75188ae2da0bb0df2a505c613783123" },
+    "webLayout": { "anchor": "top-right of the 16:9 movie frame with the bounded P0-E inset", "coordinateSource": "UIAnchor side=4 TopRight + UISafeAreaAnchor; local button offset (-70,-30) is preserved by the P0-E web projection", "responsiveScale": "u = clamp(0.65, stageWidth / 1600, 1); button center inset 94u left and 42u down, as in the already-reviewed P0-E integration", "classification": "SOURCE_CONSTRAINED_WEB_ADAPTATION", "sourceReference": "exports/CrystalChest_Draw_P0E_NativeSkipIntegration_20261021/SupervisorHandoff/NATIVE_SKIP_INTEGRATION.md", "nativeEffectiveSafeAreaProjection": "UNRESOLVED; browser layout is not claimed as native camera/safe-area equivalence" },
+    "webBehavior": { "visibleOnlyWhileMovieActive": true, "onSkip": "same idempotent finishMovie() transition used by HTMLVideoElement ended", "nativeMethod": "CVideoPlayerPopupFunc_SkipButton", "nativeAddress": "0x1819BD380", "fontRendering": "DIAGNOSTIC_FIXTURE; serialized TMP/TrueType/NGUI font references are null" }
+  },
+  "flipAudio": {
+    "triggerAddress": "0x183E383B2",
+    "soundManagerPlayAddress": "0x183383C80",
+    "normal": {
+      "soundKey": "Treasure_Normal",
+      "assetPath": "Sound/Gacha/Treasure_Normal",
+      "bundle": "8497212.msm",
+      "pathId": "-1717849320449494973",
+      "file": "assets/audio/Treasure_Normal.wav",
+      "sha256": "3c42beba51e931b65cdbe01b788e1cc904b1f9e3039091a6375ab949b925078c",
+      "sourceClassification": "SOURCE_DIRECT"
+    },
+    "special": {
+      "soundKey": "Treasure_Special",
+      "assetPath": "Sound/Gacha/Treasure_Special",
+      "bundle": "8497212.msm",
+      "pathId": "2225406081235794296",
+      "file": "assets/audio/Treasure_Special.wav",
+      "sha256": "3c42beba51e931b65cdbe01b788e1cc904b1f9e3039091a6375ab949b925078c",
+      "sourceClassification": "SOURCE_DIRECT"
+    },
+    "branchInput": "Common.Card.Special +0xC8",
+    "branchFixture": "Explicit page control; not inferred from the fixed item result.",
+    "overlapPolicy": "UNRESOLVED; browser clip playback does not claim SoundManager voice semantics."
+  }
+}

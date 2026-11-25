@@ -1,0 +1,1509 @@
+{
+  "schema": "CrystalChest.CleanRebuild.R4.NativeFX.v1",
+  "classification": "SOURCE_CONSTRAINED",
+  "captures": {
+    "03": {
+      "fps": 60,
+      "durationSeconds": 0.6333333333333333,
+      "frames": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "file": "assets/fx/r4/03_0010.png",
+          "sha256": "436959626b2406ea5de0b1606a0a3a228e12c0073b596fd757c53628ad48f740",
+          "width": 182,
+          "height": 182,
+          "offsetX": -91.0,
+          "offsetY": -91.0,
+          "fxAge": 0.1666666716337204
+        },
+        {
+          "file": "assets/fx/r4/03_0011.png",
+          "sha256": "a37cb331dbff841d3f213f836ec845421ea5953517e440cb9ebca4d8dc5c5def",
+          "width": 324,
+          "height": 347,
+          "offsetX": -165.0,
+          "offsetY": -171.0,
+          "fxAge": 0.18333333730697632
+        },
+        {
+          "file": "assets/fx/r4/03_0012.png",
+          "sha256": "a32456b0ddb393caf3bba70410b132ecad49c9cbedab4c350e0ae27994377f28",
+          "width": 455,
+          "height": 505,
+          "offsetX": -234.0,
+          "offsetY": -253.0,
+          "fxAge": 0.20000000298023224
+        },
+        {
+          "file": "assets/fx/r4/03_0013.png",
+          "sha256": "784ccbac4548840cc2c3bd30e9dfd331103509de1a3a3acafb7a87e8057224c6",
+          "width": 518,
+          "height": 606,
+          "offsetX": -269.0,
+          "offsetY": -303.0,
+          "fxAge": 0.21666666865348816
+        },
+        {
+          "file": "assets/fx/r4/03_0014.png",
+          "sha256": "767ad0c8bb314439e06986a35ca651b18b0dbadb097455aeba2e65aa4b164733",
+          "width": 576,
+          "height": 710,
+          "offsetX": -302.0,
+          "offsetY": -354.0,
+          "fxAge": 0.23333333432674408
+        },
+        {
+          "file": "assets/fx/r4/03_0015.png",
+          "sha256": "dd3b4dfa492633c07c325f68af70f7bff2a0951858b71d51e99e99ed9feeee94",
+          "width": 593,
+          "height": 779,
+          "offsetX": -315.0,
+          "offsetY": -393.0,
+          "fxAge": 0.25
+        },
+        {
+          "file": "assets/fx/r4/03_0016.png",
+          "sha256": "28e4c56db28ff021f448c8522b9b7fbcfb2fc69404e9ac763a693ee494948630",
+          "width": 533,
+          "height": 814,
+          "offsetX": -269.0,
+          "offsetY": -430.0,
+          "fxAge": 0.2666666805744171
+        },
+        {
+          "file": "assets/fx/r4/03_0017.png",
+          "sha256": "6a23f48b0e853e8e98550bb10ab655e842b5444be281b88a6b764255ef87478c",
+          "width": 544,
+          "height": 822,
+          "offsetX": -275.0,
+          "offsetY": -430.0,
+          "fxAge": 0.28333333134651184
+        },
+        {
+          "file": "assets/fx/r4/03_0018.png",
+          "sha256": "c252be9fe65d0cce70742af9850ece0787cf07f13406d1d008dfa784b95f3ab1",
+          "width": 541,
+          "height": 824,
+          "offsetX": -273.0,
+          "offsetY": -430.0,
+          "fxAge": 0.30000001192092896
+        },
+        {
+          "file": "assets/fx/r4/03_0019.png",
+          "sha256": "c9eca97c31aca0971f827b8112a7c23c30a1cf05f9cc901724878ee8cee0616b",
+          "width": 516,
+          "height": 809,
+          "offsetX": -260.0,
+          "offsetY": -430.0,
+          "fxAge": 0.3166666626930237
+        },
+        {
+          "file": "assets/fx/r4/03_0020.png",
+          "sha256": "8c691a797025f53f511c22b7ac6e6935221c4203d3a3cda4296c8e2b5e184c2c",
+          "width": 462,
+          "height": 812,
+          "offsetX": -234.0,
+          "offsetY": -430.0,
+          "fxAge": 0.3333333432674408
+        },
+        {
+          "file": "assets/fx/r4/03_0021.png",
+          "sha256": "0bba92ad0a8163cad8b8fe4edfea3ffc95dcde9f0eb91a87af32415ac6168406",
+          "width": 406,
+          "height": 848,
+          "offsetX": -204.0,
+          "offsetY": -430.0,
+          "fxAge": 0.3499999940395355
+        },
+        {
+          "file": "assets/fx/r4/03_0022.png",
+          "sha256": "fc47322fb04a841fa2085634290eac1e8929f068bdf2138ca47a936a8d99128b",
+          "width": 427,
+          "height": 868,
+          "offsetX": -214.0,
+          "offsetY": -430.0,
+          "fxAge": 0.36666667461395264
+        },
+        {
+          "file": "assets/fx/r4/03_0023.png",
+          "sha256": "27760a703237c587f4ed2ce72702592c83ab8d52da053b19e77850ff18a3fe50",
+          "width": 445,
+          "height": 899,
+          "offsetX": -223.0,
+          "offsetY": -430.0,
+          "fxAge": 0.38333332538604736
+        },
+        {
+          "file": "assets/fx/r4/03_0024.png",
+          "sha256": "b8bfe3fa77f8bd06f585ef410f8d9e7147494693a379242d157fd8fba1c6db69",
+          "width": 456,
+          "height": 933,
+          "offsetX": -231.0,
+          "offsetY": -430.0,
+          "fxAge": 0.4000000059604645
+        },
+        {
+          "file": "assets/fx/r4/03_0025.png",
+          "sha256": "31ed74c9f497ec282e38fcac5cfa1b4f40b0b9c49ecb73caf187797b3282e5a6",
+          "width": 470,
+          "height": 962,
+          "offsetX": -237.0,
+          "offsetY": -430.0,
+          "fxAge": 0.4166666567325592
+        },
+        {
+          "file": "assets/fx/r4/03_0026.png",
+          "sha256": "b685150d88e9327c9f419fd0f005ee2f1e9480f1adeaca71cde06d97f23205e9",
+          "width": 477,
+          "height": 988,
+          "offsetX": -240.0,
+          "offsetY": -430.0,
+          "fxAge": 0.4333333373069763
+        },
+        {
+          "file": "assets/fx/r4/03_0027.png",
+          "sha256": "8b6f54ec7fe8b543889989de50b5034329d06dfbaaf6b1beb819fcafbf732ef6",
+          "width": 68,
+          "height": 997,
+          "offsetX": -34.0,
+          "offsetY": -430.0,
+          "fxAge": 0.44999998807907104
+        },
+        {
+          "file": "assets/fx/r4/03_0028.png",
+          "sha256": "434734d9f6ca1f17ae60c890642f77504ecd5cd4ed66774cc97ad19d02d3f69d",
+          "width": 61,
+          "height": 997,
+          "offsetX": -31.0,
+          "offsetY": -430.0,
+          "fxAge": 0.46666666865348816
+        },
+        {
+          "file": "assets/fx/r4/03_0029.png",
+          "sha256": "adff2a9feca84ecbdfc5ecd8a4830b90191b14e2417fe47de7493773311d8517",
+          "width": 43,
+          "height": 109,
+          "offsetX": -22.0,
+          "offsetY": 458.0,
+          "fxAge": 0.4833333194255829
+        },
+        {
+          "file": "assets/fx/r4/03_0030.png",
+          "sha256": "fc3d5c7bf94bf193ec999dd07ec93c49b1fb1d86aa6efc3ce79fbbf877b9078b",
+          "width": 27,
+          "height": 67,
+          "offsetX": -13.0,
+          "offsetY": 500.0,
+          "fxAge": 0.5
+        },
+        {
+          "file": "assets/fx/r4/03_0031.png",
+          "sha256": "e35a55a3c5ecf128c13265ecfe460c7c03bc3f05f0efc122809cf331315b6ee2",
+          "width": 36,
+          "height": 31,
+          "offsetX": -18.0,
+          "offsetY": 536.0,
+          "fxAge": 0.5166666507720947
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "receipt": "data/fx03-r4-receipt.json",
+      "receiptSHA256": "f6c3795d3bd0424fde3cb36db92ca748228514994fb2e7f9bd13dde076c1689f",
+      "prefabPathID": "3669603339059987218",
+      "sourceBundle": "9356867.msm",
+      "stagePixelScale": 1,
+      "scaleClassification": "SOURCE_CONSTRAINED_SAME_PIXEL_RULER_NOT_PROVEN_LIVE_GAME",
+      "viewportEdgeFrames": [],
+      "webCrop": {
+        "rectangleIn4096Capture": [
+          908,
+          1618,
+          3188,
+          2615
+        ],
+        "reason": "Exact union of inverse 1280x720 screen viewports at all eleven accepted settled card centers. No pixel resize; full native crops retained outside Web."
+      }
+    },
+    "04": {
+      "fps": 60,
+      "durationSeconds": 2.35,
+      "frames": [
+        null,
+        {
+          "file": "assets/fx/r4/04_0001.png",
+          "sha256": "f8da6436b9056eaeb84b7c2f8d3292d1fdf528ae1a20424b31c57c4188731172",
+          "width": 218,
+          "height": 218,
+          "offsetX": -109.0,
+          "offsetY": -109.0,
+          "fxAge": 0.01666666753590107
+        },
+        {
+          "file": "assets/fx/r4/04_0002.png",
+          "sha256": "f840fc90b056218626e54eb052b30ef8840e6ea791d6411db1e0bb381f959b18",
+          "width": 223,
+          "height": 224,
+          "offsetX": -111.0,
+          "offsetY": -112.0,
+          "fxAge": 0.03333333507180214
+        },
+        {
+          "file": "assets/fx/r4/04_0003.png",
+          "sha256": "73a464390933af24dad5e788f3dc11cd9500baa923236854b0e0c6a719147761",
+          "width": 230,
+          "height": 229,
+          "offsetX": -115.0,
+          "offsetY": -115.0,
+          "fxAge": 0.05000000074505806
+        },
+        {
+          "file": "assets/fx/r4/04_0004.png",
+          "sha256": "6849550aa84d920f84aed2737d19c246e77750e219fe87e30bcb90ea56f01455",
+          "width": 232,
+          "height": 231,
+          "offsetX": -116.0,
+          "offsetY": -116.0,
+          "fxAge": 0.06666667014360428
+        },
+        {
+          "file": "assets/fx/r4/04_0005.png",
+          "sha256": "b35dcd0d925233d5936ef069d72c6a492c2e3c2d090bdd3f1c9d45b2da7e815e",
+          "width": 234,
+          "height": 233,
+          "offsetX": -117.0,
+          "offsetY": -117.0,
+          "fxAge": 0.0833333358168602
+        },
+        {
+          "file": "assets/fx/r4/04_0006.png",
+          "sha256": "45cd933045972dbf4ab8b5a235964239dc3eb90f26ceac01aec27024c2e99e78",
+          "width": 236,
+          "height": 235,
+          "offsetX": -118.0,
+          "offsetY": -118.0,
+          "fxAge": 0.10000000149011612
+        },
+        {
+          "file": "assets/fx/r4/04_0007.png",
+          "sha256": "2eb0da73243efb5b375f0c11b0a4aad3174729dccea89a7f23d37037af20d1bb",
+          "width": 238,
+          "height": 237,
+          "offsetX": -119.0,
+          "offsetY": -119.0,
+          "fxAge": 0.11666666716337204
+        },
+        {
+          "file": "assets/fx/r4/04_0008.png",
+          "sha256": "6d403111cd88fc9f02859da8226e0d4ed3e045fe17a021753de7e9670c85c3e4",
+          "width": 238,
+          "height": 237,
+          "offsetX": -119.0,
+          "offsetY": -119.0,
+          "fxAge": 0.13333334028720856
+        },
+        {
+          "file": "assets/fx/r4/04_0009.png",
+          "sha256": "97ddd92bb120c59e8f0caf6f59e528a6c4f4e632c448b39120118effb70272be",
+          "width": 240,
+          "height": 239,
+          "offsetX": -120.0,
+          "offsetY": -120.0,
+          "fxAge": 0.15000000596046448
+        },
+        {
+          "file": "assets/fx/r4/04_0010.png",
+          "sha256": "a4ddaa84d66af7f6043db9cbf43d3068354545428fa53cb5bf8331de3854d6a8",
+          "width": 242,
+          "height": 241,
+          "offsetX": -121.0,
+          "offsetY": -121.0,
+          "fxAge": 0.1666666716337204
+        },
+        {
+          "file": "assets/fx/r4/04_0011.png",
+          "sha256": "17ce955b8c9fead0fecf3f4b90ae396c939d47693446fd0feb984415394fbf6e",
+          "width": 244,
+          "height": 243,
+          "offsetX": -122.0,
+          "offsetY": -122.0,
+          "fxAge": 0.18333333730697632
+        },
+        {
+          "file": "assets/fx/r4/04_0012.png",
+          "sha256": "12f948f5d2b0b68a99e0053bfc9c4c8031106f4faeaa28ebffeb94fdc1948ad9",
+          "width": 246,
+          "height": 245,
+          "offsetX": -123.0,
+          "offsetY": -123.0,
+          "fxAge": 0.20000000298023224
+        },
+        {
+          "file": "assets/fx/r4/04_0013.png",
+          "sha256": "566201d7fbbc32e60c47dead7487e7e75a978eecb30af6b890315baab625f6b8",
+          "width": 248,
+          "height": 247,
+          "offsetX": -124.0,
+          "offsetY": -124.0,
+          "fxAge": 0.21666666865348816
+        },
+        {
+          "file": "assets/fx/r4/04_0014.png",
+          "sha256": "6dc9ab723cfdda8f6c7aa00f998fe42a013b6473bb192cbfc7d38bb3d711101d",
+          "width": 250,
+          "height": 249,
+          "offsetX": -125.0,
+          "offsetY": -125.0,
+          "fxAge": 0.23333333432674408
+        },
+        {
+          "file": "assets/fx/r4/04_0015.png",
+          "sha256": "c8c1d05e1bbf4e53f5957ab4e881546756752cac6e0f4da778c943c33f5e5d88",
+          "width": 252,
+          "height": 251,
+          "offsetX": -126.0,
+          "offsetY": -126.0,
+          "fxAge": 0.25
+        },
+        {
+          "file": "assets/fx/r4/04_0016.png",
+          "sha256": "89b14b412ded23c3e768947ac9f35c02ff509c70520f2e7871d304f136d71ef5",
+          "width": 254,
+          "height": 253,
+          "offsetX": -127.0,
+          "offsetY": -127.0,
+          "fxAge": 0.2666666805744171
+        },
+        {
+          "file": "assets/fx/r4/04_0017.png",
+          "sha256": "49a8b4d610ebb53a5433fbe54a4ea1b809645c89104a80767ba324591fa5ee6e",
+          "width": 254,
+          "height": 253,
+          "offsetX": -127.0,
+          "offsetY": -127.0,
+          "fxAge": 0.28333333134651184
+        },
+        {
+          "file": "assets/fx/r4/04_0018.png",
+          "sha256": "920a64f9547f4e108bd7aa942cd289a13db6478abcaa500328152d50a3729a6d",
+          "width": 256,
+          "height": 255,
+          "offsetX": -128.0,
+          "offsetY": -128.0,
+          "fxAge": 0.30000001192092896
+        },
+        {
+          "file": "assets/fx/r4/04_0019.png",
+          "sha256": "d3375ca0bc8bdca5023f273a8bc36f9943420a334c6cf10855be0370ee22a4a0",
+          "width": 258,
+          "height": 257,
+          "offsetX": -129.0,
+          "offsetY": -129.0,
+          "fxAge": 0.3166666626930237
+        },
+        {
+          "file": "assets/fx/r4/04_0020.png",
+          "sha256": "50f2da37ab694df506d9e9866b37f8c126c45d8f4c920e062090688b77d9c738",
+          "width": 260,
+          "height": 259,
+          "offsetX": -130.0,
+          "offsetY": -130.0,
+          "fxAge": 0.3333333432674408
+        },
+        {
+          "file": "assets/fx/r4/04_0021.png",
+          "sha256": "69041217da5d1ebd10c3605ce546fb8fbc1d1b78a7a499b3ec56a3113da920a9",
+          "width": 262,
+          "height": 261,
+          "offsetX": -131.0,
+          "offsetY": -131.0,
+          "fxAge": 0.3499999940395355
+        },
+        {
+          "file": "assets/fx/r4/04_0022.png",
+          "sha256": "23e67aa499ac03fe62e9e1c7d110957b62a387aa0d89f57c728ea69c3784be50",
+          "width": 264,
+          "height": 263,
+          "offsetX": -132.0,
+          "offsetY": -132.0,
+          "fxAge": 0.36666667461395264
+        },
+        {
+          "file": "assets/fx/r4/04_0023.png",
+          "sha256": "d054f9d271d4c14b7e76bb62bbb10e0ba236af759f0e259438116fdf499342d6",
+          "width": 266,
+          "height": 265,
+          "offsetX": -133.0,
+          "offsetY": -133.0,
+          "fxAge": 0.38333332538604736
+        },
+        {
+          "file": "assets/fx/r4/04_0024.png",
+          "sha256": "05b4bc89ae93c3aa9f9e5cadd4591197c50562cbb200b30def007116d9ea317a",
+          "width": 268,
+          "height": 267,
+          "offsetX": -134.0,
+          "offsetY": -134.0,
+          "fxAge": 0.4000000059604645
+        },
+        {
+          "file": "assets/fx/r4/04_0025.png",
+          "sha256": "5d7c406b2ddf2f0d16157846d719a119eb528946e8f6cf2c83e10faba4f408f1",
+          "width": 270,
+          "height": 268,
+          "offsetX": -135.0,
+          "offsetY": -135.0,
+          "fxAge": 0.4166666567325592
+        },
+        {
+          "file": "assets/fx/r4/04_0026.png",
+          "sha256": "25216c5e6ba3cde06cf194870ff56e96cc34107c8aaf64ea6666b5df7dce3a01",
+          "width": 270,
+          "height": 269,
+          "offsetX": -135.0,
+          "offsetY": -135.0,
+          "fxAge": 0.4333333373069763
+        },
+        {
+          "file": "assets/fx/r4/04_0027.png",
+          "sha256": "d87ccd64badd615f9172e7f9825c8204fa29da88a8207725ebbd6aa77c866a7c",
+          "width": 272,
+          "height": 271,
+          "offsetX": -136.0,
+          "offsetY": -136.0,
+          "fxAge": 0.44999998807907104
+        },
+        {
+          "file": "assets/fx/r4/04_0028.png",
+          "sha256": "a14f4b432523fd2b327ec22511d48722ca4d8d033c5a6ad43fa876a13070a67c",
+          "width": 274,
+          "height": 273,
+          "offsetX": -137.0,
+          "offsetY": -137.0,
+          "fxAge": 0.46666666865348816
+        },
+        {
+          "file": "assets/fx/r4/04_0029.png",
+          "sha256": "9cd22e79ccf99d84799c6362b84379add9b14758950fde45bd784e5f52824f29",
+          "width": 276,
+          "height": 275,
+          "offsetX": -138.0,
+          "offsetY": -138.0,
+          "fxAge": 0.4833333194255829
+        },
+        {
+          "file": "assets/fx/r4/04_0030.png",
+          "sha256": "3bef1abb692d641f4290cbe1f8aa83a77da5fbd2656ecacf4d3ff51aaa7879b8",
+          "width": 278,
+          "height": 277,
+          "offsetX": -139.0,
+          "offsetY": -139.0,
+          "fxAge": 0.5
+        },
+        {
+          "file": "assets/fx/r4/04_0031.png",
+          "sha256": "fd96d2ebd211751d2378f9b3426b3efef68d11b12dc1a8631e2d8d22b00aa4b6",
+          "width": 280,
+          "height": 279,
+          "offsetX": -140.0,
+          "offsetY": -140.0,
+          "fxAge": 0.5166666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0032.png",
+          "sha256": "72470f8a4e558b25a62cfa4ceb11bc56ee0659b6dc5c5db8290c4eed5428a906",
+          "width": 282,
+          "height": 281,
+          "offsetX": -141.0,
+          "offsetY": -141.0,
+          "fxAge": 0.5333333611488342
+        },
+        {
+          "file": "assets/fx/r4/04_0033.png",
+          "sha256": "b73682e80cd3077996adcadb4cf5c4e06e0faaddfd2f36f0b69625f909442e69",
+          "width": 284,
+          "height": 283,
+          "offsetX": -142.0,
+          "offsetY": -142.0,
+          "fxAge": 0.550000011920929
+        },
+        {
+          "file": "assets/fx/r4/04_0034.png",
+          "sha256": "d761f05c9f8cafd405068a14784772e0f35e80cfffa042213c7af31847dcb545",
+          "width": 286,
+          "height": 284,
+          "offsetX": -143.0,
+          "offsetY": -143.0,
+          "fxAge": 0.5666666626930237
+        },
+        {
+          "file": "assets/fx/r4/04_0035.png",
+          "sha256": "b2bbc61af92672614262f3f6c77f46659d362224e3d5d230dd5383ff295a5944",
+          "width": 286,
+          "height": 285,
+          "offsetX": -143.0,
+          "offsetY": -143.0,
+          "fxAge": 0.5833333134651184
+        },
+        {
+          "file": "assets/fx/r4/04_0036.png",
+          "sha256": "6fbc535d24c3bee74e563e0015d811c44181b7b6cb52d6c0272a47f2b1563e58",
+          "width": 288,
+          "height": 287,
+          "offsetX": -144.0,
+          "offsetY": -144.0,
+          "fxAge": 0.6000000238418579
+        },
+        {
+          "file": "assets/fx/r4/04_0037.png",
+          "sha256": "347100b5e263a363778ff4cf4bc2c490d75274c0e012c586780d73dac1989a85",
+          "width": 290,
+          "height": 289,
+          "offsetX": -145.0,
+          "offsetY": -145.0,
+          "fxAge": 0.6166666746139526
+        },
+        {
+          "file": "assets/fx/r4/04_0038.png",
+          "sha256": "16d06abf3302733a0dce8dfca46e6725ddf688984c03f3a2c5370f586672b4e2",
+          "width": 292,
+          "height": 291,
+          "offsetX": -146.0,
+          "offsetY": -146.0,
+          "fxAge": 0.6333333253860474
+        },
+        {
+          "file": "assets/fx/r4/04_0039.png",
+          "sha256": "0d68608264b63dae418dde2e17e38d8985324b609e2cf95af4226c266db3403f",
+          "width": 294,
+          "height": 293,
+          "offsetX": -147.0,
+          "offsetY": -147.0,
+          "fxAge": 0.6499999761581421
+        },
+        {
+          "file": "assets/fx/r4/04_0040.png",
+          "sha256": "bad5be2e997542a9a2075f06aa7678c9c4b27c3c835436b4996eb826d6ed68cf",
+          "width": 296,
+          "height": 295,
+          "offsetX": -148.0,
+          "offsetY": -148.0,
+          "fxAge": 0.6666666865348816
+        },
+        {
+          "file": "assets/fx/r4/04_0041.png",
+          "sha256": "4e10a14570c4f29e193af5ad8d818fd390ecb1458ad5273d04c543870c94b0e9",
+          "width": 298,
+          "height": 297,
+          "offsetX": -149.0,
+          "offsetY": -149.0,
+          "fxAge": 0.6833333373069763
+        },
+        {
+          "file": "assets/fx/r4/04_0042.png",
+          "sha256": "556faf9c66b865ba9a1219b737e505560cb41f301eb3b365bad4aca9e40d2e49",
+          "width": 300,
+          "height": 299,
+          "offsetX": -150.0,
+          "offsetY": -150.0,
+          "fxAge": 0.699999988079071
+        },
+        {
+          "file": "assets/fx/r4/04_0043.png",
+          "sha256": "4895d837c3b5f86dcc31de34347fb1ddb0d7c5989f56ea932cb306367e1e91aa",
+          "width": 302,
+          "height": 300,
+          "offsetX": -151.0,
+          "offsetY": -151.0,
+          "fxAge": 0.7166666388511658
+        },
+        {
+          "file": "assets/fx/r4/04_0044.png",
+          "sha256": "7ae70d7f2a9ab931e8420b8ae8de8152a9e3c69e522eaab6abb899c891ad8b40",
+          "width": 302,
+          "height": 301,
+          "offsetX": -151.0,
+          "offsetY": -151.0,
+          "fxAge": 0.7333333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0045.png",
+          "sha256": "5f0b1b5063067329de7ea9b93664bb3a00e6c7555fa7a29ad36aefbf2855d6ac",
+          "width": 304,
+          "height": 303,
+          "offsetX": -152.0,
+          "offsetY": -152.0,
+          "fxAge": 0.75
+        },
+        {
+          "file": "assets/fx/r4/04_0046.png",
+          "sha256": "0c227098bffab9ba0b2782aa203ca001525ee2810f6a9d7077aad3be42d029e3",
+          "width": 306,
+          "height": 305,
+          "offsetX": -153.0,
+          "offsetY": -153.0,
+          "fxAge": 0.7666666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0047.png",
+          "sha256": "7e4301008a8171d4bc19b7a7d397ee98d7537a9234432471a542d80f72544850",
+          "width": 308,
+          "height": 307,
+          "offsetX": -154.0,
+          "offsetY": -154.0,
+          "fxAge": 0.7833333611488342
+        },
+        {
+          "file": "assets/fx/r4/04_0048.png",
+          "sha256": "955b45df5b421616c7feea79c534cf8391a99bd52d29abe5bb4c56ae6769ce92",
+          "width": 310,
+          "height": 309,
+          "offsetX": -155.0,
+          "offsetY": -155.0,
+          "fxAge": 0.800000011920929
+        },
+        {
+          "file": "assets/fx/r4/04_0049.png",
+          "sha256": "15ff291395e9b7f9a2354740a1fe2bb6009563197ac00dfa4e7012abb7b0a811",
+          "width": 312,
+          "height": 311,
+          "offsetX": -156.0,
+          "offsetY": -156.0,
+          "fxAge": 0.8166666626930237
+        },
+        {
+          "file": "assets/fx/r4/04_0050.png",
+          "sha256": "2cfca8ec9126d62439ca9969054a50176b00ab77c822e3e2129c6e9164db10e5",
+          "width": 314,
+          "height": 313,
+          "offsetX": -157.0,
+          "offsetY": -157.0,
+          "fxAge": 0.8333333134651184
+        },
+        {
+          "file": "assets/fx/r4/04_0051.png",
+          "sha256": "0e800478cc9181924cb194f569f9f3b491d3eeeb1ad32d8eee68b8e9248ae5bf",
+          "width": 316,
+          "height": 314,
+          "offsetX": -158.0,
+          "offsetY": -158.0,
+          "fxAge": 0.8500000238418579
+        },
+        {
+          "file": "assets/fx/r4/04_0052.png",
+          "sha256": "2f74a75eb5382c03c37b5d97ab03186f8690a9ab07a8d3090c12d0ddeeb77908",
+          "width": 318,
+          "height": 316,
+          "offsetX": -159.0,
+          "offsetY": -159.0,
+          "fxAge": 0.8666666746139526
+        },
+        {
+          "file": "assets/fx/r4/04_0053.png",
+          "sha256": "39a350ea29b97df1aa5488c20238a914e528f24a4ce173b0fc009030c8c10ece",
+          "width": 318,
+          "height": 317,
+          "offsetX": -159.0,
+          "offsetY": -159.0,
+          "fxAge": 0.8833333253860474
+        },
+        {
+          "file": "assets/fx/r4/04_0054.png",
+          "sha256": "b4dde096dd8c713d62be9b9b2756f608c826db7eb191d30dc3f930a091142cca",
+          "width": 320,
+          "height": 319,
+          "offsetX": -160.0,
+          "offsetY": -160.0,
+          "fxAge": 0.8999999761581421
+        },
+        {
+          "file": "assets/fx/r4/04_0055.png",
+          "sha256": "56c114227379e7e65c8f571bb6809a360d326862acad5e08701ce9572ede4c75",
+          "width": 322,
+          "height": 321,
+          "offsetX": -161.0,
+          "offsetY": -161.0,
+          "fxAge": 0.9166666865348816
+        },
+        {
+          "file": "assets/fx/r4/04_0056.png",
+          "sha256": "18f21cb96118a51a7ea9591cf77524ccafa6a1c225497cc2f4c380539c45d623",
+          "width": 324,
+          "height": 323,
+          "offsetX": -162.0,
+          "offsetY": -162.0,
+          "fxAge": 0.9333333373069763
+        },
+        {
+          "file": "assets/fx/r4/04_0057.png",
+          "sha256": "34057c9348f83b9731780002c9009b5d20e6b37aac4d15a68fe975ed2671548c",
+          "width": 326,
+          "height": 325,
+          "offsetX": -163.0,
+          "offsetY": -163.0,
+          "fxAge": 0.949999988079071
+        },
+        {
+          "file": "assets/fx/r4/04_0058.png",
+          "sha256": "830d18b4ea11345f201c9b7a1894046b67f86e3be1fae3d1ce1ee95eda0a3df8",
+          "width": 328,
+          "height": 326,
+          "offsetX": -164.0,
+          "offsetY": -164.0,
+          "fxAge": 0.9666666388511658
+        },
+        {
+          "file": "assets/fx/r4/04_0059.png",
+          "sha256": "74ef113a5681d4a69e396de874b6f6d14d297314863f36319706c7b233388806",
+          "width": 330,
+          "height": 328,
+          "offsetX": -165.0,
+          "offsetY": -165.0,
+          "fxAge": 0.9833333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0060.png",
+          "sha256": "459c461ec659ec6ee66a11b79eeef4d981c0369fff4df2b01a0dc6692aa56683",
+          "width": 330,
+          "height": 329,
+          "offsetX": -165.0,
+          "offsetY": -165.0,
+          "fxAge": 1.0
+        },
+        {
+          "file": "assets/fx/r4/04_0061.png",
+          "sha256": "f3113a67d2e962d246b045c76b1349fd8229bb2e829dac9f220744474b7eddf3",
+          "width": 332,
+          "height": 331,
+          "offsetX": -166.0,
+          "offsetY": -166.0,
+          "fxAge": 1.0166666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0062.png",
+          "sha256": "0e36e4336a9c054bfd26927b65c630162a1a3e481f028e16407fe2e8bdebb8d9",
+          "width": 334,
+          "height": 333,
+          "offsetX": -167.0,
+          "offsetY": -167.0,
+          "fxAge": 1.0333333015441895
+        },
+        {
+          "file": "assets/fx/r4/04_0063.png",
+          "sha256": "e9db5786ced33602d3decea283da7d6a0760405fc0ffc145812446548bec5b87",
+          "width": 336,
+          "height": 335,
+          "offsetX": -168.0,
+          "offsetY": -168.0,
+          "fxAge": 1.0499999523162842
+        },
+        {
+          "file": "assets/fx/r4/04_0064.png",
+          "sha256": "5c16fa3dc01baaf2ce5dd89e0570bdc631cfd5b1fcc657dc58997341871f55d3",
+          "width": 338,
+          "height": 336,
+          "offsetX": -169.0,
+          "offsetY": -169.0,
+          "fxAge": 1.0666667222976685
+        },
+        {
+          "file": "assets/fx/r4/04_0065.png",
+          "sha256": "b1b7bdfd8c69cbe7593458722526f07f522969c3761688bb9eb38a1d8f8c4fca",
+          "width": 340,
+          "height": 338,
+          "offsetX": -170.0,
+          "offsetY": -170.0,
+          "fxAge": 1.0833333730697632
+        },
+        {
+          "file": "assets/fx/r4/04_0066.png",
+          "sha256": "1a537ba2807c57566c3736e86ef2c33504fdf2e75ad304fda24eda557cb8d383",
+          "width": 335,
+          "height": 336,
+          "offsetX": -167.0,
+          "offsetY": -168.0,
+          "fxAge": 1.100000023841858
+        },
+        {
+          "file": "assets/fx/r4/04_0067.png",
+          "sha256": "716921e7961e473330b6255d4cc9d9be29958bdf773b3e43393198a73624e6b7",
+          "width": 337,
+          "height": 338,
+          "offsetX": -168.0,
+          "offsetY": -169.0,
+          "fxAge": 1.1166666746139526
+        },
+        {
+          "file": "assets/fx/r4/04_0068.png",
+          "sha256": "fc804404656d06142feba8dd6b8106189da7098622a2523bcaa9323e4cb5dad9",
+          "width": 339,
+          "height": 340,
+          "offsetX": -169.0,
+          "offsetY": -170.0,
+          "fxAge": 1.1333333253860474
+        },
+        {
+          "file": "assets/fx/r4/04_0069.png",
+          "sha256": "66df4ec6696a612b0781ae4ea3e806ab74404d44398d366c988c39eba1665ac0",
+          "width": 341,
+          "height": 342,
+          "offsetX": -170.0,
+          "offsetY": -171.0,
+          "fxAge": 1.149999976158142
+        },
+        {
+          "file": "assets/fx/r4/04_0070.png",
+          "sha256": "8d4eab1ad515d3b7ebf344445596c4135bfd68e3a38a528e7c23df6771a041e0",
+          "width": 342,
+          "height": 343,
+          "offsetX": -170.0,
+          "offsetY": -171.0,
+          "fxAge": 1.1666666269302368
+        },
+        {
+          "file": "assets/fx/r4/04_0071.png",
+          "sha256": "e64ab252c352653787c6357d6b9101e018cbca3ef6e3ebfd8378031f27d67eb9",
+          "width": 344,
+          "height": 345,
+          "offsetX": -171.0,
+          "offsetY": -172.0,
+          "fxAge": 1.1833332777023315
+        },
+        {
+          "file": "assets/fx/r4/04_0072.png",
+          "sha256": "d483090bb2620bb204f4130613ee74970c8115c276425741b8c00e0e6b05ced1",
+          "width": 345,
+          "height": 346,
+          "offsetX": -172.0,
+          "offsetY": -173.0,
+          "fxAge": 1.2000000476837158
+        },
+        {
+          "file": "assets/fx/r4/04_0073.png",
+          "sha256": "726fdcb6c3e02bafd8c06fe01ca1c991702e709556fef57c3684a751529895f9",
+          "width": 347,
+          "height": 347,
+          "offsetX": -173.0,
+          "offsetY": -173.0,
+          "fxAge": 1.2166666984558105
+        },
+        {
+          "file": "assets/fx/r4/04_0074.png",
+          "sha256": "fe1ac7c5416c7b1ecca842fef49d6004c53e274e367767431b960b061af9a0ae",
+          "width": 348,
+          "height": 349,
+          "offsetX": -174.0,
+          "offsetY": -174.0,
+          "fxAge": 1.2333333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0075.png",
+          "sha256": "6e22730cf8072e01e2c7a0039bf213a73cb9ba1652f9957450aa29fa4388d6f0",
+          "width": 444,
+          "height": 429,
+          "offsetX": -236.0,
+          "offsetY": -229.0,
+          "fxAge": 1.25
+        },
+        {
+          "file": "assets/fx/r4/04_0076.png",
+          "sha256": "38debfaf83545ba4f771769a1bd914ec44b93fbac28de4206c89ff65405afa78",
+          "width": 599,
+          "height": 588,
+          "offsetX": -305.0,
+          "offsetY": -295.0,
+          "fxAge": 1.2666666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0077.png",
+          "sha256": "bc1d8ca807cb849a54e35446ed4dfe2fdbcfc720e8e09aa2be1f1fadf324c8b3",
+          "width": 839,
+          "height": 769,
+          "offsetX": -422.0,
+          "offsetY": -378.0,
+          "fxAge": 1.2833333015441895
+        },
+        {
+          "file": "assets/fx/r4/04_0078.png",
+          "sha256": "451eeff1c6cf3308d245bdc037b03a966c05496da18c2f19f06ee4bf5cc6635b",
+          "width": 988,
+          "height": 870,
+          "offsetX": -496.0,
+          "offsetY": -430.0,
+          "fxAge": 1.2999999523162842
+        },
+        {
+          "file": "assets/fx/r4/04_0079.png",
+          "sha256": "32c039298faa9a3a465b0fae52ecccd42cec91905da8c75e1e739375b787a577",
+          "width": 1146,
+          "height": 924,
+          "offsetX": -575.0,
+          "offsetY": -430.0,
+          "fxAge": 1.3166667222976685
+        },
+        {
+          "file": "assets/fx/r4/04_0080.png",
+          "sha256": "9f9d70ba0bb4bbc68571171db0bb734a85080b18bbce39031ecf05f8de71c270",
+          "width": 1298,
+          "height": 978,
+          "offsetX": -650.0,
+          "offsetY": -430.0,
+          "fxAge": 1.3333333730697632
+        },
+        {
+          "file": "assets/fx/r4/04_0081.png",
+          "sha256": "8c47272bbcc033680c1f2d3d177622798174852ae5e03f40948763978dc3edd9",
+          "width": 1278,
+          "height": 964,
+          "offsetX": -639.0,
+          "offsetY": -430.0,
+          "fxAge": 1.350000023841858
+        },
+        {
+          "file": "assets/fx/r4/04_0082.png",
+          "sha256": "e2e005be6487297806c1e6e74534ab28076e92b988a40d016ed4c6767284b753",
+          "width": 1301,
+          "height": 992,
+          "offsetX": -658.0,
+          "offsetY": -430.0,
+          "fxAge": 1.3666666746139526
+        },
+        {
+          "file": "assets/fx/r4/04_0083.png",
+          "sha256": "6915516035930c7560b43dddb1e88a392ab197e112bff65dc84bedbb88f5bab2",
+          "width": 1349,
+          "height": 997,
+          "offsetX": -708.0,
+          "offsetY": -430.0,
+          "fxAge": 1.3833333253860474
+        },
+        {
+          "file": "assets/fx/r4/04_0084.png",
+          "sha256": "eb16af30815f4853bf6d2d56e5492dc0eaa1d62396dc080cef730fdac9a8058f",
+          "width": 1426,
+          "height": 997,
+          "offsetX": -756.0,
+          "offsetY": -430.0,
+          "fxAge": 1.399999976158142
+        },
+        {
+          "file": "assets/fx/r4/04_0085.png",
+          "sha256": "07ee9638940bac27dd621f15c27527e27260bec74f6f0ea2452a86dff398d6ac",
+          "width": 1512,
+          "height": 997,
+          "offsetX": -802.0,
+          "offsetY": -430.0,
+          "fxAge": 1.4166666269302368
+        },
+        {
+          "file": "assets/fx/r4/04_0086.png",
+          "sha256": "984c5573d92e2c5b294f983ef432bd1f92737944d5ecda251c76bbe59637a2d1",
+          "width": 1595,
+          "height": 997,
+          "offsetX": -846.0,
+          "offsetY": -430.0,
+          "fxAge": 1.4333332777023315
+        },
+        {
+          "file": "assets/fx/r4/04_0087.png",
+          "sha256": "511bc41c762f60c0b204be8cdaf56cbf34283a432596d6aa102f77f36ed32b71",
+          "width": 1675,
+          "height": 997,
+          "offsetX": -888.0,
+          "offsetY": -430.0,
+          "fxAge": 1.4500000476837158
+        },
+        {
+          "file": "assets/fx/r4/04_0088.png",
+          "sha256": "94b1b349aef8396e4c6d02cecc126d7c19f3184d800e1d36e68e7993fb91ab9f",
+          "width": 1751,
+          "height": 997,
+          "offsetX": -929.0,
+          "offsetY": -430.0,
+          "fxAge": 1.4666666984558105
+        },
+        {
+          "file": "assets/fx/r4/04_0089.png",
+          "sha256": "c16f569df03e90c2a05b97423a536a9bbe9f779325e7ac077c6c9050f175fe36",
+          "width": 1823,
+          "height": 997,
+          "offsetX": -967.0,
+          "offsetY": -430.0,
+          "fxAge": 1.4833333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0090.png",
+          "sha256": "50a66e5f193bf1e350cec89745015900a887ae2e390f598396162ca49e53f76a",
+          "width": 1891,
+          "height": 997,
+          "offsetX": -1003.0,
+          "offsetY": -430.0,
+          "fxAge": 1.5
+        },
+        {
+          "file": "assets/fx/r4/04_0091.png",
+          "sha256": "88c8367e07756959d42b1ec242ff91e2441f510e4907aa5b6780d0e980fa4216",
+          "width": 1959,
+          "height": 997,
+          "offsetX": -1040.0,
+          "offsetY": -430.0,
+          "fxAge": 1.5166666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0092.png",
+          "sha256": "0d3f6e8b7c773f7f8e39ad9483ec6d7bfb3a9dae1cd01ef867362a6d1a450854",
+          "width": 2019,
+          "height": 997,
+          "offsetX": -1071.0,
+          "offsetY": -430.0,
+          "fxAge": 1.5333333015441895
+        },
+        {
+          "file": "assets/fx/r4/04_0093.png",
+          "sha256": "4e877c33c0fa8e6b8366f7c9ee831cb9fde36f80428c1c3ebec144c264d95d76",
+          "width": 2083,
+          "height": 997,
+          "offsetX": -1106.0,
+          "offsetY": -430.0,
+          "fxAge": 1.5499999523162842
+        },
+        {
+          "file": "assets/fx/r4/04_0094.png",
+          "sha256": "4d7137cd34ecb24a709b7877aeba49b70f75510d2c5f72fa1747cb51fac42aca",
+          "width": 2141,
+          "height": 997,
+          "offsetX": -1138.0,
+          "offsetY": -430.0,
+          "fxAge": 1.5666667222976685
+        },
+        {
+          "file": "assets/fx/r4/04_0095.png",
+          "sha256": "61e26fe82e43e2b5338c3a372b01c08d2ef0003cc395b8eed0d0bae7b4b98c62",
+          "width": 2169,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.5833333730697632
+        },
+        {
+          "file": "assets/fx/r4/04_0096.png",
+          "sha256": "71ec5bf81a36b8422a8ff1de11a61e81714f4565766fe0393c4e9039c9420096",
+          "width": 2195,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.600000023841858
+        },
+        {
+          "file": "assets/fx/r4/04_0097.png",
+          "sha256": "e1c99dc6b3f4eda62eabfa013da58b398906601f771b80b217c240f91062af6e",
+          "width": 2219,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.6166666746139526
+        },
+        {
+          "file": "assets/fx/r4/04_0098.png",
+          "sha256": "2c2600a3eb802ba8b5e757b10193f0715fca46ebcd1c3b99ded3a41c35f14c02",
+          "width": 2242,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.6333333253860474
+        },
+        {
+          "file": "assets/fx/r4/04_0099.png",
+          "sha256": "5a07d8008393db95cb164105856332cb29bfa0733535fa4b230b826096d0d613",
+          "width": 2265,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.649999976158142
+        },
+        {
+          "file": "assets/fx/r4/04_0100.png",
+          "sha256": "dae97867c1c57ae96660d8e629e251a5dea9f49677fb9966b09e06a2d0382516",
+          "width": 2193,
+          "height": 997,
+          "offsetX": -1053.0,
+          "offsetY": -430.0,
+          "fxAge": 1.6666666269302368
+        },
+        {
+          "file": "assets/fx/r4/04_0101.png",
+          "sha256": "7020c81f18f485ce9ac124bcec3d0a1bea678a6770c7c6d12c4bba190fb06051",
+          "width": 2215,
+          "height": 997,
+          "offsetX": -1075.0,
+          "offsetY": -430.0,
+          "fxAge": 1.6833332777023315
+        },
+        {
+          "file": "assets/fx/r4/04_0102.png",
+          "sha256": "d2403705eef1c4d1af5959d40c66b34e09c6aba50246b70ea182018ed571ea08",
+          "width": 2240,
+          "height": 997,
+          "offsetX": -1100.0,
+          "offsetY": -430.0,
+          "fxAge": 1.7000000476837158
+        },
+        {
+          "file": "assets/fx/r4/04_0103.png",
+          "sha256": "12c7ac857fb9f0d85e0552016ecbe991b85a09c30f3546f7b66dc1684da9916a",
+          "width": 2262,
+          "height": 997,
+          "offsetX": -1122.0,
+          "offsetY": -430.0,
+          "fxAge": 1.7166666984558105
+        },
+        {
+          "file": "assets/fx/r4/04_0104.png",
+          "sha256": "b05b673d21d7e126b09be14187b450ec2b6425a47d3d4b52ed415d2672999474",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.7333333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0105.png",
+          "sha256": "05feab0b8124481a3adee69c4d39ed324fce15cf9f95507abf71a700af257f6b",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.75
+        },
+        {
+          "file": "assets/fx/r4/04_0106.png",
+          "sha256": "5dab8a19f3b173e1bc97f9f6e7a17b73f8c625b9f26b191b42183648c6b88835",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.7666666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0107.png",
+          "sha256": "f231775271763e407152387e535fc08063d538a5d11a0768446db6ac57589ebb",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.7833333015441895
+        },
+        {
+          "file": "assets/fx/r4/04_0108.png",
+          "sha256": "821404904b6df37ed1de89516e79478490be6b45c6675643b87cc8d366cedfe2",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.7999999523162842
+        },
+        {
+          "file": "assets/fx/r4/04_0109.png",
+          "sha256": "c0a9887ff18672289c39056f03b2b2c69ea3d0c6c83b72e5b605a696e118643a",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.8166667222976685
+        },
+        {
+          "file": "assets/fx/r4/04_0110.png",
+          "sha256": "615c58969f10838fcdbfdeaa9014af565ac97d803d1125c213fdec1845e26de3",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.8333333730697632
+        },
+        {
+          "file": "assets/fx/r4/04_0111.png",
+          "sha256": "5930774f9e4f1da0369e63aef201b8eb3e12bb985731ad817e57caa7c072b68b",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.850000023841858
+        },
+        {
+          "file": "assets/fx/r4/04_0112.png",
+          "sha256": "0540a10d18c7ff3b0e8f03e313729a10e5bde87681b38105b3f08ad11da4af03",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.8666666746139526
+        },
+        {
+          "file": "assets/fx/r4/04_0113.png",
+          "sha256": "95090e8529b2727db1278fa8f2fb52b70e3df2414e1b9de392f1a9ce407554fa",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.8833333253860474
+        },
+        {
+          "file": "assets/fx/r4/04_0114.png",
+          "sha256": "40229d7c42e51a89e0ba63e2b7d7fb3f03dfc75ba56708336449e5921367bc03",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.899999976158142
+        },
+        {
+          "file": "assets/fx/r4/04_0115.png",
+          "sha256": "ef161ebbc1973923858582db871918903696560040321024ea72e1e69cb61738",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.9166666269302368
+        },
+        {
+          "file": "assets/fx/r4/04_0116.png",
+          "sha256": "e7b799bf948a88a61ca7b9c0986044c783586c259e26d7dac9aacc93e453f820",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.9333332777023315
+        },
+        {
+          "file": "assets/fx/r4/04_0117.png",
+          "sha256": "4aa5afed698e8c5e47d2dc9ae08ab779c014cdf95ec5e69d6c53c9e7977f5421",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.9500000476837158
+        },
+        {
+          "file": "assets/fx/r4/04_0118.png",
+          "sha256": "eccdbc3da083595383e273af57a10def62eea31e0b4bcd96460119d8d0790be5",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.9666666984558105
+        },
+        {
+          "file": "assets/fx/r4/04_0119.png",
+          "sha256": "bd9da3ac395a342b0b39db349bec293954e64eec391fb1725f2ae22e43801c1f",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 1.9833333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0120.png",
+          "sha256": "13b95dd074418c6291a6c83bc914f5d23381dbe43d4e9cca475f7bba540a7c3b",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 2.0
+        },
+        {
+          "file": "assets/fx/r4/04_0121.png",
+          "sha256": "9c57344290a9f22425f7751391384c26bedcba4c928c3b39aaf2fc8f7023df25",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 2.0166666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0122.png",
+          "sha256": "c1df232ac10abb2ae6d5a91450c170600f43a7cc0a23d7556ac7f0ed6205a662",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 2.0333333015441895
+        },
+        {
+          "file": "assets/fx/r4/04_0123.png",
+          "sha256": "673b5a3c7b04a4cab36384bbf1c697606ff978e684fbc460680cf6351602717a",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 2.049999952316284
+        },
+        {
+          "file": "assets/fx/r4/04_0124.png",
+          "sha256": "35bd46509fa488d3c0ff2a0423a2c05700493da8afdbefab049359043b18dac6",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 2.066666603088379
+        },
+        {
+          "file": "assets/fx/r4/04_0125.png",
+          "sha256": "15a2e75ff252125051a2c6baabad284b8753587769fff29f64042398fae16eb0",
+          "width": 2280,
+          "height": 997,
+          "offsetX": -1140.0,
+          "offsetY": -430.0,
+          "fxAge": 2.0833332538604736
+        },
+        {
+          "file": "assets/fx/r4/04_0126.png",
+          "sha256": "ea9f5e717d00636645b6d4d310172af3bb0925e729b80979f825aa09137a00f8",
+          "width": 1805,
+          "height": 997,
+          "offsetX": -665.0,
+          "offsetY": -430.0,
+          "fxAge": 2.0999999046325684
+        },
+        {
+          "file": "assets/fx/r4/04_0127.png",
+          "sha256": "ac50099eddd4651f4c7f2ff69eebf32fbf1c6f0e2e057c3bafd891c567ecc5a0",
+          "width": 1811,
+          "height": 997,
+          "offsetX": -671.0,
+          "offsetY": -430.0,
+          "fxAge": 2.116666555404663
+        },
+        {
+          "file": "assets/fx/r4/04_0128.png",
+          "sha256": "2646fdc8be8abf36406666f415fa35a79f33cbdfc60e6f513807f927253eb349",
+          "width": 1816,
+          "height": 997,
+          "offsetX": -676.0,
+          "offsetY": -430.0,
+          "fxAge": 2.133333444595337
+        },
+        {
+          "file": "assets/fx/r4/04_0129.png",
+          "sha256": "d836df07adc1420adfc2efb6112ac1bca3d601d5760eb5dd7645eb2de571a57f",
+          "width": 1820,
+          "height": 997,
+          "offsetX": -680.0,
+          "offsetY": -430.0,
+          "fxAge": 2.1500000953674316
+        },
+        {
+          "file": "assets/fx/r4/04_0130.png",
+          "sha256": "127d507f6df9b32fdaa6d7e4dbbcc5545fc1f1e38affc912dab5fa02b4ee217e",
+          "width": 1824,
+          "height": 997,
+          "offsetX": -684.0,
+          "offsetY": -430.0,
+          "fxAge": 2.1666667461395264
+        },
+        {
+          "file": "assets/fx/r4/04_0131.png",
+          "sha256": "746caedec8bbdde50ffcfe8504ebc020f27ad58ea2b38222edbf23eef6680378",
+          "width": 1827,
+          "height": 997,
+          "offsetX": -687.0,
+          "offsetY": -430.0,
+          "fxAge": 2.183333396911621
+        },
+        {
+          "file": "assets/fx/r4/04_0132.png",
+          "sha256": "5e873e0a2efc70094f4fa9c4271c363394dc24dbae2a5147f8d674b457f501e6",
+          "width": 1831,
+          "height": 997,
+          "offsetX": -691.0,
+          "offsetY": -430.0,
+          "fxAge": 2.200000047683716
+        },
+        {
+          "file": "assets/fx/r4/04_0133.png",
+          "sha256": "68581bf8cb77b9882071a0db3e46ddf3ea5f5182850544294d2455485416d5e9",
+          "width": 1836,
+          "height": 997,
+          "offsetX": -696.0,
+          "offsetY": -430.0,
+          "fxAge": 2.2166666984558105
+        },
+        {
+          "file": "assets/fx/r4/04_0134.png",
+          "sha256": "7f67451b40e33e8eecc560890d2e21488a8bec3587d20013560898f802ce9550",
+          "width": 1840,
+          "height": 997,
+          "offsetX": -700.0,
+          "offsetY": -430.0,
+          "fxAge": 2.2333333492279053
+        },
+        {
+          "file": "assets/fx/r4/04_0135.png",
+          "sha256": "227d4758c493001971d05dcc23fd44392b44ff8c293764f3bd3a3bf7fc11e0be",
+          "width": 1842,
+          "height": 997,
+          "offsetX": -702.0,
+          "offsetY": -430.0,
+          "fxAge": 2.25
+        },
+        {
+          "file": "assets/fx/r4/04_0136.png",
+          "sha256": "757b23d9f3114090920019d08c00f5f92b2ca173bf32a10c32d9962ab853f79e",
+          "width": 382,
+          "height": 482,
+          "offsetX": -190.0,
+          "offsetY": -241.0,
+          "fxAge": 2.2666666507720947
+        },
+        {
+          "file": "assets/fx/r4/04_0137.png",
+          "sha256": "e16f75a134a9b96fb6c2053b7460b4f387d0e30775495996ad5cac388e54e6fe",
+          "width": 378,
+          "height": 478,
+          "offsetX": -188.0,
+          "offsetY": -239.0,
+          "fxAge": 2.2833333015441895
+        },
+        {
+          "file": "assets/fx/r4/04_0138.png",
+          "sha256": "922ff7e98762c2ca2dced5ade1887f459a5862def0e88331fc013849921e26cc",
+          "width": 362,
+          "height": 462,
+          "offsetX": -180.0,
+          "offsetY": -231.0,
+          "fxAge": 2.299999952316284
+        },
+        null,
+        null
+      ],
+      "receipt": "data/fx04-r4-receipt.json",
+      "receiptSHA256": "8b5a78a3b6015660364f3ae987d87f54c15f9a95581e9cef5e0980e597938369",
+      "prefabPathID": "-5626540624885784902",
+      "sourceBundle": "9356867.msm",
+      "stagePixelScale": 1,
+      "scaleClassification": "SOURCE_CONSTRAINED_SAME_PIXEL_RULER_NOT_PROVEN_LIVE_GAME",
+      "viewportEdgeFrames": [],
+      "webCrop": {
+        "rectangleIn4096Capture": [
+          908,
+          1618,
+          3188,
+          2615
+        ],
+        "reason": "Exact union of inverse 1280x720 screen viewports at all eleven accepted settled card centers. No pixel resize; full native crops retained outside Web."
+      }
+    }
+  }
+}
