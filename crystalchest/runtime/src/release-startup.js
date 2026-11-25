@@ -1,4 +1,12 @@
 (() => {
+  const profiling=new URLSearchParams(location.search).has('phoneDiag');
+  const profile={enabled:profiling,clock:'performance.now since navigation',note:'ASYNC_WALL includes waiting; overlaps must not be summed as CPU time.',groups:{},events:[]};
+  window.__ccStartupProfile={data:profile,now:()=>profiling?performance.now():0,end(kind,name,start,source=''){
+    if(!profiling)return;const end=performance.now(),ms=end-start,key=kind+':'+name;
+    const g=profile.groups[key]??={count:0,totalMs:0,maxMs:0,firstStart:start,lastEnd:end};g.count++;g.totalMs+=ms;g.maxMs=Math.max(g.maxMs,ms);g.lastEnd=end;
+    if((ms>8||kind==='MILESTONE')&&profile.events.length<250)profile.events.push({kind,name,start,end,ms,source:String(source).slice(-160)});
+  }};
+
   const state={app:false,pool:false,status:'LOADING',error:null,optionalReady:false};
   let releaseOptional;window.__releaseOptionalGate=new Promise(resolve=>{releaseOptional=resolve;});
   window.__releaseOptionalReady=false;
@@ -14,12 +22,14 @@
     console.error('CRYSTALCHEST_STARTUP_FAILED',cause);
   };
   window.__releaseOptionalDone=(ok,cause)=>{
+    window.__ccStartupProfile.end('MILESTONE',ok?'all-ready':'optional-failed',0);
     state.optionalReady=ok;window.__releaseOptionalReady=ok;
     const root=document.getElementById('cleanRebuildRoot');if(root)root.inert=!ok;
     if(ok){document.getElementById('release-loading')?.remove();window.dispatchEvent(new Event('crystalchest-player-state'));}
     else{state.optionalError=String(cause?.stack||cause);message('抽取動畫未能完成載入，請重新載入。');showRecovery();console.error('OPTIONAL_ASSETS_FAILED',cause);}
   };
   window.__releaseMarkReady=part=>{
+    window.__ccStartupProfile.end('MILESTONE',part+'-ready',0);
     state[part]=true;
     if(!state.app||!state.pool||state.status==='FAILED')return;
     try{window.cleanRebuild?.render();}

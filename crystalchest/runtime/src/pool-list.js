@@ -1,4 +1,4 @@
-import {fetchResource as fetch,loadDOMImageURL} from './resource-loader.mjs';
+import {fetchResource as fetch,loadDOMImageURL} from './resource-loader.mjs?startupProbe=1';
 const $ = (id) => document.getElementById(id);
 const panel = $('official-pool-browser');
 const gridScroll = $('pool-grid-scroll');

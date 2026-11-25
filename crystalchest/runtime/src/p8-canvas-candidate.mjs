@@ -1,4 +1,4 @@
-import {fetchResource as fetch,loadImage} from './resource-loader.mjs';
+import {fetchResource as fetch,loadImage} from './resource-loader.mjs?startupProbe=1';
 // VISUAL_APPROXIMATION_NOT_NATIVE_EQUIVALENT. No Unity import, factory, Native ACK or readback.
 export function hermite(keys,t){
  if(!keys?.length)return 1;if(t<=keys[0].time)return keys[0].value;
@@ -16,11 +16,12 @@ export function createTenTimeMotionFixture({redraw,appSnapshot}){
   const response=await fetch(new URL('./r44-p1-particle-config.json',import.meta.url));if(!response.ok)throw Error('PARTICLE_CONFIG_REQUIRED');configs=await response.json();if(disposed)return;
   for(const c of configs){
    const image=await loadImage(new URL(c.texture,import.meta.url).href);if(disposed)return;loaded++;
+   const profile=globalThis.__ccStartupProfile,tintStarted=profile?.now();
    const scratch=document.createElement('canvas');scratch.width=image.naturalWidth;scratch.height=image.naturalHeight;const ctx=scratch.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,scratch.width,scratch.height); // small original texture only, once
    const tints=[];
    for(let bin=0;bin<16;bin++){const t=bin/15,canvas=document.createElement('canvas');canvas.width=scratch.width;canvas.height=scratch.height;const cc=canvas.getContext('2d');const data=new ImageData(new Uint8ClampedArray(pixels.data),canvas.width,canvas.height);
     const rgb=['r','g','b'].map(k=>gradient(c.colors,t,k));for(let p=0;p<data.data.length;p+=4)for(let k=0;k<3;k++)data.data[p+k]=Math.round(data.data[p+k]*rgb[k]);cc.putImageData(data,0,0);tints.push(canvas);textureCanvases.push(canvas);
-   }scratch.width=scratch.height=1;
+   }profile?.end('SYNC_WORK','P8.tint',tintStarted,c.texture);scratch.width=scratch.height=1;
    if(disposed){for(const canvas of tints)canvas.width=canvas.height=1;return;}
    groups.push({c,tints,items:[],nextBirth:0});
   }

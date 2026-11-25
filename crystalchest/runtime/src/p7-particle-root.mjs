@@ -1,4 +1,4 @@
-import {fetchResource as fetch,loadImage} from './resource-loader.mjs';
+import {fetchResource as fetch,loadImage} from './resource-loader.mjs?startupProbe=1';
 // Source-derived Canvas2D candidate. Particle randomness, projection and tint
 // quantization require player comparison against the retained Unity backend.
 import { hermite, makeRandom } from './r44-p1-canvas-math.mjs';
@@ -42,6 +42,7 @@ export function createParticleRoot({ redraw, appSnapshot, root }) {
 
   // Tint original small textures once. No full-stage readback during playback.
   function tint(image, rgb, alpha = 1) {
+    const profile=globalThis.__ccStartupProfile,started=profile?.now();
     const canvas = document.createElement('canvas');
     canvas.width = image.naturalWidth;
     canvas.height = image.naturalHeight;
@@ -55,6 +56,7 @@ export function createParticleRoot({ redraw, appSnapshot, root }) {
       pixels.data[i + 3] *= alpha;
     }
     context.putImageData(pixels, 0, 0);
+    profile?.end('SYNC_WORK','P7.tint',started);
     return canvas;
   }
 

@@ -1,4 +1,4 @@
-import {fetchResource as fetch} from './resource-loader.mjs';
+import {fetchResource as fetch} from './resource-loader.mjs?startupProbe=1';
 import { sha256Digest } from './sha256-http-compat.mjs';
 
 export async function loadCompactLuckyAtlas(name, expectedSourceSha) {

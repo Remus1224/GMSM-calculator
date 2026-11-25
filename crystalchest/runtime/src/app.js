@@ -1,13 +1,13 @@
 import {createPlayerRecords} from './player-records.mjs?v=2';
 const playerRecords=createPlayerRecords({onChange:()=>window.dispatchEvent(new Event('crystalchest-player-state'))});
-import {fetchResource as fetch,loadImage,resourceSnapshot} from './resource-loader.mjs';
+import {fetchResource as fetch,loadImage,resourceSnapshot,measureStartup} from './resource-loader.mjs?startupProbe=1';
 import { createFrameLoadQueue } from './fx-frame-load-queue.mjs';
 import {sha256Digest} from './sha256-http-compat.mjs';
-import * as compactLuckyTools from './compact-lucky-atlas.mjs';
+import * as compactLuckyTools from './compact-lucky-atlas.mjs?startupProbe=1';
 window.__releaseLuckyTools={...compactLuckyTools,sha256Digest,loadImage};
 import { cardResultVisualPolicy, retryVoucherQuantity } from './card-result-visual-policy.mjs?r31r5=20261105a';
 import { createProbabilityInfoModal } from './probability-info-modal.mjs?p11d6=20261109';
-const p31Ui=await fetch('data/r14p31-single-ui.json?r31r5=20261105').then(r=>{if(!r.ok)throw Error('P31_UI_CONTRACT_REQUIRED');return r.json();});
+const p31Ui=await fetch('data/r14p31-single-ui.json?r31r5=20261105').then(r=>{if(!r.ok)throw Error('P31_UI_CONTRACT_REQUIRED');return measureStartup('data.body-and-json',()=>r.json(),r.url);});
 import { createNormalLocalSimulator } from './normal-local-simulation.mjs?r12p3=20261031a';
 import { createNormalLocalFullFlowController } from './normal-local-full-flow.mjs?r14p10=20261107a';
 import { createLocalFeverSimulation, isFinalLocalFeverRunConfirmEligible } from './local-fever-simulation.mjs?r12p4r12=20261101a';
@@ -23,7 +23,7 @@ import { createShopTargetSyncCache, shopTargetStateKey, applyShopTargetStateIfCh
 
 // P3R1 engine import/preparation overlaps initial app assets; no await on Unity or particle activation.
 const r14p30P3EarlyQuery=new URLSearchParams(window.location.search);
-const r14p30P3EarlyPromise=r14p30P3EarlyQuery.get('r14p30P3')!=='0'?import('./p3-canvas-background.mjs?v=3').then(m=>m.createOneTimeBackgroundMotion({redraw:()=>window.cleanRebuild?.requestFXRender?.('p3'),onStatus:s=>{const receipt=document.getElementById('p30p3-receipt');if(receipt)receipt.textContent=JSON.stringify(s.timing?.shopReadyAt===null?s:(window.__r14p30P3?.snapshot()??s),null,2);const note=document.getElementById('p30p3-status');if(note){const message=s.error?'來源播放器停止：'+s.error:!s.applicable?(s.ready?'引擎已預備；三組粒子尚未啟動。':'背景引擎預備中；不阻塞商店或影片。'):s.loading?'冷啟動尚未完成；卡片照常顯示，時間收據標記 COLD_NOT_READY。':s.ready?'三組原始 Box2 持續播放；'+(s.variant==='motion'?'B 有動畫':'A 隱藏動畫，保留同一粒子時鐘')+'。':'等待來源播放器。';if(note.textContent!==message)note.textContent=message;}}})):null;
+const r14p30P3EarlyPromise=r14p30P3EarlyQuery.get('r14p30P3')!=='0'?import('./p3-canvas-background.mjs?v=3&startupProbe=1').then(m=>m.createOneTimeBackgroundMotion({redraw:()=>window.cleanRebuild?.requestFXRender?.('p3'),onStatus:s=>{const receipt=document.getElementById('p30p3-receipt');if(receipt)receipt.textContent=JSON.stringify(s.timing?.shopReadyAt===null?s:(window.__r14p30P3?.snapshot()??s),null,2);const note=document.getElementById('p30p3-status');if(note){const message=s.error?'來源播放器停止：'+s.error:!s.applicable?(s.ready?'引擎已預備；三組粒子尚未啟動。':'背景引擎預備中；不阻塞商店或影片。'):s.loading?'冷啟動尚未完成；卡片照常顯示，時間收據標記 COLD_NOT_READY。':s.ready?'三組原始 Box2 持續播放；'+(s.variant==='motion'?'B 有動畫':'A 隱藏動畫，保留同一粒子時鐘')+'。':'等待來源播放器。';if(note.textContent!==message)note.textContent=message;}}})):null;
 
 // New renderer for saved serialized data. NGUI live draw-call construction is unresolved.
 // R14-P28-P5: player-approved original Chaos Grade source is the Web default.
@@ -51,7 +51,7 @@ const $=id=>document.getElementById(id);
 const luckyFeverOverlay=createLuckyFeverOverlay();
 let luckyFeverDiagnosticSequence=0,normalSingleLuckyFeverSequence=0;
 const localFeverSimulation=createLocalFeverSimulation();
-const [ui,raw,fixtures,manifest,blocker,fxData,nonFxAssets,normalCardPreviewIconAdmission,normalR5VisualContract,normalR6VisualContract,feverLocalVisualAdmission]=await Promise.all(['data/scene-ui.json?r31r5=20261105','data/popup-serialized.json?r31r5=20261105','data/fixtures.json?r31r5=20261105',(r14p28P4R2Enabled?'data/ASSET_MANIFEST-p28p4r2.json?r31r5=20261105':'ASSET_MANIFEST.json?normalR2CardAssets=20261029d'),'data/inputblocker-source.json?r31r5=20261105','data/fx-r4.json?r31r5=20261105','data/nonfx-assets.json?r31r5=20261105','data/normal-r3-result-preview-icon-admission.json?r31r5=20261105','data/normal-r5-visual-contract.json?r31r5=20261105','data/normal-r6-visual-contract.json?r31r5=20261105',(r14p28P4R2Enabled?'data/fever-local-visual-admission-p28p4r2.json?r31r6=20261105':(r14p28P3Enabled?'data/fever-local-visual-admission-p28p3.json?r31r6=20261105':'data/fever-local-visual-admission.json?r31r6=20261105'))].map(async p=>{const r=await fetch(p);if(!r.ok)throw Error(p+' '+r.status);return r.json();}));
+const [ui,raw,fixtures,manifest,blocker,fxData,nonFxAssets,normalCardPreviewIconAdmission,normalR5VisualContract,normalR6VisualContract,feverLocalVisualAdmission]=await Promise.all(['data/scene-ui.json?r31r5=20261105','data/popup-serialized.json?r31r5=20261105','data/fixtures.json?r31r5=20261105',(r14p28P4R2Enabled?'data/ASSET_MANIFEST-p28p4r2.json?r31r5=20261105':'ASSET_MANIFEST.json?normalR2CardAssets=20261029d'),'data/inputblocker-source.json?r31r5=20261105','data/fx-r4.json?r31r5=20261105','data/nonfx-assets.json?r31r5=20261105','data/normal-r3-result-preview-icon-admission.json?r31r5=20261105','data/normal-r5-visual-contract.json?r31r5=20261105','data/normal-r6-visual-contract.json?r31r5=20261105',(r14p28P4R2Enabled?'data/fever-local-visual-admission-p28p4r2.json?r31r6=20261105':(r14p28P3Enabled?'data/fever-local-visual-admission-p28p3.json?r31r6=20261105':'data/fever-local-visual-admission.json?r31r6=20261105'))].map(async p=>{const r=await fetch(p);if(!r.ok)throw Error(p+' '+r.status);return measureStartup('data.body-and-json',()=>r.json(),r.url);}));
 async function movieSelectorSha256(text){const bytes=await sha256Digest(new TextEncoder().encode(text));return [...new Uint8Array(bytes)].map(byte=>byte.toString(16).padStart(2,'0')).join('').toUpperCase();}
 let movieSelectorP5Text=null,movieSelectorP9Text=null,movieSelectorLoadError=null;
 if(movieSelectorSourcesEnabled){
@@ -1742,7 +1742,7 @@ $('normal-local-preview').addEventListener('click',showNormalLocalResultPreview)
   document.addEventListener('visibilitychange',()=>{if(document.hidden){stopShopAmbientAnimation();if(!r14P32R2R14Enabled)screenFxCandidate?.stop();}else render();});window.addEventListener('pagehide',stopShopAmbientAnimation);window.addEventListener('pageshow',render);
  window.CrystalDot?.ready?.then(loaded=>{trace.push({event:'s1c-shop-dot-assets-ready',loaded,classification:'SOURCE_REUSED_NATIVE_BAKE_WEB_ADAPTATION',sourceStatus:'S1C_VISUAL_REVIEW_WAS_SCOPED_AND_NOT_WHOLE_STORE_PASS'});render();});
 {
-  const {createFeverScreenFxCandidate}=await import('./fever-screenfx-candidate.mjs?r14feverbackground=20261107a');
+  const {createFeverScreenFxCandidate}=await import('./fever-screenfx-candidate.mjs?r14feverbackground=20261107a&startupProbe=1');
   screenFxCandidate=createFeverScreenFxCandidate({onChange:state=>{const note=$('r14p32r2r14-status');if(['mode','replay','stop','manual-frame'].includes(state.reason)){r14ScreenFxPixelProbe={runId:state.runId,frame:null,changedPixels:null};r14R4ResetLayerMetrics(state.runId);}if(note)note.textContent=`${state.classification} · ${state.mode} · 影格 ${String(state.frame).padStart(2,'0')}/16 · ${state.intervalMs}ms（假說）· ${state.opacity}% · ${state.composite==='lighter'?'Web lighter':'Normal'} · ${state.playing?'播放中':state.visible?'靜態檢視':'停止'} · 已載入 ${state.assetsLoaded}/16 · Canvas drawCalls ${state.drawCalls} · Canvas 變化像素 ${r14ScreenFxPixelProbe.runId===state.runId?(r14ScreenFxPixelProbe.changedPixels??'待繪製'):'待繪製'} · 最後繪製影格 ${state.lastDrawnFrame??'尚無'}`;}});
   window.__feverBackgroundIntegration=Object.freeze({snapshot:()=>{const runId=r14P32R14FeverRunId(),screen=screenFxCandidate.snapshot();return {classification:'WEB_VISUAL_ADAPTATION_PLAYER_PENDING_NOT_NATIVE_PARITY',route:{mode:appQuery.get('mode'),sessionMode:session?.mode??null,phase:session?.phase??null,runId},screenFx:{...screen,active:runId!==null&&screen.runId===runId&&['SCREENFX_CANDIDATE','COMBINED_FLASH02_SCREENFX'].includes(screen.mode)},screenFxPixelProbe:{...r14ScreenFxPixelProbe,enabled:appQuery.get('mode')==='engineering',policy:'ENGINEERING_ONLY_FULL_FRAME_READBACK'},layers:{...r14R4LayerMetrics,flash02UnityDrawnFrames:r14p30P8Player?.snapshot()?.drawnFrames??0},flash02:r14p30P8Player?.snapshot()??null,assetsComplete:screen.assetsLoaded===16&&screen.assetErrors.length===0};}});
 if(r14P32R2R14Enabled){
@@ -1766,13 +1766,13 @@ renderLocalFeverSimulation();
 if(fx0304LayerMode)startFXSingleDiagnostic();
 
 if(r14p30P7Enabled){
- const p7=await import('./p7-canvas-outline.mjs?v=1');
+ const p7=await import('./p7-canvas-outline.mjs?v=1&startupProbe=1');
  r14p30P7Player=p7.createCardOutlineFixture({redraw:()=>requestFXRender('p7'),appSnapshot:()=>({cardRects:r14p30P7CardRects(),sessionMode:session?.mode??null,phase:session?.phase??'shop',runId:session?.normalRunId??session?.feverRunId??session?.metrics?.runId??null,cardCount:session?.cards?.length??0,opened:session?.cards?.filter(c=>c.openAt!==null).length??0,resultOrder:session?.resultOrder??[],displayOrder:session?.displayOrder??[],gaugeReady:normalResultFeverGaugeReady(performance.now())})});
  window.__r14p30P7=Object.freeze({enabled:true,snapshot:()=>r14p30P7Player.snapshot()});if(r8OneTimeCandidateEnabled)installR8OneTimeControls();render();
 }
 
 if(r14p30P8Enabled){
- const p8=await import('./p8-canvas-candidate.mjs');
+ const p8=await import('./p8-canvas-candidate.mjs?startupProbe=1');
  r14p30P8Player=p8.createTenTimeMotionFixture({redraw:requestP8Render,lazy:p12P8LazyEnabled,onLazyError:error=>{if(p12P8LazyEnabled)setStatus(`P8 Flash02 載入失敗（${error}）；本次不會把缺少特效視為正常播放。`);},appSnapshot:()=>({sessionMode:session?.mode??null,phase:session?.phase??'shop',runId:session?.normalRunId??session?.feverRunId??session?.metrics?.runId??null,opened:session?.cards?.filter(c=>c.openAt!==null).length??0,resultOrder:session?.resultOrder??[],displayOrder:session?.displayOrder??[],cardRects:r14p30P8CardRects(),calibration:r14p30P8Calibration()})});
  window.__r14p30P8=Object.freeze({enabled:true,snapshot:()=>r14p30P8Player.snapshot()});render();
 }
@@ -1851,7 +1851,7 @@ function p32BackScene(){
  return {allowPilot:false,result:targets.length?{run:String(session.normalRunId??session.feverRunId??session.metrics.runId),mapping:'P32_ORIGINAL_BACKFX_WEB_PROJECTION',targets,occluders,timeline:appQuery.get('mode')==='engineering'&&appQuery.get('p32Audit')==='1'?{started:session.started,observedAt:now,phase:session.phase,buttonVisibleAt:session.p32ButtonVisibleAt??null,dealCompleteAt:trace.find(e=>e.event==='deal-complete')?.at??null,moveMs:timing.moveMs,slots:session.displayOrder.map((idx,i)=>({slot:i+1,back:p31r3CardPolicy(session.resultCards[idx]).backVisualKey,openAt:session.cards[i].openAt,moveStart:session.started+i*timing.moveMs,land:session.started+(i+1)*timing.moveMs})),flowEvents:trace.filter(e=>/movie-finish|result-bound|deal-start|deal-complete/.test(e.event)).slice(-12)}:null,revealedMask:1,positions:{}}:null};
 }
 {
- const {createOriginalBackFX}=await import('./p32-canvas-back-fx.mjs?v=1');
+ const {createOriginalBackFX}=await import('./p32-canvas-back-fx.mjs?v=1&startupProbe=1');
  p32BackPlayer=createOriginalBackFX({redraw:()=>requestFXRender('back'),appSnapshot:()=>({runId:session?.normalRunId??null,types:session?.cardBackReview??null,options:{...cbOptions},stage:{logical:[1280,720],backing:[canvas.width,canvas.height],css:canvas.getBoundingClientRect().toJSON()},cardRects:session?.cardBackReview?session.cards.map((_,i)=>{const p=cardPose(i,performance.now());return {slot:i+1,center:{x:640+p.x,y:360-p.y},width:199*p.scale,height:250*p.scale};}):[]})});render();
 }
 
@@ -1935,15 +1935,15 @@ window.dispatchEvent(new Event('crystalchest-player-state'));
 
 // Release startup requires essential sources before enabling purchases.
 try {
- await Promise.all([r14p30P3Player?.prepare?.(),r14p30P7Player?.ensurePrepared?.(),
-  p32BackPlayer?.ensurePrepared?.(),r14p30P8Player?.ensurePrepared?.(),
-  window.CrystalDot?.ready,screenFxCandidate?.assetsReady]);
+ await Promise.all([measureStartup('P3.prepare',()=>r14p30P3Player?.prepare?.()),measureStartup('P7.prepare',()=>r14p30P7Player?.ensurePrepared?.()),
+  measureStartup('P32.prepare',()=>p32BackPlayer?.ensurePrepared?.()),measureStartup('P8.prepare',()=>r14p30P8Player?.ensurePrepared?.()),
+  measureStartup('shop-dot.prepare',()=>window.CrystalDot?.ready),measureStartup('screen-fx.prepare',()=>screenFxCandidate?.assetsReady)]);
  for(const player of [r14p30P3Player,r14p30P7Player,p32BackPlayer,r14p30P8Player].filter(Boolean)){
   const state=player.snapshot();if(state.error||state.ready===false)throw Error(state.error||'ESSENTIAL_EFFECT_NOT_READY');
  }
  if(window.CrystalDot?.snapshot().loaded!==true)throw Error('SHOP_DOT_NOT_READY');
  if(screenFxCandidate?.snapshot().assetErrors.length)throw Error('FEVER_SCREEN_ASSET_FAILURE');
- window.__releaseOptionalPromise=window.LUCKY_FEVER_COMPOSITION.ensureReady().then(()=>{
+ window.__releaseOptionalPromise=measureStartup('Lucky.prepare',()=>window.LUCKY_FEVER_COMPOSITION.ensureReady()).then(()=>{
   const rect=stage.getBoundingClientRect();
   window.LUCKY_FEVER_COMPOSITION.prepareFirstFrame({width:rect.width,height:rect.height});
   window.__releaseOptionalDone?.(true);

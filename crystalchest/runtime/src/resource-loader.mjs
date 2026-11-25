@@ -1,4 +1,5 @@
 import staticAtlas from './static-atlas-manifest.mjs';
+export async function measureStartup(name,action,source=''){const p=globalThis.__ccStartupProfile,start=p?.now();try{return await action();}finally{p?.end('ASYNC_WALL',name,start,source);}}
 // GET/image preparation only. No sampler or game-state mutation on retry.
 export function createResourceLoader({ concurrency=4, retries=2,
   fetchImpl=(...args)=>globalThis.fetch(...args), ImageClass=globalThis.Image,
@@ -24,7 +25,7 @@ export function createResourceLoader({ concurrency=4, retries=2,
       const method=String(options.method||'GET').toUpperCase();
       for(let attempt=0;;attempt++){
         let response;
-        try{stats.fetchAttempts++;response=await fetchImpl(input,options);}
+        try{stats.fetchAttempts++;response=await measureStartup('fetch.headers',()=>fetchImpl(input,options),input);}
         catch(error){
           if(error?.name==='AbortError'||method!=='GET'||attempt>=retries){stats.failures++;throw error;}
           stats.retries++;await delay(retryWait(attempt));continue;
@@ -44,7 +45,7 @@ export function createResourceLoader({ concurrency=4, retries=2,
     const promise=enqueue(async()=>{
       for(let attempt=0;;attempt++){
         try{
-          stats.imageAttempts++;const image=new ImageClass();image.decoding='async';image.src=url;await image.decode();return image;
+          stats.imageAttempts++;const image=new ImageClass();image.decoding='async';image.src=url;await measureStartup('image.fetch-and-decode',()=>image.decode(),url);return image;
         }catch(error){
           if(attempt>=retries){stats.failures++;throw error;}
           stats.retries++;await delay(retryWait(attempt));
@@ -66,7 +67,7 @@ export function createResourceLoader({ concurrency=4, retries=2,
             const key=[entry.x,entry.y,entry.width,entry.height].join(':');
             let bitmap=pageSprites.get(key);
             if(!bitmap){
-              bitmap=await createImageBitmap(image,entry.x,entry.y,entry.width,entry.height);
+              bitmap=await measureStartup('static-atlas.crop',()=>createImageBitmap(image,entry.x,entry.y,entry.width,entry.height),page.file);
               Object.assign(bitmap,{naturalWidth:entry.width,naturalHeight:entry.height,src:'atlas:'+page.file+':'+key});
               pageSprites.set(key,bitmap);
             }
@@ -100,7 +101,7 @@ export async function loadDOMImageURL(path){
   if(!domUrls.has(source))domUrls.set(source,(async()=>{
     const canvas=document.createElement('canvas');canvas.width=source.naturalWidth;canvas.height=source.naturalHeight;
     canvas.getContext('2d').drawImage(source,0,0);
-    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('ATLAS_DOM_PNG_REQUIRED')),'image/png'));
+    const blob=await measureStartup('pool.local-png-encode',()=>new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('ATLAS_DOM_PNG_REQUIRED')),'image/png')));
     return URL.createObjectURL(blob);
   })());
   return domUrls.get(source);

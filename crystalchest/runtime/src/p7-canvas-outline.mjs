@@ -1,4 +1,4 @@
-import { createParticleRoot } from './p7-particle-root.mjs';
+import { createParticleRoot } from './p7-particle-root.mjs?startupProbe=1';
 
 export function createCardOutlineFixture({ redraw, appSnapshot }) {
   let scope = null;

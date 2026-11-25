@@ -14,7 +14,7 @@ window.CrystalDot=(()=>{
  // independently of their source capture coordinates.
  const R5_HOST_PROJECTION_TRANSLATION=[-156,-85];
  function cleanProjectionDelta(ctx,scale){const width=ctx.canvas.width/scale,height=ctx.canvas.height/scale,cleanOrigin=[width/2,height/2],r5Origin=[cleanOrigin[0]+R5_HOST_PROJECTION_TRANSLATION[0],cleanOrigin[1]+R5_HOST_PROJECTION_TRANSLATION[1]];return{x:cleanOrigin[0]-r5Origin[0],y:cleanOrigin[1]-r5Origin[1],sourceOrigin:r5Origin,targetOrigin:cleanOrigin}}
- async function loadPage(p,i){const im=new Image();im.src=p.url.startsWith('/dot/')?p.url.replace('/dot/','assets/shop-dot/'):p.url;await im.decode();if(im.naturalWidth!==p.size[0]||im.naturalHeight!==p.size[1])throw Error('Dot atlas size mismatch '+i);return im}
+ async function loadPage(p,i){const profile=window.__ccStartupProfile,started=profile?.now();const im=new Image();im.src=p.url.startsWith('/dot/')?p.url.replace('/dot/','assets/shop-dot/'):p.url;await im.decode();profile?.end('ASYNC_WALL','shop-dot.page-fetch-decode',started,p.url);if(im.naturalWidth!==p.size[0]||im.naturalHeight!==p.size[1])throw Error('Dot atlas size mismatch '+i);return im}
  async function prepare(){
   if(!compactRequested||typeof createImageBitmap!=='function'){
    await Promise.all(M.pages.map(async(p,i)=>{pages[i]=await loadPage(p,i)}));
@@ -30,7 +30,8 @@ window.CrystalDot=(()=>{
     const left=Math.max(0,clipX-dx-ox),top=Math.max(0,clipY-dy-oy);
     const right=Math.min(w,clipX+clipW-dx-ox),bottom=Math.min(h,clipY+clipH-dy-oy);
     if(right<=left||bottom<=top){f.empty=true;continue;}
-    const bitmap=await createImageBitmap(im,sx+left,sy+top,right-left,bottom-top);
+    const profile=window.__ccStartupProfile,started=profile?.now();
+    const bitmap=await createImageBitmap(im,sx+left,sy+top,right-left,bottom-top);profile?.end('ASYNC_WALL','shop-dot.crop',started);
     f.page=pages.length;pages.push(bitmap);f.rect=[0,0,right-left,bottom-top];f.origin=[ox+left,oy+top];
     resources.bitmapCount++;resources.bitmapLogicalBytes+=bitmap.width*bitmap.height*4;
     await new Promise(resolve=>setTimeout(resolve,16));

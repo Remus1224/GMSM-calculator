@@ -1,5 +1,5 @@
-import {fetchResource as fetch,loadImage} from './resource-loader.mjs';
-import { sampleCurve, gradient, makeRandom } from './p8-canvas-candidate.mjs';
+import {fetchResource as fetch,loadImage} from './resource-loader.mjs?startupProbe=1';
+import { sampleCurve, gradient, makeRandom } from './p8-canvas-candidate.mjs?startupProbe=1';
 
 // Source-derived approximation. No Unity, background capture, transport or RGB gate.
 export function createOneTimeBackgroundMotion({ redraw, onStatus }) {
@@ -34,6 +34,7 @@ export function createOneTimeBackgroundMotion({ redraw, onStatus }) {
         const pixels=source.getImageData(0,0,scratch.width,scratch.height);
         const tints=[];
         for(let bin=0;bin<16;bin++){
+          const profile=globalThis.__ccStartupProfile,started=profile?.now();
           if(disposed)return;
           const canvas=document.createElement('canvas');canvas.width=scratch.width;canvas.height=scratch.height;
           const data=new ImageData(new Uint8ClampedArray(pixels.data),canvas.width,canvas.height);
@@ -45,6 +46,7 @@ export function createOneTimeBackgroundMotion({ redraw, onStatus }) {
           }
           canvas.getContext('2d').putImageData(data,0,0);tints.push(canvas);textures.push(canvas);
           resources.tintCanvases++;resources.rgbaBudgetBytes+=canvas.width*canvas.height*4;
+          profile?.end('SYNC_WORK','P3.tint',started,c.texture);
           await new Promise(resolve=>setTimeout(resolve,16));
         }
         scratch.width=scratch.height=1;

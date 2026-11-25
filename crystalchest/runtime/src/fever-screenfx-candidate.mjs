@@ -1,4 +1,4 @@
-import {loadImage} from './resource-loader.mjs';
+import {loadImage} from './resource-loader.mjs?startupProbe=1';
 const FRAME_COUNT = 16;
 const MODES = new Set(['CURRENT_FLASH02', 'SCREENFX_CANDIDATE', 'COMBINED_FLASH02_SCREENFX', 'OFF']);
 const SCREENFX_MODES = new Set(['SCREENFX_CANDIDATE', 'COMBINED_FLASH02_SCREENFX']);
