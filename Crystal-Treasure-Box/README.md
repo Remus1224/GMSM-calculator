@@ -2,7 +2,7 @@
 
 英文統一名稱：**Crystal Treasure Box**；正式路徑：`/GMSM-calculator/Crystal-Treasure-Box/`。
 
-本目錄由開發分支完成驗收，正式網址為 `https://remus1224.github.io/GMSM-calculator/Crystal-Treasure-Box/`。首頁在光之聖所後方保留灰階停用入口。請由網站根目錄啟動靜態 HTTP 伺服器，再開啟 `/Crystal-Treasure-Box/`。直接使用 file:// 無法執行模組與素材載入。
+本目錄由開發分支完成驗收，正式網址為 `https://remus1224.github.io/GMSM-calculator/Crystal-Treasure-Box/`。首頁在光之聖所後方提供入口及 NEW 已讀標籤。請由網站根目錄啟動靜態 HTTP 伺服器，再開啟 `/Crystal-Treasure-Box/`。直接使用 file:// 無法執行模組與素材載入。
 
 ## 目前功能與驗收
 
@@ -73,3 +73,11 @@ node Crystal-Treasure-Box/tools/verify-build.cjs
 生成入口以內容雜湊命名；建置會移除本 src 目錄過期的生成檔。CI 比對生成檔及所有打包來源雜湊，漏建置就失敗。原始碼與生成檔都保存於倉庫，因此增加約 0.52 MiB 的維護／部署容量，但瀏覽器不會同時下載原始 app 模組樹。測試與比較報告留在研究工作區 exports/CrystalTreasureBox_StartupBundle_20261125。
 
 手機區網打包版測試完成 134 抽，包含兩次 Fever 10+1，統計一致、無錯誤與缺圖。正式 HTTPS 的首次載入收益與快取需另外驗證，不能由區網時間推定。
+
+## 設定、入口與 Analytics 發布（2026-11-25）
+
+模擬器 runtime 與打包檔保持封版。本地設定沿用 glass／standalone-tools 共通按鈕，移除四段重複說明，兩組統計同時顯示，單行小卡片，移除三個購買次數欄位，並採用玩家指定的短名稱。頂部接入 tool-shell 提醒的共通配色及文字寬度計算，手機兩行無標點。
+
+首頁已開啟入口並沿用 NEW 已讀機制，布告欄日期 2026-11-25，內容僅「新增水晶寶箱模擬器」。設定與手機操作已由維護者目視驗收，並授權依 PR／CI／Pages 流程發布；實際部署狀態以 GitHub Pages 為準。
+
+Analytics 僅由外層共通 loader 載入一次；追蹤開啟、首次實際抽取、載入品質與設定分類數量。分類數量只送增量，回商店空閒後合併傳送；本地／區網不送事件。詳見 `../docs/analytics/GA4-TOOL-TRACKING.md`。本次 runtime／bundle 雜湊未變，玩家已回報手機無卡頓。

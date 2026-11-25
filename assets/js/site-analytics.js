@@ -30,6 +30,7 @@
   const capturedContexts = new WeakSet();
   let currentTool = null;
   let useRecorded = false;
+  let readyRecorded=false,loadErrorRecorded=false;
 
   function isLocalHost(hostname) {
     const host = String(hostname || "").toLowerCase().replace(/^\[|\]$/g, "");
@@ -68,6 +69,7 @@
   function clearCurrent() {
     currentTool = null;
     useRecorded = false;
+    readyRecorded=false;loadErrorRecorded=false;
   }
 
   function setCurrent(tool) {
@@ -78,6 +80,7 @@
     if (currentTool?.tool_id === tool.tool_id) return false;
     currentTool = Object.freeze(tool);
     useRecorded = false;
+    readyRecorded=false;loadErrorRecorded=false;
     send("tool_view", eventBase(currentTool));
     return true;
   }
@@ -115,6 +118,7 @@
       if (id === "1204-generator") {
         return setCurrent({ tool_id: id, tool_name: "1204 產生器", tool_category: "site", tool_surface: "generator" });
       }
+      if(id === "crystal-treasure-box")return setCurrent({tool_id:id,tool_name:"水晶寶箱模擬器",tool_category:"simulator",tool_surface:"crystal-treasure-box"});
       if (id === "light-sanctum-pray") {
         return setCurrent({ tool_id: id, tool_name: "光之聖所祈禱模擬器", tool_category: "simulator", tool_surface: "pray" });
       }
@@ -154,6 +158,33 @@
     } catch (_) {
       return false;
     }
+  }
+
+  function ready(info={}) {
+    if(currentTool?.tool_id!=="crystal-treasure-box"||readyRecorded)return false;
+    const ms=Math.round(Number(info.load_time_ms));
+    if(!Number.isFinite(ms)||ms<0||ms>600000||!["hit","miss","partial","unavailable"].includes(info.cache_status))return false;
+    readyRecorded=true;
+    const bucket=ms<2000?"under_2s":ms<5000?"2_5s":ms<10000?"5_10s":ms<20000?"10_20s":"over_20s";
+    return send("tool_ready",{...eventBase(currentTool),load_time_ms:ms,load_time_bucket:bucket,cache_status:info.cache_status});
+  }
+  function loadError(stage) {
+    if(currentTool?.tool_id!=="crystal-treasure-box"||loadErrorRecorded||!["bootstrap","assets","movies","effects","timeout"].includes(stage))return false;
+    loadErrorRecorded=true;return send("tool_load_error",{...eventBase(currentTool),load_stage:stage});
+  }
+
+  // Each payload contains increments, never the page's accumulated totals.
+  function drawStats(stats = {}) {
+    if (currentTool?.tool_id !== "crystal-treasure-box") return false;
+    const keys = ["draw_count", "normal_draws", "fever_draws", "fever_triggers", "gauge_triggers", "lucky_triggers", "item_ancient_crystal", "item_mythic_sub", "item_legendary_sub", "item_chaos", "item_ancient", "item_mythic", "item_legendary", "item_rare", "item_shards5", "item_shards10", "round_count"];
+    const values = Object.fromEntries(keys.map(key => [key, stats[key]]));
+    if (Object.values(values).some(value => !Number.isSafeInteger(value) || value < 0)) return false;
+    if (values.draw_count !== values.normal_draws + values.fever_draws ||
+        values.draw_count !== keys.filter(key => key.startsWith("item_")).reduce((sum, key) => sum + values[key], 0) ||
+        values.fever_triggers !== values.gauge_triggers + values.lucky_triggers ||
+        values.round_count > values.draw_count || values.draw_count > values.round_count * 11 ||
+        (!values.draw_count && !values.fever_triggers)) return false;
+    return send("tool_draw_stats", { ...eventBase(currentTool), ...values });
   }
 
   function captureContext() {
@@ -239,6 +270,8 @@
         viewInfo(params.get("page") || "", document.getElementById("nav-title")?.textContent || "", params.get("view"));
       } else if (pageSurface === "generator") {
         viewInfo("1204-generator", "1204 產生器");
+      } else if (pageSurface === "crystal-treasure-box") {
+        viewInfo("crystal-treasure-box", "水晶寶箱模擬器");
       } else if (pageSurface === "pray") {
         viewInfo("light-sanctum-pray", "光之聖所祈禱模擬器");
       }
@@ -271,5 +304,5 @@
     queueMicrotask(restoreVisibleView);
   });
 
-  window.GMSMAnalytics = Object.freeze({ viewMain, viewInfo, use, captureContext, exportImage });
+  window.GMSMAnalytics = Object.freeze({ viewMain, viewInfo, use, ready, loadError, drawStats, captureContext, exportImage });
 })();

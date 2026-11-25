@@ -146,9 +146,10 @@ const calculatorPersistenceConfig = {
     }
 };
 const restoredCalculatorTabs = new Set();
-const latestNoticeVersion = '2026-11-12';
+const latestNoticeVersion = '2026-11-25';
 const noticeReadStorageKey = 'gmsm-notice-last-read';
 const menuToolBadgeConfig = {
+    'Crystal-Treasure-Box': {elementId:'menu-badge-Crystal-Treasure-Box',version:'2026-11-25'},
     'pet-food-calculator': {
         elementId: 'menu-badge-pet-food-calculator',
         version: '2026-10-06'

@@ -154,7 +154,3 @@
 /* Entry icon paint and feedback are shared in site-components.css. */
 /* Backup action paint and geometry belong to site-components.css; placement stays local. */
 .glass-theme #tab-home .data-backup-btn.glass-action { --site-card-width:auto; }
-
-/* Announced simulator; direct URL is shared separately during acceptance. */
-#crystal-treasure-box-entry:disabled { filter: grayscale(1); opacity: .6; cursor: not-allowed; transform: none; }
-#crystal-treasure-box-entry:disabled:hover { transform: none; }
