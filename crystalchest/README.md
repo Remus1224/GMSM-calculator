@@ -1,70 +1,31 @@
-# CrystalChest development preview
+# 水晶寶箱模擬器：開發預覽版
 
-This directory belongs to `codex/crystalchest-atlas-preview-20261124` only. It is
-not linked from the production menu. Pushing this branch does not publish it to
-the existing GitHub Pages website; use a local static server for acceptance.
+本目錄僅供 `codex/crystalchest-atlas-preview-20261124` 分支驗收，未加入正式網站選單，尚未合併或部署正式站。請由網站根目錄啟動靜態 HTTP 伺服器，再開啟 `/crystalchest/`。直接使用 file:// 無法執行模組與素材載入。
 
-Open `crystalchest/` for the website wrapper, or `crystalchest/runtime/` directly.
-Append `?phoneDiag=1` to record the existing phone diagnostics. Diagnostics are
-disabled by default. No Unity WASM/data runtime is shipped.
+## 目前功能與驗收
 
-The source-derived P3/P7/P32/P8 Canvas2D visuals remain approximations. Lucky
-uses the existing compact baked atlases. P3 center_b001 is disabled by player
-decision. Sampling, game flow, original textures and timing policies are retained.
+以 R21 B 的完整流程為基準，P3/P7/P32/P8 使用原貼圖與 Canvas2D，Lucky 使用 compact 烘焙圖集，不需要 Unity WASM/data。Canvas2D 是來源參數的近似實作；P3 中心光已依玩家確認關閉。
 
-## Static image atlas
+保留單抽、Normal 10+1、Fever、Lucky 接回同輪動畫、發卡、翻卡、Flip All、確認與音效。下方提供抽取與物品分類統計、靜音、完整重設。統計與靜音設定只存於本頁記憶體；重新整理歸零，素材 HTTP 快取不會一併清除。舊版 crystalchest.player.v1 紀錄會移除。
 
-`runtime/src/static-atlas-manifest.mjs` maps 125 original image paths to five
-lossless PNG pages under `runtime/assets/static-atlas/`. Identical RGBA content
-shares 91 cropped ImageBitmaps. Pages have a transparent one-pixel border, are
-not resized, and are released after extraction. Individual originals remain as
-source evidence; mapped runtime requests use the atlas instead.
+玩家已完成 iPhone 16 Pro Max 多輪目視測試，最後回報無明顯問題、溫度維持溫溫且未飆高。這不代表已證明所有裝置都能持續滿幀。診斷曾有較長畫面回呼間隔，其中部分與捲動離開模擬器相符；未重現的 Script error 不列為已修復。
 
-Source SHA-256 values are preserved in the atlas map and original asset manifest.
-The release WOFF2 subset has its own runtime hash; the original font hash is not
-replaced. Large source JSON files are whitespace-minified without value changes.
+清理版桌面自動檢查涵蓋單抽、10+1、真正 Lucky 與 Fever 接續、靜音、刷新歸零、抽取中重設、手機尺寸與全螢幕退回；逐筆檢查 Normal/Fever 共 268 筆卡片素材，無缺檔回應。真正 iPhone Safari 的清理版最終回歸仍需人工確認。
 
-Desktop Edge checks: all 125 browser-rendered crops equal their original images;
-visible pool pixels match; single and Normal 10+1 flow pass. Initial network requests
-dropped from 277 to 167 HTTP(S) requests in the measured local run. This is a request reduction,
-not proof of faster animation, lower phone temperature or carrier/CDN reliability.
-Mobile-sized Normal/Fever pool screenshots also match exactly. Pool DOM images
-use cached local Blob URLs extracted from the atlas, not separate HTTP downloads.
-Phone visual and thermal acceptance of this atlas version remains pending.
+## 素材與維護限制
 
-This is an unofficial community simulator, not affiliated with NEXON or MapleStory M.
-Simulation results do not represent game-server results or consume game items.
+`runtime/src/static-atlas-manifest.mjs` 將 125 個原始 PNG 路徑對應到五張無損圖集、91 個去重裁片。素材必須經既有 resource-loader 載入；不能把這些已移除的原始路徑直接指定給瀏覽器。125 張裁片與保留原圖逐像素相同。來源 SHA 與原始身分證據維持在契約中，不因移除來源副本而改寫。
 
-## Player shell and records (2026-11-25)
+本輪移除 277 個未使用檔案：125 張已由圖集取代的原圖、138 張僅供工程比較的 04 動畫影格、兩張舊 Lucky 完整圖集、12 個未引用舊模組。保留實際播放器使用的 22 張 03 影格。入口固定 player / compact Lucky，已不支援被移除素材的工程後端。
 
-The shell fits a 16:9 frame without viewport-height margins, supports mobile
-landscape sizing and native/iOS fallback fullscreen, and exposes settings below
-the game using the existing shared site styles.
+JSON 中某些歷史來源路徑是證據資料，並非現行下載需求。不可僅依 diagnostic、fixture 等名稱刪檔；部分同名資產、來源契約與 SHA 驗證仍供正式流程使用。字型為既有 WOFF2 子集；來源字型 SHA 與 runtime SHA 分開保留。`runtime/** -text` 用來保護位元組與雜湊。
 
-Each retained sampled result counts once (single=1, 10+1=11), keyed by run ID.
-Categories join the exact official source rows; repeated repaint/flip/tab changes
-do not increment records. Fever activations split actual progress-cap and Lucky
-settlements; explicit diagnostic activation is excluded. Pack quantities count
-exchange vouchers, with a separate 5/10-piece equivalent total.
+素材快取由實際 HTTP 主機決定；區域網路已驗證重複使用快取，尚未實測 GitHub Pages／各電信商條件。檔案數量減少不等於每次進站下載量等比例下降，也不代表動畫效能同比改善。
 
-Records and mute preference are page-memory only and reset on reload. The former
-crystalchest.player.v1 localStorage entry is removed; HTTP/material caches are
-untouched. Full reset invalidates old writes, stops playback and reloads the
-runtime so the current draw and Fever state also return to zero.
-Mute controls both original movie audio and the flip-effect WebAudio gain.
+## 診斷與文件
 
-Desktop automated acceptance covers 143 actual sampled results through natural
-Fever, two Fever draws and seeded Lucky, active sound muting, page-only records and retained asset cache,
-mid-movie reset, mobile frame bounds, and iOS-style fullscreen rotation. Native
-iPhone Safari visual/sound/thermal acceptance of this shell is still pending.
+在網址加上 `?phoneDiag=1` 啟用手機診斷並下載 JSON，預設關閉。勿將個別手機紀錄提交至產品目錄。本 README 是本目錄唯一維護交接文件，測試工具、歷史證據與清理清單另存研究工作區。
 
-Lucky preparation uses tools statically imported with app.js. The former late
-dynamic imports in composition.js were removed after a phone startup failed
-with Importing a module script failed before any draw. This does not guarantee
-network availability; the original underlying phone/network cause is unproven.
+本機完整來源備份：`work/crystalchest_atlas_candidate_20261124/site/crystalchest/`；清理證據：`exports/CrystalChest_Cleanup_20261125/`。以上路徑相對於研究工作區，不是網站依賴。原基準及 Git 歷史保留，不進行歷史重寫。
 
-Startup preparation yields by an elapsed 6 ms batch budget for shop crops,
-Lucky static sprite caches and compact Lucky atlas pages. No captured frames,
-source SHA checks, retained texture sizes or playback frame timing were removed.
-Four complete Lucky composite frames match the former schedule exactly in
-desktop comparison; iPhone timing acceptance of this Lucky change is pending.
+本工具為非官方社群模擬器，與 NEXON／MapleStory M 無隸屬關係；抽取結果不代表遊戲伺服器結果，也不消耗遊戲道具。
