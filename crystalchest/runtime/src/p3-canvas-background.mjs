@@ -33,6 +33,7 @@ export function createOneTimeBackgroundMotion({ redraw, onStatus }) {
         const source=scratch.getContext('2d',{willReadFrequently:true});source.drawImage(image,0,0);
         const pixels=source.getImageData(0,0,scratch.width,scratch.height);
         const tints=[];
+        let batchStarted=performance.now();
         for(let bin=0;bin<16;bin++){
           const profile=globalThis.__ccStartupProfile,started=profile?.now();
           if(disposed)return;
@@ -47,7 +48,7 @@ export function createOneTimeBackgroundMotion({ redraw, onStatus }) {
           canvas.getContext('2d').putImageData(data,0,0);tints.push(canvas);textures.push(canvas);
           resources.tintCanvases++;resources.rgbaBudgetBytes+=canvas.width*canvas.height*4;
           profile?.end('SYNC_WORK','P3.tint',started,c.texture);
-          await new Promise(resolve=>setTimeout(resolve,16));
+          if(performance.now()-batchStarted>=6){await new Promise(resolve=>setTimeout(resolve,0));batchStarted=performance.now();}
         }
         scratch.width=scratch.height=1;
         groups.push({c,tints,items:[],nextBirth:1/c.rate});
