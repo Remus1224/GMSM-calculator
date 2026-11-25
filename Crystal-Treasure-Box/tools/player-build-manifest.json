@@ -1,0 +1,135 @@
+{
+  "esbuild": "0.28.2",
+  "file": "src/player-31d369ad8d6ac48e.bundle.mjs",
+  "sha256": "31d369ad8d6ac48e4d823aae507d8aee7c6c8194ec1b63dfc789205ad142fa64",
+  "inputs": [
+    {
+      "file": "src/player-stat-categories.mjs",
+      "sha256": "f0f35d5ab9d45d61e306ad30cd2ce7ae19b7a598736be6dde38362c66acd5614"
+    },
+    {
+      "file": "src/player-records.mjs",
+      "sha256": "d61dd1d19cb3188149d09b30be38d7b0a608756bda370c5707c9fc082c2f1052"
+    },
+    {
+      "file": "src/sha256-http-compat.mjs",
+      "sha256": "da36176b38e323a59a8d462c29909793228cc1af3ff3436a08f442f9272b01e4"
+    },
+    {
+      "file": "src/movie-cache.mjs",
+      "sha256": "ca03a5134b4f3030a6eca967da35c73e72fe9a69db0213e1fe01707884f434a8"
+    },
+    {
+      "file": "src/fx-frame-load-queue.mjs",
+      "sha256": "44802f7efdbd6d967e8d18313848c3b0aa84bdec5328f52f02d3bc2a51fea78f"
+    },
+    {
+      "file": "src/compact-lucky-atlas.mjs",
+      "sha256": "2344eb7106ddb377eb6031ff94ec885d465fb5b49e4bc8ccdb47fdacd8d1795e"
+    },
+    {
+      "file": "data/result-visual-admission.json",
+      "sha256": "b6e88b3cd3b4f41190bbdb7feb575bd7386b455036a1f21f7db0d8a4a3bf2c52"
+    },
+    {
+      "file": "src/card-result-visual-policy.mjs",
+      "sha256": "f5bd0356273fff461bb44c203fb4a9de9cc253f7aa023e1e4549f42065f1c711"
+    },
+    {
+      "file": "src/probability-info-modal.mjs",
+      "sha256": "73581d4891db1d30d96b00455d13d2b0cdfb72e11164d9814b82dbcde1003058"
+    },
+    {
+      "file": "src/normal-local-simulation.mjs",
+      "sha256": "a2613aedd2548481b8cf348eeb6efba5c732f1a8ad170097a5cd43f1f49a3a6a"
+    },
+    {
+      "file": "src/normal-local-full-flow.mjs",
+      "sha256": "8deb1e261b33df67f7d6d6e420429bd9a53f14b8adbecee2fdd596363e6b1b13"
+    },
+    {
+      "file": "src/local-fever-simulation.mjs",
+      "sha256": "11d71e3e264c17af0c2eff80b2108bfb23d368b83d9a76b6d0c9625263d6abb9"
+    },
+    {
+      "file": "src/fever-local-simulation.mjs",
+      "sha256": "4a2c4b5954967499e958e2efa7ac716f707007e60a6ce4e89bdd7390cfc917e8"
+    },
+    {
+      "file": "src/flip-all-scheduler.mjs",
+      "sha256": "1f9b4e35e48ea30d24d319933511948ca5e300e614dba03ea7c8a9e902cc2d7a"
+    },
+    {
+      "file": "src/lucky-fever-overlay.mjs",
+      "sha256": "3163ade1986ccaba6a3cef5b73b4d9951b17ecae4a844f25e6a0d37de06c9457"
+    },
+    {
+      "file": "src/lucky-fever-probability.mjs",
+      "sha256": "f53ed883e04aff3c85e8f2f9b987a157d7b6d872d2fed4dafb6caeea7156a729"
+    },
+    {
+      "file": "src/movie-selector-candidate-p5.mjs",
+      "sha256": "c0c20a57be85638f7e9a9047b9e3c74f645aebdb76de688040d2ef68c98b3956"
+    },
+    {
+      "file": "src/movie-selector-p5.mjs",
+      "sha256": "1b45a7d5792dd4e785357b9be838369c2f66d797ca1d5585fbc01fd75bf289cd"
+    },
+    {
+      "file": "src/movie-selector-p6-resume.mjs",
+      "sha256": "b6ffd5af902abcc4d2c6e67412120e91e9fc757d709f2ff63792bf861c042c12"
+    },
+    {
+      "file": "src/movie-selector-p9-equivalence.mjs",
+      "sha256": "514195719ab660baccc609c9c0381e59b2de68a4d1e84dd03892adc6874002cc"
+    },
+    {
+      "file": "src/run-metrics-retention.mjs",
+      "sha256": "1aeff30b91d101ead8561b78804deffaa9e6386d055ffdcce5a114cf033ef37b"
+    },
+    {
+      "file": "src/shop-idle-render-sync.mjs",
+      "sha256": "46f151bf86cc2c2b5c3a21ba99bf759ae9cf678778b1f3bfc1b6e21763981423"
+    },
+    {
+      "file": "src/p8-canvas-candidate.mjs",
+      "sha256": "f0716ffc095945fc55c9eb6261369846dc8aaa7a7b07a3645ff0e52e24f8bb24"
+    },
+    {
+      "file": "src/p3-canvas-background.mjs",
+      "sha256": "7cab16cf46015f14f4cfa857be8dfb59055e838fec0f513a65639607062e6c0d"
+    },
+    {
+      "file": "src/fever-screenfx-candidate.mjs",
+      "sha256": "901deab16e7d7b8df716c7b8140e9de692c454c55ec1fbbb9a3ec4c2eb82f70a"
+    },
+    {
+      "file": "src/r44-p1-canvas-math.mjs",
+      "sha256": "b296c001a046d6e28a47c11a2e1f786998a2fe2965c25e3194f53f36cdeeb0e5"
+    },
+    {
+      "file": "src/p7-particle-root.mjs",
+      "sha256": "7a3cab5baba67bf01fa77e55b828eae654410674ab3a909c23e8d38f9f707977"
+    },
+    {
+      "file": "src/p7-canvas-outline.mjs",
+      "sha256": "f894b4b99507c6ee432942530b2118581d0005fedea59afa7af9443e0aed3d07"
+    },
+    {
+      "file": "src/targeted-card-fixture.mjs",
+      "sha256": "8a6eca3d5236cbf0ab8611798f658db7a4e51b5affa2626d57cdc4e82b592762"
+    },
+    {
+      "file": "src/card-back-review.mjs",
+      "sha256": "d713ece215d58cc5978af9bdb261bf9c313e18f624a6eb8e876c8eb7c3db04a1"
+    },
+    {
+      "file": "src/p32-canvas-back-fx.mjs",
+      "sha256": "a1d887776b5e49fc8498ba66eb58bcc7e6e0cb88b3a3606d713f37115804ff09"
+    },
+    {
+      "file": "src/app.js",
+      "sha256": "53e842616bdf34056524dc685878d63060ff7e954d6aa46e092b404c09952767"
+    }
+  ]
+}

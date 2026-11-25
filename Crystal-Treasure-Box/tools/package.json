@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "node build-player.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

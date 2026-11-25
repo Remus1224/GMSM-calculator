@@ -55,3 +55,19 @@ HTTP 區網或拒絕儲存時，降級為當頁記憶體 Blob；同頁可重播�
 移除每次啟動影片即顯示的提示，正常解碼不出字；等待超過 1.2 秒才提示可跳過，錯誤直接提示。診斷保留首次與最近影片、原始素材名稱、緩衝事件，以及快取來源、下載次數、命中、修復與容量。
 
 桌面測試通過：首次下載三片、當頁離線 Blob 播放、重整三片命中且零下載、關閉重啟測試瀏覽器仍命中、損壞快取僅重抓一片、儲存拒絕降級、影片缺失阻擋啟動與重新載入恢復。全操作與 268 筆卡片素材檢查通過。安全來源測試以獨立 Edge 測試設定進行，不等於 iPhone HTTPS 實測。首次總下載多約 8 MiB，等待時間需實機確認。
+
+## 首次載入打包候選版
+
+`codex/crystal-treasure-box-startup-bundle-20261125` 尚未部署正式站。播放器入口由 esbuild 0.28.2 生成 `runtime/src/player-<hash>.bundle.mjs` 並 modulepreload；原始模組保留，與商店共用原 resource-loader，資產、來源 SHA、影片快取與抽樣邏輯不變。保持 bundle 與原模組同在 src，維持 import.meta.url 資產相對路徑。
+
+桌面 Edge 20Mbps／150ms 模擬限速、全新 context 各兩次：JS 請求 42→13，JS 傳輸約 252→228 KiB；全素材完成約 14.7→14.3 秒。這是小幅收益，不能套用成 iPhone 的 35 秒會縮短至 14 秒。兩頁並行圖集沒有穩定額外收益，已撤回。未降低圖片、影片畫質或改變穩態動畫。
+
+建置工具不在瀏覽器執行。修改來源後執行：
+
+```sh
+npm install --prefix Crystal-Treasure-Box/tools --ignore-scripts --no-audit --no-fund
+node Crystal-Treasure-Box/tools/build-player.cjs
+node Crystal-Treasure-Box/tools/verify-build.cjs
+```
+
+生成入口以內容雜湊命名；建置會移除本 src 目錄過期的生成檔。CI 比對生成檔及所有打包來源雜湊，漏建置就失敗。原始碼與生成檔都保存於倉庫，因此增加約 0.52 MiB 的維護／部署容量，但瀏覽器不會同時下載原始 app 模組樹。測試與比較報告留在研究工作區 exports/CrystalTreasureBox_StartupBundle_20261125。
