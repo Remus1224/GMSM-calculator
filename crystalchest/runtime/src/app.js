@@ -504,7 +504,7 @@ function paintP11ScreenshotStoreVisualReference(textFramePrepared=false){
  // but the captured GameObject, sprite, hierarchy and exact field-to-screenshot binding remain unresolved.
  fill('#364456',7,102,140,36);ctx.strokeStyle='#C3CDD9';ctx.lineWidth=3;ctx.beginPath();ctx.arc(23,120,6,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(27.5,124.5);ctx.lineTo(32,129);ctx.stroke();label('查詢',86,120,16,'#D6D9DE','500');
  // User-requested order and custom Apple wording are not the order/text shown in this screenshot; this is a marked web visual adaptation.
- const entries=[{text:'主頁'},{text:'寶箱',event:true,active:true},{text:'渣男蘋果'},{text:'渣男蘋果收藏家',size:18},{text:'寵物'}];
+ const entries=[{text:'主頁'},{text:'寶箱',event:true,active:true},{text:'垃圾蘋果'},{text:'垃圾蘋果收藏家',size:18},{text:'寵物'}];
  const top=155,rowH=89;
  const eventStoreLabel=imgs.get(p11EventStoreLabelPath);
  entries.forEach((entry,index)=>{const y=top+index*rowH;if(entry.active)fill('#EE7546',0,y,156,rowH);if(entry.event&&eventStoreLabel?.naturalWidth===46&&eventStoreLabel.naturalHeight===46)ctx.drawImage(eventStoreLabel,0,y,46,46);label(entry.text,78,y+rowH/2+1,entry.size??20,entry.active?'#FFFFFF':'#D0D2D7',entry.active?'700':'500');});
