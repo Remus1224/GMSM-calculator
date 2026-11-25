@@ -12,11 +12,11 @@ export function attachVideoFrameDiagnostics(video) {
   };
   const begin = () => {
     stop();
-    clip = { source: video.currentSrc || video.src, loadAt: performance.now(),
+    clip = { source: video.currentSrc || video.src, sourceFile:globalThis.__movieCache?.sourceForURL(video.src)||null,loadAt: performance.now(),
       playingAt: null, firstFrameAt: null, callbacks: 0, maxCallbackGapMs: 0,
-      frames: [], initialQuality: quality(), quality: null };
+      events: [], frames: [], initialQuality: quality(), quality: null };
     clips.push(clip);
-    if (clips.length > 8) clips.shift();
+    if (clips.length > 16) clips.splice(4,1); // Retain first-use clips plus recent playback.
   };
   const tick = (now, metadata) => {
     callback = 0;
@@ -33,7 +33,9 @@ export function attachVideoFrameDiagnostics(video) {
     clip.quality = quality(); previous = now;
     callback = video.requestVideoFrameCallback(tick);
   };
+  const bufferedState=()=>{const ranges=[];let ahead=0;for(let i=0;i<video.buffered.length;i++){const start=video.buffered.start(i),end=video.buffered.end(i);ranges.push([start,end]);if(video.currentTime>=start&&video.currentTime<=end)ahead=end-video.currentTime;}return {readyState:video.readyState,networkState:video.networkState,currentTime:video.currentTime,bufferedAheadSeconds:ahead,buffered:ranges,error:video.error?{code:video.error.code,message:video.error.message}:null};};
   video.addEventListener('loadstart', begin);
+  for(const type of ['loadstart','loadedmetadata','loadeddata','canplay','playing','waiting','stalled','suspend','error','ended'])video.addEventListener(type,()=>{if(clip&&clip.events.length<48)clip.events.push({type,at:performance.now(),...bufferedState()});});
   video.addEventListener('playing', () => {
     if (!clip) begin();
     clip.playingAt ??= performance.now();
@@ -44,7 +46,7 @@ export function attachVideoFrameDiagnostics(video) {
     stop();
   });
   return { snapshot: () => ({ supported: typeof video.requestVideoFrameCallback === 'function',
-    clips: clips.map(c => ({ ...c, frames: c.frames.map(f => ({ ...f })) })) }) };
+    state:bufferedState(),clips: clips.map(c => ({ ...c, events:c.events.map(e=>({...e})),frames: c.frames.map(f => ({ ...f })) })) }) };
 }
 
 if (typeof document !== 'undefined' && new URLSearchParams(location.search).has('phoneDiag')) {
