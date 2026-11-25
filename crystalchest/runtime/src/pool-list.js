@@ -437,7 +437,7 @@ async function init() {
   try {
     const [poolResponse, sceneResponse, manifestResponse] = await Promise.all([
       fetch(new URL('../data/official-pools.json?r31r5=20261105', import.meta.url)),
-      fetch(new URL('../data/scene-ui.json', import.meta.url)),
+      fetch(new URL('../data/scene-ui.json?r31r5=20261105', import.meta.url)),
       fetch(new URL('../ASSET_MANIFEST.json', import.meta.url)),
     ]);
     for (const [response, name] of [[poolResponse, 'official-pools.json'], [sceneResponse, 'scene-ui.json'], [manifestResponse, 'ASSET_MANIFEST.json']]) {
