@@ -25,6 +25,7 @@ window.CrystalDot=(()=>{
   // Integer source intersection with the unchanged logical clipping rectangle.
   for(let i=0;i<M.pages.length;i++){
    const im=await loadPage(M.pages[i],i);
+   let batchStarted=performance.now();
    for(const f of M.frames.filter(f=>f.sourcePage===i)){
     const [sx,sy,w,h]=f.rect,[ox,oy]=f.origin;
     const left=Math.max(0,clipX-dx-ox),top=Math.max(0,clipY-dy-oy);
@@ -34,7 +35,8 @@ window.CrystalDot=(()=>{
     const bitmap=await createImageBitmap(im,sx+left,sy+top,right-left,bottom-top);profile?.end('ASYNC_WALL','shop-dot.crop',started);
     f.page=pages.length;pages.push(bitmap);f.rect=[0,0,right-left,bottom-top];f.origin=[ox+left,oy+top];
     resources.bitmapCount++;resources.bitmapLogicalBytes+=bitmap.width*bitmap.height*4;
-    await new Promise(resolve=>setTimeout(resolve,16));
+    // Yield by elapsed preparation budget, not once for every captured frame.
+    if(performance.now()-batchStarted>=6){await new Promise(resolve=>setTimeout(resolve,0));batchStarted=performance.now();}
    }
    // No retained reference to the decoded source page in this mode.
    im.src='';
