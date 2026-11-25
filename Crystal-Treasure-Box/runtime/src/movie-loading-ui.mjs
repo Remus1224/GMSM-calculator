@@ -15,12 +15,13 @@ export function attachMovieLoadingUI(video, stage) {
     if(video.requestVideoFrameCallback){frame=video.requestVideoFrameCallback(()=>{frame=0;if(token===generation)hide();});}
     else hide();
   }
-  video.addEventListener('loadstart',()=>{hide();show();});
-  video.addEventListener('waiting',()=>{clearTimeout(waitingTimer);waitingTimer=setTimeout(()=>show('影片緩衝中…'),120);});
+  function delayed(){clearTimeout(waitingTimer);waitingTimer=setTimeout(()=>show('影片仍在準備中，可按右上角跳過。'),1200);}
+  video.addEventListener('loadstart',()=>{hide();delayed();});
+  video.addEventListener('waiting',delayed);
   video.addEventListener('playing',reveal);
   video.addEventListener('error',()=>{cancel();show('影片未能載入，可按右上角跳過。');});
   video.addEventListener('ended',hide);
-  new MutationObserver(()=>{if(video.hidden)hide();else if(video.readyState<2)show();}).observe(video,{attributes:true,attributeFilter:['hidden','src']});
+  new MutationObserver(()=>{if(video.hidden)hide();else if(video.readyState<2)delayed();}).observe(video,{attributes:true,attributeFilter:['hidden','src']});
   return {snapshot:()=>({visible:!panel.hidden,text:text.textContent}),clear:hide};
 }
 const video=document.getElementById('movie'),stage=document.getElementById('stage');

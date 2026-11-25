@@ -12,7 +12,7 @@ export function attachVideoFrameDiagnostics(video) {
   };
   const begin = () => {
     stop();
-    clip = { source: video.currentSrc || video.src, loadAt: performance.now(),
+    clip = { source: video.currentSrc || video.src, sourceFile:globalThis.__movieCache?.sourceForURL(video.src)||null,loadAt: performance.now(),
       playingAt: null, firstFrameAt: null, callbacks: 0, maxCallbackGapMs: 0,
       events: [], frames: [], initialQuality: quality(), quality: null };
     clips.push(clip);

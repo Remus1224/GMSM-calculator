@@ -14,6 +14,7 @@
   document.documentElement.classList.add('cc-loading');
   window.__releaseStartup=state;
   function message(text){const label=document.getElementById('release-loading-message');if(label)label.textContent=text;}
+  window.__releaseMovieProgress=(done,total)=>{state.movies={prepared:done,total};if(state.status!=='FAILED'&&!state.optionalError)message('素材載入中…影片 '+done+'/'+total);};
   function updateProgress(){const bar=document.getElementById('release-loading-progress');if(bar)bar.value=Number(state.pool)+Number(state.app)+Number(state.optionalReady);}
   function showRecovery(){const button=document.getElementById('release-loading-retry');if(button)button.hidden=false;}
   window.__releaseFail=cause=>{
@@ -33,7 +34,7 @@
   window.__releaseMarkReady=part=>{
     window.__ccStartupProfile.end('MILESTONE',part+'-ready',0);
     state[part]=true;updateProgress();
-    if(state.status!=='FAILED')message(part==='pool'?'素材載入中…正在準備動畫':'素材載入中…正在完成特效準備');
+    if(state.status!=='FAILED'&&state.movies?.prepared!==state.movies?.total)message(part==='pool'?'素材載入中…正在準備動畫':'素材載入中…正在完成特效準備');
     if(!state.app||!state.pool||state.status==='FAILED')return;
     try{window.cleanRebuild?.render();}
     catch(cause){window.__releaseFail(cause);return;}
