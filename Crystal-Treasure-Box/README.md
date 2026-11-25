@@ -58,7 +58,7 @@ HTTP 區網或拒絕儲存時，降級為當頁記憶體 Blob；同頁可重播�
 
 ## 首次載入打包候選版
 
-`codex/crystal-treasure-box-startup-bundle-20261125` 尚未部署正式站。播放器入口由 esbuild 0.28.2 生成 `runtime/src/player-<hash>.bundle.mjs` 並 modulepreload；原始模組保留，與商店共用原 resource-loader，資產、來源 SHA、影片快取與抽樣邏輯不變。保持 bundle 與原模組同在 src，維持 import.meta.url 資產相對路徑。
+打包版已獲維護者授權按 PR／CI／Pages 流程發布，實際部署狀態以 GitHub Pages 為準。播放器入口由 esbuild 0.28.2 生成 `runtime/src/player-<hash>.bundle.mjs` 並 modulepreload；原始模組保留，與商店共用原 resource-loader，資產、來源 SHA、影片快取與抽樣邏輯不變。保持 bundle 與原模組同在 src，維持 import.meta.url 資產相對路徑。
 
 桌面 Edge 20Mbps／150ms 模擬限速、全新 context 各兩次：JS 請求 42→13，JS 傳輸約 252→228 KiB；全素材完成約 14.7→14.3 秒。這是小幅收益，不能套用成 iPhone 的 35 秒會縮短至 14 秒。兩頁並行圖集沒有穩定額外收益，已撤回。未降低圖片、影片畫質或改變穩態動畫。
 
@@ -71,3 +71,5 @@ node Crystal-Treasure-Box/tools/verify-build.cjs
 ```
 
 生成入口以內容雜湊命名；建置會移除本 src 目錄過期的生成檔。CI 比對生成檔及所有打包來源雜湊，漏建置就失敗。原始碼與生成檔都保存於倉庫，因此增加約 0.52 MiB 的維護／部署容量，但瀏覽器不會同時下載原始 app 模組樹。測試與比較報告留在研究工作區 exports/CrystalTreasureBox_StartupBundle_20261125。
+
+手機區網打包版測試完成 134 抽，包含兩次 Fever 10+1，統計一致、無錯誤與缺圖。正式 HTTPS 的首次載入收益與快取需另外驗證，不能由區網時間推定。
