@@ -47,13 +47,18 @@ do not increment records. Fever activations split actual progress-cap and Lucky
 settlements; explicit diagnostic activation is excluded. Pack quantities count
 exchange vouchers, with a separate 5/10-piece equivalent total.
 
-Records and mute preference use the browser-local crystalchest.player.v1 key.
-This does not add cross-reload persistence to the existing game Fever progress.
-Full reset clears records and preferences, invalidates old writes, stops playback
-and reloads the runtime so the current draw and Fever state also return to zero.
+Records and mute preference are page-memory only and reset on reload. The former
+crystalchest.player.v1 localStorage entry is removed; HTTP/material caches are
+untouched. Full reset invalidates old writes, stops playback and reloads the
+runtime so the current draw and Fever state also return to zero.
 Mute controls both original movie audio and the flip-effect WebAudio gain.
 
 Desktop automated acceptance covers 143 actual sampled results through natural
-Fever, two Fever draws and seeded Lucky, active sound muting, persistent records,
+Fever, two Fever draws and seeded Lucky, active sound muting, page-only records and retained asset cache,
 mid-movie reset, mobile frame bounds, and iOS-style fullscreen rotation. Native
 iPhone Safari visual/sound/thermal acceptance of this shell is still pending.
+
+Lucky preparation uses tools statically imported with app.js. The former late
+dynamic imports in composition.js were removed after a phone startup failed
+with Importing a module script failed before any draw. This does not guarantee
+network availability; the original underlying phone/network cause is unproven.

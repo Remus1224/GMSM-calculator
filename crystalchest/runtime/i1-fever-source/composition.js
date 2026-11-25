@@ -602,7 +602,8 @@
     dotParticleAtlasLoadPromise = (async () => {
       await window.__releaseOptionalGate;
       if (new URLSearchParams(location.search).get('luckyAtlas') === 'compact') {
-        const module = await import('../src/compact-lucky-atlas.mjs');
+        const module = window.__releaseLuckyTools;
+        if(!module)throw Error('LUCKY_TOOLS_NOT_PREPARED');
         compactAtlasModule = module;
         dotParticleAtlas = await module.loadCompactLuckyAtlas('dot', DOTPARTICLE_C2.sha256);
         dotParticleAtlasStatus = 'READY';
@@ -612,7 +613,7 @@
       const response = await fetch(DOTPARTICLE_C2.imagePath, { cache: 'no-store' });
       if (!response.ok) throw new Error(`DotParticle C2 atlas HTTP ${response.status}`);
       const bytes = await response.arrayBuffer();
-      const digest = await import('../src/sha256-http-compat.mjs').then(module => module.sha256Digest(bytes));
+      const digest = await window.__releaseLuckyTools.sha256Digest(bytes);
       const sha = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
       if (sha !== DOTPARTICLE_C2.sha256) throw new Error(`DotParticle C2 atlas SHA mismatch: ${sha}`);
       const objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'image/png' }));
@@ -680,7 +681,8 @@
     inComePaAtlasLoadPromise = (async () => {
       await window.__releaseOptionalGate;
       if (new URLSearchParams(location.search).get('luckyAtlas') === 'compact') {
-        const module = await import('../src/compact-lucky-atlas.mjs');
+        const module = window.__releaseLuckyTools;
+        if(!module)throw Error('LUCKY_TOOLS_NOT_PREPARED');
         compactAtlasModule = module;
         inComePaAtlas = await module.loadCompactLuckyAtlas('streak', IN_COME_PA_C5.sha256);
         inComePaAtlasStatus = 'READY';
@@ -690,7 +692,7 @@
       const response = await fetch(IN_COME_PA_C5.imagePath, { cache: 'no-store' });
       if (!response.ok) throw new Error(`in_come_pa C5 atlas HTTP ${response.status}`);
       const bytes = await response.arrayBuffer();
-      const digest = await import('../src/sha256-http-compat.mjs').then(module => module.sha256Digest(bytes));
+      const digest = await window.__releaseLuckyTools.sha256Digest(bytes);
       const sha = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
       if (sha !== IN_COME_PA_C5.sha256) throw new Error(`in_come_pa C5 atlas SHA mismatch: ${sha}`);
       const objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'image/png' }));
@@ -871,7 +873,7 @@
     render();
   }
   function loadImage(path) {
-    return import('../src/resource-loader.mjs').then(module=>module.loadImage(new URL(path,document.baseURI).href))
+    return Promise.resolve().then(()=>window.__releaseLuckyTools.loadImage(new URL(path,document.baseURI).href))
       .then(image=>{imageByPath.set(path,image);return {path,ok:true};})
       .catch(()=>{imageFailures.add(path);return {path,ok:false};});
   }
@@ -1292,7 +1294,7 @@
 
   async function a1Sha256(bytes) {
     if (!window.crypto?.subtle) throw new Error('A1 SHA-256 requires a secure same-origin browser context');
-    const digest = await import('../src/sha256-http-compat.mjs').then(module => module.sha256Digest(bytes));
+    const digest = await window.__releaseLuckyTools.sha256Digest(bytes);
     return [...new Uint8Array(digest)].map(value => value.toString(16).padStart(2, '0')).join('');
   }
 

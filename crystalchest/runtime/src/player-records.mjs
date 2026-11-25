@@ -2,18 +2,12 @@ import categories from './player-stat-categories.mjs';
 export const statLabels={ancientCrystal:'古代輔助武器結晶',mythicSub:'神話輔助武器',legendarySub:'傳說輔助武器',chaos:'混沌裝備',ancient:'古代裝備',mythic:'神話裝備',legendary:'傳說裝備',rare:'罕見裝備',shards5:'混沌碎片 5 個交換券',shards10:'混沌碎片 10 個交換券'};
 const KEY='crystalchest.player.v1';
 const fresh=()=>({version:1,muted:false,draws:0,normalDraws:0,feverDraws:0,singles:0,normalTen:0,feverTen:0,feverTriggers:0,luckyTriggers:0,gaugeTriggers:0,items:Object.fromEntries(Object.keys(statLabels).map(k=>[k,0])),runIds:[],activationIds:[]});
-export function createPlayerRecords({storage,onChange=()=>{}}={}){
- let state=fresh(),persistent=true,closed=false;
- if(storage===undefined){try{storage=globalThis.localStorage;}catch{persistent=false;}}
- if(!storage)persistent=false;
- try{const saved=JSON.parse(storage?.getItem(KEY)||'null');if(saved?.version===1){
-  for(const k of ['draws','normalDraws','feverDraws','singles','normalTen','feverTen','feverTriggers','luckyTriggers','gaugeTriggers'])if(Number.isSafeInteger(saved[k])&&saved[k]>=0)state[k]=saved[k];
-  state.muted=saved.muted===true;
-  for(const k of Object.keys(statLabels))if(Number.isSafeInteger(saved.items?.[k])&&saved.items[k]>=0)state.items[k]=saved.items[k];
-  for(const k of ['runIds','activationIds'])if(Array.isArray(saved[k]))state[k]=saved[k].filter(x=>typeof x==='string').slice(-512);
- }}catch{persistent=false;}
- const snapshot=()=>({...state,items:{...state.items},runIds:[...state.runIds],activationIds:[...state.activationIds],persistent,shardsTotal:state.items.shards5*5+state.items.shards10*10});
- function save(){try{storage?.setItem(KEY,JSON.stringify(state));}catch{persistent=false;}onChange(snapshot());}
+export function createPlayerRecords({onChange=()=>{}}={}){
+ let state=fresh(),closed=false;
+ // Remove only the old statistics record. Browser HTTP/material caches are untouched.
+ try{globalThis.localStorage?.removeItem(KEY);}catch{}
+ const snapshot=()=>({...state,items:{...state.items},runIds:[...state.runIds],activationIds:[...state.activationIds],persistence:'PAGE_MEMORY_ONLY',shardsTotal:state.items.shards5*5+state.items.shards10*10});
+ function save(){onChange(snapshot());}
  function recordRun({pool,runId,results}){
   if(closed||!['NORMAL','FEVER'].includes(pool)||typeof runId!=='string'||!runId||state.runIds.includes(runId))return false;
   if(!Array.isArray(results)||![1,11].includes(results.length)||(pool==='FEVER'&&results.length!==11))return false;

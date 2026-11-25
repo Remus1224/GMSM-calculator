@@ -1,8 +1,10 @@
-import {createPlayerRecords} from './player-records.mjs';
+import {createPlayerRecords} from './player-records.mjs?v=2';
 const playerRecords=createPlayerRecords({onChange:()=>window.dispatchEvent(new Event('crystalchest-player-state'))});
 import {fetchResource as fetch,loadImage,resourceSnapshot} from './resource-loader.mjs';
 import { createFrameLoadQueue } from './fx-frame-load-queue.mjs';
 import {sha256Digest} from './sha256-http-compat.mjs';
+import * as compactLuckyTools from './compact-lucky-atlas.mjs';
+window.__releaseLuckyTools={...compactLuckyTools,sha256Digest,loadImage};
 import { cardResultVisualPolicy, retryVoucherQuantity } from './card-result-visual-policy.mjs?r31r5=20261105a';
 import { createProbabilityInfoModal } from './probability-info-modal.mjs?p11d6=20261109';
 const p31Ui=await fetch('data/r14p31-single-ui.json?r31r5=20261105').then(r=>{if(!r.ok)throw Error('P31_UI_CONTRACT_REQUIRED');return r.json();});

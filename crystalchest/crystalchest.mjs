@@ -1,4 +1,4 @@
-import {statLabels} from './runtime/src/player-records.mjs';
+import {statLabels} from './runtime/src/player-records.mjs?v=2';
 const $=id=>document.getElementById(id),frame=$('crystal-frame'),host=$('stage-host'),viewport=$('stage-viewport'),section=$('stage-section'),settings=$('player-settings');
 const drawLabels={draws:'累積抽取（抽）',normalDraws:'一般抽取（抽）',feverDraws:'Fever 抽取（抽）',singles:'單抽購買（次）',normalTen:'一般 10+1（次）',feverTen:'Fever 10+1（次）',feverTriggers:'Fever 觸發（次）',gaugeTriggers:'進度集滿（次）',luckyTriggers:'Lucky Fever（次）'};
 function cells(id,labels){for(const[key,label]of Object.entries(labels)){const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent='0';dd.dataset.stat=key;row.classList.add('site-summary-inset');row.append(dt,dd);$(id).append(row);}}
@@ -8,7 +8,7 @@ function update(){const runtime=api();if(!runtime)return;const state=runtime.sna
  $('draw-summary').textContent=`累積 ${state.draws.toLocaleString('zh-TW')} 抽；Fever 觸發 ${state.feverTriggers.toLocaleString('zh-TW')} 次`;
  $('shard-summary').textContent=`混沌碎片合計：${state.shardsTotal.toLocaleString('zh-TW')} 個（依交換券面額換算）`;
  $('sound-toggle').textContent=state.muted?'音效：靜音':'音效：開啟';$('sound-toggle').setAttribute('aria-pressed',String(state.muted));$('sound-toggle').disabled=!state.ready;$('reset-simulator').disabled=!state.ready;
- if(!state.persistent)$('storage-note').textContent='目前瀏覽器無法保存紀錄；本頁關閉後統計將不保留。';
+
 }
 frame.addEventListener('load',()=>{try{frame.contentWindow.addEventListener('crystalchest-player-state',update);update();}catch{}});
 $('sound-toggle').addEventListener('click',()=>{const runtime=api();if(runtime)runtime.setMuted(!runtime.snapshot().muted);update();});
