@@ -10,6 +10,7 @@ export async function loadCompactLuckyAtlas(name, expectedSourceSha) {
     throw Error('COMPACT_LUCKY_SOURCE_IDENTITY');
   }
   const images = [];
+  let batchStarted=performance.now();
   for (const page of manifest.pages) {
     const fetched = await fetch(new URL(page.file, base));
     if (!fetched.ok) throw Error('COMPACT_LUCKY_PAGE_' + fetched.status);
@@ -28,7 +29,7 @@ export async function loadCompactLuckyAtlas(name, expectedSourceSha) {
       if (image.naturalWidth !== 1024 || image.naturalHeight !== 1024) throw Error('COMPACT_LUCKY_PAGE_SIZE');
       images.push(image);
     } finally { URL.revokeObjectURL(url); }
-    await new Promise(resolve => setTimeout(resolve, 16));
+    if(performance.now()-batchStarted>=6){await new Promise(resolve=>setTimeout(resolve,0));batchStarted=performance.now();}
   }
   return { compact: true, manifest, images };
 }

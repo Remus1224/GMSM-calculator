@@ -3,7 +3,7 @@ const playerRecords=createPlayerRecords({onChange:()=>window.dispatchEvent(new E
 import {fetchResource as fetch,loadImage,resourceSnapshot,measureStartup} from './resource-loader.mjs?startupProbe=1';
 import { createFrameLoadQueue } from './fx-frame-load-queue.mjs';
 import {sha256Digest} from './sha256-http-compat.mjs';
-import * as compactLuckyTools from './compact-lucky-atlas.mjs?startupProbe=1';
+import * as compactLuckyTools from './compact-lucky-atlas.mjs?startupProbe=1&luckyBudget=2';
 window.__releaseLuckyTools={...compactLuckyTools,sha256Digest,loadImage};
 import { cardResultVisualPolicy, retryVoucherQuantity } from './card-result-visual-policy.mjs?r31r5=20261105a';
 import { createProbabilityInfoModal } from './probability-info-modal.mjs?p11d6=20261109';

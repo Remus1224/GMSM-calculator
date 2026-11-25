@@ -783,6 +783,7 @@
     staticPreparationPromise = (async () => {
       staticPreparation.status = 'PREPARING';
       const started = performance.now();
+      let batchStarted = started;
       try {
         for (const command of drawCommands) {
           if (command.kind !== 'UISprite') continue;
@@ -802,7 +803,10 @@
           if (new URLSearchParams(location.search).get('luckySpriteBitmaps') === '1') {
             await prepareSpriteBitmap(command.node.relativePath, finalCrop);
           }
-          await new Promise(resolve => setTimeout(resolve, 16));
+          if (performance.now() - batchStarted >= 6) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+            batchStarted = performance.now();
+          }
         }
         staticPreparation.elapsedMs = performance.now() - started;
         staticPreparation.status = 'READY';

@@ -62,3 +62,9 @@ Lucky preparation uses tools statically imported with app.js. The former late
 dynamic imports in composition.js were removed after a phone startup failed
 with Importing a module script failed before any draw. This does not guarantee
 network availability; the original underlying phone/network cause is unproven.
+
+Startup preparation yields by an elapsed 6 ms batch budget for shop crops,
+Lucky static sprite caches and compact Lucky atlas pages. No captured frames,
+source SHA checks, retained texture sizes or playback frame timing were removed.
+Four complete Lucky composite frames match the former schedule exactly in
+desktop comparison; iPhone timing acceptance of this Lucky change is pending.
