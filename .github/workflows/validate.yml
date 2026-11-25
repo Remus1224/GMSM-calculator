@@ -88,6 +88,8 @@ jobs:
         run: node .github/scripts/verify-formal-paths.cjs
       - name: Verify Crystal Treasure Box entry
         run: node .github/scripts/verify-crystal-treasure-box.cjs
+      - name: Verify generated Crystal Treasure Box bundle
+        run: node Crystal-Treasure-Box/tools/verify-build.cjs
       - name: Check README links to local policy files
         shell: bash
         run: |
